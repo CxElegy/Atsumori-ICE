@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>body{margin:0;background:oklch(0.975 0.01 85);color:oklch(0.27 0.02 60);font-family:'Zen Maru Gothic',sans-serif;-webkit-font-smoothing:antialiased}a{color:oklch(0.45 0.1 235)}a:hover{color:oklch(0.35 0.12 235)}*{box-sizing:border-box}</style>
+</helmet>
+<div style="max-width:1240px;margin:0 auto;padding:40px 24px 80px;display:flex;flex-direction:column;gap:48px">
+
+<header style="display:flex;flex-direction:column;gap:10px">
+<div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:oklch(0.5 0.02 60)">アイス島 改造プラン v2 ／ 区画図</div>
+<h1 style="margin:0;font-size:clamp(28px,4vw,42px);font-weight:700;line-height:1.2">世界旅行ができる島　区画図</h1>
+<p style="margin:0;max-width:720px;font-size:15px;line-height:1.8;text-wrap:pretty">今の島の海岸線・岩・飛行場・桟橋・河口・役場はそのまま。内側だけを参考の島のように斜めの道と川でつなぎ直した区画案です。白線が1区画（16×16マス）なので、Happy Island Designerの方眼に合わせて写せます。</p>
+</header>
+
+<section style="display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start">
+<div style="flex:1 1 640px;max-width:860px;display:grid;grid-template-columns:18px 1fr;grid-template-rows:auto 18px;gap:6px">
+<div style="display:grid;grid-template-rows:repeat(6,1fr);font-family:'IBM Plex Mono',monospace;font-size:12px;color:oklch(0.55 0.02 60);align-items:center"><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span></div>
+<svg viewBox="0 0 112 96" style="width:100%;display:block;border-radius:12px;background:oklch(0.86 0.06 185)" stroke-linejoin="round" stroke-linecap="round">
+<polygon points="4,14 6,8 14,7 20,10 40,11 60,10 78,6 90,9 104,8 106,14 109,24 108,44 110,60 108,80 104,88 100,92 80,93 70,90 66,86 56,86 54,92 42,92 40,86 30,90 20,93 8,91 4,84 3,70 5,58 2,44 5,30 3,20" fill="oklch(0.92 0.06 90)"></polygon>
+<polygon points="3,8 10,6 16,10 14,14 6,14" fill="oklch(0.62 0.03 280)"></polygon>
+<polygon points="98,8 106,8 108,13 102,14" fill="oklch(0.62 0.03 280)"></polygon>
+<polygon points="5,50 9,49 11,56 6,58" fill="oklch(0.62 0.03 280)"></polygon>
+<polygon points="103,68 110,69 110,76 104,75" fill="oklch(0.62 0.03 280)"></polygon>
+<polygon points="42,83 54,83 54,92 42,92" fill="oklch(0.62 0.03 280)"></polygon>
+<polygon points="15,13 98,13 100,15 100,81 98,83 15,83 13,81 13,70 8,70 8,64 13,64 13,15" fill="oklch(0.55 0.11 145)"></polygon>
+
+<polygon points="13,13 38,13 38,30 34,34 34,52 30,56 18,56 18,83 15,83 13,81 13,70 8,70 8,64 13,64" fill="oklch(0.86 0.08 80)" stroke="oklch(0.55 0.1 70)" stroke-width=".4"></polygon>
+<polygon points="38,13 72,13 72,34 66,40 42,40 38,36" fill="oklch(0.87 0.06 355)" stroke="oklch(0.52 0.1 355)" stroke-width=".4"></polygon>
+<polygon points="72,13 98,13 100,15 100,81 98,83 76,83 76,62 72,58" fill="oklch(0.86 0.06 235)" stroke="oklch(0.5 0.1 235)" stroke-width=".4"></polygon>
+<polygon points="80,83 98,83 104,88 100,92 80,92" fill="oklch(0.86 0.06 235)" stroke="oklch(0.5 0.1 235)" stroke-width=".4"></polygon>
+<polygon points="18,56 40,56 44,52 54,52 58,58 58,83 54,83 42,83 18,83" fill="oklch(0.85 0.06 30)" stroke="oklch(0.5 0.1 30)" stroke-width=".4"></polygon>
+<polygon points="22,83 40,83 40,86 34,90 22,90" fill="oklch(0.85 0.06 30)" stroke="oklch(0.5 0.1 30)" stroke-width=".4"></polygon>
+<polygon points="34,34 38,30 38,36 42,40 66,40 72,34 72,58 76,62 76,83 58,83 58,58 54,52 44,52 40,56 30,56 34,52" fill="oklch(0.84 0.07 145)" stroke="oklch(0.45 0.09 145)" stroke-width=".4"></polygon>
+<line x1="72" y1="40" x2="100" y2="40" stroke="oklch(0.5 0.1 235)" stroke-width=".3" stroke-dasharray="1 1"></line>
+<line x1="76" y1="68" x2="100" y2="68" stroke="oklch(0.5 0.1 235)" stroke-width=".3" stroke-dasharray="1 1"></line>
+
+<sc-if value="{{ showTerrain }}" hint-placeholder-val="{{ true }}">
+<g fill="none" stroke="oklch(0.3 0.03 60)" stroke-width=".35" stroke-dasharray=".8 .6">
+<polygon points="13,13 100,13 100,38 72,38 66,42 34,42 30,46 13,46"></polygon>
+<polygon points="46,15 64,15 64,27 46,27"></polygon>
+<polygon points="20,16 34,16 34,30 20,30"></polygon>
+<polygon points="23,19 31,19 31,27 23,27"></polygon>
+</g>
+</sc-if>
+
+<sc-if value="{{ showPaths }}" hint-placeholder-val="{{ true }}">
+<g fill="none" stroke="oklch(0.78 0.08 205)" stroke-width="2.6">
+<polyline points="6,40 18,40 26,44 34,44 40,47 48,47"></polyline>
+<polyline points="52,47 60,50 66,56 70,64 72,74 72,88"></polyline>
+<polyline points="55,29 54,36 52,44"></polyline>
+<polyline points="72,62 80,60 88,60 88,72 76,72"></polyline>
+</g>
+<g fill="oklch(0.78 0.08 205)">
+<circle cx="50" cy="46" r="4"></circle>
+<circle cx="55" cy="27" r="3"></circle>
+<circle cx="19" cy="33" r="2.6"></circle>
+<circle cx="90" cy="24" r="2"></circle>
+</g>
+<g fill="none" stroke="oklch(0.95 0.03 85)" stroke-width="1.4" stroke-dasharray="1.6 .8">
+<polyline points="48,84 48,62 44,58"></polyline>
+<polyline points="48,72 37,68"></polyline>
+<polyline points="48,60 48,52 48,40 52,32 55,22"></polyline>
+<polyline points="52,56 58,52 64,46 72,38 80,30 86,26"></polyline>
+<polyline points="31,64 26,56 26,48 28,30"></polyline>
+<polyline points="26,48 20,52 14,64"></polyline>
+<polyline points="48,76 60,70 70,68 80,66 88,78 98,86 104,88"></polyline>
+<polyline points="40,86 34,88 26,87"></polyline>
+<polyline points="66,40 66,28 72,22 84,22"></polyline>
+</g>
+</sc-if>
+
+<g stroke="oklch(1 0 0 / .55)" stroke-width=".25">
+<line x1="16" y1="0" x2="16" y2="96"></line><line x1="32" y1="0" x2="32" y2="96"></line><line x1="48" y1="0" x2="48" y2="96"></line><line x1="64" y1="0" x2="64" y2="96"></line><line x1="80" y1="0" x2="80" y2="96"></line><line x1="96" y1="0" x2="96" y2="96"></line>
+<line x1="0" y1="16" x2="112" y2="16"></line><line x1="0" y1="32" x2="112" y2="32"></line><line x1="0" y1="48" x2="112" y2="48"></line><line x1="0" y1="64" x2="112" y2="64"></line><line x1="0" y1="80" x2="112" y2="80"></line>
+</g>
+
+<g font-family="Zen Maru Gothic" font-weight="700" font-size="3.2">
+<text x="15" y="17.5" fill="oklch(0.42 0.1 70)">エジプト</text>
+<text x="40" y="17.5" fill="oklch(0.42 0.11 355)">日本</text>
+<text x="74" y="17.5" fill="oklch(0.4 0.1 235)">パリ</text>
+<text x="78" y="44.5" fill="oklch(0.4 0.1 235)">ヴェネツィア</text>
+<text x="80" y="90.5" fill="oklch(0.4 0.1 235)" font-size="2.6">地中海の港</text>
+<text x="20" y="60.5" fill="oklch(0.4 0.1 30)">ロンドン</text>
+<text x="62" y="54" fill="oklch(0.38 0.09 145)" font-size="2.6">住宅街</text>
+</g>
+
+<g font-family="IBM Plex Mono" font-size="2.4" text-anchor="middle">
+<rect x="28.6" y="65.6" width="4.8" height="4.8" rx=".8" fill="oklch(0.27 0.02 60)"></rect><text x="31" y="68.9" fill="white">1</text>
+<rect x="45.6" y="85.6" width="4.8" height="4.8" rx=".8" fill="oklch(0.27 0.02 60)"></rect><text x="48" y="88.9" fill="white">2</text>
+<rect x="103.6" y="85.6" width="4.8" height="4.8" rx=".8" fill="oklch(0.27 0.02 60)"></rect><text x="106" y="88.9" fill="white">3</text>
+<circle cx="43" cy="59" r="2.4" fill="white" stroke="oklch(0.27 0.02 60)" stroke-width=".4"></circle><text x="43" y="59.9">4</text>
+<circle cx="24" cy="48" r="2.4" fill="white" stroke="oklch(0.27 0.02 60)" stroke-width=".4"></circle><text x="24" y="48.9">5</text>
+<circle cx="13" cy="67" r="2.4" fill="white" stroke="oklch(0.27 0.02 60)" stroke-width=".4"></circle><text x="13" y="67.9">6</text>
+<circle cx="24" cy="76" r="2.4" fill="white" stroke="oklch(0.27 0.02 60)" stroke-width=".4"></circle><text x="24" y="76.9">7</text>
+<circle cx="84" cy="31" r="2.4" fill="white" stroke="oklch(0.27 0.02 60)" stroke-width=".4" stroke-dasharray=".8 .5"></circle><text x="84" y="31.9">8</text>
+<g fill="oklch(0.27 0.02 60 / .8)">
+<circle cx="30" cy="87" r="2"></circle><circle cx="52" cy="76" r="2"></circle><circle cx="55" cy="20" r="2"></circle><circle cx="48" cy="40" r="2"></circle><circle cx="27" cy="23" r="2"></circle><circle cx="19" cy="33" r="2"></circle><circle cx="90" cy="22" r="2"></circle><circle cx="84" cy="66" r="2"></circle><circle cx="94" cy="88" r="2"></circle>
+</g>
+<g fill="white" font-size="2.2">
+<text x="30" y="87.8">a</text><text x="52" y="76.8">b</text><text x="55" y="20.8">c</text><text x="48" y="40.8">d</text><text x="27" y="23.8">e</text><text x="19" y="33.8">f</text><text x="90" y="22.8">g</text><text x="84" y="66.8">h</text><text x="94" y="88.8">i</text>
+</g>
+</g>
+
+<sc-if value="{{ showHouses }}" hint-placeholder-val="{{ true }}">
+<g fill="oklch(0.74 0.15 65)" stroke="white" stroke-width=".35">
+<rect x="15" y="23" width="3" height="3"></rect><rect x="29" y="39" width="3" height="3"></rect>
+<rect x="41" y="23" width="3" height="3"></rect><rect x="66" y="31" width="3" height="3"></rect>
+<rect x="59" y="42" width="3" height="3"></rect><rect x="63" y="60" width="3" height="3"></rect>
+<rect x="93" y="46" width="3" height="3"></rect><rect x="79" y="50" width="3" height="3"></rect><rect x="91" y="73" width="3" height="3"></rect>
+<rect x="53" y="66" width="3" height="3"></rect>
+</g>
+</sc-if>
+</svg>
+<div></div>
+<div style="display:grid;grid-template-columns:repeat(7,1fr);font-family:'IBM Plex Mono',monospace;font-size:12px;color:oklch(0.55 0.02 60);text-align:center"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span></div>
+</div>
+
+<div style="flex:1 1 300px;display:flex;flex-direction:column;gap:22px;font-size:14px;line-height:1.6">
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="font-weight:700">施設</div>
+<div style="display:grid;grid-template-columns:22px 1fr;gap:4px 10px;align-items:baseline">
+<b style="font-family:'IBM Plex Mono',monospace">1</b><span>役場（移動不可）E2–E3</span>
+<b style="font-family:'IBM Plex Mono',monospace">2</b><span>飛行場（移動不可）F3–F4</span>
+<b style="font-family:'IBM Plex Mono',monospace">3</b><span>桟橋（固定）F7</span>
+<b style="font-family:'IBM Plex Mono',monospace">4</b><span>博物館 → 大英博物館 D3</span>
+<b style="font-family:'IBM Plex Mono',monospace">5</b><span>たぬき商店 → バザール D2</span>
+<b style="font-family:'IBM Plex Mono',monospace">6</b><span>キャンプサイト → 砂漠のキャンプ E1</span>
+<b style="font-family:'IBM Plex Mono',monospace">7</b><span>自宅 → ロンドンの家 E2</span>
+<b style="font-family:'IBM Plex Mono',monospace">8</b><span>エイブル（未建設）→ パリ B6</span>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="font-weight:700">見どころ</div>
+<div style="display:grid;grid-template-columns:22px 1fr;gap:4px 10px;align-items:baseline">
+<b style="font-family:'IBM Plex Mono',monospace">a</b><span>9と3/4番線（飛行場の左の浜）</span>
+<b style="font-family:'IBM Plex Mono',monospace">b</b><span>ロンドン街道（飛行場→博物館）</span>
+<b style="font-family:'IBM Plex Mono',monospace">c</b><span>神社（崖3段目）</span>
+<b style="font-family:'IBM Plex Mono',monospace">d</b><span>鳥居と滝</span>
+<b style="font-family:'IBM Plex Mono',monospace">e</b><span>崖で作るピラミッド</span>
+<b style="font-family:'IBM Plex Mono',monospace">f</b><span>オアシス</span>
+<b style="font-family:'IBM Plex Mono',monospace">g</b><span>パリの噴水広場</span>
+<b style="font-family:'IBM Plex Mono',monospace">h</b><span>運河</span>
+<b style="font-family:'IBM Plex Mono',monospace">i</b><span>サントリーニ風の港</span>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;font-size:13px;color:oklch(0.42 0.02 60)">
+<div style="display:flex;align-items:center;gap:8px"><span style="width:12px;height:12px;background:oklch(0.74 0.15 65)"></span>住民の家（10軒）</div>
+<div style="display:flex;align-items:center;gap:8px"><span style="width:14px;height:0;border-top:2px dashed oklch(0.75 0.03 85)"></span>道（斜め道で各国をつなぐ）</div>
+<div style="display:flex;align-items:center;gap:8px"><span style="width:14px;height:0;border-top:1.5px dashed oklch(0.3 0.03 60)"></span>崖の境目（2段目・3段目）</div>
+</div>
+</div>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:20px">
+<h2 style="margin:0;font-size:24px">区画ごとの広さ</h2>
+<p style="margin:0;font-size:14px;color:oklch(0.45 0.02 60)">1区画＝256マス。数字は区画図からの概算です。</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px">
+
+<div style="background:white;border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap"><h3 style="margin:0;font-size:19px;color:oklch(0.4 0.1 30)">ロンドン</h3><span style="font-family:'IBM Plex Mono',monospace;font-size:12px">約4区画 ／ 1,100マス</span></div>
+<ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.75">
+<li>9と3/4番線：飛行場の左の浜（F2–F3）。城壁・城門・城塔を浜に沿って並べ、汽車とカート、9¾の看板</li>
+<li>ロンドン街道：飛行場から北へまっすぐ伸びる道をレンガ敷きにして、両側に街灯と電話ボックス</li>
+<li>大英博物館前：列柱の正面に石畳の広場、ベンチ、公園の時計、ロンドンバス風の看板。役場前広場と一体にする</li>
+<li>自宅と住民1軒</li>
+</ul>
+</div>
+
+<div style="background:white;border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap"><h3 style="margin:0;font-size:19px;color:oklch(0.42 0.11 355)">日本</h3><span style="font-family:'IBM Plex Mono',monospace;font-size:12px">約3.5区画 ／ 900マス</span></div>
+<ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.75">
+<li>北の中央を崖3段にして、最上段に神社</li>
+<li>池から滝を落とし、下段に鳥居と参道</li>
+<li>竹林、桜、和風の橋</li>
+<li>住民2軒</li>
+</ul>
+</div>
+
+<div style="background:white;border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap"><h3 style="margin:0;font-size:19px;color:oklch(0.42 0.1 70)">エジプト</h3><span style="font-family:'IBM Plex Mono',monospace;font-size:12px">約4.7区画 ／ 1,200マス</span></div>
+<ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.75">
+<li>崖を階段状に重ねてピラミッド（底辺14マス）</li>
+<li>西の河口からの川をナイル川に。ヤシの木と岩</li>
+<li>オアシスの池、バザール（たぬき商店）</li>
+<li>西の浜沿いに砂漠のキャンプ（キャンプサイト）</li>
+<li>クレオの家と住民1軒</li>
+</ul>
+</div>
+
+<div style="background:white;border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap"><h3 style="margin:0;font-size:19px;color:oklch(0.4 0.1 235)">ヨーロッパ</h3><span style="font-family:'IBM Plex Mono',monospace;font-size:12px">約8区画 ／ 2,100マス</span></div>
+<ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.75">
+<li>パリ（A–C 6–7）：エイブル、噴水広場、カフェテラス</li>
+<li>ヴェネツィア（C–E 6–7）：南の河口近くに運河をループさせて石の橋</li>
+<li>地中海の港（F6–F7）：桟橋まわりを白と青で</li>
+<li>住民3軒</li>
+</ul>
+</div>
+
+<div style="background:white;border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap"><h3 style="margin:0;font-size:19px;color:oklch(0.38 0.09 145)">住宅街</h3><span style="font-family:'IBM Plex Mono',monospace;font-size:12px">約5.5区画 ／ 1,400マス</span></div>
+<ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.75">
+<li>島の中央。大きな池から各国へ斜めの道が分かれる</li>
+<li>住民3軒。国と国のつなぎ目として花と木でやわらかく区切る</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:14px">
+<h2 style="margin:0;font-size:24px">Happy Island Designerで描く順番</h2>
+<ol style="margin:0;padding-left:20px;font-size:14px;line-height:1.9;max-width:720px">
+<li>今の島（読み込み済み）の建物アイコンをいったん外へ寄せる</li>
+<li>崖ツールで2段目（北半分）と3段目（神社・ピラミッド）を塗る</li>
+<li>水ツールで川を引き直す。河口は西C1と南F5のまま</li>
+<li>道ツールで飛行場→役場→博物館の街道、斜めの道を引く</li>
+<li>建物を区画図の位置へ置き、最後に住民の家</li>
+</ol>
+<p style="margin:0;font-size:13px;color:oklch(0.45 0.02 60)">橋・坂はそれぞれ最大8本。この図では橋6本、坂5本の想定です。</p>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showHouses&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;表示&quot;},&quot;showPaths&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;表示&quot;},&quot;showTerrain&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;表示&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      showHouses: this.props.showHouses ?? true,
+      showPaths: this.props.showPaths ?? true,
+      showTerrain: this.props.showTerrain ?? true
+    };
+  }
+}
+</script>
+</body>
+</html>

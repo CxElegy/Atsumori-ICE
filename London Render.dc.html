@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>body{margin:0;background:oklch(0.975 0.01 85);color:oklch(0.27 0.02 60);font-family:'Zen Maru Gothic',sans-serif;-webkit-font-smoothing:antialiased}a{color:oklch(0.45 0.1 235)}a:hover{color:oklch(0.35 0.12 235)}*{box-sizing:border-box}</style>
+</helmet>
+<div style="max-width:1320px;margin:0 auto;padding:36px 24px 80px;display:flex;flex-direction:column;gap:20px">
+<header style="display:flex;flex-direction:column;gap:8px">
+<div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:oklch(0.5 0.02 60)">アイス島 改造プラン ／ ロンドン地区</div>
+<h1 style="margin:0;font-size:clamp(26px,3.6vw,38px);font-weight:700;line-height:1.2">ロンドン地区の完成イメージ（俯瞰）</h1>
+<p style="margin:0;max-width:820px;font-size:14px;line-height:1.8;text-wrap:pretty">マス目のデータから斜め上の視点で描いたイメージ図です。組み立て台でロンドンに置いた道とモジュールがあればそれを、なければ見本の配置を描きます。家具は形を簡略化しています。</p>
+</header>
+<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center"><span style="font-size:12px;color:oklch(0.5 0.02 60)">見る範囲</span>
+<sc-for list="{{ views }}" as="v" hint-placeholder-count="3"><button onClick="{{ v.pick }}" style="font:inherit;font-size:13px;border:0;border-radius:999px;padding:7px 14px;cursor:pointer;white-space:nowrap;line-height:1.2;background:{{ v.bg }};color:{{ v.fg }}">{{ v.name }}</button></sc-for></div>
+<canvas ref="{{ cvRef }}" style="width:100%;display:block;border-radius:14px;background:#7fd6c3"></canvas>
+<div style="display:flex;flex-wrap:wrap;gap:8px 18px;font-size:13px;color:oklch(0.42 0.02 60)">
+<span>{{ source }}</span>
+<a href="Module Builder.dc.html">組み立て台で配置を変える →</a>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  cv = React.createRef();
+  state = { source: '', view: 'wide' };
+  VIEWS = { lon: ['ロンドンだけ', [16, 52, 65, 94]], wide: ['ロンドン＋周辺', [4, 34, 84, 96]], all: ['島全体', [0, 4, 112, 96]] };
+  viewB() { return this.VIEWS[this.state.view][1]; }
+  MODS = {
+    lon_st: ['LBBBL', '.BBB.', '.BBB.', '.BBB.', 'LBBBL', '.BBB.', '.BBB.', '.BBB.'],
+    lon_wide: ['LBBBBBL', 'fBBBBBf', 'fBBBBBf', 'LBBBBBL', 'fBBBBBf', 'fBBBBBf'],
+    lon_cross: ['.LBBBL.', 'LBBBBBL', 'BBBBBBB', 'BBBNBBB', 'BBBBBBB', 'LBBBBBL', '.LBBBL.'],
+    lon_corner: ['TbbL', 'BBBB', 'BBBB'], lon_bus: ['NbbL', 'BBBB'],
+    lon_front: ['LbbB.BbbL', 'BBBBBBBBB', 'FBBBKBBBF', 'BBBBBBBBB'],
+    lon_934: ['QWWAWAWAWQ', 'BBBYBBBBLB', 'bBBCCCBBxB', 'bBBBBBBBBB', 'LBBBBBBBTB'],
+    lon_park: ['F.B.F', '.bBb.', 'BBKBB', '.bBb.', 'F.B.F'], lon_tea: ['FhchF', '..u..', 'BBBBB'], lon_guard: ['QBQ', '.B.', 'LBL'], lon_lounge: ['FEEEFppppFEEEF', 'hhhhpppppphhhh', 'hhhhpppppphhhh', 'VVppppppppppVV', 'LppppppppppppL'],
+    museum: ['MMMMMMM', 'MMMMMMM', 'MMMMMMM', 'MMMMMMM', '...D...'], house: ['HHHH', 'HHHH', 'HHHH', 'HHHH', '.D..'], home: ['HHHHH', 'HHHHH', 'HHHHH', 'HHHHH', '..D..'],
+    able: ['HHHHH', 'HHHHH', 'HHHHH', 'HHHHH', '..D..'], nook: ['HHHHHHH', 'HHHHHHH', 'HHHHHHH', 'HHHHHHH', '...D...'], camp: ['HHHH', 'HHHH', 'HHHH', 'HHHH', '.D..']
+  };
+  SAMPLE = [['lon_934', 29, 84, 0], ['lon_wide', 45, 72, 0], ['lon_cross', 45, 65, 0], ['museum', 47, 59, 0], ['lon_front', 52, 64, 0], ['lon_corner', 41, 72, 0], ['lon_park', 30, 76, 0], ['lon_bus', 53, 72, 0], ['lon_tea', 38, 66, 0], ['lon_guard', 38, 79, 0], ['lon_lounge', 42, 79, 0]];
+  componentDidMount() { fetch('island-grid-v4.json').then(r => r.json()).then(g => { this.grid = g; this.draw(); }); if (document.fonts) document.fonts.ready.then(() => this.draw()); }
+  componentDidUpdate(pp, ps) { if (ps.view !== this.state.view) this.draw(); }
+  renderVals() { return { cvRef: this.cv, source: this.state.source, views: Object.entries(this.VIEWS).map(([k, v]) => ({ name: v[0], pick: () => this.setState({ view: k }), bg: this.state.view === k ? '#4a3b30' : 'white', fg: this.state.view === k ? 'white' : '#4a3b30' })) }; }
+  rot(r, n) { let a = r.map(s => s.split('')); for (let i = 0; i < n; i++) { const h = a.length, w = a[0].length, o = []; for (let y = 0; y < w; y++) { o.push([]); for (let x = 0; x < h; x++) o[y].push(a[h - 1 - x][y]); } a = o; } return a; }
+  draw() {
+    const c = this.cv.current, G = this.grid; if (!c || !G) return;
+    const [bx0, by0, bx1, by1] = this.viewB(), nx = bx1 - bx0, ny = by1 - by0, TW = 16, TH = 8, HZ = 7;
+    c.width = (nx + ny) * TW + 80; c.height = (nx + ny) * TH + 160;
+    const ctx = c.getContext('2d'), ox = ny * TW + 40, oy = 110;
+    let placed = null, paint = {};
+    try { const s = JSON.parse(localStorage.getItem('wti-module-board') || 'null'); if (s) { const inB = p => p.x >= 0 && p.x < 112 && p.y >= 0 && p.y < 96; placed = (s.placed || []).filter(inB).map(p => [p.m, p.x, p.y, p.rot]); paint = s.paint || {}; if (!placed.length && !Object.keys(paint).length) placed = null; } } catch (e) {}
+    const usingSample = !placed; if (usingSample) placed = this.SAMPLE;
+    if (this.state.source !== (usingSample ? '見本の配置で描画中' : '組み立て台の配置で描画中')) this.setState({ source: usingSample ? '見本の配置で描画中' : '組み立て台の配置で描画中' });
+    const obj = {}, bld = [];
+    Object.entries(paint).forEach(([k, v]) => { const [x, y] = k.split(',').map(Number); obj[k] = v; });
+    placed.forEach(([m, px, py, r]) => { const rows = this.MODS[m]; if (!rows) return; const a = this.rot(rows, r || 0); let fx = 1e9, fy = 1e9, tx = -1, ty = -1, kind = null;
+      a.forEach((row, dy) => row.forEach((ch, dx) => { if (ch === '.') return; const x = px + dx, y = py + dy; if (ch === 'H' || ch === 'M') { kind = ch; fx = Math.min(fx, x); fy = Math.min(fy, y); tx = Math.max(tx, x); ty = Math.max(ty, y); } else obj[x + ',' + y] = ch; }));
+      if (kind) bld.push({ x: fx, y: fy, w: tx - fx + 1, d: ty - fy + 1, kind }); });
+    bld.push({ x: 27, y: 62, w: 8, d: 5, kind: 'R' }); bld.push({ x: 44, y: 85, w: 8, d: 5, kind: 'A' });
+    const at = (x, y) => (G[y] || '')[x];
+    const Z = { S: 0, s: 1, r: 2.2, w: 1.2, '1': 2, t: 2, p: 2, b: 2, P: 2, K: 2.05, '3': 4.5 };
+    const TOP = { S: '#79d3c0', s: '#f2e5a8', r: '#8a8798', w: '#94e3d4', '1': '#5aaa4d', t: '#4f9a45', p: '#cfbb8e', b: '#9a96a0', P: '#d6c399', K: '#b8694b', '3': '#7cc95a' };
+    const PT = { B: '#b8694b', p: '#cfbb8e', S: '#ead39b', F: '#7fbf5a' };
+    const P = (x, y, z) => [ox + (x - bx0 - (y - by0)) * TW, oy + (x - bx0 + y - by0) * TH - z * HZ];
+    const shade = (col, f) => { let r, g, b; if (col[0] === '#') { const n = parseInt(col.slice(1), 16); r = (n >> 16) & 255; g = (n >> 8) & 255; b = n & 255; } else { [r, g, b] = col.match(/\d+(\.\d+)?/g).map(Number); } return `rgb(${Math.min(255, Math.round(r * f))},${Math.min(255, Math.round(g * f))},${Math.min(255, Math.round(b * f))})`; };
+    const poly = (pts, fill) => { ctx.beginPath(); pts.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])); ctx.closePath(); ctx.fillStyle = fill; ctx.fill(); };
+    const prism = (x, y, w, d, z0, z1, col) => {
+      poly([P(x, y + d, z1), P(x + w, y + d, z1), P(x + w, y + d, z0), P(x, y + d, z0)], shade(col, .78));
+      poly([P(x + w, y, z1), P(x + w, y + d, z1), P(x + w, y + d, z0), P(x + w, y, z0)], shade(col, .62));
+      poly([P(x, y, z1), P(x + w, y, z1), P(x + w, y + d, z1), P(x, y + d, z1)], col);
+    };
+    let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const zAt = (x, y) => Z[at(x, y)] ?? 2;
+    const sprite = (x, y, ch) => { const z = zAt(x, y), cx = x + .5, cy = y + .5;
+      const pole = (hgt, col) => { const a = P(cx, cy, z), b = P(cx, cy, z + hgt); ctx.strokeStyle = col; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke(); return b; };
+      if (ch === 'L') { const t = pole(5, '#2f2a28'); ctx.fillStyle = '#ffd86b'; ctx.beginPath(); ctx.arc(t[0], t[1], 3.2, 0, 7); ctx.fill(); ctx.fillStyle = '#2f2a28'; ctx.fillRect(t[0] - 3, t[1] - 5, 6, 2); }
+      else if (ch === 'T') prism(x + .2, y + .2, .6, .6, z, z + 4.2, '#c8352b');
+      else if (ch === 'b') prism(x + .15, y + .35, .7, .3, z, z + .8, '#8a5a3a');
+      else if (ch === 'h') prism(x + .3, y + .3, .4, .4, z, z + .8, '#8a5a3a');
+      else if (ch === 'c') prism(x + .2, y + .2, .6, .6, z, z + 1.1, '#f1ece2');
+      else if (ch === 'u') { const t = pole(4, '#6b5b4f'); ctx.fillStyle = '#e9f2f6'; ctx.beginPath(); ctx.ellipse(t[0], t[1], 12, 6, 0, 0, 7); ctx.fill(); }
+      else if (ch === 'K') { const t = pole(4.5, '#2f2a28'); ctx.fillStyle = '#f7f3ea'; ctx.beginPath(); ctx.arc(t[0], t[1] - 2, 4.5, 0, 7); ctx.fill(); ctx.strokeStyle = '#2f2a28'; ctx.lineWidth = 1; ctx.stroke(); }
+      else if (ch === 'N') { const t = pole(4, '#6b4a33'); ctx.fillStyle = '#f2e3c4'; ctx.fillRect(t[0] - 7, t[1], 14, 4); }
+      else if (ch === 'W') prism(x, y + .3, 1, .5, z, z + 4.5, '#b4664a');
+      else if (ch === 'A') { prism(x, y + .3, 1, .5, z + 3, z + 4.5, '#b4664a'); prism(x, y + .3, .15, .5, z, z + 3, '#b4664a'); prism(x + .85, y + .3, .15, .5, z, z + 3, '#b4664a'); }
+      else if (ch === 'Q') { prism(x + .05, y + .1, .9, .9, z, z + 6.5, '#a85c42'); prism(x, y + .05, 1, 1, z + 6.5, z + 7.3, '#8f4a35'); }
+      else if (ch === 'C') { prism(x, y + .2, 1, .6, z, z + .6, '#b22e2e'); prism(x + .05, y + .25, .9, .5, z + .6, z + 2.4, '#26262c'); }
+      else if (ch === 'x') prism(x + .25, y + .25, .5, .5, z, z + 1.2, '#9a6a40');
+      else if (ch === 'Y') { prism(x + .1, y + .1, .8, .8, z, z + 1.8, '#a07548'); prism(x, y, 1, 1, z + 2.6, z + 2.9, '#5a7fb8'); }
+      else if (ch === 'E') { prism(x + .1, y + .4, .8, .2, z, z + 2.5, '#3a3f4a'); prism(x + .1, y + .4, .8, .2, z + 2.5, z + 4.2, '#2b3240'); }
+      else if (ch === 'V') { prism(x + .2, y + .3, .35, .25, z, z + 1.3, '#4f86c6'); prism(x + .55, y + .45, .3, .25, z, z + 1, '#e2a23b'); }
+      else if (ch === 'f') prism(x, y + .45, 1, .1, z, z + 1, '#4a4a50');
+      else if (ch === 'F') { ['#f39ab8', '#fff1a8', '#f5f5f5'].forEach((col, i) => { const p = P(x + .25 + i * .25, y + .3 + (i % 2) * .4, z + .3); ctx.fillStyle = col; ctx.beginPath(); ctx.arc(p[0], p[1], 2.3, 0, 7); ctx.fill(); }); }
+    };
+    const tree = (x, y) => { const z = zAt(x, y), b = P(x + .5, y + .5, z), t = P(x + .5, y + .5, z + 3.2); ctx.fillStyle = '#6b4a2f'; ctx.fillRect(b[0] - 1.5, t[1], 3, b[1] - t[1]); ctx.fillStyle = '#2f7a34'; ctx.beginPath(); ctx.arc(t[0], t[1] - 2, 8, 0, 7); ctx.fill(); ctx.fillStyle = 'rgba(255,255,255,.12)'; ctx.beginPath(); ctx.arc(t[0] - 3, t[1] - 5, 3.5, 0, 7); ctx.fill(); };
+    const building = b => { const z = zAt(b.x, b.y + b.d - 1);
+      if (b.kind === 'M') { prism(b.x, b.y, b.w, b.d, z, z + 1, '#e6dccb'); for (let i = 0; i < 6; i++) prism(b.x + .4 + i * (b.w - .8) / 5 - .15, b.y + b.d - .5, .3, .3, z + 1, z + 6, '#f1ebe0'); prism(b.x, b.y, b.w, b.d - .6, z + 1, z + 6, '#e3d7c3'); prism(b.x - .1, b.y - .1, b.w + .2, b.d + .1, z + 6, z + 7, '#d2c4ac'); const a = P(b.x + b.w / 2, b.y + b.d - .2, z + 9.5), l = P(b.x - .1, b.y + b.d, z + 7), r = P(b.x + b.w + .1, b.y + b.d, z + 7); poly([a, l, r], '#cbbba0'); }
+      else if (b.kind === 'R') { prism(b.x, b.y, b.w, b.d, z, z + 5, '#efe3c6'); prism(b.x - .2, b.y - .2, b.w + .4, b.d + .4, z + 5, z + 6.2, '#4f8f62'); }
+      else if (b.kind === 'A') { prism(b.x, b.y, b.w, b.d, zAt(b.x, b.y), zAt(b.x, b.y) + 4, '#f2f0ea'); prism(b.x + 1, b.y + .5, b.w - 2, b.d - 1, zAt(b.x, b.y) + 4, zAt(b.x, b.y) + 6.5, '#9fd3e6'); }
+      else { prism(b.x, b.y, b.w, b.d, z, z + 4.5, '#f0e2c4'); const a = P(b.x + b.w / 2, b.y + b.d / 2, z + 8); poly([a, P(b.x, b.y + b.d, z + 4.5), P(b.x + b.w, b.y + b.d, z + 4.5)], '#c25a4a'); poly([a, P(b.x + b.w, b.y + b.d, z + 4.5), P(b.x + b.w, b.y, z + 4.5)], '#9c4436'); } };
+    ctx.clearRect(0, 0, c.width, c.height);
+    for (let s = 0; s < nx + ny; s++) for (let x = bx0; x < bx1; x++) { const y = by0 + s - (x - bx0); if (y < by0 || y >= by1) continue;
+      const v = at(x, y), z = Z[v] ?? 2; let col = TOP[v] || '#5aaa4d'; const pv = obj[x + ',' + y]; if (PT[pv] && v !== 'S') col = PT[pv]; else if ('BYCWAQTLbKNxfhcuEV'.includes(pv) && v !== 'S') col = '#b8694b';
+      const n = rnd() * .08 + .96; prism(x, y, 1, 1, 0, z, shade(col, n));
+      if (pv === 'B' || col === '#b8694b') { const a = P(x + .5, y, z), b2 = P(x + .5, y + 1, z); ctx.strokeStyle = 'rgba(90,40,25,.35)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b2[0], b2[1]); ctx.stroke(); }
+      if (v === 'w') { const p = P(x + rnd(), y + rnd(), z); ctx.fillStyle = 'rgba(255,255,255,.35)'; ctx.fillRect(p[0], p[1], 5, 1.2); }
+    }
+    const items = [];
+    for (let y = by0; y < by1; y++) for (let x = bx0; x < bx1; x++) { const pv = obj[x + ',' + y]; if (pv && !PT[pv] || pv === 'F') items.push({ d: x + y, f: () => sprite(x, y, pv) }); else if (at(x, y) === 't' && !pv) items.push({ d: x + y + .1, f: () => tree(x, y) }); }
+    bld.forEach(b => items.push({ d: b.x + b.w - 1 + b.y + b.d - 1 + .2, f: () => building(b) }));
+    items.sort((a, b) => a.d - b.d).forEach(i => i.f());
+    const label = (x, y, t) => { const p = P(x, y, 10); ctx.font = "700 15px 'Zen Maru Gothic', sans-serif"; const w = ctx.measureText(t).width + 18; ctx.fillStyle = 'rgba(255,255,255,.94)'; ctx.beginPath(); ctx.roundRect(p[0] - w / 2, p[1] - 13, w, 26, 13); ctx.fill(); ctx.fillStyle = '#7a2f1f'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(t, p[0], p[1] + 1); ctx.textAlign = 'left'; };
+    label(34, 86, '9¾番線'); label(48, 76, 'ロンドン街道'); label(50, 58, '大英博物館'); label(31, 62, '役場前広場'); label(48, 90, '国際線ターミナル'); label(49, 80, '飛行機ラウンジ'); label(32, 78, 'ハイドパーク');
+    const inV = (x, y) => x >= bx0 && x < bx1 && y >= by0 && y < by1;
+    [[24, 40, 'エジプト'], [50, 50, '日本庭園'], [80, 58, 'ヨーロッパ'], [90, 80, '地中海の港'], [52, 22, '日本・神社'], [82, 22, 'アメリカ'], [95, 18, 'ハロウィン'], [90, 36, '森林']].forEach(([x, y, t]) => { if (inV(x, y)) { const p = P(x, y, 10); ctx.font = "700 15px 'Zen Maru Gothic', sans-serif"; const w = ctx.measureText(t).width + 18; ctx.fillStyle = 'rgba(40,40,40,.62)'; ctx.beginPath(); ctx.roundRect(p[0] - w / 2, p[1] - 13, w, 26, 13); ctx.fill(); ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(t, p[0], p[1] + 1); ctx.textAlign = 'left'; } });
+  }
+}
+</script>
+</body>
+</html>

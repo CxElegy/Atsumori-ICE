@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>body{margin:0;background:oklch(0.975 0.01 85);color:oklch(0.27 0.02 60);font-family:'Zen Maru Gothic',sans-serif;-webkit-font-smoothing:antialiased}a{color:oklch(0.45 0.1 235)}a:hover{color:oklch(0.35 0.12 235)}*{box-sizing:border-box}</style>
+</helmet>
+<div style="max-width:1180px;margin:0 auto;padding:40px 24px 80px;display:flex;flex-direction:column;gap:56px">
+
+<header style="display:flex;flex-direction:column;gap:10px">
+<div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:oklch(0.5 0.02 60)">アイス島 改造プラン</div>
+<h1 style="margin:0;font-size:clamp(28px,4vw,44px);font-weight:700;line-height:1.2">世界旅行ができる島</h1>
+<p style="margin:0;max-width:640px;font-size:16px;line-height:1.8;text-wrap:pretty">飛行場から入国して、役場前の広場から各国へ分かれて歩くルート設計。参考の島のように川を細かく分け、崖を段々にして、斜めの道でエリアをつなぎます。</p>
+</header>
+
+<section style="display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start">
+<div style="flex:1 1 520px;max-width:640px;display:grid;grid-template-columns:20px 1fr;grid-template-rows:auto 20px;gap:6px">
+<div style="display:grid;grid-template-rows:repeat(6,1fr);font-family:'IBM Plex Mono',monospace;font-size:12px;color:oklch(0.55 0.02 60);align-items:center">
+<span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span>
+</div>
+<div style="position:relative;aspect-ratio:7/6;border-radius:14px;overflow:hidden;outline:1px solid oklch(0.85 0.02 85);display:grid;grid-template-columns:repeat(7,1fr);grid-template-rows:repeat(6,1fr);grid-template-areas:'lon lon hog hog hog par par' 'lon lon hog hog hog par par' 'egy egy hgs hgs hgs par par' 'egy egy hgs hgs hgs ita ita' 'eg2 pla pla pla pla ita ita' 'des des des air med med med'">
+<div style="grid-area:lon;background:oklch(0.85 0.07 30);opacity:{{ oLon }};padding:8px;font-size:12px;font-weight:700;color:oklch(0.4 0.09 30);transition:opacity .2s">ロンドン</div>
+<div style="grid-area:hog;background:oklch(0.85 0.07 300);opacity:{{ oHog }};padding:8px;font-size:12px;font-weight:700;color:oklch(0.4 0.09 300);transition:opacity .2s">ホグワーツ</div>
+<div style="grid-area:par;background:oklch(0.85 0.07 235);opacity:{{ oEur }};padding:8px;font-size:12px;font-weight:700;color:oklch(0.4 0.09 235);transition:opacity .2s">パリ</div>
+<div style="grid-area:ita;background:oklch(0.88 0.06 235);opacity:{{ oEur }};padding:8px;font-size:12px;font-weight:700;color:oklch(0.4 0.09 235);transition:opacity .2s">ヴェネツィア</div>
+<div style="grid-area:med;background:oklch(0.91 0.05 235);opacity:{{ oEur }};padding:8px;font-size:12px;font-weight:700;color:oklch(0.4 0.09 235);transition:opacity .2s">地中海の港</div>
+<div style="grid-area:egy;background:oklch(0.87 0.08 80);opacity:{{ oEgy }};padding:8px;font-size:12px;font-weight:700;color:oklch(0.42 0.09 70);transition:opacity .2s">エジプト</div>
+<div style="grid-area:eg2;background:oklch(0.87 0.08 80);opacity:{{ oEgy }};transition:opacity .2s"></div>
+<div style="grid-area:des;background:oklch(0.91 0.06 80);opacity:{{ oEgy }};padding:8px;font-size:12px;font-weight:700;color:oklch(0.42 0.09 70);transition:opacity .2s">砂漠の浜</div>
+<div style="grid-area:hgs;background:oklch(0.87 0.07 150);opacity:{{ oHgs }};padding:8px;font-size:12px;font-weight:700;color:oklch(0.4 0.09 150);transition:opacity .2s">ホグズミード村（住宅街）</div>
+<div style="grid-area:pla;background:oklch(0.92 0.03 110);opacity:{{ oPla }};padding:8px;font-size:12px;font-weight:700;color:oklch(0.42 0.05 110);transition:opacity .2s">ワールドゲート広場</div>
+<div style="grid-area:air;background:oklch(0.92 0.03 110);opacity:{{ oPla }};transition:opacity .2s"></div>
+<sc-if value="{{ showGrid }}" hint-placeholder-val="{{ true }}">
+<div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to right,oklch(0.3 0.02 60 / .14) 1px,transparent 1px),linear-gradient(to bottom,oklch(0.3 0.02 60 / .14) 1px,transparent 1px);background-size:calc(100% / 7) calc(100% / 6)"></div>
+</sc-if>
+<div style="position:absolute;inset:0;pointer-events:none;font-family:'IBM Plex Mono',monospace;font-size:11px">
+<div style="position:absolute;left:28.6%;top:75%;transform:translate(-50%,-50%);width:26px;height:26px;border-radius:5px;background:oklch(0.27 0.02 60);color:white;display:grid;place-items:center">1</div>
+<div style="position:absolute;left:42.9%;top:91%;transform:translate(-50%,-50%);width:26px;height:26px;border-radius:5px;background:oklch(0.27 0.02 60);color:white;display:grid;place-items:center">2</div>
+<div style="position:absolute;left:96%;top:88%;transform:translate(-50%,-50%);width:26px;height:26px;border-radius:5px;background:oklch(0.27 0.02 60);color:white;display:grid;place-items:center">3</div>
+<div style="position:absolute;left:24%;top:24%;transform:translate(-50%,-50%);width:26px;height:26px;border-radius:50%;background:white;border:2px solid oklch(0.27 0.02 60);display:grid;place-items:center">4</div>
+<div style="position:absolute;left:9%;top:60%;transform:translate(-50%,-50%);width:26px;height:26px;border-radius:50%;background:white;border:2px solid oklch(0.27 0.02 60);display:grid;place-items:center">5</div>
+<div style="position:absolute;left:65%;top:27%;transform:translate(-50%,-50%);width:26px;height:26px;border-radius:50%;background:white;border:2px solid oklch(0.27 0.02 60);display:grid;place-items:center">6</div>
+<div style="position:absolute;left:8%;top:12%;transform:translate(-50%,-50%);width:26px;height:26px;border-radius:50%;background:white;border:2px solid oklch(0.27 0.02 60);display:grid;place-items:center">7</div>
+<div style="position:absolute;left:79%;top:42%;transform:translate(-50%,-50%);width:26px;height:26px;border-radius:50%;background:white;border:2px dashed oklch(0.27 0.02 60);display:grid;place-items:center">8</div>
+<div style="position:absolute;left:9%;top:27%;transform:translate(-50%,-50%);width:22px;height:22px;border-radius:50%;background:oklch(0.27 0.02 60 / .75);color:white;display:grid;place-items:center">a</div>
+<div style="position:absolute;left:22%;top:9%;transform:translate(-50%,-50%);width:22px;height:22px;border-radius:50%;background:oklch(0.27 0.02 60 / .75);color:white;display:grid;place-items:center">b</div>
+<div style="position:absolute;left:50%;top:10%;transform:translate(-50%,-50%);width:22px;height:22px;border-radius:50%;background:oklch(0.27 0.02 60 / .75);color:white;display:grid;place-items:center">c</div>
+<div style="position:absolute;left:38%;top:27%;transform:translate(-50%,-50%);width:22px;height:22px;border-radius:50%;background:oklch(0.27 0.02 60 / .75);color:white;display:grid;place-items:center">d</div>
+<div style="position:absolute;left:22%;top:42%;transform:translate(-50%,-50%);width:22px;height:22px;border-radius:50%;background:oklch(0.27 0.02 60 / .75);color:white;display:grid;place-items:center">e</div>
+<div style="position:absolute;left:24%;top:59%;transform:translate(-50%,-50%);width:22px;height:22px;border-radius:50%;background:oklch(0.27 0.02 60 / .75);color:white;display:grid;place-items:center">f</div>
+<div style="position:absolute;left:88%;top:13%;transform:translate(-50%,-50%);width:22px;height:22px;border-radius:50%;background:oklch(0.27 0.02 60 / .75);color:white;display:grid;place-items:center">g</div>
+<div style="position:absolute;left:88%;top:70%;transform:translate(-50%,-50%);width:22px;height:22px;border-radius:50%;background:oklch(0.27 0.02 60 / .75);color:white;display:grid;place-items:center">h</div>
+<div style="position:absolute;left:78%;top:93%;transform:translate(-50%,-50%);width:22px;height:22px;border-radius:50%;background:oklch(0.27 0.02 60 / .75);color:white;display:grid;place-items:center">i</div>
+<sc-if value="{{ showHouses }}" hint-placeholder-val="{{ true }}">
+<div style="position:absolute;left:8%;top:42%;transform:translate(-50%,-50%);width:13px;height:13px;background:oklch(0.72 0.14 60);border:1.5px solid white"></div>
+<div style="position:absolute;left:14%;top:74%;transform:translate(-50%,-50%);width:13px;height:13px;background:oklch(0.72 0.14 60);border:1.5px solid white"></div>
+<div style="position:absolute;left:16%;top:18%;transform:translate(-50%,-50%);width:13px;height:13px;background:oklch(0.72 0.14 60);border:1.5px solid white"></div>
+<div style="position:absolute;left:36%;top:44%;transform:translate(-50%,-50%);width:13px;height:13px;background:oklch(0.72 0.14 60);border:1.5px solid white"></div>
+<div style="position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);width:13px;height:13px;background:oklch(0.72 0.14 60);border:1.5px solid white"></div>
+<div style="position:absolute;left:64%;top:44%;transform:translate(-50%,-50%);width:13px;height:13px;background:oklch(0.72 0.14 60);border:1.5px solid white"></div>
+<div style="position:absolute;left:50%;top:60%;transform:translate(-50%,-50%);width:13px;height:13px;background:oklch(0.72 0.14 60);border:1.5px solid white"></div>
+<div style="position:absolute;left:93%;top:40%;transform:translate(-50%,-50%);width:13px;height:13px;background:oklch(0.72 0.14 60);border:1.5px solid white"></div>
+<div style="position:absolute;left:79%;top:62%;transform:translate(-50%,-50%);width:13px;height:13px;background:oklch(0.72 0.14 60);border:1.5px solid white"></div>
+<div style="position:absolute;left:76%;top:79%;transform:translate(-50%,-50%);width:13px;height:13px;background:oklch(0.72 0.14 60);border:1.5px solid white"></div>
+</sc-if>
+</div>
+</div>
+<div></div>
+<div style="display:grid;grid-template-columns:repeat(7,1fr);font-family:'IBM Plex Mono',monospace;font-size:12px;color:oklch(0.55 0.02 60);text-align:center">
+<span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span>
+</div>
+</div>
+
+<div style="flex:1 1 320px;display:flex;flex-direction:column;gap:22px;font-size:14px;line-height:1.6">
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="font-size:12px;color:oklch(0.5 0.02 60)">エリアをタップで強調</div>
+<div style="display:flex;flex-wrap:wrap;gap:6px">
+<button onClick="{{ pickLon }}" style="font:inherit;font-size:13px;border:0;border-radius:999px;padding:6px 12px;cursor:pointer;background:oklch(0.85 0.07 30);color:oklch(0.35 0.09 30)">ロンドン</button>
+<button onClick="{{ pickHog }}" style="font:inherit;font-size:13px;border:0;border-radius:999px;padding:6px 12px;cursor:pointer;background:oklch(0.85 0.07 300);color:oklch(0.35 0.09 300)">ホグワーツ</button>
+<button onClick="{{ pickHgs }}" style="font:inherit;font-size:13px;border:0;border-radius:999px;padding:6px 12px;cursor:pointer;background:oklch(0.87 0.07 150);color:oklch(0.35 0.09 150)">ホグズミード</button>
+<button onClick="{{ pickEgy }}" style="font:inherit;font-size:13px;border:0;border-radius:999px;padding:6px 12px;cursor:pointer;background:oklch(0.87 0.08 80);color:oklch(0.38 0.09 70)">エジプト</button>
+<button onClick="{{ pickEur }}" style="font:inherit;font-size:13px;border:0;border-radius:999px;padding:6px 12px;cursor:pointer;background:oklch(0.85 0.07 235);color:oklch(0.35 0.09 235)">ヨーロッパ</button>
+<button onClick="{{ pickPla }}" style="font:inherit;font-size:13px;border:0;border-radius:999px;padding:6px 12px;cursor:pointer;background:oklch(0.92 0.03 110);color:oklch(0.38 0.05 110)">広場</button>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="font-weight:700">施設</div>
+<div style="display:grid;grid-template-columns:26px 1fr;gap:4px 10px;align-items:baseline">
+<b style="font-family:'IBM Plex Mono',monospace">1</b><span>役場（移動不可）E2–E3</span>
+<b style="font-family:'IBM Plex Mono',monospace">2</b><span>飛行場（移動不可）F4 → 国際線ターミナル</span>
+<b style="font-family:'IBM Plex Mono',monospace">3</b><span>桟橋（固定）F7 → 地中海の港</span>
+<b style="font-family:'IBM Plex Mono',monospace">4</b><span>博物館 → 大英博物館 B2</span>
+<b style="font-family:'IBM Plex Mono',monospace">5</b><span>たぬき商店 → エジプトのバザール D1</span>
+<b style="font-family:'IBM Plex Mono',monospace">6</b><span>キャンプサイト → ハグリッドの小屋 B5</span>
+<b style="font-family:'IBM Plex Mono',monospace">7</b><span>自宅 → プリベット通り4番地風 A1</span>
+<b style="font-family:'IBM Plex Mono',monospace">8</b><span>エイブル（未建設）→ パリのブティック C6</span>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="font-weight:700">見どころ</div>
+<div style="display:grid;grid-template-columns:26px 1fr;gap:4px 10px;align-items:baseline">
+<b style="font-family:'IBM Plex Mono',monospace">a</b><span>9と3/4番線</span>
+<b style="font-family:'IBM Plex Mono',monospace">b</b><span>ビッグベン風の時計塔</span>
+<b style="font-family:'IBM Plex Mono',monospace">c</b><span>ホグワーツ城（崖3段目）</span>
+<b style="font-family:'IBM Plex Mono',monospace">d</b><span>黒い湖と滝</span>
+<b style="font-family:'IBM Plex Mono',monospace">e</b><span>崖で作るピラミッド</span>
+<b style="font-family:'IBM Plex Mono',monospace">f</b><span>オアシス</span>
+<b style="font-family:'IBM Plex Mono',monospace">g</b><span>カフェテラス</span>
+<b style="font-family:'IBM Plex Mono',monospace">h</b><span>運河と石の橋</span>
+<b style="font-family:'IBM Plex Mono',monospace">i</b><span>サントリーニ風の白い家並み</span>
+</div>
+</div>
+<div style="display:flex;align-items:center;gap:8px;font-size:13px;color:oklch(0.45 0.02 60)"><span style="width:12px;height:12px;background:oklch(0.72 0.14 60)"></span>住民の家（10軒）</div>
+</div>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:20px">
+<h2 style="margin:0;font-size:24px">エリアごとの広さと中身</h2>
+<p style="margin:0;font-size:14px;color:oklch(0.45 0.02 60)">1区画＝16×16マス。島の内陸はおよそ横112×縦96マスです。</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px">
+
+<div style="background:white;border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap"><h3 style="margin:0;font-size:19px;color:oklch(0.4 0.09 30)">ロンドン</h3><span style="font-family:'IBM Plex Mono',monospace;font-size:12px">A–B 1–2 ／ 32×32マス</span></div>
+<ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.75;display:flex;flex-direction:column;gap:2px">
+<li>9と3/4番線：レンガの柱の間にレンガ壁のマイデザイン、手前にカートと荷物</li>
+<li>ダイアゴン横丁：幅3マスの石畳の路地に屋台と看板を詰める</li>
+<li>時計塔、電話ボックス、赤いポストで街角を作る</li>
+<li>川を「テムズ川」にしてアイアンブリッジを架ける</li>
+<li>博物館の外観がそのまま大英博物館に見える</li>
+<li>自宅をプリベット通り風に。住民1軒</li>
+</ul>
+</div>
+
+<div style="background:white;border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap"><h3 style="margin:0;font-size:19px;color:oklch(0.4 0.09 300)">ホグワーツ</h3><span style="font-family:'IBM Plex Mono',monospace;font-size:12px">A–B 3–5 ／ 48×32マス</span></div>
+<ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.75;display:flex;flex-direction:column;gap:2px">
+<li>崖を3段まで積み、最上段に城。細く突き出した崖で塔を表現</li>
+<li>城の下に池と滝で「黒い湖」</li>
+<li>キャンプサイトをハグリッドの小屋に。裏に木を密集させて禁じられた森</li>
+<li>ロンドン側から坂で登る導線にすると「ホグワーツ特急で到着」の流れになる</li>
+</ul>
+</div>
+
+<div style="background:white;border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap"><h3 style="margin:0;font-size:19px;color:oklch(0.4 0.09 150)">ホグズミード村</h3><span style="font-family:'IBM Plex Mono',monospace;font-size:12px">C–D 3–5 ／ 48×32マス</span></div>
+<ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.75;display:flex;flex-direction:column;gap:2px">
+<li>城のふもとの住宅街。住民4軒</li>
+<li>針葉樹と街灯、パブ風のテラス席</li>
+<li>島の中央なので各エリアへの斜めの道をここで分岐させる</li>
+</ul>
+</div>
+
+<div style="background:white;border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap"><h3 style="margin:0;font-size:19px;color:oklch(0.42 0.09 70)">エジプト</h3><span style="font-family:'IBM Plex Mono',monospace;font-size:12px">C–D 1–2＋E1・F1–F3 ／ 約32×48マス</span></div>
+<ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.75;display:flex;flex-direction:column;gap:2px">
+<li>崖を3段の階段状に積んでピラミッド（底辺14〜16マス）</li>
+<li>西の河口から入る川をナイル川に見立て、ヤシの木と岩を置く</li>
+<li>オアシスの池</li>
+<li>たぬき商店をバザールに。周りに屋台と絨毯</li>
+<li>クレオの家をここへ。住民2軒</li>
+<li>地面は砂のマイデザイン、浜辺は砂漠の延長として使う</li>
+</ul>
+</div>
+
+<div style="background:white;border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap"><h3 style="margin:0;font-size:19px;color:oklch(0.4 0.09 235)">ヨーロッパ</h3><span style="font-family:'IBM Plex Mono',monospace;font-size:12px">A–E 6–7＋F5–F7 ／ 32×80マス</span></div>
+<ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.75;display:flex;flex-direction:column;gap:2px">
+<li>パリ（A–C）：エイブルを建ててブティック街、カフェテラス、花のアーチ</li>
+<li>ヴェネツィア（D–E）：南の河口近くの川を運河にして石の橋とボート</li>
+<li>地中海の港（F5–F7）：白い家具と青いマイデザインでサントリーニ風、桟橋を港に</li>
+<li>住民3軒</li>
+</ul>
+</div>
+
+<div style="background:white;border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap"><h3 style="margin:0;font-size:19px;color:oklch(0.42 0.05 110)">ワールドゲート広場</h3><span style="font-family:'IBM Plex Mono',monospace;font-size:12px">E2–E5＋F4 ／ 64×16マス</span></div>
+<ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.75;display:flex;flex-direction:column;gap:2px">
+<li>役場は動かせないので、ここを島のハブにする</li>
+<li>各国への道しるべと旗を並べる</li>
+<li>飛行場前はスーツケースと案内板で国際線ターミナル風に</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:20px">
+<h2 style="margin:0;font-size:24px">既存の建物の置き場所</h2>
+<div style="background:white;border-radius:14px;padding:8px 22px;font-size:14px">
+<div style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,.7fr) minmax(0,1.6fr);gap:12px;padding:12px 0;border-bottom:1px solid oklch(0.92 0.01 85);font-size:12px;color:oklch(0.5 0.02 60)"><span>建物</span><span>サイズ目安</span><span>今</span><span>移動先</span></div>
+<div style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,.7fr) minmax(0,1.6fr);gap:12px;padding:12px 0;border-bottom:1px solid oklch(0.92 0.01 85)"><span>役場</span><span>移動不可</span><span>E2–E3</span><span>そのまま（広場の中心）</span></div>
+<div style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,.7fr) minmax(0,1.6fr);gap:12px;padding:12px 0;border-bottom:1px solid oklch(0.92 0.01 85)"><span>飛行場・桟橋</span><span>移動不可</span><span>F4・F7</span><span>そのまま</span></div>
+<div style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,.7fr) minmax(0,1.6fr);gap:12px;padding:12px 0;border-bottom:1px solid oklch(0.92 0.01 85)"><span>博物館</span><span>約7×4マス</span><span>E3</span><span>B2 ロンドン（大英博物館）</span></div>
+<div style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,.7fr) minmax(0,1.6fr);gap:12px;padding:12px 0;border-bottom:1px solid oklch(0.92 0.01 85)"><span>たぬき商店</span><span>約7×4マス</span><span>E2</span><span>D1 エジプト（バザール）</span></div>
+<div style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,.7fr) minmax(0,1.6fr);gap:12px;padding:12px 0;border-bottom:1px solid oklch(0.92 0.01 85)"><span>キャンプサイト</span><span>約7×4マス</span><span>E1</span><span>B5 ホグワーツ（ハグリッドの小屋）</span></div>
+<div style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,.7fr) minmax(0,1.6fr);gap:12px;padding:12px 0;border-bottom:1px solid oklch(0.92 0.01 85)"><span>エイブル</span><span>約5×4マス</span><span>未建設</span><span>C6 パリ（ブティック）</span></div>
+<div style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,.7fr) minmax(0,1.6fr);gap:12px;padding:12px 0;border-bottom:1px solid oklch(0.92 0.01 85)"><span>自宅</span><span>約5×4マス</span><span>C3</span><span>A1 ロンドン（プリベット通り風）</span></div>
+<div style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,.7fr) minmax(0,1.6fr);gap:12px;padding:12px 0"><span>住民の家 ×10</span><span>約5×4マス</span><span>C4–E6</span><span>エジプト2・ロンドン1・ホグズミード4・ヨーロッパ3</span></div>
+</div>
+<p style="margin:0;font-size:13px;line-height:1.7;color:oklch(0.45 0.02 60)">建物の前には1マス以上の空きが必要。移動費の目安は施設10万ベル、住民の家5万ベル。</p>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:20px">
+<h2 style="margin:0;font-size:24px">他にできること</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:16px;font-size:14px;line-height:1.7">
+<div style="display:flex;flex-direction:column;gap:4px"><b>オランダ</b><span>風車とチューリップ畑。花で作れるので低コスト。北の浜辺A6–A7向き</span></div>
+<div style="display:flex;flex-direction:column;gap:4px"><b>日本・京都</b><span>鳥居、竹林、和風の橋。ホグズミードの一角を和の路地に</span></div>
+<div style="display:flex;flex-direction:column;gap:4px"><b>ハワイ</b><span>南の浜F5をビーチリゾートに。ヤシの木はエジプトと共用</span></div>
+<div style="display:flex;flex-direction:column;gap:4px"><b>ギリシャ遺跡</b><span>石柱と崩れた壁。地中海の港の崖上に置ける</span></div>
+<div style="display:flex;flex-direction:column;gap:4px"><b>パスポートスタンプラリー</b><span>各国の入口に看板を置き、夢番地の来訪者に回る順番を案内</span></div>
+<div style="display:flex;flex-direction:column;gap:4px"><b>道の素材で国境</b><span>エジプトは砂、ロンドンはレンガ、ヨーロッパは石畳。歩くだけで国が変わる</span></div>
+</div>
+</section>
+
+<section style="display:flex;flex-wrap:wrap;gap:40px">
+<div style="flex:1 1 320px;display:flex;flex-direction:column;gap:14px">
+<h2 style="margin:0;font-size:24px">作業の順番</h2>
+<ol style="margin:0;padding-left:20px;font-size:14px;line-height:1.9">
+<li>建物を島の端へ仮移動（住民の家はまとめて）</li>
+<li>崖と川の大改造：ホグワーツ3段、ピラミッド、運河</li>
+<li>施設と家を本配置</li>
+<li>道を敷く（広場から各国へ斜めに）</li>
+<li>家具とマイデザインで各国を作り込む</li>
+</ol>
+</div>
+<div style="flex:1 1 320px;display:flex;flex-direction:column;gap:14px">
+<h2 style="margin:0;font-size:24px">制約メモ</h2>
+<ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.9">
+<li>役場・飛行場・桟橋・海岸の岩は動かせない</li>
+<li>河口（西C1・南F6付近）は動かせない</li>
+<li>橋は最大8本、坂も最大8本</li>
+<li>崖は3段まで</li>
+</ul>
+</div>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showHouses&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;showGrid&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { sel: null };
+  renderVals() {
+    const s = this.state.sel;
+    const o = k => (!s || s === k) ? 1 : 0.25;
+    const pick = k => () => this.setState(st => ({ sel: st.sel === k ? null : k }));
+    return {
+      oLon: o('lon'), oHog: o('hog'), oHgs: o('hgs'), oEgy: o('egy'), oEur: o('eur'), oPla: o('pla'),
+      pickLon: pick('lon'), pickHog: pick('hog'), pickHgs: pick('hgs'), pickEgy: pick('egy'), pickEur: pick('eur'), pickPla: pick('pla'),
+      showHouses: this.props.showHouses ?? true,
+      showGrid: this.props.showGrid ?? true
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>body{margin:0;background:oklch(0.975 0.01 85);color:oklch(0.27 0.02 60);font-family:'Zen Maru Gothic',sans-serif;-webkit-font-smoothing:antialiased}a{color:oklch(0.45 0.1 235)}a:hover{color:oklch(0.35 0.12 235)}*{box-sizing:border-box}</style>
+</helmet>
+<div style="max-width:1280px;margin:0 auto;padding:40px 24px 80px;display:flex;flex-direction:column;gap:40px">
+
+<header style="display:flex;flex-direction:column;gap:10px">
+<div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:oklch(0.5 0.02 60)">アイス島 改造プラン v4 ／ 1マス単位</div>
+<h1 style="margin:0;font-size:clamp(28px,4vw,42px);font-weight:700;line-height:1.2">世界旅行ができる島　完成予想マップ</h1>
+<p style="margin:0;max-width:760px;font-size:15px;line-height:1.8;text-wrap:pretty">v3の川・池をそのまま使い、途切れていた部分をつないで西の河口から南の河口まで1つの水系にしました。区画は1a案。メインストリートは作らず、隣り合う地区どうしが歩いて行き来できることを確認しています（橋2本）。</p>
+</header>
+
+<section style="display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start">
+<div style="flex:1 1 660px;max-width:900px;display:grid;grid-template-columns:18px 1fr;grid-template-rows:auto 18px;gap:6px">
+<div style="display:grid;grid-template-rows:repeat(6,1fr);font-family:'IBM Plex Mono',monospace;font-size:12px;color:oklch(0.55 0.02 60);align-items:center"><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span></div>
+<canvas ref="{{ cvRef }}" width="1792" height="1536" style="width:100%;aspect-ratio:7/6;display:block;border-radius:12px;background:#7fd6c3"></canvas>
+<div></div>
+<div style="display:grid;grid-template-columns:repeat(7,1fr);font-family:'IBM Plex Mono',monospace;font-size:12px;color:oklch(0.55 0.02 60);text-align:center"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span></div>
+</div>
+
+<div style="flex:1 1 300px;display:flex;flex-direction:column;gap:22px;font-size:14px;line-height:1.6">
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="font-weight:700">施設</div>
+<div style="display:grid;grid-template-columns:26px 1fr;gap:6px 10px;align-items:center">
+<span style="width:24px;height:24px;border-radius:50%;background:#4a3b30;color:white;display:grid;place-items:center;font-size:12px">役</span><span>役場（移動不可）E2</span>
+<span style="width:24px;height:24px;border-radius:50%;background:#4a3b30;color:white;display:grid;place-items:center;font-size:12px">空</span><span>飛行場＋国際線ターミナル F3</span>
+<span style="width:24px;height:24px;border-radius:50%;background:#4a3b30;color:white;display:grid;place-items:center;font-size:12px">港</span><span>桟橋＝地中海の港 F7</span>
+<span style="width:24px;height:24px;border-radius:50%;background:#4a3b30;color:white;display:grid;place-items:center;font-size:12px">博</span><span>大英博物館 E4</span>
+<span style="width:24px;height:24px;border-radius:50%;background:#4a3b30;color:white;display:grid;place-items:center;font-size:12px">商</span><span>エジプトのバザール C2</span>
+<span style="width:24px;height:24px;border-radius:50%;background:#4a3b30;color:white;display:grid;place-items:center;font-size:12px">キ</span><span>国立公園キャンプ場 C6（森林）</span>
+<span style="width:24px;height:24px;border-radius:50%;background:#4a3b30;color:white;display:grid;place-items:center;font-size:12px">服</span><span>エイブル（未建設）E5</span>
+<span style="width:24px;height:24px;border-radius:50%;background:#4a3b30;color:white;display:grid;place-items:center;font-size:12px">社</span><span>神社 A4</span>
+<span style="width:24px;height:24px;border-radius:50%;background:#e2769c;color:white;display:grid;place-items:center;font-size:12px">家</span><span>自宅（森の手前）C6</span>
+<span style="width:24px;height:24px;border-radius:50%;background:#b8694b;color:white;display:grid;place-items:center;font-size:12px">駅</span><span>9と3/4番線 F2–F3</span>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="font-weight:700">色の見方</div>
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 14px;font-size:13px">
+<div style="display:flex;gap:8px;align-items:center"><span style="width:14px;height:14px;background:#4c9f48"></span>1段目</div>
+<div style="display:flex;gap:8px;align-items:center"><span style="width:14px;height:14px;background:#72c752"></span>上の段</div>
+<div style="display:flex;gap:8px;align-items:center"><span style="width:14px;height:14px;background:#3c843a"></span>林</div>
+<div style="display:flex;gap:8px;align-items:center"><span style="width:14px;height:14px;background:#8ee0d0"></span>川・池</div>
+<div style="display:flex;gap:8px;align-items:center"><span style="width:14px;height:14px;background:#c8b487"></span>道</div>
+<div style="display:flex;gap:8px;align-items:center"><span style="width:14px;height:14px;background:#8d8a92"></span>橋</div>
+<div style="display:flex;gap:8px;align-items:center"><span style="width:14px;height:14px;background:#b8694b"></span>レンガ（9¾）</div>
+<div style="display:flex;gap:8px;align-items:center"><span style="width:14px;height:14px;background:#f0a92e"></span>住民の家（10軒）</div>
+</div>
+</div>
+<div style="font-size:13px;line-height:1.8;color:oklch(0.42 0.02 60)">住民の内訳：エジプト2・日本3・アメリカ1・ヨーロッパ2・地中海の港1・ロンドン1</div>
+</div>
+</section>
+
+<section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px">
+<div style="background:white;border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:8px"><h3 style="margin:0;font-size:17px;color:oklch(0.42 0.1 30)">ロンドン</h3><p style="margin:0;font-size:14px;line-height:1.75">国際線ターミナルから北へ街道、役場の東に大英博物館。飛行場の左の浜に9¾番線。</p></div>
+<div style="background:white;border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:8px"><h3 style="margin:0;font-size:17px;color:oklch(0.42 0.1 70)">エジプト</h3><p style="margin:0;font-size:14px;line-height:1.75">北西の上の段と、西の河口からの川（ナイル川）沿い。バザールは川の北。</p></div>
+<div style="background:white;border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:8px"><h3 style="margin:0;font-size:17px;color:oklch(0.42 0.11 355)">日本</h3><p style="margin:0;font-size:14px;line-height:1.75">北中央の池に囲まれた上の段に神社。島の中央、川に囲まれた中島は日本庭園（池をめぐって歩く回遊式庭園）にして、住民2軒を置く。北の神社側とは陸続き、南は大英博物館に面する。</p></div>
+<div style="background:white;border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:8px"><h3 style="margin:0;font-size:17px;color:oklch(0.42 0.09 140)">アメリカの森</h3><p style="margin:0;font-size:14px;line-height:1.75">北東を3つに分ける。A5–B5は道が多い一帯をアメリカの都市に。C6の上の段は森林で、国立公園キャンプ場を置き、自宅はその手前（西側）。森林の奥、A6の角がハロウィン。</p></div>
+<div style="background:white;border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:8px"><h3 style="margin:0;font-size:17px;color:oklch(0.4 0.1 235)">ヨーロッパ・地中海の港</h3><p style="margin:0;font-size:14px;line-height:1.75">中央東の川が多い一帯にエイブル。南東の浜沿いから桟橋までが地中海の港。</p></div>
+</section>
+<section style="display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;flex-direction:column;gap:6px"><h2 style="margin:0;font-size:24px">地区ごとの詳細</h2><p style="margin:0;font-size:14px;color:oklch(0.45 0.02 60);line-height:1.7">全体マップを地区ごとに拡大したものです。赤い番号が、その場所に何を作るかの提案です。</p></div>
+<div id="d-egy" style="background:white;border-radius:16px;padding:20px;display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start">
+<div style="flex:1 1 340px;display:flex;flex-direction:column;gap:10px"><h3 style="margin:0;font-size:19px;color:oklch(0.42 0.1 70)">エジプト</h3><canvas ref="{{ cvEgy }}" style="width:100%;display:block;border-radius:10px"></canvas></div>
+<ol style="flex:1 1 260px;margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;font-size:14px;line-height:1.65">
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">1</span><span><b>ピラミッド</b>　北西の上の段の中央に、崖を3段重ねて作る（底辺14マス）</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">2</span><span><b>遺跡の小道</b>　上の段の道沿いに崩れた石柱と発掘現場</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">3</span><span><b>ナイル川の船着き場</b>　西の河口。小舟と板の桟橋</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">4</span><span><b>バザール通り</b>　川の北の道沿いに屋台と絨毯。たぬき商店はこの通りの奥</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">5</span><span><b>オアシス</b>　南の池をヤシの木で囲む</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">6</span><span><b>ナイルの橋</b>　エジプトの北と南をつなぐ橋</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">7</span><span><b>ヤシの林</b>　西の浜沿いの林をヤシの木に</span></li>
+</ol>
+</div>
+<div id="d-jpn" style="background:white;border-radius:16px;padding:20px;display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start">
+<div style="flex:1 1 340px;display:flex;flex-direction:column;gap:10px"><h3 style="margin:0;font-size:19px;color:oklch(0.42 0.11 355)">日本</h3><canvas ref="{{ cvJpn }}" style="width:100%;display:block;border-radius:10px"></canvas></div>
+<ol style="flex:1 1 260px;margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;font-size:14px;line-height:1.65">
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">1</span><span><b>神社</b>　北の上の段の一番奥</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">2</span><span><b>千本鳥居の参道</b>　西側の細い道に鳥居を連ねて神社へ</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">3</span><span><b>池泉庭園</b>　神社の下の池が入り組んだ一帯。飛び石と灯籠</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">4</span><span><b>茶屋</b>　池を見下ろす上の段に縁台と和傘</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">5</span><span><b>日本庭園（中島）</b>　川に囲まれた中央の島。散策路と東屋</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">6</span><span><b>竹林</b>　中島の西の林を竹に</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">7</span><span><b>太鼓橋</b>　ヨーロッパへ渡る橋を朱色の和風の橋に</span></li>
+</ol>
+</div>
+<div id="d-usa" style="background:white;border-radius:16px;padding:20px;display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start">
+<div style="flex:1 1 340px;display:flex;flex-direction:column;gap:10px"><h3 style="margin:0;font-size:19px;color:oklch(0.42 0.09 140)">アメリカ（都市・ハロウィン・森林）</h3><canvas ref="{{ cvUsa }}" style="width:100%;display:block;border-radius:10px"></canvas></div>
+<ol style="flex:1 1 260px;margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;font-size:14px;line-height:1.65">
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">1</span><span><b>ダウンタウン</b>　北端の道が多い一帯。ダイナー、信号、消火栓</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">2</span><span><b>郊外の住宅地</b>　上の段を区切る道沿いに白い柵の家</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">3</span><span><b>お化けの森</b>　ハロウィンの林。枯れ木とランタン</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">4</span><span><b>かぼちゃ畑の小道</b>　ハロウィンの北の道</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">5</span><span><b>森の入口の川</b>　都市と森林を分ける川。釣り人や丸太</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">6</span><span><b>森林の高台</b>　針葉樹を密に植える</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">7</span><span><b>国立公園キャンプ場</b>　森林の南の入口</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">8</span><span><b>自宅</b>　森林の手前（西側）</span></li>
+</ol>
+</div>
+<div id="d-eur" style="background:white;border-radius:16px;padding:20px;display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start">
+<div style="flex:1 1 340px;display:flex;flex-direction:column;gap:10px"><h3 style="margin:0;font-size:19px;color:oklch(0.4 0.1 235)">ヨーロッパ</h3><canvas ref="{{ cvEur }}" style="width:100%;display:block;border-radius:10px"></canvas></div>
+<ol style="flex:1 1 260px;margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;font-size:14px;line-height:1.65">
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">1</span><span><b>パリの広場</b>　北の道が集まる一帯。カフェテラスと花のアーチ</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">2</span><span><b>ヴェネツィアの運河</b>　中央の入り組んだ水路。石の橋とボート</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">3</span><span><b>風車の丘</b>　運河の南の上の段にオランダの風車とチューリップ</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">4</span><span><b>エイブル</b>　運河沿いのブティック</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">5</span><span><b>南の運河</b>　南の河口へ流れる水路沿いを石畳の散歩道に</span></li>
+</ol>
+</div>
+<div id="d-port" style="background:white;border-radius:16px;padding:20px;display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start">
+<div style="flex:1 1 340px;display:flex;flex-direction:column;gap:10px"><h3 style="margin:0;font-size:19px;color:oklch(0.42 0.09 215)">地中海の港</h3><canvas ref="{{ cvPort }}" style="width:100%;display:block;border-radius:10px"></canvas></div>
+<ol style="flex:1 1 260px;margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;font-size:14px;line-height:1.65">
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">1</span><span><b>白い家並み</b>　港の北の道沿いを白と青の家具でサントリーニ風に</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">2</span><span><b>南の河口</b>　河口に船着き場と魚市場</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">3</span><span><b>ビーチクラブ</b>　浜にパラソルとデッキチェア</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">4</span><span><b>桟橋（固定）</b>　港の入口</span></li>
+</ol>
+</div>
+<div id="d-lon" style="background:white;border-radius:16px;padding:20px;display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start">
+<div style="flex:1 1 340px;display:flex;flex-direction:column;gap:10px"><h3 style="margin:0;font-size:19px;color:oklch(0.42 0.1 30)">ロンドン</h3><canvas ref="{{ cvLon }}" style="width:100%;display:block;border-radius:10px"></canvas></div>
+<ol style="flex:1 1 260px;margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;font-size:14px;line-height:1.65">
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">1</span><span><b>役場前広場</b>　トラファルガー広場風。噴水とライオン像風の置物</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">2</span><span><b>大英博物館前広場</b>　列柱の前の石畳広場。ベンチと公園の時計</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">3</span><span><b>ロンドン街道</b>　飛行場から北へ。レンガ道、街灯、電話ボックス</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">4</span><span><b>9¾番線</b>　飛行場の左の浜。城壁・城門・汽車</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">5</span><span><b>テムズ川</b>　役場の南の川。アイアンブリッジ風の装飾</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">6</span><span><b>公園の森</b>　川沿いの林をハイドパーク風に</span></li>
+</ol>
+</div>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showZones&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;表示&quot;},&quot;showHouses&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;表示&quot;},&quot;showGrid&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;表示&quot;}}">
+class Component extends DCLogic {
+  cv = React.createRef();
+  dRefs = { egy: React.createRef(), jpn: React.createRef(), usa: React.createRef(), eur: React.createRef(), port: React.createRef(), lon: React.createRef() };
+  grid = null;
+  D = {
+    egy: { b: [8, 12, 40, 62], p: [[24, 22], [28, 17], [15, 39], [26, 40], [28, 51], [18, 46], [16, 66]] },
+    jpn: { b: [32, 12, 67, 61], p: [[56, 16], [42, 17], [52, 26], [40, 31], [52, 51], [38, 56], [64, 41]] },
+    usa: { b: [65, 12, 101, 47], p: [[80, 15], [78, 24], [93, 20], [93, 14], [84, 29], [88, 34], [90, 41], [80, 42]] },
+    eur: { b: [57, 39, 101, 85], p: [[73, 45], [75, 53], [73, 59], [75, 64], [66, 74]] },
+    port: { b: [64, 70, 112, 94], p: [[80, 78], [71, 82], [90, 87], [107, 88]] },
+    lon: { b: [16, 52, 65, 94], p: [[30, 66], [52, 66], [48, 77], [34, 86], [26, 76], [32, 79]] }
+  };
+  componentDidMount() {
+    fetch('island-grid-v4.json').then(r => r.json()).then(g => { this.grid = g; this.drawAll(); });
+    if (document.fonts) document.fonts.ready.then(() => this.drawAll());
+  }
+  componentDidUpdate() { this.drawAll(); }
+  renderVals() { const d = this.dRefs; return { cvRef: this.cv, cvEgy: d.egy, cvJpn: d.jpn, cvUsa: d.usa, cvEur: d.eur, cvPort: d.port, cvLon: d.lon }; }
+  drawAll() {
+    if (!this.grid) return;
+    const P = this.props;
+    const opt = { zones: P.showZones ?? true, houses: P.showHouses ?? true, grid: P.showGrid ?? true };
+    const c = this.cv.current;
+    if (c) this.drawMap(c, [0, 0, 112, 96], 16, opt, true, null);
+    for (const k in this.D) { const el = this.dRefs[k].current; if (!el) continue; const d = this.D[k], S = 24; el.width = (d.b[2] - d.b[0]) * S; el.height = (d.b[3] - d.b[1]) * S; this.drawMap(el, d.b, S, opt, false, d.p); }
+  }
+  drawMap(c, b, S, opt, labels, pts) {
+    const G = this.grid, ctx = c.getContext('2d'), [x0, y0, x1, y1] = b, k = S / 16;
+    const at = (x, y) => (G[y] || '')[x];
+    const C = { S: '#7fd6c3', s: '#f0e4a4', r: '#7c7f94', w: '#8ee0d0', '1': '#4c9f48', '3': '#72c752', t: '#3c843a', p: '#c8b487', b: '#8d8a92', P: '#cdb88c', K: '#b8694b' };
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, c.width, c.height);
+    ctx.translate(-x0 * S, -y0 * S);
+    for (let y = y0; y < y1; y++) for (let x = x0; x < x1; x++) {
+      const v = at(x, y); ctx.fillStyle = C[v] || '#4c9f48'; ctx.fillRect(x * S, y * S, S, S);
+      if (v === 't') { ctx.fillStyle = '#2f6d2f'; ctx.beginPath(); ctx.arc(x * S + ((x + y) % 2 ? 5 : 11) * k, y * S + 8 * k, 4 * k, 0, 7); ctx.fill(); }
+      if (v === 'K') { ctx.fillStyle = '#8f4a33'; ctx.fillRect(x * S, y * S + 7 * k, S, 2 * k); ctx.fillRect(x * S + (y % 2 ? 4 : 12) * k, y * S, 2 * k, 7 * k); }
+      if (v === 'b') { ctx.fillStyle = '#6f6c75'; ctx.fillRect(x * S, y * S + 2 * k, S, 2 * k); ctx.fillRect(x * S, y * S + 12 * k, S, 2 * k); }
+      if (v === 'p' || v === 'P') { ctx.fillStyle = 'rgba(90,70,30,.12)'; ctx.fillRect(x * S + 3 * k, y * S + 3 * k, 4 * k, 4 * k); ctx.fillRect(x * S + 10 * k, y * S + 9 * k, 4 * k, 4 * k); }
+    }
+    const hi = v => v === '3', land = v => '13tpPb'.includes(v);
+    ctx.fillStyle = 'rgba(30,60,25,.55)';
+    for (let y = y0; y < y1; y++) for (let x = x0; x < x1; x++) {
+      const v = at(x, y), r = at(x + 1, y), d = at(x, y + 1);
+      if (land(v) && r && land(r) && hi(v) !== hi(r) && v !== 'p' && r !== 'p') ctx.fillRect((x + 1) * S - 2 * k, y * S, 3 * k, S);
+      if (land(v) && d && land(d) && hi(v) !== hi(d) && v !== 'p' && d !== 'p') ctx.fillRect(x * S, (y + 1) * S - 2 * k, S, 3 * k);
+    }
+    if (opt.grid) {
+      ctx.strokeStyle = 'rgba(255,255,255,.75)'; ctx.lineWidth = 2 * k; ctx.setLineDash([8 * k, 8 * k]);
+      for (let i = 1; i < 7; i++) { ctx.beginPath(); ctx.moveTo(i * 16 * S, 0); ctx.lineTo(i * 16 * S, 96 * S); ctx.stroke(); }
+      for (let i = 1; i < 6; i++) { ctx.beginPath(); ctx.moveTo(0, i * 16 * S); ctx.lineTo(112 * S, i * 16 * S); ctx.stroke(); }
+      ctx.setLineDash([]);
+    }
+    const Z = [
+      { n: 'エジプト', c: '#b07a12', p: [[13, 13], [38, 13], [38, 30], [34, 34], [34, 52], [30, 56], [18, 56], [18, 84], [13, 84]], l: [15, 50] },
+      { n: '日本', c: '#c2406f', p: [[38, 13], [66, 13], [66, 40], [62, 48], [62, 60], [34, 60], [34, 34], [38, 30]], l: [40, 38] },
+      { n: '日本庭園（中島）', c: '#c2406f', p: [], l: [44, 53] },
+      { n: 'アメリカ', c: '#3f7a2a', p: [[66, 13], [100, 13], [100, 46], [76, 46], [66, 40]], l: null },
+      { n: 'アメリカの都市', c: '#3f7a2a', p: [], l: [67, 26] },
+      { n: 'ハロウィン', c: '#6b3fa0', p: [[86, 13], [100, 13], [100, 25], [86, 25]], l: [86.5, 19] },
+      { n: '森林', c: '#2d5e1e', p: [[82, 25], [100, 25], [100, 46], [82, 46]], l: [90, 32] },
+      { n: 'ヨーロッパ', c: '#2f66b3', p: [[66, 40], [76, 46], [100, 46], [100, 72], [76, 72], [76, 84], [58, 84], [58, 60], [62, 60], [62, 48]], l: [80, 56] },
+      { n: '地中海の港', c: '#1f86a8', p: [[76, 72], [100, 72], [104, 86], [100, 92], [80, 92], [76, 84]], l: [79, 80] },
+      { n: 'ロンドン', c: '#a8402a', p: [[18, 56], [30, 56], [34, 52], [34, 60], [58, 60], [58, 84], [54, 84], [54, 92], [28, 92], [24, 84], [18, 84]], l: [36, 78] }
+    ];
+    if (opt.zones) {
+      ctx.lineWidth = 4 * k; ctx.setLineDash([14 * k, 8 * k]);
+      Z.forEach(z => { if (!z.p.length) return; ctx.strokeStyle = z.c; ctx.beginPath(); z.p.forEach(([x, y], i) => i ? ctx.lineTo(x * S, y * S) : ctx.moveTo(x * S, y * S)); ctx.closePath(); ctx.stroke(); });
+      ctx.setLineDash([]);
+      if (labels) {
+        ctx.font = "700 26px 'Zen Maru Gothic', sans-serif"; ctx.textBaseline = 'middle';
+        Z.forEach(z => { if (!z.l) return; const w = ctx.measureText(z.n).width + 24, x = z.l[0] * S, y = z.l[1] * S; ctx.fillStyle = 'rgba(255,255,255,.92)'; ctx.beginPath(); ctx.roundRect(x, y - 20, w, 40, 20); ctx.fill(); ctx.fillStyle = z.c; ctx.fillText(z.n, x + 12, y + 1); });
+      }
+    }
+    const icon = (x, y, t, bg) => { const cx = x * S, cy = y * S; ctx.fillStyle = 'rgba(0,0,0,.2)'; ctx.beginPath(); ctx.arc(cx, cy + 3, 27, 0, 7); ctx.fill(); ctx.fillStyle = bg || '#4a3b30'; ctx.beginPath(); ctx.arc(cx, cy, 26, 0, 7); ctx.fill(); ctx.strokeStyle = '#fff'; ctx.lineWidth = 3; ctx.stroke(); ctx.fillStyle = '#fff'; ctx.font = "700 26px 'Zen Maru Gothic', sans-serif"; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(t, cx, cy + 1); ctx.textAlign = 'left'; };
+    if (opt.houses) [[23.5, 16.4], [24, 46], [41, 36], [49, 48], [58, 45], [74.4, 17], [88, 52], [83, 62], [80, 76], [40, 66]].forEach(([x, y]) => {
+      const cx = x * S, cy = y * S; ctx.fillStyle = '#f0a92e'; ctx.strokeStyle = '#fff'; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.moveTo(cx, cy - 18); ctx.lineTo(cx + 18, cy - 2); ctx.lineTo(cx + 13, cy - 2); ctx.lineTo(cx + 13, cy + 14); ctx.lineTo(cx - 13, cy + 14); ctx.lineTo(cx - 13, cy - 2); ctx.lineTo(cx - 18, cy - 2); ctx.closePath(); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#9a5a10'; ctx.fillRect(cx - 4, cy + 3, 8, 7);
+    });
+    icon(31, 66, '役'); icon(47, 88, '空'); icon(107, 88, '港');
+    icon(50, 62, '博'); icon(20, 33, '商'); icon(90, 41, 'キ'); icon(75, 64, '服'); icon(56, 16, '社');
+    icon(80, 42, '家', '#e2769c'); icon(34, 87, '駅', '#b8694b');
+    if (pts) pts.forEach(([x, y], i) => {
+      const cx = x * S + 30, cy = y * S - 30;
+      ctx.fillStyle = '#d9483b'; ctx.strokeStyle = '#fff'; ctx.lineWidth = 4;
+      ctx.beginPath(); ctx.arc(cx, cy, 22, 0, 7); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#fff'; ctx.font = "700 24px 'IBM Plex Mono', monospace"; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(String(i + 1), cx, cy + 1); ctx.textAlign = 'left';
+    });
+  }
+}
+</script>
+</body>
+</html>
