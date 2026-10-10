@@ -132,7 +132,21 @@ def build():
             for th in TH:
                 if rest[th] and len(mods) < N:
                     mods.append(rest[th].pop(0))
-    mods = mods[:N]
+    # 形が同じものは1つだけ（別の型どうしでも）。足りない分は残りから足す
+    uniq, seen2 = [], set()
+    for m in mods:
+        k = '|'.join(m['r'])
+        if k not in seen2:
+            seen2.add(k); uniq.append(m)
+    if len(uniq) < N:
+        rest = {th: [m for lst in per[th] for m in lst if '|'.join(m['r']) not in seen2] for th in TH}
+        while len(uniq) < N and any(rest.values()):
+            for th in TH:
+                while rest[th] and '|'.join(rest[th][0]['r']) in seen2:
+                    rest[th].pop(0)
+                if rest[th] and len(uniq) < N:
+                    m = rest[th].pop(0); seen2.add('|'.join(m['r'])); uniq.append(m)
+    mods = uniq[:N]
     for i, m in enumerate(mods, 1):
         m['id'] = 'pop%04d' % i
     return mods

@@ -1,0 +1,148 @@
+// ロジックの確認（node tools/test_logic.js ／ node が無い PC は python tools/edge_run.py tools/test_logic.js）
+// 画面の HTML から Component のコードを取り出し、canvas・localStorage・fetch の代用品で動かす。
+//  データ：計画の地形・採用したモジュール・見本   組み立て台   完成イメージ   ゲーム画面
+// 描画は「最後まで例外なく走るか」と「数に NaN や Infinity が入らないか」を見る。
+const fs = require('fs'), path = require('path');
+const { loadComponent, ROOT } = require('./dc_harness.js');
+const J = f => JSON.parse(fs.readFileSync(path.join(ROOT, f), 'utf8'));
+
+let n = 0, bad = 0;
+const fails = [];
+function ok(name, cond, detail) { n++; if (!cond) { bad++; fails.push(name + (detail !== undefined ? '：' + detail : '')); } }
+const eq = (name, a, b) => ok(name, JSON.stringify(a) === JSON.stringify(b), JSON.stringify(a) + ' ≠ ' + JSON.stringify(b));
+const DISTS = { egy: [8, 12, 40, 62], jpn: [32, 12, 67, 61], usa: [65, 12, 101, 47], eur: [57, 39, 101, 85], port: [64, 70, 112, 94], lon: [16, 52, 65, 94] };
+
+(async () => {
+  // ================= データ =================
+  const T = J('plan-terrain.json'), G = T.grid, HL = T.h;
+  ok('地形：grid は96行', G.length === 96); ok('地形：grid は各112文字', G.every(r => r.length === 112));
+  ok('地形：h は96行×112文字', HL.length === 96 && HL.every(r => r.length === 112));
+  ok('地形：h は0〜3', HL.every(r => /^[0-3]+$/.test(r)));
+  const cells = (f) => { const out = []; for (let y = 0; y < 96; y++) for (let x = 0; x < 112; x++) if (f(G[y][x], +HL[y][x], x, y)) out.push([x, y]); return out; };
+  ok('地形：海と岩は高さ0', cells((c, h) => 'Sr'.includes(c) && h !== 0).length === 0);
+  ok('地形：砂浜・案内所前の広場・レンガ・橋は高さ1', cells((c, h) => 'sPKb'.includes(c) && h !== 1).length === 0);
+  const P = cells(c => c === 'P'); ok('地形：案内所前の広場（P）は12×10', P.length === 120, P.length);
+  ok('地形：崖が砂浜・海・岩のとなりにない', cells((c, h, x, y) => h >= 2 && [[1, 0], [-1, 0], [0, 1], [0, -1]].some(([dx, dy]) => 'Ssr'.includes((G[y + dy] || '')[x + dx] || 'S'))).length === 0);
+  ok('地形：3段目は2段目の1マス内側', cells((c, h, x, y) => h === 3 && [-1, 0, 1].some(dx => [-1, 0, 1].some(dy => +((HL[y + dy] || '')[x + dx] || 0) < 2))).length === 0);
+  ok('地形：草地の見た目は段と合う（1=下・3=上）', cells((c, h) => (c === '1' && h >= 2) || (c === '3' && h < 2)).length === 0);
+  ok('地形：水面は1段目以上', cells((c, h) => c === 'w' && h < 1).length === 0);
+  ok('地形：坂は8個まで', T.inclines.length <= 8, T.inclines.length);
+  const slopeCells = ([x, y, d]) => { const out = []; for (let i = 0; i < 4; i++) for (let k = 0; k < 2; k++) out.push(d === 'E' || d === 'W' ? [x + i, y + k, d === 'E' ? i : 3 - i] : [x + k, y + i, d === 'S' ? i : 3 - i]); return out; };
+  ok('地形：坂は上の1マス＋下の3マス（段が1違う）', T.inclines.every(inc => { const sc = slopeCells(inc), hi = +HL[sc.find(c => c[2] === 0)[1]][sc.find(c => c[2] === 0)[0]]; return sc.every(([x, y, i]) => +HL[y][x] === (i === 0 ? hi : hi - 1)); }));
+  ok('地形：坂は水・海・広場の上にない', T.inclines.every(inc => slopeCells(inc).every(([x, y]) => !'wSsrPKb'.includes(G[y][x]))));
+  ok('地形：坂どうしは1マスあける', T.inclines.every((a, i) => T.inclines.every((b, j) => i >= j || !slopeCells(a).some(([x, y]) => slopeCells(b).some(([x2, y2]) => Math.abs(x - x2) <= 1 && Math.abs(y - y2) <= 1)))));
+  const comps = (f) => { const seen = new Set(); let k = 0; for (let y = 0; y < 96; y++) for (let x = 0; x < 112; x++) if (f(G[y][x]) && !seen.has(x + ',' + y)) { k++; const st = [[x, y]]; seen.add(x + ',' + y); while (st.length) { const [cx, cy] = st.pop(); for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) { const nx = cx + dx, ny = cy + dy, kk = nx + ',' + ny; if (nx >= 0 && nx < 112 && ny >= 0 && ny < 96 && !seen.has(kk) && f(G[ny][nx])) { seen.add(kk); st.push([nx, ny]); } } } } return k; };
+  ok('地形：橋は8個まで', comps(c => c === 'b') <= 8, comps(c => c === 'b'));
+  ok('地形：ロンドンの尾根は3段目の林（x41〜52・y56〜60）', cells((c, h, x, y) => x >= 41 && x <= 52 && y >= 56 && y <= 60 && (c !== 't' || h !== 3)).length === 0);
+  ok('地形：統計に水・坂・橋がある', T.stats && T.stats.water > 0 && T.stats.inclines === T.inclines.length);
+  const D = J('plan-design.json'); ok('設計：ops は書いた順（43個）', D.ops.length === 43, D.ops.length);
+  ok('設計：すべての op に理由（why）', D.ops.every(o => o.why && o.why.length > 5));
+  const base = J('island-grid-v4.json'); ok('今の島（island-grid-v4.json）は96行×112文字', base.length === 96 && base.every(r => r.length === 112));
+
+  const C = J('modules-curated.json');
+  ok('採用：293個', C.count === 293 && C.modules.length === 293, C.modules.length);
+  const by = (k) => C.modules.reduce((a, m) => (a[m[k]] = (a[m[k]] || 0) + 1, a), {});
+  eq('採用：役別（主役17・脇役56・すき間うめ158・道ばた34・段差28）', by('role'), { landmark: 17, support: 56, filler: 158, edge: 34, step: 28 });
+  eq('採用：テーマ別', by('th'), { 'ロンドン': 48, 'エジプト': 45, '日本': 46, 'アメリカ': 43, 'ハロウィン': 33, 'ヨーロッパ': 45, '地中海': 33 });
+  ok('採用：id が重ならない', new Set(C.modules.map(m => m.id)).size === 293);
+  ok('採用：形（rows）は長方形', C.modules.every(m => m.r.every(r => r.length === m.r[0].length)));
+  ok('採用：理由（why）と点（score）が70点以上', C.modules.every(m => m.why && m.score >= 70));
+  ok('採用：段差のモジュール28個に段 lv', C.modules.filter(m => m.role === 'step').every(m => m.lv && m.lv.length === m.r.length));
+  const Pop = J('modules-popular.json'); ok('人気の作例：1000個', Pop.count === 1000 && Pop.modules.length === 1000);
+  ok('人気の作例：id は pop0001〜pop1000', Pop.modules[0].id === 'pop0001' && Pop.modules[999].id === 'pop1000');
+  ok('人気の作例：形が重ならない', new Set(Pop.modules.map(m => m.r.join('|'))).size === 1000);
+  const S = J('samples.json');
+  ok('見本：全地区に配置がある', Object.keys(DISTS).every(d => (S.dists[d] || []).length > 50));
+  ok('見本：全地区とも空き地0（6×6以上の空きなし）', Object.keys(DISTS).every(d => S.stats[d].biggest_empty < 6 && S.stats[d].empty === 0), JSON.stringify(Object.keys(DISTS).map(d => S.stats[d].biggest_empty)));
+  ok('見本：配置のモジュールはすべて形がある', Object.values(S.dists).every(l => l.every(p => S.defs[p[0]])));
+  ok('見本：配置は地区の範囲の中', Object.entries(S.dists).every(([d, l]) => l.every(p => p[1] >= DISTS[d][0] - 1 && p[1] < DISTS[d][2] && p[2] >= DISTS[d][1] - 1 && p[2] < DISTS[d][3])));
+  ok('見本：建物（H）のモジュールは回さない', Object.values(S.dists).every(l => l.every(p => p[3] === 0 || !S.defs[p[0]].join('').includes('H'))));
+  ok('見本：道路は地形 p のマスで、値は r:地区', Object.values(S.paint).every(pt => Object.entries(pt).every(([k, v]) => { const [x, y] = k.split(',').map(Number); return G[y][x] === 'p' && /^r:(lon|egy|jpn|usa|hal|eur|port)$/.test(v); })));
+  ok('見本：ハロウィンの道路は r:hal', Object.values(S.paint.usa || {}).some(v => v === 'r:hal'));
+
+  // ================= 組み立て台 =================
+  const MB = loadComponent('Module Builder.dc.html'); const mb = await MB.start();
+  ok('組み立て台：地形を読む', !!mb.grid && !!mb.lvl);
+  ok('採用：記号はすべて凡例にある', C.modules.every(m => m.r.every(r => [...r].every(c => c === '.' || c in mb.LEG))));
+  ok('人気の作例：記号はすべて凡例にある', Pop.modules.every(m => m.r.every(r => [...r].every(c => c === '.' || c in mb.LEG))));
+  ok('組み立て台：採用分を足す（基本＋293）', mb.MODS.length > 293 + 900, mb.MODS.length);
+  ok('組み立て台：見本を読む', !!mb.SAMPLES);
+  eq('組み立て台：地区の判定 ロンドン', mb.zoneAt(30, 70), 'lon'); eq('組み立て台：地区の判定 エジプト', mb.zoneAt(20, 30), 'egy'); eq('組み立て台：地区の判定 日本', mb.zoneAt(50, 30), 'jpn');
+  eq('組み立て台：地区の判定 ハロウィン', mb.zoneAt(90, 15), 'hal'); eq('組み立て台：地区の判定 アメリカ', mb.zoneAt(75, 20), 'usa'); eq('組み立て台：地区の判定 ヨーロッパ', mb.zoneAt(80, 55), 'eur'); eq('組み立て台：地区の判定 地中海', mb.zoneAt(90, 85), 'port');
+  mb.state.tool = 'road'; eq('組み立て台：道路は地区の舗装 r:lon', mb.paintVal(30, 70), 'r:lon');
+  mb.state.tool = 'B'; eq('組み立て台：レンガ道はそのまま B', mb.paintVal(30, 70), 'B');
+  eq('組み立て台：stamp 幅3は9マス', mb.stamp(10, 10, 3).length, 9); eq('組み立て台：stamp 幅2は4マス', mb.stamp(10, 10, 2).length, 4);
+  const lc = mb.lineCells([10, 10], [20, 10], 1); ok('組み立て台：直線は横にまっすぐ', lc.length === 11 && lc.every(c => c[1] === 10));
+  const lc2 = mb.lineCells([10, 10], [20, 20], 1); ok('組み立て台：斜め45度', lc2.length === 11 && lc2.every(c => c[0] - 10 === c[1] - 10));
+  eq('組み立て台：回転 R で4回もとに戻る', mb.rows({ r: ['ab', 'cd', 'ef'] }, 4).map(r => r.join('')), ['ab', 'cd', 'ef']);
+  eq('組み立て台：90度回転', mb.rows({ r: ['ab', 'cd'] }, 1).map(r => r.join('')), ['ca', 'db']);
+  // 置く・消す・元に戻す
+  mb.state.placed = []; mb.state.paint = {}; mb.hist = []; mb.fut = [];
+  mb.state.tool = 'place'; mb.state.mod = 'lon_corner';
+  mb.remember(); mb.setState(s => ({ placed: [{ id: 1, m: 'lon_corner', x: 30, y: 74, rot: 0 }] }));
+  ok('組み立て台：置くと配置が増える', mb.state.placed.length === 1); mb.undo(); ok('組み立て台：元に戻す', mb.state.placed.length === 0); mb.redo(); ok('組み立て台：やり直す', mb.state.placed.length === 1);
+  mb.state.tool = 'road'; mb.remember(); mb.applyCells([[40, 70], [41, 70]]); ok('組み立て台：道路を塗る', Object.values(mb.state.paint).includes('r:lon'));
+  mb.state.tool = 'erase'; mb.remember(); mb.applyCells([[40, 70]]); ok('組み立て台：消しゴムで道を消す', !mb.state.paint['40,70'] && !!mb.state.paint['41,70']);
+  // 置けるかの確認
+  mb.state.placed = [{ id: 1, m: 'house', x: 20, y: 56, rot: 0 }]; mb._issFor = null;
+  mb.state.placed = [{ id: 2, m: 'lon_corner', x: 30, y: 62, rot: 0 }]; mb._issFor = null; ok('置けるか：案内所前の広場（P）の上は赤', Object.keys(mb.issuesOf()).length === 1);
+  const wy = G.findIndex(r => r.includes('w')), wx = G[wy].indexOf('w');
+  mb.state.placed = [{ id: 3, m: 'lon_corner', x: wx, y: wy, rot: 0 }]; mb._issFor = null; ok('置けるか：水の上は赤', Object.keys(mb.issuesOf()).length === 1);
+  mb.state.placed = [{ id: 4, m: 'lon_corner', x: 30, y: 78, rot: 0 }, { id: 5, m: 'lon_corner', x: 31, y: 78, rot: 0 }]; mb._issFor = null; ok('置けるか：家具どうしの重なりは赤', Object.keys(mb.issuesOf()).length >= 1);
+  const st = [...Array(96).keys()].map(y => [...Array(112).keys()].map(x => [x, y])).flat().find(([x, y]) => G[y][x] === '3' && G[y][x + 1] === '3' && HL[y][x] === '2' && G[y + 1][x] === '1');
+  // 見本を置いて確認：全地区で赤い枠がない
+  for (const d of Object.keys(DISTS)) { mb.state.placed = []; mb.state.paint = {}; mb._issFor = null; mb.placeSample(d); mb._issFor = null; const iss = Object.keys(mb.issuesOf()); ok(`見本を置く（${d}）：置けない所が0`, iss.length === 0, iss.length + '件'); }
+  mb.state.placed = []; mb.state.paint = {}; mb._issFor = null; mb.placeSample('all'); mb._issFor = null; ok('見本を置く（島全体）：置けない所が0', Object.keys(mb.issuesOf()).length === 0);
+  ok('見本を置く：道路の塗りも一緒に置く', Object.keys(mb.state.paint).length > 500, Object.keys(mb.state.paint).length);
+  const sh = mb.shopping('all'); ok('買い物リスト：道・地面と家具を数える', sh.ground.length > 3 && sh.items.length > 5);
+  ok('買い物リスト：道路は地区ごとの舗装名', sh.ground.some(g => /道路・/.test(g.name)));
+  const snap = mb.snapshot(); ok('保存：placed・paint・dist・defs', snap.placed.length > 100 && snap.defs && snap.dist);
+  ok('書き出した配置を読み込める', mb.importText(JSON.stringify(snap)) === true);
+  ok('読み込み：JSON でないものは止める', mb.importText('{x') === false && MB.alerts.length >= 1);
+  ok('読み込み：配置ファイルでないものは止める', mb.importText('{"a":1}') === false);
+  mb.state.dist = 'lon'; mb.setState({ dist: 'lon' }); const before = mb.state.placed.length; mb.hist = []; mb.remember(); mb.setState(s => ({ placed: s.placed.filter(p => p.x < 16) })); ok('地区を全消去（配置が減る）', mb.state.placed.length < before);
+  mb.draw(); ok('組み立て台：描画が最後まで走る', MB.stats.calls > 100 && MB.stats.bad.length === 0, MB.stats.bad.slice(0, 2).join(' '));
+  const rv = mb.renderVals(); ok('組み立て台：画面の値（地区・道具・一覧）', rv.dists.length === 7 && rv.tools.length >= 8 && rv.mods.length > 0 && rv.total > 900);
+  ok('組み立て台：配置を localStorage に自動保存', !!MB.store['wti-module-board']);
+  MB.listeners.keydown && MB.listeners.keydown.forEach(f => f({ key: 'r', target: { tagName: 'BODY' } })); ok('組み立て台：R キーで回転', mb.state.rot === 1);
+  MB.listeners.keydown && MB.listeners.keydown.forEach(f => f({ key: 'Escape', target: { tagName: 'BODY' } })); eq('組み立て台：Esc で選ぶ道具', mb.state.tool, 'select');
+  ok('組み立て台：ゲーム画面へのリンクがある', fs.readFileSync(path.join(ROOT, 'Module Builder.dc.html'), 'utf8').includes('Game View.dc.html'));
+
+  // ================= 完成イメージ =================
+  const store = { 'wti-module-board': JSON.stringify(snap) };
+  const LR = loadComponent('London Render.dc.html', { store, w: 1200, h: 800 }); const lr = await LR.start();
+  ok('完成イメージ：地形と見本を読む', !!lr.T && !!lr.SM);
+  for (const v of Object.keys(lr.VIEWS)) { lr.dk = null; LR.stats.calls = 0; lr.setState({ view: v }); ok(`完成イメージ：範囲「${lr.VIEWS[v][0]}」を描く`, LR.stats.calls > 200 && LR.stats.bad.length === 0, LR.stats.bad.slice(0, 2).join(' ')); }
+  for (const t of ['dusk', 'night']) { lr.dk = null; LR.stats.calls = 0; lr.setState({ view: 'lon', time: t }); ok(`完成イメージ：${t} を描く`, LR.stats.calls > 200); }
+  for (const nm of ['dist', 'none']) { lr.dk = null; lr.setState({ names: nm }); ok(`完成イメージ：名前「${nm}」`, LR.stats.bad.length === 0); }
+  ok('完成イメージ：組み立て台の配置で描く', lr.state.source === '組み立て台の配置で描画中', lr.state.source);
+  const LR2 = loadComponent('London Render.dc.html', { w: 1200, h: 800 }); const lr2 = await LR2.start(); ok('完成イメージ：配置がなければ見本で描く', lr2.state.source === '見本の配置で描画中', lr2.state.source);
+  ok('完成イメージ：PNG で保存できる', (() => { const r = lr.renderVals(); r.savePng(); return true; })());
+  ok('完成イメージ：8以上の見る範囲', Object.keys(lr.VIEWS).length >= 8);
+  ok('完成イメージ：地区の境目は組み立て台と同じ', ['lon', 'egy', 'jpn', 'usa', 'hal', 'eur', 'port'].every((z, i) => true) && lr.zoneAt(90, 15) === 'hal' && lr.zoneAt(30, 70) === 'lon');
+
+  // ================= ゲーム画面 =================
+  const GV = loadComponent('Game View.dc.html', { store: {}, canvas_cv: undefined, w: 1280, h: 720 }); const gv = await GV.start();
+  ok('ゲーム画面：地形と見本を読む', !!gv.T && !!gv.SM);
+  ok('ゲーム画面：配置は見本', gv.state.source === '見本の配置で描画中', gv.state.source);
+  for (const [d, v] of Object.entries(gv.SPOTS)) for (const [nm, x, y] of v[1]) { gv.dk = null; GV.stats.calls = 0; GV.stats.bad = []; gv.setState({ dist: d, tx: x, ty: y }); ok(`ゲーム画面：${v[0]}・${nm}（${x},${y}）を描く`, GV.stats.calls > 200 && GV.stats.bad.length === 0, GV.stats.bad.slice(0, 2).join(' ')); }
+  for (const cam of ['near', 'far', 'normal']) { gv.dk = null; GV.stats.calls = 0; gv.setState({ cam }); ok(`ゲーム画面：カメラ「${gv.CAMS[cam][0]}」`, GV.stats.calls > 200 && GV.stats.bad.length === 0); }
+  for (const t of ['dusk', 'night', 'day']) { gv.dk = null; GV.stats.calls = 0; gv.setState({ time: t }); ok(`ゲーム画面：時間 ${t}`, GV.stats.calls > 200 && GV.stats.bad.length === 0); }
+  gv.dk = null; gv.setState({ names: 'none' }); ok('ゲーム画面：名前「なし（写真）」で描く', GV.stats.bad.length === 0);
+  gv.setState({ names: 'all', tx: 0, ty: 0 }); gv.move(-5, -5); ok('ゲーム画面：地図の外へは出ない（左上）', gv.state.tx === 0 && gv.state.ty === 0);
+  gv.setState({ tx: 111, ty: 95 }); gv.move(5, 5); ok('ゲーム画面：地図の外へは出ない（右下）', gv.state.tx === 111 && gv.state.ty === 95);
+  gv.setState({ tx: 50, ty: 50 }); GV.listeners.keydown.forEach(f => f({ key: 'ArrowRight', shiftKey: false, preventDefault() {}, target: { tagName: 'BODY' } })); eq('ゲーム画面：矢印キーで1マス', gv.state.tx, 51);
+  GV.listeners.keydown.forEach(f => f({ key: 'ArrowRight', shiftKey: true, preventDefault() {}, target: { tagName: 'BODY' } })); eq('ゲーム画面：Shift で4マス', gv.state.tx, 55);
+  GV.listeners.keydown.forEach(f => f({ key: 'w', shiftKey: false, preventDefault() {}, target: { tagName: 'BODY' } })); eq('ゲーム画面：W で北へ1マス', gv.state.ty, 49);
+  gv.mp.current.getBoundingClientRect = () => ({ left: 0, top: 0, width: 336, height: 288 }); gv.renderVals().onMap({ clientX: 30, clientY: 30 }); ok('ゲーム画面：小地図のクリックでそこへ立つ', gv.state.tx === 10 && gv.state.ty === 10, gv.state.tx + ',' + gv.state.ty);
+  const rv2 = gv.renderVals(); ok('ゲーム画面：立っている所の表示（区画・座標・地区・段・地形）', /^いま立っている所：[A-F][1-7]（x\d+, y\d+）・.+・\d段目・/.test(rv2.where), rv2.where);
+  ok('ゲーム画面：PNG で保存できる', (() => { rv2.savePng(); return true; })());
+  const GV2 = loadComponent('Game View.dc.html', { store: { 'wti-module-board': JSON.stringify(snap) }, w: 1280, h: 720 }); const gv2 = await GV2.start(); ok('ゲーム画面：組み立て台の配置で描く', gv2.state.source === '組み立て台の配置で描画中', gv2.state.source);
+  ok('ゲーム画面：地点はすべて陸（水・海・岩の上に立たない）', Object.values(gv.SPOTS).every(v => v[1].every(([nm, x, y]) => '13tpsPKb'.includes(G[y][x]))), '')
+  ok('ゲーム画面：カメラは3種（50°/38°/20°）', gv.CAMS.normal[1] === 50 && gv.CAMS.near[1] === 38 && gv.CAMS.far[1] === 20);
+  ok('ゲーム画面：高さは1段＝1.1マス', /\* 1\.1/.test(fs.readFileSync(path.join(ROOT, 'Game View.dc.html'), 'utf8')));
+
+  console.log(fails.length ? fails.map(f => 'NG ' + f).join('\n') : '');
+  console.log(`${n}項目 中 ${n - bad} 項目OK` + (bad ? `・NG ${bad}` : '　→ すべてOK'));
+  process.exitCode = bad ? 1 : 0;
+})().catch(e => { console.error(e); process.exitCode = 1; });
