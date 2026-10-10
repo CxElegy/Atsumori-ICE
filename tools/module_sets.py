@@ -94,8 +94,8 @@ def vignette():
 # ---- SITE：主役の敷地 -----------------------------------------------------
 def site():
     return [
-        {'id': 'egy_court', 'th': 'エジプト', 'name': 'エジプト考古学博物館の前庭（スフィンクスと蓮の池）', 'r': ['P.O.s.O.P', '.SSSSSSS.', 'S.wwwww.S', '.SSSSSSS.', 'P.O...O.P'],
-         'note': '博物館（7×4）の前に置く左右対称の前庭。石柱・スフィンクス像・蓮の池・ヤシ', 'mat': 'S', 'role': 'landmark'},
+        {'id': 'egy_court', 'th': 'エジプト', 'name': 'エジプト考古学博物館の前庭（スフィンクスと蓮鉢）', 'r': ['P.O.s.O.P', '.SSSSSSS.', 'S.qqqqq.S', '.SSSSSSS.', 'P.O...O.P'],
+         'note': '博物館（7×4）の前に置く左右対称の前庭。石柱・スフィンクス像・蓮を浮かべた鉢・ヤシ', 'mat': 'S', 'role': 'landmark'},
         {'id': 'jpn_court', 'th': '日本', 'name': '神社の前庭（石灯籠と手水）', 'r': ['n...n...n', '.ggggggg.', 'g.nngng.g'.replace('g.nngng.g', 'g.n.U.n.g'), '.ggggggg.', 'e.......e'],
          'note': '神社の前に置く左右対称の前庭。灯籠と手水（噴水）', 'mat': 'g', 'role': 'landmark'},
         {'id': 'usa_court', 'th': 'アメリカ', 'name': '町の広場（旗と花壇）', 'r': ['L.F...F.L', '.ppppppp.', 'p.b.K.b.p', '.ppppppp.', 'F...t...F'],
