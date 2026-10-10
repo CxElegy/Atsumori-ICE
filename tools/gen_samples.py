@@ -301,11 +301,13 @@ def pool_for(zone, mods, cur):
         if d['th'] == th and d['role'] == 'edge':
             out.append(mods[d['id']])
     from module_sets import THEME_ITEMS
+    from gen_popular_modules import GROUNDS
     zk = zone
     allowed = set(THEME_ITEMS[zk])
+    grounds = set(GROUNDS[zk])
     seen = {m.id for m in out}
     for mid, m in mods.items():
-        if m.role == 'base' and m.th in ('広場', '休憩', '花壇') and mid not in seen and m.items <= allowed | set('F') and not m.needs_water and not m.fixed:
+        if m.role == 'base' and m.th in ('広場', '休憩', '花壇') and mid not in seen and m.items <= allowed | set('F') and not m.needs_water and not m.fixed and set(c for c in ''.join(m.rows) if c in 'BpSgd') <= grounds:
             out.append(m); seen.add(mid)
     return out
 

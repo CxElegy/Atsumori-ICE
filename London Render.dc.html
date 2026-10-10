@@ -12,14 +12,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
 <style>body{margin:0;background:oklch(0.975 0.01 85);color:oklch(0.27 0.02 60);font-family:'Zen Maru Gothic',sans-serif;-webkit-font-smoothing:antialiased}a{color:oklch(0.45 0.1 235)}a:hover{color:oklch(0.35 0.12 235)}*{box-sizing:border-box}</style>
 </helmet>
-<div style="max-width:1320px;margin:0 auto;padding:36px 24px 80px;display:flex;flex-direction:column;gap:20px">
+<div style="max-width:1320px;margin:0 auto;padding:36px 24px 80px;display:flex;flex-direction:column;gap:18px">
 <header style="display:flex;flex-direction:column;gap:8px">
-<div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:oklch(0.5 0.02 60)">アイス島 改造プラン ／ ロンドン地区</div>
-<h1 style="margin:0;font-size:clamp(26px,3.6vw,38px);font-weight:700;line-height:1.2">ロンドン地区の完成イメージ（俯瞰）</h1>
-<p style="margin:0;max-width:820px;font-size:14px;line-height:1.8;text-wrap:pretty">マス目のデータから斜め上の視点で描いたイメージ図です。組み立て台でロンドンに置いた道とモジュールがあればそれを、なければ見本の配置を描きます。家具は形を簡略化しています。</p>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:oklch(0.5 0.02 60)">アイス島 改造プラン ／ 完成イメージ</div>
+<h1 style="margin:0;font-size:clamp(26px,3.6vw,38px);font-weight:700;line-height:1.2">完成イメージ（俯瞰）</h1>
+<p style="margin:0;max-width:860px;font-size:14px;line-height:1.8;text-wrap:pretty">計画の地形（段・川・滝・坂・橋）と、配置（組み立て台に置いたもの。なければ見本）を、斜め45度の上から描いたイメージ図です。島のどこでも描けます。建物と家具は簡略化した形です。実際のゲーム画面に近い見え方は <a href="Game View.dc.html">ゲーム画面 →</a></p>
 </header>
 <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center"><span style="font-size:12px;color:oklch(0.5 0.02 60)">見る範囲</span>
-<sc-for list="{{ views }}" as="v" hint-placeholder-count="3"><button onClick="{{ v.pick }}" style="font:inherit;font-size:13px;border:0;border-radius:999px;padding:7px 14px;cursor:pointer;white-space:nowrap;line-height:1.2;background:{{ v.bg }};color:{{ v.fg }}">{{ v.name }}</button></sc-for></div>
+<sc-for list="{{ views }}" as="v" hint-placeholder-count="9"><button onClick="{{ v.pick }}" style="font:inherit;font-size:13px;border:0;border-radius:999px;padding:7px 14px;cursor:pointer;white-space:nowrap;line-height:1.2;background:{{ v.bg }};color:{{ v.fg }}">{{ v.name }}</button></sc-for></div>
+<div style="display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center">
+<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><span style="font-size:12px;color:oklch(0.5 0.02 60)">時間</span>
+<sc-for list="{{ times }}" as="v" hint-placeholder-count="3"><button onClick="{{ v.pick }}" style="font:inherit;font-size:13px;border:1px solid oklch(0.85 0.02 85);border-radius:8px;padding:5px 10px;cursor:pointer;background:{{ v.bg }};color:{{ v.fg }}">{{ v.name }}</button></sc-for></div>
+<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><span style="font-size:12px;color:oklch(0.5 0.02 60)">名前</span>
+<sc-for list="{{ namesOpt }}" as="v" hint-placeholder-count="3"><button onClick="{{ v.pick }}" style="font:inherit;font-size:13px;border:1px solid oklch(0.85 0.02 85);border-radius:8px;padding:5px 10px;cursor:pointer;background:{{ v.bg }};color:{{ v.fg }}">{{ v.name }}</button></sc-for></div>
+<button onClick="{{ savePng }}" style="font:inherit;font-size:13px;border:0;border-radius:8px;padding:6px 12px;cursor:pointer;background:#a8402a;color:white">PNGで保存</button>
+</div>
 <canvas ref="{{ cvRef }}" style="width:100%;display:block;border-radius:14px;background:#7fd6c3"></canvas>
 <div style="display:flex;flex-wrap:wrap;gap:8px 18px;font-size:13px;color:oklch(0.42 0.02 60)">
 <span>{{ source }}</span>
@@ -30,96 +37,264 @@
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
   cv = React.createRef();
-  state = { source: '', view: 'wide' };
-  VIEWS = { lon: ['ロンドンだけ', [16, 52, 65, 94]], wide: ['ロンドン＋周辺', [4, 34, 84, 96]], all: ['島全体', [0, 4, 112, 96]] };
-  viewB() { return this.VIEWS[this.state.view][1]; }
-  MODS = {
-    lon_st: ['LBBBL', '.BBB.', '.BBB.', '.BBB.', 'LBBBL', '.BBB.', '.BBB.', '.BBB.'],
-    lon_wide: ['LBBBBBL', 'fBBBBBf', 'fBBBBBf', 'LBBBBBL', 'fBBBBBf', 'fBBBBBf'],
-    lon_cross: ['.LBBBL.', 'LBBBBBL', 'BBBBBBB', 'BBBNBBB', 'BBBBBBB', 'LBBBBBL', '.LBBBL.'],
-    lon_corner: ['TbbL', 'BBBB', 'BBBB'], lon_bus: ['NbbL', 'BBBB'],
-    lon_front: ['LbbB.BbbL', 'BBBBBBBBB', 'FBBBKBBBF', 'BBBBBBBBB'],
-    lon_934: ['QWWAWAWAWQ', 'BBBYBBBBLB', 'bBBCCCBBxB', 'bBBBBBBBBB', 'LBBBBBBBTB'],
-    lon_park: ['F.B.F', '.bBb.', 'BBKBB', '.bBb.', 'F.B.F'], lon_tea: ['FhchF', '..u..', 'BBBBB'], lon_guard: ['QBQ', '.B.', 'LBL'], lon_lounge: ['FEEEFppppFEEEF', 'hhhhpppppphhhh', 'hhhhpppppphhhh', 'VVppppppppppVV', 'LppppppppppppL'],
-    museum: ['MMMMMMM', 'MMMMMMM', 'MMMMMMM', 'MMMMMMM', '...D...'], house: ['HHHH', 'HHHH', 'HHHH', 'HHHH', '.D..'], home: ['HHHHH', 'HHHHH', 'HHHHH', 'HHHHH', '..D..'],
-    able: ['HHHHH', 'HHHHH', 'HHHHH', 'HHHHH', '..D..'], nook: ['HHHHHHH', 'HHHHHHH', 'HHHHHHH', 'HHHHHHH', '...D...'], camp: ['HHHH', 'HHHH', 'HHHH', 'HHHH', '.D..']
+  state = { source: '', view: 'lon', time: 'day', names: 'all', ready: 0 };
+  VIEWS = {
+    lon: ['ロンドン', [16, 52, 65, 94]], egy: ['エジプト', [8, 12, 40, 62]], jpn: ['日本', [32, 12, 67, 61]], usa: ['アメリカ', [65, 12, 101, 47]],
+    eur: ['ヨーロッパ', [57, 39, 101, 85]], port: ['地中海の港', [64, 70, 112, 94]], museum: ['エジプト考古学博物館のまわり', [14, 16, 48, 40]],
+    wide: ['ロンドン＋周辺', [4, 34, 84, 96]], all: ['島全体', [0, 4, 112, 96]]
   };
-  SAMPLE = [['lon_934', 29, 84, 0], ['lon_wide', 45, 72, 0], ['lon_cross', 45, 65, 0], ['museum', 47, 59, 0], ['lon_front', 52, 64, 0], ['lon_corner', 41, 72, 0], ['lon_park', 30, 76, 0], ['lon_bus', 53, 72, 0], ['lon_tea', 38, 66, 0], ['lon_guard', 38, 79, 0], ['lon_lounge', 42, 79, 0]];
-  componentDidMount() { fetch('island-grid-v4.json').then(r => r.json()).then(g => { this.grid = g; this.draw(); }); if (document.fonts) document.fonts.ready.then(() => this.draw()); }
-  componentDidUpdate(pp, ps) { if (ps.view !== this.state.view) this.draw(); }
-  renderVals() { return { cvRef: this.cv, source: this.state.source, views: Object.entries(this.VIEWS).map(([k, v]) => ({ name: v[0], pick: () => this.setState({ view: k }), bg: this.state.view === k ? '#4a3b30' : 'white', fg: this.state.view === k ? 'white' : '#4a3b30' })) }; }
+  TIMES = [['day', '昼'], ['dusk', '夕方'], ['night', '夜']];
+  NAMES = [['all', '地点と地区'], ['dist', '地区だけ'], ['none', 'なし']];
+  // 地区の境目（組み立て台・tools/gen_samples.py と同じ。上から順に判定）
+  ZONES = [['hal', [[86, 0], [112, 0], [112, 25], [86, 25]]], ['usa', [[82, 25], [112, 25], [112, 46], [82, 46]]], ['usa', [[66, 0], [86, 0], [86, 25], [82, 25], [82, 46], [76, 46], [66, 40]]],
+    ['egy', [[0, 0], [38, 0], [38, 30], [34, 34], [34, 52], [30, 56], [18, 56], [18, 84], [0, 84]]], ['jpn', [[38, 0], [66, 0], [66, 40], [62, 48], [62, 60], [34, 60], [34, 34], [38, 30]]],
+    ['port', [[76, 72], [112, 72], [112, 96], [58, 96], [58, 84], [76, 84]]], ['eur', [[66, 40], [76, 46], [112, 46], [112, 72], [76, 72], [76, 84], [58, 84], [58, 60], [62, 60], [62, 48]]],
+    ['lon', [[0, 84], [18, 84], [18, 56], [30, 56], [34, 52], [34, 60], [58, 60], [58, 96], [0, 96]]]];
+  zoneAt(x, y) { const px = x + .5, py = y + .5; for (const [k, p] of this.ZONES) { let ins = false; for (let i = 0, j = p.length - 1; i < p.length; j = i++) { const [xi, yi] = p[i], [xj, yj] = p[j]; if ((yi > py) !== (yj > py) && px < (xj - xi) * (py - yi) / (yj - yi) + xi) ins = !ins; } if (ins) return k; } return 'lon'; }
+  componentDidMount() {
+    fetch('plan-terrain.json').then(r => r.json()).then(j => { this.T = j; this.setState({ ready: Date.now() }); });
+    fetch('samples.json').then(r => r.json()).then(j => { this.SM = j; this.setState({ ready: Date.now() }); }).catch(() => {});
+    if (document.fonts) document.fonts.ready.then(() => { this.dk = null; this.draw(); });
+  }
+  componentDidUpdate() { this.draw(); }
+  renderVals() {
+    const s = this.state, chip = (cur, set) => ([k, n]) => ({ name: n, pick: () => this.setState({ [set]: k }), bg: cur === k ? '#4a3b30' : 'white', fg: cur === k ? 'white' : '#4a3b30' });
+    return {
+      cvRef: this.cv, source: s.source,
+      views: Object.entries(this.VIEWS).map(([k, v]) => chip(s.view, 'view')([k, v[0]])),
+      times: this.TIMES.map(chip(s.time, 'time')), namesOpt: this.NAMES.map(chip(s.names, 'names')),
+      savePng: () => { const c = this.cv.current; if (!c) return; c.toBlob(b => { const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = `アイス島_完成イメージ_${s.view}_${s.time}.png`; a.click(); }); }
+    };
+  }
   rot(r, n) { let a = r.map(s => s.split('')); for (let i = 0; i < n; i++) { const h = a.length, w = a[0].length, o = []; for (let y = 0; y < w; y++) { o.push([]); for (let x = 0; x < h; x++) o[y].push(a[h - 1 - x][y]); } a = o; } return a; }
+  // 配置を読む：組み立て台の保存（localStorage）があればそれ、なければ見本
+  loadPlacement() {
+    let placed = null, paint = {}, defs = {}, src = '';
+    try { const s = JSON.parse(localStorage.getItem('wti-module-board') || 'null'); if (s && ((s.placed || []).length || Object.keys(s.paint || {}).length)) { placed = (s.placed || []).map(p => [p.m, p.x, p.y, p.rot || 0]); paint = s.paint || {}; defs = s.defs || {}; src = '組み立て台の配置で描画中'; } } catch (e) {}
+    const SM = this.SM;
+    if (SM) { defs = Object.assign({}, SM.defs, defs); if (!placed) { placed = Object.values(SM.dists).flat(); paint = {}; Object.values(SM.paint).forEach(p => Object.assign(paint, p)); src = '見本の配置で描画中'; } }
+    return { placed: placed || [], paint, defs, src: src || '配置を読み込み中…' };
+  }
   draw() {
-    const c = this.cv.current, G = this.grid; if (!c || !G) return;
-    const [bx0, by0, bx1, by1] = this.viewB(), nx = bx1 - bx0, ny = by1 - by0, TW = 16, TH = 8, HZ = 7;
-    c.width = (nx + ny) * TW + 80; c.height = (nx + ny) * TH + 160;
-    const ctx = c.getContext('2d'), ox = ny * TW + 40, oy = 110;
-    let placed = null, paint = {};
-    try { const s = JSON.parse(localStorage.getItem('wti-module-board') || 'null'); if (s) { const inB = p => p.x >= 0 && p.x < 112 && p.y >= 0 && p.y < 96; placed = (s.placed || []).filter(inB).map(p => [p.m, p.x, p.y, p.rot]); paint = s.paint || {}; if (!placed.length && !Object.keys(paint).length) placed = null; } } catch (e) {}
-    const usingSample = !placed; if (usingSample) placed = this.SAMPLE;
-    if (this.state.source !== (usingSample ? '見本の配置で描画中' : '組み立て台の配置で描画中')) this.setState({ source: usingSample ? '見本の配置で描画中' : '組み立て台の配置で描画中' });
-    const obj = {}, bld = [];
-    Object.entries(paint).forEach(([k, v]) => { const [x, y] = k.split(',').map(Number); obj[k] = v; });
-    placed.forEach(([m, px, py, r]) => { const rows = this.MODS[m]; if (!rows) return; const a = this.rot(rows, r || 0); let fx = 1e9, fy = 1e9, tx = -1, ty = -1, kind = null;
-      a.forEach((row, dy) => row.forEach((ch, dx) => { if (ch === '.') return; const x = px + dx, y = py + dy; if (ch === 'H' || ch === 'M') { kind = ch; fx = Math.min(fx, x); fy = Math.min(fy, y); tx = Math.max(tx, x); ty = Math.max(ty, y); } else obj[x + ',' + y] = ch; }));
-      if (kind) bld.push({ x: fx, y: fy, w: tx - fx + 1, d: ty - fy + 1, kind }); });
-    bld.push({ x: 27, y: 62, w: 8, d: 5, kind: 'R' }); bld.push({ x: 44, y: 85, w: 8, d: 5, kind: 'A' });
-    const at = (x, y) => (G[y] || '')[x];
-    const Z = { S: 0, s: 1, r: 2.2, w: 1.2, '1': 2, t: 2, p: 2, b: 2, P: 2, K: 2.05, '3': 4.5 };
-    const TOP = { S: '#79d3c0', s: '#f2e5a8', r: '#8a8798', w: '#94e3d4', '1': '#5aaa4d', t: '#4f9a45', p: '#cfbb8e', b: '#9a96a0', P: '#d6c399', K: '#b8694b', '3': '#7cc95a' };
-    const PT = { B: '#b8694b', p: '#cfbb8e', S: '#ead39b', F: '#7fbf5a' };
-    const P = (x, y, z) => [ox + (x - bx0 - (y - by0)) * TW, oy + (x - bx0 + y - by0) * TH - z * HZ];
+    const T = this.T, c = this.cv.current; if (!T || !c) return;
+    const s = this.state, P0 = this.loadPlacement();
+    const key = [s.view, s.time, s.names, this.SM ? 1 : 0, P0.placed.length, Object.keys(P0.paint).length, P0.src].join('|');
+    if (this.dk === key) return; this.dk = key;
+    if (s.source !== P0.src) this.setState({ source: P0.src });
+    const G = T.grid, HL = T.h, [bx0, by0, bx1, by1] = this.VIEWS[s.view][1], nx = bx1 - bx0, ny = by1 - by0;
+    const TW = nx + ny > 120 ? 12 : 16, TH = TW / 2, HZ = TW * .45;
+    const ZL = [0, 2, 6, 10];
+    c.width = (nx + ny) * TW + 120; c.height = (nx + ny) * TH + 21 * HZ + 120;
+    const ctx = c.getContext('2d'), ox = ny * TW + 60, oy = 10 * HZ + 70;
+    const at = (x, y) => (G[y] || '')[x], lvl = (x, y) => +((HL[y] || '')[x] || 0);
+    const PJ = (x, y, z) => [ox + (x - bx0 - (y - by0)) * TW, oy + (x - bx0 + y - by0) * TH - z * HZ];
     const shade = (col, f) => { let r, g, b; if (col[0] === '#') { const n = parseInt(col.slice(1), 16); r = (n >> 16) & 255; g = (n >> 8) & 255; b = n & 255; } else { [r, g, b] = col.match(/\d+(\.\d+)?/g).map(Number); } return `rgb(${Math.min(255, Math.round(r * f))},${Math.min(255, Math.round(g * f))},${Math.min(255, Math.round(b * f))})`; };
-    const poly = (pts, fill) => { ctx.beginPath(); pts.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])); ctx.closePath(); ctx.fillStyle = fill; ctx.fill(); };
+    const poly = (pts, fill, stroke) => { ctx.beginPath(); pts.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])); ctx.closePath(); ctx.fillStyle = fill; ctx.fill(); if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = 1; ctx.stroke(); } };
     const prism = (x, y, w, d, z0, z1, col) => {
-      poly([P(x, y + d, z1), P(x + w, y + d, z1), P(x + w, y + d, z0), P(x, y + d, z0)], shade(col, .78));
-      poly([P(x + w, y, z1), P(x + w, y + d, z1), P(x + w, y + d, z0), P(x + w, y, z0)], shade(col, .62));
-      poly([P(x, y, z1), P(x + w, y, z1), P(x + w, y + d, z1), P(x, y + d, z1)], col);
+      poly([PJ(x, y + d, z1), PJ(x + w, y + d, z1), PJ(x + w, y + d, z0), PJ(x, y + d, z0)], shade(col, .8));
+      poly([PJ(x + w, y, z1), PJ(x + w, y + d, z1), PJ(x + w, y + d, z0), PJ(x + w, y, z0)], shade(col, .62));
+      poly([PJ(x, y, z1), PJ(x + w, y, z1), PJ(x + w, y + d, z1), PJ(x, y + d, z1)], col);
     };
-    let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
-    const zAt = (x, y) => Z[at(x, y)] ?? 2;
-    const sprite = (x, y, ch) => { const z = zAt(x, y), cx = x + .5, cy = y + .5;
-      const pole = (hgt, col) => { const a = P(cx, cy, z), b = P(cx, cy, z + hgt); ctx.strokeStyle = col; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke(); return b; };
-      if (ch === 'L') { const t = pole(5, '#2f2a28'); ctx.fillStyle = '#ffd86b'; ctx.beginPath(); ctx.arc(t[0], t[1], 3.2, 0, 7); ctx.fill(); ctx.fillStyle = '#2f2a28'; ctx.fillRect(t[0] - 3, t[1] - 5, 6, 2); }
-      else if (ch === 'T') prism(x + .2, y + .2, .6, .6, z, z + 4.2, '#c8352b');
-      else if (ch === 'b') prism(x + .15, y + .35, .7, .3, z, z + .8, '#8a5a3a');
-      else if (ch === 'h') prism(x + .3, y + .3, .4, .4, z, z + .8, '#8a5a3a');
-      else if (ch === 'c') prism(x + .2, y + .2, .6, .6, z, z + 1.1, '#f1ece2');
-      else if (ch === 'u') { const t = pole(4, '#6b5b4f'); ctx.fillStyle = '#e9f2f6'; ctx.beginPath(); ctx.ellipse(t[0], t[1], 12, 6, 0, 0, 7); ctx.fill(); }
-      else if (ch === 'K') { const t = pole(4.5, '#2f2a28'); ctx.fillStyle = '#f7f3ea'; ctx.beginPath(); ctx.arc(t[0], t[1] - 2, 4.5, 0, 7); ctx.fill(); ctx.strokeStyle = '#2f2a28'; ctx.lineWidth = 1; ctx.stroke(); }
-      else if (ch === 'N') { const t = pole(4, '#6b4a33'); ctx.fillStyle = '#f2e3c4'; ctx.fillRect(t[0] - 7, t[1], 14, 4); }
-      else if (ch === 'W') prism(x, y + .3, 1, .5, z, z + 4.5, '#b4664a');
-      else if (ch === 'A') { prism(x, y + .3, 1, .5, z + 3, z + 4.5, '#b4664a'); prism(x, y + .3, .15, .5, z, z + 3, '#b4664a'); prism(x + .85, y + .3, .15, .5, z, z + 3, '#b4664a'); }
-      else if (ch === 'Q') { prism(x + .05, y + .1, .9, .9, z, z + 6.5, '#a85c42'); prism(x, y + .05, 1, 1, z + 6.5, z + 7.3, '#8f4a35'); }
-      else if (ch === 'C') { prism(x, y + .2, 1, .6, z, z + .6, '#b22e2e'); prism(x + .05, y + .25, .9, .5, z + .6, z + 2.4, '#26262c'); }
-      else if (ch === 'x') prism(x + .25, y + .25, .5, .5, z, z + 1.2, '#9a6a40');
-      else if (ch === 'Y') { prism(x + .1, y + .1, .8, .8, z, z + 1.8, '#a07548'); prism(x, y, 1, 1, z + 2.6, z + 2.9, '#5a7fb8'); }
-      else if (ch === 'E') { prism(x + .1, y + .4, .8, .2, z, z + 2.5, '#3a3f4a'); prism(x + .1, y + .4, .8, .2, z + 2.5, z + 4.2, '#2b3240'); }
-      else if (ch === 'V') { prism(x + .2, y + .3, .35, .25, z, z + 1.3, '#4f86c6'); prism(x + .55, y + .45, .3, .25, z, z + 1, '#e2a23b'); }
-      else if (ch === 'f') prism(x, y + .45, 1, .1, z, z + 1, '#4a4a50');
-      else if (ch === 'F') { ['#f39ab8', '#fff1a8', '#f5f5f5'].forEach((col, i) => { const p = P(x + .25 + i * .25, y + .3 + (i % 2) * .4, z + .3); ctx.fillStyle = col; ctx.beginPath(); ctx.arc(p[0], p[1], 2.3, 0, 7); ctx.fill(); }); }
-    };
-    const tree = (x, y) => { const z = zAt(x, y), b = P(x + .5, y + .5, z), t = P(x + .5, y + .5, z + 3.2); ctx.fillStyle = '#6b4a2f'; ctx.fillRect(b[0] - 1.5, t[1], 3, b[1] - t[1]); ctx.fillStyle = '#2f7a34'; ctx.beginPath(); ctx.arc(t[0], t[1] - 2, 8, 0, 7); ctx.fill(); ctx.fillStyle = 'rgba(255,255,255,.12)'; ctx.beginPath(); ctx.arc(t[0] - 3, t[1] - 5, 3.5, 0, 7); ctx.fill(); };
-    const building = b => { const z = zAt(b.x, b.y + b.d - 1);
-      if (b.kind === 'M') { prism(b.x, b.y, b.w, b.d, z, z + 1, '#e6dccb'); for (let i = 0; i < 6; i++) prism(b.x + .4 + i * (b.w - .8) / 5 - .15, b.y + b.d - .5, .3, .3, z + 1, z + 6, '#f1ebe0'); prism(b.x, b.y, b.w, b.d - .6, z + 1, z + 6, '#e3d7c3'); prism(b.x - .1, b.y - .1, b.w + .2, b.d + .1, z + 6, z + 7, '#d2c4ac'); const a = P(b.x + b.w / 2, b.y + b.d - .2, z + 9.5), l = P(b.x - .1, b.y + b.d, z + 7), r = P(b.x + b.w + .1, b.y + b.d, z + 7); poly([a, l, r], '#cbbba0'); }
-      else if (b.kind === 'R') { prism(b.x, b.y, b.w, b.d, z, z + 5, '#efe3c6'); prism(b.x - .2, b.y - .2, b.w + .4, b.d + .4, z + 5, z + 6.2, '#4f8f62'); }
-      else if (b.kind === 'A') { prism(b.x, b.y, b.w, b.d, zAt(b.x, b.y), zAt(b.x, b.y) + 4, '#f2f0ea'); prism(b.x + 1, b.y + .5, b.w - 2, b.d - 1, zAt(b.x, b.y) + 4, zAt(b.x, b.y) + 6.5, '#9fd3e6'); }
-      else { prism(b.x, b.y, b.w, b.d, z, z + 4.5, '#f0e2c4'); const a = P(b.x + b.w / 2, b.y + b.d / 2, z + 8); poly([a, P(b.x, b.y + b.d, z + 4.5), P(b.x + b.w, b.y + b.d, z + 4.5)], '#c25a4a'); poly([a, P(b.x + b.w, b.y + b.d, z + 4.5), P(b.x + b.w, b.y, z + 4.5)], '#9c4436'); } };
-    ctx.clearRect(0, 0, c.width, c.height);
-    for (let s = 0; s < nx + ny; s++) for (let x = bx0; x < bx1; x++) { const y = by0 + s - (x - bx0); if (y < by0 || y >= by1) continue;
-      const v = at(x, y), z = Z[v] ?? 2; let col = TOP[v] || '#5aaa4d'; const pv = obj[x + ',' + y]; if (PT[pv] && v !== 'S') col = PT[pv]; else if ('BYCWAQTLbKNxfhcuEV'.includes(pv) && v !== 'S') col = '#b8694b';
-      const n = rnd() * .08 + .96; prism(x, y, 1, 1, 0, z, shade(col, n));
-      if (pv === 'B' || col === '#b8694b') { const a = P(x + .5, y, z), b2 = P(x + .5, y + 1, z); ctx.strokeStyle = 'rgba(90,40,25,.35)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b2[0], b2[1]); ctx.stroke(); }
-      if (v === 'w') { const p = P(x + rnd(), y + rnd(), z); ctx.fillStyle = 'rgba(255,255,255,.35)'; ctx.fillRect(p[0], p[1], 5, 1.2); }
+    // ---- 配置の整理 ----
+    const fur = {}, gnd = {}, blds = [], mons = [], mills = [], lights = [];
+    const GR = 'BpSgdwZD=';
+    const GC = { B: '#b8694b', p: '#cdbb91', S: '#ead39b', g: '#dedbd2', d: '#c9a074' };
+    P0.placed.forEach(([id, px, py, r]) => {
+      const rows = P0.defs[id]; if (!rows) return; const a = this.rot(rows, r || 0);
+      let hb = null, ms = null, ss = [];
+      a.forEach((row, dy) => row.forEach((ch, dx) => { if (ch === '.') return; const x = px + dx, y = py + dy;
+        if (ch === 'H') { hb = hb || { x1: 1e9, y1: 1e9, x2: -1, y2: -1 }; hb.x1 = Math.min(hb.x1, x); hb.y1 = Math.min(hb.y1, y); hb.x2 = Math.max(hb.x2, x); hb.y2 = Math.max(hb.y2, y); }
+        else if (ch === 'M') { ms = ms || { x1: 1e9, y1: 1e9, x2: -1, y2: -1 }; ms.x1 = Math.min(ms.x1, x); ms.y1 = Math.min(ms.y1, y); ms.x2 = Math.max(ms.x2, x); ms.y2 = Math.max(ms.y2, y); }
+        else if (ch === 's') ss.push([x, y]);
+        else if (GC[ch]) { if (!gnd[x + ',' + y]) gnd[x + ',' + y] = ch; }
+        else if (ch === 'D' || ch === 'w' || ch === '=' || ch === 'Z') { }
+        else fur[x + ',' + y] = ch; }));
+      if (hb) blds.push({ x: hb.x1, y: hb.y1, w: hb.x2 - hb.x1 + 1, d: hb.y2 - hb.y1 + 1, id });
+      if (ms) mills.push({ x: ms.x1, y: ms.y1, w: ms.x2 - ms.x1 + 1, d: ms.y2 - ms.y1 + 1 });
+      if (ss.length >= 6) { const xs = ss.map(p => p[0]), ys = ss.map(p => p[1]); mons.push({ x: Math.min(...xs), y: Math.min(...ys), w: Math.max(...xs) - Math.min(...xs) + 1, d: Math.max(...ys) - Math.min(...ys) + 1 }); }
+      else ss.forEach(([x, y]) => { fur[x + ',' + y] = 's'; });
+    });
+    blds.push({ x: 28, y: 63, w: 6, d: 4, id: '_info' }); blds.push({ x: 44, y: 85, w: 8, d: 5, id: '_airport' });
+    const paint = P0.paint;
+    // ---- 高さ ----
+    const slope = {};   // 坂のマスの四隅の高さ
+    (T.inclines || []).forEach(([sx, sy, d]) => {
+      const hi = lvl(sx, sy), z1 = ZL[hi], z0 = ZL[hi - 1];
+      for (let i = 0; i < 4; i++) for (let k = 0; k < 2; k++) {
+        const x = d === 'E' || d === 'W' ? sx + i : sx + k, y = d === 'E' || d === 'W' ? sy + k : sy + i;
+        const f = d === 'S' || d === 'E' ? i : 3 - i;          // 上の端からの距離
+        const zs = t => z1 + (z0 - z1) * Math.max(0, Math.min(1, t / 3.0));
+        const a = zs(f), b = zs(f + 1);                         // 手前・奥の端
+        let nw, ne, se, sw;
+        if (d === 'S') { nw = ne = a; sw = se = b; } else if (d === 'N') { nw = ne = b; sw = se = a; } else if (d === 'E') { nw = sw = a; ne = se = b; } else { nw = sw = b; ne = se = a; }
+        slope[x + ',' + y] = [nw, ne, se, sw];
+      }
+    });
+    const sh = (x, y) => { const v = at(x, y), l = lvl(x, y); if (v === undefined) return -1; if (v === 'S') return .3; if (v === 'w') return ZL[l] - .8; if (v === 's') return 1.6; if (v === 'r') return 2.4; if (v === 'b') return ZL[l] + .25; return ZL[l]; };
+    const corners = (x, y) => slope[x + ',' + y] || (z => [z, z, z, z])(sh(x, y));
+    const ROAD = { lon: '#605b58', egy: '#c99a5a', jpn: '#b9b4aa', usa: '#4a4d52', hal: '#4b4057', eur: '#bdb7ac', port: '#f2efe6' };
+    const GRASS = ['#4c9f48', '#5aaa4d', '#6dbb57', '#80cc62'];
+    const TOPC = { S: '#79d3c0', s: '#f2e5a8', r: '#8a8798', w: '#94e3d4', p: '#cfbb8e', P: '#d9c9a0', K: '#b8694b', b: '#9a96a0' };
+    let seed = 11; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const SIDE = { S: '#5dbcab', s: '#d9c98e', r: '#6e6b7c', w: '#6fb7ac', b: '#7a767f' };
+    // ---- 地面（奥から手前へ） ----
+    const falls = [];
+    for (let sd = 0; sd < nx + ny; sd++) for (let x = bx0; x < bx1; x++) {
+      const y = by0 + sd - (x - bx0); if (y < by0 || y >= by1) continue;
+      const v = at(x, y), l = lvl(x, y), k = x + ',' + y, cn = corners(x, y), road = paint[k], zone = this.zoneAt(x, y);
+      let col = TOPC[v] || GRASS[Math.max(1, l)];
+      if (v === 't') col = GRASS[Math.max(1, l)];
+      if (gnd[k] && v !== 'S' && v !== 'w') col = GC[gnd[k]];
+      if (road && v !== 'S' && v !== 'w') col = ROAD[road.slice(2)] || ROAD.lon;
+      // 側面：となりが低い所（南・東）
+      for (const [dx, dy, f] of [[0, 1, .8], [1, 0, .62]]) {
+        const nxp = x + dx, nyp = y + dy, nb = corners(nxp, nyp);
+        const mine = dx ? [cn[1], cn[2]] : [cn[3], cn[2]], theirs = dx ? [nb[0], nb[3]] : [nb[0], nb[1]];
+        if (nxp >= bx1 && false) continue;
+        const top = mine, bot = (at(nxp, nyp) === undefined) ? [0, 0] : theirs;
+        if (top[0] - bot[0] < .05 && top[1] - bot[1] < .05) continue;
+        const pa = dx ? [PJ(x + 1, y, top[0]), PJ(x + 1, y + 1, top[1]), PJ(x + 1, y + 1, bot[1]), PJ(x + 1, y, bot[0])] : [PJ(x, y + 1, top[0]), PJ(x + 1, y + 1, top[1]), PJ(x + 1, y + 1, bot[1]), PJ(x, y + 1, bot[0])];
+        const nv = at(nxp, nyp);
+        const isFall = v === 'w' && nv === 'w';
+        let sc = isFall ? '#dff6f6' : (SIDE[v] || (road || gnd[k] ? '#a08a68' : '#9a7a55'));
+        if (!isFall && nv === 'w' && (v !== 'w')) sc = SIDE[v] || '#8a6d4d';
+        poly(pa, shade(sc, f));
+        if (isFall) { ctx.strokeStyle = 'rgba(255,255,255,.8)'; ctx.lineWidth = 1; for (let i = 1; i < 4; i++) { const a = [pa[0][0] + (pa[1][0] - pa[0][0]) * i / 4, pa[0][1] + (pa[1][1] - pa[0][1]) * i / 4], b = [pa[3][0] + (pa[2][0] - pa[3][0]) * i / 4, pa[3][1] + (pa[2][1] - pa[3][1]) * i / 4]; ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke(); } falls.push([x + (dx ? 1 : .5), y + (dy ? 1 : .5), Math.min(bot[0], bot[1])]); }
+        else if (!SIDE[v] && top[0] - bot[0] > 1.2) {       // 地層の線
+          ctx.strokeStyle = 'rgba(70,45,25,.35)'; ctx.lineWidth = 1; for (let z = Math.floor(Math.min(top[0], top[1])) - 1; z > Math.max(bot[0], bot[1]); z -= 1.5) { const a = dx ? PJ(x + 1, y, z) : PJ(x, y + 1, z), b = dx ? PJ(x + 1, y + 1, z) : PJ(x + 1, y + 1, z); ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke(); }
+        }
+      }
+      // 上面
+      poly([PJ(x, y, cn[0]), PJ(x + 1, y, cn[1]), PJ(x + 1, y + 1, cn[2]), PJ(x, y + 1, cn[3])], shade(col, .96 + rnd() * .06));
+      // 模様
+      const c0 = PJ(x + .5, y + .5, (cn[0] + cn[2]) / 2);
+      if (v === 'w' || v === 'S') { if (rnd() < .22) { ctx.fillStyle = 'rgba(255,255,255,.38)'; ctx.fillRect(c0[0] - 4, c0[1], 6, 1.3); } }
+      else if (road || gnd[k] === 'B' || v === 'K') {
+        const z2 = road ? road.slice(2) : (gnd[k] === 'B' || v === 'K' ? 'B' : 'lon');
+        ctx.strokeStyle = 'rgba(0,0,0,.2)'; ctx.fillStyle = 'rgba(0,0,0,.14)'; ctx.lineWidth = 1;
+        if (z2 === 'lon' || z2 === 'hal') { ctx.beginPath(); ctx.arc(c0[0] - 3, c0[1], 2, 0, 7); ctx.arc(c0[0] + 3, c0[1] + 1, 2, 0, 7); ctx.fill(); }
+        else if (z2 === 'egy' || z2 === 'jpn') { ctx.beginPath(); ctx.moveTo(c0[0] - TW / 2, c0[1]); ctx.lineTo(c0[0] + TW / 2, c0[1]); ctx.stroke(); }
+        else if (z2 === 'eur') { ctx.beginPath(); ctx.arc(c0[0], c0[1] + 2, 4, Math.PI, 0); ctx.stroke(); }
+        else if (z2 === 'B') { ctx.strokeStyle = 'rgba(90,40,25,.35)'; ctx.beginPath(); ctx.moveTo(c0[0] - 4, c0[1] - 1); ctx.lineTo(c0[0] + 4, c0[1] + 1); ctx.stroke(); }
+        else if (z2 === 'usa') { const rw = (dx, dy) => !!paint[(x + dx) + ',' + (y + dy)]; if (rw(1, 0) && rw(-1, 0) && !(rw(0, 1) && rw(0, -1)) && x % 3 === 0) { ctx.fillStyle = '#f4d44a'; ctx.fillRect(c0[0] - 3, c0[1] - .5, 6, 1.6); } }
+        else if (z2 === 'port') { const rw = (dx, dy) => !!paint[(x + dx) + ',' + (y + dy)]; if (!rw(0, 1)) { poly([PJ(x, y + .8, cn[3]), PJ(x + 1, y + .8, cn[2]), PJ(x + 1, y + 1, cn[2]), PJ(x, y + 1, cn[3])], '#5b9aa0'); } }
+      } else if (gnd[k] === 'd') { ctx.strokeStyle = 'rgba(80,50,20,.3)'; ctx.beginPath(); ctx.moveTo(c0[0] - 5, c0[1] - 1); ctx.lineTo(c0[0] + 5, c0[1] + 1); ctx.stroke(); }
+      // 足元の影（北・西が高いとき）
+      for (const [dx, dy] of [[0, -1], [-1, 0]]) { const nb = corners(x + dx, y + dy); const hh = dx ? Math.max(nb[1], nb[2]) : Math.max(nb[2], nb[3]); if (hh - Math.min(...cn) > 1.5 && at(x + dx, y + dy) !== 'S') { ctx.fillStyle = 'rgba(20,35,15,.22)'; ctx.beginPath(); if (dy) { ctx.moveTo(PJ(x, y, cn[0])[0], PJ(x, y, cn[0])[1]); ctx.lineTo(PJ(x + 1, y, cn[1])[0], PJ(x + 1, y, cn[1])[1]); ctx.lineTo(PJ(x + 1, y + .3, cn[1])[0], PJ(x + 1, y + .3, cn[1])[1]); ctx.lineTo(PJ(x, y + .3, cn[0])[0], PJ(x, y + .3, cn[0])[1]); } else { ctx.moveTo(PJ(x, y, cn[0])[0], PJ(x, y, cn[0])[1]); ctx.lineTo(PJ(x, y + 1, cn[3])[0], PJ(x, y + 1, cn[3])[1]); ctx.lineTo(PJ(x + .3, y + 1, cn[3])[0], PJ(x + .3, y + 1, cn[3])[1]); ctx.lineTo(PJ(x + .3, y, cn[0])[0], PJ(x + .3, y, cn[0])[1]); } ctx.closePath(); ctx.fill(); } }
     }
+    // ---- 物（奥から手前へ） ----
+    const zTop = (x, y) => { const cn = corners(x, y); return (cn[0] + cn[1] + cn[2] + cn[3]) / 4; };
     const items = [];
-    for (let y = by0; y < by1; y++) for (let x = bx0; x < bx1; x++) { const pv = obj[x + ',' + y]; if (pv && !PT[pv] || pv === 'F') items.push({ d: x + y, f: () => sprite(x, y, pv) }); else if (at(x, y) === 't' && !pv) items.push({ d: x + y + .1, f: () => tree(x, y) }); }
-    bld.forEach(b => items.push({ d: b.x + b.w - 1 + b.y + b.d - 1 + .2, f: () => building(b) }));
+    const treeKind = z => z === 'usa' || z === 'hal' ? 'pine' : (z === 'egy' ? 'palm' : (z === 'hal' ? 'dead' : 'round'));
+    for (let y = by0; y < by1; y++) for (let x = bx0; x < bx1; x++) {
+      const k = x + ',' + y, ch = fur[k];
+      if (ch) items.push({ d: x + y, f: () => this.sprite(ctx, PJ, prism, poly, x, y, zTop(x, y), ch, this.zoneAt(x, y), lights, shade) });
+      else if (at(x, y) === 't' && !gnd[k] && !paint[k]) items.push({ d: x + y + .1, f: () => this.tree(ctx, PJ, x, y, zTop(x, y), this.zoneAt(x, y), (x * 7 + y * 13) % 5 === 0) });
+    }
+    const vis = b => b.x < bx1 && b.x + b.w > bx0 && b.y < by1 && b.y + b.d > by0;
+    blds.filter(vis).forEach(b => items.push({ d: b.x + b.w - 1 + b.y + b.d - 1 + .2, f: () => this.building(ctx, PJ, prism, poly, b, zTop(b.x + (b.w >> 1), b.y + b.d - 1), this.zoneAt(b.x, b.y), lights, shade) }));
+    mills.filter(vis).forEach(b => items.push({ d: b.x + b.w - 1 + b.y + b.d - 1 + .2, f: () => this.mill(ctx, PJ, prism, poly, b, zTop(b.x, b.y + b.d - 1)) }));
+    mons.filter(vis).forEach(b => items.push({ d: b.x + b.w - 1 + b.y + b.d - 1 + .2, f: () => this.monument(ctx, PJ, prism, poly, b, zTop(b.x, b.y + b.d - 1), this.zoneAt(b.x, b.y)) }));
     items.sort((a, b) => a.d - b.d).forEach(i => i.f());
-    const label = (x, y, t) => { const p = P(x, y, 10); ctx.font = "700 15px 'Zen Maru Gothic', sans-serif"; const w = ctx.measureText(t).width + 18; ctx.fillStyle = 'rgba(255,255,255,.94)'; ctx.beginPath(); ctx.roundRect(p[0] - w / 2, p[1] - 13, w, 26, 13); ctx.fill(); ctx.fillStyle = '#7a2f1f'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(t, p[0], p[1] + 1); ctx.textAlign = 'left'; };
-    label(34, 86, '9¾番線'); label(48, 76, 'ロンドン街道'); label(50, 58, '大英博物館'); label(31, 62, '役場前広場'); label(48, 90, '国際線ターミナル'); label(49, 80, '飛行機ラウンジ'); label(32, 78, 'ハイドパーク');
+    // 滝のしぶき
+    falls.forEach(([x, y, z]) => { const p = PJ(x, y, z); ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.beginPath(); ctx.ellipse(p[0], p[1], 7, 3, 0, 0, 7); ctx.fill(); });
+    // ---- 時間 ----
+    if (s.time !== 'day') {
+      ctx.save(); ctx.globalCompositeOperation = 'multiply'; ctx.fillStyle = s.time === 'dusk' ? 'rgb(255,196,150)' : 'rgb(70,86,150)'; ctx.fillRect(0, 0, c.width, c.height);
+      ctx.globalCompositeOperation = 'lighter';
+      lights.forEach(([lx, ly, rr]) => { const g = ctx.createRadialGradient(lx, ly, 0, lx, ly, rr * (s.time === 'night' ? .75 : .45)); g.addColorStop(0, 'rgba(255,214,120,.5)'); g.addColorStop(1, 'rgba(255,214,120,0)'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(lx, ly, rr, 0, 7); ctx.fill(); });
+      ctx.restore();
+    }
+    // ---- 名前 ----
+    const label = (x, y, t, dark) => { const p = PJ(x, y, 12); ctx.font = `700 ${TW > 12 ? 15 : 13}px 'Zen Maru Gothic', sans-serif`; const w = ctx.measureText(t).width + 18; ctx.fillStyle = dark ? 'rgba(40,40,40,.66)' : 'rgba(255,255,255,.94)'; ctx.beginPath(); ctx.roundRect(p[0] - w / 2, p[1] - 13, w, 26, 13); ctx.fill(); ctx.fillStyle = dark ? '#fff' : '#7a2f1f'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(t, p[0], p[1] + 1); ctx.textAlign = 'left'; };
     const inV = (x, y) => x >= bx0 && x < bx1 && y >= by0 && y < by1;
-    [[24, 40, 'エジプト'], [50, 50, '日本庭園'], [80, 58, 'ヨーロッパ'], [90, 80, '地中海の港'], [52, 22, '日本・神社'], [82, 22, 'アメリカ'], [95, 18, 'ハロウィン'], [90, 36, '森林']].forEach(([x, y, t]) => { if (inV(x, y)) { const p = P(x, y, 10); ctx.font = "700 15px 'Zen Maru Gothic', sans-serif"; const w = ctx.measureText(t).width + 18; ctx.fillStyle = 'rgba(40,40,40,.62)'; ctx.beginPath(); ctx.roundRect(p[0] - w / 2, p[1] - 13, w, 26, 13); ctx.fill(); ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(t, p[0], p[1] + 1); ctx.textAlign = 'left'; } });
+    if (s.names !== 'none') {
+      [[24, 40, 'エジプト'], [50, 50, '日本庭園'], [80, 58, 'ヨーロッパ'], [90, 80, '地中海の港'], [52, 22, '日本・神社'], [82, 22, 'アメリカ'], [97, 18, 'ハロウィン'], [90, 36, '森林'], [34, 78, 'ロンドン']].forEach(([x, y, t]) => { if (inV(x, y)) label(x, y, t, true); });
+      if (s.names === 'all') [[34, 86, '9¾番線'], [44, 74, 'ロンドン街道'], [49, 63, '時計台の高台'], [31, 65, '案内所'], [47, 88, '飛行場'], [43, 79, '飛行機ラウンジ'], [22, 76, 'ハイドパーク'], [30, 27, 'エジプト考古学博物館'], [20, 33, 'バザール'], [55, 17, '神社'], [107, 88, '桟橋'], [75, 64, 'エイブル'], [90, 41, 'キャンプ場']].forEach(([x, y, t]) => { if (inV(x, y)) label(x, y, t, false); });
+    }
+  }
+  // ---- 物の絵 ----
+  tree(ctx, PJ, x, y, z, zone, special) {
+    const b = PJ(x + .5, y + .5, z), t = PJ(x + .5, y + .5, z + 3.4);
+    ctx.fillStyle = '#6b4a2f'; ctx.fillRect(b[0] - 1.5, t[1] + 4, 3, b[1] - t[1] - 4);
+    if (zone === 'usa' || zone === 'hal') { ctx.fillStyle = zone === 'hal' ? '#5a4a3a' : '#2a6b3a'; ctx.beginPath(); ctx.moveTo(t[0], t[1] - 12); ctx.lineTo(t[0] + 7, t[1] + 6); ctx.lineTo(t[0] - 7, t[1] + 6); ctx.fill(); }
+    else if (zone === 'egy') { ctx.strokeStyle = '#3f8f3a'; ctx.lineWidth = 2; for (let i = 0; i < 5; i++) { const a = i * 1.26 - .6; ctx.beginPath(); ctx.moveTo(t[0], t[1] + 1); ctx.lineTo(t[0] + Math.cos(a) * 9, t[1] - 3 + Math.sin(a) * 4 + 2); ctx.stroke(); } }
+    else { ctx.fillStyle = zone === 'jpn' && special ? '#f2a9c4' : '#2f7a34'; ctx.beginPath(); ctx.arc(t[0], t[1] - 1, 8, 0, 7); ctx.fill(); ctx.fillStyle = 'rgba(255,255,255,.14)'; ctx.beginPath(); ctx.arc(t[0] - 3, t[1] - 4, 3.5, 0, 7); ctx.fill(); }
+  }
+  sprite(ctx, PJ, prism, poly, x, y, z, ch, zone, lights, shade) {
+    const cx = x + .5, cy = y + .5;
+    const pole = (hgt, col) => { const a = PJ(cx, cy, z), b = PJ(cx, cy, z + hgt); ctx.strokeStyle = col; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke(); return b; };
+    const glow = (p, r) => lights.push([p[0], p[1], r]);
+    const dot = (zz, col, r) => { const p = PJ(cx, cy, z + zz); ctx.fillStyle = col; ctx.beginPath(); ctx.arc(p[0], p[1], r, 0, 7); ctx.fill(); return p; };
+    switch (ch) {
+      case 'L': { const t = pole(5, '#2f2a28'); ctx.fillStyle = '#ffd86b'; ctx.beginPath(); ctx.arc(t[0], t[1], 3.2, 0, 7); ctx.fill(); glow(t, 34); break; }
+      case 'T': prism(x + .2, y + .2, .6, .6, z, z + 4.2, '#c8352b'); break;
+      case 'b': prism(x + .15, y + .35, .7, .3, z, z + .8, '#8a5a3a'); break;
+      case 'h': prism(x + .3, y + .3, .4, .4, z, z + .8, '#8a5a3a'); break;
+      case 'c': prism(x + .2, y + .2, .6, .6, z, z + 1.1, '#f1ece2'); break;
+      case 'u': { const t = pole(4, '#6b5b4f'); ctx.fillStyle = zone === 'port' ? '#e9f2f6' : '#e8c46a'; ctx.beginPath(); ctx.ellipse(t[0], t[1], 12, 6, 0, 0, 7); ctx.fill(); break; }
+      case 'K': { const t = pole(4.5, '#2f2a28'); ctx.fillStyle = '#f7f3ea'; ctx.beginPath(); ctx.arc(t[0], t[1] - 2, 4.5, 0, 7); ctx.fill(); ctx.strokeStyle = '#2f2a28'; ctx.lineWidth = 1; ctx.stroke(); break; }
+      case 'N': case 'i': { const t = pole(4, '#6b4a33'); ctx.fillStyle = '#f2e3c4'; ctx.fillRect(t[0] - 7, t[1], 14, 4); break; }
+      case 'W': prism(x, y + .3, 1, .5, z, z + 4.5, '#b4664a'); break;
+      case 'A': prism(x, y + .3, 1, .5, z + 3, z + 4.5, '#b4664a'); prism(x, y + .3, .15, .5, z, z + 3, '#b4664a'); prism(x + .85, y + .3, .15, .5, z, z + 3, '#b4664a'); break;
+      case 'Q': prism(x + .05, y + .1, .9, .9, z, z + 6.5, '#a85c42'); prism(x, y + .05, 1, 1, z + 6.5, z + 7.3, '#8f4a35'); break;
+      case 'C': prism(x, y + .2, 1, .6, z, z + .6, '#b22e2e'); prism(x + .05, y + .25, .9, .5, z + .6, z + 2.4, '#26262c'); break;
+      case 'v': prism(x + .1, y + .2, .8, .6, z, z + 1.4, '#d96a52'); break;
+      case 'x': prism(x + .25, y + .25, .5, .5, z, z + 1.2, '#9a6a40'); break;
+      case 'Y': prism(x + .1, y + .1, .8, .8, z, z + 1.8, '#a07548'); prism(x, y, 1, 1, z + 2.6, z + 2.9, zone === 'egy' ? '#c0553a' : '#5a7fb8'); break;
+      case 'R': prism(x + .05, y + .05, .9, .9, z, z + .12, '#c0553a'); break;
+      case 'E': prism(x + .1, y + .4, .8, .2, z, z + 2.5, '#3a3f4a'); prism(x + .1, y + .4, .8, .2, z + 2.5, z + 4.2, '#2b3240'); break;
+      case 'V': prism(x + .2, y + .3, .35, .25, z, z + 1.3, '#4f86c6'); prism(x + .55, y + .45, .3, .25, z, z + 1, '#e2a23b'); break;
+      case 'f': prism(x, y + .45, 1, .1, z, z + 1, '#e8e2d4'); break;
+      case 'F': ['#f39ab8', '#fff1a8', '#f5f5f5'].forEach((col, i) => { const p = PJ(x + .25 + i * .25, y + .3 + (i % 2) * .4, z + .3); ctx.fillStyle = col; ctx.beginPath(); ctx.arc(p[0], p[1], 2.3, 0, 7); ctx.fill(); }); break;
+      case 'X': { prism(x + .25, y + .25, .5, .5, z, z + .5, '#7a5a3a'); const p = dot(1.1, '#ff9a3a', 3.6); glow(p, 40); break; }
+      case 't': this.tree(ctx, PJ, x, y, z, zone, false); break;
+      case 'k': { dot(.7, '#f08a2a', 4.4); break; }
+      case 'J': { const t = pole(2, '#4a3a5a'); ctx.fillStyle = '#ffb43a'; ctx.beginPath(); ctx.arc(t[0], t[1], 3, 0, 7); ctx.fill(); glow(t, 28); break; }
+      case 'P': { const b = PJ(cx, cy, z), t = PJ(cx, cy, z + 4.2); ctx.strokeStyle = '#7a5a30'; ctx.lineWidth = 2.4; ctx.beginPath(); ctx.moveTo(b[0], b[1]); ctx.lineTo(t[0] + 1, t[1]); ctx.stroke(); ctx.strokeStyle = '#3f8f3a'; ctx.lineWidth = 2.2; for (let i = 0; i < 5; i++) { const a = i * 1.26 - .6; ctx.beginPath(); ctx.moveTo(t[0], t[1]); ctx.lineTo(t[0] + Math.cos(a) * 10, t[1] - 3 + Math.sin(a) * 4 + 3); ctx.stroke(); } break; }
+      case 'O': prism(x + .25, y + .25, .5, .5, z, z + 3.2, '#e0d6bd'); break;
+      case 'G': { prism(x + .08, y + .3, .14, .4, z, z + 4, '#d9482b'); prism(x + .78, y + .3, .14, .4, z, z + 4, '#d9482b'); prism(x, y + .25, 1, .5, z + 3.6, z + 4.3, '#c0391f'); break; }
+      case 'n': { prism(x + .3, y + .3, .4, .4, z, z + 1.8, '#d9d3c4'); const p = PJ(cx, cy, z + 2.2); ctx.fillStyle = '#ffd27a'; ctx.fillRect(p[0] - 3, p[1] - 3, 6, 6); glow(p, 28); break; }
+      case 'a': { const b = PJ(cx, cy, z), t = PJ(cx, cy, z + 5.5); ctx.strokeStyle = '#8fc86a'; ctx.lineWidth = 2.4; ctx.beginPath(); ctx.moveTo(b[0], b[1]); ctx.lineTo(t[0] + 1, t[1]); ctx.stroke(); break; }
+      case 'e': prism(x + .05, y + .05, .9, .9, z, z + 1.3, '#4f9a45'); break;
+      case 'o': dot(.6, '#9d9aa0', 6); break;
+      case 'q': prism(x + .3, y + .3, .4, .4, z, z + .9, '#c98a58'); dot(1.3, '#4f9a45', 3.2); break;
+      case 'z': prism(x + .3, y + .4, .4, .2, z, z + 1.5, '#b9b5c2'); break;
+      case 'I': prism(x, y, 1, 1, z, z + .5, '#a8dce8'); break;
+      case 'U': prism(x + .1, y + .1, .8, .8, z, z + 1, '#d9d3c4'); prism(x + .2, y + .2, .6, .6, z + 1, z + 1.2, '#9fd8ea'); break;
+      case 's': prism(x + .2, y + .2, .6, .6, z, z + 2.6, '#d9ceb0'); break;
+      case 'g': case 'd': break;
+      default: prism(x + .25, y + .25, .5, .5, z, z + 1.2, '#cfc8bb');
+    }
+  }
+  // 建物：地区の壁と屋根（切妻・日本は寄棟・エジプトは平屋根・地中海は青いドーム・ハロウィンは急な屋根）
+  building(ctx, PJ, prism, poly, b, z, zone, lights, shade) {
+    const id = b.id, H = id === 'museum' ? 5.5 : (id === '_airport' ? 5 : 4.5);
+    const WALL = { lon: '#c9805c', egy: '#e3c791', jpn: '#f0e6d2', usa: '#f1ece2', hal: '#5b4a6a', eur: '#f0e2c4', port: '#fbfaf5' }[zone] || '#f0e2c4';
+    const ROOF = { lon: '#5a5560', egy: '#d9b87a', jpn: '#4a4f58', usa: '#a8402a', hal: '#2d2438', eur: '#c25a4a', port: '#3f78c4' }[zone] || '#c25a4a';
+    if (id === '_info') { prism(b.x, b.y, b.w, b.d, z, z + 5, '#efe3c6'); prism(b.x - .2, b.y - .2, b.w + .4, b.d + .4, z + 5, z + 6.2, '#4f8f62'); this.windows(ctx, PJ, b, z, lights); return; }
+    if (id === '_airport') { prism(b.x, b.y, b.w, b.d, z, z + 4, '#f2f0ea'); prism(b.x + 1, b.y + .5, b.w - 2, b.d - 1, z + 4, z + 6.5, '#9fd3e6'); prism(b.x + b.w - 1.6, b.y + 1, .8, .8, z + 6.5, z + 11, '#e8e8e8'); this.windows(ctx, PJ, b, z, lights); return; }
+    prism(b.x, b.y, b.w, b.d, z, z + H, id === 'museum' ? '#e8dcc0' : WALL);
+    if (id === 'museum') {      // 列柱と破風
+      for (let i = 0; i < b.w; i++) prism(b.x + i + .3, b.y + b.d - .3, .4, .3, z, z + H - .4, '#f4efe2');
+      const a = PJ(b.x + b.w / 2, b.y + b.d, z + H + 2), l = PJ(b.x - .2, b.y + b.d, z + H), r = PJ(b.x + b.w + .2, b.y + b.d, z + H); poly([a, l, r], '#d9cfb5'); prism(b.x - .2, b.y - .2, b.w + .4, b.d, z + H, z + H + .5, '#cfc3a6'); return; }
+    if (zone === 'egy') { prism(b.x - .1, b.y - .1, b.w + .2, b.d + .2, z + H, z + H + .5, ROOF); }
+    else if (zone === 'port') { const cx = b.x + b.w / 2, cy = b.y + b.d / 2, c0 = PJ(cx, cy, z + H), r = Math.min(b.w, b.d) * 8; ctx.fillStyle = ROOF; ctx.beginPath(); ctx.ellipse(c0[0], c0[1], r, r * .6, 0, Math.PI, 0); ctx.fill(); ctx.beginPath(); ctx.ellipse(c0[0], c0[1], r, r * .35, 0, 0, Math.PI); ctx.fill(); }
+    else if (zone === 'jpn') { prism(b.x - .3, b.y - .3, b.w + .6, b.d + .6, z + H, z + H + .5, ROOF); const a = PJ(b.x + b.w / 2, b.y + b.d / 2, z + H + 3); poly([a, PJ(b.x - .3, b.y + b.d + .3, z + H + .5), PJ(b.x + b.w + .3, b.y + b.d + .3, z + H + .5)], ROOF); poly([a, PJ(b.x + b.w + .3, b.y + b.d + .3, z + H + .5), PJ(b.x + b.w + .3, b.y - .3, z + H + .5)], shade(ROOF, .75)); }
+    else { const hh = zone === 'hal' ? 6.5 : 3.6, a = PJ(b.x + b.w / 2, b.y + b.d / 2, z + H + hh); poly([a, PJ(b.x - .2, b.y + b.d + .2, z + H), PJ(b.x + b.w + .2, b.y + b.d + .2, z + H)], ROOF); poly([a, PJ(b.x + b.w + .2, b.y + b.d + .2, z + H), PJ(b.x + b.w + .2, b.y - .2, z + H)], shade(ROOF, .72)); }
+    this.windows(ctx, PJ, b, z, lights);
+    const dr = PJ(b.x + b.w / 2, b.y + b.d, z), d0 = PJ(b.x + b.w / 2 - .4, b.y + b.d, z + 2), d1 = PJ(b.x + b.w / 2 + .4, b.y + b.d, z + 2); ctx.fillStyle = '#6b4a33'; ctx.fillRect(dr[0] - 4, dr[1] - 9, 8, 9);
+  }
+  windows(ctx, PJ, b, z, lights) { for (let i = 0; i < Math.max(1, Math.floor(b.w / 2)); i++) { const p = PJ(b.x + (i + .5) * b.w / Math.max(1, Math.floor(b.w / 2)), b.y + b.d, z + 2.6); ctx.fillStyle = '#9fd0e6'; ctx.fillRect(p[0] - 3, p[1] - 3, 6, 5); lights.push([p[0], p[1], 26]); } }
+  mill(ctx, PJ, prism, poly, b, z) {
+    prism(b.x, b.y, b.w, b.d, z, z + 1, '#e6dccb'); prism(b.x + .2, b.y + .2, b.w - .4, b.d - .6, z + 1, z + 6, '#e3d7c3'); prism(b.x - .1, b.y - .1, b.w + .2, b.d + .1, z + 6, z + 7, '#d2c4ac');
+    const a = PJ(b.x + b.w / 2, b.y + b.d - .2, z + 9.5), l = PJ(b.x - .1, b.y + b.d, z + 7), r = PJ(b.x + b.w + .1, b.y + b.d, z + 7); poly([a, l, r], '#cbbba0');
+    const c0 = PJ(b.x + b.w / 2, b.y + b.d, z + 5); ctx.strokeStyle = '#f4efe4'; ctx.lineWidth = 3; for (let i = 0; i < 4; i++) { const an = i * Math.PI / 2 + .5; ctx.beginPath(); ctx.moveTo(c0[0], c0[1]); ctx.lineTo(c0[0] + Math.cos(an) * 20, c0[1] + Math.sin(an) * 20); ctx.stroke(); }
+  }
+  monument(ctx, PJ, prism, poly, b, z, zone) {
+    if (zone === 'egy') { const a = PJ(b.x + b.w / 2, b.y + b.d / 2, z + 8), p = [PJ(b.x, b.y + b.d, z), PJ(b.x + b.w, b.y + b.d, z), PJ(b.x + b.w, b.y, z)]; poly([a, p[0], p[1]], '#e6cf94'); poly([a, p[1], p[2]], '#c9a96a'); }
+    else if (zone === 'eur') { const cx = b.x + b.w / 2, cy = b.y + b.d / 2; ctx.strokeStyle = '#6b6258'; ctx.lineWidth = 3; const t = PJ(cx, cy, z + 14), l = PJ(b.x, b.y + b.d, z), r = PJ(b.x + b.w, b.y + b.d, z); ctx.beginPath(); ctx.moveTo(l[0], l[1]); ctx.lineTo(t[0], t[1]); ctx.lineTo(r[0], r[1]); ctx.stroke(); ctx.beginPath(); const m1 = PJ(cx, cy, z + 5); ctx.moveTo(m1[0] - 8, m1[1]); ctx.lineTo(m1[0] + 8, m1[1]); ctx.stroke(); }
+    else prism(b.x + .1, b.y + .1, b.w - .2, b.d - .2, z, z + 6, '#d9ceb0');
   }
 }
 </script>
