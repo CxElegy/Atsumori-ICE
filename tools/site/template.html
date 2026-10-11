@@ -130,13 +130,14 @@ ol.fix { margin: 0; padding-left: 20px; display: flex; flex-direction: column; g
 .vduo { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 4px; width: 100%; overflow: hidden }
 .vduo img { max-height: calc(100vh - 150px) }
 .vmulti { display: flex; flex-direction: column; width: 100%; overflow: hidden }
-.vmulti > img { max-height: calc(100vh - 250px) }
+.vmulti > img { max-height: calc(100vh - 230px) }
+.vthn { align-self: center; font-size: 12px; font-weight: 700; color: var(--muted); padding: 0 6px }
 .vthumbs { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px; justify-content: center; background: var(--panel) }
 .vthumbs button { width: 72px; height: 72px; padding: 0; border: 2px solid var(--line); border-radius: 8px; overflow: hidden; cursor: pointer; background: var(--chip); transition: border-color .12s, transform .12s }
 .vthumbs button:hover { border-color: var(--ink); transform: translateY(-2px) } .vthumbs button[aria-current="true"] { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent) }
 .vthumbs img { width: 100%; height: 100%; object-fit: cover; max-height: none; cursor: pointer }
 .vgrp { font-size: 12px; font-weight: 700; color: var(--ok) }
-.vimg:has(.vmulti) .vhint { top: 10px; bottom: auto }
+.vimg:has(.vmulti) .vhint { bottom: 10px; top: auto }
 /* 画像の左右のはし：クリックで前・次 */
 .vedge { position: absolute; top: 0; bottom: 0; width: 14%; border: 0; display: grid; place-items: center; font-size: 34px; color: #fff; background: transparent; opacity: 0; transition: opacity .15s, background .15s; z-index: 2 }
 .vedge.l { left: 0 } .vedge.r { right: 0 }
@@ -299,14 +300,19 @@ const norm3 = v => Array.isArray(v) ? (v[0] > 0 || v[1] >= 4 ? 1 : v[0] < 0 || (
 const normAll = o => { const out = {}; Object.keys(o || {}).forEach(no => { const n = norm3(o[no]); if (n !== null) out[no] = n; }); return out; };
 // 評価は地区ごと：S.rv[地区][番号] = 1／0／-1、S.ra[地区][番号] = 使いたい別の地区（「いいね（別の地区）」）
 // 前の形（地区なしの {番号: 値}）は、その作例の地区（すべての地区向けの作例はロンドン）として読みかえる
-const thOf = no => { const r = D.refs.find(x => x.no === no); return r && r.th !== 'all' ? r.th : 'lon'; };
+const AREAS = ['lon', 'egy', 'jpn', 'usa', 'hal', 'eur', 'port'], areaName = k => k === 'unk' ? '地区未定' : k === 'com' ? '共通' : k === 'hal' ? 'ハロウィン' : TH[k];
+const thOf = no => { const r = D.refs.find(x => x.no === no); return r && r.th !== 'all' ? r.th : 'com'; };
 const loadRv = (rv, flat, area) => { const out = {}; Object.keys(rv || {}).forEach(c => { out[c] = normAll(rv[c]); }); const f = normAll(flat);
   Object.keys(f).forEach(no => { const c = thOf(no); (out[c] = out[c] || {}); if (!(no in out[c])) out[c][no] = f[no]; }); return out; };
 const loadRa = (ra, area) => { const out = JSON.parse(JSON.stringify(ra || {})); Object.keys(area || {}).forEach(no => { const c = thOf(no); (out[c] = out[c] || {})[no] = out[c][no] || area[no]; }); return out; };
 const oldScore = store.get('ice-ref-score', {}), oldFlat = { ...Object.fromEntries(Object.entries(oldScore).map(([k, v]) => [k, [0, v]])), ...S.votes };
 S.rv = loadRv(store.get('ice-rv', {}), oldFlat); S.ra = loadRa(store.get('ice-ra', {}), store.get('ice-area', {})); delete S.votes;
 // 重複として隠した作例の評価は、残した方へ移す（残した方にまだ評価がなければ）
-const moveDups = () => { const m = D.dupOf || {}; [S.rv, S.ra].forEach(o => Object.values(o).forEach(c => Object.keys(c).forEach(no => { if (m[no]) { if (!(m[no] in c)) c[m[no]] = c[no]; delete c[no]; } }))); };
+const moveDups = () => { const m = D.dupOf || {};
+  [S.rv, S.ra].forEach(o => Object.values(o).forEach(c => Object.keys(c).forEach(no => { if (m[no]) { if (!(m[no] in c)) c[m[no]] = c[no]; delete c[no]; } })));
+  // 共通の作例（th: all）は、前に各地区でつけた評価を「共通」へ移す（共通にまだ評価がなければ）
+  const isCom = no => { const r = D.refs.find(x => x.no === no); return r && r.th === 'all'; };
+  AREAS.forEach(c => { const v = S.rv[c] || {}, a = S.ra[c] || {}; Object.keys(v).forEach(no => { if (!isCom(no) || a[no]) return; S.rv.com = S.rv.com || {}; if (!(no in S.rv.com)) S.rv.com[no] = v[no]; delete v[no]; }); }); };
 moveDups(); store.set('ice-rv', S.rv); store.set('ice-ra', S.ra);
 let DB = null, dbTimer = null, dbBusy = false, dbDirty = false;
 const saveDb = () => { if (!DB) return; if (dbBusy) { dbDirty = true; return; } dbBusy = true; dbDirty = false; DB.doc('votes/all').set({ r: S.rv, a: S.ra, t: Date.now() }).then(() => saved(true), () => saved(false)).finally(() => { dbBusy = false; if (dbDirty) saveDb(); }); };
@@ -332,9 +338,12 @@ const setArea = (no, k, c = ctxNow()) => { if (!c) return; remember(no, c); cons
 const nRated = c => c ? Object.keys(S.rv[c] || {}).length : Object.values(S.rv).reduce((n, o) => n + Object.keys(o).length, 0);
 // 評価：2 めっちゃいい＝絶対に島に入れる（第35回）・1 いいね・0 ふつう・-1 イマイチ
 const RATE = [[2, 'top', 'めっちゃいい'], [1, 'up', 'いいね'], [0, 'mid', 'ふつう'], [-1, 'dn', 'イマイチ']], RN = { 2: 'めっちゃいい（絶対入れる）', 1: 'いいね', 0: 'ふつう', '-1': 'イマイチ' }, RCLS = { 2: 'top', 1: 'up', 0: 'mid', '-1': 'dn' };
-const AREAS = ['lon', 'egy', 'jpn', 'usa', 'hal', 'eur', 'port'], areaName = k => k === 'unk' ? '地区未定' : k === 'hal' ? 'ハロウィン' : TH[k];
+// 分区のきまり（第37回）：作例の地区＝見つけた検索語の地区。どの地区とも言えない作例（島の施設の前・共通のマイデザインなど、th: all）は「共通」に分け、
+// 各地区には混ぜない。「いいね（別の地区）→X」にした作例は X の地区にも出す（X で続けて評価できる）。重複のグループは残した作例の地区だけ
+const VA = [...AREAS, 'com'];
+const movedInto = (r, k) => VA.some(c => c !== k && S.ra[c] && S.ra[c][r.no] === k);
 // 「いいね（別の地区）」で選べる行き先：ほかの地区と「わからない」（unk：この地区ではないが、どこに合うかはまだ決めない）
-const pickAreas = th => [...AREAS.filter(k => k !== th), 'unk'], pickName = k => k === 'unk' ? 'わからない' : areaName(k);
+const pickAreas = th => [...AREAS.filter(k => k !== th), ...(th === 'com' ? [] : ['com']), 'unk'], pickName = k => k === 'unk' ? 'わからない' : k === 'com' ? '共通（どこでも）' : areaName(k);
 const labelOf = (r, c = ctxNow()) => { const v = rateOf(r, c); return v === null ? '' : areaOf(r, c) ? `いいね（→${areaName(areaOf(r, c))}）` : RN[v]; };
 const IMG = {}; const img = src => { if (!src) return null; if (!IMG[src]) { const i = new Image(); i.onload = () => { i.ok = true; redraw(); }; i.src = src; IMG[src] = i; } return IMG[src].ok ? IMG[src] : null; };
 let redrawQ = false; const redraw = () => { if (redrawQ) return; redrawQ = true; requestAnimationFrame(() => { redrawQ = false; drawMap(); drawSketch(); }); };
@@ -588,12 +597,12 @@ function renderBook() { $('bookChips').innerHTML = [['lon', 'ロンドン'], ['e
 // 集めた作例のカード：いいね／ふつう／イマイチの3つのボタン
 // 地区を選んでいるときだけ評価ボタン。「すべて」のときは、地区ごとの評価を小さく出す
 const rate3Html = r => { const c = ctxNow();
-  if (!c) { const tags = AREAS.filter(k => rateOf(r, k) !== null).map(k => `<span class="vtag ${areaOf(r, k) ? 'up' : RCLS[rateOf(r, k)]}">${esc(areaName(k))}：${esc(labelOf(r, k))}</span>`).join(''); return `<div class="r3w" style="display:flex;flex-wrap:wrap;gap:3px">${tags}</div>`; }
+  if (!c) { const tags = VA.filter(k => rateOf(r, k) !== null).map(k => `<span class="vtag ${areaOf(r, k) ? 'up' : RCLS[rateOf(r, k)]}">${esc(areaName(k))}：${esc(labelOf(r, k))}</span>`).join(''); return `<div class="r3w" style="display:flex;flex-wrap:wrap;gap:3px">${tags}</div>`; }
   const v = rateOf(r); return `<div class="r3w" style="display:flex;flex-direction:column;gap:3px">${areaOf(r) ? `<span class="vtag up" style="align-self:flex-start">いいね（→${esc(areaName(areaOf(r)))}）</span>` : ''}<div class="rate3" role="group" aria-label="${esc(r.no)} の${esc(areaName(c))}での評価">${RATE.map(([n, cl, t]) => `<button class="${cl}" data-refrate="${esc(r.no)}|${n}" aria-pressed="${v === n && !areaOf(r)}">${t}</button>`).join('')}</div></div>`; };
 function renderRefs() { S.refRate = S.refRate || 'all'; S.refTh = S.refTh || 'all'; S.refCat = S.refCat || 'all'; S.refQ = S.refQ || 'all'; S.refMa = !!S.refMa;
-  const RC = D.refCats || {}, inTh = D.refs.filter(r => S.refTh === 'all' || r.th === S.refTh || (r.ths || []).includes(S.refTh)), byTh = inTh.filter(r => S.refCat === 'all' || r.cat === S.refCat), qs = [...new Set(byTh.map(r => r.q))]; if (S.refQ !== 'all' && !qs.includes(S.refQ)) S.refQ = 'all';
+  const RC = D.refCats || {}, inTh = D.refs.filter(r => S.refTh === 'all' || (S.refTh === 'com' ? r.th === 'all' : r.th === S.refTh)), byTh = inTh.filter(r => S.refCat === 'all' || r.cat === S.refCat), qs = [...new Set(byTh.map(r => r.q))]; if (S.refQ !== 'all' && !qs.includes(S.refQ)) S.refQ = 'all';
   const TN = { all: 'すべての地区', ...TH, hal: 'ハロウィン', all2: '' };
-  $('refChips').innerHTML = `<div class="row">${['all', 'lon', 'egy', 'jpn', 'usa', 'hal', 'eur', 'port'].map(k => `<button class="chip" data-refth="${k}" aria-pressed="${S.refTh === k}">${esc(k === 'all' ? `すべて（${D.refs.length}）` : `${TN[k]}（${D.refs.filter(r => r.th === k || (r.ths || []).includes(k)).length}）`)}</button>`).join('')}<button class="chip" data-refok="1" aria-pressed="${!!S.refOk}">採用だけ（${D.refs.filter(r => r.verdict).length}）</button><button class="chip" data-refma="1" aria-pressed="${S.refMa}">作者IDがある図だけ（${D.refs.filter(r => r.ma).length}）</button></div>
+  $('refChips').innerHTML = `<div class="row">${['all', 'lon', 'egy', 'jpn', 'usa', 'hal', 'eur', 'port', 'com'].map(k => `<button class="chip" data-refth="${k}" aria-pressed="${S.refTh === k}">${esc(k === 'all' ? `すべて（${D.refs.length}）` : k === 'com' ? `共通（${D.refs.filter(r => r.th === 'all').length}）` : `${TN[k]}（${D.refs.filter(r => r.th === k).length}）`)}</button>`).join('')}<button class="chip" data-refok="1" aria-pressed="${!!S.refOk}">採用だけ（${D.refs.filter(r => r.verdict).length}）</button><button class="chip" data-refma="1" aria-pressed="${S.refMa}">作者IDがある図だけ（${D.refs.filter(r => r.ma).length}）</button></div>
     <div class="row"><span class="muted">評価</span>${[['all', 'すべて', byTh.length], ['none', '未評価', byTh.filter(r => rateOf(r) === null).length], ...RATE.map(([n, c, t]) => [String(n), t, byTh.filter(r => rateOf(r) === n).length])].map(([k, t, n]) => `<button class="chip" data-refratef="${k}" aria-pressed="${S.refRate === k}">${t}（${n}）</button>`).join('')}<button class="chip" data-refsort="1" aria-pressed="${!!S.refSort}">いいねを先に</button><button class="chip" data-refcopy="1">評価をコピー（${nRated()}件）</button></div>
     <div class="row"><span class="muted">用途</span>${['all', ...Object.keys(RC)].map(k => [k, k === 'all' ? inTh.length : inTh.filter(r => r.cat === k).length]).filter(([k, n]) => k === 'all' || n).map(([k, n]) => `<button class="chip" data-refcat="${k}" aria-pressed="${S.refCat === k}">${esc(k === 'all' ? 'すべての用途' : RC[k])}（${n}）</button>`).join('')}</div>
     <div class="row"><label class="muted" for="refQsel">検索語</label><select id="refQsel" style="font:inherit;padding:5px 8px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink);max-width:100%">${[['all', 'すべて'], ...qs.map(q => [q, q])].map(([k, n]) => `<option value="${esc(k)}"${S.refQ === k ? ' selected' : ''}>${esc(n)}（${k === 'all' ? byTh.length : byTh.filter(r => r.q === k).length}）</option>`).join('')}</select></div>`;
@@ -601,7 +610,7 @@ function renderRefs() { S.refRate = S.refRate || 'all'; S.refTh = S.refTh || 'al
   const kw = (S.refKw || '').trim().toUpperCase(); $('refs').innerHTML = byTh.slice().sort((a, b) => (S.refSort ? (rateOf(b) ?? -2) - (rateOf(a) ?? -2) : 0) || (b.verdict === '採用') - (a.verdict === '採用') || (a.verdict === '不採用') - (b.verdict === '不採用')).filter(r => (S.refQ === 'all' || r.q === S.refQ) && (!S.refMa || r.ma) && (!S.refOk || r.verdict) && (S.refRate === 'all' || (S.refRate === 'none' ? rateOf(r) === null : rateOf(r) === +S.refRate)) && (!kw || (r.no + ' ' + (r.ma || '') + ' ' + r.q + ' ' + (r.use || '') + ' ' + (r.note || '') + ' ' + (r.title || '') + ' ' + (RC[r.cat] || '')).toUpperCase().includes(kw))).map(r => `<div class="card"><a href="${esc(r.url)}" target="_blank" rel="noopener"><img src="${r.thumb}" alt="" loading="lazy"></a><div class="b"><div class="row" style="gap:5px"><span class="no">${esc(r.no)}</span>${r.verdict ? `<span class="pill ok">${esc(r.verdict)}</span>` : ''}${r.dups ? `<span class="pill" title="${esc(r.dups.join('、'))}">同じ画像 ${r.dups.length + 1}件</span>` : ''}</div>${rate3Html(r)}${r.note ? `<span style="font-size:11.5px;color:var(--ok)">${esc(r.note)}</span>` : ''}${RC[r.cat] ? `<span class="muted">用途：${esc(RC[r.cat])}</span>` : ''}${r.title ? `<span style="font-size:11.5px">${esc(r.title)}</span>` : ''}<span class="muted">検索：${esc(r.q)}</span>${r.ma ? `<span class="ma" style="white-space:normal">${esc(r.ma)}</span>${r.ocr ? '<span class="muted">画像から自動で読んだ作者ID（要確認）</span>' : ''}` : ''}${r.use ? `<span style="font-size:12px;color:var(--ok)">使っている所：${esc(r.use)}</span>` : ''}</div></div>`).join(''); }
 $('refKw').addEventListener('input', e => { S.refKw = e.target.value; renderRefs(); });
 document.addEventListener('click', e => { const st = e.target.closest('[data-refrate]'); if (st) { const [no, n] = st.dataset.refrate.split('|'), r = D.refs.find(x => x.no === no); setVote(no, +n); st.closest('.r3w').outerHTML = rate3Html(r); const cp = document.querySelector('#refChips [data-refcopy]'); if (cp) cp.textContent = `評価をコピー（${nRated()}件）`; return; }
-  const cp = e.target.closest('[data-refcopy]'); if (cp) { const txt = AREAS.flatMap(c => D.refs.filter(r => rateOf(r, c) !== null).map(r => `${r.no} ${areaName(c)} ${labelOf(r, c)}`)).join('\n'); if (S.tab === 'vote') { S.tab = 'refs'; document.querySelector('.tab[data-tab="refs"]').click(); } $('refScoreBox').hidden = false; $('refScoreText').value = txt || '（まだ評価していません）'; const ok = () => { $('refScoreMsg').textContent = 'コピーしました。そのまま送ってください'; }, fb = () => { $('refScoreText').focus(); $('refScoreText').select(); $('refScoreMsg').textContent = '選択しました。コピーしてください'; }; try { navigator.clipboard.writeText(txt).then(ok, fb); } catch (err) { fb(); } return; }
+  const cp = e.target.closest('[data-refcopy]'); if (cp) { const txt = VA.flatMap(c => D.refs.filter(r => rateOf(r, c) !== null).map(r => `${r.no} ${areaName(c)} ${labelOf(r, c)}`)).join('\n'); if (S.tab === 'vote') { S.tab = 'refs'; document.querySelector('.tab[data-tab="refs"]').click(); } $('refScoreBox').hidden = false; $('refScoreText').value = txt || '（まだ評価していません）'; const ok = () => { $('refScoreMsg').textContent = 'コピーしました。そのまま送ってください'; }, fb = () => { $('refScoreText').focus(); $('refScoreText').select(); $('refScoreMsg').textContent = '選択しました。コピーしてください'; }; try { navigator.clipboard.writeText(txt).then(ok, fb); } catch (err) { fb(); } return; }
   const t = e.target.closest('[data-refq],[data-refth],[data-refcat],[data-refratef],[data-refsort],[data-refma],[data-refok]'); if (!t) return; if (t.dataset.refratef) S.refRate = t.dataset.refratef; if (t.dataset.refsort) S.refSort = !S.refSort; if (t.dataset.refcat) S.refCat = t.dataset.refcat; if (t.dataset.refq) S.refQ = t.dataset.refq; if (t.dataset.refth) S.refTh = t.dataset.refth; if (t.dataset.refma) S.refMa = !S.refMa; if (t.dataset.refok) S.refOk = !S.refOk; renderRefs(); });
 // ---------- 作例の審査 ----------
 // 大きな画像は big/c000.jpg…（6枚ずつ JPEG をつないだもの）。D.big[番号] = [ファイル, 始まり, 長さ]
@@ -615,13 +624,14 @@ const TOP = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 
 const MID = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10.5h16v3H4z"/></svg>';
 const DN = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 3h-4v12h4V3zM2 14a2 2 0 0 0 2 2h6.3l-1 4.6v.3c0 .4.2.8.4 1.1l1.1 1 6.6-6.6c.4-.4.6-.9.6-1.4V5a2 2 0 0 0-2-2H7c-.8 0-1.5.5-1.8 1.2l-3 7.1c-.1.2-.2.5-.2.7v2z"/></svg>';
 // その地区の作例と、すべての地区向けの作例（島の施設の前など）を、その地区で使うかどうかで評価する
-const inDist = (r, k) => r.th === k || r.th === 'all' || (r.ths || []).includes(k);
+// 地区は残した作例の地区だけで決める（まとめた重複が別の地区の検索で見つかっていても、その地区には出さない）。共通は th: all の作例
+const inDist = (r, k) => (k === 'com' ? r.th === 'all' : r.th === k) || movedInto(r, k);
 function voteList() { const v = S.vote; return D.refs.filter(r => inDist(r, v.th) && (v.cat === 'all' || r.cat === v.cat) && (!v.todo || rateOf(r) === null || v.seen[v.th + '|' + r.no])); }
 function renderVote() { S.vote = S.vote || { th: 'lon', cat: 'all', todo: true, i: 0, cur: null, seen: {}, mode: 'rate', rf: '1' }; const v = S.vote, RC = D.refCats || {}, TN = { ...TH, hal: 'ハロウィン' };
   const inD = D.refs.filter(r => inDist(r, v.th)), all = inD.length, done = inD.filter(r => rateOf(r) !== null).length, cnt = n => inD.filter(r => rateOf(r) === n).length;
   $('voteChips').innerHTML = `<div class="vmode" role="tablist" aria-label="審査のしかた"><button role="tab" data-vmode="rate" aria-selected="${v.mode !== 'review'}">1枚ずつ審査する</button><button role="tab" data-vmode="review" aria-selected="${v.mode === 'review'}">審査ずみを見直す（${done}）</button></div>
     <div class="row" style="justify-content:space-between"><div class="row"><b>${esc(areaName(v.th))}：${done} / ${all} 審査ずみ</b><span class="vtag top">めっちゃいい ${cnt(2)}</span><span class="vtag up">いいね ${cnt(1)}</span><span class="vtag up" style="opacity:.8">うち別の地区 ${inD.filter(r => areaOf(r)).length}</span><span class="vtag mid">ふつう ${cnt(0)}</span><span class="vtag dn">イマイチ ${cnt(-1)}</span><span class="muted" id="vDb">${DB ? 'データベースに保存中（Claude が読めます）' : 'このブラウザに保存中'}</span></div><button class="chip" data-refcopy="1">評価をコピー</button></div><div class="vbar"><i style="width:${(done / all * 100).toFixed(1)}%"></i></div>
-    <div class="row"><span class="muted">どの地区で使うかを評価</span>${AREAS.map(k => `<button class="chip" data-vth="${k}" aria-pressed="${v.th === k}">${esc(areaName(k))}（${nRated(k)}）</button>`).join('')}</div>
+    <div class="row"><span class="muted">どの地区で使うかを評価</span>${VA.map(k => `<button class="chip" data-vth="${k}" aria-pressed="${v.th === k}">${esc(areaName(k))}（${nRated(k)}）</button>`).join('')}</div>
     <details class="vfilt" id="vFilt"${v.fopen ? ' open' : ''}><summary>絞りこみ：用途 ${esc(v.cat === 'all' ? 'すべて' : RC[v.cat])}・${v.todo ? 'まだ審査していないものだけ' : '審査ずみも出す'}</summary><div><div class="row"><span class="muted">用途</span>${['all', ...Object.keys(RC)].map(k => `<button class="chip" data-vcat="${k}" aria-pressed="${v.cat === k}">${esc(k === 'all' ? 'すべて' : RC[k])}</button>`).join('')}</div><div class="row"><button class="chip" data-vtodo="1" aria-pressed="${v.todo}" title="いま評価したものは、ページを開き直すまで残ります">まだ審査していないものだけ</button></div></div></details>`;
   $('vFilt').ontoggle = e => { v.fopen = e.target.open; };
   // 見直しモード：評価ごとに大きめの一覧。その場で評価を変えられ、画像を押すと大きく開く
@@ -636,7 +646,7 @@ function renderVote() { S.vote = S.vote || { th: 'lon', cat: 'all', todo: true, 
   if (v.mainOf !== r.no) { v.mainOf = r.no; v.main = r.no; }
   const pic = (no, cls) => `<img class="vpic ${cls || ''}" data-no="${esc(no)}" src="${gth(no)}" alt="${esc(no)}" style="filter:blur(2px)" draggable="false">`;
   const view = grp.length === 1 ? pic(r.no) : grp.length === 2 ? `<div class="vduo">${grp.map(no => pic(no)).join('')}</div>`
-    : `<div class="vmulti">${pic(v.main)}<div class="vthumbs">${grp.map(no => `<button data-vmain="${esc(no)}" aria-current="${no === v.main}" title="${esc(no)}"><img src="${gth(no)}" alt="${esc(no)}"></button>`).join('')}</div></div>`;
+    : `<div class="vmulti"><div class="vthumbs"><span class="vthn">${grp.indexOf(v.main) + 1} / ${grp.length} 枚目</span>${grp.map(no => `<button data-vmain="${esc(no)}" aria-current="${no === v.main}" title="${esc(no)}"><img src="${gth(no)}" alt="${esc(no)}"></button>`).join('')}</div>${pic(v.main)}</div>`;
   $('vImg').className = 'vimg'; $('vImg').innerHTML = `${view}<button class="vedge l" data-vgo="-1" aria-label="前へ">‹</button><button class="vedge r" data-vgo="1" aria-label="次へ">›</button><span class="vhint">クリックで拡大・ダブルクリックでいいね・左右のはしで前・次</span><div class="vstamp" id="vStamp"></div>`;
   // 前後の作例：1ページ100枚。ふだんはいまの作例のページ、ページ送りで ほかのページも見られる
   const PG = 100, np = Math.max(1, Math.ceil(L.length / PG)), pg = v.sp != null ? Math.min(v.sp, np - 1) : Math.floor(v.i / PG), lo = pg * PG;
@@ -645,13 +655,13 @@ function renderVote() { S.vote = S.vote || { th: 'lon', cat: 'all', todo: true, 
   document.querySelectorAll('#vImg img.vpic').forEach(im => bigUrl(im.dataset.no).then(u => { if (S.vote.cur !== r.no) return; if (u) im.src = u; im.style.filter = ''; }));
   L.slice(v.i + 1, v.i + 3).forEach(n => bigUrl(n.no));
   $('vSide').innerHTML = `<div class="vstate ${rv === null ? '' : areaOf(r) ? 'up' : RCLS[rv]}">${rv === null ? 'まだ評価していません' : `評価ずみ：${esc(labelOf(r))}（押し直すと変えられます）`}</div><div class="row" style="gap:6px"><span class="no">${esc(r.no)}</span>${r.verdict ? `<span class="pill ok">${esc(r.verdict)}</span>` : ''}<span class="muted">${v.i + 1} / ${L.length}</span></div>${r.dups ? `<span class="vgrp" title="${esc(r.dups.join('、'))}">同じ作例 ${r.dups.length + 1}枚（同じ画像・角度ちがい）。評価は全部まとめて1つ</span>` : ''}
-    ${r.title ? `<b style="font-size:15px">${esc(r.title)}</b>` : ''}<span class="muted">${esc((TN[r.th] || 'すべての地区') + '・' + (RC[r.cat] || ''))}</span><span class="muted">検索：${esc(r.q)}</span>${r.ma ? `<span class="ma" style="white-space:normal">${esc(r.ma)}</span>` : ''}
+    ${r.title ? `<b style="font-size:15px">${esc(r.title)}</b>` : ''}${movedInto(r, v.th) && r.th !== (v.th === 'com' ? 'all' : v.th) ? `<span class="vtag up" style="align-self:flex-start">${esc(r.th === 'all' ? '共通' : areaName(r.th))}から「いいね（→${esc(areaName(v.th))}）」で移した作例</span>` : ''}<span class="muted">${esc((r.th === 'all' ? '共通' : (TN[r.th] || '')) + '・' + (RC[r.cat] || ''))}</span><span class="muted">検索：${esc(r.q)}</span>${r.ma ? `<span class="ma" style="white-space:normal">${esc(r.ma)}</span>` : ''}
     <div class="vctl"><div class="vbtns"><button class="vbtn top" data-vrate="2" aria-pressed="${rv === 2}">${TOP}<span>めっちゃいい<small style="font-weight:500;opacity:.85">・絶対に島に入れる</small></span><span class="kbd">1</span></button><button class="vbtn up" data-vrate="1" aria-pressed="${rv === 1 && !areaOf(r)}">${UP}いいね<span class="kbd">2</span></button><button class="vbtn mid" data-vrate="0" aria-pressed="${rv === 0}">${MID}ふつう<span class="kbd">3</span></button><button class="vbtn dn" data-vrate="-1" aria-pressed="${rv === -1 }">${DN}イマイチ<span class="kbd">4</span></button></div>
     <button class="vbtn alt" data-vpick="1" aria-expanded="${!!v.pick}" aria-pressed="${!!areaOf(r)}">${UP}<span>いいね（別の地区）${areaOf(r) ? `：${esc(areaName(areaOf(r)))}` : ''}</span><span class="kbd">5</span></button>
     ${v.pick ? `<div class="vareas" role="group" aria-label="どの地区で使うか">${pickAreas(v.th).map((k, j) => `<button data-varea="${k}" aria-pressed="${areaOf(r) === k}">${esc(pickName(k))}<span class="kbd">${j + 1}</span></button>`).join('')}</div>` : ''}
     <div class="vnav"><button data-vgo="-1">← 前へ</button><button data-vgo="1">スキップ →</button></div></div>
     <a href="${esc(r.url)}" target="_blank" rel="noopener" class="muted">元の画像を開く</a>
-    <span class="muted vkeys"><span class="kbd">1</span> めっちゃいい（絶対に島に入れる）　<span class="kbd">2</span> いいね　<span class="kbd">3</span> ふつう　<span class="kbd">4</span> イマイチ　<span class="kbd">5</span> 別の地区でいいね（続けて 1〜7 で地区、7＝わからない）　<span class="kbd">←</span><span class="kbd">→</span> 前・次。評価をつけると次へ進みます。同じボタンをもう一度で取り消し</span>`; }
+    <span class="muted vkeys"><span class="kbd">1</span> めっちゃいい（絶対に島に入れる）　<span class="kbd">2</span> いいね　<span class="kbd">3</span> ふつう　<span class="kbd">4</span> イマイチ　<span class="kbd">5</span> 別の地区でいいね（続けて数字で地区。最後＝わからない）　<span class="kbd">←</span><span class="kbd">→</span> 前・次。評価をつけると次へ進みます。同じボタンをもう一度で取り消し</span>`; }
 function renderReview(inD) { const v = S.vote, groups = [['2', 'めっちゃいい', r => rateOf(r) === 2], ['1', 'いいね', r => rateOf(r) === 1 && !areaOf(r)], ['area', 'いいね（別の地区）', r => !!areaOf(r)], ['0', 'ふつう', r => rateOf(r) === 0], ['-1', 'イマイチ', r => rateOf(r) === -1]];
   const g = groups.find(x => x[0] === v.rf) || groups[0], list = inD.filter(g[2]);
   $('vReview').innerHTML = `<div class="row">${groups.map(([k, t, f]) => `<button class="chip" data-vrf="${k}" aria-pressed="${g[0] === k}">${t}（${inD.filter(f).length}）</button>`).join('')}</div>
@@ -689,7 +699,7 @@ document.addEventListener('keydown', e => { if (S.tab !== 'vote' || /INPUT|TEXTA
   if ((k === 'z' && (e.ctrlKey || e.metaKey)) || k === 'u') { undo(); e.preventDefault(); return; }
   if (S.vote && S.vote.mode === 'review') return;
   // 地区を選ぶ一覧が開いているときは、数字キーで地区（1〜7、7＝わからない）
-  if (S.vote && S.vote.pick && /^[1-7]$/.test(k)) { const ks = pickAreas(S.vote.th); if (ks[+k - 1]) voteAct('area', ks[+k - 1]); e.preventDefault(); return; }
+  if (S.vote && S.vote.pick && /^[1-8]$/.test(k)) { const ks = pickAreas(S.vote.th); if (ks[+k - 1]) voteAct('area', ks[+k - 1]); e.preventDefault(); return; }
   if (k === '1') voteAct('rate', 2); else if (k === '2' || k === 'a') voteAct('rate', 1); else if (k === '3' || k === 's') voteAct('rate', 0); else if (k === '4' || k === 'z') voteAct('rate', -1); else if (k === '5') voteAct('pick'); else if (k === 'escape' && S.vote && S.vote.pick) voteAct('pick'); else if (k === 'arrowright') voteAct('go', 1); else if (k === 'arrowleft') voteAct('go', -1); else return; e.preventDefault(); });
 // 画像：クリックで拡大（マウスの位置に寄る）、もう一度で戻す。ダブルクリックでいいね
 let clickT = null;
@@ -701,7 +711,7 @@ $('vImg').addEventListener('mousemove', e => zoomAt(e));
 $('vImg').addEventListener('mouseleave', () => document.querySelectorAll('#vImg img.zoomed').forEach(x => x.classList.remove('zoomed')));
 // データベース：開いたときに読みこんで、このブラウザの評価と合わせる（新しく変えた方を残す）
 if (window.claude && window.claude.use) window.claude.use('db').then(db => { if (!db) return; DB = db; return db.doc('votes/all').get().then(snap => { const d = snap.data(); const local = nRated();
-  if (d) { const rv = loadRv(d.r || {}, d.v || {}), ra = loadRa(d.r ? d.a : {}, d.r ? {} : d.a); AREAS.forEach(c => { S.rv[c] = { ...(rv[c] || {}), ...(S.rv[c] || {}) }; S.ra[c] = { ...(ra[c] || {}), ...(S.ra[c] || {}) }; }); moveDups(); store.set('ice-rv', S.rv); store.set('ice-ra', S.ra); } if (local) saveDb(); if (S.tab === 'vote') renderVote(); if (S.tab === 'refs') renderRefs(); }); }).catch(() => {});
+  if (d) { const rv = loadRv(d.r || {}, d.v || {}), ra = loadRa(d.r ? d.a : {}, d.r ? {} : d.a); VA.forEach(c => { S.rv[c] = { ...(rv[c] || {}), ...(S.rv[c] || {}) }; S.ra[c] = { ...(ra[c] || {}), ...(S.ra[c] || {}) }; }); moveDups(); store.set('ice-rv', S.rv); store.set('ice-ra', S.ra); } if (local) saveDb(); if (S.tab === 'vote') renderVote(); if (S.tab === 'refs') renderRefs(); }); }).catch(() => {});
 renderStats(); renderLists(); select(S.sel); window.addEventListener('resize', () => drawMap());
 })();
 </script>
