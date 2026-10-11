@@ -1,0 +1,72 @@
+{
+ "version": 1,
+ "modules": [
+  {
+   "id": "xhs_lon_cafe",
+   "th": "小红书",
+   "name": "【ロンドン】英国の街角カフェ",
+   "r": [
+    "WWWWWWWWWWWW",
+    "tBcBeBsYYBtO",
+    "thBsBxhBcBsF",
+    "BBBBBBBBBBBB",
+    "pppppppppppp",
+    "pbbppppppbbp",
+    "ffffffffffff"
+   ],
+   "memo": "奥にレンガの壁、レンガ敷きのテラスに丸テーブル・黒板メニュー・パンの屋台。歩道を挟んで鉄柵とベンチ。街道沿いに",
+   "note": "奥にレンガの壁、レンガ敷きのテラスに丸テーブル・黒板メニュー・パンの屋台。歩道を挟んで鉄柵とベンチ。街道沿いに（出典：动森 英伦风街道 街边咖啡店☕️含地砖码）",
+   "src": {
+    "id": "5f9acfe800000000010015de",
+    "title": "动森 英伦风街道 街边咖啡店☕️含地砖码",
+    "url": "https://www.xiaohongshu.com/explore/5f9acfe800000000010015de?xsec_token=AB1vVRdoZI-wSrzTnWJpLp5fI1OjTf35bZGFz4cOXZTJ4%3D&xsec_source=pc_search",
+    "dist": "ロンドン"
+   },
+   "mat": ""
+  },
+  {
+   "id": "xhs_lon_books",
+   "th": "小红书",
+   "name": "【ロンドン】ハリポタ風の本屋",
+   "r": [
+    "IIIKIII",
+    "IBBBBhI",
+    "YYBBBcI",
+    "YYBBhBI",
+    "BBBBggI",
+    "BBBBBBB"
+   ],
+   "memo": "本棚で三方を囲み、手前左にカウンター、奥に柱時計、右奥に暖炉と揺り椅子、手前右にツタのプランター。床はレンガ",
+   "note": "本棚で三方を囲み、手前左にカウンター、奥に柱時計、右奥に暖炉と揺り椅子、手前右にツタのプランター。床はレンガ（出典：动森｜哈利波特书店｜英伦风小场景）",
+   "src": {
+    "id": "653ce64b000000001f03b2e3",
+    "title": "动森｜哈利波特书店｜英伦风小场景",
+    "url": "https://www.xiaohongshu.com/explore/653ce64b000000001f03b2e3?xsec_token=AB3exu5c0DAzvib-50CZMcnSgu1Z46lyfuYiFCzGt5K_4%3D&xsec_source=pc_search",
+    "dist": "ロンドン"
+   },
+   "mat": ""
+  },
+  {
+   "id": "xhs_lon_pub",
+   "th": "小红书",
+   "name": "【ロンドン】英国パブのテラス",
+   "r": [
+    "IxxYYYYI",
+    "dddhhhhd",
+    "sdhdddde",
+    "ddcdddcd",
+    "dhchdhch",
+    "dddddddd"
+   ],
+   "memo": "木の床。奥にカウンター（書斎の机）と樽、手前にテーブル席。黒板メニュー・ろうそく・コーヒーミルで夕方の雰囲気",
+   "note": "木の床。奥にカウンター（書斎の机）と樽、手前にテーブル席。黒板メニュー・ろうそく・コーヒーミルで夕方の雰囲気（出典：动森🍺室外英式酒吧设计）",
+   "src": {
+    "id": "5efd1adb000000000101ed3c",
+    "title": "动森🍺室外英式酒吧设计",
+    "url": "https://www.xiaohongshu.com/explore/5efd1adb000000000101ed3c?xsec_token=AB6-cshLfsmmqPxKkx8bz7l4UMHa_In3aq61acFXkx1fw%3D&xsec_source=pc_search",
+    "dist": "ロンドン"
+   },
+   "mat": ""
+  }
+ ]
+}
