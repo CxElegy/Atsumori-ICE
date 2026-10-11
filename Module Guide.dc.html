@@ -17,7 +17,7 @@
 <header style="display:flex;flex-direction:column;gap:8px">
 <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:oklch(0.5 0.02 60)">アイス島 改造プラン ／ モジュールの組み方</div>
 <h1 style="margin:0;font-size:clamp(26px,3.6vw,38px);font-weight:700;line-height:1.2">{{ docName }}のモジュールを、マス目と家具まで組む</h1>
-<p style="margin:0;max-width:860px;font-size:14px;line-height:1.8;text-wrap:pretty">モジュールを選ぶと、1マスごとにどのマイデザインのどのパーツを敷くか、どの家具をどこに置くかを順に示します。マイデザインは作者の画像と作者IDつき。画像は Pinterest へのリンクです。</p>
+<p style="margin:0;max-width:860px;font-size:14px;line-height:1.8;text-wrap:pretty">モジュールを選ぶと、1マスごとにどのマイデザインのどのパーツを敷くか、どの家具をどこに置くかを順に示します。マス目の図には、作者の画像から切り出したパーツをそのまま貼っています（画像は Pinterest から読むので、読めないときは色の図になります）。</p>
 <div style="display:flex;gap:14px;font-size:13px"><a href="Module Builder.dc.html">組み立て台へ</a><a href="London Render.dc.html">ロンドンの立体図へ</a></div>
 </header>
 
@@ -31,8 +31,18 @@
 <span style="font-size:12px;color:oklch(0.5 0.02 60);margin-right:4px">モジュール</span>
 <sc-for list="{{ groups }}" as="g" hint-placeholder-count="2"><button onClick="{{ g.pick }}" style="font:inherit;font-size:12px;border:1px solid oklch(0.85 0.02 85);border-radius:999px;padding:4px 11px;cursor:pointer;background:{{ g.bg }};color:{{ g.fg }}">{{ g.name }}</button></sc-for>
 </div>
+<div style="background:white;border-radius:16px;padding:16px 18px;display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;gap:18px;flex-wrap:wrap;align-items:baseline">
+<b style="font-size:16px">{{ docName }}を建てる準備</b>
+<span style="font-size:13px">できたモジュール <b style="font-size:18px">{{ doneN }}</b> / {{ allN }}</span>
+<span style="font-size:13px">ダウンロードする作者 <b style="font-size:18px">{{ prepDesigns }}</b> 件</span>
+<span style="font-size:13px">保存するマイデザイン <b style="font-size:18px">{{ prepSlots }}</b> 枠（地面のパーツ {{ prepGround }}・家具に貼る図 {{ prepItems }}）</span>
+<button onClick="{{ copyList }}" style="font:inherit;font-size:12px;border:0;border-radius:999px;padding:5px 12px;cursor:pointer;background:#4a3b30;color:white">{{ copyLabel }}</button>
+</div>
+<span style="font-size:12px;line-height:1.7;color:oklch(0.45 0.02 60)">エイブルの端末へ行くのは1回にまとめる：作者IDを順に入れて、下の一覧のパーツだけを保存する（使わないパーツは保存しない）。道のパーツは1つで1枠。保存の枠には限りがあるので、地区ごとに入れかえる</span>
+</div>
 <div style="display:flex;gap:8px;flex-wrap:wrap">
-<sc-for list="{{ chips }}" as="c" hint-placeholder-count="8"><button onClick="{{ c.pick }}" style="font:inherit;font-size:13px;border:0;border-radius:10px;padding:7px 12px;cursor:pointer;background:{{ c.bg }};color:{{ c.fg }}">{{ c.name }} <span style="opacity:.6;font-size:11px">{{ c.size }}</span></button></sc-for>
+<sc-for list="{{ chips }}" as="c" hint-placeholder-count="8"><button onClick="{{ c.pick }}" style="font:inherit;font-size:13px;border:0;border-radius:10px;padding:7px 12px;cursor:pointer;background:{{ c.bg }};color:{{ c.fg }}">{{ c.mark }}{{ c.name }} <span style="opacity:.6;font-size:11px">{{ c.size }}</span></button></sc-for>
 </div>
 
 <div class="two">
@@ -41,15 +51,22 @@
 <span style="font-size:13px;line-height:1.7;color:oklch(0.42 0.02 60)">{{ mNote }}</span>
 <canvas ref="{{ cvRef }}" onMouseMove="{{ onMove }}" onMouseLeave="{{ onLeave }}" style="width:100%;display:block;border-radius:10px;background:#7dbb5a"></canvas>
 <div style="font-size:12px;color:oklch(0.4 0.02 60);min-height:20px;font-family:'IBM Plex Mono','Zen Maru Gothic',monospace">{{ hoverInfo }}</div>
-<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:6px"><b style="font-size:15px;margin-right:6px">立体図</b>
-<sc-for list="{{ views }}" as="v" hint-placeholder-count="4"><button onClick="{{ v.pick }}" style="font:inherit;font-size:12px;border:1px solid oklch(0.85 0.02 85);border-radius:999px;padding:4px 10px;cursor:pointer;background:{{ v.bg }};color:{{ v.fg }}">{{ v.name }}</button></sc-for>
-<span style="width:8px"></span>
-<sc-for list="{{ pitches }}" as="v" hint-placeholder-count="3"><button onClick="{{ v.pick }}" style="font:inherit;font-size:12px;border:1px solid oklch(0.85 0.02 85);border-radius:999px;padding:4px 10px;cursor:pointer;background:{{ v.bg }};color:{{ v.fg }}">{{ v.name }}</button></sc-for>
-<button onClick="{{ spin }}" style="font:inherit;font-size:12px;border:0;border-radius:999px;padding:5px 12px;cursor:pointer;background:#a8402a;color:white">{{ spinLabel }}</button>
+<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span style="font-size:12px;color:oklch(0.5 0.02 60)">{{ mPlace }}</span>
+<button onClick="{{ toggleOv }}" style="font:inherit;font-size:12px;border:1px solid oklch(0.85 0.02 85);border-radius:999px;padding:4px 11px;cursor:pointer;background:{{ ovBg }};color:{{ ovFg }}">設計の線（奥・中・手前／中心線／通れない所）</button></div>
+<div style="border-top:1px solid oklch(0.92 0.01 85);padding-top:12px;display:flex;flex-direction:column;gap:10px">
+<b style="font-size:16px">設計のしかた</b>
+<sc-if value="{{ hasConcept }}" hint-placeholder-val="{{ true }}">
+<div style="font-size:13px;line-height:1.75"><b>ねらい</b>　{{ concept }}</div>
+<div style="font-size:13px;line-height:1.75"><b>カメラから見える場面</b>　{{ scene }}</div>
+</sc-if>
+<div style="display:grid;grid-template-columns:auto auto 1fr;gap:6px 10px;font-size:13px;line-height:1.6">
+<sc-for list="{{ layers }}" as="l" hint-placeholder-count="3"><span style="background:{{ l.bg }};border-radius:6px;padding:1px 8px;font-weight:700;text-align:center">{{ l.band }}</span><b>{{ l.role }}</b><span>{{ l.what }}</span></sc-for>
 </div>
-<canvas ref="{{ cv3Ref }}" onMouseDown="{{ dDown }}" onMouseMove="{{ dMove }}" onMouseUp="{{ dUp }}" onMouseLeave="{{ dUp }}" style="width:100%;height:440px;display:block;border-radius:10px;background:linear-gradient(#cfeaf3,#eaf6f0);cursor:grab;touch-action:none"></canvas>
-<span style="font-size:12px;color:oklch(0.5 0.02 60)">ドラッグで回す（左右＝向き、上下＝見下ろす角度）。あつ森のカメラは「南から・ななめ」</span>
-<span style="font-size:12px;color:oklch(0.5 0.02 60)">{{ mPlace }}</span>
+<b style="font-size:13px;margin-top:4px">チェック（美的センスの基準から自動で）</b>
+<sc-for list="{{ checks }}" as="c" hint-placeholder-count="5"><div style="display:flex;gap:8px;font-size:13px;line-height:1.6"><span style="flex:none;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;background:{{ c.bg }};color:white">{{ c.mark }}</span><span><b>{{ c.name }}</b>　{{ c.text }}</span></div></sc-for>
+<sc-if value="{{ hasTips }}" hint-placeholder-val="{{ false }}"><b style="font-size:13px;margin-top:4px">コツ</b>
+<sc-for list="{{ tips }}" as="t" hint-placeholder-count="2"><span style="font-size:13px;line-height:1.6">・{{ t }}</span></sc-for></sc-if>
+</div>
 <sc-if value="{{ hasEx }}" hint-placeholder-val="{{ false }}">
 <b style="font-size:13px;margin-top:6px">参考の写真（作例）</b>
 <div style="display:flex;gap:10px;overflow-x:auto;padding-bottom:4px">
@@ -60,7 +77,7 @@
 
 <div style="display:flex;flex-direction:column;gap:14px">
 <div style="background:white;border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:12px">
-<b style="font-size:16px">① 地面を敷く（マイデザインの道）</b>
+<div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><b style="font-size:16px">① 地面を敷く（マイデザインの道）</b><button onClick="{{ step_g.pick }}" style="font:inherit;font-size:12px;border:1px solid oklch(0.85 0.02 85);border-radius:999px;padding:4px 11px;cursor:pointer;background:{{ step_g.bg }};color:{{ step_g.fg }}">{{ step_g.name }}</button></div>
 <sc-if value="{{ noGround }}" hint-placeholder-val="{{ false }}"><span style="font-size:13px;color:oklch(0.5 0.02 60)">道は敷かない（草地のまま）</span></sc-if>
 <sc-for list="{{ grounds }}" as="d" hint-placeholder-count="2">
 <div style="display:flex;gap:12px;align-items:flex-start">
@@ -76,7 +93,7 @@
 </div>
 
 <div style="background:white;border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:12px">
-<b style="font-size:16px">② マイデザインを貼る家具</b>
+<div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><b style="font-size:16px">② マイデザインを貼る家具</b><button onClick="{{ step_d.pick }}" style="font:inherit;font-size:12px;border:1px solid oklch(0.85 0.02 85);border-radius:999px;padding:4px 11px;cursor:pointer;background:{{ step_d.bg }};color:{{ step_d.fg }}">{{ step_d.name }}</button></div>
 <sc-if value="{{ noDz }}" hint-placeholder-val="{{ false }}"><span style="font-size:13px;color:oklch(0.5 0.02 60)">なし</span></sc-if>
 <sc-for list="{{ dzItems }}" as="d" hint-placeholder-count="2">
 <div style="display:flex;gap:12px;align-items:flex-start">
@@ -92,7 +109,7 @@
 </div>
 
 <div style="background:white;border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:8px">
-<b style="font-size:16px">③ ほかの家具を置く</b>
+<div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><b style="font-size:16px">③ ほかの家具を置く</b><button onClick="{{ step_p.pick }}" style="font:inherit;font-size:12px;border:1px solid oklch(0.85 0.02 85);border-radius:999px;padding:4px 11px;cursor:pointer;background:{{ step_p.bg }};color:{{ step_p.fg }}">{{ step_p.name }}</button></div>
 <sc-if value="{{ noPlain }}" hint-placeholder-val="{{ false }}"><span style="font-size:13px;color:oklch(0.5 0.02 60)">なし</span></sc-if>
 <sc-for list="{{ plain }}" as="d" hint-placeholder-count="3">
 <div style="display:flex;gap:8px;align-items:baseline;font-size:13px;line-height:1.6"><span style="flex:none;background:{{ d.bg }};color:{{ d.fg }};border-radius:6px;font-size:12px;font-weight:700;padding:1px 7px">{{ d.num }}</span><span><b>{{ d.furn }} ×{{ d.n }}</b>　{{ d.pos }}<span style="color:oklch(0.5 0.02 60)">{{ d.note }}</span></span></div>
@@ -132,10 +149,9 @@
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
   cv = React.createRef();
-  state = { tab: 'guide', group: 'detail', sel: 'lon_d_crossing', bookTh: 'lon', hover: null, loaded: false, yaw: 0, pitch: 50, spinning: false };
-  cv3 = React.createRef();
+  state = { tab: 'guide', group: 'detail', sel: 'lon_d_crossing', bookTh: 'lon', hover: null, loaded: false, overlay: false, done: {}, copied: false };
   CAT = {}; CATL = []; EX = []; DOC = null; ADOPT = []; SAMPLES = null; DT = null;
-  S = 44;
+  S = 64; IMG = {};
   TH = { lon: 'ロンドン', eur: 'ヨーロッパ', usa: 'アメリカ', port: '地中海' };
   ROLE = { landmark: '主役', support: '脇役', filler: 'すき間うめ', edge: '道ばた', step: '段差', facility: '施設' };
   ITEM = {   // 家具の描き方：[文字, 地の色, 字の色]
@@ -153,93 +169,11 @@ class Component extends DCLogic {
       this.CATL = cat.designs; this.CAT = Object.fromEntries(cat.designs.map(d => [d.id, d])); this.EX = cat.examples || []; this.BOOKNOTE = cat.note;
       this.DOC = lon; this.SAMPLES = smp;
       this.ADOPT = cur.modules.filter(m => m.th === lon.name && m.r.join('').replace(/\./g, '').length >= 4);
-      this.setState({ loaded: true });
+      this.loadTex(); let done = {}; try { done = JSON.parse(localStorage.getItem('wti-guide-done') || '{}') || {}; } catch (e) {}
+      this.setState({ loaded: true, done });
     });
   }
-  componentDidUpdate() { this.draw(); this.draw3(); }
-  componentWillUnmount() { clearInterval(this.timer); }
-
-  // ---- 立体図：モジュールを小さな箱庭にして、好きな向きと角度から見る ----
-  // 1マス＝1。z は高さ（1＝1マスの幅と同じ）。向き yaw は 0＝南から（あつ森のカメラ）・90＝東から
-  SHAPES(ch, x, y) {
-    const B = (x0, y0, z0, x1, y1, z1, c) => ({ t: 'box', b: [x + x0, y + y0, z0, x + x1, y + y1, z1], c }), O = (cx, cy, cz, r, c) => ({ t: 'ball', p: [x + cx, y + cy, cz], r, c });
-    switch (ch) {
-      case 'W': return [B(0, .05, 0, 1, .2, 1.7, '#9a5440'), B(.2, .19, .55, .45, .22, 1.15, '#3b4f62'), B(.55, .19, .55, .8, .22, 1.15, '#3b4f62'), B(0, .03, 1.7, 1, .22, 1.8, '#d9c9b0')];
-      case 'Q': return [B(0, .02, 0, 1, .3, 2.5, '#a39c90'), B(.3, .29, 1.2, .7, .32, 1.9, '#3b4f62'), B(-.02, 0, 2.5, 1.02, .32, 2.7, '#8a8378')];
-      case 'A': return [B(0, .05, 0, .2, .25, 2.1, '#a39c90'), B(.8, .05, 0, 1, .25, 2.1, '#a39c90'), B(0, .05, 1.6, 1, .25, 2.1, '#a39c90'), B(.2, .1, 0, .8, .15, 1.6, '#4a3a2e')];
-      case 'C': return [B(.02, .15, .15, .98, .85, 1.25, '#23306b'), B(.1, .84, .6, .9, .87, .95, '#e8d48a'), B(.02, .15, 1.25, .98, .85, 1.35, '#3a3f5c'), B(.15, .2, 0, .3, .8, .15, '#222'), B(.7, .2, 0, .85, .8, .15, '#222')];
-      case 'v': return [B(0, .1, .1, 1, .9, 2.0, '#d23a2f'), B(.08, .89, .55, .92, .92, .95, '#cfe6f2'), B(.08, .89, 1.35, .92, .92, 1.75, '#cfe6f2'), B(0, .1, 2.0, 1, .9, 2.06, '#b02a22')];
-      case 'T': return [B(.2, .2, 0, .8, .8, 1.9, '#c8352b'), B(.27, .79, .3, .73, .82, 1.55, '#d8e9f0'), B(.17, .17, 1.9, .83, .83, 2.05, '#a8281f')];
-      case '$': return [B(.32, .32, 0, .68, .68, 1.0, '#c8352b'), B(.29, .29, 1.0, .71, .71, 1.12, '#2f2f33'), B(.38, .67, .7, .62, .7, .76, '#2f2f33')];
-      case 'L': return [B(.46, .46, 0, .54, .54, 2.2, '#2f2f33'), B(.38, .38, 2.2, .62, .62, 2.45, '#ffe7a3'), B(.36, .36, 2.45, .64, .64, 2.52, '#2f2f33'), B(.54, .48, 1.75, .85, .52, 1.8, '#2f2f33'), O(.85, .5, 1.6, .14, '#f2a7c3')];
-      case 'K': return [B(.45, .45, 0, .55, .55, 1.9, '#2f2f33'), B(.3, .42, 1.9, .7, .58, 2.3, '#2f2f33'), B(.34, .57, 1.94, .66, .6, 2.26, '#f6f1e2')];
-      case 'b': return [B(.1, .35, .3, .9, .7, .38, '#6b4b35'), B(.1, .32, .38, .9, .38, .75, '#6b4b35'), B(.15, .4, 0, .22, .65, .3, '#2f2f33'), B(.78, .4, 0, .85, .65, .3, '#2f2f33')];
-      case 'x': return [B(.25, .25, 0, .75, .75, .65, '#8a5a33'), B(.24, .24, .2, .76, .76, .26, '#4a3a2e'), B(.24, .24, .45, .76, .76, .5, '#4a3a2e')];
-      case 'h': return [B(.3, .3, .35, .7, .7, .42, '#6b4b35'), B(.3, .27, .42, .7, .33, .85, '#6b4b35'), B(.33, .33, 0, .67, .67, .35, '#4a3a2e')];
-      case 'c': return [B(.2, .2, .6, .8, .8, .68, '#7a5130'), B(.46, .46, 0, .54, .54, .6, '#4a3a2e')];
-      case 'Y': return [B(.05, .25, 0, .95, .75, .8, '#7a5130'), B(0, .2, .8, 1, .8, .86, '#c9a074'), B(.45, .7, .86, .55, .75, 1.7, '#3a3a3a'), B(.3, .73, 1.5, .7, .76, 1.8, '#3b5a3a')];
-      case 'i': return [B(.47, .47, 0, .53, .53, 1.2, '#4a3a2e'), B(.15, .45, .9, .85, .55, 1.4, '#3b5a3a'), B(.2, .55, .98, .8, .56, 1.32, '#f3e2a9')];
-      case 'N': return [B(.47, .47, 0, .53, .53, 1.6, '#4a3a2e'), O(.5, .5, 1.75, .22, '#c8352b'), B(.25, .45, 1.68, .75, .55, 1.82, '#23306b')];
-      case 'E': return [B(.15, .42, 0, .85, .58, 1.4, '#f4f1ea'), O(.5, .6, 1.0, .2, '#c8352b'), B(.25, .58, .95, .75, .61, 1.05, '#23306b')];
-      case '%': return [B(.46, .46, 0, .54, .54, 2.6, '#3a3a3a'), B(.54, .48, 1.9, 1.15, .52, 2.5, '#23306b'), B(.54, .47, 2.15, 1.15, .53, 2.25, '#d23a2f')];
-      case 'f': return [B(0, .45, 0, 1, .55, .08, '#2f2f33'), B(0, .45, .5, 1, .55, .58, '#2f2f33'), B(.05, .47, 0, .12, .53, .6, '#2f2f33'), B(.88, .47, 0, .95, .53, .6, '#2f2f33'), B(.47, .47, 0, .53, .53, .6, '#2f2f33')];
-      case 't': return [B(.42, .42, 0, .58, .58, .9, '#7a5130'), O(.5, .5, 1.35, .55, '#3f8f3a')];
-      case 'q': return [B(.3, .3, 0, .7, .7, .4, '#c98b5a'), O(.5, .5, .62, .27, '#4f9a44')];
-      case 'F': return [O(.3, .35, .18, .14, '#f2a7c3'), O(.65, .4, .2, .14, '#ffffff'), O(.45, .7, .18, .14, '#f6d36b')];
-      case 'e': return [B(.05, .05, 0, .95, .95, .85, '#4f8f40')];
-      case 'u': return [B(.47, .47, 0, .53, .53, 1.7, '#3a3a3a'), B(-.2, -.2, 1.7, 1.2, 1.2, 1.85, '#e6e0d0')];
-      case 'R': return [B(0, 0, 0, 1, 1, .03, '#c96b4b')];
-      case 'V': return [B(.25, .3, 0, .75, .7, .6, '#7d93b0')];
-      default: return [B(.25, .25, 0, .75, .75, .6, '#cfc8bb')];
-    }
-  }
-  draw3() {
-    const c = this.cv3.current, m = this.DOC && this.DT && this.cur(); if (!c || !m) return;
-    const s = this.state, key = [m.id, s.yaw, s.pitch].join('|'); if (this.dk3 === key && this.dc3 === c) return; this.dk3 = key; this.dc3 = c;
-    const rc = c.getBoundingClientRect ? c.getBoundingClientRect() : { width: 600, height: 440 }, CW = Math.max(300, Math.round(rc.width || 600)), CH = 440, dpr = (typeof window !== 'undefined' && window.devicePixelRatio) || 1;
-    c.width = CW * dpr; c.height = CH * dpr; const ctx = c.getContext('2d'); if (ctx.setTransform) ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.clearRect(0, 0, CW, CH);
-    const D = this.DOC, rows = this.DT.underlay(m.r, D.ground), tiles = this.DT.tilePieces(m.r, D.ground), H = rows.length, W = rows[0].length;
-    const a = s.yaw * Math.PI / 180, p = s.pitch * Math.PI / 180, ca = Math.cos(a), sa = Math.sin(a), sp = Math.sin(p), cp = Math.cos(p);
-    const k = Math.min(CW / (Math.hypot(W, H) + 1.6), CH / (Math.hypot(W, H) * sp + 3.2 * cp + 1.2)), cx = W / 2, cy = H / 2, ox = CW / 2, oy = CH / 2 + 1.1 * cp * k;
-    const R = (x, y) => { const dx = x - cx, dy = y - cy; return [dx * ca - dy * sa, dx * sa + dy * ca]; };
-    const P = (x, y, z) => { const [xr, yr] = R(x, y); return [ox + xr * k, oy + yr * sp * k - z * cp * k]; };
-    const poly = (pts, fill) => { ctx.beginPath(); pts.forEach((q, i) => i ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1])); ctx.closePath(); ctx.fillStyle = fill; ctx.fill(); };
-    const shade = (col, f) => { const n = parseInt(col.slice(1), 16); return `rgb(${Math.min(255, Math.round(((n >> 16) & 255) * f))},${Math.min(255, Math.round(((n >> 8) & 255) * f))},${Math.min(255, Math.round((n & 255) * f))})`; };
-    const quad = (x0, y0, x1, y1, z, col) => poly([P(x0, y0, z), P(x1, y0, z), P(x1, y1, z), P(x0, y1, z)], col);
-    // 箱庭の土台（側面）
-    const Z0 = -.45, sides = [[[0, 0], [W, 0], 0, -1], [[W, 0], [W, H], 1, 0], [[W, H], [0, H], 0, 1], [[0, H], [0, 0], -1, 0]];
-    sides.forEach(([u, v, nx, ny]) => { const vis = nx * sa + ny * ca; if (vis <= 0) return; poly([P(u[0], u[1], 0), P(v[0], v[1], 0), P(v[0], v[1], Z0), P(u[0], u[1], Z0)], shade('#8a6a4a', .75 + .2 * Math.abs(nx * ca - ny * sa))); });
-    // 地面（パーツ）
-    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
-      const t = tiles[y][x];
-      if (!t) { quad(x, y, x + 1, y + 1, 0, (x + y) % 2 ? '#7dbb5a' : '#78b555'); continue; }
-      const G = D.ground[t.ch]; quad(x, y, x + 1, y + 1, 0, G.color);
-      if (G.pattern === 'brick') { ctx.strokeStyle = 'rgba(70,45,30,.35)'; ctx.lineWidth = 1; for (let r = 1; r < 4; r++) { const a0 = P(x, y + r / 4, 0), a1 = P(x + 1, y + r / 4, 0); ctx.beginPath(); ctx.moveTo(a0[0], a0[1]); ctx.lineTo(a1[0], a1[1]); ctx.stroke(); } }
-      else if (G.pattern === 'cobble' || G.pattern === 'stone') { for (let r = 0; r < 3; r++) for (let q = 0; q < 3; q++) quad(x + .08 + q / 3, y + .08 + r / 3, x + q / 3 + .27, y + r / 3 + .27, 0, shade(G.color, 1.12)); }
-      else if (G.pattern === 'rail') { quad(x, y + .25, x + 1, y + .32, .02, '#c9ccd1'); quad(x, y + .68, x + 1, y + .75, .02, '#c9ccd1'); for (let q = 0; q < 3; q++) quad(x + .1 + q / 3, y + .15, x + .22 + q / 3, y + .85, .01, '#6b5a48'); }
-      if (G.pattern === 'zebra') for (let r = 0; r < 3; r++) quad(x + .06, y + .06 + r / 3, x + .94, y + r / 3 + .26, .005, '#f4f2ec');
-      if (t.kind !== 'base') { const ec = G.pattern === 'brick' ? '#6e4a37' : '#e2ded6', w = .12, [n, e, so, wst] = t.miss;
-        if (n) quad(x, y, x + 1, y + w, .01, ec); if (so) quad(x, y + 1 - w, x + 1, y + 1, .01, ec); if (wst) quad(x, y, x + w, y + 1, .01, ec); if (e) quad(x + 1 - w, y, x + 1, y + 1, .01, ec);
-        if (t.kind === 'diag') { const X = e ? x + 1 : x, Y = so ? y + 1 : y, dx = e ? -1 : 1, dy = so ? -1 : 1; poly([P(X, Y, .02), P(X + dx * .55, Y, .02), P(X, Y + dy * .55, .02)], '#7dbb5a'); } }
-    }
-    (m.marks || []).forEach(([x, y, txt]) => { const q = P(x + .5, y + .5, 0); ctx.fillStyle = '#f4f2ec'; ctx.font = `700 ${Math.max(8, k * .22)}px 'Zen Maru Gothic', sans-serif`; ctx.textAlign = 'center'; ctx.fillText(txt, q[0], q[1] + 3); ctx.textAlign = 'left'; });
-    // 家具：箱と玉。奥から順に描く（箱は見える面だけ）
-    const items = [];
-    m.r.forEach((row, y) => [...row].forEach((ch, x) => { if (ch === '.' || ch in D.ground) return; this.SHAPES(ch, x, y).forEach(sh => {
-      const ctr = sh.t === 'box' ? [(sh.b[0] + sh.b[3]) / 2, (sh.b[1] + sh.b[4]) / 2, sh.b[2]] : sh.p; const [, yr] = R(ctr[0], ctr[1]);
-      items.push({ d: yr + ctr[2] * .02 * cp + (sh.t === 'ball' ? .01 : 0), sh }); }); }));
-    items.sort((u, v) => u.d - v.d).forEach(({ sh }) => {
-      if (sh.t === 'ball') { const q = P(...sh.p), r = sh.r * k; ctx.fillStyle = shade(sh.c, .85); ctx.beginPath(); ctx.arc(q[0], q[1], r, 0, 7); ctx.fill(); ctx.fillStyle = shade(sh.c, 1.12); ctx.beginPath(); ctx.arc(q[0] - r * .25, q[1] - r * .3, r * .55, 0, 7); ctx.fill(); return; }
-      const [x0, y0, z0, x1, y1, z1] = sh.b, col = sh.c;
-      [[[x0, y1], [x1, y1], 0, 1], [[x1, y0], [x1, y1], 1, 0], [[x0, y0], [x1, y0], 0, -1], [[x0, y0], [x0, y1], -1, 0]].forEach(([u, v, nx, ny]) => {
-        const vis = nx * sa + ny * ca; if (vis <= 1e-6) return;
-        poly([P(u[0], u[1], z0), P(v[0], v[1], z0), P(v[0], v[1], z1), P(u[0], u[1], z1)], shade(col, .62 + .25 * vis)); });
-      if (sp > .05) quad(x0, y0, x1, y1, z1, shade(col, 1.08));
-    });
-    // 方位
-    const nq = P(cx, -1.4, 0); ctx.fillStyle = '#4a3b30'; ctx.font = "700 13px 'Zen Maru Gothic', sans-serif"; ctx.textAlign = 'center'; ctx.fillText('北', nq[0], nq[1]); ctx.textAlign = 'left';
-  }
+  componentDidUpdate() { this.draw(); }
   mods() { return this.state.group === 'detail' ? (this.DOC ? this.DOC.modules : []) : this.ADOPT; }
   cur() { return this.mods().find(m => m.id === this.state.sel) || this.mods()[0]; }
   // 家具に①②…の番号（モジュールに出てくる順）
@@ -258,10 +192,63 @@ class Component extends DCLogic {
     if (!hit.length) return m.detail ? '島での場所：まだ置いていない（組み立て台で置ける）' : '';
     return '見本での場所：' + hit.map(d => `${'ABCDEF'[Math.floor(d[2] / 16)]}${Math.floor(d[1] / 16) + 1}（x${d[1]}, y${d[2]}）`).join('・');
   }
+  // 建てた所の記録（この端末だけ）。①②③がすべて済めば、そのモジュールはでき上がり
+  setDone(id, k) { this.setState(s => { const d = { ...s.done, [id]: { ...(s.done[id] || {}), [k]: !(s.done[id] || {})[k] } }; try { localStorage.setItem('wti-guide-done', JSON.stringify(d)); } catch (e) {} return { done: d }; }); }
+  isDone(id) { const d = this.state.done[id] || {}; return d.g && d.d && d.p; }
+  // 保存するマイデザインの枠：地面は使うパーツの種類、家具は使う図の枚数
+  slots(mods) {
+    const D = this.DOC, g = new Set(), it = new Set();
+    mods.forEach(m => { this.DT.tilePieces(m.r, D.ground, m.under).flat().forEach(t => { if (t) g.add(t.design + '|' + t.piece); });
+      m.r.forEach((row, y) => [...row].forEach((ch, x) => { const G = D.items[ch]; if (G && G.tex) it.add(G.design + '|' + JSON.stringify(this.itemPiece(m, ch, x, y, G.tex.pieces, G.tex.run))); else if (G) it.add(G.design); })); });
+    return { ground: g.size, items: it.size };
+  }
+  BAND = { '奥': '#dbe9f7', '中': '#f7ecd2', '手前': '#e3f1da' };
+  bands(H) { const b1 = Math.max(1, Math.round(H / 3)), b2 = Math.max(b1 + 1, H - Math.round(H / 3)); return y => y < b1 ? '奥' : y < b2 ? '中' : '手前'; }
+  TALL = 'WQATLK%vCtYENi$';
+  // 美的センスの基準から、このモジュールを自動で確かめる
+  analyze(m) {
+    const D = this.DOC, H = m.r.length, W = m.r[0].length, band = this.bands(H), isItem = ch => ch !== '.' && !(ch in D.ground);
+    const front = [...m.r[H - 1]].filter(ch => this.TALL.includes(ch));
+    const walk = (x, y) => !isItem(m.r[y][x]), seen = new Set(), q = [];
+    for (let x = 0; x < W; x++) if (walk(x, H - 1)) { seen.add(x + ',' + (H - 1)); q.push([x, H - 1]); }
+    while (q.length) { const [x, y] = q.pop(); [[1, 0], [-1, 0], [0, 1], [0, -1]].forEach(([dx, dy]) => { const X = x + dx, Y = y + dy; if (X < 0 || Y < 0 || X >= W || Y >= H || seen.has(X + ',' + Y) || !walk(X, Y)) return; seen.add(X + ',' + Y); q.push([X, Y]); }); }
+    let walkN = 0; const blocked = []; m.r.forEach((r, y) => [...r].forEach((c, x) => { if (walk(x, y)) { walkN++; if (!seen.has(x + ',' + y)) blocked.push([x, y]); } }));
+    let sym = 0; m.r.forEach(r => { for (let x = 0; x < W; x++) if (r[x] === r[W - 1 - x]) sym++; });
+    const items = m.r.join('').split('').filter(isItem).length, dens = items / (W * H);
+    const grounds = new Set(this.DT.tilePieces(m.r, D.ground, m.under).flat().filter(Boolean).map(t => t.design)).size, sl = this.slots([m]);
+    const F = D.furniture || {}, nm = ch => (F[ch] || [ch])[0].replace(/（.*$/, '');
+    return { band, blocked, checks: [
+      ['背の高い物は奥', front.length === 0, front.length ? `手前の列に ${[...new Set(front)].map(nm).join('・')}。あつ森のカメラは北を向くので、奥の物を隠さないか確かめる` : '手前の列に背の高い物がない。奥まで見通せる'],
+      ['通り道', !blocked.length, blocked.length ? `手前から入れないマスが ${blocked.length} 個（図の赤）。家具を1つずらして道を開ける` : '手前からすべての空きマスへ歩いて行ける'],
+      ['左右の釣り合い', sym / (W * H) >= .6, `左右対称 ${Math.round(sym / (W * H) * 100)}%` + (sym / (W * H) >= .6 ? '。主役・入口は対称が落ち着く' : '。脇役ならくずしてよいが、主役なら対称に寄せる')],
+      ['家具の密度', dens >= .15 && dens <= .55, `家具 ${items} 個／${W * H} マス（${Math.round(dens * 100)}%）` + (dens > .55 ? '。つめすぎ：小物を減らして余白を作る' : dens < .15 ? '。さびしい：小物を足すか、モジュールを小さくする' : '。ちょうどよい')],
+      ['地面の色', grounds <= 3, `マイデザインの道 ${grounds} 種類` + (grounds <= 3 ? '（3種類まで）' : '。3種類までにしぼる')],
+      ['マイデザインの枠', true, `このモジュールだけで ${sl.ground + sl.items} 枠（地面のパーツ ${sl.ground}・家具の図 ${sl.items}）`],
+    ] };
+  }
+  // 作者の画像を読む（地面と家具のマスに、画像から切り出した図を貼る）。読めたら描き直す
+  loadTex() {
+    if (typeof Image === 'undefined') return;
+    const D = this.DOC; [...Object.values(D.ground), ...Object.values(D.items)].forEach(g => { const u = this.texUrl(g); if (!u || this.IMG[u]) return;
+      const im = new Image(); im.onload = () => { im.ok = true; this.dk = null; this.setState({ tex: (this.state.tex || 0) + 1 }); }; im.src = u; this.IMG[u] = im; });
+  }
+  texUrl(g) { const t = g && g.tex; if (!t) return ''; const d = this.CAT[t.design || g.design]; return d ? d.images[t.img] || '' : ''; }
+  texImg(g) { const im = this.IMG[this.texUrl(g)]; return im && im.ok ? im : null; }
+  blit(ctx, im, [sx, sy, sw, sh], x, y, w, h, rot) {
+    if (!rot) return ctx.drawImage(im, sx, sy, sw, sh, x, y, w, h);
+    ctx.save(); ctx.translate(x + w / 2, y + h / 2); ctx.rotate(rot * Math.PI / 180); ctx.drawImage(im, sx, sy, sw, sh, -w / 2, -h / 2, w, h); ctx.restore();
+  }
+  // 横に続く家具（バス・客車）は左端から順にパーツを貼る
+  itemPiece(m, ch, x, y, P, run) {
+    if (!run) return P[(x + y) % P.length];
+    let a = x; while (a > 0 && m.r[y][a - 1] === ch) a--; let b = x; while (b < m.r[y].length - 1 && m.r[y][b + 1] === ch) b++;
+    const n = b - a + 1, i = x - a; if (n === P.length || P.length < 3) return P[Math.min(i, P.length - 1)];
+    return i === 0 ? P[0] : i === n - 1 ? P[P.length - 1] : P[1 + (i - 1) % (P.length - 2)];
+  }
   draw() {
     const c = this.cv.current, m = this.DOC && this.DT && this.cur(); if (!c || !m) return;
-    const S = this.S, rows = this.DT.underlay(m.r, this.DOC.ground), tiles = this.DT.tilePieces(m.r, this.DOC.ground), H = rows.length, W = rows[0].length;
-    const key = m.id + '|' + (this.state.hover || ''); if (this.dk === key && this.dc === c) return; this.dk = key; this.dc = c;   // タブを切りかえると canvas が作り直される
+    const S = this.S, rows = this.DT.underlay(m.r, this.DOC.ground, m.under), tiles = this.DT.tilePieces(m.r, this.DOC.ground, m.under), H = rows.length, W = rows[0].length;
+    const key = [m.id, this.state.hover || '', this.state.tex || 0, this.state.overlay].join('|'); if (this.dk === key && this.dc === c) return; this.dk = key; this.dc = c;   // タブを切りかえると canvas が作り直される
     c.width = W * S; c.height = H * S; const ctx = c.getContext('2d');
     ctx.fillStyle = '#7dbb5a'; ctx.fillRect(0, 0, W * S, H * S);
     for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) { const t = tiles[y][x]; if (t) this.cell(ctx, x * S, y * S, t); }
@@ -270,15 +257,32 @@ class Component extends DCLogic {
     for (let x = 0; x <= W; x++) { ctx.beginPath(); ctx.moveTo(x * S, 0); ctx.lineTo(x * S, H * S); ctx.stroke(); }
     const nums = this.nums(m);
     m.r.forEach((row, y) => [...row].forEach((ch, x) => { const it = this.ITEM[ch]; if (!it) return; const px = x * S, py = y * S;
+      const g = this.DOC.items[ch], im = this.texImg(g);
+      if (im) { this.blit(ctx, im, this.itemPiece(m, ch, x, y, g.tex.pieces, g.tex.run), px + 3, py + 3, S - 6, S - 6); ctx.strokeStyle = 'rgba(0,0,0,.35)'; ctx.lineWidth = 1; ctx.strokeRect(px + 3.5, py + 3.5, S - 7, S - 7);
+        ctx.textAlign = 'center'; ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(px + S - 8, py + 8, 8, 0, 7); ctx.fill(); ctx.fillStyle = '#4a3b30'; ctx.font = "700 11px 'Zen Maru Gothic', sans-serif"; ctx.fillText(nums[ch], px + S - 8, py + 12); ctx.textAlign = 'left'; return; }
       ctx.fillStyle = it[1]; ctx.beginPath(); ctx.roundRect ? ctx.roundRect(px + 5, py + 5, S - 10, S - 10, 8) : ctx.rect(px + 5, py + 5, S - 10, S - 10); ctx.fill();
       ctx.fillStyle = it[2]; ctx.font = "700 17px 'Zen Maru Gothic', sans-serif"; ctx.textAlign = 'center'; ctx.fillText(it[0], px + S / 2, py + S / 2 + 6);
       ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(px + S - 7, py + 7, 7, 0, 7); ctx.fill(); ctx.fillStyle = '#4a3b30'; ctx.font = "700 10px 'Zen Maru Gothic', sans-serif"; ctx.fillText(nums[ch], px + S - 7, py + 10.5); ctx.textAlign = 'left'; }));
     (m.marks || []).forEach(([x, y, txt]) => { ctx.fillStyle = '#f4f2ec'; ctx.font = "700 11px 'Zen Maru Gothic', sans-serif"; ctx.textAlign = 'center'; ctx.fillText(txt, (x + .5) * S, y * S + S / 2 + 4); ctx.textAlign = 'left'; });
+    if (this.state.overlay) {   // 設計の線：奥・中・手前の帯、左右の中心線、手前から入れないマス
+      const A = this.analyze(m), band = A.band; ctx.font = "700 12px 'Zen Maru Gothic', sans-serif";
+      let prev = ''; for (let y = 0; y < H; y++) { const b = band(y); ctx.fillStyle = this.BAND[b]; ctx.globalAlpha = .28; ctx.fillRect(0, y * S, W * S, S); ctx.globalAlpha = 1;
+        if (b !== prev) { ctx.strokeStyle = '#4a3b30'; ctx.lineWidth = 2; if (y) { ctx.beginPath(); ctx.moveTo(0, y * S); ctx.lineTo(W * S, y * S); ctx.stroke(); } ctx.fillStyle = '#4a3b30'; ctx.fillRect(2, y * S + 2, 34, 18); ctx.fillStyle = '#fff'; ctx.fillText(b, 6, y * S + 15); prev = b; } }
+      ctx.setLineDash([6, 5]); ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(W * S / 2, 0); ctx.lineTo(W * S / 2, H * S); ctx.stroke(); ctx.setLineDash([]);
+      A.blocked.forEach(([x, y]) => { ctx.fillStyle = 'rgba(217,72,59,.5)'; ctx.fillRect(x * S, y * S, S, S); });
+    }
     const h = this.state.hover; if (h) { ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 3; ctx.strokeRect(h[0] * S + 1.5, h[1] * S + 1.5, S - 3, S - 3); }
   }
   // 1マスの地面をパーツで描く（tools/design_sheet.js と同じ描き方）
   cell(ctx, x0, y0, t) {
-    const G = this.DOC.ground[t.ch], s = this.S;
+    const G = this.DOC.ground[t.ch], s = this.S, im = this.texImg(G);
+    if (im) {   // 作者の画像のパーツを貼る
+      const P = G.tex.pieces, d = t.sides.replace(/北/, 'N').replace(/南/, 'S').replace(/東/, 'E').replace(/西/, 'W'), ns = d.replace(/[EW]/g, ''), ew = d.replace(/[NS]/g, '');
+      const key = t.kind === 'diag' ? 'diag' + ns + ew : t.kind === 'corner' ? ns + ew : t.kind === 'edge' ? d[0] : 'base';
+      const r = P[key] || P[ns[0]] || P[ew[0]] || P.base;
+      ctx.fillStyle = '#7dbb5a'; ctx.fillRect(x0, y0, s, s); this.blit(ctx, im, r, x0, y0, s, s, G.tex.rot);
+      return;
+    }
     ctx.fillStyle = G.color; ctx.fillRect(x0, y0, s, s);
     ctx.save(); ctx.beginPath(); ctx.rect(x0, y0, s, s); ctx.clip();
     if (G.pattern === 'brick') { ctx.strokeStyle = 'rgba(70,45,30,.45)'; ctx.lineWidth = 1; for (let r = 0; r < 4; r++) { const yy = y0 + r * s / 4; ctx.beginPath(); ctx.moveTo(x0, yy); ctx.lineTo(x0 + s, yy); ctx.stroke(); for (let k = 0; k < 3; k++) { const xx = x0 + ((k + (r % 2) * .5) * s / 2); ctx.beginPath(); ctx.moveTo(xx, yy); ctx.lineTo(xx, yy + s / 4); ctx.stroke(); } } }
@@ -294,39 +298,27 @@ class Component extends DCLogic {
       ctx.strokeStyle = '#6e4a37'; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(cx + dx * s * .55, cy); ctx.lineTo(cx, cy + dy * s * .55); ctx.stroke(); }
     if (t.kind === 'inner') { ctx.fillStyle = '#6e4a37'; ctx.fillRect(x0 + s / 2 - 3, y0 + s / 2 - 3, 6, 6); }
   }
-  view3() {
-    const s = this.state, dark = on => ({ bg: on ? '#4a3b30' : 'white', fg: on ? 'white' : '#4a3b30' }), norm = v => ((v % 360) + 360) % 360;
-    return {
-      views: [[0, '南から'], [90, '東から'], [180, '北から'], [270, '西から'], [35, 'ななめ']].map(([v, n]) => ({ name: n, pick: () => this.setState({ yaw: v, spinning: false }), ...dark(!s.spinning && norm(s.yaw) === v) })),
-      pitches: [[78, '真上から'], [50, 'あつ森の角度'], [25, '低く']].map(([v, n]) => ({ name: n, pick: () => this.setState({ pitch: v }), ...dark(s.pitch === v) })),
-      spinLabel: s.spinning ? '止める' : 'ぐるっと回す',
-      spin: () => { clearInterval(this.timer); if (s.spinning) return this.setState({ spinning: false }); this.timer = setInterval(() => this.setState(t => ({ yaw: norm(t.yaw + 3) })), 50); this.setState({ spinning: true }); },
-      dDown: e => { this.drag = [e.clientX, e.clientY, s.yaw, s.pitch]; clearInterval(this.timer); if (s.spinning) this.setState({ spinning: false }); },
-      dMove: e => { const d = this.drag; if (!d) return; this.setState({ yaw: norm(Math.round(d[2] - (e.clientX - d[0]) * .5)), pitch: Math.max(12, Math.min(88, Math.round(d[3] + (e.clientY - d[1]) * .3))) }); },
-      dUp: () => { this.drag = null; },
-    };
-  }
   dz(id) { const d = this.CAT[id] || {}; return { ma: d.ma || '', name: d.name || id, who: d.creator || '', img: (d.images || [])[0] || '', search: d.search || '', warn: d.checked === false ? '要確認' : '' }; }
   renderVals() {
     const s = this.state, dark = on => ({ bg: on ? '#4a3b30' : 'white', fg: on ? 'white' : '#4a3b30' });
     const tabs = [['guide', 'モジュールの組み方'], ['book', 'マイデザイン図鑑']].map(([k, n]) => ({ name: n, pick: () => this.setState({ tab: k }), ...dark(s.tab === k) }));
-    const base = { tabs, isGuide: s.tab === 'guide', isBook: s.tab === 'book', docName: this.DOC ? this.DOC.name : 'ロンドン', cvRef: this.cv, cv3Ref: this.cv3, ...this.view3() };
-    if (!this.DOC || !this.DT) return { ...base, groups: [], chips: [], mName: '読み込み中…', mSize: '', mRole: '', mNote: '', hoverInfo: '', mPlace: '', hasEx: false, examples: [], grounds: [], dzItems: [], plain: [], noGround: false, noDz: false, noPlain: false, onMove: () => {}, onLeave: () => {}, bookThemes: [], book: [], bookCount: 0, bookNote: '' };
+    const base = { tabs, isGuide: s.tab === 'guide', isBook: s.tab === 'book', docName: this.DOC ? this.DOC.name : 'ロンドン', cvRef: this.cv };
+    if (!this.DOC || !this.DT) return { ...base, groups: [], chips: [], mName: '読み込み中…', mSize: '', mRole: '', mNote: '', hoverInfo: '', mPlace: '', hasEx: false, examples: [], grounds: [], dzItems: [], plain: [], noGround: false, noDz: false, noPlain: false, onMove: () => {}, onLeave: () => {}, doneN: 0, allN: 0, prepDesigns: 0, prepSlots: 0, prepGround: 0, prepItems: 0, copyLabel: '', copyList: () => {}, hasConcept: false, concept: '', scene: '', layers: [], checks: [], hasTips: false, tips: [], toggleOv: () => {}, ovBg: 'white', ovFg: '#4a3b30', step_g: { name: '' }, step_d: { name: '' }, step_p: { name: '' }, bookThemes: [], book: [], bookCount: 0, bookNote: '' };
     const D = this.DOC, m = this.cur();
     const groups = [['detail', `細部モジュール（${D.modules.length}）`], ['adopt', `採用ずみ（${this.ADOPT.length}）`]].map(([k, n]) => ({ name: n, pick: () => this.setState({ group: k, sel: (k === 'detail' ? D.modules : this.ADOPT)[0].id, hover: null }), ...dark(s.group === k) }));
-    const chips = this.mods().map(x => ({ name: x.name.replace(/^細部：/, ''), size: `${x.r[0].length}×${x.r.length}`, pick: () => this.setState({ sel: x.id, hover: null }), ...dark(x.id === m.id) }));
-    const used = this.DT.designsUsed(m.r, D), nums = this.nums(m);
+    const chips = this.mods().map(x => ({ mark: this.isDone(x.id) ? '✓ ' : '', name: x.name.replace(/^細部：/, ''), size: `${x.r[0].length}×${x.r.length}`, pick: () => this.setState({ sel: x.id, hover: null }), ...dark(x.id === m.id) }));
+    const used = this.DT.designsUsed(m.r, D, m.under), nums = this.nums(m);
     const grounds = used.filter(u => Object.values(D.ground).some(g => g.design === u.design && g.slot === u.slot) || u.slot === '路面の表示').map(u => {
       const g = Object.values(D.ground).find(g => g.design === u.design && g.slot === u.slot) || {};
       return { slot: u.slot, color: g.color || '#ccc', note: g.note || '横断歩道の両端の路面に描く', parts: Object.entries(u.parts).map(([name, n]) => ({ name, n })), ...this.dz(u.design) }; });
     const cnt = {}; m.r.join('').split('').forEach(ch => { if (ch !== '.' && !(ch in D.ground)) cnt[ch] = (cnt[ch] || 0) + 1; });
-    const F = D.furniture || {}, badge = ch => { const it = this.ITEM[ch] || ['?', '#999', '#fff']; return { bg: it[1], fg: it[2] }; };
+    const F = { ...(D.furniture || {}), ...Object.fromEntries(Object.entries(m.names || {}).map(([k, v]) => [k, [v, '']])) }, badge = ch => { const it = this.ITEM[ch] || ['?', '#999', '#fff']; return { bg: it[1], fg: it[2] }; };
     const unit = { v: 4, C: 1, Y: 2 };
     const order = Object.keys(cnt).sort((a, b) => nums[a] - nums[b]);
     const dzItems = order.filter(ch => D.items[ch]).map(ch => ({ num: '' + nums[ch], ...badge(ch), furn: (F[ch] || [ch])[0], n: Math.ceil(cnt[ch] / (unit[ch] || 1)), pos: this.posText(m, ch), note: D.items[ch].note, ...this.dz(D.items[ch].design) }));
     const plain = order.filter(ch => !D.items[ch]).map(ch => ({ num: '' + nums[ch], ...badge(ch), furn: (F[ch] || [ch])[0], n: Math.ceil(cnt[ch] / (unit[ch] || 1)), pos: this.posText(m, ch), note: F[ch] && F[ch][1] ? '（' + F[ch][1] + '）' : '' }));
     const h = s.hover, hoverInfo = (() => { if (!h) return 'マスにマウスを乗せると、敷くパーツと置く家具を表示します';
-      const t = this.DT.tilePieces(m.r, D.ground)[h[1]][h[0]], ch = m.r[h[1]][h[0]], parts = [];
+      const t = this.DT.tilePieces(m.r, D.ground, m.under)[h[1]][h[0]], ch = m.r[h[1]][h[0]], parts = [];
       if (t) parts.push(`${t.slot}：「${t.piece}」${t.sides ? '（' + t.sides + 'に縁）' : ''} ${this.dz(t.design).ma}`);
       if (ch !== '.' && !(ch in D.ground)) parts.push(`家具：${(F[ch] || [ch])[0]}`);
       if (!parts.length) parts.push('草地（何も敷かない）');
@@ -337,7 +329,22 @@ class Component extends DCLogic {
     const book = this.CATL.filter(d => d.themes.includes(s.bookTh)).map(d => ({ name: d.name, ma: d.ma, who: d.creator, look: d.look, parts: d.parts, img: d.images[0], search: d.search, warn: d.checked === false ? '要確認' : '',
       used: useMap[d.id] && s.bookTh === D.theme ? `${D.name}で使う：${[...new Set(useMap[d.id])].join('・')}` : '',
       links: d.images.map((u, i) => ({ name: i ? `画像${i + 1}` : '作者の画像', url: u })) }));
-    return { ...base, groups, chips, mName: m.name.replace(/^細部：/, ''), mSize: `${m.r[0].length}×${m.r.length}マス`, mRole: this.ROLE[m.role] || m.role || '', mNote: m.note || '',
+    const all = [...D.modules, ...this.ADOPT], sl = this.slots(all), dzAll = new Map();
+    all.forEach(x => this.DT.designsUsed(x.r, D, x.under).forEach(u => { if (!dzAll.has(u.design)) dzAll.set(u.design, u.slot); }));
+    const dsg = m.design || (D.design_extra || {})[m.id], A = this.analyze(m), dn = s.done[m.id] || {};
+    const layers = dsg ? dsg.layers.map(l => ({ ...l, bg: this.BAND[l.band] || '#eee' })) : ['奥', '中', '手前'].map(b => { const rows = m.r.filter((r, y) => A.band(y) === b), F = D.furniture || {};
+      const its = [...new Set(rows.join('').split('').filter(ch => ch !== '.' && !(ch in D.ground)))].map(ch => (F[ch] || [ch])[0]);
+      return { band: b, bg: this.BAND[b], role: its.length ? '家具' : '地面', what: its.length ? its.join('・') : '空けておく（通り道・余白）' }; });
+    const stepBtn = k => ({ name: dn[k] ? '✓ 済み' : '済みにする', pick: () => this.setDone(m.id, k), bg: dn[k] ? '#3f7d4a' : 'white', fg: dn[k] ? 'white' : '#4a3b30' });
+    const prep = { doneN: all.filter(x => this.isDone(x.id)).length, allN: all.length, prepDesigns: dzAll.size, prepSlots: sl.ground + sl.items, prepGround: sl.ground, prepItems: sl.items,
+      copyLabel: s.copied ? 'コピーしました' : '作者IDの一覧をコピー',
+      copyList: () => { const txt = [`${D.name}で使うマイデザイン（作者IDで探す）`, ...[...dzAll].map(([id, slot]) => { const d = this.CAT[id] || {}; return `${d.ma}\t${slot}\t${(d.name || '').replace(/（.*$/, '')}\t${d.creator || ''}`; })].join('\n');
+        try { navigator.clipboard.writeText(txt); } catch (e) {} this.setState({ copied: true }); } };
+    return { ...base, ...prep, groups, chips,
+      hasConcept: !!dsg, concept: dsg ? dsg.concept : '', scene: dsg ? dsg.scene : '', layers, hasTips: !!(dsg && dsg.tips.length), tips: dsg ? dsg.tips : [],
+      checks: A.checks.map(([name, okv, text]) => ({ name, text, mark: okv ? '✓' : '!', bg: okv ? '#3f7d4a' : '#c9822b' })),
+      toggleOv: () => this.setState(t => ({ overlay: !t.overlay })), ovBg: s.overlay ? '#4a3b30' : 'white', ovFg: s.overlay ? 'white' : '#4a3b30',
+      step_g: stepBtn('g'), step_d: stepBtn('d'), step_p: stepBtn('p'), mName: m.name.replace(/^細部：/, ''), mSize: `${m.r[0].length}×${m.r.length}マス`, mRole: this.ROLE[m.role] || m.role || '', mNote: m.note || '',
       hoverInfo, mPlace: this.place(m), hasEx: examples.length > 0, examples, grounds, dzItems, plain, noGround: !grounds.length, noDz: !dzItems.length, noPlain: !plain.length,
       onMove: e => { const c = this.cv.current; if (!c) return; const rc = c.getBoundingClientRect(), W = m.r[0].length, H = m.r.length;
         const x = Math.floor((e.clientX - rc.left) / rc.width * W), y = Math.floor((e.clientY - rc.top) / rc.height * H);

@@ -113,7 +113,7 @@ const DISTS = { egy: [8, 12, 40, 62], jpn: [32, 12, 67, 61], usa: [65, 12, 101, 
   eq('マイデザイン：車道と歩道の境は段差のパーツ', tpc[2][0].piece, '段差（縁石）'); eq('マイデザイン：横断歩道のパーツ', tpc[3][4].piece, '横断歩道'); eq('マイデザイン：歩道の中はレンガの全面', tpc[5][4].piece, '全面');
   ok('マイデザイン：レンガの外の角は「ななめ」', DT.tilePieces(DZL.modules.find(m => m.id === 'lon_d_tube').r, DZL.ground).flat().some(t => t && t.kind === 'diag'));
   eq('マイデザイン：車道に止めたバスの下は車道', DT.underlay(DZL.modules.find(m => m.id === 'lon_d_bus').r, DZL.ground)[2], '_______');
-  eq('マイデザイン：線路の上の汽車の下は線路', DT.underlay(DZL.modules.find(m => m.id === 'lon_d_platform').r, DZL.ground)[3], '^^^^^^^^');
+  { const mp = DZL.modules.find(m => m.id === 'lon_d_platform'); eq('マイデザイン：汽車の下は線路（モジュールが決める）', DT.underlay(mp.r, DZL.ground, mp.under)[1][5], '^'); ok('マイデザイン：9¾番線に作例の写真と直し方', mp.refs.length >= 1 && mp.fix.length >= 3); }
   ok('マイデザイン：木の下には道を敷かない', DT.underlay(['tB', 'BB'], DZL.ground)[0][0] === 't');
   await new Promise(r => setTimeout(r, 30));
   ok('組み立て台：細部モジュールを一覧に足す', mb.MODS.some(m => m.id === 'lon_d_crossing'));
@@ -134,11 +134,8 @@ const DISTS = { egy: [8, 12, 40, 62], jpn: [32, 12, 67, 61], usa: [65, 12, 101, 
   ok('組み方：マイデザインを貼る家具（花かご・円柱ポスト）と、ほかの家具', gr.dzItems.map(d => d.ma).join() === 'MA-1944-3607-0570,MA-4037-0735-3722' && gr.plain.length === 3);
   eq('組み方：置く所の言い方', mg.posText(mg.cur(), 'L'), '奥の左端・奥の右端・手前の右端');
   mg.setState({ group: 'adopt', sel: 'lon_934' }); const g934 = mg.renderVals();
-  ok('組み方：採用ずみのモジュール（9¾番線）も組める', g934.mName.startsWith('9¾') && g934.dzItems.some(d => d.ma === 'MA-1448-0247-9444') && /見本での場所/.test(g934.mPlace), g934.mPlace);
+  ok('組み方：採用ずみのモジュール（9¾番線）も組める', g934.mName.startsWith('9¾') && g934.dzItems.some(d => d.ma === 'MA-5454-6202-3841') && /見本での場所/.test(g934.mPlace), g934.mPlace);
   eq('組み方：横に続く家具はまとめて言う', mg.posText(mg.cur(), 'C'), '奥から3列目の4〜6番目');
-  for (const [yaw, pitch] of [[0, 50], [90, 25], [215, 78], [35, 50]]) { MG.stats.calls = 0; MG.stats.bad = []; mg.dk3 = null; mg.setState({ yaw, pitch }); ok(`組み方：立体図（向き${yaw}°・角度${pitch}°）`, MG.stats.calls > 300 && MG.stats.bad.length === 0, MG.stats.bad.slice(0, 2).join(',')); }
-  const v3 = mg.renderVals(); v3.dDown({ clientX: 100, clientY: 100 }); v3.dMove({ clientX: 160, clientY: 120 }); v3.dUp(); eq('組み方：ドラッグで回す', mg.state.yaw, 5); eq('組み方：ドラッグで角度', mg.state.pitch, 56);
-  ok('組み方：細部モジュールの家具はすべて立体の形がある', DZL.modules.every(m => m.r.join('').split('').every(ch => ch === '.' || ch in DZL.ground || mg.SHAPES(ch, 0, 0)[0].c !== '#cfc8bb')));
   mg.setState({ tab: 'book', bookTh: 'lon' }); const gb = mg.renderVals(); ok('図鑑：ロンドンのデザインを画像つきで並べる', gb.book.length >= 25 && gb.book.every(d => d.img && d.ma));
   ok('組み立て台：モジュールの組み方へのリンク', fs.readFileSync(path.join(ROOT, 'Module Builder.dc.html'), 'utf8').includes('Module Guide.dc.html'));
   const lc = mb.lineCells([10, 10], [20, 10], 1); ok('組み立て台：直線は横にまっすぐ', lc.length === 11 && lc.every(c => c[1] === 10));

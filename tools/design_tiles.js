@@ -9,7 +9,7 @@
 
   // 家具の下の地面：植物（木・花・竹・生け垣・岩）は草地に置くので道を敷かない。それ以外の家具は、まわりで一番多い地面を下に敷く
   const PLANT = 'tFeajyPol';
-  function underlay(rows, ground) {
+  function underlay(rows, ground, force) {
     const g = rows.map(r => [...r]), H = g.length, W = g[0].length, todo = [];
     g.forEach((row, y) => row.forEach((ch, x) => { if (ch !== '.' && !(ch in ground) && !PLANT.includes(ch)) todo.push([x, y]); }));
     const fill = {};   // 横のとなりを重く見る（車道に止めたバス・線路の上の汽車は、その列の地面を敷く）。決まったマスを次の回に使う
@@ -23,11 +23,12 @@
       pick.forEach(([x, y, c]) => { fill[x + ',' + y] = c; });
     }
     Object.entries(fill).forEach(([k, c]) => { const [x, y] = k.split(',').map(Number); g[y][x] = c; });
+    if (force) g.forEach((row, y) => row.forEach((ch, x) => { if (force[rows[y][x]]) g[y][x] = force[rows[y][x]]; }));   // モジュールが決めた下の地面（汽車の下は線路など）
     return g.map(r => r.join(''));
   }
 
-  function tilePieces(rows0, ground) {
-    const rows = underlay(rows0, ground), H = rows.length, W = rows[0].length;
+  function tilePieces(rows0, ground, force) {
+    const rows = underlay(rows0, ground, force), H = rows.length, W = rows[0].length;
     const at = (x, y) => (x < 0 || y < 0 || x >= W || y >= H) ? null : rows[y][x];
     const same = (x, y, g, G) => { const c = at(x, y); if (c === null) return true; if (c === '.') return false; if (!(c in ground)) return true; return grp(c) === g || (G.join || '').includes(c); };
     return rows.map((row, y) => [...row].map((ch, x) => {
@@ -46,9 +47,9 @@
   }
 
   // モジュールで使うマイデザインの一覧（地面はパーツごとのマス数、家具は個数）
-  function designsUsed(rows, doc) {
+  function designsUsed(rows, doc, force) {
     const out = {}, add = (design, slot, part, n) => { const k = design + '|' + slot; (out[k] = out[k] || { design, slot, parts: {} }).parts[part] = (out[k].parts[part] || 0) + n; };
-    tilePieces(rows, doc.ground).forEach(r => r.forEach(t => { if (t) add(t.design, t.slot, t.piece, 1); }));
+    tilePieces(rows, doc.ground, force).forEach(r => r.forEach(t => { if (t) add(t.design, t.slot, t.piece, 1); }));
     rows.forEach(r => [...r].forEach(ch => { const it = doc.items[ch]; if (it) add(it.design, it.slot, '個', 1); }));
     if (rows.some(r => r.includes('#')) && doc.ground['#'] && doc.ground['#'].marks) add(doc.ground['#'].marks, '路面の表示', 'LOOK LEFT / RIGHT', 2);
     return Object.values(out);

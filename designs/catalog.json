@@ -864,6 +864,46 @@
     "https://i.pinimg.com/736x/4e/6c/2f/4e6c2fd6a8e7c4d8c0cf482f28a7abf7.jpg"
    ],
    "search": "https://www.pinterest.com/search/pins/?q=MA-3642-0982-7924"
+  },
+  {
+   "id": "sign_934",
+   "themes": [
+    "lon"
+   ],
+   "kind": "sign",
+   "name": "platform 9 3/4（9¾番線の看板）",
+   "creator": "Kyasha（Foxtail）",
+   "ma": "MA-5454-6202-3841",
+   "look": "赤い枠に白い丸の「9¾」。壁・看板・顔出し看板に貼る",
+   "parts": [
+    "看板"
+   ],
+   "found": "Pinterest 検索「acnh platform 9 3/4 design code」の画像から読み取り",
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/b5/b5/90/b5b590ee7251eadd83f7ced28a649aa6.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-5454-6202-3841"
+  },
+  {
+   "id": "hogwarts_express",
+   "themes": [
+    "lon"
+   ],
+   "kind": "standee",
+   "name": "ホグワーツきしゃ（赤い客車・機関車の顔出し看板）",
+   "creator": "もふ（らぴっ島・@widecolor06）",
+   "ma": "MA-2707-3480-4939",
+   "look": "赤い客車と機関車を顔出し看板で",
+   "parts": [
+    "顔出し看板"
+   ],
+   "found": "Pinterest 検索「acnh platform 9 3/4 design code」の画像から読み取り",
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/ff/2e/58/ff2e584fe499ebe5be3e837787a4a64e.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-2707-3480-4939"
   }
  ],
  "examples": [
@@ -954,6 +994,14 @@
    "image": "https://i.pinimg.com/736x/ad/df/66/addf66f076bacec0993091ecdbc5a0d9.jpg",
    "for": [
     "lon_d_bus"
+   ]
+  },
+  {
+   "id": "ex_934_hogwarts",
+   "name": "ホグワーツ特急のホーム（顔出し看板・柵・9¾の看板）",
+   "image": "https://i.pinimg.com/736x/ff/2e/58/ff2e584fe499ebe5be3e837787a4a64e.jpg",
+   "for": [
+    "lon_d_platform"
    ]
   }
  ]
