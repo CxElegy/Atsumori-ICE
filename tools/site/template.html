@@ -240,6 +240,7 @@ function drawSketch() {
           if (t.kind === 'diag') { const cx = t.miss[1] ? px + CELL : px, cy = t.miss[2] ? py + CELL : py, dx = t.miss[1] ? -1 : 1, dy = t.miss[2] ? -1 : 1;   // ななめ：外側の半分は草地
             x.fillStyle = GRASS; x.beginPath(); x.moveTo(cx, cy); x.lineTo(cx + dx * CELL, cy); x.lineTo(cx, cy + dy * CELL); x.closePath(); x.fill(); } } }
       if (!drawn) { x.fillStyle = ground[t.ch].color; x.fillRect(px, py, CELL, CELL); } }
+    else if (ch === 'w') { x.fillStyle = '#6fc6cf'; x.fillRect(px, py, CELL, CELL); x.strokeStyle = 'rgba(255,255,255,.55)'; x.lineWidth = 2; [[.2, .3], [.55, .7]].forEach(([a, b]) => { x.beginPath(); x.moveTo(px + a * CELL, py + b * CELL); x.quadraticCurveTo(px + (a + .12) * CELL, py + (b - .08) * CELL, px + (a + .24) * CELL, py + b * CELL); x.stroke(); }); }   // 水（地形で作る本物の水）
     else if (ch !== '.' && LEG[ch] && 'BpSgdwZDmlr_#^~='.includes(ch)) { x.fillStyle = LEG[ch][1]; x.fillRect(px, py, CELL, CELL); } }
   x.strokeStyle = 'rgba(0,0,0,.10)'; x.lineWidth = 1; for (let y = 0; y <= H; y++) { x.beginPath(); x.moveTo(0, y * CELL); x.lineTo(W * CELL, y * CELL); x.stroke(); } for (let X = 0; X <= W; X++) { x.beginPath(); x.moveTo(X * CELL, 0); x.lineTo(X * CELL, H * CELL); x.stroke(); }
   const N = nums(m, ground);
@@ -264,7 +265,7 @@ const GROUNDCH = 'BpSgdwZDmlr_#^~=';
 function fname(m, ch) { return (m.names && m.names[ch]) || (LON && LON.furniture[ch] && isLon(m) ? LON.furniture[ch][0] : (LEG[ch] || [ch])[0]); }
 function analyze(m) {
   const H = m.r.length, W = m.r[0].length, band = bandsOf(H), isItem = ch => ch !== '.' && !GROUNDCH.includes(ch);
-  const front = [...m.r[H - 1]].filter(ch => TALL.includes(ch)), walk = (X, y) => !isItem(m.r[y][X]), seen = new Set(), q = [];
+  const front = [...m.r[H - 1]].filter(ch => TALL.includes(ch)), walk = (X, y) => !isItem(m.r[y][X]) && m.r[y][X] !== 'w', seen = new Set(), q = [];
   const seeds = []; for (let X = 0; X < W; X++) seeds.push([X, H - 1]); for (let y = 0; y < H; y++) seeds.push([0, y], [W - 1, y]);   // 手前と左右のはしから入れる（となりのモジュールとつながる）
   seeds.forEach(([X, y]) => { if (walk(X, y) && !seen.has(X + ',' + y)) { seen.add(X + ',' + y); q.push([X, y]); } });
   while (q.length) { const [X, y] = q.pop(); [[1, 0], [-1, 0], [0, 1], [0, -1]].forEach(([dx, dy]) => { const a = X + dx, b = y + dy; if (a < 0 || b < 0 || a >= W || b >= H || seen.has(a + ',' + b) || !walk(a, b)) return; seen.add(a + ',' + b); q.push([a, b]); }); }
@@ -310,7 +311,7 @@ function renderDetail() {
   ${(() => { const W2 = m.r[0].length, H2 = m.r.length, near = (D.routes || []).filter(rt => rt.cells.some(([X, y]) => X >= m.x - 3 && X < m.x + W2 + 3 && y >= m.y - 3 && y < m.y + H2 + 3)); if (!near.length) return '';
     const MN = { B: 'レンガ（歩道）', p: '古い石畳', bridge: '橋（今ある橋）', slope: '坂（今ある坂）', '~': '駅のタイル' };
     return `<div class="step"><h3>まわりの通り道</h3><span class="muted">平面図に赤い点で示した道。番号（P1…）で伝えてもらえれば直します</span>${near.map(rt => { const d = CAT[rt.design] || {}; return `<div class="check"><span class="no">${esc(rt.id)}</span><span><b>${esc(rt.name)}</b>　幅${rt.w}マス・${esc(MN[rt.mat] || rt.mat)}${d.ma ? `（<span class="ma">${esc(d.ma)}</span>）` : ''}・${rt.cells.length}マス<br><span class="muted">${esc(rt.why)}</span></span></div>`; }).join('')}</div>`; })()}
-  ${m.section && D.levels ? `<div class="step"><h3>${esc(D.levels.title)}（南北の断面・x${D.levels.axis_x}）</h3><canvas id="section" aria-label="南北の断面図"></canvas><span class="muted">${esc(D.levels.note)}</span></div>` : ''}
+  ${m.section && D.levels ? `<div class="step"><h3>${esc(D.levels.title)}（南北の断面・x${m.section_x || D.levels.axis_x}${(D.levels.axes || {})[m.section_x || D.levels.axis_x] ? '・' + esc(D.levels.axes[m.section_x || D.levels.axis_x]) : ''}）</h3><canvas id="section" aria-label="南北の断面図"></canvas><span class="muted">${esc(D.levels.note)}</span></div>` : ''}
   ${m.fix ? `<div class="step"><h3>作例とくらべて、こう作る</h3><ol class="fix">${m.fix.map(f => `<li>${esc(f)}</li>`).join('')}</ol></div>` : ''}
   <div class="step"><h3>設計のしかた</h3>${dsg ? `<div><b>ねらい</b>　${esc(dsg.concept)}</div><div><b>カメラから見える場面</b>　${esc(dsg.scene)}</div>` : ''}
     <div class="layers">${layers.map(l => `<span class="band" style="background:${BAND[l.band] || '#eee'}">${esc(l.band)}</span><b>${esc(l.role)}</b><span>${esc(l.what)}</span>`).join('')}</div>
@@ -330,7 +331,7 @@ function renderDetail() {
   drawSketch(); if (m.section) drawSection(m);
 }
 // 南北の断面：左が北、右が南。段の高さ・坂・川・橋を描き、いま選んでいるモジュールの所を強める
-function drawSection(m) { const c = $('section'); if (!c || !D.levels) return; const L = D.levels, ax = L.axis_x, y0 = 53, y1 = 92, W = 760, H = 290, k = (W - 50) / (y1 - y0), X0 = 46, base = 140, step = 32;
+function drawSection(m) { const c = $('section'); if (!c || !D.levels) return; const L = D.levels, ax = m.section_x || L.axis_x, y0 = 53, y1 = 92, W = 760, H = 290, k = (W - 50) / (y1 - y0), X0 = 46, base = 140, step = 32;
   c.width = W; c.height = H; const x = c.getContext('2d'), css = getComputedStyle(document.body), ink = css.getPropertyValue('--ink'), mut = css.getPropertyValue('--muted');
   x.fillStyle = css.getPropertyValue('--panel'); x.fillRect(0, 0, W, H);
   const top = h => base - (h - 1) * step;   // 1段目の地面＝base
@@ -338,11 +339,26 @@ function drawSection(m) { const c = $('section'); if (!c || !D.levels) return; c
     if (ch === 'w' || ch === 'S' || ch === 'b') { x.fillStyle = '#7a5a40'; x.fillRect(px, base + 14, k + .5, 16); x.fillStyle = '#6fc6cf'; x.fillRect(px, base + 4, k + .5, 10); continue; }
     const h = +D.h[y][ax]; x.fillStyle = h >= 3 ? '#86b85f' : h === 2 ? '#a3c476' : '#c4d59c'; x.fillRect(px, top(h), k + .5, base + 30 - top(h)); }
   for (let y = y0; y < y1; y++) if (D.grid[y][ax] === 'b') { x.fillStyle = '#a58f78'; x.fillRect(X0 + (y - y0) * k - 1, base - 3, k + 2.5, 6); x.fillRect(X0 + (y - y0) * k + k / 2 - 2, base + 3, 4, 12); }   // 橋は川の上
-  x.strokeStyle = '#b4503a'; x.lineWidth = 4; x.beginPath(); x.moveTo(X0 + (68 - y0) * k, top(2)); x.lineTo(X0 + (72 - y0) * k, base); x.stroke();
+  (D.inclines || []).forEach(([sx, sy, d]) => { if (d !== 'S' || ax < sx || ax > sx + 1 || sy < y0 || sy > y1) return; const hi = +D.h[sy][ax]; x.strokeStyle = '#b4503a'; x.lineWidth = 4; x.beginPath(); x.moveTo(X0 + (sy - y0) * k, top(hi)); x.lineTo(X0 + (sy + 4 - y0) * k, top(hi - 1)); x.stroke(); });   // 坂（この軸を通るものだけ）
+  // 断面に家具を描く（この軸を通るモジュールの家具。手すり・ガス灯・ボート・壁など、高さの関係が分かるものだけ）
+  const glyph = (ch, cx, gy) => { const r = (c, a, b, w, h) => { x.fillStyle = c; x.fillRect(cx + a, gy - b - h, w, h); };
+    switch (ch) {
+      case 'f': r('#2c2c30', -k / 2, 0, k, 2); for (let i = 0; i < 3; i++) r('#2c2c30', -k / 2 + 2 + i * (k - 4) / 2, 0, 1.5, 11); r('#2c2c30', -k / 2, 10, k, 2); break;   // 手すり
+      case 'L': r('#2c2c30', -1, 0, 2, 22); x.fillStyle = '#e8b93c'; x.beginPath(); x.arc(cx, gy - 24, 3.5, 0, 7); x.fill(); break;   // ガス灯
+      case '*': x.fillStyle = '#2f5d4a'; x.beginPath(); x.moveTo(cx - k / 2, gy - 7); x.lineTo(cx + k / 2, gy - 7); x.lineTo(cx + k / 2 - 3, gy); x.lineTo(cx - k / 2 + 3, gy); x.closePath(); x.fill(); r('#9a3b2e', -3, 7, 6, 5); break;   // ボート
+      case 'W': case 'A': case 'Q': r('#b4664a', -k / 2, 0, k, 26); break;   // 壁
+      case 'e': case 'q': x.fillStyle = '#4f9a45'; x.beginPath(); x.arc(cx, gy - 5, k / 2, Math.PI, 0); x.fill(); break;   // 生け垣
+      case 't': r('#6b4a2f', -1, 0, 2, 10); x.fillStyle = '#2f7a34'; x.beginPath(); x.arc(cx, gy - 16, 8, 0, 7); x.fill(); break;
+      case 'T': r('#c8352b', -k / 3, 0, 2 * k / 3, 20); break;   // 電話ボックス
+      case 'u': r('#6b5b4f', -1, 0, 2, 16); x.fillStyle = '#e8c46a'; x.beginPath(); x.ellipse(cx, gy - 17, 9, 4, 0, Math.PI, 0); x.fill(); break;
+      case 'b': case 'h': case 'c': case 'x': r(ch === 'c' ? '#d8d0c0' : '#8a5a3a', -k / 3, 0, 2 * k / 3, 5); break;
+    } };
+  (D.places || []).forEach(p => { const R = p.rows; if (!R || p.zone !== 'lon' || ax < p.x || ax >= p.x + R[0].length) return;
+    R.forEach((row, dy) => { const y = p.y + dy, ch = row[ax - p.x]; if (y < y0 || y >= y1 || !ch || ch === '.' || D.grid[y][ax] === 'w') return; glyph(ch, X0 + (y - y0 + .5) * k, top(+D.h[y][ax])); }); });
   x.strokeStyle = mut; x.lineWidth = 1; [1, 2, 3].forEach(h => { x.setLineDash([3, 4]); x.beginPath(); x.moveTo(X0 - 4, top(h)); x.lineTo(W, top(h)); x.stroke(); x.setLineDash([]); x.fillStyle = mut; x.font = '11px ' + css.getPropertyValue('--mono'); x.fillText(h + '段目', 2, top(h) + 4); });
   // 名前は地面の下に2段で（重ならないように交互）。線で場所を指す
   x.font = '700 11.5px ' + css.getPropertyValue('--body'); x.textAlign = 'center';
-  L.stack.slice().sort((a, b) => a.y[0] - b.y[0]).forEach((s2, i) => { const cx = X0 + ((s2.y[0] + s2.y[1] + 1) / 2 - y0) * k, ly = base + 50 + (i % 3) * 30, on = m.y >= s2.y[0] - 1 && m.y <= s2.y[1];
+  L.stack.filter(s2 => (!s2.x || (ax >= s2.x[0] && ax <= s2.x[1])) && (s2.lv !== 'slope' || (D.inclines || []).some(([sx, , d]) => d === 'S' && ax >= sx && ax <= sx + 1))).sort((a, b) => a.y[0] - b.y[0]).forEach((s2, i) => { const cx = X0 + ((s2.y[0] + s2.y[1] + 1) / 2 - y0) * k, ly = base + 50 + (i % 3) * 30, on = m.y >= s2.y[0] - 1 && m.y <= s2.y[1];
     x.strokeStyle = on ? '#b4503a' : mut; x.beginPath(); x.moveTo(cx, base + 32); x.lineTo(cx, ly - 12); x.stroke();
     x.fillStyle = on ? '#b4503a' : ink; const w = s2.name.split('（'); x.fillText(w[0], cx, ly); if (w[1]) { x.fillStyle = on ? '#b4503a' : mut; x.font = '11px ' + css.getPropertyValue('--body'); x.fillText('（' + w[1], cx, ly + 14); x.font = '700 11.5px ' + css.getPropertyValue('--body'); } });
   x.textAlign = 'left'; x.fillStyle = mut; x.font = '12px ' + css.getPropertyValue('--mono'); x.fillText('北', X0, 18); x.fillText('南', W - 18, 18); }

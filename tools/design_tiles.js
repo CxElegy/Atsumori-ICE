@@ -9,9 +9,10 @@
 
   // 家具の下の地面：植物（木・花・竹・生け垣・岩）は草地に置くので道を敷かない。それ以外の家具は、まわりで一番多い地面を下に敷く
   const PLANT = 'tFeajyPol';
+  const WATER = 'w';   // 水（地形で作る川・船だまり）。道を敷かず、となりの道には縁を付ける
   function underlay(rows, ground, force) {
     const g = rows.map(r => [...r]), H = g.length, W = g[0].length, todo = [];
-    g.forEach((row, y) => row.forEach((ch, x) => { if (ch !== '.' && !(ch in ground) && !PLANT.includes(ch)) todo.push([x, y]); }));
+    g.forEach((row, y) => row.forEach((ch, x) => { if (ch !== '.' && !WATER.includes(ch) && !(ch in ground) && !PLANT.includes(ch)) todo.push([x, y]); }));
     const fill = {};   // 横のとなりを重く見る（車道に止めたバス・線路の上の汽車は、その列の地面を敷く）。決まったマスを次の回に使う
     for (let pass = 0; pass < W + H; pass++) {
       const cand = [];   // はっきり決まるマスから先に決める（同点のマスは、ほかが決まってから）
@@ -30,7 +31,7 @@
   function tilePieces(rows0, ground, force) {
     const rows = underlay(rows0, ground, force), H = rows.length, W = rows[0].length;
     const at = (x, y) => (x < 0 || y < 0 || x >= W || y >= H) ? null : rows[y][x];
-    const same = (x, y, g, G) => { const c = at(x, y); if (c === null) return true; if (c === '.') return false; if (!(c in ground)) return true; return grp(c) === g || (G.join || '').includes(c); };
+    const same = (x, y, g, G) => { const c = at(x, y); if (c === null) return true; if (c === '.' || WATER.includes(c)) return false; if (!(c in ground)) return true; return grp(c) === g || (G.join || '').includes(c); };
     return rows.map((row, y) => [...row].map((ch, x) => {
       const G = ground[ch]; if (!G) return null;
       const g = grp(ch), miss = DIRS.map(([dx, dy]) => !same(x + dx, y + dy, g, G)), n = miss.filter(Boolean).length;

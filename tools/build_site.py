@@ -154,7 +154,7 @@ def main():
     lib = json.load(open(os.path.join(ROOT, 'designs', 'refs.json'), encoding='utf8'))
     used = {u: d['ma'] for d in cat.values() for u in d['images']}; usedEx = {x['image']: x['name'] for x in CATD['examples']}
     refs = [{'no': r['no'], 'verdict': r.get('verdict', ''), 'note': r.get('use', ''), 'url': r['url'], 'q': r['q'], 'th': r.get('th', 'all'), 'ma': used.get(r['url'], r.get('ma', '')), 'ocr': r['url'] not in used and bool(r.get('ma_ocr')), 'use': usedEx.get(r['url'], ''), 'thumb': uri(ImageOps.fit(open_url(r['url']), (128, 128), Image.LANCZOS, centering=(.5, .35)), q=50)} for r in lib if r['url'] in files]
-    data = {'options': opts, 'refs': refs, 'grid': G, 'h': H, 'paint': S['paint'], 'facs': S.get('facilities', []), 'places': places, 'mods': mods, 'leg': LEG, 'lon': lon, 'cat': cat, 'examples': ex,
+    data = {'options': opts, 'refs': refs, 'grid': G, 'h': H, 'inclines': T.get('inclines', []), 'paint': S['paint'], 'facs': S.get('facilities', []), 'places': places, 'mods': mods, 'leg': LEG, 'lon': lon, 'cat': cat, 'examples': ex,
             'th': {'lon': 'ロンドン', 'egy': 'エジプト', 'jpn': '日本', 'usa': 'アメリカ', 'eur': 'ヨーロッパ', 'port': '地中海'},
             'thColor': {'lon': '#b4503a', 'egy': '#d9a441', 'jpn': '#c45a7a', 'usa': '#3f6fb5', 'eur': '#4f9a8a', 'port': '#2f8fc9'},
             'role': {'landmark': '主役', 'support': '脇役', 'filler': 'すき間うめ', 'edge': '道ばた', 'step': '段差', 'facility': '施設'},
@@ -172,11 +172,11 @@ def main():
                         cells.append((x + dx, y + dy))
         cells = sorted(set(c for c in cells if 0 <= c[0] < 112 and 0 <= c[1] < 96 and G[c[1]][c[0]] not in 'Swrb'))
         rt['cells'] = [list(c) for c in cells]
-        if rt['mat'] in ('bridge', 'slope'): continue
         cs = set(cells)
         def hits(p):
             return any((p['x'] + dx, p['y'] + dy) in cs for dy, row in enumerate(p['rows']) for dx, ch in enumerate(row) if ch != '.' and ch not in GROUNDS)
-        places = [p for p in places if not (hits(p) and pri(p) >= 2)]
+        places = [p for p in places if not (hits(p) and pri(p) >= 2)]   # 坂・橋の上の小物も外す（坂の上に木や花を置かない）
+        if rt['mat'] in ('bridge', 'slope'): continue
         for x, y in cells: S['paint'].setdefault('lon', {})['%d,%d' % (x, y)] = rt['mat']
     data['routes'] = routes; data['levels'] = LON.get('levels')
     data['places'] = places
