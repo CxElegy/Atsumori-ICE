@@ -1,5 +1,5 @@
 {
- "note": "あつ森のマイデザイン（作者ID MA-xxxx-xxxx-xxxx）の目録。Pinterest の画像に写った作者IDを読み取った。checked=false は画像が小さく、数字を読み違えている恐れがあるもの。ゲームの「マイデザインショップ」の作者ID検索で確かめてから使う",
+ "note": "あつ森のマイデザイン（作者ID MA-xxxx-xxxx-xxxx）の目録。Pinterest の画像に写った作者IDを読み取った。checked=false は画像が小さく、数字を読み違えている恐れがあるもの。ゲームの「マイデザインショップ」の作者ID検索で確かめてから使う。images は Pinterest の画像（i.pinimg.com）へのリンク。作者の画像なので、このリポジトリには保存しない",
  "how": "エイブルシスターズ → マイデザインの端末 → 作者IDで探す（Nintendo Switch Online が必要）",
  "designs": [
   {
@@ -19,7 +19,12 @@
     "センターライン"
    ],
    "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
-   "checked": true
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/07/8d/28/078d28ecdbe8720f9b14a392d6ffccb9.jpg",
+    "https://i.pinimg.com/736x/34/a4/a6/34a4a6b5472abf3bccdbd2ec5ba50986.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-3533-6629-1009"
   },
   {
    "id": "road_london",
@@ -42,7 +47,11 @@
     "PARK LIFE"
    ],
    "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
-   "checked": true
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/dc/48/cd/dc48cd845ffd6070ac90a0b0c9f71a9f.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-4969-7472-0919"
   },
   {
    "id": "brick_natural",
@@ -64,7 +73,11 @@
     "くずれ"
    ],
    "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
-   "checked": true
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/67/f2/8f/67f28f490ca022dbe65d8b773641334c.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-7705-5897-7581"
   },
   {
    "id": "brick_walk",
@@ -85,7 +98,11 @@
     "内角"
    ],
    "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
-   "checked": true
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/56/ef/fc/56effc4e894c56b513729735ffbfad79.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-4203-2040-7392"
   },
   {
    "id": "brick_grey",
@@ -105,7 +122,11 @@
     "歩道"
    ],
    "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
-   "checked": true
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/b3/2e/10/b32e1040974e6327df750747bf29fcde.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-7622-6391-3364"
   },
   {
    "id": "brick_vintage_red",
@@ -124,7 +145,11 @@
     "その他"
    ],
    "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
-   "checked": true
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/d1/9d/b0/d19db0183fc2233391017f06bbcb1388.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-2070-7720-6103"
   },
   {
    "id": "brick_arch",
@@ -144,7 +169,12 @@
     "ななめ"
    ],
    "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
-   "checked": true
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/88/2d/55/882d554b339a17eae19f4f9f86cb7a77.jpg",
+    "https://i.pinimg.com/736x/11/6a/75/116a75da373694e389f5065e3cc13150.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-9611-6541-4595"
   },
   {
    "id": "brick_greige",
@@ -165,7 +195,11 @@
     "側溝"
    ],
    "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
-   "checked": true
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/24/66/43/2466434fa0c4c18d08bb99e9c630e890.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-1126-9255-1623"
   },
   {
    "id": "stone_old",
@@ -187,7 +221,13 @@
     "白いタイル"
    ],
    "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
-   "checked": true
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/0f/eb/79/0feb792c3d2facf24c853ea4b861a9e4.jpg",
+    "https://i.pinimg.com/736x/33/38/88/333888824db17fcaf80b35f2e642e5ab.jpg",
+    "https://i.pinimg.com/736x/fb/7f/87/fb7f878afb83916e0cfcee66a063dc6d.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-5773-8140-8987"
   },
   {
    "id": "stone_curved",
@@ -205,7 +245,11 @@
     "曲線の縁"
    ],
    "found": "Pinterest 検索「acnh london design code」の画像から読み取り",
-   "checked": true
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/6a/a6/32/6aa63296bed1848e8cbfd3dedbd66b7a.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-1268-9572-8883"
   },
   {
    "id": "stone_natural",
@@ -225,7 +269,12 @@
     "横断歩道"
    ],
    "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
-   "checked": true
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/dc/d2/d3/dcd2d390aa5d3af42585336a3ecb1324.jpg",
+    "https://i.pinimg.com/736x/d1/55/e4/d155e4a4baaa8171e76f23d94d30a547.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-7913-0336-4162"
   },
   {
    "id": "road_pass",
@@ -244,7 +293,11 @@
     "ななめ"
    ],
    "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
-   "checked": true
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/41/dd/4a/41dd4ac306a9598355fa3ce5aa1f2f72.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-2392-5111-5327"
   },
   {
    "id": "road_suburban",
@@ -263,7 +316,11 @@
     "ななめ"
    ],
    "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
-   "checked": true
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/47/fa/e9/47fae9e233f4c56d65b0046032c28a22.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-1215-1043-4705"
   },
   {
    "id": "road_nereida",
@@ -281,7 +338,11 @@
     "自転車"
    ],
    "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
-   "checked": true
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/da/ee/95/daee950ff5d5799945aa9920f6a08e28.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-8007-6998-6540"
   },
   {
    "id": "road_parking",
@@ -299,7 +360,11 @@
     "落ち葉"
    ],
    "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
-   "checked": true
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/80/6c/26/806c2632dad507923d27fde16bd36637.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-9466-2340-2336"
   },
   {
    "id": "brick_city_old",
@@ -317,7 +382,12 @@
     "ななめ"
    ],
    "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
-   "checked": true
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/15/b5/3d/15b53d004608a0ead22decf4db869473.jpg",
+    "https://i.pinimg.com/736x/d8/b2/74/d8b27493fcc0ce1cf15e0857464a11c1.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-3699-7940-3608"
   },
   {
    "id": "lawn_grating",
@@ -337,7 +407,11 @@
     "レンガ"
    ],
    "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
-   "checked": true
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/4b/9d/44/4b9d4428e1d8033ebdfa6cd4c9377903.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-1888-1692-4600"
   },
   {
    "id": "brick_autumn",
@@ -354,7 +428,11 @@
     "落ち葉"
    ],
    "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
-   "checked": true
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/af/36/6d/af366dccbc2ed5f079e0f1ea1f6e53e9.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-9101-0923-5301"
   },
   {
    "id": "brick_yellow_leaves",
@@ -372,7 +450,11 @@
     "落ち葉"
    ],
    "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
-   "checked": true
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/3a/d2/66/3ad26690d481bdf1f1b39ab31efe6952.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-8935-7484-1673"
   },
   {
    "id": "bus_double_decker",
@@ -390,7 +472,11 @@
     "ソファ"
    ],
    "found": "Pinterest 検索「acnh london design code」の画像から読み取り",
-   "checked": true
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/ad/df/66/addf66f076bacec0993091ecdbc5a0d9.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-2644-7906-9909"
   },
   {
    "id": "train_orient",
@@ -406,7 +492,11 @@
     "顔出し看板A〜E"
    ],
    "found": "Pinterest 検索「acnh london design code」の画像から読み取り",
-   "checked": true
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/80/19/f9/8019f9fc8b46ed774ef4ea6fbb2947be.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-1448-0247-9444"
   },
   {
    "id": "station_set",
@@ -426,7 +516,12 @@
     "壁"
    ],
    "found": "Pinterest 検索「acnh london design code」の画像から読み取り",
-   "checked": true
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/2d/b9/35/2db935e2baece0f583fb89fdf00488b6.jpg",
+    "https://i.pinimg.com/736x/bf/b7/3f/bfb73ff5581a04194c68708635f75ace.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-2715-7913-6849"
   },
   {
    "id": "signboard",
@@ -443,7 +538,11 @@
     "旗"
    ],
    "found": "Pinterest 検索「acnh london design code」の画像から読み取り",
-   "checked": true
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/86/b5/93/86b5936e55a8ba224438a7d10645af02.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-0687-4578-5842"
   },
   {
    "id": "underground",
@@ -461,7 +560,11 @@
     "地図"
    ],
    "found": "Pinterest 検索「acnh london design code」の画像から読み取り",
-   "checked": true
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/8f/da/33/8fda33589f7f687062884642f02482a4.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-8566-4471-2247"
   },
   {
    "id": "union_jack",
@@ -479,7 +582,11 @@
     "水面"
    ],
    "found": "Pinterest 検索「acnh british design code」の画像から読み取り",
-   "checked": true
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/06/76/02/067602439b34b55b8064feec7f5f1ed6.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-5669-9809-1977"
   },
   {
    "id": "door_curtain",
@@ -496,7 +603,11 @@
     "カーテン"
    ],
    "found": "Pinterest 検索「acnh british design code」の画像から読み取り",
-   "checked": true
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/06/76/02/067602439b34b55b8064feec7f5f1ed6.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-5718-7135-8145"
   },
   {
    "id": "hanging_basket",
@@ -513,7 +624,12 @@
     "花かご×5色"
    ],
    "found": "Pinterest 検索「あつ森 ロンドン マイデザイン」の画像から読み取り",
-   "checked": true
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/d3/50/0f/d3500fb7fe91b597b4dbd2b626cd32c6.jpg",
+    "https://i.pinimg.com/736x/fd/24/e0/fd24e09992abf298392dad9f16f1072c.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-1944-3607-0570"
   },
   {
    "id": "hanging_sign",
@@ -530,7 +646,11 @@
     "吊り看板×3"
    ],
    "found": "Pinterest 検索「あつ森 ロンドン マイデザイン」の画像から読み取り",
-   "checked": true
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/01/90/3b/01903b26121d42238df43979f227c3be.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-4073-4971-1308"
   },
   {
    "id": "iron_sign",
@@ -548,7 +668,11 @@
     "スワッグ"
    ],
    "found": "Pinterest 検索「acnh london design code」の画像から読み取り",
-   "checked": true
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/5e/14/16/5e1416badaefc22a8ce0d6f3cc90ce17.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-1428-4169-0099"
   },
   {
    "id": "pillar_box",
@@ -565,7 +689,11 @@
     "はがき"
    ],
    "found": "Pinterest 検索「acnh red telephone box design code」の画像から読み取り",
-   "checked": true
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/ee/21/d1/ee21d1791c695e5a671e7271307dde10.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-4037-0735-3722"
   },
   {
    "id": "post_box",
@@ -581,7 +709,11 @@
     "ポストの図柄×4色"
    ],
    "found": "Pinterest 検索「acnh red telephone box design code」の画像から読み取り",
-   "checked": true
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/37/c2/69/37c26976a488822376bf1b996321ed45.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-0686-4693-6303"
   },
   {
    "id": "post_office",
@@ -598,7 +730,11 @@
     "窓口"
    ],
    "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
-   "checked": true
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/81/9f/f0/819ff04a2556382a931a65f49ca18d51.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-3533-6629-1009"
   },
   {
    "id": "wall_brick_lamp",
@@ -617,7 +753,11 @@
     "ドア"
    ],
    "found": "Pinterest 検索「acnh british design code」の画像から読み取り",
-   "checked": true
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/75/71/d4/7571d48002add10e2c2192cda1ae1205.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-6119-9554-9965"
   },
   {
    "id": "wall_stone_window",
@@ -637,7 +777,11 @@
     "ひさし"
    ],
    "found": "Pinterest 検索「acnh red telephone box design code」の画像から読み取り",
-   "checked": true
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/19/c3/33/19c3330b6591a0e3ea78430f51a996a6.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-9278-7443-5692"
   },
   {
    "id": "wall_windows_bricks",
@@ -654,7 +798,11 @@
     "レンガ壁"
    ],
    "found": "Pinterest 検索「acnh london design code」の画像から読み取り",
-   "checked": true
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/50/e1/20/50e1206619041752090b5a819f04af64.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-5290-7180-3371"
   },
   {
    "id": "window_hp",
@@ -670,7 +818,11 @@
     "窓"
    ],
    "found": "Pinterest 検索「acnh london design code」の画像から読み取り",
-   "checked": false
+   "checked": false,
+   "images": [
+    "https://i.pinimg.com/736x/05/d5/a7/05d5a76d11afd34e31f35efb73b1654f.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-2136-4879-8864"
   },
   {
    "id": "london_door",
@@ -687,7 +839,11 @@
     "店先"
    ],
    "found": "Pinterest 検索「acnh london design code」の画像から読み取り",
-   "checked": false
+   "checked": false,
+   "images": [
+    "https://i.pinimg.com/736x/bc/19/e1/bc19e1e682d902281b379221856f2e70.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-1354-7553-5643"
   },
   {
    "id": "versailles",
@@ -703,7 +859,102 @@
     "芝の模様"
    ],
    "found": "Pinterest 検索「acnh london design code」の画像から読み取り",
-   "checked": true
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/4e/6c/2f/4e6c2fd6a8e7c4d8c0cf482f28a7abf7.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-3642-0982-7924"
+  }
+ ],
+ "examples": [
+  {
+   "id": "ex_telstop",
+   "name": "telephone stop（時計・ベンチ・電話ボックス・自転車）",
+   "image": "https://i.pinimg.com/736x/b4/36/1b/b4361bc1bb20749b4303540a39cf3351.jpg",
+   "for": [
+    "lon_d_telstop"
+   ]
+  },
+  {
+   "id": "ex_honeysuckle",
+   "name": "雨の石畳の通り（電話ボックス・時計・道しるべ・空港の案内）",
+   "image": "https://i.pinimg.com/736x/65/30/59/653059e991efc417f55e9e8959ba0441.jpg",
+   "for": [
+    "lon_d_telstop",
+    "lon_d_crossing"
+   ]
+  },
+  {
+   "id": "ex_canal_cafe",
+   "name": "運河ぞいの石畳とカフェ（レンガの橋・電話ボックス）",
+   "image": "https://i.pinimg.com/736x/ea/22/25/ea2225d0c08928ede7459832d801b727.jpg",
+   "for": [
+    "lon_d_embank"
+   ]
+  },
+  {
+   "id": "ex_canal_boats",
+   "name": "運河の河岸（手すり・ボート・マンホール）",
+   "image": "https://i.pinimg.com/736x/69/e7/32/69e732233cdea9a8b18fc7788eaf429d.jpg",
+   "for": [
+    "lon_d_embank"
+   ]
+  },
+  {
+   "id": "ex_canal_garden",
+   "name": "運河と花壇の通り（手すり・ベンチ・あずまや）",
+   "image": "https://i.pinimg.com/736x/db/f7/e6/dbf7e65fd09063addeaa45fc05e6e241.jpg",
+   "for": [
+    "lon_d_embank"
+   ]
+  },
+  {
+   "id": "ex_crossing",
+   "name": "交差点の横断歩道と信号",
+   "image": "https://i.pinimg.com/736x/a6/d8/2b/a6d82b66e64b97827ac38d117f2f0c6c.jpg",
+   "for": [
+    "lon_d_crossing"
+   ]
+  },
+  {
+   "id": "ex_pub_signs",
+   "name": "看板の並ぶ石畳（PUB・Baker Street・電話ボックス）",
+   "image": "https://i.pinimg.com/736x/86/b5/93/86b5936e55a8ba224438a7d10645af02.jpg",
+   "for": [
+    "lon_d_pub"
+   ]
+  },
+  {
+   "id": "ex_postoffice",
+   "name": "郵便局の前（スクーター・ポスト）",
+   "image": "https://i.pinimg.com/736x/81/9f/f0/819ff04a2556382a931a65f49ca18d51.jpg",
+   "for": [
+    "lon_d_post"
+   ]
+  },
+  {
+   "id": "ex_station",
+   "name": "駅のホームと汽車",
+   "image": "https://i.pinimg.com/736x/2d/b9/35/2db935e2baece0f583fb89fdf00488b6.jpg",
+   "for": [
+    "lon_d_platform"
+   ]
+  },
+  {
+   "id": "ex_tube",
+   "name": "地下鉄の駅のベンチと標識",
+   "image": "https://i.pinimg.com/736x/8f/da/33/8fda33589f7f687062884642f02482a4.jpg",
+   "for": [
+    "lon_d_tube"
+   ]
+  },
+  {
+   "id": "ex_bus",
+   "name": "2階建てバスの顔出し看板",
+   "image": "https://i.pinimg.com/736x/ad/df/66/addf66f076bacec0993091ecdbc5a0d9.jpg",
+   "for": [
+    "lon_d_bus"
+   ]
   }
  ]
 }

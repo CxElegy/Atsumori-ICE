@@ -124,6 +124,20 @@ const DISTS = { egy: [8, 12, 40, 62], jpn: [32, 12, 67, 61], usa: [65, 12, 101, 
   ok('組み立て台：買い物リストにマイデザイン', mb.shopping('dist').designs.some(d => d.ma === 'MA-2644-7906-9909'));
   mb.state.placed = []; mb.state.paint = {};
   ok('立体図：車道と線路の色', /_: '#5c5856'/.test(fs.readFileSync(path.join(ROOT, 'London Render.dc.html'), 'utf8')));
+  // ---- モジュールの組み方（Module Guide） ----
+  ok('マイデザイン：目録の全件に作者の画像のリンク', CAT.designs.every(d => d.images.length && d.images.every(u => /^https:\/\/i\.pinimg\.com\//.test(u)) && /^https:\/\/www\.pinterest\.com\/search/.test(d.search)));
+  ok('マイデザイン：参考の写真は細部モジュールに付く', CAT.examples.every(x => x.for.every(id => DZL.modules.some(m => m.id === id))));
+  const MG = loadComponent('Module Guide.dc.html', { w: 400, h: 300 }); const mg = await MG.start(); await new Promise(r => setTimeout(r, 30)); mg.setState({});
+  ok('組み方：読み込んで描く', !!mg.DT && !!mg.DOC && MG.stats.calls > 100 && MG.stats.bad.length === 0, MG.stats.bad.slice(0, 2).join(','));
+  const gr = mg.renderVals();
+  ok('組み方：横断歩道の角の地面（レンガ・車道・横断歩道・LOOK RIGHT）', gr.grounds.length === 4 && gr.grounds.every(g => /^MA-/.test(g.ma) && g.img), gr.grounds.map(g => g.slot).join(','));
+  ok('組み方：マイデザインを貼る家具（花かご・円柱ポスト）と、ほかの家具', gr.dzItems.map(d => d.ma).join() === 'MA-1944-3607-0570,MA-4037-0735-3722' && gr.plain.length === 3);
+  eq('組み方：置く所の言い方', mg.posText(mg.cur(), 'L'), '奥の左端・奥の右端・手前の右端');
+  mg.setState({ group: 'adopt', sel: 'lon_934' }); const g934 = mg.renderVals();
+  ok('組み方：採用ずみのモジュール（9¾番線）も組める', g934.mName.startsWith('9¾') && g934.dzItems.some(d => d.ma === 'MA-1448-0247-9444') && /見本での場所/.test(g934.mPlace), g934.mPlace);
+  eq('組み方：横に続く家具はまとめて言う', mg.posText(mg.cur(), 'C'), '奥から3列目の4〜6番目');
+  mg.setState({ tab: 'book', bookTh: 'lon' }); const gb = mg.renderVals(); ok('図鑑：ロンドンのデザインを画像つきで並べる', gb.book.length >= 25 && gb.book.every(d => d.img && d.ma));
+  ok('組み立て台：モジュールの組み方へのリンク', fs.readFileSync(path.join(ROOT, 'Module Builder.dc.html'), 'utf8').includes('Module Guide.dc.html'));
   const lc = mb.lineCells([10, 10], [20, 10], 1); ok('組み立て台：直線は横にまっすぐ', lc.length === 11 && lc.every(c => c[1] === 10));
   const lc2 = mb.lineCells([10, 10], [20, 20], 1); ok('組み立て台：斜め45度', lc2.length === 11 && lc2.every(c => c[0] - 10 === c[1] - 10));
   eq('組み立て台：回転 R で4回もとに戻る', mb.rows({ r: ['ab', 'cd', 'ef'] }, 4).map(r => r.join('')), ['ab', 'cd', 'ef']);

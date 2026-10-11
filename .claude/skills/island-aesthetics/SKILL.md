@@ -87,6 +87,9 @@ description: アイス島（あつ森の世界旅行の島）で、モジュー�
 - **作者IDは出どころを残す。** `designs/catalog.json` に作者・作者ID・見つけた所を書く。画像が小さく読み違えの恐れがあるものは `checked: false`（要確認）。
 - 割り当ては `designs/<地区>.json`（ground＝地面の記号→デザイン・パーツ、items＝家具の記号→デザイン、modules＝細部モジュール）。
   絵は `node tools/design_sheet.js lon`（figures/図11-1）。組み立て台はモジュールごとと買い物リストに作者IDを出す。
+- **目録には作者の画像へのリンクを付ける**（images：Pinterest の画像、search：作者IDで Pinterest を探すリンク）。画像は作者のものなのでリポジトリに保存しない。
+  作者IDのない作例の写真は examples に入れ、どの細部モジュールの手本かを書く。
+- `Module Guide.dc.html`（モジュールの組み方）で、モジュールごとに ①地面（パーツとマス数）②マイデザインを貼る家具 ③ほかの家具 を、置く所つきで見せる。
 
 ## 6. 学んだこと（高低差の見せ方）
 
