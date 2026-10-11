@@ -474,7 +474,8 @@
 "q": "acnh brick path code",
 "th": "lon",
 "no": "R-0066",
-"cat": "road"
+"cat": "road",
+"dup": "R-0003"
 },
 {
 "url": "https://i.pinimg.com/736x/91/79/26/91792672724f17a8cf36ede5cc3460fe.jpg",
@@ -496,14 +497,16 @@
 "q": "acnh brick path code",
 "th": "lon",
 "no": "R-0069",
-"cat": "road"
+"cat": "road",
+"dup": "R-0017"
 },
 {
 "url": "https://i.pinimg.com/736x/0f/c8/99/0fc8991f964ba68a8cc776a259bd5e12.jpg",
 "q": "acnh brick path code",
 "th": "lon",
 "no": "R-0070",
-"cat": "road"
+"cat": "road",
+"dup": "R-0007"
 },
 {
 "url": "https://i.pinimg.com/736x/a3/75/44/a375440b1f7a5ba3b41910186e16912b.jpg",
@@ -547,7 +550,8 @@
 "q": "acnh brick path code",
 "th": "lon",
 "no": "R-0076",
-"cat": "road"
+"cat": "road",
+"dup": "R-0052"
 },
 {
 "url": "https://i.pinimg.com/736x/4d/f1/be/4df1be60349f4eb6f3945c73e4817a30.jpg",
@@ -568,7 +572,8 @@
 "q": "acnh brick path code",
 "th": "lon",
 "no": "R-0079",
-"cat": "road"
+"cat": "road",
+"dup": "R-0009"
 },
 {
 "url": "https://i.pinimg.com/736x/56/ad/24/56ad2419c77936e588eb11515ea3b343.jpg",
@@ -671,7 +676,8 @@
 "q": "あつ森 ロンドン マイデザイン",
 "th": "lon",
 "no": "R-0093",
-"cat": "design"
+"cat": "design",
+"dup": "R-0045"
 },
 {
 "url": "https://i.pinimg.com/736x/d3/50/0f/d3500fb7fe91b597b4dbd2b626cd32c6.jpg",
@@ -685,7 +691,8 @@
 "q": "あつ森 ロンドン マイデザイン",
 "th": "lon",
 "no": "R-0095",
-"cat": "design"
+"cat": "design",
+"dup": "R-0023"
 },
 {
 "url": "https://i.pinimg.com/736x/01/90/3b/01903b26121d42238df43979f227c3be.jpg",
@@ -888,7 +895,8 @@
 "q": "acnh british design code",
 "th": "lon",
 "no": "R-0124",
-"cat": "design"
+"cat": "design",
+"dup": "R-0094"
 },
 {
 "url": "https://i.pinimg.com/736x/9a/53/01/9a53012c20bdbfefc4be43b16fb8a065.jpg",
@@ -966,7 +974,8 @@
 "q": "acnh british design code",
 "th": "lon",
 "no": "R-0135",
-"cat": "design"
+"cat": "design",
+"dup": "R-0002"
 },
 {
 "url": "https://i.pinimg.com/736x/40/52/1c/40521c767fc0cd1d5fe30ff7fda1b726.jpg",
@@ -1100,7 +1109,8 @@
 "q": "あつ森 石畳 マイデザイン",
 "th": "lon",
 "no": "R-0154",
-"cat": "road"
+"cat": "road",
+"dup": "R-0137"
 },
 {
 "url": "https://i.pinimg.com/736x/01/74/ba/0174bae67278b8fa141593ecc671c2a7.jpg",
@@ -1149,14 +1159,16 @@
 "q": "acnh platform 9 3/4 design code",
 "th": "lon",
 "no": "R-0161",
-"cat": "landmark"
+"cat": "landmark",
+"dup": "R-0160"
 },
 {
 "url": "https://i.pinimg.com/736x/07/ed/33/07ed337ddf671ddc5d26799ec0279fbe.jpg",
 "q": "acnh platform 9 3/4 design code",
 "th": "lon",
 "no": "R-0162",
-"cat": "landmark"
+"cat": "landmark",
+"dup": "R-0158"
 },
 {
 "url": "https://i.pinimg.com/736x/c7/d0/db/c7d0db24863e5b9f3e8271b4a628da41.jpg",
@@ -1170,7 +1182,8 @@
 "q": "acnh platform 9 3/4 design code",
 "th": "lon",
 "no": "R-0164",
-"cat": "landmark"
+"cat": "landmark",
+"dup": "R-0034"
 },
 {
 "url": "https://i.pinimg.com/736x/16/d6/2a/16d62a1797d39ff7db8ed3de61f1f571.jpg",
@@ -1381,7 +1394,8 @@
 "q": "あつ森 空港前 ラウンジ レイアウト",
 "th": "lon",
 "no": "R-0194",
-"cat": "station"
+"cat": "station",
+"dup": "R-0193"
 },
 {
 "url": "https://i.pinimg.com/736x/32/03/d8/3203d8cf88533219e5a435f6c52e26ce.jpg",
@@ -2238,7 +2252,8 @@
 "q": "acnh bazaar market stall design code",
 "th": "egy",
 "no": "R-0308",
-"cat": "shop"
+"cat": "shop",
+"dup": "R-0039"
 },
 {
 "url": "https://i.pinimg.com/736x/3a/60/f6/3a60f60285af8e0853cad5406e85aa3b.jpg",
@@ -2300,7 +2315,8 @@
 "q": "acnh bazaar market stall design code",
 "th": "egy",
 "no": "R-0316",
-"cat": "shop"
+"cat": "shop",
+"dup": "R-0311"
 },
 {
 "url": "https://i.pinimg.com/736x/26/0e/c5/260ec5b2829a0ffc83b3d783e73f9128.jpg",
@@ -2321,7 +2337,8 @@
 "q": "acnh bazaar market stall design code",
 "th": "egy",
 "no": "R-0319",
-"cat": "shop"
+"cat": "shop",
+"dup": "R-0039"
 },
 {
 "url": "https://i.pinimg.com/736x/35/a6/6b/35a66b10069ee89e77521ee32d3ab3d5.jpg",
@@ -2694,7 +2711,8 @@
 "q": "acnh japanese stone path code",
 "th": "jpn",
 "no": "R-0370",
-"cat": "road"
+"cat": "road",
+"dup": "R-0350"
 },
 {
 "url": "https://i.pinimg.com/736x/f8/7a/7c/f87a7c573c5ed0b3e8cb36fab783985e.jpg",
@@ -2711,7 +2729,8 @@
 "ma": "MA-6568-1494-0629",
 "ma_ocr": true,
 "no": "R-0372",
-"cat": "road"
+"cat": "road",
+"dup": "R-0365"
 },
 {
 "url": "https://i.pinimg.com/736x/78/2b/61/782b610fdc46d0ddbdde7d1986a362f0.jpg",
@@ -2734,7 +2753,8 @@
 "ma": "MA-5151-3267-6633",
 "ma_ocr": true,
 "no": "R-0375",
-"cat": "road"
+"cat": "road",
+"dup": "R-0330"
 },
 {
 "url": "https://i.pinimg.com/736x/4c/64/bd/4c64bdd81cf1feca80bc7b82ef642996.jpg",
@@ -2757,7 +2777,8 @@
 "q": "acnh japanese stone path code",
 "th": "jpn",
 "no": "R-0378",
-"cat": "road"
+"cat": "road",
+"dup": "R-0138"
 },
 {
 "url": "https://i.pinimg.com/736x/59/55/51/59555165a364ffe19720ace3a6538a62.jpg",
@@ -3317,7 +3338,8 @@
 "ma": "MA-7101-3715-7751",
 "ma_ocr": true,
 "no": "R-0455",
-"cat": "shop"
+"cat": "shop",
+"dup": "R-0452"
 },
 {
 "url": "https://i.pinimg.com/736x/53/47/41/534741742b1960feff8af15c3a06527a.jpg",
@@ -3573,14 +3595,16 @@
 "q": "acnh road asphalt design code",
 "th": "usa",
 "no": "R-0487",
-"cat": "road"
+"cat": "road",
+"dup": "R-0483"
 },
 {
 "url": "https://i.pinimg.com/736x/84/64/95/8464951213ef6f9b9faef1934e482980.jpg",
 "q": "acnh road asphalt design code",
 "th": "usa",
 "no": "R-0488",
-"cat": "road"
+"cat": "road",
+"dup": "R-0479"
 },
 {
 "url": "https://i.pinimg.com/736x/d2/32/a3/d232a3b9efba1dd2e834d6dff3bb15c9.jpg",
@@ -3589,7 +3613,8 @@
 "ma": "MA-1215-1043-4705",
 "ma_ocr": true,
 "no": "R-0489",
-"cat": "road"
+"cat": "road",
+"dup": "R-0016"
 },
 {
 "url": "https://i.pinimg.com/736x/21/c3/0c/21c30c436151d2790d352d3cc35ab0e8.jpg",
@@ -3618,7 +3643,8 @@
 "q": "acnh road asphalt design code",
 "th": "usa",
 "no": "R-0493",
-"cat": "road"
+"cat": "road",
+"dup": "R-0486"
 },
 {
 "url": "https://i.pinimg.com/736x/0b/92/6c/0b926c1b74a16ab55e15ff3ab460f50c.jpg",
@@ -3634,14 +3660,16 @@
 "q": "acnh road asphalt design code",
 "th": "usa",
 "no": "R-0495",
-"cat": "road"
+"cat": "road",
+"dup": "R-0019"
 },
 {
 "url": "https://i.pinimg.com/736x/e6/d2/4a/e6d24a7c840ad1229d2a9de3583063d2.jpg",
 "q": "acnh road asphalt design code",
 "th": "usa",
 "no": "R-0496",
-"cat": "road"
+"cat": "road",
+"dup": "R-0480"
 },
 {
 "url": "https://i.pinimg.com/736x/aa/fa/03/aafa035c31772d12e990ecf4e093c13e.jpg",
@@ -3697,7 +3725,8 @@
 "q": "acnh new york city build",
 "th": "usa",
 "no": "R-0504",
-"cat": "street"
+"cat": "street",
+"dup": "R-0498"
 },
 {
 "url": "https://i.pinimg.com/736x/3d/6b/b5/3d6bb51cad662ffda0617bde299f15a1.jpg",
@@ -3790,14 +3819,16 @@
 "q": "acnh new york city build",
 "th": "usa",
 "no": "R-0517",
-"cat": "street"
+"cat": "street",
+"dup": "R-0500"
 },
 {
 "url": "https://i.pinimg.com/736x/6f/61/d4/6f61d4e133d973e0efb0085691035aa5.jpg",
 "q": "acnh new york city build",
 "th": "usa",
 "no": "R-0518",
-"cat": "street"
+"cat": "street",
+"dup": "R-0500"
 },
 {
 "url": "https://i.pinimg.com/736x/76/bc/b2/76bcb2ef06430ce8cb44c1b966c45154.jpg",
@@ -4133,7 +4164,8 @@
 "q": "acnh farm vegetable garden ideas",
 "th": "usa",
 "no": "R-0566",
-"cat": "park"
+"cat": "park",
+"dup": "R-0547"
 },
 {
 "url": "https://i.pinimg.com/736x/78/91/ad/7891add3e991b3da743af3191f4106c4.jpg",
@@ -4509,7 +4541,8 @@
 "q": "acnh spooky forest graveyard ideas",
 "th": "hal",
 "no": "R-0617",
-"cat": "street"
+"cat": "street",
+"dup": "R-0615"
 },
 {
 "url": "https://i.pinimg.com/736x/6c/c7/41/6cc741ab852ee3997faf20cec7731fd0.jpg",
@@ -4761,7 +4794,8 @@
 "q": "acnh paris cafe design code",
 "th": "eur",
 "no": "R-0652",
-"cat": "shop"
+"cat": "shop",
+"dup": "R-0039"
 },
 {
 "url": "https://i.pinimg.com/736x/1a/10/f6/1a10f6547593184466238f39ea0dc33d.jpg",
@@ -4775,7 +4809,8 @@
 "q": "acnh paris cafe design code",
 "th": "eur",
 "no": "R-0654",
-"cat": "shop"
+"cat": "shop",
+"dup": "R-0189"
 },
 {
 "url": "https://i.pinimg.com/736x/f5/00/00/f500004939009a29e3cf4540ed792c41.jpg",
@@ -5112,7 +5147,8 @@
 "q": "acnh windmill flower field ideas",
 "th": "eur",
 "no": "R-0702",
-"cat": "park"
+"cat": "park",
+"dup": "R-0692"
 },
 {
 "url": "https://i.pinimg.com/736x/00/37/1e/00371e2a1206906b308e73945649acaa.jpg",
@@ -5246,7 +5282,8 @@
 "q": "acnh canal bridge ideas",
 "th": "eur",
 "no": "R-0721",
-"cat": "water"
+"cat": "water",
+"dup": "R-0712"
 },
 {
 "url": "https://i.pinimg.com/736x/d6/0c/f1/d60cf1e73f23225049f6478e7822c25f.jpg",
@@ -5420,7 +5457,8 @@
 "q": "acnh eiffel tower build",
 "th": "eur",
 "no": "R-0745",
-"cat": "landmark"
+"cat": "landmark",
+"dup": "R-0740"
 },
 {
 "url": "https://i.pinimg.com/736x/c1/3f/f9/c13ff9a3cc0822b396efde4332fe946a.jpg",
@@ -5578,7 +5616,8 @@
 "q": "acnh mediterranean island ideas",
 "th": "port",
 "no": "R-0767",
-"cat": "street"
+"cat": "street",
+"dup": "R-0755"
 },
 {
 "url": "https://i.pinimg.com/736x/b0/a5/4d/b0a54ddd21ff3f06b832ae8d8b00766d.jpg",
@@ -5919,7 +5958,8 @@
 "q": "acnh beach club ideas",
 "th": "port",
 "no": "R-0812",
-"cat": "water"
+"cat": "water",
+"dup": "R-0805"
 },
 {
 "url": "https://i.pinimg.com/736x/97/89/28/9789285c4e896866fdab45aa679adca8.jpg",
@@ -6091,7 +6131,8 @@
 "q": "acnh fishing dock pier ideas",
 "th": "port",
 "no": "R-0836",
-"cat": "water"
+"cat": "water",
+"dup": "R-0819"
 },
 {
 "url": "https://i.pinimg.com/736x/e5/1b/77/e51b7784e2f8d88d19648e22513c530c.jpg",
@@ -6120,7 +6161,8 @@
 "q": "acnh london street ideas",
 "th": "lon",
 "no": "R-0840",
-"cat": "street"
+"cat": "street",
+"dup": "R-0037"
 },
 {
 "url": "https://i.pinimg.com/736x/71/9c/3a/719c3a88c05715ed820ef535772ce52e.jpg",
@@ -6505,7 +6547,8 @@
 "q": "acnh british pub design code",
 "th": "lon",
 "no": "R-0892",
-"cat": "shop"
+"cat": "shop",
+"dup": "R-0045"
 },
 {
 "url": "https://i.pinimg.com/736x/b6/9f/ba/b69fba17c0346ae0cf84d52ffabeed39.jpg",
@@ -6533,7 +6576,8 @@
 "q": "acnh hyde park garden ideas",
 "th": "lon",
 "no": "R-0896",
-"cat": "park"
+"cat": "park",
+"dup": "R-0740"
 },
 {
 "url": "https://i.pinimg.com/736x/fa/0c/ae/fa0caef84283f142efd96a8aea8cd35a.jpg",
@@ -6582,7 +6626,8 @@
 "q": "acnh hyde park garden ideas",
 "th": "lon",
 "no": "R-0903",
-"cat": "park"
+"cat": "park",
+"dup": "R-0762"
 },
 {
 "url": "https://i.pinimg.com/736x/cc/bb/66/ccbb660dce195774df779faad8b1ce84.jpg",
@@ -6708,7 +6753,8 @@
 "q": "acnh quarry ideas",
 "th": "all",
 "no": "R-0921",
-"cat": "landmark"
+"cat": "landmark",
+"dup": "R-0348"
 },
 {
 "url": "https://i.pinimg.com/736x/6a/51/c0/6a51c0155f35972e4fd3b7a5f305f9f0.jpg",
@@ -6743,7 +6789,8 @@
 "q": "acnh quarry ideas",
 "th": "all",
 "no": "R-0926",
-"cat": "landmark"
+"cat": "landmark",
+"dup": "R-0348"
 },
 {
 "url": "https://i.pinimg.com/736x/53/be/ba/53beba07df3da0653898a6409977ccdc.jpg",
@@ -6757,7 +6804,8 @@
 "q": "acnh quarry ideas",
 "th": "all",
 "no": "R-0928",
-"cat": "landmark"
+"cat": "landmark",
+"dup": "R-0753"
 },
 {
 "url": "https://i.pinimg.com/736x/ff/17/69/ff1769534ae4ae69e3edeb9b581c3170.jpg",
@@ -6920,7 +6968,8 @@
 "q": "acnh flower field hybrid ideas",
 "th": "all",
 "no": "R-0951",
-"cat": "park"
+"cat": "park",
+"dup": "R-0698"
 },
 {
 "url": "https://i.pinimg.com/736x/2f/b7/fb/2fb7fb6bd1ae1dfb9e98b95cd7d646c4.jpg",
@@ -7075,7 +7124,8 @@
 "q": "acnh waterfall cliff ideas",
 "th": "all",
 "no": "R-0973",
-"cat": "water"
+"cat": "water",
+"dup": "R-0348"
 },
 {
 "url": "https://i.pinimg.com/736x/85/3c/33/853c338a873a271bb37072c53eae6afa.jpg",
@@ -7117,7 +7167,8 @@
 "q": "acnh waterfall cliff ideas",
 "th": "all",
 "no": "R-0979",
-"cat": "water"
+"cat": "water",
+"dup": "R-0348"
 },
 {
 "url": "https://i.pinimg.com/736x/dc/e7/48/dce748e4f88b2c46fef4fc94d6fb2a45.jpg",
@@ -7153,7 +7204,7 @@
 "th": "all",
 "no": "R-0984",
 "cat": "facility",
-"dup": "R-0896"
+"dup": "R-0740"
 },
 {
 "url": "https://i.pinimg.com/736x/c2/05/12/c20512861fd5d1f1ab871467fdf9b3f3.jpg",
@@ -7259,7 +7310,8 @@
 "q": "acnh museum entrance ideas",
 "th": "all",
 "no": "R-0999",
-"cat": "facility"
+"cat": "facility",
+"dup": "R-0758"
 },
 {
 "url": "https://i.pinimg.com/736x/1f/3a/fe/1f3afecc2619849ee4313f96686d906c.jpg",
@@ -7280,7 +7332,8 @@
 "q": "acnh museum entrance ideas",
 "th": "all",
 "no": "R-1002",
-"cat": "facility"
+"cat": "facility",
+"dup": "R-0758"
 },
 {
 "url": "https://i.pinimg.com/736x/23/2b/0d/232b0d0d384e1e32683435d95f2dbc72.jpg",
@@ -7427,7 +7480,8 @@
 "q": "acnh able sisters entrance ideas",
 "th": "all",
 "no": "R-1023",
-"cat": "facility"
+"cat": "facility",
+"dup": "R-1015"
 },
 {
 "url": "https://i.pinimg.com/736x/35/e1/6e/35e16ec858dc061845f722f3735ae8c3.jpg",
@@ -7525,7 +7579,8 @@
 "q": "acnh nook's cranny entrance ideas",
 "th": "all",
 "no": "R-1037",
-"cat": "facility"
+"cat": "facility",
+"dup": "R-0305"
 },
 {
 "url": "https://i.pinimg.com/736x/bd/7f/31/bd7f31e00a30f55e968fe720052f2756.jpg",
@@ -7808,7 +7863,7 @@
 "th": "all",
 "no": "R-1076",
 "cat": "design",
-"dup": "R-0093"
+"dup": "R-0045"
 },
 {
 "url": "https://i.pinimg.com/736x/69/40/cc/6940cc152edc8b7101b8a0f99fcac13f.jpg",
@@ -7938,14 +7993,16 @@
 "ma": "MA-1203-6519-8678",
 "ma_ocr": true,
 "no": "R-1091",
-"cat": "design"
+"cat": "design",
+"dup": "R-1078"
 },
 {
 "url": "https://i.pinimg.com/736x/da/7c/83/da7c83cab5675dd06d4520834871b98e.jpg",
 "q": "acnh simple panel design code",
 "th": "all",
 "no": "R-1092",
-"cat": "design"
+"cat": "design",
+"dup": "R-1074"
 },
 {
 "url": "https://i.pinimg.com/736x/fc/e9/47/fce9470e39bbbcd574659ef09cebfe10.jpg",
@@ -7987,7 +8044,8 @@
 "ma": "MA-5698-5260-1603",
 "ma_ocr": true,
 "no": "R-1097",
-"cat": "design"
+"cat": "design",
+"dup": "R-1095"
 },
 {
 "url": "https://i.pinimg.com/736x/b3/cd/89/b3cd89d283feab9d8a677179ebcd3c28.jpg",
@@ -8002,7 +8060,7 @@
 "th": "lon",
 "no": "R-1099",
 "cat": "station",
-"dup": "R-0840"
+"dup": "R-0037"
 },
 {
 "url": "https://i.pinimg.com/736x/8d/3d/7f/8d3d7fe0f04507d54416dbfc3d1236a2.jpg",
@@ -8278,7 +8336,8 @@
 "q": "acnh european airport entrance cobblestone",
 "th": "lon",
 "no": "R-1138",
-"cat": "station"
+"cat": "station",
+"dup": "R-0007"
 },
 {
 "url": "https://i.pinimg.com/736x/fe/da/8d/feda8d50f2f60d5b1eba4ccb96635fd1.jpg",
@@ -8341,7 +8400,8 @@
 "q": "acnh european airport entrance cobblestone",
 "th": "lon",
 "no": "R-1147",
-"cat": "station"
+"cat": "station",
+"dup": "R-0740"
 },
 {
 "url": "https://i.pinimg.com/736x/0a/df/fb/0adffbbe381f713dfbcf4549f21f08ef.jpg",
@@ -8418,7 +8478,8 @@
 "q": "acnh afternoon tea outdoor ideas",
 "th": "lon",
 "no": "R-1158",
-"cat": "shop"
+"cat": "shop",
+"dup": "R-0189"
 },
 {
 "url": "https://i.pinimg.com/736x/5e/bc/a0/5ebca0ce06b4f5bfb0adf01a34200865.jpg",
@@ -8600,7 +8661,8 @@
 "q": "acnh luggage suitcase travel display",
 "th": "lon",
 "no": "R-1184",
-"cat": "station"
+"cat": "station",
+"dup": "R-1136"
 },
 {
 "url": "https://i.pinimg.com/736x/ec/5d/72/ec5d7266afa5914bc644c27ca03dbc31.jpg",
@@ -8684,7 +8746,8 @@
 "q": "acnh luggage suitcase travel display",
 "th": "lon",
 "no": "R-1196",
-"cat": "station"
+"cat": "station",
+"dup": "R-1173"
 },
 {
 "url": "https://i.pinimg.com/736x/e7/53/ca/e753ca06a810b1a6740fd601fbec7928.jpg",
@@ -9022,7 +9085,8 @@
 "q": "acnh travel agency ideas",
 "th": "lon",
 "no": "R-1243",
-"cat": "station"
+"cat": "station",
+"dup": "R-0031"
 },
 {
 "url": "https://i.pinimg.com/736x/48/9a/36/489a36f002d4a88812440008af50d3d5.jpg",
@@ -9044,7 +9108,8 @@
 "q": "acnh travel agency ideas",
 "th": "lon",
 "no": "R-1246",
-"cat": "station"
+"cat": "station",
+"dup": "R-0795"
 },
 {
 "url": "https://i.pinimg.com/736x/d9/c5/a9/d9c5a9ae2e51f9208da876cd0ae5ae0a.jpg",
@@ -9081,14 +9146,16 @@
 "q": "acnh travel agency ideas",
 "th": "lon",
 "no": "R-1251",
-"cat": "station"
+"cat": "station",
+"dup": "R-0176"
 },
 {
 "url": "https://i.pinimg.com/736x/dd/c4/51/ddc45121c814ae1ed6e27cf6dd17d6aa.jpg",
 "q": "acnh travel agency ideas",
 "th": "lon",
 "no": "R-1252",
-"cat": "station"
+"cat": "station",
+"dup": "R-0114"
 },
 {
 "url": "https://i.pinimg.com/736x/0c/d3/57/0cd357a751d560546105362774e27887.jpg",
@@ -9124,7 +9191,8 @@
 "q": "acnh travel agency ideas",
 "th": "lon",
 "no": "R-1257",
-"cat": "station"
+"cat": "station",
+"dup": "R-1248"
 },
 {
 "url": "https://i.pinimg.com/736x/bd/54/55/bd5455c17e8e16a772e64ec18ad69816.jpg",
@@ -9138,7 +9206,8 @@
 "q": "acnh big ben build",
 "th": "lon",
 "no": "R-1259",
-"cat": "landmark"
+"cat": "landmark",
+"dup": "R-1258"
 },
 {
 "url": "https://i.pinimg.com/736x/ef/bb/7b/efbb7ba4a2c233a69247620d296e2075.jpg",
@@ -9180,7 +9249,8 @@
 "q": "acnh big ben build",
 "th": "lon",
 "no": "R-1265",
-"cat": "landmark"
+"cat": "landmark",
+"dup": "R-1258"
 },
 {
 "url": "https://i.pinimg.com/736x/83/7f/e3/837fe3adad3c517ea128c1bda627e2f7.jpg",
@@ -9221,7 +9291,7 @@
 "no": "R-1270",
 "title": "Random: Animal Crossing: New Horizons Players Are Getting Creative With The New Design Tools",
 "cat": "water",
-"dup": "R-1265"
+"dup": "R-1258"
 },
 {
 "url": "https://i.pinimg.com/736x/09/f5/f1/09f5f1fa7ebfc68fc1e0233c29403cf6.jpg",
@@ -9296,7 +9366,8 @@
 "q": "acnh london bridge build",
 "th": "lon",
 "no": "R-1280",
-"cat": "water"
+"cat": "water",
+"dup": "R-0741"
 },
 {
 "url": "https://i.pinimg.com/736x/47/f4/2d/47f42d1c710bd2c372d0d8cac2cced63.jpg",
@@ -9429,7 +9500,8 @@
 "th": "lon",
 "no": "R-1298",
 "title": "Animal crossing idea",
-"cat": "shop"
+"cat": "shop",
+"dup": "R-0039"
 },
 {
 "url": "https://i.pinimg.com/736x/9a/02/f8/9a02f845982ece2aaf496e290ca8ae3e.jpg",
@@ -9468,7 +9540,8 @@
 "th": "lon",
 "no": "R-1303",
 "title": "Petit Marcher fruit et legume",
-"cat": "shop"
+"cat": "shop",
+"dup": "R-0311"
 },
 {
 "url": "https://i.pinimg.com/736x/42/6d/b1/426db1dca41228c29d9a3f6230c3fd87.jpg",
@@ -9517,7 +9590,8 @@
 "q": "acnh victorian street lamp ideas",
 "th": "lon",
 "no": "R-1310",
-"cat": "small"
+"cat": "small",
+"dup": "R-0094"
 },
 {
 "url": "https://i.pinimg.com/736x/96/77/be/9677be8b5b011aecb799ceb2bf723cc9.jpg",
@@ -9584,7 +9658,8 @@
 "q": "acnh victorian street lamp ideas",
 "th": "lon",
 "no": "R-1319",
-"cat": "small"
+"cat": "small",
+"dup": "R-0094"
 },
 {
 "url": "https://i.pinimg.com/736x/f5/f6/01/f5f601b0194377a074d509ae3cb701b1.jpg",
@@ -9720,7 +9795,8 @@
 "q": "acnh double decker bus build",
 "th": "lon",
 "no": "R-1338",
-"cat": "small"
+"cat": "small",
+"dup": "R-0130"
 },
 {
 "url": "https://i.pinimg.com/736x/62/e0/da/62e0da13a963ccc78ebb7e07203830c1.jpg",
@@ -9943,7 +10019,8 @@
 "q": "acnh oasis palm tree ideas",
 "th": "egy",
 "no": "R-1368",
-"cat": "water"
+"cat": "water",
+"dup": "R-1364"
 },
 {
 "url": "https://i.pinimg.com/736x/fd/6c/91/fd6c91d17132553641447575c52a5e74.jpg",
@@ -10230,7 +10307,8 @@
 "q": "acnh desert village ideas",
 "th": "egy",
 "no": "R-1408",
-"cat": "street"
+"cat": "street",
+"dup": "R-0291"
 },
 {
 "url": "https://i.pinimg.com/736x/dd/6b/74/dd6b7411a7d92ef9cab202d0aee0cdb5.jpg",
@@ -10310,7 +10388,8 @@
 "q": "acnh arabian market rug ideas",
 "th": "egy",
 "no": "R-1419",
-"cat": "shop"
+"cat": "shop",
+"dup": "R-1417"
 },
 {
 "url": "https://i.pinimg.com/736x/86/ac/03/86ac034a52d8e817a6a240e5f933b759.jpg",
@@ -10814,7 +10893,8 @@
 "q": "acnh bamboo forest ideas",
 "th": "jpn",
 "no": "R-1488",
-"cat": "park"
+"cat": "park",
+"dup": "R-0341"
 },
 {
 "url": "https://i.pinimg.com/736x/04/9f/db/049fdbff3edb4c5d9614037ed522ad99.jpg",
@@ -10947,7 +11027,8 @@
 "q": "acnh japanese bridge pond ideas",
 "th": "jpn",
 "no": "R-1506",
-"cat": "water"
+"cat": "water",
+"dup": "R-0348"
 },
 {
 "url": "https://i.pinimg.com/736x/c2/40/25/c2402568ffa433a74ce8ad64502b3d65.jpg",
@@ -10956,7 +11037,7 @@
 "no": "R-1507",
 "title": "Idée animal crossing new horizon",
 "cat": "water",
-"dup": "R-0979"
+"dup": "R-0348"
 },
 {
 "url": "https://i.pinimg.com/736x/55/54/45/5554459b0198c3d17ef53664e29ee8f0.jpg",
@@ -11029,7 +11110,8 @@
 "q": "acnh japanese bridge pond ideas",
 "th": "jpn",
 "no": "R-1517",
-"cat": "water"
+"cat": "water",
+"dup": "R-0348"
 },
 {
 "url": "https://i.pinimg.com/736x/d1/71/d3/d171d3190a1b91b805f04ab56149bbf9.jpg",
@@ -11296,7 +11378,8 @@
 "q": "acnh cherry blossom path ideas",
 "th": "jpn",
 "no": "R-1554",
-"cat": "road"
+"cat": "road",
+"dup": "R-1552"
 },
 {
 "url": "https://i.pinimg.com/736x/9e/bd/74/9ebd74dd9168c88e1225dbde71557b87.jpg",
@@ -11361,7 +11444,8 @@
 "q": "acnh cherry blossom path ideas",
 "th": "jpn",
 "no": "R-1563",
-"cat": "road"
+"cat": "road",
+"dup": "R-1549"
 },
 {
 "url": "https://i.pinimg.com/736x/7e/62/f0/7e62f00737310194de639bc59a00e0d4.jpg",
@@ -11462,7 +11546,8 @@
 "q": "あつ森 和風 街並み",
 "th": "jpn",
 "no": "R-1577",
-"cat": "street"
+"cat": "street",
+"dup": "R-0414"
 },
 {
 "url": "https://i.pinimg.com/736x/5c/ab/00/5cab00e8c35c59b4978f3ba6a28761ff.jpg",
@@ -11485,7 +11570,8 @@
 "th": "jpn",
 "no": "R-1580",
 "title": "【あつ森】これはマネしたい!海外勢による和風別荘レイアウトのクオリティが高すぎる!",
-"cat": "street"
+"cat": "street",
+"dup": "R-0329"
 },
 {
 "url": "https://i.pinimg.com/736x/57/27/dd/5727ddaa837a0341fc9a98ac1845b94a.jpg",
@@ -11749,7 +11835,8 @@
 "q": "acnh times square build",
 "th": "usa",
 "no": "R-1616",
-"cat": "landmark"
+"cat": "landmark",
+"dup": "R-0098"
 },
 {
 "url": "https://i.pinimg.com/736x/a6/f0/41/a6f041a22fbacdc2d00ce20056c94116.jpg",
@@ -12155,7 +12242,8 @@
 "th": "usa",
 "no": "R-1671",
 "title": "Food truck",
-"cat": "shop"
+"cat": "shop",
+"dup": "R-0472"
 },
 {
 "url": "https://i.pinimg.com/736x/0f/46/d6/0f46d63d5c83f6f69328b1da2f38a8f2.jpg",
@@ -12178,7 +12266,8 @@
 "th": "usa",
 "no": "R-1674",
 "title": "Coffee Truck",
-"cat": "shop"
+"cat": "shop",
+"dup": "R-0472"
 },
 {
 "url": "https://i.pinimg.com/736x/3d/81/6d/3d816d35645ffc4ddf9187e8f9bf896e.jpg",
@@ -12778,7 +12867,8 @@
 "th": "eur",
 "no": "R-1756",
 "title": "Acnh idée",
-"cat": "park"
+"cat": "park",
+"dup": "R-0033"
 },
 {
 "url": "https://i.pinimg.com/736x/7c/54/d1/7c54d1091fd917b69ac3ab0e5f028c4e.jpg",
@@ -13113,7 +13203,8 @@
 "th": "eur",
 "no": "R-1802",
 "title": "Medieval waterfall",
-"cat": "landmark"
+"cat": "landmark",
+"dup": "R-1746"
 },
 {
 "url": "https://i.pinimg.com/736x/5e/82/f3/5e82f3c5fc7c2a1edb9f3235c9e6178a.jpg",
@@ -13180,7 +13271,8 @@
 "q": "acnh dutch canal house ideas",
 "th": "eur",
 "no": "R-1811",
-"cat": "water"
+"cat": "water",
+"dup": "R-0660"
 },
 {
 "url": "https://i.pinimg.com/736x/b0/17/15/b01715819c03510c7d7d0403635ac8ec.jpg",
@@ -13426,7 +13518,8 @@
 "q": "acnh european stone path code",
 "th": "eur",
 "no": "R-1845",
-"cat": "road"
+"cat": "road",
+"dup": "R-0074"
 },
 {
 "url": "https://i.pinimg.com/736x/b2/51/1d/b2511d82fb2e74242885b853663cc628.jpg",
@@ -13441,7 +13534,8 @@
 "q": "acnh european stone path code",
 "th": "eur",
 "no": "R-1847",
-"cat": "road"
+"cat": "road",
+"dup": "R-0025"
 },
 {
 "url": "https://i.pinimg.com/736x/56/5f/b8/565fb854d50ed3f0233116f0e3a0bca6.jpg",
@@ -13456,7 +13550,8 @@
 "q": "acnh european stone path code",
 "th": "eur",
 "no": "R-1849",
-"cat": "road"
+"cat": "road",
+"dup": "R-0014"
 },
 {
 "url": "https://i.pinimg.com/736x/9f/62/33/9f62338ad9db307d3a92d1a34dfeddde.jpg",
@@ -13479,7 +13574,8 @@
 "q": "acnh european stone path code",
 "th": "eur",
 "no": "R-1852",
-"cat": "road"
+"cat": "road",
+"dup": "R-0018"
 },
 {
 "url": "https://i.pinimg.com/736x/4f/0d/cd/4f0dcdab1eb49e38fb7208b2cbb7d2fd.jpg",
@@ -13721,14 +13817,16 @@
 "q": "acnh lighthouse ideas",
 "th": "port",
 "no": "R-1885",
-"cat": "landmark"
+"cat": "landmark",
+"dup": "R-1880"
 },
 {
 "url": "https://i.pinimg.com/736x/6d/f9/a2/6df9a254cc34b93d905e5882858a92fc.jpg",
 "q": "acnh lighthouse ideas",
 "th": "port",
 "no": "R-1886",
-"cat": "landmark"
+"cat": "landmark",
+"dup": "R-1878"
 },
 {
 "url": "https://i.pinimg.com/736x/7f/89/e1/7f89e1fd7832cc58caea9dcba6cff8f1.jpg",
@@ -13807,7 +13905,8 @@
 "q": "acnh lighthouse ideas",
 "th": "port",
 "no": "R-1897",
-"cat": "landmark"
+"cat": "landmark",
+"dup": "R-1873"
 },
 {
 "url": "https://i.pinimg.com/736x/f5/ae/f5/f5aef5e1b9daee69dcb48a55afa0de6c.jpg",
@@ -13926,7 +14025,8 @@
 "q": "acnh harbor boat dock ideas",
 "th": "port",
 "no": "R-1913",
-"cat": "water"
+"cat": "water",
+"dup": "R-1880"
 },
 {
 "url": "https://i.pinimg.com/736x/7f/25/7f/7f257f5bb0cc8c21c65118822122f334.jpg",
@@ -13977,7 +14077,8 @@
 "q": "acnh italian riviera lemon ideas",
 "th": "port",
 "no": "R-1920",
-"cat": "street"
+"cat": "street",
+"dup": "R-1919"
 },
 {
 "url": "https://i.pinimg.com/736x/68/65/05/686505cdde25ce7b646a89954d7b7805.jpg",
@@ -14013,14 +14114,16 @@
 "th": "port",
 "no": "R-1925",
 "title": "Animal Crossing New Horizons Italy Design",
-"cat": "street"
+"cat": "street",
+"dup": "R-0757"
 },
 {
 "url": "https://i.pinimg.com/736x/44/a6/a4/44a6a455caf9d2b877201c536ec0170e.jpg",
 "q": "acnh italian riviera lemon ideas",
 "th": "port",
 "no": "R-1926",
-"cat": "street"
+"cat": "street",
+"dup": "R-1919"
 },
 {
 "url": "https://i.pinimg.com/736x/8c/b1/80/8cb1804bd1db9af36c07be64826b3ac2.jpg",
@@ -14237,7 +14340,8 @@
 "q": "acnh fish market stall ideas",
 "th": "port",
 "no": "R-1956",
-"cat": "shop"
+"cat": "shop",
+"dup": "R-1944"
 },
 {
 "url": "https://i.pinimg.com/736x/d9/46/cd/d946cd1f443c4ff17e0778e403bb1e36.jpg",
@@ -14295,7 +14399,8 @@
 "q": "acnh fish market stall ideas",
 "th": "port",
 "no": "R-1964",
-"cat": "shop"
+"cat": "shop",
+"dup": "R-1946"
 },
 {
 "url": "https://i.pinimg.com/736x/c7/8f/4c/c78f4cc67a5d20ae927c04747f930afe.jpg",
@@ -14381,7 +14486,7 @@
 "th": "port",
 "no": "R-1976",
 "cat": "road",
-"dup": "R-1845"
+"dup": "R-0074"
 },
 {
 "url": "https://i.pinimg.com/736x/c8/1a/a0/c81aa005533500846302bad1e586dea3.jpg",
@@ -14678,7 +14783,7 @@
 "th": "all",
 "no": "R-2017",
 "cat": "small",
-"dup": "R-1243"
+"dup": "R-0031"
 },
 {
 "url": "https://i.pinimg.com/736x/51/87/14/518714025173963a6792acbc1059ead7.jpg",
@@ -14744,7 +14849,8 @@
 "q": "acnh street lamp path ideas",
 "th": "all",
 "no": "R-2026",
-"cat": "small"
+"cat": "small",
+"dup": "R-1309"
 },
 {
 "url": "https://i.pinimg.com/736x/73/99/0d/73990d998c90e375bdc77e3286a985de.jpg",
@@ -14752,7 +14858,8 @@
 "th": "all",
 "no": "R-2027",
 "title": "lantern design by Charlie on Atlantopia",
-"cat": "small"
+"cat": "small",
+"dup": "R-0595"
 },
 {
 "url": "https://i.pinimg.com/736x/23/be/67/23be67ab539ae4eb0bb2febbb081e566.jpg",
@@ -14805,7 +14912,8 @@
 "th": "all",
 "no": "R-2034",
 "title": "ACNH Streetlight Hanging Baskets",
-"cat": "small"
+"cat": "small",
+"dup": "R-0094"
 },
 {
 "url": "https://i.pinimg.com/736x/dd/82/3f/dd823f782c415bd3955247167c68d0ca.jpg",
@@ -14827,7 +14935,8 @@
 "q": "acnh street lamp path ideas",
 "th": "all",
 "no": "R-2037",
-"cat": "small"
+"cat": "small",
+"dup": "R-0094"
 },
 {
 "url": "https://i.pinimg.com/736x/24/5d/e5/245de5bae4ff344be71319c5a843a252.jpg",
@@ -14952,7 +15061,7 @@
 "th": "all",
 "no": "R-2054",
 "cat": "park",
-"dup": "R-0979"
+"dup": "R-0348"
 },
 {
 "url": "https://i.pinimg.com/736x/5c/f9/a8/5cf9a8749f65baf756a44154f31f4c5e.jpg",
@@ -14994,14 +15103,16 @@
 "q": "acnh river bridge ideas",
 "th": "all",
 "no": "R-2060",
-"cat": "water"
+"cat": "water",
+"dup": "R-0348"
 },
 {
 "url": "https://i.pinimg.com/736x/7b/19/d4/7b19d4bbe6768e2173ea9340a78144a2.jpg",
 "q": "acnh river bridge ideas",
 "th": "all",
 "no": "R-2061",
-"cat": "water"
+"cat": "water",
+"dup": "R-0348"
 },
 {
 "url": "https://i.pinimg.com/736x/71/da/97/71da9768f4f5b4a3d262e44ade63d873.jpg",
@@ -15062,7 +15173,7 @@
 "th": "all",
 "no": "R-2069",
 "cat": "water",
-"dup": "R-0921"
+"dup": "R-0348"
 },
 {
 "url": "https://i.pinimg.com/736x/b6/fb/0c/b6fb0c4a129868bd2c7993305b835e80.jpg",
@@ -15099,7 +15210,8 @@
 "q": "acnh incline slope ideas",
 "th": "all",
 "no": "R-2074",
-"cat": "road"
+"cat": "road",
+"dup": "R-0974"
 },
 {
 "url": "https://i.pinimg.com/736x/7a/cb/7a/7acb7a88477a808f026f6f044f927e2a.jpg",
@@ -15181,7 +15293,8 @@
 "q": "acnh incline slope ideas",
 "th": "all",
 "no": "R-2085",
-"cat": "road"
+"cat": "road",
+"dup": "R-0959"
 },
 {
 "url": "https://i.pinimg.com/736x/8f/70/bf/8f70bfa6f5d852739b5b988342ef145c.jpg",
@@ -15261,7 +15374,8 @@
 "q": "acnh cliff stairs ideas",
 "th": "all",
 "no": "R-2096",
-"cat": "road"
+"cat": "road",
+"dup": "R-2084"
 },
 {
 "url": "https://i.pinimg.com/736x/dd/d2/f1/ddd2f123d64cc52a948781fd95fe5e2a.jpg",
@@ -15275,7 +15389,8 @@
 "q": "acnh cliff stairs ideas",
 "th": "all",
 "no": "R-2098",
-"cat": "road"
+"cat": "road",
+"dup": "R-2083"
 },
 {
 "url": "https://i.pinimg.com/736x/1c/96/52/1c9652d983eca23d36138e57ddb61de9.jpg",
@@ -15356,7 +15471,8 @@
 "q": "acnh house front yard ideas",
 "th": "all",
 "no": "R-2109",
-"cat": "facility"
+"cat": "facility",
+"dup": "R-1167"
 },
 {
 "url": "https://i.pinimg.com/736x/b7/88/40/b7884003a0878b3227521f5278569a48.jpg",

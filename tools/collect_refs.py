@@ -85,6 +85,66 @@ def img_hashes(path):
     t = np.asarray(rgb.resize((40, 40)), dtype=float)[:3].reshape(-1, 3).mean(0)
     return ph(im), (b[:, 1:] > b[:, :-1]).flatten(), ph(im.crop((w * .25, h * .25, w * .75, h * .75))), bool(t[0] > 215 and t[1] < 205 and t[2] > 165 and t[0] - t[1] > 25)
 
+# 見て確かめて「重複ではない」とした組（同じ作者の別のページなど）
+NOT_DUP = {('R-0358', 'R-0364')}
+
+def orb_pairs(items, files):
+    """2段目（第33回）：切り抜き・拡大・枠・字幕・インスタの画面・拼図に入った同じ画像を見つける。
+    色と構図の近い25枚を候補にし、ORB の特徴点を RANSAC でそろえ、重ねて4×4の区画の明るさがそろうか確かめる。
+    保存画面（ピンクの帯）や、それを貼りこんだ画像は、ほぼすべての区画がそろうときだけ。opencv が無ければ飛ばす"""
+    try:
+        import cv2, numpy as np
+    except ImportError:
+        print('opencv がないので2段目（特徴点）は飛ばします'); return []
+    orb = cv2.ORB_create(nfeatures=800, fastThreshold=12); bf = cv2.BFMatcher(cv2.NORM_HAMMING)
+    G, K, D, SC, SZ, GR, UI = [], [], [], [], [], [], []
+    for r in items:
+        im = cv2.imread(files[r['url']]); h, w = im.shape[:2]
+        top = im[: max(3, h // 13)].reshape(-1, 3).mean(0)
+        screen = top[2] > 215 and top[1] < 205 and top[0] > 165 and top[2] - top[1] > 25
+        if screen: im = im[int(h * .2):int(h * .85), int(w * .15):int(w * .85)]
+        sc = 480 / max(im.shape[:2]); im = cv2.resize(im, None, fx=sc, fy=sc, interpolation=cv2.INTER_AREA); gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
+        hist = cv2.calcHist([cv2.cvtColor(im, cv2.COLOR_BGR2HSV)], [0, 1, 2], None, [12, 4, 4], [0, 180, 0, 256, 0, 256]).flatten(); hist /= hist.sum() + 1e-9
+        g = cv2.resize(gray, (16, 16), interpolation=cv2.INTER_AREA).astype(float).flatten(); g = (g - g.mean()) / (g.std() + 1e-6)
+        G.append(np.concatenate([np.sqrt(hist) * 4, g / 16]))
+        f = im.reshape(-1, 3).astype(int); bb, gg, rr = f[:, 0], f[:, 1], f[:, 2]
+        UI.append(bool(((rr > 235) & (gg > 225) & (bb > 195) & (bb < 235) & (rr - bb > 12)).mean() > .12 and ((rr > 220) & (gg < 200) & (bb > 160) & (rr - gg > 35)).mean() > .02))
+        kp, des = orb.detectAndCompute(gray, None)
+        K.append(np.float32([k.pt for k in kp]) if kp else np.zeros((0, 2), np.float32)); D.append(des); SC.append(bool(screen)); SZ.append(gray.shape); GR.append(gray)
+    Gm = np.array(G); Gm /= np.linalg.norm(Gm, axis=1, keepdims=True); sim = Gm @ Gm.T; np.fill_diagonal(sim, -1)
+    def same(i, j):
+        if SC[i] or SC[j] or D[i] is None or D[j] is None or len(D[i]) < 30 or len(D[j]) < 30: return False
+        good = [a for a, b in (x for x in bf.knnMatch(D[i], D[j], k=2) if len(x) == 2) if a.distance < .75 * b.distance]
+        if len(good) < 20: return False
+        p1 = K[i][[x.queryIdx for x in good]]; p2 = K[j][[x.trainIdx for x in good]]
+        H, mask = cv2.findHomography(p1, p2, cv2.RANSAC, 6.0)
+        if H is None or mask.sum() < 25: return False
+        pts = p1[mask.ravel() == 1]
+        if np.ptp(pts[:, 0]) * np.ptp(pts[:, 1]) / (SZ[i][0] * SZ[i][1]) <= .08: return False
+        (hb, wb), (ha, wa) = GR[j].shape, GR[i].shape
+        try: Hi = np.linalg.inv(H)
+        except np.linalg.LinAlgError: return False
+        m2 = cv2.warpPerspective(np.full((ha, wa), 255, np.uint8), H, (wb, hb)) > 0; m1 = cv2.warpPerspective(np.full((hb, wb), 255, np.uint8), Hi, (wa, ha)) > 0
+        if min(m2.mean(), m1.mean()) < .4: return False      # 両方の4割以上が重なる
+        A = cv2.GaussianBlur(cv2.warpPerspective(GR[i], H, (wb, hb)), (5, 5), 0).astype(float); B = cv2.GaussianBlur(GR[j], (5, 5), 0).astype(float)
+        ys, xs = np.nonzero(m2); y0, y1, x0, x1 = ys.min(), ys.max() + 1, xs.min(), xs.max() + 1; oks = tot = 0
+        for ty in range(4):
+            for tx in range(4):
+                sl = (slice(y0 + (y1 - y0) * ty // 4, y0 + (y1 - y0) * (ty + 1) // 4), slice(x0 + (x1 - x0) * tx // 4, x0 + (x1 - x0) * (tx + 1) // 4)); mm = m2[sl]
+                if mm.sum() < 50: continue
+                a, b = A[sl][mm], B[sl][mm]; tot += 1
+                oks += (abs(a.mean() - b.mean()) < 20) if (a.std() < 6 and b.std() < 6) else (((a - a.mean()) * (b - b.mean())).mean() / (a.std() * b.std() + 1e-6) > .5)
+        return tot >= 8 and oks / tot >= (.94 if (UI[i] or UI[j]) else .7)
+    pairs, seen = [], set()
+    for i in range(len(items)):
+        for j in np.argsort(-sim[i])[:25]:
+            a, b = min(i, int(j)), max(i, int(j))
+            if (a, b) in seen: continue
+            seen.add((a, b))
+            if same(a, b): pairs.append((a, b))
+    print('2段目（特徴点）：', len(seen), '組を確かめ、同じ画像', len(pairs), '組')
+    return pairs
+
 def dedupe(refs, cache):
     """同じ画像（貼り直し・字幕や枠の違い・少しの切り抜き）をまとめる。番号は変えず、重複に dup: 残す番号。
     残すのは 採用 があればそれ、なければいちばん小さい番号。保存画面どうしは、ほぼ同じものだけ重複にする"""
@@ -95,10 +155,14 @@ def dedupe(refs, cache):
     def find(x):
         while parent[x] != x: parent[x] = parent[parent[x]]; x = parent[x]
         return x
+    nd = lambda a, b: (items[a]['no'], items[b]['no']) in NOT_DUP or (items[b]['no'], items[a]['no']) in NOT_DUP
     for i in range(n):
         dp = (P[i] != P[i + 1:]).sum(1); dd = (Dh[i] != Dh[i + 1:]).sum(1); dc = (C[i] != C[i + 1:]).sum(1)
         ok = (~SC[i] & ~SC[i + 1:] & (dc <= 6) & ((dp <= 4) | ((dp <= 8) & (dd <= 8)))) | ((dp == 0) & (dd <= 2) & (dc <= 1))
-        for j in np.nonzero(ok)[0]: parent[find(i + 1 + int(j))] = find(i)
+        for j in np.nonzero(ok)[0]:
+            if not nd(i, i + 1 + int(j)): parent[find(i + 1 + int(j))] = find(i)
+    for a, b in orb_pairs(items, files):
+        if not nd(a, b): parent[find(b)] = find(a)
     groups = {}
     for i in range(n): groups.setdefault(find(i), []).append(items[i])
     for r in refs: r.pop('dup', None)
