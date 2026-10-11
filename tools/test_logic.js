@@ -131,7 +131,7 @@ const DISTS = { egy: [8, 12, 40, 62], jpn: [32, 12, 67, 61], usa: [65, 12, 101, 
   ok('番号：作例 R-0000・マイデザイン D-000 は重ならない', (() => { const r = J('designs/refs.json').map(x => x.no), d = CAT.designs.map(x => x.no); return r.every(x => /^R-\d{4}$/.test(x)) && d.every(x => /^D-\d{3}$/.test(x)) && new Set(r).size === r.length && new Set(d).size === d.length; })());
   { const R = J('designs/refs.json'), by = Object.fromEntries(R.map(r => [r.no, r])); ok('判定：R-0045 不採用・R-0033 はヨーロッパ', by['R-0045'].verdict === '不採用' && /ヨーロッパ/.test(by['R-0033'].use)); }
   ok('通り道：P1〜P7（坂と橋で立体交差）', J('designs/lon_paths.json').routes.map(r => r.id).sort().join() === 'P1,P2,P3,P4,P5,P6,P7');
-  ok('2段の河岸：船着き場（1段目）と上の散歩道（2段目）が上下に重なる', (() => { const lo = DZL.modules.find(m => m.id === 'lon_d_quay_low'), up = DZL.modules.find(m => m.id === 'lon_d_quay_up'); return lo.at[0] === up.at[0] && G[lo.at[1]][lo.at[0]] !== 'w' && T.h[lo.at[1]][lo.at[0]] === '1' && T.h[up.at[1]][up.at[0]] === '2'; })());
+  ok('2段の河岸：船着き場（1段目）と上の散歩道（2段目）が上下に重なる', (() => { const lo = DZL.modules.find(m => m.id === 'lon_d_canal'), up = DZL.modules.find(m => m.id === 'lon_d_quay_up'); return lo.at[0] === up.at[0] && G[lo.at[1]][lo.at[0]] !== 'w' && T.h[lo.at[1]][lo.at[0]] === '1' && T.h[up.at[1]][up.at[0]] === '2'; })());
   ok('判定：駅が作れるマイデザは採用・飛行機ラウンジ', CAT.designs.find(x => x.ma === 'MA-2715-7913-6849').verdict === '採用' && DZL.options[0].default === 'lon_d_station');
   ok('作例の目録：URLと検索語', J('designs/refs.json').length >= 200 && J('designs/refs.json').every(r => /^https:\/\/i\.pinimg\.com\//.test(r.url) && r.q));
   const MG = loadComponent('Module Guide.dc.html', { w: 400, h: 300 }); const mg = await MG.start(); await new Promise(r => setTimeout(r, 30)); mg.setState({});
