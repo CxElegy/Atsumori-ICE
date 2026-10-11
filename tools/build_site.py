@@ -99,8 +99,12 @@ def main():
                 if (X, Y) in occ: return False
         return True
     optonly = {c for o in LON.get('options', []) for c in o['choices']} - {'lon_d_platform'}   # 案としてだけ使うモジュールは、ほかの所に置かない
-    for m in LON['modules']:
+    for m in sorted(LON['modules'], key=lambda m: not m.get('at')):   # 場所を決めたモジュールを先に
         if any(p['id'] == m['id'] for p in places) or m['id'] in optonly: continue
+        if m.get('at'):   # 場所を決めたモジュール：そこに置き、重なるほかのモジュール（細部以外）は外す
+            x, y = m['at']; cs = {(x + dx, y + dy) for dy, row in enumerate(m['r']) for dx, ch in enumerate(row) if ch != '.'}
+            places[:] = [p for p in places if mods[p['id']].get('detail') or not any((p['x'] + dx, p['y'] + dy) in cs for dy, row in enumerate(p['rows']) for dx, ch in enumerate(row) if ch != '.')]
+            places.append({'id': m['id'], 'x': x, 'y': y, 'rot': 0, 'zone': 'lon', 'rows': m['r'], 'detail': True}); occ.update(cs); continue
         done = False
         px, py = m.get('prefer', [16, 54])   # 置きたい所（河岸は川のそば）に近い順に探す
         for x, y in sorted(((x, y) for y in range(54, 92) for x in range(16, 58)), key=lambda c: abs(c[0] - px) + abs(c[1] - py)):
@@ -166,15 +170,15 @@ def main():
                 for dx in range(rt['w'] if y1 != y2 else 1):
                     for dy in range(rt['w'] if x1 != x2 else 1):
                         cells.append((x + dx, y + dy))
-        cells = sorted(set(c for c in cells if 0 <= c[0] < 112 and 0 <= c[1] < 96 and G[c[1]][c[0]] not in 'Swr'))
+        cells = sorted(set(c for c in cells if 0 <= c[0] < 112 and 0 <= c[1] < 96 and G[c[1]][c[0]] not in 'Swrb'))
         rt['cells'] = [list(c) for c in cells]
-        if rt['mat'] == 'bridge': continue
+        if rt['mat'] in ('bridge', 'slope'): continue
         cs = set(cells)
         def hits(p):
             return any((p['x'] + dx, p['y'] + dy) in cs for dy, row in enumerate(p['rows']) for dx, ch in enumerate(row) if ch != '.' and ch not in GROUNDS)
         places = [p for p in places if not (hits(p) and pri(p) >= 2)]
         for x, y in cells: S['paint'].setdefault('lon', {})['%d,%d' % (x, y)] = rt['mat']
-    data['routes'] = routes
+    data['routes'] = routes; data['levels'] = LON.get('levels')
     data['places'] = places
     if a.board:   # 立体図（London Render）に読ませる配置
         paint = {k: v for pa in S['paint'].values() for k, v in pa.items()}

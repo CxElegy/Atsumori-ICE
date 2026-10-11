@@ -1076,7 +1076,7 @@
    "name": "運河ぞいの石畳とカフェ（レンガの橋・電話ボックス）",
    "image": "https://i.pinimg.com/736x/ea/22/25/ea2225d0c08928ede7459832d801b727.jpg",
    "for": [
-    "lon_d_embank"
+    "lon_d_quay_low"
    ]
   },
   {
@@ -1084,7 +1084,7 @@
    "name": "運河の河岸（手すり・ボート・マンホール）",
    "image": "https://i.pinimg.com/736x/69/e7/32/69e732233cdea9a8b18fc7788eaf429d.jpg",
    "for": [
-    "lon_d_embank"
+    "lon_d_quay_low"
    ]
   },
   {
@@ -1092,7 +1092,7 @@
    "name": "運河と花壇の通り（手すり・ベンチ・あずまや）",
    "image": "https://i.pinimg.com/736x/db/f7/e6/dbf7e65fd09063addeaa45fc05e6e241.jpg",
    "for": [
-    "lon_d_embank"
+    "lon_d_quay_low"
    ]
   },
   {
@@ -1272,6 +1272,23 @@
    "image": "https://i.pinimg.com/736x/2d/b9/35/2db935e2baece0f583fb89fdf00488b6.jpg",
    "for": [
     "lon_d_station"
+   ]
+  },
+  {
+   "id": "ex_r37",
+   "name": "R-0037 地下鉄の入口（階段の図・手すり）",
+   "image": "https://i.pinimg.com/736x/7d/14/ee/7d14ee7ab77baeb10872b68aab5e12e0.jpg",
+   "for": [
+    "lon_d_tube"
+   ]
+  },
+  {
+   "id": "ex_r88",
+   "name": "R-0088 2段の運河の河岸（上の段の手すり・下の船着き場）",
+   "image": "https://i.pinimg.com/736x/69/e7/32/69e732233cdea9a8b18fc7788eaf429d.jpg",
+   "for": [
+    "lon_d_quay_low",
+    "lon_d_quay_up"
    ]
   }
  ]

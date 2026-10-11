@@ -165,7 +165,7 @@ function drawIso() { const v = S.isoView, V = D.views[v], c = $('iso'); if (!V) 
   if (im) x.drawImage(im, 0, 0); const { P, TW, b } = isoProj(v);
   const m = mods().find(m => m.id === S.sel && m.x === S.selX && m.y === S.selY);
   if (m) { const [sx, sy] = P(m.x + m.rows[0].length / 2, m.y + m.rows.length / 2); x.strokeStyle = '#ffffff'; x.lineWidth = 4; x.beginPath(); x.ellipse(sx, sy, Math.max(30, m.rows[0].length * TW * .9), Math.max(16, m.rows[0].length * TW * .45), 0, 0, 7); x.stroke(); x.strokeStyle = '#b4503a'; x.lineWidth = 2; x.stroke();
-    x.font = '800 22px ' + getComputedStyle(document.body).getPropertyValue('--display'); const t = m.short || m.name, tw = x.measureText(t).width; x.fillStyle = '#b4503a'; x.fillRect(sx - tw / 2 - 10, sy - 70, tw + 20, 32); x.fillStyle = '#fff'; x.textAlign = 'center'; x.fillText(t, sx, sy - 46); x.textAlign = 'left'; } }
+    x.font = '800 22px ' + getComputedStyle(document.body).getPropertyValue('--display'); const t = m.short || m.name, tw = x.measureText(t).width; const lx = Math.max(tw / 2 + 14, Math.min(c.width - tw / 2 - 14, sx)); x.fillStyle = '#b4503a'; x.fillRect(lx - tw / 2 - 10, sy - 70, tw + 20, 32); x.fillStyle = '#fff'; x.textAlign = 'center'; x.fillText(t, lx, sy - 46); x.textAlign = 'left'; } }
 function hitIso(e) { const v = S.isoView, c = $('iso'), r = c.getBoundingClientRect(), sx = (e.clientX - r.left) / r.width * c.width, sy = (e.clientY - r.top) / r.height * c.height, { P, TW, b } = isoProj(v);
   let best = null, bd = 1e9; mods().forEach(m => { if (m.size < 6) return; const cx = m.x + m.rows[0].length / 2, cy = m.y + m.rows.length / 2; if (cx < b[0] || cx > b[2] || cy < b[1] || cy > b[3]) return; const [px, py] = P(cx, cy), d = Math.hypot(px - sx, (py - sy) * 1.6); if (d < bd) { bd = d; best = m; } });
   return bd < TW * 5 ? best : null; }
@@ -265,16 +265,17 @@ function fname(m, ch) { return (m.names && m.names[ch]) || (LON && LON.furniture
 function analyze(m) {
   const H = m.r.length, W = m.r[0].length, band = bandsOf(H), isItem = ch => ch !== '.' && !GROUNDCH.includes(ch);
   const front = [...m.r[H - 1]].filter(ch => TALL.includes(ch)), walk = (X, y) => !isItem(m.r[y][X]), seen = new Set(), q = [];
-  for (let X = 0; X < W; X++) if (walk(X, H - 1)) { seen.add(X + ',' + (H - 1)); q.push([X, H - 1]); }
+  const seeds = []; for (let X = 0; X < W; X++) seeds.push([X, H - 1]); for (let y = 0; y < H; y++) seeds.push([0, y], [W - 1, y]);   // 手前と左右のはしから入れる（となりのモジュールとつながる）
+  seeds.forEach(([X, y]) => { if (walk(X, y) && !seen.has(X + ',' + y)) { seen.add(X + ',' + y); q.push([X, y]); } });
   while (q.length) { const [X, y] = q.pop(); [[1, 0], [-1, 0], [0, 1], [0, -1]].forEach(([dx, dy]) => { const a = X + dx, b = y + dy; if (a < 0 || b < 0 || a >= W || b >= H || seen.has(a + ',' + b) || !walk(a, b)) return; seen.add(a + ',' + b); q.push([a, b]); }); }
   const blocked = []; m.r.forEach((r, y) => [...r].forEach((c, X) => { if (walk(X, y) && !seen.has(X + ',' + y)) blocked.push([X, y]); }));
   let sym = 0; m.r.forEach(r => { for (let X = 0; X < W; X++) if (r[X] === r[W - 1 - X]) sym++; }); const sy = sym / (W * H);
-  const items = m.r.join('').split('').filter(isItem).length, dens = items / (W * H);
+  const items = m.r.join('').split('').filter(isItem).length, dens = m.r.join('').split('').filter(ch => isItem(ch) && !'WQAf'.includes(ch)).length / (W * H);   // 壁と柵は数えない
   return { band, blocked, checks: [
     ['背の高い物は奥', !front.length, front.length ? `手前の列に ${[...new Set(front)].map(ch => fname(m, ch)).join('・')}。カメラは北を向くので、奥の物を隠さないか確かめる` : '手前の列に背の高い物がない。奥まで見通せる'],
-    ['通り道', !blocked.length, blocked.length ? `手前から入れないマスが ${blocked.length} 個（設計の線で赤）。家具を1つずらして道を開ける` : '手前からすべての空きマスへ歩いて行ける'],
+    ['通り道', !blocked.length, blocked.length ? `手前・左右から入れないマスが ${blocked.length} 個（設計の線で赤）。家具を1つずらして道を開ける` : '手前からすべての空きマスへ歩いて行ける'],
     ['左右の釣り合い', sy >= .6, `左右対称 ${Math.round(sy * 100)}%` + (sy >= .6 ? '。主役・入口は対称が落ち着く' : '。脇役ならくずしてよい。主役なら対称に寄せる')],
-    ['家具の密度', dens >= .15 && dens <= .55, `家具 ${items} 個／${W * H} マス（${Math.round(dens * 100)}%）` + (dens > .55 ? '。つめすぎ：小物を減らして余白を作る' : dens < .15 ? '。さびしい：小物を足すか、小さくする' : '。ちょうどよい')],
+    ['家具の密度', dens >= .15 && dens <= .55, `家具 ${items} 個／${W * H} マス（壁と柵をのぞいて ${Math.round(dens * 100)}%）` + (dens > .55 ? '。つめすぎ：小物を減らして余白を作る' : dens < .15 ? '。さびしい：小物を足すか、小さくする' : '。ちょうどよい')],
   ] };
 }
 
@@ -307,8 +308,9 @@ function renderDetail() {
     <div style="display:flex;flex-direction:column;gap:8px;min-width:0"><h3>実際のゲームの作例</h3>${refs.length ? refs.slice(0, 3).map(r => `<figure class="ref" style="margin:0"><a href="${esc(r.link || r.img)}" target="_blank" rel="noopener"><img src="${r.img}" alt="${esc(r.name)}"></a><figcaption>${esc(r.name)}　${esc(r.by || '')}</figcaption></figure>`).join('') : '<p class="muted" style="margin:0">まだ作例の写真がありません。似た作例を見つけたら、草図とならべて見比べます。</p>'}</div>
   </div>
   ${(() => { const W2 = m.r[0].length, H2 = m.r.length, near = (D.routes || []).filter(rt => rt.cells.some(([X, y]) => X >= m.x - 3 && X < m.x + W2 + 3 && y >= m.y - 3 && y < m.y + H2 + 3)); if (!near.length) return '';
-    const MN = { B: 'レンガ（歩道）', p: '古い石畳', bridge: '橋（今ある橋）', '~': '駅のタイル' };
+    const MN = { B: 'レンガ（歩道）', p: '古い石畳', bridge: '橋（今ある橋）', slope: '坂（今ある坂）', '~': '駅のタイル' };
     return `<div class="step"><h3>まわりの通り道</h3><span class="muted">平面図に赤い点で示した道。番号（P1…）で伝えてもらえれば直します</span>${near.map(rt => { const d = CAT[rt.design] || {}; return `<div class="check"><span class="no">${esc(rt.id)}</span><span><b>${esc(rt.name)}</b>　幅${rt.w}マス・${esc(MN[rt.mat] || rt.mat)}${d.ma ? `（<span class="ma">${esc(d.ma)}</span>）` : ''}・${rt.cells.length}マス<br><span class="muted">${esc(rt.why)}</span></span></div>`; }).join('')}</div>`; })()}
+  ${m.section && D.levels ? `<div class="step"><h3>${esc(D.levels.title)}（南北の断面・x${D.levels.axis_x}）</h3><canvas id="section" aria-label="南北の断面図"></canvas><span class="muted">${esc(D.levels.note)}</span></div>` : ''}
   ${m.fix ? `<div class="step"><h3>作例とくらべて、こう作る</h3><ol class="fix">${m.fix.map(f => `<li>${esc(f)}</li>`).join('')}</ol></div>` : ''}
   <div class="step"><h3>設計のしかた</h3>${dsg ? `<div><b>ねらい</b>　${esc(dsg.concept)}</div><div><b>カメラから見える場面</b>　${esc(dsg.scene)}</div>` : ''}
     <div class="layers">${layers.map(l => `<span class="band" style="background:${BAND[l.band] || '#eee'}">${esc(l.band)}</span><b>${esc(l.role)}</b><span>${esc(l.what)}</span>`).join('')}</div>
@@ -325,8 +327,25 @@ function renderDetail() {
       if (t) parts.push(`${t.slot}「${t.piece}」${t.sides ? '（' + t.sides + 'に縁）' : ''} ${(CAT[t.design] || {}).ma || ''}`); if (ch in N) parts.push('家具：' + fname(m, ch)); if (!parts.length) parts.push(ch === '.' ? '草地' : (LEG[ch] || [ch])[0]);
       $('cellHint').textContent = `奥から${y + 1}列目・左から${X + 1}番目　` + parts.join('　'); } };
   sk.onmouseleave = () => { S.hover = null; drawSketch(); };
-  drawSketch();
+  drawSketch(); if (m.section) drawSection(m);
 }
+// 南北の断面：左が北、右が南。段の高さ・坂・川・橋を描き、いま選んでいるモジュールの所を強める
+function drawSection(m) { const c = $('section'); if (!c || !D.levels) return; const L = D.levels, ax = L.axis_x, y0 = 53, y1 = 92, W = 760, H = 290, k = (W - 50) / (y1 - y0), X0 = 46, base = 140, step = 32;
+  c.width = W; c.height = H; const x = c.getContext('2d'), css = getComputedStyle(document.body), ink = css.getPropertyValue('--ink'), mut = css.getPropertyValue('--muted');
+  x.fillStyle = css.getPropertyValue('--panel'); x.fillRect(0, 0, W, H);
+  const top = h => base - (h - 1) * step;   // 1段目の地面＝base
+  for (let y = y0; y < y1; y++) { const ch = D.grid[y][ax], px = X0 + (y - y0) * k;
+    if (ch === 'w' || ch === 'S' || ch === 'b') { x.fillStyle = '#7a5a40'; x.fillRect(px, base + 14, k + .5, 16); x.fillStyle = '#6fc6cf'; x.fillRect(px, base + 4, k + .5, 10); continue; }
+    const h = +D.h[y][ax]; x.fillStyle = h >= 3 ? '#86b85f' : h === 2 ? '#a3c476' : '#c4d59c'; x.fillRect(px, top(h), k + .5, base + 30 - top(h)); }
+  for (let y = y0; y < y1; y++) if (D.grid[y][ax] === 'b') { x.fillStyle = '#a58f78'; x.fillRect(X0 + (y - y0) * k - 1, base - 3, k + 2.5, 6); x.fillRect(X0 + (y - y0) * k + k / 2 - 2, base + 3, 4, 12); }   // 橋は川の上
+  x.strokeStyle = '#b4503a'; x.lineWidth = 4; x.beginPath(); x.moveTo(X0 + (68 - y0) * k, top(2)); x.lineTo(X0 + (72 - y0) * k, base); x.stroke();
+  x.strokeStyle = mut; x.lineWidth = 1; [1, 2, 3].forEach(h => { x.setLineDash([3, 4]); x.beginPath(); x.moveTo(X0 - 4, top(h)); x.lineTo(W, top(h)); x.stroke(); x.setLineDash([]); x.fillStyle = mut; x.font = '11px ' + css.getPropertyValue('--mono'); x.fillText(h + '段目', 2, top(h) + 4); });
+  // 名前は地面の下に2段で（重ならないように交互）。線で場所を指す
+  x.font = '700 11.5px ' + css.getPropertyValue('--body'); x.textAlign = 'center';
+  L.stack.slice().sort((a, b) => a.y[0] - b.y[0]).forEach((s2, i) => { const cx = X0 + ((s2.y[0] + s2.y[1] + 1) / 2 - y0) * k, ly = base + 50 + (i % 3) * 30, on = m.y >= s2.y[0] - 1 && m.y <= s2.y[1];
+    x.strokeStyle = on ? '#b4503a' : mut; x.beginPath(); x.moveTo(cx, base + 32); x.lineTo(cx, ly - 12); x.stroke();
+    x.fillStyle = on ? '#b4503a' : ink; const w = s2.name.split('（'); x.fillText(w[0], cx, ly); if (w[1]) { x.fillStyle = on ? '#b4503a' : mut; x.font = '11px ' + css.getPropertyValue('--body'); x.fillText('（' + w[1], cx, ly + 14); x.font = '700 11.5px ' + css.getPropertyValue('--body'); } });
+  x.textAlign = 'left'; x.fillStyle = mut; x.font = '12px ' + css.getPropertyValue('--mono'); x.fillText('北', X0, 18); x.fillText('南', W - 18, 18); }
 
 // ---------- 建てる準備・図鑑 ----------
 function lonAll() { return mods().filter(p => p.zone === 'lon'); }
@@ -351,7 +370,7 @@ function copyList(btn) { const t = $('copyText'), txt = t.value; const ok = () =
   try { navigator.clipboard.writeText(txt).then(ok, fb); } catch (e) { fb(); } }
 function renderBook() { $('bookChips').innerHTML = [['lon', 'ロンドン'], ['eur', 'ヨーロッパ'], ['usa', 'アメリカ'], ['port', '地中海']].map(([k, n]) => `<button class="chip" data-book="${k}" aria-pressed="${S.bookTh === k}">${n}</button>`).join('');
   const use = {}; if (LON) [...Object.values(LON.ground), ...Object.values(LON.items)].forEach(g => { (use[g.design] = use[g.design] || new Set()).add(g.slot); });
-  $('book').innerHTML = Object.values(CAT).filter(d => d.themes.includes(S.bookTh)).map(d => `<div class="card"><a href="${esc(d.images[0])}" target="_blank" rel="noopener"><img src="${d.thumb}" alt="${esc(d.name)}" loading="lazy"></a><div class="b"><div class="row" style="gap:6px"><span class="no">${esc(d.no)}</span>${d.verdict ? `<span class="pill ok">${esc(d.verdict)}</span>` : ''}</div><b>${esc(d.name)}</b>${d.use ? `<span style="font-size:12px;color:var(--ok)">用途：${esc(d.use)}</span>` : ''}<div class="row" style="gap:6px"><span class="ma">${esc(d.ma)}</span>${d.checked === false ? '<span class="pill" style="color:var(--warn)">要確認</span>' : ''}<span class="muted">${esc(d.creator)}</span></div><span style="font-size:12.5px;color:var(--muted)">${esc(d.look)}</span><div class="parts">${d.parts.map(p => `<span>${esc(p)}</span>`).join('')}</div>${use[d.id] && S.bookTh === 'lon' ? `<span style="font-size:12px;color:var(--ok)">ロンドンで使う：${esc([...use[d.id]].join('・'))}</span>` : ''}<span class="muted"><a href="${esc(d.search)}" target="_blank" rel="noopener">Pinterest で探す</a></span></div></div>`).join(''); }
+  $('book').innerHTML = Object.values(CAT).filter(d => d.themes.includes(S.bookTh)).sort((a, b) => (b.verdict === '採用') - (a.verdict === '採用')).map(d => `<div class="card"><a href="${esc(d.images[0])}" target="_blank" rel="noopener"><img src="${d.thumb}" alt="${esc(d.name)}" loading="lazy"></a><div class="b"><div class="row" style="gap:6px"><span class="no">${esc(d.no)}</span>${d.verdict ? `<span class="pill ok">${esc(d.verdict)}</span>` : ''}</div><b>${esc(d.name)}</b>${d.use ? `<span style="font-size:12px;color:var(--ok)">用途：${esc(d.use)}</span>` : ''}<div class="row" style="gap:6px"><span class="ma">${esc(d.ma)}</span>${d.checked === false ? '<span class="pill" style="color:var(--warn)">要確認</span>' : ''}<span class="muted">${esc(d.creator)}</span></div><span style="font-size:12.5px;color:var(--muted)">${esc(d.look)}</span><div class="parts">${d.parts.map(p => `<span>${esc(p)}</span>`).join('')}</div>${use[d.id] && S.bookTh === 'lon' ? `<span style="font-size:12px;color:var(--ok)">ロンドンで使う：${esc([...use[d.id]].join('・'))}</span>` : ''}<span class="muted"><a href="${esc(d.search)}" target="_blank" rel="noopener">Pinterest で探す</a></span></div></div>`).join(''); }
 
 function renderRefs() { S.refTh = S.refTh || 'all'; S.refQ = S.refQ || 'all'; S.refMa = !!S.refMa;
   const byTh = D.refs.filter(r => S.refTh === 'all' || r.th === S.refTh), qs = [...new Set(byTh.map(r => r.q))]; if (S.refQ !== 'all' && !qs.includes(S.refQ)) S.refQ = 'all';
@@ -359,7 +378,7 @@ function renderRefs() { S.refTh = S.refTh || 'all'; S.refQ = S.refQ || 'all'; S.
   $('refChips').innerHTML = `<div class="row">${['all', 'lon', 'egy', 'jpn', 'usa', 'hal', 'eur', 'port'].map(k => `<button class="chip" data-refth="${k}" aria-pressed="${S.refTh === k}">${esc(k === 'all' ? `すべて（${D.refs.length}）` : `${TN[k]}（${D.refs.filter(r => r.th === k).length}）`)}</button>`).join('')}<button class="chip" data-refok="1" aria-pressed="${!!S.refOk}">採用だけ（${D.refs.filter(r => r.verdict).length}）</button><button class="chip" data-refma="1" aria-pressed="${S.refMa}">作者IDがある図だけ（${D.refs.filter(r => r.ma).length}）</button></div>
     <div class="row"><label class="muted" for="refQsel">検索語</label><select id="refQsel" style="font:inherit;padding:5px 8px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink);max-width:100%">${[['all', 'すべて'], ...qs.map(q => [q, q])].map(([k, n]) => `<option value="${esc(k)}"${S.refQ === k ? ' selected' : ''}>${esc(n)}（${k === 'all' ? byTh.length : byTh.filter(r => r.q === k).length}）</option>`).join('')}</select></div>`;
   $('refQsel').onchange = e => { S.refQ = e.target.value; renderRefs(); };
-  const kw = (S.refKw || '').trim().toUpperCase(); $('refs').innerHTML = byTh.filter(r => (S.refQ === 'all' || r.q === S.refQ) && (!S.refMa || r.ma) && (!S.refOk || r.verdict) && (!kw || (r.no + ' ' + (r.ma || '') + ' ' + r.q + ' ' + (r.use || '') + ' ' + (r.note || '')).toUpperCase().includes(kw))).map(r => `<div class="card"><a href="${esc(r.url)}" target="_blank" rel="noopener"><img src="${r.thumb}" alt="" loading="lazy"></a><div class="b"><div class="row" style="gap:5px"><span class="no">${esc(r.no)}</span>${r.verdict ? `<span class="pill ok">${esc(r.verdict)}</span>` : ''}</div>${r.note ? `<span style="font-size:11.5px;color:var(--ok)">${esc(r.note)}</span>` : ''}<span class="muted">検索：${esc(r.q)}</span>${r.ma ? `<span class="ma" style="white-space:normal">${esc(r.ma)}</span>${r.ocr ? '<span class="muted">画像から自動で読んだ作者ID（要確認）</span>' : ''}` : ''}${r.use ? `<span style="font-size:12px;color:var(--ok)">使っている所：${esc(r.use)}</span>` : ''}</div></div>`).join(''); }
+  const kw = (S.refKw || '').trim().toUpperCase(); $('refs').innerHTML = byTh.slice().sort((a, b) => (b.verdict === '採用') - (a.verdict === '採用') || (a.verdict === '不採用') - (b.verdict === '不採用')).filter(r => (S.refQ === 'all' || r.q === S.refQ) && (!S.refMa || r.ma) && (!S.refOk || r.verdict) && (!kw || (r.no + ' ' + (r.ma || '') + ' ' + r.q + ' ' + (r.use || '') + ' ' + (r.note || '')).toUpperCase().includes(kw))).map(r => `<div class="card"><a href="${esc(r.url)}" target="_blank" rel="noopener"><img src="${r.thumb}" alt="" loading="lazy"></a><div class="b"><div class="row" style="gap:5px"><span class="no">${esc(r.no)}</span>${r.verdict ? `<span class="pill ok">${esc(r.verdict)}</span>` : ''}</div>${r.note ? `<span style="font-size:11.5px;color:var(--ok)">${esc(r.note)}</span>` : ''}<span class="muted">検索：${esc(r.q)}</span>${r.ma ? `<span class="ma" style="white-space:normal">${esc(r.ma)}</span>${r.ocr ? '<span class="muted">画像から自動で読んだ作者ID（要確認）</span>' : ''}` : ''}${r.use ? `<span style="font-size:12px;color:var(--ok)">使っている所：${esc(r.use)}</span>` : ''}</div></div>`).join(''); }
 $('refKw').addEventListener('input', e => { S.refKw = e.target.value; renderRefs(); });
 document.addEventListener('click', e => { const t = e.target.closest('[data-refq],[data-refth],[data-refma],[data-refok]'); if (!t) return; if (t.dataset.refq) S.refQ = t.dataset.refq; if (t.dataset.refth) S.refTh = t.dataset.refth; if (t.dataset.refma) S.refMa = !S.refMa; if (t.dataset.refok) S.refOk = !S.refOk; renderRefs(); });
 renderStats(); renderLists(); select(S.sel); window.addEventListener('resize', () => drawMap());
