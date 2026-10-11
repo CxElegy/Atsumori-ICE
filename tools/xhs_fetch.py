@@ -51,7 +51,7 @@ CLASSIFY = {
     'ヨーロッパ': r'欧式|欧洲|法式|城堡|德式|意式|意大利|中世纪|教堂|荷兰|风车|巴黎|童话|小镇|咖啡厅|咖啡|面包|花园|庭院|吉卜力|森林|田园|花店|甜品',
     '地中海': r'地中海|圣托里尼|希腊|海边|海滩|沙滩|码头|海岛|度假|港|蓝白|海景|渔|灯塔|冲浪|椰|夏威夷|热带',
 }
-NOISE = re.compile(r'联动|水族馆|sea ?life|周边|抱枕|门店|快闪|打卡|留子|购物|手办|盲盒|实体|线下', re.I)
+NOISE = re.compile(r'人森|朋友收集|mii|联动|水族馆|sea ?life|周边|抱枕|门店|快闪|打卡|留子|购物|手办|盲盒|实体|线下', re.I)
 
 
 def call(method, path, body=None, timeout=240):
@@ -172,7 +172,7 @@ def load():
 
 def store(db, note):
     db['notes'] = [x for x in db['notes'] if x['id'] != note['id']] + [note]
-    db['notes'].sort(key=lambda x: (list(THEMES).index(x['theme']) if x['theme'] in THEMES else 99, -x['likes']))
+    db['notes'].sort(key=lambda x: (list(THEMES).index(x['theme']) if x['theme'] in THEMES else 99, -x['likes']))  # その他は最後
     db['updated'] = time.strftime('%Y-%m-%d')
     os.makedirs(OUT, exist_ok=True)
     tmp = NOTES + '.tmp'
@@ -200,6 +200,14 @@ def grab(db, cands, theme, n, max_images):
             continue
         try:
             note = fetch_note(c['id'], c['token'], theme, c['keyword'], max_images)
+            # 「人森」＝《朋友收集》は別のゲーム。タイトルに出ていなくてもタグで分かるので除く
+            if re.search(r'人森|朋友收集|朋友聚会梦想生活', note['desc'] + ' '.join(note['tags'])) and \
+                    not re.search(r'动森|动物森友会|animal ?crossing', note['title'] + ' '.join(note['tags']), re.I):
+                import shutil
+                shutil.rmtree(os.path.join(OUT, 'img', c['id']), ignore_errors=True)
+                print(f'  - 別のゲーム（人森）なので除外: {note["title"]}')
+                pause()
+                continue
             if theme is None:
                 note['theme'] = classify(note)
         except Exception as e:
