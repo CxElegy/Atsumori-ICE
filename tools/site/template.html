@@ -121,13 +121,24 @@ ol.fix { margin: 0; padding-left: 20px; display: flex; flex-direction: column; g
 }
 .vimg { position: relative; background: var(--chip); border-radius: 14px; overflow: hidden; min-height: 320px; display: grid; place-items: center; user-select: none }
 .vimg img { display: block; width: 100%; max-height: calc(100vh - 150px); object-fit: contain; cursor: zoom-in; transition: transform .2s, filter .3s }
-.vimg.zoom img { cursor: zoom-out; transform: scale(2.4); transition: transform .2s }
+.vimg img.zoomed { cursor: zoom-out; transform: scale(2.4); transition: transform .2s; position: relative; z-index: 1 }
+/* 同じ作例が2枚：同じ大きさで左右に。3枚以上：選んだ1枚を大きく、ほかは下に縮小 */
+.vduo { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 4px; width: 100%; overflow: hidden }
+.vduo img { max-height: calc(100vh - 150px) }
+.vmulti { display: flex; flex-direction: column; width: 100%; overflow: hidden }
+.vmulti > img { max-height: calc(100vh - 250px) }
+.vthumbs { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px; justify-content: center; background: var(--panel) }
+.vthumbs button { width: 72px; height: 72px; padding: 0; border: 2px solid var(--line); border-radius: 8px; overflow: hidden; cursor: pointer; background: var(--chip); transition: border-color .12s, transform .12s }
+.vthumbs button:hover { border-color: var(--ink); transform: translateY(-2px) } .vthumbs button[aria-current="true"] { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent) }
+.vthumbs img { width: 100%; height: 100%; object-fit: cover; max-height: none; cursor: pointer }
+.vgrp { font-size: 12px; font-weight: 700; color: var(--ok) }
+.vimg:has(.vmulti) .vhint { top: 10px; bottom: auto }
 /* 画像の左右のはし：クリックで前・次 */
 .vedge { position: absolute; top: 0; bottom: 0; width: 14%; border: 0; display: grid; place-items: center; font-size: 34px; color: #fff; background: transparent; opacity: 0; transition: opacity .15s, background .15s; z-index: 2 }
 .vedge.l { left: 0 } .vedge.r { right: 0 }
 .vimg:hover .vedge { opacity: .55 } .vedge:hover { opacity: 1 !important; background: linear-gradient(var(--dir), rgb(0 0 0 / .45), transparent) }
 .vedge.l { --dir: 90deg } .vedge.r { --dir: 270deg }
-.vimg.zoom .vedge { display: none }
+.vimg:has(img.zoomed) .vedge { display: none }
 .vhint { position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%); font-size: 11.5px; color: #fff; background: rgb(0 0 0 / .5); border-radius: 99px; padding: 2px 10px; opacity: 0; transition: opacity .2s; pointer-events: none; white-space: nowrap }
 .vimg:hover .vhint { opacity: 1 }
 /* 投票したときのはんこ */
@@ -570,14 +581,20 @@ function renderVote() { S.vote = S.vote || { th: 'lon', cat: 'all', todo: true, 
   const r = L[v.i]; v.cur = r ? r.no : null;
   if (!r) { $('vImg').innerHTML = '<span class="ld">この条件の作例はすべて審査しました。地区や用途を変えるか「まだ審査していないものだけ」を外してください</span>'; $('vSide').innerHTML = ''; return; }
   const rv = rateOf(r);
-  $('vImg').className = 'vimg'; $('vImg').innerHTML = `<img id="vPic" src="${r.thumb}" alt="${esc(r.title || r.q)}" style="filter:blur(2px)" draggable="false"><button class="vedge l" data-vgo="-1" aria-label="前へ">‹</button><button class="vedge r" data-vgo="1" aria-label="次へ">›</button><span class="vhint">クリックで拡大・ダブルクリックでいいね・左右のはしで前・次</span><div class="vstamp" id="vStamp"></div>`;
+  // 同じ作例のグループ（重複・角度ちがい）：残した作例と、まとめた作例
+  const grp = [r.no, ...(r.dups || [])], gth = no => no === r.no ? r.thumb : ((D.dupRefs || {})[no] || {}).thumb || '';
+  if (v.mainOf !== r.no) { v.mainOf = r.no; v.main = r.no; }
+  const pic = (no, cls) => `<img class="vpic ${cls || ''}" data-no="${esc(no)}" src="${gth(no)}" alt="${esc(no)}" style="filter:blur(2px)" draggable="false">`;
+  const view = grp.length === 1 ? pic(r.no) : grp.length === 2 ? `<div class="vduo">${grp.map(no => pic(no)).join('')}</div>`
+    : `<div class="vmulti">${pic(v.main)}<div class="vthumbs">${grp.map(no => `<button data-vmain="${esc(no)}" aria-current="${no === v.main}" title="${esc(no)}"><img src="${gth(no)}" alt="${esc(no)}"></button>`).join('')}</div></div>`;
+  $('vImg').className = 'vimg'; $('vImg').innerHTML = `${view}<button class="vedge l" data-vgo="-1" aria-label="前へ">‹</button><button class="vedge r" data-vgo="1" aria-label="次へ">›</button><span class="vhint">クリックで拡大・ダブルクリックでいいね・左右のはしで前・次</span><div class="vstamp" id="vStamp"></div>`;
   // 前後の作例：1ページ100枚。ふだんはいまの作例のページ、ページ送りで ほかのページも見られる
   const PG = 100, np = Math.max(1, Math.ceil(L.length / PG)), pg = v.sp != null ? Math.min(v.sp, np - 1) : Math.floor(v.i / PG), lo = pg * PG;
   $('vStripN').innerHTML = `<span class="vpager"><button data-vsp="${pg - 1}" ${pg ? '' : 'disabled'} aria-label="前のページ">‹ 前</button><span>${pg + 1} / ${np} ページ（${lo + 1}〜${Math.min(lo + PG, L.length)} / ${L.length}）</span><button data-vsp="${pg + 1}" ${pg < np - 1 ? '' : 'disabled'} aria-label="次のページ">次 ›</button>${v.sp != null && Math.floor(v.i / PG) !== pg ? `<button data-vsp="cur">いまの作例へ</button>` : ''}</span>`;
   $('vStrip').innerHTML = L.slice(lo, lo + PG).map((n, k) => { const r2 = rateOf(n), lb = r2 === null ? '未評価' : areaOf(n) ? 'いいね → ' + areaName(areaOf(n)) : RN[r2]; return `<button data-vjump="${lo + k}" aria-current="${lo + k === v.i}" title="${esc(n.no + '：' + lb)}" aria-label="${esc(n.no + '：' + lb)}"><img src="${n.thumb}" alt="" loading="lazy">${r2 !== null ? `<i class="${RCLS[r2]}"></i>` : ''}</button>`; }).join('');
-  bigUrl(r.no).then(u => { const im = $('vPic'); if (im && S.vote.cur === r.no) { if (u) im.src = u; im.style.filter = ''; } });
+  document.querySelectorAll('#vImg img.vpic').forEach(im => bigUrl(im.dataset.no).then(u => { if (S.vote.cur !== r.no) return; if (u) im.src = u; im.style.filter = ''; }));
   L.slice(v.i + 1, v.i + 3).forEach(n => bigUrl(n.no));
-  $('vSide').innerHTML = `<div class="vstate ${rv === null ? '' : areaOf(r) ? 'up' : RCLS[rv]}">${rv === null ? 'まだ評価していません' : `評価ずみ：${esc(labelOf(r))}（押し直すと変えられます）`}</div><div class="row" style="gap:6px"><span class="no">${esc(r.no)}</span>${r.verdict ? `<span class="pill ok">${esc(r.verdict)}</span>` : ''}<span class="muted">${v.i + 1} / ${L.length}</span>${r.dups ? `<span class="pill" title="${esc(r.dups.join('、'))}">同じ画像 ${r.dups.length + 1}件</span>` : ''}</div>
+  $('vSide').innerHTML = `<div class="vstate ${rv === null ? '' : areaOf(r) ? 'up' : RCLS[rv]}">${rv === null ? 'まだ評価していません' : `評価ずみ：${esc(labelOf(r))}（押し直すと変えられます）`}</div><div class="row" style="gap:6px"><span class="no">${esc(r.no)}</span>${r.verdict ? `<span class="pill ok">${esc(r.verdict)}</span>` : ''}<span class="muted">${v.i + 1} / ${L.length}</span></div>${r.dups ? `<span class="vgrp" title="${esc(r.dups.join('、'))}">同じ作例 ${r.dups.length + 1}枚（同じ画像・角度ちがい）。評価は全部まとめて1つ</span>` : ''}
     ${r.title ? `<b style="font-size:15px">${esc(r.title)}</b>` : ''}<span class="muted">${esc((TN[r.th] || 'すべての地区') + '・' + (RC[r.cat] || ''))}</span><span class="muted">検索：${esc(r.q)}</span>${r.ma ? `<span class="ma" style="white-space:normal">${esc(r.ma)}</span>` : ''}
     <div class="vctl"><div class="vbtns"><button class="vbtn up" data-vrate="1" aria-pressed="${rv === 1}">${UP}いいね<span class="kbd">1</span></button><button class="vbtn mid" data-vrate="0" aria-pressed="${rv === 0}">${MID}ふつう<span class="kbd">2</span></button><button class="vbtn dn" data-vrate="-1" aria-pressed="${rv === -1 }">${DN}イマイチ<span class="kbd">3</span></button></div>
     <button class="vbtn alt" data-vpick="1" aria-expanded="${!!v.pick}" aria-pressed="${!!areaOf(r)}">${UP}<span>いいね（別の地区）${areaOf(r) ? `：${esc(areaName(areaOf(r)))}` : ''}</span><span class="kbd">4</span></button>
@@ -624,11 +641,12 @@ document.addEventListener('keydown', e => { if (S.tab !== 'vote' || /INPUT|TEXTA
   if (k === '1' || k === 'a') voteAct('rate', 1); else if (k === '2' || k === 's') voteAct('rate', 0); else if (k === '3' || k === 'z') voteAct('rate', -1); else if (k === '4') voteAct('pick'); else if (S.vote && S.vote.pick && 'qwertyu'.includes(k) && k) { const r = voteList()[S.vote.i], ks = AREAS.filter(a => a !== S.vote.th); if (ks['qwertyu'.indexOf(k)]) voteAct('area', ks['qwertyu'.indexOf(k)]); else return; } else if (k === 'escape' && S.vote && S.vote.pick) voteAct('pick'); else if (k === 'arrowright') voteAct('go', 1); else if (k === 'arrowleft') voteAct('go', -1); else return; e.preventDefault(); });
 // 画像：クリックで拡大（マウスの位置に寄る）、もう一度で戻す。ダブルクリックでいいね
 let clickT = null;
-$('vImg').addEventListener('click', e => { if (e.target.id !== 'vPic') return; clearTimeout(clickT); clickT = setTimeout(() => { const box = $('vImg'); box.classList.toggle('zoom'); zoomAt(e); }, 220); });
-$('vImg').addEventListener('dblclick', e => { if (e.target.id !== 'vPic') return; clearTimeout(clickT); $('vImg').classList.remove('zoom'); voteAct('rate', 1); });
-const zoomAt = e => { const im = $('vPic'); if (!im) return; const b = im.getBoundingClientRect(); im.style.transformOrigin = `${((e.clientX - b.left) / b.width * 100).toFixed(1)}% ${((e.clientY - b.top) / b.height * 100).toFixed(1)}%`; };
-$('vImg').addEventListener('mousemove', e => { if ($('vImg').classList.contains('zoom')) zoomAt(e); });
-$('vImg').addEventListener('mouseleave', () => $('vImg').classList.remove('zoom'));
+$('vImg').addEventListener('click', e => { const mb = e.target.closest('[data-vmain]'); if (mb) { S.vote.main = mb.dataset.vmain; renderVote(); return; }
+  const im = e.target.closest('img.vpic'); if (!im) return; clearTimeout(clickT); clickT = setTimeout(() => { const on = !im.classList.contains('zoomed'); document.querySelectorAll('#vImg img.zoomed').forEach(x => x.classList.remove('zoomed')); if (on) { im.classList.add('zoomed'); zoomAt(e); } }, 220); });
+$('vImg').addEventListener('dblclick', e => { if (!e.target.closest('img.vpic')) return; clearTimeout(clickT); document.querySelectorAll('#vImg img.zoomed').forEach(x => x.classList.remove('zoomed')); voteAct('rate', 1); });
+const zoomAt = e => { const im = document.querySelector('#vImg img.zoomed'); if (!im) return; const b = im.getBoundingClientRect(); im.style.transformOrigin = `${((e.clientX - b.left) / b.width * 100).toFixed(1)}% ${((e.clientY - b.top) / b.height * 100).toFixed(1)}%`; };
+$('vImg').addEventListener('mousemove', e => zoomAt(e));
+$('vImg').addEventListener('mouseleave', () => document.querySelectorAll('#vImg img.zoomed').forEach(x => x.classList.remove('zoomed')));
 // データベース：開いたときに読みこんで、このブラウザの評価と合わせる（新しく変えた方を残す）
 if (window.claude && window.claude.use) window.claude.use('db').then(db => { if (!db) return; DB = db; return db.doc('votes/all').get().then(snap => { const d = snap.data(); const local = nRated();
   if (d) { const rv = loadRv(d.r || {}, d.v || {}), ra = loadRa(d.r ? d.a : {}, d.r ? {} : d.a); AREAS.forEach(c => { S.rv[c] = { ...(rv[c] || {}), ...(S.rv[c] || {}) }; S.ra[c] = { ...(ra[c] || {}), ...(S.ra[c] || {}) }; }); moveDups(); store.set('ice-rv', S.rv); store.set('ice-ra', S.ra); } if (local) saveDb(); if (S.tab === 'vote') renderVote(); if (S.tab === 'refs') renderRefs(); }); }).catch(() => {});
