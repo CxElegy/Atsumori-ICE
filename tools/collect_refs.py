@@ -163,15 +163,22 @@ def dedupe(refs, cache):
             if not nd(i, i + 1 + int(j)): parent[find(i + 1 + int(j))] = find(i)
     for a, b in orb_pairs(items, files):
         if not nd(a, b): parent[find(b)] = find(a)
+    # 角度ちがい（designs/ref_angles.json の same：候補を見て確かめたもの）もまとめる
+    pos = {r['no']: k for k, r in enumerate(items)}; angle = set()
+    ang = json.load(open(os.path.join(ROOT, 'designs', 'ref_angles.json'), encoding='utf8'))
+    for a2, b2 in ang['same']:
+        if a2 in pos and b2 in pos: parent[find(pos[b2])] = find(pos[a2]); angle.update((a2, b2))
     groups = {}
     for i in range(n): groups.setdefault(find(i), []).append(items[i])
-    for r in refs: r.pop('dup', None)
+    for r in refs: r.pop('dup', None); r.pop('dup_kind', None)
     k = 0
     for g in groups.values():
         if len(g) < 2: continue
         keep = sorted(g, key=lambda r: (r.get('verdict') != '採用', r['no']))[0]
         for r in g:
-            if r is not keep: r['dup'] = keep['no']; k += 1
+            if r is not keep:
+                r['dup'] = keep['no']; k += 1
+                if r['no'] in angle: r['dup_kind'] = 'angle'
     print('重複', k, '枚（', sum(len(g) > 1 for g in groups.values()), 'グループ）')
 
 def main():

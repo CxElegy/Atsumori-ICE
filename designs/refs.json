@@ -521,7 +521,9 @@
 "q": "acnh brick path code",
 "th": "lon",
 "no": "R-0072",
-"cat": "road"
+"cat": "road",
+"dup": "R-0050",
+"dup_kind": "angle"
 },
 {
 "url": "https://i.pinimg.com/736x/e5/c0/8a/e5c08ade27347ecada188c36e4bd0f57.jpg",
@@ -3926,7 +3928,9 @@
 "q": "acnh campsite national park ideas",
 "th": "usa",
 "no": "R-0532",
-"cat": "park"
+"cat": "park",
+"dup": "R-0529",
+"dup_kind": "angle"
 },
 {
 "url": "https://i.pinimg.com/736x/08/e5/89/08e58975a9f74fe22f95c7c701ac6d85.jpg",
@@ -3996,7 +4000,9 @@
 "q": "acnh campsite national park ideas",
 "th": "usa",
 "no": "R-0542",
-"cat": "park"
+"cat": "park",
+"dup": "R-0539",
+"dup_kind": "angle"
 },
 {
 "url": "https://i.pinimg.com/736x/1e/ba/2f/1eba2f7a15b2c3aa81fe0eaff7b62cd2.jpg",
@@ -4757,7 +4763,9 @@
 "ma": "MA-7705-5897-7581",
 "ma_ocr": true,
 "no": "R-0647",
-"cat": "shop"
+"cat": "shop",
+"dup": "R-0050",
+"dup_kind": "angle"
 },
 {
 "url": "https://i.pinimg.com/736x/c6/b4/16/c6b416b5a9d018066d17c0e383e159ce.jpg",
@@ -5063,7 +5071,9 @@
 "q": "acnh windmill flower field ideas",
 "th": "eur",
 "no": "R-0690",
-"cat": "park"
+"cat": "park",
+"dup": "R-0679",
+"dup_kind": "angle"
 },
 {
 "url": "https://i.pinimg.com/736x/dd/0f/ca/dd0fcaa05094f00d437aee6274578d88.jpg",
@@ -6605,7 +6615,9 @@
 "q": "acnh hyde park garden ideas",
 "th": "lon",
 "no": "R-0900",
-"cat": "park"
+"cat": "park",
+"dup": "R-0332",
+"dup_kind": "angle"
 },
 {
 "url": "https://i.pinimg.com/736x/74/4f/24/744f247557c6e424470c7a06104f13dc.jpg",
@@ -6718,7 +6730,9 @@
 "q": "acnh hyde park garden ideas",
 "th": "lon",
 "no": "R-0916",
-"cat": "park"
+"cat": "park",
+"dup": "R-0907",
+"dup_kind": "angle"
 },
 {
 "url": "https://i.pinimg.com/736x/06/c1/86/06c186c2a0c9bedfb6ec36850d80e915.jpg",
@@ -7403,7 +7417,9 @@
 "q": "acnh able sisters entrance ideas",
 "th": "all",
 "no": "R-1012",
-"cat": "facility"
+"cat": "facility",
+"dup": "R-1006",
+"dup_kind": "angle"
 },
 {
 "url": "https://i.pinimg.com/736x/1e/32/fd/1e32fd2d042e50ba6f258e52cd69a955.jpg",
@@ -7565,7 +7581,9 @@
 "q": "acnh nook's cranny entrance ideas",
 "th": "all",
 "no": "R-1035",
-"cat": "facility"
+"cat": "facility",
+"dup": "R-1030",
+"dup_kind": "angle"
 },
 {
 "url": "https://i.pinimg.com/736x/9a/55/e7/9a55e7240e9fd2d796b9886d9fec5efb.jpg",
@@ -8187,7 +8205,9 @@
 "q": "acnh victorian train station waiting room",
 "th": "lon",
 "no": "R-1117",
-"cat": "station"
+"cat": "station",
+"dup": "R-1116",
+"dup_kind": "angle"
 },
 {
 "url": "https://i.pinimg.com/736x/03/4c/75/034c753a0f3bccf793637cc75c4aace4.jpg",
@@ -9403,7 +9423,9 @@
 "q": "acnh english cottage garden ideas",
 "th": "lon",
 "no": "R-1285",
-"cat": "park"
+"cat": "park",
+"dup": "R-0897",
+"dup_kind": "angle"
 },
 {
 "url": "https://i.pinimg.com/736x/32/56/08/32560861d6b5ba10b1bea43da38c8e16.jpg",
@@ -9470,7 +9492,7 @@
 "th": "lon",
 "no": "R-1294",
 "cat": "park",
-"dup": "R-0900"
+"dup": "R-0332"
 },
 {
 "url": "https://i.pinimg.com/736x/29/a6/ff/29a6ff832f57f12e703b66a31ea7e395.jpg",
@@ -10243,7 +10265,9 @@
 "q": "acnh desert ruins ideas",
 "th": "egy",
 "no": "R-1399",
-"cat": "landmark"
+"cat": "landmark",
+"dup": "R-1388",
+"dup_kind": "angle"
 },
 {
 "url": "https://i.pinimg.com/736x/87/96/43/879643c3178b5ac388b490d768bc082c.jpg",
@@ -11286,7 +11310,9 @@
 "q": "acnh onsen hot spring ideas",
 "th": "jpn",
 "no": "R-1541",
-"cat": "landmark"
+"cat": "landmark",
+"dup": "R-1530",
+"dup_kind": "angle"
 },
 {
 "url": "https://i.pinimg.com/736x/f6/ab/f9/f6abf9f05e69ff00bff64f42f87f2cf0.jpg",
@@ -11437,7 +11463,9 @@
 "q": "acnh cherry blossom path ideas",
 "th": "jpn",
 "no": "R-1562",
-"cat": "road"
+"cat": "road",
+"dup": "R-0360",
+"dup_kind": "angle"
 },
 {
 "url": "https://i.pinimg.com/736x/c3/5b/f9/c35bf938d816bd920cf9f6d954cbe31f.jpg",
@@ -12911,7 +12939,9 @@
 "q": "acnh italian piazza fountain ideas",
 "th": "eur",
 "no": "R-1762",
-"cat": "park"
+"cat": "park",
+"dup": "R-0663",
+"dup_kind": "angle"
 },
 {
 "url": "https://i.pinimg.com/736x/44/f4/74/44f4746b4e1423a9ddf7b5a722ea89ed.jpg",
@@ -12925,7 +12955,9 @@
 "q": "acnh christmas market ideas",
 "th": "eur",
 "no": "R-1764",
-"cat": "shop"
+"cat": "shop",
+"dup": "R-1763",
+"dup_kind": "angle"
 },
 {
 "url": "https://i.pinimg.com/736x/46/d8/df/46d8df6d73f0b30eb47f95d01c5ae2c0.jpg",
@@ -13567,7 +13599,7 @@
 "no": "R-1851",
 "title": "suelo piedra - código diseño animal crossing",
 "cat": "road",
-"dup": "R-0072"
+"dup": "R-0050"
 },
 {
 "url": "https://i.pinimg.com/736x/ed/b5/46/edb5460b7d4f8ad7ee0405fb187ca88c.jpg",
@@ -15046,7 +15078,9 @@
 "q": "acnh plaza layout ideas",
 "th": "all",
 "no": "R-2052",
-"cat": "park"
+"cat": "park",
+"dup": "R-2046",
+"dup_kind": "angle"
 },
 {
 "url": "https://i.pinimg.com/736x/d8/99/2f/d8992f944a9475a07a78766e4076b482.jpg",
