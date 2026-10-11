@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>edge_run</title>
+</head>
+<body>
+<script>
+// tools/edge_run.py が画面なしのEdgeで開くページ。node の代わりに tools/*.js（test_logic.js・snap.js・road_preview.js）を書き換えずに動かす。
+// require('fs' | 'path' | 'os' | '@napi-rs/canvas' | './x.js')・process・__dirname をブラウザの中で用意し、結果（ログ・書き出したファイル）を edge_run.py に送る。
+(async () => {
+  const job = new URLSearchParams(location.search).get('job');
+  const J = await (await fetch('/__job/' + job)).json();   // { script, argv, env, root, serveAbs }
+  const logs = [], files = [];
+  let done = false;
+  const finish = (code, error) => {
+    if (done) return; done = true;
+    fetch('/__result/' + job, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ code, error: error || null, logs, files }) });
+  };
+
+  // console：ページの中のどこから出したログも集める（モジュールの中の console も含む）
+  const show = x => x instanceof Error ? (x.stack || String(x)) : x && typeof x === 'object' ? (() => { try { return JSON.stringify(x); } catch { return String(x); } })() : String(x);
+  const C0 = { log: console.log.bind(console), error: console.error.bind(console) };
+  console.log = console.info = (...a) => { logs.push(['out', a.map(show).join(' ')]); C0.log(...a); };
+  console.error = console.warn = (...a) => { logs.push(['err', a.map(show).join(' ')]); C0.error(...a); };
+  window.addEventListener('error', e => { console.error(e.error || e.message); finish(1, String((e.error && e.error.stack) || e.message)); });
+  window.addEventListener('unhandledrejection', e => { console.error(e.reason); finish(1, String((e.reason && e.reason.stack) || e.reason)); });
+
+  // node と同じく「待っているタイマーがなくなったら終わる」ため、setTimeout の数を数える
+  const T0 = { set: window.setTimeout.bind(window), clear: window.clearTimeout.bind(window) };
+  const live = new Set();
+  window.setTimeout = (fn, ms, ...a) => { const id = T0.set(() => { live.delete(id); if (typeof fn === 'function') fn(...a); }, ms); live.add(id); return id; };
+  window.clearTimeout = id => { live.delete(id); T0.clear(id); };
+
+  // path：サーバーの / はリポジトリの1つ上で、J.root（/リポジトリ名/）が node を動かす場所。C:/… の絶対パスも扱う
+  const ROOT = J.root;
+  const isAbs = p => /^([A-Za-z]:)?[\\/]/.test(p);
+  const norm = p => {
+    p = String(p).replace(/\\/g, '/');
+    const head = /^([A-Za-z]:)?\/?/.exec(p)[0], out = [];
+    for (const s of p.slice(head.length).split('/')) { if (!s || s === '.') continue; if (s === '..') out.pop(); else out.push(s); }
+    return head + out.join('/');
+  };
+  const path = {
+    sep: '/',
+    join: (...a) => norm(a.filter(s => s !== '').join('/')),
+    resolve: (...a) => { let r = ''; for (let i = a.length - 1; i >= 0; i--) { r = r ? a[i] + '/' + r : a[i]; if (isAbs(a[i])) break; } return norm(isAbs(r) ? r : ROOT + r); },
+    dirname: p => { const n = norm(p), i = n.lastIndexOf('/'); return i <= 0 ? n.slice(0, i + 1) || '.' : /^[A-Za-z]:$/.test(n.slice(0, i)) ? n.slice(0, i + 1) : n.slice(0, i); },
+    basename: (p, ext) => { let b = norm(p).split('/').pop(); if (ext && b.endsWith(ext)) b = b.slice(0, -ext.length); return b; },
+    extname: p => (/\.[^./]*$/.exec(norm(p).split('/').pop()) || [''])[0]
+  };
+
+  // fs：読み込みはサーバーから同期で取る。C:/… はサーバーの中ならその場所、外は edge_run.py が許したファイルだけ /__abs/ で読める。書き出しは edge_run.py に送って保存してもらう
+  const SA = norm(J.serveAbs).toLowerCase() + '/';
+  const toURL = p => {
+    p = norm(p);
+    if (!/^[A-Za-z]:/.test(p)) return encodeURI(p);
+    return p.toLowerCase().startsWith(SA) ? encodeURI('/' + p.slice(SA.length)) : '/__abs/' + encodeURIComponent(p);
+  };
+  const xhr = (method, p) => { const x = new XMLHttpRequest(); x.open(method, toURL(p), false); x.overrideMimeType('text/plain; charset=utf-8'); x.send(); return x; };
+  const fs = {
+    existsSync: p => { try { return xhr('HEAD', p).status === 200; } catch { return false; } },
+    readFileSync: p => { const x = xhr('GET', p); if (x.status !== 200) { const e = new Error(`ENOENT: no such file or directory, open '${p}'`); e.code = 'ENOENT'; throw e; } return x.responseText; },
+    writeFileSync: (p, data) => { files.push(data && data.__dataURL ? { path: String(p), b64: data.__dataURL.split(',')[1] } : { path: String(p), text: String(data) }); },
+    mkdirSync: () => {}
+  };
+
+  // @napi-rs/canvas の代わりに本物の canvas。日本語の字は snap.js と同じく游ゴシック Bold を使う
+  const JP = "local('Yu Gothic Bold'), local('YuGothic-Bold'), local('Meiryo Bold'), local('Meiryo-Bold'), local('Meiryo')";
+  for (const fam of ['Zen Maru Gothic', 'JP']) {
+    try { const ff = new FontFace(fam, JP, { weight: '100 900' }); await ff.load(); document.fonts.add(ff); } catch (e) { console.error(`字の読み込みに失敗（${fam}）：${e.message}`); }
+  }
+  const napi = {
+    createCanvas: (w, h) => { const c = document.createElement('canvas'); c.width = w; c.height = h; c.toBuffer = type => ({ __dataURL: c.toDataURL(type || 'image/png') }); return c; },
+    GlobalFonts: { registerFromPath: () => true }
+  };
+
+  const proc = {
+    argv: ['node', path.resolve(J.script), ...J.argv], env: J.env, platform: 'win32', exitCode: undefined,
+    cwd: () => ROOT, exit: code => finish(code === undefined ? proc.exitCode | 0 : code | 0),
+    stdout: { write: s => console.log(String(s).replace(/\n$/, '')) }, stderr: { write: s => console.error(String(s).replace(/\n$/, '')) }
+  };
+  const builtins = { fs, path, os: { tmpdir: () => J.env.TMPDIR || J.env.TEMP || 'C:/Windows/Temp', EOL: '\n' }, '@napi-rs/canvas': napi };
+  const cache = {};
+  let main = null;
+  const load = file => {
+    const p = path.resolve(file);
+    if (cache[p]) return cache[p].exports;
+    if (p.endsWith('.json')) return (cache[p] = { exports: JSON.parse(fs.readFileSync(p)) }).exports;
+    const module = cache[p] = { exports: {}, filename: p, id: p };
+    if (!main) main = module;
+    const dir = path.dirname(p);
+    const req = name => {
+      const n = name.replace(/^node:/, '');
+      if (n in builtins) return builtins[n];
+      if (/^\.{1,2}\//.test(n) || isAbs(n)) return load(path.resolve(dir, /\.(js|json)$/.test(n) ? n : n + '.js'));
+      throw new Error(`edge_run: require('${name}') はここでは使えません`);
+    };
+    req.main = main;
+    const fn = new Function('require', 'module', 'exports', '__dirname', '__filename', 'process', 'global', fs.readFileSync(p).replace(/^#!.*/, '') + '\n//# sourceURL=' + location.origin + toURL(p));
+    fn(req, module, module.exports, dir, p, proc, window);
+    return module.exports;
+  };
+
+  try { load(J.script); } catch (e) { console.error(e); return finish(1, String(e.stack || e)); }
+  let idle = 0;
+  const watch = () => { if (done) return; idle = live.size ? 0 : idle + 1; if (idle >= 3) return finish(proc.exitCode | 0); T0.set(watch, 50); };
+  T0.set(watch, 50);
+})().catch(e => fetch('/__result/' + new URLSearchParams(location.search).get('job'), { method: 'POST', body: JSON.stringify({ code: 1, error: String(e.stack || e), logs: [], files: [] }) }));
+</script>
+</body>
+</html>

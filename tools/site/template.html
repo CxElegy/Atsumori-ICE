@@ -1,0 +1,402 @@
+<title>アイス島ビルドガイド</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;800&family=Zen+Kaku+Gothic+New:wght@400;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: 左に島の地図（いつも見える）、右に選んだモジュールの作業台。スマホでは縦に重ねる */
+:root {
+  --bg: #eef3f1; --panel: #fbfcfa; --ink: #22302d; --muted: #5f706b; --line: #d5dfdb;
+  --sea: #6fc6cf; --accent: #b4503a; --accent-ink: #ffffff; --ok: #3d7d4f; --warn: #b9772a; --chip: #e3ebe8;
+  --display: 'M PLUS Rounded 1c', 'Hiragino Maru Gothic ProN', 'Yu Gothic', sans-serif;
+  --body: 'Zen Kaku Gothic New', 'Hiragino Sans', 'Yu Gothic', 'Noto Sans JP', sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #141b1a; --panel: #1c2624; --ink: #e5ece9; --muted: #9db0aa; --line: #2f3d3a; --sea: #2f7c86; --accent: #e07a5f; --accent-ink: #1a1210; --ok: #6fbf84; --warn: #e2a65a; --chip: #26332f; color-scheme: dark } }
+:root[data-theme="dark"] { --bg: #141b1a; --panel: #1c2624; --ink: #e5ece9; --muted: #9db0aa; --line: #2f3d3a; --sea: #2f7c86; --accent: #e07a5f; --accent-ink: #1a1210; --ok: #6fbf84; --warn: #e2a65a; --chip: #26332f; color-scheme: dark }
+* { box-sizing: border-box }
+[hidden] { display: none !important }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 14px; line-height: 1.65 }
+.wrap { max-width: 1440px; margin: 0 auto; padding-inline: 16px; padding-block: 18px 60px; display: flex; flex-direction: column; gap: 16px }
+header { display: flex; flex-wrap: wrap; gap: 10px 24px; align-items: flex-end; justify-content: space-between }
+h1 { font-family: var(--display); font-weight: 800; font-size: clamp(24px, 3.4vw, 34px); margin: 0; line-height: 1.15; text-wrap: balance }
+.eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; color: var(--muted) }
+.stats { display: flex; gap: 18px; flex-wrap: wrap; font-size: 12.5px; color: var(--muted) }
+.stats b { font-family: var(--display); font-size: 20px; color: var(--ink); font-variant-numeric: tabular-nums; margin-right: 2px }
+nav { display: flex; gap: 6px; flex-wrap: wrap }
+button { font: inherit; cursor: pointer; color: inherit }
+button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+.tab { border: 1px solid var(--line); background: var(--panel); border-radius: 999px; padding: 6px 14px; font-weight: 700 }
+.tab[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink) }
+.chip { border: 1px solid var(--line); background: var(--panel); border-radius: 999px; padding: 3px 10px; font-size: 12px }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink) }
+.grid2 { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 16px; align-items: start }
+@media (max-width: 980px) { .grid2 { grid-template-columns: minmax(0, 1fr) } }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 10px; min-width: 0 }
+.sticky { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 10px) }
+@media (max-width: 980px) { .sticky { position: static } }
+.row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center }
+.muted { color: var(--muted); font-size: 12.5px }
+h2 { font-family: var(--display); font-weight: 800; font-size: 22px; margin: 0; line-height: 1.25; text-wrap: balance }
+h3 { font-family: var(--display); font-weight: 800; font-size: 16px; margin: 0 }
+canvas { display: block; width: 100%; border-radius: 10px }
+#map { touch-action: manipulation; cursor: pointer; background: var(--sea) }
+.ma { font-family: var(--mono); font-size: 12.5px; color: var(--accent); white-space: nowrap }
+.pill { font-size: 11px; font-weight: 700; border-radius: 6px; padding: 1px 7px; background: var(--chip) }
+.pill.lm { background: #f2c14e; color: #3a2d10 }
+.two { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 12px }
+@media (max-width: 640px) { .two { grid-template-columns: minmax(0, 1fr) } }
+.ref img { width: 100%; border-radius: 10px; display: block; border: 1px solid var(--line) }
+.ref figcaption { font-size: 12px; color: var(--muted); margin-top: 4px }
+.list { display: flex; flex-direction: column; gap: 6px; max-height: 520px; overflow-y: auto }
+.item { display: flex; gap: 10px; align-items: center; text-align: left; border: 1px solid var(--line); background: var(--panel); border-radius: 10px; padding: 7px 10px; width: 100% }
+.item[aria-current="true"] { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset }
+.item .nm { flex: 1; min-width: 0; font-weight: 700; font-size: 13px }
+.dot { width: 10px; height: 10px; border-radius: 3px; flex: none }
+.step { border-top: 1px solid var(--line); padding-top: 10px; display: flex; flex-direction: column; gap: 10px }
+.step-h { display: flex; justify-content: space-between; align-items: center; gap: 8px }
+.done { border: 1px solid var(--line); border-radius: 999px; padding: 3px 11px; font-size: 12px; background: var(--panel) }
+.done[aria-pressed="true"] { background: var(--ok); color: var(--bg); border-color: var(--ok) }
+.dz { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 10px; align-items: start }
+.dz img { width: 96px; height: 72px; object-fit: cover; border-radius: 8px; border: 1px solid var(--line) }
+.parts { display: flex; gap: 4px; flex-wrap: wrap }
+.parts span { font-size: 11.5px; background: var(--chip); border-radius: 999px; padding: 1px 8px }
+.badge { width: 20px; height: 20px; border-radius: 6px; display: inline-grid; place-items: center; font-size: 11px; font-weight: 700; flex: none }
+.check { display: flex; gap: 8px; align-items: flex-start; font-size: 13px }
+.mk { width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 700; color: var(--bg); flex: none }
+.layers { display: grid; grid-template-columns: auto auto minmax(0, 1fr); gap: 6px 10px; font-size: 13px }
+.band { border-radius: 6px; padding: 0 8px; font-weight: 700; text-align: center; color: #23302c }
+ol.fix { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px; font-size: 13.5px }
+.no { font-family: var(--mono); font-size: 11.5px; font-weight: 700; background: var(--ink); color: var(--bg); border-radius: 5px; padding: 0 6px }
+.pill.ok { background: var(--ok); color: var(--bg) }
+.opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px }
+.opt { display: flex; flex-direction: column; gap: 4px; text-align: left; border: 1px solid var(--line); background: var(--panel); border-radius: 10px; padding: 6px; font-size: 12.5px }
+.opt[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent) inset }
+.opt img, .opt .noimg { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 6px; display: grid; place-items: center; background: var(--chip) }
+.book { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px }
+#refs { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px }
+#refs .card img { aspect-ratio: 1 / 1 }
+#refs .b { padding: 6px 8px; gap: 2px; font-size: 11.5px }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column }
+.card img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block }
+.card .b { padding: 10px 12px; display: flex; flex-direction: column; gap: 5px }
+input[type="search"] { font: inherit; padding: 6px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); color: var(--ink); min-width: 0; flex: 1 }
+.hint { font-family: var(--mono); font-size: 11.5px; color: var(--muted); min-height: 18px }
+.copy { border: 0; border-radius: 999px; padding: 6px 14px; background: var(--accent); color: var(--accent-ink); font-weight: 700 }
+.legend { display: flex; gap: 10px; flex-wrap: wrap; font-size: 11.5px; color: var(--muted) }
+.legend span { display: inline-flex; gap: 4px; align-items: center }
+a { color: var(--accent) }
+@media (prefers-reduced-motion: no-preference) { .item, .tab, .chip { transition: background .15s, border-color .15s } }
+</style>
+
+<div class="wrap">
+<header>
+  <div style="display:flex;flex-direction:column;gap:4px">
+    <span class="eyebrow">ICE ISLAND · 112×96 マス · 世界旅行の島</span>
+    <h1>アイス島ビルドガイド</h1>
+  </div>
+  <div class="stats" id="stats"></div>
+</header>
+<nav aria-label="表示の切りかえ">
+  <button class="tab" data-tab="map" aria-pressed="true">地図とモジュール</button>
+  <button class="tab" data-tab="prep" aria-pressed="false">建てる準備</button>
+  <button class="tab" data-tab="book" aria-pressed="false">マイデザイン図鑑</button>
+  <button class="tab" data-tab="refs" aria-pressed="false">集めた作例</button>
+</nav>
+
+<section id="tab-map" style="display:flex;flex-direction:column;gap:16px">
+<div class="panel" id="isoPanel">
+  <div class="row" style="justify-content:space-between"><h3>島の立体図</h3><div class="row" id="isoChips"></div></div>
+  <canvas id="iso" aria-label="島の立体図。建物や広場をクリックするとモジュールを開く" style="cursor:pointer;background:#86d3c4"></canvas>
+  <div class="hint" id="isoHint">立体図の建物や広場をクリックすると、下にそのモジュールを開きます</div>
+</div>
+<div class="grid2">
+  <div class="panel sticky">
+    <div class="row" style="justify-content:space-between">
+      <h3>平面図（マス目）</h3>
+    </div>
+    <div class="row" id="zoomChips">
+    </div>
+    <canvas id="map" width="1120" height="960" aria-label="島の地図。四角をクリックするとモジュールを開く"></canvas>
+    <div class="hint" id="mapHint">四角（モジュール）をクリックすると右に開きます</div>
+    <div class="legend" id="legend"></div>
+    <div class="row"><input type="search" id="q" placeholder="モジュールを探す（例：9¾、電話ボックス、横断歩道）" aria-label="モジュールを探す"></div>
+    <div class="row" id="themeChips"></div>
+    <div class="list" id="modList"></div>
+  </div>
+  <div class="panel" id="detail"></div>
+</div>
+</section>
+
+<section id="tab-prep" class="panel" hidden></section>
+<section id="tab-book" hidden style="display:flex;flex-direction:column;gap:12px">
+  <div class="row" id="bookChips"></div>
+  <div class="book" id="book"></div>
+</section>
+</div>
+
+<section id="tab-refs" hidden style="display:flex;flex-direction:column;gap:12px"><div class="row"><input type="search" id="refKw" placeholder="番号・作者ID・ことばで探す（例：R-0088、MA-2715、運河）" aria-label="作例を探す"></div><span class="muted">番号（R-0000 は作例、D-000 はマイデザイン）を伝えると、採用・不採用や使う所を登録できます</span><div id="refChips" style="display:flex;flex-direction:column;gap:8px"></div><div class="book" id="refs"></div></section>
+<script id="data" type="application/json">/*DATA*/</script>
+<script>/*TILES*/</script>
+<script>
+(() => {
+const D = JSON.parse(document.getElementById('data').textContent);
+const DT = window.DesignTiles;
+const $ = id => document.getElementById(id);
+const TH = D.th, THC = D.thColor, LEG = D.leg, LON = D.lon, CAT = D.cat;
+const store = { get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} } };
+const S = { choice: store.get('ice-choice', {}), isoView: 'lon', tab: 'map', zoom: 'lon', theme: 'lon', q: '', sel: 'lon_d_platform', hover: null, done: store.get('ice-done', {}), bookTh: 'lon' };
+const IMG = {}; const img = src => { if (!src) return null; if (!IMG[src]) { const i = new Image(); i.onload = () => { i.ok = true; redraw(); }; i.src = src; IMG[src] = i; } return IMG[src].ok ? IMG[src] : null; };
+let redrawQ = false; const redraw = () => { if (redrawQ) return; redrawQ = true; requestAnimationFrame(() => { redrawQ = false; drawMap(); drawSketch(); }); };
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const where = (x, y) => 'ABCDEF'[Math.floor(y / 16)] + (Math.floor(x / 16) + 1);
+const isLon = m => m.th === 'ロンドン';
+const docOf = m => ({ ...LON, items: { ...LON.items, ...(m.itemsOv || {}) } }), texOf = (m, ch) => (m.texOv || {})[ch] || LON.texItems[ch];
+const chosen = p => (p.slot && (S.choice[p.slot] || (D.options[p.slot] || {}).default)) || p.id;
+const mods = () => D.places.map(p => ({ ...D.mods[chosen(p)], ...p, id: chosen(p), rows: p.slot ? D.mods[chosen(p)].r : p.rows, size: p.rows.join('').replace(/\./g, '').length }));
+
+// ---------- 地図 ----------
+const TC = { S: '#5fbfca', s: '#ecdcaa', r: '#8b8697', w: '#86d8d6', b: '#a58f78', p: '#d6c595', P: '#dcc996', K: '#b8694b', t: '#3d8645', '1': '#6cb355', '3': '#86c862' };
+const ZB = { all: [0, 0, 112, 96], lon: [14, 50, 66, 96], egy: [0, 0, 40, 60], jpn: [34, 0, 68, 62], usa: [64, 0, 112, 48], eur: [56, 40, 112, 86], port: [56, 70, 112, 96] };
+function mapView() { const c = $('map'), b = ZB[S.zoom]; return { c, b, k: c.width / (b[2] - b[0]) }; }
+// 立体図（London Render と同じ投影）。モジュールの中心を画面の位置に直して、クリックで選べるようにする
+const RV = { lon: [16, 52, 65, 94], egy: [8, 12, 40, 62], jpn: [32, 12, 67, 61], usa: [65, 12, 101, 47], eur: [57, 39, 101, 85], port: [64, 70, 112, 94], all: [0, 4, 112, 96] };
+function isoProj(v) { const [bx0, by0, bx1, by1] = RV[v], nx = bx1 - bx0, ny = by1 - by0, TW = nx + ny > 120 ? 12 : 16, TH = TW / 2, HZ = TW * .45, ZL = [0, 2, 6, 10], ox = ny * TW + 60, oy = 10 * HZ + 70;
+  return { TW, b: RV[v], P: (x, y) => { const h = +((D.h[Math.floor(y)] || '')[Math.floor(x)] || 0); return [ox + (x - bx0 - (y - by0)) * TW, oy + (x - bx0 + y - by0) * TH - ZL[h] * HZ]; } }; }
+function drawIso() { const v = S.isoView, V = D.views[v], c = $('iso'); if (!V) { $('isoPanel').hidden = true; return; } const im = img(V.img); c.width = V.w; c.height = V.h; const x = c.getContext('2d');
+  if (im) x.drawImage(im, 0, 0); const { P, TW, b } = isoProj(v);
+  const m = mods().find(m => m.id === S.sel && m.x === S.selX && m.y === S.selY);
+  if (m) { const [sx, sy] = P(m.x + m.rows[0].length / 2, m.y + m.rows.length / 2); x.strokeStyle = '#ffffff'; x.lineWidth = 4; x.beginPath(); x.ellipse(sx, sy, Math.max(30, m.rows[0].length * TW * .9), Math.max(16, m.rows[0].length * TW * .45), 0, 0, 7); x.stroke(); x.strokeStyle = '#b4503a'; x.lineWidth = 2; x.stroke();
+    x.font = '800 22px ' + getComputedStyle(document.body).getPropertyValue('--display'); const t = m.short || m.name, tw = x.measureText(t).width; const lx = Math.max(tw / 2 + 14, Math.min(c.width - tw / 2 - 14, sx)); x.fillStyle = '#b4503a'; x.fillRect(lx - tw / 2 - 10, sy - 70, tw + 20, 32); x.fillStyle = '#fff'; x.textAlign = 'center'; x.fillText(t, lx, sy - 46); x.textAlign = 'left'; } }
+function hitIso(e) { const v = S.isoView, c = $('iso'), r = c.getBoundingClientRect(), sx = (e.clientX - r.left) / r.width * c.width, sy = (e.clientY - r.top) / r.height * c.height, { P, TW, b } = isoProj(v);
+  let best = null, bd = 1e9; mods().forEach(m => { if (m.size < 6) return; const cx = m.x + m.rows[0].length / 2, cy = m.y + m.rows.length / 2; if (cx < b[0] || cx > b[2] || cy < b[1] || cy > b[3]) return; const [px, py] = P(cx, cy), d = Math.hypot(px - sx, (py - sy) * 1.6); if (d < bd) { bd = d; best = m; } });
+  return bd < TW * 5 ? best : null; }
+function drawMap() { drawIso();
+  const { c, b, k } = mapView(); c.height = Math.round((b[3] - b[1]) * k); const x = c.getContext('2d');
+  x.fillStyle = TC.S; x.fillRect(0, 0, c.width, c.height);
+  for (let y = b[1]; y < b[3]; y++) for (let X = b[0]; X < b[2]; X++) { const ch = D.grid[y][X], h = +D.h[y][X];
+    let col = TC[ch] || '#6cb355'; x.fillStyle = col; x.fillRect((X - b[0]) * k, (y - b[1]) * k, k + .5, k + .5);
+    if (h >= 2 && '13tpPK'.includes(ch)) { x.fillStyle = `rgba(255,255,255,${h === 2 ? .12 : .24})`; x.fillRect((X - b[0]) * k, (y - b[1]) * k, k + .5, k + .5); }
+    const hs = +(D.h[y + 1] || '')[X]; if (hs < h && '13tpPKb'.includes(ch)) { x.fillStyle = 'rgba(60,40,30,.45)'; x.fillRect((X - b[0]) * k, (y - b[1] + 1) * k - k * .28, k, k * .28); } }
+  Object.values(D.paint).forEach(pa => Object.entries(pa).forEach(([kk, v]) => { const [X, y] = kk.split(',').map(Number); if (X < b[0] || X >= b[2] || y < b[1] || y >= b[3]) return; x.fillStyle = v.startsWith('r:') ? 'rgba(70,64,62,.55)' : 'rgba(245,240,230,.7)'; x.fillRect((X - b[0]) * k, (y - b[1]) * k, k + .5, k + .5); }));
+  mods().forEach(m => { const W = m.rows[0].length, H = m.rows.length, px = (m.x - b[0]) * k, py = (m.y - b[1]) * k;
+    if (m.x + W < b[0] || m.x > b[2] || m.y + H < b[1] || m.y > b[3]) return;
+    if (m.size < 6 && !(m.id === S.sel && m.x === S.selX)) return;   // 小物・すき間うめは地図に描かない（一覧からは選べる）
+    const sel = m.id === S.sel && m.x === S.selX && m.y === S.selY, col = THC[m.zone] || '#888';
+    x.fillStyle = col + (sel ? 'ee' : m.role === 'landmark' || m.detail ? 'b0' : '60'); m.rows.forEach((row, dy) => [...row].forEach((ch, dx) => { if (ch !== '.') x.fillRect(px + dx * k, py + dy * k, k + .5, k + .5); }));   // 空きマス（.）は塗らない
+    if (sel) { x.lineWidth = 3; x.strokeStyle = '#fff'; x.strokeRect(px + .5, py + .5, W * k - 1, H * k - 1); }
+    if (m.detail) { x.fillStyle = '#fff'; x.beginPath(); x.arc(px + W * k - 5, py + 5, 4, 0, 7); x.fill(); }
+    if ((m.role === 'landmark' && S.zoom !== 'all') || sel) { x.font = `800 ${Math.max(10, Math.min(14, k * 1.1))}px ${getComputedStyle(document.body).getPropertyValue('--display')}`; const t = (m.short || m.name); const tw = x.measureText(t).width;
+      x.fillStyle = 'rgba(255,255,255,.92)'; x.fillRect(px, py - 17, tw + 10, 16); x.fillStyle = '#22302d'; x.fillText(t, px + 5, py - 5); } });
+  (D.routes || []).forEach(rt => { x.fillStyle = 'rgba(180,80,58,.55)'; rt.cells.forEach(([X, y]) => { if (X >= b[0] && X < b[2] && y >= b[1] && y < b[3]) x.fillRect((X - b[0]) * k + k * .2, (y - b[1]) * k + k * .2, k * .6, k * .6); });
+    const c0 = rt.cells[0]; if (c0 && c0[0] >= b[0] && c0[0] < b[2] && c0[1] >= b[1] && c0[1] < b[3]) { x.fillStyle = '#b4503a'; x.font = `800 ${Math.max(10, k * .9)}px sans-serif`; x.fillText(rt.id, (c0[0] - b[0]) * k + 2, (c0[1] - b[1]) * k - 2); } });
+  D.facs.forEach(([nm, kind, fx, fy]) => { if (fx < b[0] || fx >= b[2] || fy < b[1] || fy >= b[3]) return; x.fillStyle = '#ffffff'; x.beginPath(); x.arc((fx - b[0] + .5) * k, (fy - b[1] + .5) * k, Math.max(4, k * .45), 0, 7); x.fill(); x.fillStyle = '#22302d'; x.font = `700 ${Math.max(8, k * .6)}px sans-serif`; x.textAlign = 'center'; x.fillText(D.facGlyph[kind] || '・', (fx - b[0] + .5) * k, (fy - b[1] + .5) * k + k * .22); x.textAlign = 'left'; });
+}
+function hitMap(e) { const { c, b, k } = mapView(), r = c.getBoundingClientRect(); const X = (e.clientX - r.left) / r.width * c.width / k + b[0], Y = (e.clientY - r.top) / r.height * c.height / k + b[1];
+  const hits = mods().filter(m => X >= m.x && X < m.x + m.rows[0].length && Y >= m.y && Y < m.y + m.rows.length); return { hit: hits.sort((a, b2) => a.rows.length * a.rows[0].length - b2.rows.length * b2.rows[0].length)[0], X: Math.floor(X), Y: Math.floor(Y) }; }
+$('map').addEventListener('click', e => { const { hit } = hitMap(e); if (hit) select(hit.id, hit.x, hit.y); });
+$('iso').addEventListener('click', e => { const hit = hitIso(e); if (hit) { select(hit.id, hit.x, hit.y, true); } });
+$('iso').addEventListener('mousemove', e => { const h = hitIso(e); $('isoHint').textContent = h ? `${h.name}（${TH[h.zone] || ''}・${where(h.x, h.y)}）をクリックで開く` : '立体図の建物や広場をクリックすると、下にそのモジュールを開きます'; });
+$('map').addEventListener('mousemove', e => { const { hit, X, Y } = hitMap(e); $('mapHint').textContent = `${where(X, Y)}（x${X}, y${Y}）` + (hit ? `　${hit.name}（${TH[hit.zone] || ''}）` : '　四角（モジュール）をクリックすると右に開きます'); });
+
+// ---------- 一覧 ----------
+function renderLists() {
+  $('isoChips').innerHTML = [['all', '島全体'], ['lon', 'ロンドン'], ['egy', 'エジプト'], ['jpn', '日本'], ['usa', 'アメリカ'], ['eur', 'ヨーロッパ'], ['port', '地中海']].map(([k, n]) => `<button class="chip" data-iso="${k}" aria-pressed="${S.isoView === k}">${n}</button>`).join('');
+  $('zoomChips').innerHTML = [['all', '島全体'], ['lon', 'ロンドン'], ['egy', 'エジプト'], ['jpn', '日本'], ['usa', 'アメリカ'], ['eur', 'ヨーロッパ'], ['port', '地中海']].map(([k, n]) => `<button class="chip" data-zoom="${k}" aria-pressed="${S.zoom === k}">${n}</button>`).join('');
+  $('themeChips').innerHTML = [['all', 'すべての地区'], ...Object.entries(TH).filter(([k]) => k !== 'hal')].map(([k, n]) => `<button class="chip" data-th="${k}" aria-pressed="${S.theme === k}">${n}</button>`).join('');
+  $('legend').innerHTML = Object.entries(TH).filter(([k]) => k !== 'hal').map(([k, n]) => `<span><i class="dot" style="background:${THC[k]}"></i>${n}</span>`).join('') + '<span><i class="dot" style="background:#fff;border:1px solid var(--line)"></i>白い点＝マス目まで細かく決めたモジュール</span>';
+  const q = S.q.trim(), seen = new Set();
+  const list = mods().filter(m => (S.theme === 'all' || m.zone === S.theme) && (!q || (m.name + (m.note || '')).includes(q))).filter(m => { const k = m.id + m.x + ',' + m.y; if (seen.has(k)) return false; seen.add(k); return true; })
+    .sort((a, b) => (b.detail ? 1 : 0) - (a.detail ? 1 : 0) || (a.role === 'landmark' ? -1 : 0) - (b.role === 'landmark' ? -1 : 0));
+  $('modList').innerHTML = list.slice(0, 120).map(m => `<button class="item" data-id="${m.id}" data-x="${m.x}" data-y="${m.y}" aria-current="${m.id === S.sel && m.x === S.selX && m.y === S.selY}"><i class="dot" style="background:${THC[m.zone]}"></i><span class="nm">${S.done[m.id] && allDone(m.id) ? '✓ ' : ''}${esc(m.name)}</span>${m.detail ? '<span class="pill">細部</span>' : ''}${m.role === 'landmark' ? '<span class="pill lm">主役</span>' : ''}<span class="muted">${where(m.x, m.y)}</span></button>`).join('') || '<span class="muted">見つかりません。ことばを変えてください</span>';
+}
+document.addEventListener('click', e => { const t = e.target.closest('button'); if (!t) return;
+  if (t.dataset.iso) { S.isoView = t.dataset.iso; renderLists(); drawIso(); }
+  else if (t.dataset.zoom) { S.zoom = t.dataset.zoom; renderLists(); drawMap(); }
+  else if (t.dataset.th) { S.theme = t.dataset.th; renderLists(); }
+  else if (t.dataset.id) select(t.dataset.id, +t.dataset.x, +t.dataset.y);
+  else if (t.dataset.tab) { S.tab = t.dataset.tab; document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-pressed', b.dataset.tab === S.tab)); ['map', 'prep', 'book', 'refs'].forEach(k => $('tab-' + k).hidden = k !== S.tab); if (S.tab === 'prep') renderPrep(); if (S.tab === 'book') renderBook(); if (S.tab === 'refs') renderRefs(); }
+  else if (t.dataset.done) { const [id, k] = t.dataset.done.split('|'); S.done[id] = { ...(S.done[id] || {}), [k]: !(S.done[id] || {})[k] }; store.set('ice-done', S.done); renderDetail(); renderLists(); renderStats(); }
+  else if (t.dataset.choice) { const [sl, cid] = t.dataset.choice.split('|'); S.choice[sl] = cid; store.set('ice-choice', S.choice); S.sel = cid; renderLists(); renderDetail(); drawMap(); renderStats(); }
+  else if (t.dataset.book) { S.bookTh = t.dataset.book; renderBook(); }
+  else if (t.dataset.copy) copyList(t);
+});
+$('q').addEventListener('input', e => { S.q = e.target.value; renderLists(); });
+const allDone = id => { const d = S.done[id] || {}; return d.g && d.d && d.p; };
+function select(id, x, y, fromIso) { const M = mods(); const p = M.find(p => p.id === id && (x == null || (p.x === x && p.y === y))) || M.find(p => p.id === id); S.sel = id; S.selX = p.x; S.selY = p.y; S.hover = null;
+  if (S.zoom !== 'all' && ZB[S.zoom] && !(p.x >= ZB[S.zoom][0] && p.x < ZB[S.zoom][2] && p.y >= ZB[S.zoom][1] && p.y < ZB[S.zoom][3])) S.zoom = p.zone in ZB ? p.zone : 'all';
+  if (!fromIso && S.isoView !== 'all' && p.zone in RV && S.isoView !== p.zone) S.isoView = p.zone; renderLists(); renderDetail(); drawMap(); if (fromIso || window.innerWidth < 980) $('detail').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+
+// ---------- モジュールの草図 ----------
+const CELL = 56, GRASS = '#7dbb5a';
+function sketchData(m) { const lon = isLon(m) && LON; const ground = lon ? LON.ground : {}; return { lon, ground, tiles: lon ? DT.tilePieces(m.r, ground, m.under) : null }; }
+function nums(m, ground) { const o = {}; let k = 0; m.r.forEach(r => [...r].forEach(ch => { if (ch !== '.' && !(ch in ground) && !'BpSgdwZDmlr_#^~'.includes(ch) && !(ch in o)) o[ch] = ++k; })); return o; }
+function drawSketch() {
+  const c = $('sketch'); if (!c) return; const m = D.mods[S.sel]; if (!m) return; const W = m.r[0].length, H = m.r.length, { lon, ground, tiles } = sketchData(m);
+  c.width = W * CELL; c.height = H * CELL; const x = c.getContext('2d'); x.fillStyle = GRASS; x.fillRect(0, 0, c.width, c.height);
+  for (let y = 0; y < H; y++) for (let X = 0; X < W; X++) { const ch = m.r[y][X], px = X * CELL, py = y * CELL, t = tiles && tiles[y][X];
+    if (t) { const tx = LON.tex[t.ch]; const P = tx && tx.pieces; let drawn = false;
+      if (P) { const d = t.sides.replace('北', 'N').replace('南', 'S').replace('東', 'E').replace('西', 'W'), ns = d.replace(/[EW]/g, ''), ew = d.replace(/[NS]/g, '');
+        const key = t.kind === 'diag' ? 'diag' + ns + ew : t.kind === 'corner' ? ns + ew : t.kind === 'edge' ? d[0] : 'base'; const src = P[key] || P[ns[0]] || P[ew[0]] || P.base, im = img(src);
+        if (im) { x.save(); if (tx.rot) { x.translate(px + CELL / 2, py + CELL / 2); x.rotate(tx.rot * Math.PI / 180); x.drawImage(im, -CELL / 2, -CELL / 2, CELL, CELL); } else x.drawImage(im, px, py, CELL, CELL); x.restore(); drawn = true;
+          if (t.kind === 'diag') { const cx = t.miss[1] ? px + CELL : px, cy = t.miss[2] ? py + CELL : py, dx = t.miss[1] ? -1 : 1, dy = t.miss[2] ? -1 : 1;   // ななめ：外側の半分は草地
+            x.fillStyle = GRASS; x.beginPath(); x.moveTo(cx, cy); x.lineTo(cx + dx * CELL, cy); x.lineTo(cx, cy + dy * CELL); x.closePath(); x.fill(); } } }
+      if (!drawn) { x.fillStyle = ground[t.ch].color; x.fillRect(px, py, CELL, CELL); } }
+    else if (ch === 'w') { x.fillStyle = '#6fc6cf'; x.fillRect(px, py, CELL, CELL); x.strokeStyle = 'rgba(255,255,255,.55)'; x.lineWidth = 2; [[.2, .3], [.55, .7]].forEach(([a, b]) => { x.beginPath(); x.moveTo(px + a * CELL, py + b * CELL); x.quadraticCurveTo(px + (a + .12) * CELL, py + (b - .08) * CELL, px + (a + .24) * CELL, py + b * CELL); x.stroke(); }); }   // 水（地形で作る本物の水）
+    else if (ch !== '.' && LEG[ch] && 'BpSgdwZDmlr_#^~='.includes(ch)) { x.fillStyle = LEG[ch][1]; x.fillRect(px, py, CELL, CELL); } }
+  x.strokeStyle = 'rgba(0,0,0,.10)'; x.lineWidth = 1; for (let y = 0; y <= H; y++) { x.beginPath(); x.moveTo(0, y * CELL); x.lineTo(W * CELL, y * CELL); x.stroke(); } for (let X = 0; X <= W; X++) { x.beginPath(); x.moveTo(X * CELL, 0); x.lineTo(X * CELL, H * CELL); x.stroke(); }
+  const N = nums(m, ground);
+  m.r.forEach((row, y) => [...row].forEach((ch, X) => { if (!(ch in N)) return; const px = X * CELL, py = y * CELL, it = lon && docOf(m).items[ch], tx = lon && texOf(m, ch);
+    let im = null; if (tx) { im = img(pieceOf(m, ch, X, y, tx)); }
+    if (im) { x.drawImage(im, px + 3, py + 3, CELL - 6, CELL - 6); x.strokeStyle = 'rgba(0,0,0,.35)'; x.strokeRect(px + 3.5, py + 3.5, CELL - 7, CELL - 7); }
+    else { const L = LEG[ch] || ['?', '#ccc', '?']; x.fillStyle = L[1]; x.beginPath(); x.roundRect ? x.roundRect(px + 5, py + 5, CELL - 10, CELL - 10, 9) : x.rect(px + 5, py + 5, CELL - 10, CELL - 10); x.fill(); x.fillStyle = '#2a2420'; x.font = '700 19px sans-serif'; x.textAlign = 'center'; x.fillText(L[2] || ch, px + CELL / 2, py + CELL / 2 + 7); x.textAlign = 'left'; }
+    x.fillStyle = '#fff'; x.beginPath(); x.arc(px + CELL - 9, py + 9, 9, 0, 7); x.fill(); x.fillStyle = '#22302d'; x.font = '700 12px sans-serif'; x.textAlign = 'center'; x.fillText(N[ch], px + CELL - 9, py + 13); x.textAlign = 'left'; }));
+  (m.marks || []).forEach(([X, y, t]) => { x.fillStyle = '#f4f2ec'; x.font = '700 12px sans-serif'; x.textAlign = 'center'; x.fillText(t, (X + .5) * CELL, y * CELL + CELL / 2 + 4); x.textAlign = 'left'; });
+  if (S.overlay) { const A = analyze(m), band = A.band; let prev = ''; for (let y = 0; y < H; y++) { const b = band(y); x.fillStyle = BAND[b]; x.globalAlpha = .3; x.fillRect(0, y * CELL, W * CELL, CELL); x.globalAlpha = 1; if (b !== prev) { if (y) { x.strokeStyle = '#22302d'; x.lineWidth = 2; x.beginPath(); x.moveTo(0, y * CELL); x.lineTo(W * CELL, y * CELL); x.stroke(); } x.fillStyle = '#22302d'; x.fillRect(2, y * CELL + 2, 38, 20); x.fillStyle = '#fff'; x.font = '700 13px sans-serif'; x.fillText(b, 7, y * CELL + 17); prev = b; } }
+    x.setLineDash([7, 6]); x.strokeStyle = '#fff'; x.lineWidth = 2; x.beginPath(); x.moveTo(W * CELL / 2, 0); x.lineTo(W * CELL / 2, H * CELL); x.stroke(); x.setLineDash([]); A.blocked.forEach(([X, y]) => { x.fillStyle = 'rgba(217,72,59,.5)'; x.fillRect(X * CELL, y * CELL, CELL, CELL); }); }
+  if (S.hover) { x.strokeStyle = '#fff'; x.lineWidth = 3; x.strokeRect(S.hover[0] * CELL + 1.5, S.hover[1] * CELL + 1.5, CELL - 3, CELL - 3); }
+}
+function pieceOf(m, ch, X, y, tx) { const P = tx.pieces; if (!tx.run) return P[(X + y) % P.length]; let a = X; while (a > 0 && m.r[y][a - 1] === ch) a--; let b = X; while (b < m.r[y].length - 1 && m.r[y][b + 1] === ch) b++; const n = b - a + 1, i = X - a;
+  if (n === P.length || P.length < 3) return P[Math.min(i, P.length - 1)]; return i === 0 ? P[0] : i === n - 1 ? P[P.length - 1] : P[1 + (i - 1) % (P.length - 2)]; }
+
+// ---------- 設計の確かめ ----------
+const BAND = { '奥': '#cfe2f5', '中': '#f5e7c6', '手前': '#d9edcf' };
+const TALL = 'WQATLK%vCtYENi$UMsG';
+function bandsOf(H) { const b1 = Math.max(1, Math.round(H / 3)), b2 = Math.max(b1 + 1, H - Math.round(H / 3)); return y => y < b1 ? '奥' : y < b2 ? '中' : '手前'; }
+const GROUNDCH = 'BpSgdwZDmlr_#^~=';
+function fname(m, ch) { return (m.names && m.names[ch]) || (LON && LON.furniture[ch] && isLon(m) ? LON.furniture[ch][0] : (LEG[ch] || [ch])[0]); }
+function analyze(m) {
+  const H = m.r.length, W = m.r[0].length, band = bandsOf(H), isItem = ch => ch !== '.' && !GROUNDCH.includes(ch);
+  const front = [...m.r[H - 1]].filter(ch => TALL.includes(ch)), walk = (X, y) => !isItem(m.r[y][X]) && m.r[y][X] !== 'w', seen = new Set(), q = [];
+  const seeds = []; for (let X = 0; X < W; X++) seeds.push([X, H - 1]); for (let y = 0; y < H; y++) seeds.push([0, y], [W - 1, y]);   // 手前と左右のはしから入れる（となりのモジュールとつながる）
+  seeds.forEach(([X, y]) => { if (walk(X, y) && !seen.has(X + ',' + y)) { seen.add(X + ',' + y); q.push([X, y]); } });
+  while (q.length) { const [X, y] = q.pop(); [[1, 0], [-1, 0], [0, 1], [0, -1]].forEach(([dx, dy]) => { const a = X + dx, b = y + dy; if (a < 0 || b < 0 || a >= W || b >= H || seen.has(a + ',' + b) || !walk(a, b)) return; seen.add(a + ',' + b); q.push([a, b]); }); }
+  const blocked = []; m.r.forEach((r, y) => [...r].forEach((c, X) => { if (walk(X, y) && !seen.has(X + ',' + y)) blocked.push([X, y]); }));
+  let sym = 0; m.r.forEach(r => { for (let X = 0; X < W; X++) if (r[X] === r[W - 1 - X]) sym++; }); const sy = sym / (W * H);
+  const items = m.r.join('').split('').filter(isItem).length, dens = m.r.join('').split('').filter(ch => isItem(ch) && !'WQAf'.includes(ch)).length / (W * H);   // 壁と柵は数えない
+  return { band, blocked, checks: [
+    ['背の高い物は奥', !front.length, front.length ? `手前の列に ${[...new Set(front)].map(ch => fname(m, ch)).join('・')}。カメラは北を向くので、奥の物を隠さないか確かめる` : '手前の列に背の高い物がない。奥まで見通せる'],
+    ['通り道', !blocked.length, blocked.length ? `手前・左右から入れないマスが ${blocked.length} 個（設計の線で赤）。家具を1つずらして道を開ける` : '手前からすべての空きマスへ歩いて行ける'],
+    ['左右の釣り合い', sy >= .6, `左右対称 ${Math.round(sy * 100)}%` + (sy >= .6 ? '。主役・入口は対称が落ち着く' : '。脇役ならくずしてよい。主役なら対称に寄せる')],
+    ['家具の密度', dens >= .15 && dens <= .55, `家具 ${items} 個／${W * H} マス（壁と柵をのぞいて ${Math.round(dens * 100)}%）` + (dens > .55 ? '。つめすぎ：小物を減らして余白を作る' : dens < .15 ? '。さびしい：小物を足すか、小さくする' : '。ちょうどよい')],
+  ] };
+}
+
+// ---------- 作業台（選んだモジュール） ----------
+function renderDetail() {
+  const m = mods().find(q => q.id === S.sel && q.x === S.selX && q.y === S.selY) || { ...D.mods[S.sel], id: S.sel }; if (!m.r) return; const opt = m.slot && D.options[m.slot];
+  const lon = isLon(m) && LON, W = m.r[0].length, H = m.r.length, dn = S.done[m.id] || {}, N = nums(m, lon ? LON.ground : {});
+  const used = lon ? DT.designsUsed(m.r, docOf(m), m.under) : [];
+  const dzRow = (u, extra) => { const d = CAT[u.design] || {}; return `<div class="dz"><a href="${esc((d.images || [])[0] || d.search)}" target="_blank" rel="noopener"><img src="${d.thumb || ''}" alt="${esc(d.name)}"></a><div style="display:flex;flex-direction:column;gap:3px;min-width:0"><div class="row" style="gap:6px">${extra || ''}<b>${esc(u.slot)}</b><span class="no">${esc(d.no || '')}</span><span class="ma">${esc(d.ma)}</span>${d.verdict ? `<span class="pill ok">${esc(d.verdict)}</span>` : ''}${d.checked === false ? '<span class="pill" style="color:var(--warn)">要確認</span>' : ''}</div><span class="muted">${esc((d.name || '').replace(/（.*$/, ''))}　${esc(d.creator)}</span>${u.partsHtml || ''}${u.pos ? `<span style="font-size:12.5px">置く所：${esc(u.pos)}</span>` : ''}<span class="muted"><a href="${esc(d.search)}" target="_blank" rel="noopener">作者IDで Pinterest を探す</a></span></div></div>`; };
+  const ground = used.filter(u => Object.values(LON ? LON.ground : {}).some(g => g.design === u.design && g.slot === u.slot) || u.slot === '路面の表示');
+  const cnt = {}; m.r.join('').split('').forEach(ch => { if (ch in N) cnt[ch] = (cnt[ch] || 0) + 1; });
+  const order = Object.keys(cnt).sort((a, b) => N[a] - N[b]), unit = { v: 4, Y: 2 };
+  const pos = ch => { const runs = []; m.r.forEach((r, y) => [...r].forEach((c, X) => { if (c !== ch) return; const R = runs.find(R => R.y === y && R.x2 === X - 1); if (R) R.x2 = X; else runs.push({ y, x1: X, x2: X }); }));
+    const row = y => y === 0 ? '奥' : y === H - 1 ? '手前' : `奥から${y + 1}列目`, col = X => X === 0 ? '左端' : X === W - 1 ? '右端' : `左から${X + 1}番目`; return runs.map(R => R.x1 === R.x2 ? `${row(R.y)}の${col(R.x1)}` : `${row(R.y)}の${R.x1 + 1}〜${R.x2 + 1}番目`).join('・'); };
+  const badge = ch => { const L = LEG[ch] || ['', '#ccc', '']; return `<span class="badge" style="background:${L[1]};color:#2a2420">${N[ch]}</span>`; };
+  const IT = lon ? docOf(m).items : {}; const dzItems = lon ? order.filter(ch => IT[ch]).map(ch => dzRow({ design: IT[ch].design, slot: `${fname(m, ch)} ×${Math.ceil(cnt[ch] / (unit[ch] || 1))}`, pos: pos(ch) }, badge(ch))) : [];
+  const plain = order.filter(ch => !(lon && IT[ch])).map(ch => `<div class="check">${badge(ch)}<span><b>${esc(fname(m, ch))} ×${Math.ceil(cnt[ch] / (unit[ch] || 1))}</b>　${esc(pos(ch))}</span></div>`);
+  const A = analyze(m), dsg = m.design || (LON && LON.design_extra || {})[m.id];
+  const layers = dsg ? dsg.layers : ['奥', '中', '手前'].map(b => { const its = [...new Set(m.r.filter((r, y) => A.band(y) === b).join('').split('').filter(ch => ch in N))].map(ch => fname(m, ch)); return { band: b, role: its.length ? '家具' : '地面', what: its.length ? its.join('・') : '空けておく（通り道・余白）' }; });
+  const refs = (m.refs || []).concat((D.examples || []).filter(x => x.for.includes(m.id)).map(x => ({ img: x.thumb, name: x.name, by: '作者IDなしの作例', link: x.image })));
+  const stepBtn = (k, n) => `<button class="done" data-done="${m.id}|${k}" aria-pressed="${!!dn[k]}">${dn[k] ? '✓ 済み' : '済みにする'}</button>`;
+  $('detail').innerHTML = `
+  <div class="row" style="justify-content:space-between;align-items:flex-start"><div style="display:flex;flex-direction:column;gap:2px;min-width:0"><span class="eyebrow">${esc(TH[m.zone] || m.th)} · ${where(m.x, m.y)}（x${m.x}, y${m.y}）· ${W}×${H} マス${m.detail ? ' · マス目まで決めたモジュール' : ''}</span><h2>${esc(m.name)}</h2></div>${m.role === 'landmark' ? '<span class="pill lm">主役</span>' : `<span class="pill">${esc(D.role[m.role] || m.role || '')}</span>`}</div>
+  <p style="margin:0">${esc(m.note || '')}</p>
+  ${opt ? `<div class="step" style="border-top:0;padding-top:0"><h3>この場所の案：${esc(opt.title)}</h3><span class="muted">${esc(opt.why)}。選んだ案は地図と一覧にも反映し、このブラウザに覚えます（立体図は最初の案のまま）</span>
+    <div class="opts">${opt.choices.map((cid, i) => { const c = D.mods[cid], th = (c.refs && c.refs[0] && c.refs[0].img) || ((D.examples.find(x => x.for.includes(cid)) || {}).thumb) || ''; return `<button class="opt" data-choice="${m.slot}|${cid}" aria-pressed="${cid === m.id}">${th ? `<img src="${th}" alt="">` : '<span class="noimg">作例なし</span>'}<b>案${'ABCDEFGH'[i]}：${esc(c.name)}</b>${cid === opt.default ? '<span class="pill ok" style="align-self:flex-start">おすすめ（採用したマイデザイン）</span>' : ''}<span class="muted">${esc((c.design && c.design.concept) || c.note || '')}</span></button>`; }).join('')}</div></div>` : ''}
+  <div class="two">
+    <div style="display:flex;flex-direction:column;gap:6px;min-width:0"><h3>マス目の草図</h3><canvas id="sketch" aria-label="モジュールのマス目の草図"></canvas><div class="hint" id="cellHint">マスにマウスを乗せると、敷くパーツと置く家具を表示します</div>
+      <div class="row"><button class="chip" id="ovBtn" aria-pressed="${!!S.overlay}">設計の線（奥・中・手前／中心線）</button>${lon ? '<span class="muted">地面と家具は作者のマイデザインの図をそのまま貼っています</span>' : '<span class="muted">この地区はまだマイデザインを決めていません（色の図）</span>'}</div></div>
+    <div style="display:flex;flex-direction:column;gap:8px;min-width:0"><h3>実際のゲームの作例</h3>${refs.length ? refs.slice(0, 3).map(r => `<figure class="ref" style="margin:0"><a href="${esc(r.link || r.img)}" target="_blank" rel="noopener"><img src="${r.img}" alt="${esc(r.name)}"></a><figcaption>${esc(r.name)}　${esc(r.by || '')}</figcaption></figure>`).join('') : '<p class="muted" style="margin:0">まだ作例の写真がありません。似た作例を見つけたら、草図とならべて見比べます。</p>'}</div>
+  </div>
+  ${(() => { const W2 = m.r[0].length, H2 = m.r.length, near = (D.routes || []).filter(rt => rt.cells.some(([X, y]) => X >= m.x - 3 && X < m.x + W2 + 3 && y >= m.y - 3 && y < m.y + H2 + 3)); if (!near.length) return '';
+    const MN = { B: 'レンガ（歩道）', p: '古い石畳', bridge: '橋（今ある橋）', slope: '坂（今ある坂）', '~': '駅のタイル' };
+    return `<div class="step"><h3>まわりの通り道</h3><span class="muted">平面図に赤い点で示した道。番号（P1…）で伝えてもらえれば直します</span>${near.map(rt => { const d = CAT[rt.design] || {}; return `<div class="check"><span class="no">${esc(rt.id)}</span><span><b>${esc(rt.name)}</b>　幅${rt.w}マス・${esc(MN[rt.mat] || rt.mat)}${d.ma ? `（<span class="ma">${esc(d.ma)}</span>）` : ''}・${rt.cells.length}マス<br><span class="muted">${esc(rt.why)}</span></span></div>`; }).join('')}</div>`; })()}
+  ${m.section && D.levels ? `<div class="step"><h3>${esc(D.levels.title)}（南北の断面・x${m.section_x || D.levels.axis_x}${(D.levels.axes || {})[m.section_x || D.levels.axis_x] ? '・' + esc(D.levels.axes[m.section_x || D.levels.axis_x]) : ''}）</h3><canvas id="section" aria-label="南北の断面図"></canvas><span class="muted">${esc(D.levels.note)}</span></div>` : ''}
+  ${m.fix ? `<div class="step"><h3>作例とくらべて、こう作る</h3><ol class="fix">${m.fix.map(f => `<li>${esc(f)}</li>`).join('')}</ol></div>` : ''}
+  <div class="step"><h3>設計のしかた</h3>${dsg ? `<div><b>ねらい</b>　${esc(dsg.concept)}</div><div><b>カメラから見える場面</b>　${esc(dsg.scene)}</div>` : ''}
+    <div class="layers">${layers.map(l => `<span class="band" style="background:${BAND[l.band] || '#eee'}">${esc(l.band)}</span><b>${esc(l.role)}</b><span>${esc(l.what)}</span>`).join('')}</div>
+    ${A.checks.map(([n, ok, t]) => `<div class="check"><span class="mk" style="background:var(${ok ? '--ok' : '--warn'})">${ok ? '✓' : '!'}</span><span><b>${esc(n)}</b>　${esc(t)}</span></div>`).join('')}
+    ${dsg && dsg.tips && dsg.tips.length ? `<div class="muted">${dsg.tips.map(t => '・' + esc(t)).join('<br>')}</div>` : ''}</div>
+  ${lon ? `<div class="step"><div class="step-h"><h3>① 地面を敷く（マイデザインの道）</h3>${stepBtn('g')}</div>${ground.length ? ground.map(u => dzRow({ ...u, partsHtml: `<div class="parts">${Object.entries(u.parts).map(([k, n]) => `<span>${esc(k)} <b>${n}</b>マス</span>`).join('')}</div>` })).join('') : '<span class="muted">道は敷かない（草地のまま）</span>'}</div>
+  <div class="step"><div class="step-h"><h3>② マイデザインを貼る家具</h3>${stepBtn('d')}</div>${dzItems.join('') || '<span class="muted">なし</span>'}</div>` : ''}
+  <div class="step"><div class="step-h"><h3>${lon ? '③' : ''} 家具を置く</h3>${stepBtn('p')}</div>${plain.join('') || '<span class="muted">なし</span>'}</div>`;
+  if (!lon) { /* ①②がない地区は家具だけで済み */ }
+  $('ovBtn').onclick = () => { S.overlay = !S.overlay; renderDetail(); };
+  const sk = $('sketch');
+  sk.onmousemove = e => { const r = sk.getBoundingClientRect(), X = Math.floor((e.clientX - r.left) / r.width * W), y = Math.floor((e.clientY - r.top) / r.height * H); if (X < 0 || y < 0 || X >= W || y >= H) return;
+    if (!S.hover || S.hover[0] !== X || S.hover[1] !== y) { S.hover = [X, y]; drawSketch(); const t = lon && DT.tilePieces(m.r, LON.ground, m.under)[y][X], ch = m.r[y][X], parts = [];
+      if (t) parts.push(`${t.slot}「${t.piece}」${t.sides ? '（' + t.sides + 'に縁）' : ''} ${(CAT[t.design] || {}).ma || ''}`); if (ch in N) parts.push('家具：' + fname(m, ch)); if (!parts.length) parts.push(ch === '.' ? '草地' : (LEG[ch] || [ch])[0]);
+      $('cellHint').textContent = `奥から${y + 1}列目・左から${X + 1}番目　` + parts.join('　'); } };
+  sk.onmouseleave = () => { S.hover = null; drawSketch(); };
+  drawSketch(); if (m.section) drawSection(m);
+}
+// 南北の断面：左が北、右が南。段の高さ・坂・川・橋を描き、いま選んでいるモジュールの所を強める
+function drawSection(m) { const c = $('section'); if (!c || !D.levels) return; const L = D.levels, ax = m.section_x || L.axis_x, y0 = 53, y1 = 92, W = 760, H = 290, k = (W - 50) / (y1 - y0), X0 = 46, base = 140, step = 32;
+  c.width = W; c.height = H; const x = c.getContext('2d'), css = getComputedStyle(document.body), ink = css.getPropertyValue('--ink'), mut = css.getPropertyValue('--muted');
+  x.fillStyle = css.getPropertyValue('--panel'); x.fillRect(0, 0, W, H);
+  const top = h => base - (h - 1) * step;   // 1段目の地面＝base
+  for (let y = y0; y < y1; y++) { const ch = D.grid[y][ax], px = X0 + (y - y0) * k;
+    if (ch === 'w' || ch === 'S' || ch === 'b') { x.fillStyle = '#7a5a40'; x.fillRect(px, base + 14, k + .5, 16); x.fillStyle = '#6fc6cf'; x.fillRect(px, base + 4, k + .5, 10); continue; }
+    const h = +D.h[y][ax]; x.fillStyle = h >= 3 ? '#86b85f' : h === 2 ? '#a3c476' : '#c4d59c'; x.fillRect(px, top(h), k + .5, base + 30 - top(h)); }
+  for (let y = y0; y < y1; y++) if (D.grid[y][ax] === 'b') { x.fillStyle = '#a58f78'; x.fillRect(X0 + (y - y0) * k - 1, base - 3, k + 2.5, 6); x.fillRect(X0 + (y - y0) * k + k / 2 - 2, base + 3, 4, 12); }   // 橋は川の上
+  (D.inclines || []).forEach(([sx, sy, d]) => { if (d !== 'S' || ax < sx || ax > sx + 1 || sy < y0 || sy > y1) return; const hi = +D.h[sy][ax]; x.strokeStyle = '#b4503a'; x.lineWidth = 4; x.beginPath(); x.moveTo(X0 + (sy - y0) * k, top(hi)); x.lineTo(X0 + (sy + 4 - y0) * k, top(hi - 1)); x.stroke(); });   // 坂（この軸を通るものだけ）
+  // 断面に家具を描く（この軸を通るモジュールの家具。手すり・ガス灯・ボート・壁など、高さの関係が分かるものだけ）
+  const glyph = (ch, cx, gy) => { const r = (c, a, b, w, h) => { x.fillStyle = c; x.fillRect(cx + a, gy - b - h, w, h); };
+    switch (ch) {
+      case 'f': r('#2c2c30', -k / 2, 0, k, 2); for (let i = 0; i < 3; i++) r('#2c2c30', -k / 2 + 2 + i * (k - 4) / 2, 0, 1.5, 11); r('#2c2c30', -k / 2, 10, k, 2); break;   // 手すり
+      case 'L': r('#2c2c30', -1, 0, 2, 22); x.fillStyle = '#e8b93c'; x.beginPath(); x.arc(cx, gy - 24, 3.5, 0, 7); x.fill(); break;   // ガス灯
+      case '*': x.fillStyle = '#2f5d4a'; x.beginPath(); x.moveTo(cx - k / 2, gy - 7); x.lineTo(cx + k / 2, gy - 7); x.lineTo(cx + k / 2 - 3, gy); x.lineTo(cx - k / 2 + 3, gy); x.closePath(); x.fill(); r('#9a3b2e', -3, 7, 6, 5); break;   // ボート
+      case 'W': case 'A': case 'Q': r('#b4664a', -k / 2, 0, k, 26); break;   // 壁
+      case 'e': case 'q': x.fillStyle = '#4f9a45'; x.beginPath(); x.arc(cx, gy - 5, k / 2, Math.PI, 0); x.fill(); break;   // 生け垣
+      case 't': r('#6b4a2f', -1, 0, 2, 10); x.fillStyle = '#2f7a34'; x.beginPath(); x.arc(cx, gy - 16, 8, 0, 7); x.fill(); break;
+      case 'T': r('#c8352b', -k / 3, 0, 2 * k / 3, 20); break;   // 電話ボックス
+      case 'u': r('#6b5b4f', -1, 0, 2, 16); x.fillStyle = '#e8c46a'; x.beginPath(); x.ellipse(cx, gy - 17, 9, 4, 0, Math.PI, 0); x.fill(); break;
+      case 'b': case 'h': case 'c': case 'x': r(ch === 'c' ? '#d8d0c0' : '#8a5a3a', -k / 3, 0, 2 * k / 3, 5); break;
+    } };
+  (D.places || []).forEach(p => { const R = p.rows; if (!R || p.zone !== 'lon' || ax < p.x || ax >= p.x + R[0].length) return;
+    R.forEach((row, dy) => { const y = p.y + dy, ch = row[ax - p.x]; if (y < y0 || y >= y1 || !ch || ch === '.' || D.grid[y][ax] === 'w') return; glyph(ch, X0 + (y - y0 + .5) * k, top(+D.h[y][ax])); }); });
+  x.strokeStyle = mut; x.lineWidth = 1; [1, 2, 3].forEach(h => { x.setLineDash([3, 4]); x.beginPath(); x.moveTo(X0 - 4, top(h)); x.lineTo(W, top(h)); x.stroke(); x.setLineDash([]); x.fillStyle = mut; x.font = '11px ' + css.getPropertyValue('--mono'); x.fillText(h + '段目', 2, top(h) + 4); });
+  // 名前は地面の下に2段で（重ならないように交互）。線で場所を指す
+  x.font = '700 11.5px ' + css.getPropertyValue('--body'); x.textAlign = 'center';
+  L.stack.filter(s2 => (!s2.x || (ax >= s2.x[0] && ax <= s2.x[1])) && (s2.lv !== 'slope' || (D.inclines || []).some(([sx, , d]) => d === 'S' && ax >= sx && ax <= sx + 1))).sort((a, b) => a.y[0] - b.y[0]).forEach((s2, i) => { const cx = X0 + ((s2.y[0] + s2.y[1] + 1) / 2 - y0) * k, ly = base + 50 + (i % 3) * 30, on = m.y >= s2.y[0] - 1 && m.y <= s2.y[1];
+    x.strokeStyle = on ? '#b4503a' : mut; x.beginPath(); x.moveTo(cx, base + 32); x.lineTo(cx, ly - 12); x.stroke();
+    x.fillStyle = on ? '#b4503a' : ink; const w = s2.name.split('（'); x.fillText(w[0], cx, ly); if (w[1]) { x.fillStyle = on ? '#b4503a' : mut; x.font = '11px ' + css.getPropertyValue('--body'); x.fillText('（' + w[1], cx, ly + 14); x.font = '700 11.5px ' + css.getPropertyValue('--body'); } });
+  x.textAlign = 'left'; x.fillStyle = mut; x.font = '12px ' + css.getPropertyValue('--mono'); x.fillText('北', X0, 18); x.fillText('南', W - 18, 18); }
+
+// ---------- 建てる準備・図鑑 ----------
+function lonAll() { return mods().filter(p => p.zone === 'lon'); }
+function prepData() { const all = lonAll(), dz = new Map(), g = new Set(), it = new Set();
+  all.forEach(m => { DT.designsUsed(m.r, docOf(m), m.under).forEach(u => { if (!dz.has(u.design)) dz.set(u.design, new Set()); dz.get(u.design).add(u.slot); });
+    DT.tilePieces(m.r, LON.ground, m.under).flat().forEach(t => { if (t) g.add(t.design + t.piece); });
+    m.r.forEach((r, y) => [...r].forEach((ch, X) => { const tx = texOf(m, ch); if (tx) it.add(pieceOf(m, ch, X, y, tx)); else if (docOf(m).items[ch]) it.add(ch); })); });
+  return { all, dz, slots: g.size + it.size, g: g.size, it: it.size }; }
+function renderStats() { const P = prepData(), mods2 = D.places.length; const done = Object.keys(S.done).filter(allDone).length;
+  $('stats').innerHTML = `<span><b>${mods2}</b>モジュール（島全体）</span><span><b>${done}</b>でき上がり</span><span><b>${P.dz.size}</b>ロンドンで使うマイデザイン</span><span><b>${P.slots}</b>保存する枠（ロンドン）</span>`; }
+function renderPrep() { const P = prepData();
+  $('tab-prep').innerHTML = `<h2>ロンドンを建てる準備</h2>
+  <p style="margin:0;max-width:72ch">エイブルシスターズの端末へ行くのは1回にまとめます。下の作者IDを順に入れて、使うパーツだけを保存します（道のパーツは1つで1枠）。保存の枠には限りがあるので、地区ごとに入れかえます。家具は「地図とモジュール」で1つずつ「済みにする」と、ここの数が進みます。</p>
+  <div class="row"><button class="copy" data-copy="1">作者IDの一覧をコピー</button><span class="muted" id="copyMsg">${P.dz.size} 件・保存する枠 ${P.slots}（地面のパーツ ${P.g}・家具に貼る図 ${P.it}）</span></div>
+  <textarea id="copyText" readonly style="width:100%;min-height:90px;font-family:var(--mono);font-size:12px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink);padding:8px" aria-label="作者IDの一覧">${esc(copyText(P))}</textarea>
+  <div class="book">${[...P.dz].map(([id, slots]) => { const d = CAT[id] || {}; return `<div class="card"><a href="${esc((d.images || [])[0] || d.search)}" target="_blank" rel="noopener"><img src="${d.thumb || ''}" alt="${esc(d.name)}"></a><div class="b"><span class="ma">${esc(d.ma)}</span><b>${esc((d.name || '').replace(/（.*$/, ''))}</b><span class="muted">${esc(d.creator)}</span><span style="font-size:12.5px">使う所：${esc([...slots].join('・'))}</span></div></div>`; }).join('')}</div>
+  <h3>ロンドンのモジュールの進み具合</h3>
+  <div class="list" style="max-height:none">${P.all.map(m => { const d = S.done[m.id] || {}; return `<button class="item" data-id="${m.id}" data-x="${m.x}" data-y="${m.y}"><i class="dot" style="background:${allDone(m.id) ? 'var(--ok)' : 'var(--line)'}"></i><span class="nm">${esc(m.name)}</span><span class="muted">${['g', 'd', 'p'].map(k => d[k] ? '●' : '○').join('')}</span><span class="muted">${where(m.x, m.y)}</span></button>`; }).join('')}</div>`;
+  document.querySelectorAll('#tab-prep .item').forEach(b => b.addEventListener('click', () => { S.tab = 'map'; document.querySelector('.tab[data-tab="map"]').click(); }, { once: true })); }
+function copyText(P) { return ['アイス島・ロンドンで使うマイデザイン（作者IDで探す）', ...[...P.dz].map(([id, s]) => { const d = CAT[id] || {}; return `${d.ma}\t${[...s].join('・')}\t${(d.name || '').replace(/（.*$/, '')}\t${d.creator || ''}`; })].join('\n'); }
+function copyList(btn) { const t = $('copyText'), txt = t.value; const ok = () => { $('copyMsg').textContent = 'コピーしました'; }; const fb = () => { t.focus(); t.select(); $('copyMsg').textContent = '選択しました。コピーしてください'; };
+  try { navigator.clipboard.writeText(txt).then(ok, fb); } catch (e) { fb(); } }
+function renderBook() { $('bookChips').innerHTML = [['lon', 'ロンドン'], ['eur', 'ヨーロッパ'], ['usa', 'アメリカ'], ['port', '地中海']].map(([k, n]) => `<button class="chip" data-book="${k}" aria-pressed="${S.bookTh === k}">${n}</button>`).join('');
+  const use = {}; if (LON) [...Object.values(LON.ground), ...Object.values(LON.items)].forEach(g => { (use[g.design] = use[g.design] || new Set()).add(g.slot); });
+  $('book').innerHTML = Object.values(CAT).filter(d => d.themes.includes(S.bookTh)).sort((a, b) => (b.verdict === '採用') - (a.verdict === '採用')).map(d => `<div class="card"><a href="${esc(d.images[0])}" target="_blank" rel="noopener"><img src="${d.thumb}" alt="${esc(d.name)}" loading="lazy"></a><div class="b"><div class="row" style="gap:6px"><span class="no">${esc(d.no)}</span>${d.verdict ? `<span class="pill ok">${esc(d.verdict)}</span>` : ''}</div><b>${esc(d.name)}</b>${d.use ? `<span style="font-size:12px;color:var(--ok)">用途：${esc(d.use)}</span>` : ''}<div class="row" style="gap:6px"><span class="ma">${esc(d.ma)}</span>${d.checked === false ? '<span class="pill" style="color:var(--warn)">要確認</span>' : ''}<span class="muted">${esc(d.creator)}</span></div><span style="font-size:12.5px;color:var(--muted)">${esc(d.look)}</span><div class="parts">${d.parts.map(p => `<span>${esc(p)}</span>`).join('')}</div>${use[d.id] && S.bookTh === 'lon' ? `<span style="font-size:12px;color:var(--ok)">ロンドンで使う：${esc([...use[d.id]].join('・'))}</span>` : ''}<span class="muted"><a href="${esc(d.search)}" target="_blank" rel="noopener">Pinterest で探す</a></span></div></div>`).join(''); }
+
+function renderRefs() { S.refTh = S.refTh || 'all'; S.refQ = S.refQ || 'all'; S.refMa = !!S.refMa;
+  const byTh = D.refs.filter(r => S.refTh === 'all' || r.th === S.refTh), qs = [...new Set(byTh.map(r => r.q))]; if (S.refQ !== 'all' && !qs.includes(S.refQ)) S.refQ = 'all';
+  const TN = { all: 'すべての地区', ...TH, hal: 'ハロウィン', all2: '' };
+  $('refChips').innerHTML = `<div class="row">${['all', 'lon', 'egy', 'jpn', 'usa', 'hal', 'eur', 'port'].map(k => `<button class="chip" data-refth="${k}" aria-pressed="${S.refTh === k}">${esc(k === 'all' ? `すべて（${D.refs.length}）` : `${TN[k]}（${D.refs.filter(r => r.th === k).length}）`)}</button>`).join('')}<button class="chip" data-refok="1" aria-pressed="${!!S.refOk}">採用だけ（${D.refs.filter(r => r.verdict).length}）</button><button class="chip" data-refma="1" aria-pressed="${S.refMa}">作者IDがある図だけ（${D.refs.filter(r => r.ma).length}）</button></div>
+    <div class="row"><label class="muted" for="refQsel">検索語</label><select id="refQsel" style="font:inherit;padding:5px 8px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink);max-width:100%">${[['all', 'すべて'], ...qs.map(q => [q, q])].map(([k, n]) => `<option value="${esc(k)}"${S.refQ === k ? ' selected' : ''}>${esc(n)}（${k === 'all' ? byTh.length : byTh.filter(r => r.q === k).length}）</option>`).join('')}</select></div>`;
+  $('refQsel').onchange = e => { S.refQ = e.target.value; renderRefs(); };
+  const kw = (S.refKw || '').trim().toUpperCase(); $('refs').innerHTML = byTh.slice().sort((a, b) => (b.verdict === '採用') - (a.verdict === '採用') || (a.verdict === '不採用') - (b.verdict === '不採用')).filter(r => (S.refQ === 'all' || r.q === S.refQ) && (!S.refMa || r.ma) && (!S.refOk || r.verdict) && (!kw || (r.no + ' ' + (r.ma || '') + ' ' + r.q + ' ' + (r.use || '') + ' ' + (r.note || '')).toUpperCase().includes(kw))).map(r => `<div class="card"><a href="${esc(r.url)}" target="_blank" rel="noopener"><img src="${r.thumb}" alt="" loading="lazy"></a><div class="b"><div class="row" style="gap:5px"><span class="no">${esc(r.no)}</span>${r.verdict ? `<span class="pill ok">${esc(r.verdict)}</span>` : ''}</div>${r.note ? `<span style="font-size:11.5px;color:var(--ok)">${esc(r.note)}</span>` : ''}<span class="muted">検索：${esc(r.q)}</span>${r.ma ? `<span class="ma" style="white-space:normal">${esc(r.ma)}</span>${r.ocr ? '<span class="muted">画像から自動で読んだ作者ID（要確認）</span>' : ''}` : ''}${r.use ? `<span style="font-size:12px;color:var(--ok)">使っている所：${esc(r.use)}</span>` : ''}</div></div>`).join(''); }
+$('refKw').addEventListener('input', e => { S.refKw = e.target.value; renderRefs(); });
+document.addEventListener('click', e => { const t = e.target.closest('[data-refq],[data-refth],[data-refma],[data-refok]'); if (!t) return; if (t.dataset.refq) S.refQ = t.dataset.refq; if (t.dataset.refth) S.refTh = t.dataset.refth; if (t.dataset.refma) S.refMa = !S.refMa; if (t.dataset.refok) S.refOk = !S.refOk; renderRefs(); });
+renderStats(); renderLists(); select(S.sel); window.addEventListener('resize', () => drawMap());
+})();
+</script>
