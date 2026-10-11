@@ -58,8 +58,8 @@ class Component extends DCLogic {
   SPOTS = {
     lon: ['ロンドン', [['役場前広場', 31, 72], ['時計台の高台', 48, 70], ['テムズ川の釣り場', 37, 72], ['飛行機ラウンジ', 44, 79], ['9¾番線', 30, 82], ['ハイドパーク', 24, 72], ['飛行場', 53, 82]]],
     egy: ['エジプト', [['考古学博物館', 30, 31], ['台地の池の釣り場', 21, 27], ['ナイル川と滝', 19, 40], ['ピラミッド', 21, 22], ['バザール', 20, 35], ['採石場', 31, 50]]],
-    jpn: ['日本', [['神社', 56, 20], ['千本鳥居', 44, 20], ['枯れ流れ', 55, 31], ['石庭（枯山水）', 49, 56], ['茶屋', 48, 28]]],
-    usa: ['アメリカ', [['自宅と畑', 73, 33], ['果樹園', 70, 28], ['山の湖の釣り場', 84, 36], ['ダウンタウン', 80, 19], ['お化けの森', 91, 21], ['国立公園キャンプ', 92, 44]]],
+    jpn: ['日本', [['神社', 56, 20], ['千本鳥居', 44, 20], ['枯れ流れ', 55, 31], ['池泉（庭の池）', 51, 54], ['石庭（枯山水）', 45, 50], ['茶屋', 48, 28]]],
+    usa: ['アメリカ', [['自宅と畑', 73, 33], ['果樹園', 70, 28], ['山の湖の釣り場', 84, 36], ['三段の滝', 86, 38], ['ダウンタウン', 80, 19], ['お化けの森', 91, 21], ['国立公園キャンプ', 92, 44]]],
     eur: ['ヨーロッパ', [['パリの広場', 71, 47], ['運河の釣り場', 77, 51], ['風車の丘', 77, 68], ['花の交配畑', 85, 68], ['エイブル', 75, 72]]],
     port: ['地中海の港', [['白い崖町', 92, 77], ['桟橋（海釣り）', 107, 90], ['ビーチクラブ', 80, 80]]]
   };
@@ -118,7 +118,7 @@ class Component extends DCLogic {
     if (this.pk === k && this.PL) return this.PL;
     this.pk = k;
     const fur = {}, gnd = {}, blds = [], mills = [], mons = [];
-    const GC = { B: '#b8694b', p: '#cdbb91', S: '#ead39b', g: '#dedbd2', d: '#c9a074', m: '#f7f5ef' };
+    const GC = { B: '#b8694b', p: '#cdbb91', S: '#ead39b', g: '#dedbd2', d: '#c9a074', m: '#f7f5ef', r: '#6f9e4f' };
     P.placed.forEach(([id, px, py, r]) => {
       const rows = P.defs[id]; if (!rows) return; const a = this.rot(rows, r || 0);
       let hb = null, ms = null, ss = [], door = null;
@@ -213,7 +213,7 @@ class Component extends DCLogic {
     const glow = (x, y, z, r) => { const p = PJ(x, y, z); if (p) lights.push([p[0], p[1], r * .4 * p[3]]); };
     const SIDE = { s: '#d9c98e', r: '#6e6b7c' };
     const ROAD = { lon: '#605b58', egy: '#c99a5a', jpn: '#b9b4aa', usa: '#4a4d52', hal: '#4b4057', eur: '#bdb7ac', port: '#f2efe6' };
-    const GC = { B: '#b8694b', p: '#cdbb91', S: '#ead39b', g: '#dedbd2', d: '#c9a074', m: '#f7f5ef' };
+    const GC = { B: '#b8694b', p: '#cdbb91', S: '#ead39b', g: '#dedbd2', d: '#c9a074', m: '#f7f5ef', r: '#6f9e4f' };
     const GRASS = ['#4c9f48', '#58aa4a', '#66b653', '#74c15b'];
     const TOPC = { S: '#79d3c0', s: '#f2e5a8', r: '#8a8798', w: '#8ee0d0', p: '#cfbb8e', P: '#d9c9a0', K: '#b8694b', b: '#9a96a0' };
     const zOf = (x, y) => { const cn = corners(x, y); return (cn[0] + cn[1] + cn[2] + cn[3]) / 4; };
@@ -283,7 +283,7 @@ class Component extends DCLogic {
     f.line(cx, cy, z, 2.2, '#6b4a2f', .3);
     if (zone === 'usa' || zone === 'hal') { const c = zone === 'hal' ? '#5a4a3a' : '#2a6b3a'; f.cone(cx, cy, z + 1, .8, 1.8, c); f.cone(cx, cy, z + 2.3, .65, 1.6, c); f.cone(cx, cy, z + 3.4, .45, 1.5, c); }
     else if (zone === 'egy') { const t = f.line(cx, cy, z, 3.2, '#7a5a30', .3); }
-    else f.ball(cx, cy, z + 2.7, 1.2, zone === 'jpn' && special ? '#f2a9c4' : (zone === 'hal' ? '#7a5a2a' : '#3f9a44'));
+    else f.ball(cx, cy, z + 2.7, 1.2, zone === 'jpn' && special ? '#f2a9c4' : (zone === 'jpn' && (x * 3 + y * 5) % 4 === 0 ? '#d9542f' : (zone === 'hal' ? '#7a5a2a' : '#3f9a44')));
   }
   player(ctx, PJ, ball, cyl, tx, ty, z0, FOC) {
     const p = PJ(tx, ty, z0); if (!p) return; const k = p[3];
@@ -336,7 +336,7 @@ class Component extends DCLogic {
       case 's': box(x + .2, y + .2, .6, .6, z, z + 1.8, '#d9ceb0'); break;
       case 'y': [['#e88a2a', .25, .3], ['#d9482b', .75, .3], ['#e9d36a', .25, .75], ['#5aa04a', .75, .75]].forEach(([col, a, b]) => { line(x + a, y + b, z, .3, '#4f8f3a', .05); ball(x + a, y + b, z + .32, .13, col); }); break;
       case 'j': line(cx, cy, z, 2, '#6b4a2f', .3); ball(cx, cy, z + 2.5, 1.05, '#4c9e45'); [[-.4, .2], [.35, .3], [0, -.2]].forEach(([a, b]) => ball(cx + a, cy + .9, z + 2.4 + b, .14, '#e8452c')); break;
-      case 'g': case 'd': case 'm': case 'l': break;
+      case 'g': case 'd': case 'm': case 'l': case 'r': break;
       default: box(x + .25, y + .25, .5, .5, z, z + .8, '#cfc8bb');
     }
   }

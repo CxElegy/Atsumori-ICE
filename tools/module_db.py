@@ -28,7 +28,7 @@ ROLES = ['landmark', 'support', 'filler', 'edge', 'step', 'facility']
 # 採用の枠（1地区の目安：主役2〜4・脇役8〜12・すき間うめ6〜10・道ばた2〜4・段差2〜4 を、全体293個に合わせて配る）
 QUOTA = {
     'landmark': {'lon': 2, 'egy': 3, 'jpn': 3, 'usa': 3, 'hal': 2, 'eur': 2, 'port': 2},
-    'support': {k: 8 for k in TH},
+    'support': {**{k: 8 for k in TH}, 'jpn': 12},   # 第17回：日本は庭の要素を増やすので脇役12
     'edge': {'lon': 5, 'egy': 5, 'jpn': 5, 'usa': 5, 'hal': 4, 'eur': 5, 'port': 5},
     'step': {k: 4 for k in TH},
     'filler': {'lon': 29, 'egy': 25, 'jpn': 26, 'usa': 23, 'hal': 15, 'eur': 26, 'port': 14},
@@ -127,10 +127,14 @@ def score(m, rank):
     parts['役'] = (rc, 15)
     d = m['density']
     lo, hi = (0.25, 0.7) if role == 'landmark' else (0.3, 0.7)
-    if m['mat'] == 'm' or role == 'facility':   # 枯山水は余白（白砂）が主役。施設は使い方で決まる
+    if m['mat'] in ('m', 'r') or role == 'facility':   # 枯山水は余白（白砂）が主役。施設は使い方で決まる
         lo, hi = 0.05, 0.7
     dist = 0 if lo <= d <= hi else min(abs(d - lo), abs(d - hi))
-    parts['密度'] = (max(20 - round(40 * dist), 4), 20)
+    dn = max(20 - round(40 * dist), 4)
+    cl = [c for row in m['r'] for c in row if c != '.']
+    if role != 'landmark' and cl and cl.count('m') / len(cl) > .5:      # 第17回：白砂ばかりのものは控えめに（石庭の主役は別）
+        dn -= 6
+    parts['密度'] = (dn, 20)
     if role in ('filler', 'edge'):
         ov = [15, 12, 9][rank] if rank < 3 else 0
     else:

@@ -20,10 +20,10 @@ import json, os, sys, collections
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 W, H = 112, 96
-GROUND = 'BpSgdwZD'
+GROUND = 'BpSgdwZDmlr'
 SMALL = 'LbFNiuqxnJkfeaz'
 CAP = {'support': 3, 'filler': 6, 'edge': 8}
-KARE_BONUS = 0.6     # 第14回：日本は枯山水（白砂の砂紋と石組み）を優先して埋める
+KARE_BONUS = 0.6     # 第17回：日本は庭のモジュール（苔・飛び石・延段・蹲踞・茶庭・石組み）を優先。白砂だけのものは優先しない
 
 # 地区の表示範囲（組み立て台の DISTS と同じ）
 DISTS = {'egy': [8, 12, 40, 62], 'jpn': [32, 12, 67, 61], 'usa': [65, 12, 101, 47], 'eur': [57, 39, 101, 85], 'port': [64, 70, 112, 94], 'lon': [16, 52, 65, 94]}
@@ -46,8 +46,8 @@ SPEC = {
             ('lon_corner', 36, 70, 6), ('lon_bus', 52, 71, 6), ('SUP:lon:0', 33, 78, 6), ('SUP:lon:1', 54, 66, 6)],
     'egy': [('museum', 27, 25, 0), ('egy_court', 27, 28, 2), ('egy_pyramid', 20, 18, 6), ('nook', 20, 33, 6),
             ('egy_dig', 12, 22, 6), ('egy_mkt', 22, 38, 6), ('SUP:egy:0', 12, 30, 8)],
-    'jpn': [('able', 55, 15, 4), ('LM:jpn:0', 41, 15, 4), ('jpn_court', 53, 21, 4), ('kare_ryoanji', 45, 48, 6), ('kare_island', 54, 30, 6),
-            ('kare_bamboo', 44, 36, 6), ('jpn_tea', 48, 26, 6), ('jpn_torii', 41, 30, 6), ('SUP:jpn:0', 44, 40, 8)],
+    'jpn': [('able', 55, 15, 4), ('LM:jpn:0', 41, 15, 4), ('jpn_court', 53, 21, 4), ('kare_ryoanji', 45, 48, 6), ('niwa_roji', 54, 30, 6),
+            ('niwa_tsukubai', 48, 36, 6), ('niwa_momiji', 58, 44, 6), ('jpn_tea', 48, 26, 6), ('jpn_torii', 41, 30, 6), ('SUP:jpn:0', 44, 40, 8)],
     'usa': [('usa_diner', 80, 15, 4), ('camp', 90, 41, 5), ('LM:usa:0', 93, 20, 6), ('SUP:usa:0', 68, 38, 8)],
     'eur': [('eur_cafe', 73, 45, 4), ('eur_mill', 76, 59, 6), ('able', 75, 66, 6), ('eur_eiffel', 86, 57, 8), ('SUP:eur:0', 64, 70, 8)],
     'port': [('port_beach', 80, 78, 5), ('port_fish', 90, 87, 6), ('LM:port:0', 100, 80, 8), ('SUP:port:0', 66, 82, 8)],
@@ -347,13 +347,13 @@ def fill(w, dist, mask, zone_pools):
             zone = w.zone[y][x]
             best = None
             for m in zone_pools[zone]:
-                if m.area > 2 and not m.pure_ground and w.use[(zone, m.id)] >= CAP.get(m.role, 6):   # 地面だけのもの（白砂など）は上限なし
+                if m.area > 2 and (not m.pure_ground or m.id.startswith(('kare_', 'niwa_'))) and w.use[(zone, m.id)] >= CAP.get(m.role, 6):   # 地面だけのもの（苔など）は上限なし。白砂は上限あり
                     continue
                 for rot, cells, mw, mh in m.rots:
                     new = sum(1 for dx, dy, c in cells if 0 <= y + dy < H and 0 <= x + dx < W and not w.cov[y + dy][x + dx])
                     if not new or not w.ok(mask, cells, x, y, m):
                         continue
-                    pts = new * (1.2 if m.role == 'support' else 1) - w.use[(zone, m.id)] * 6 + (3 if m.area <= 2 else 0) - near(cells, x, y, m) * 2.5 + (0.5 if m.pure_ground else 0) + (KARE_BONUS * new if zone == 'jpn' and 'm' in ''.join(m.rows) else 0)
+                    pts = new * (1.2 if m.role == 'support' else 1) - w.use[(zone, m.id)] * 6 + (3 if m.area <= 2 else 0) - near(cells, x, y, m) * 2.5 + (0.5 if m.pure_ground else 0) + (KARE_BONUS * new if zone == 'jpn' and m.id.startswith('niwa_') and m.id != 'niwa_mossbed' else 0) - (2 * new if zone == 'jpn' and m.id == 'kare_sand' else 0)
                     if best is None or pts > best[0]:
                         best = (pts, m, rot)
             if best:

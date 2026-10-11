@@ -12,13 +12,13 @@ from gen_popular_modules import SOURCES, TH
 THEME_ITEMS = {
     'lon': 'LTbKWAQCxYRfNEVFtcughBpqed',
     'egy': 'PORYxqfFtSgdsuXcNholi',
-    'jpn': 'GnaefFtqgpdIcuhYXmol',
+    'jpn': 'GnaefFtqgpdIcuhYXmolrU',
     'usa': 'LbFNiuqxckfeHDXhtpgdYfyjl',
     'hal': 'kJzXtsefLqcgpd',
     'eur': 'LbFcMUsKxefthuqNYBpgdl',
     'port': 'uPFqxYcosthLeSpd',
 }
-GROUND_CH = 'BpSgdwZD=ml'      # m=砂紋（箒目）の白砂・l=空けておくマス（木や岩のまわり）
+GROUND_CH = 'BpSgdwZD=mlr'      # m=砂紋（箒目）の白砂・l=空けておくマス（木や岩のまわり）
 SMALL_CH = 'LbFNiuqxnJkfeaz'      # 道路の上に置いてよい小物（Module Builder の SMALL と同じ）
 
 # ---- DECO：道ばたの装飾 -------------------------------------------------
@@ -238,8 +238,18 @@ def karesansui():
         ('kare_bamboo', 'support', '竹垣と白砂', ['aaaaa', 'mmmmm', 'mmomm'], '竹垣を背に白砂と石'),
         ('kare_moss', 'filler', '苔と飛び石', ['eme', 'mom', 'eme'], 'すき間を苔と白砂で埋める'),
         ('kare_sand', 'filler', '白砂（砂紋）', ['mm', 'mm'], '白砂に箒目を引いた地面'),
+        # 第17回：白砂ばかりにしない。苔（r）・飛び石・延段・蹲踞・茶庭・竹垣・灯籠・紅葉と桜で変化をつける
+        ('niwa_moss', 'support', '苔庭と飛び石', ['rrrrr', 'rgrrr', 'rrgrr', 'rrrgr', 'rrrrr'], '苔の中に飛び石を斜めに打つ'),
+        ('niwa_nobedan', 'support', '延段と石灯籠', ['nggr', 'rggr', 'rggr', 'rggn'], '切り石を敷きつめた石の小道（延段）を灯籠ではさむ'),
+        ('niwa_tsukubai', 'support', '蹲踞（つくばい）', ['erre', 'rUnr', 'rgrr'], '手水鉢と灯籠、前石。苔の中の小さな水場'),
+        ('niwa_roji', 'support', '茶庭（露地）', ['aaaaa', 'rgrgr', 'hYYYh', 'rrgrr'], '竹垣の内側の茶室への小道。腰掛けと飛び石'),
+        ('niwa_momiji', 'support', '紅葉と苔の築山', ['rtrrt', 'rrnrr', 'trrrr'], '苔の小山に木と灯籠。季節の色を見せる'),
+        ('niwa_bamboo', 'filler', '竹垣と灯籠', ['aaaa', 'rnrr', 'rrgr'], '竹垣を背に灯籠と苔'),
+        ('niwa_stones', 'filler', '飛び石', ['rgr', 'grg'], '苔に飛び石を2つ'),
+        ('niwa_mossbed', 'filler', '苔', ['rr', 'rr'], '苔の地面（すき間を苔で埋める）'),
+        ('niwa_lantern', 'filler', '雪見灯籠と苔', ['rn', 'rr'], '小さな灯籠'),
     ]
-    return [{'id': k, 'th': '日本', 'name': '枯山水：%s' % nm, 'r': r, 'note': nt, 'mat': 'm', 'role': role} for k, role, nm, r, nt in K]
+    return [{'id': k, 'th': '日本', 'name': ('枯山水：' if k.startswith('kare') else '庭：') + nm, 'r': r, 'note': nt, 'mat': 'm' if k.startswith('kare') else 'r', 'role': role} for k, role, nm, r, nt in K]
 
 # ---- 島の暮らしの施設：自宅のそばの畑・果樹園、採石場、釣り場、花の交配畑 ----------------------
 def facility():
