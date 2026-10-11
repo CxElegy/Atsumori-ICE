@@ -5,13 +5,13 @@
 /* Layout: 左に島の地図（いつも見える）、右に選んだモジュールの作業台。スマホでは縦に重ねる */
 :root {
   --bg: #eef3f1; --panel: #fbfcfa; --ink: #22302d; --muted: #5f706b; --line: #d5dfdb;
-  --sea: #6fc6cf; --accent: #b4503a; --accent-ink: #ffffff; --ok: #3d7d4f; --mid: #a07a1c; --warn: #b9772a; --chip: #e3ebe8;
+  --sea: #6fc6cf; --accent: #b4503a; --accent-ink: #ffffff; --ok: #3d7d4f; --top: #7b4fb3; --mid: #a07a1c; --warn: #b9772a; --chip: #e3ebe8;
   --display: 'M PLUS Rounded 1c', 'Hiragino Maru Gothic ProN', 'Yu Gothic', sans-serif;
   --body: 'Zen Kaku Gothic New', 'Hiragino Sans', 'Yu Gothic', 'Noto Sans JP', sans-serif;
   --mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
 }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #141b1a; --panel: #1c2624; --ink: #e5ece9; --muted: #9db0aa; --line: #2f3d3a; --sea: #2f7c86; --accent: #e07a5f; --accent-ink: #1a1210; --ok: #6fbf84; --mid: #d8b35a; --warn: #e2a65a; --chip: #26332f; color-scheme: dark } }
-:root[data-theme="dark"] { --bg: #141b1a; --panel: #1c2624; --ink: #e5ece9; --muted: #9db0aa; --line: #2f3d3a; --sea: #2f7c86; --accent: #e07a5f; --accent-ink: #1a1210; --ok: #6fbf84; --mid: #d8b35a; --warn: #e2a65a; --chip: #26332f; color-scheme: dark }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #141b1a; --panel: #1c2624; --ink: #e5ece9; --muted: #9db0aa; --line: #2f3d3a; --sea: #2f7c86; --accent: #e07a5f; --accent-ink: #1a1210; --ok: #6fbf84; --top: #b99ae8; --mid: #d8b35a; --warn: #e2a65a; --chip: #26332f; color-scheme: dark } }
+:root[data-theme="dark"] { --bg: #141b1a; --panel: #1c2624; --ink: #e5ece9; --muted: #9db0aa; --line: #2f3d3a; --sea: #2f7c86; --accent: #e07a5f; --accent-ink: #1a1210; --ok: #6fbf84; --top: #b99ae8; --mid: #d8b35a; --warn: #e2a65a; --chip: #26332f; color-scheme: dark }
 * { box-sizing: border-box }
 [hidden] { display: none !important }
 body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 14px; line-height: 1.65 }
@@ -76,8 +76,9 @@ ol.fix { margin: 0; padding-left: 20px; display: flex; flex-direction: column; g
 #refs .card img { aspect-ratio: 1 / 1 }
 #refs .b { padding: 6px 8px; gap: 2px; font-size: 11.5px }
 /* いいね／ふつう／イマイチ（カードの小さいボタン） */
-.rate3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3px }
+.rate3 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 3px }
 .rate3 button { border: 1px solid var(--line); background: var(--panel); border-radius: 6px; padding: 2px 0; font-size: 11px; cursor: pointer; transition: background .12s, border-color .12s, color .12s }
+.rate3 .top:hover { border-color: var(--top); color: var(--top) } .rate3 .top[aria-pressed="true"] { background: var(--top); border-color: var(--top); color: var(--bg) }
 .rate3 .up:hover { border-color: var(--ok); color: var(--ok) } .rate3 .mid:hover { border-color: var(--mid); color: var(--mid) } .rate3 .dn:hover { border-color: var(--accent); color: var(--accent) }
 .rate3 .up[aria-pressed="true"] { background: var(--ok); border-color: var(--ok); color: var(--bg) } .rate3 .mid[aria-pressed="true"] { background: var(--mid); border-color: var(--mid); color: var(--bg) } .rate3 .dn[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink) }
 #refs .card { transition: transform .15s, box-shadow .15s } #refs .card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgb(0 0 0 / .12) }
@@ -93,14 +94,15 @@ ol.fix { margin: 0; padding-left: 20px; display: flex; flex-direction: column; g
 .vmode button { border: 0; background: var(--panel); padding: 8px 14px; font-weight: 700; font-size: 13.5px; cursor: pointer } .vmode button + button { border-left: 1px solid var(--line) }
 .vmode button[aria-selected="true"] { background: var(--ink); color: var(--bg) } .vmode button:hover:not([aria-selected="true"]) { background: var(--chip) }
 .vstate { border-radius: 8px; padding: 6px 10px; font-size: 12.5px; font-weight: 700; background: var(--chip); color: var(--muted) }
-.vstate.up { background: var(--ok); color: var(--bg) } .vstate.mid { background: var(--mid); color: var(--bg) } .vstate.dn { background: var(--accent); color: var(--accent-ink) }
+.vstate.top { background: var(--top); color: var(--bg) } .vstate.up { background: var(--ok); color: var(--bg) } .vstate.mid { background: var(--mid); color: var(--bg) } .vstate.dn { background: var(--accent); color: var(--accent-ink) }
 #vReview { display: flex; flex-direction: column; gap: 10px } #vReview[hidden] { display: none !important }
 .vrgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px }
 .vrcard { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; min-width: 0 }
 .vrimg { border: 0; padding: 0; background: var(--chip); cursor: zoom-in; display: block } .vrimg img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; transition: opacity .15s } .vrimg:hover img { opacity: .85 }
 .vrb { padding: 8px; display: flex; flex-direction: column; gap: 6px }
-.vrbtns { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px }
+.vrbtns { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px }
 .vrbtns button { border: 1px solid var(--line); background: var(--panel); border-radius: 7px; padding: 5px 0; font-size: 12px; cursor: pointer; transition: background .12s, border-color .12s }
+.vrbtns .top:hover { border-color: var(--top); color: var(--top) } .vrbtns .top[aria-pressed="true"] { background: var(--top); border-color: var(--top); color: var(--bg) }
 .vrbtns .up:hover { border-color: var(--ok); color: var(--ok) } .vrbtns .mid:hover { border-color: var(--mid); color: var(--mid) } .vrbtns .dn:hover { border-color: var(--accent); color: var(--accent) }
 .vrbtns .up[aria-pressed="true"] { background: var(--ok); border-color: var(--ok); color: var(--bg) } .vrbtns .mid[aria-pressed="true"] { background: var(--mid); border-color: var(--mid); color: var(--bg) } .vrbtns .dn[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink) }
 .vrsel { display: flex; gap: 6px; align-items: center; font-size: 11.5px } .vrsel select { font: inherit; flex: 1; min-width: 0; padding: 2px 4px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); color: var(--ink) }
@@ -144,7 +146,7 @@ ol.fix { margin: 0; padding-left: 20px; display: flex; flex-direction: column; g
 /* 投票したときのはんこ */
 .vstamp { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; z-index: 3 }
 .vstamp span { font-family: var(--display); font-weight: 800; font-size: clamp(28px, 6vw, 54px); padding: 6px 26px; border-radius: 16px; border: 4px solid currentColor; background: rgb(255 255 255 / .85); transform: rotate(-8deg); animation: stamp .55s ease-out forwards }
-.vstamp .up { color: var(--ok) } .vstamp .mid { color: var(--mid) } .vstamp .dn { color: var(--accent) }
+.vstamp .top { color: var(--top) } .vstamp .up { color: var(--ok) } .vstamp .mid { color: var(--mid) } .vstamp .dn { color: var(--accent) }
 @keyframes stamp { 0% { transform: rotate(-8deg) scale(1.6); opacity: 0 } 30% { transform: rotate(-8deg) scale(1); opacity: 1 } 75% { opacity: 1 } 100% { opacity: 0 } }
 /* 次に出る作例の列：クリックで飛ぶ */
 .vstrip { display: grid; grid-template-columns: repeat(auto-fill, minmax(62px, 1fr)); gap: 6px }
@@ -153,10 +155,12 @@ ol.fix { margin: 0; padding-left: 20px; display: flex; flex-direction: column; g
 .vstrip img { width: 100%; height: 100%; object-fit: cover; display: block }
 /* 評価は画像の下のはしの色の帯で（画像を隠さない）。くわしくはマウスを乗せると出る */
 .vstrip i { position: absolute; left: 0; right: 0; bottom: 0; height: 6px; font-size: 0 }
-.vstrip i.up { background: var(--ok) } .vstrip i.mid { background: var(--mid) } .vstrip i.dn { background: var(--accent); color: var(--accent-ink) }
+.vstrip i.top { background: var(--top) } .vstrip i.up { background: var(--ok) } .vstrip i.mid { background: var(--mid) } .vstrip i.dn { background: var(--accent); color: var(--accent-ink) }
 @media (prefers-reduced-motion: reduce) { .vstamp span, .vimg img, .vedge, .rate3 button, #refs .card { animation: none; transition: none } }
 .vimg .ld { color: var(--muted); font-size: 13px; padding: 40px }
 .vbtns { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px }
+/* めっちゃいいは1段目にいっぱいの幅で */
+.vbtn.top { grid-column: 1 / -1; flex-direction: row; gap: 8px; padding: 10px 6px }
 .vbtn { min-width: 0; border: 2px solid var(--line); background: var(--panel); border-radius: 12px; padding: 12px 4px 8px; font-weight: 700; font-size: 14px; display: flex; flex-direction: column; gap: 4px; align-items: center; justify-content: center }
 .vbtn svg { width: 22px; height: 22px; fill: currentColor }
 .vbtn.up[aria-pressed="true"] { background: var(--ok); border-color: var(--ok); color: var(--bg) }
@@ -165,6 +169,7 @@ ol.fix { margin: 0; padding-left: 20px; display: flex; flex-direction: column; g
 .vbtn:active, .vnav button:active { transform: scale(.96) }
 .vbtn.up:hover { border-color: var(--ok); color: var(--ok) } .vbtn.mid:hover { border-color: var(--mid); color: var(--mid) } .vbtn.dn:hover { border-color: var(--accent); color: var(--accent) }
 .vbtn.mid[aria-pressed="true"] { background: var(--mid); border-color: var(--mid); color: var(--bg) }
+.vbtn.top:hover { border-color: var(--top); color: var(--top) } .vbtn.top[aria-pressed="true"] { background: var(--top); border-color: var(--top); color: var(--bg) } .vbtn.top[aria-pressed="true"]:hover { color: var(--bg) }
 .vbtn.up[aria-pressed="true"]:hover, .vbtn.mid[aria-pressed="true"]:hover { color: var(--bg) } .vbtn.dn[aria-pressed="true"]:hover { color: var(--accent-ink) }
 .vbtn.alt { flex-direction: row; gap: 8px; padding: 9px 6px; font-size: 13.5px } .vbtn.alt svg { width: 18px; height: 18px }
 .vbtn.alt:hover, .vbtn.alt[aria-expanded="true"] { border-color: var(--ok); color: var(--ok) } .vbtn.alt[aria-pressed="true"] { background: var(--ok); border-color: var(--ok); color: var(--bg) }
@@ -176,7 +181,7 @@ ol.fix { margin: 0; padding-left: 20px; display: flex; flex-direction: column; g
 .vbar { height: 6px; background: var(--chip); border-radius: 99px; overflow: hidden } .vbar i { display: block; height: 100%; background: var(--ok) }
 .kbd { font-family: var(--mono); font-size: 11px; border: 1px solid var(--line); border-radius: 4px; padding: 0 4px; color: var(--muted) }
 .vtag { font-size: 11px; border-radius: 4px; padding: 1px 6px; font-weight: 700 }
-.vtag.up { background: var(--ok); color: var(--bg) } .vtag.mid { background: var(--mid); color: var(--bg) } .vtag.dn { background: var(--accent); color: var(--accent-ink) }
+.vtag.top { background: var(--top); color: var(--bg) } .vtag.up { background: var(--ok); color: var(--bg) } .vtag.mid { background: var(--mid); color: var(--bg) } .vtag.dn { background: var(--accent); color: var(--accent-ink) }
 .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column }
 .card img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block }
 .card .b { padding: 10px 12px; display: flex; flex-direction: column; gap: 5px }
@@ -249,7 +254,7 @@ const TH = D.th, THC = D.thColor, LEG = D.leg, LON = D.lon, CAT = D.cat;
 const store = { get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} } };
 const S = { choice: store.get('ice-choice', {}), isoView: 'lon', tab: 'map', zoom: 'lon', theme: 'lon', q: '', sel: 'lon_d_platform', hover: null, done: store.get('ice-done', {}), bookTh: 'lon', votes: store.get('ice-votes', {}) };
 // 評価の値：1 いいね／0 ふつう／-1 イマイチ（つけていないものは無い）。ブラウザと、使えるときは作品のデータベース（votes/all）に保存し、Claude が読んで作例探しに使う
-const norm3 = v => Array.isArray(v) ? (v[0] > 0 || v[1] >= 4 ? 1 : v[0] < 0 || (v[1] && v[1] <= 2) ? -1 : v[1] === 3 ? 0 : null) : (v === 1 || v === 0 || v === -1 ? v : null);
+const norm3 = v => Array.isArray(v) ? (v[0] > 0 || v[1] >= 4 ? 1 : v[0] < 0 || (v[1] && v[1] <= 2) ? -1 : v[1] === 3 ? 0 : null) : (v === 2 || v === 1 || v === 0 || v === -1 ? v : null);
 const normAll = o => { const out = {}; Object.keys(o || {}).forEach(no => { const n = norm3(o[no]); if (n !== null) out[no] = n; }); return out; };
 // 評価は地区ごと：S.rv[地区][番号] = 1／0／-1、S.ra[地区][番号] = 使いたい別の地区（「いいね（別の地区）」）
 // 前の形（地区なしの {番号: 値}）は、その作例の地区（すべての地区向けの作例はロンドン）として読みかえる
@@ -284,7 +289,8 @@ const rateMsg = (no, c) => { const v = S.rv[c] && no in S.rv[c] ? S.rv[c][no] : 
 const setVote = (no, val, c = ctxNow()) => { if (!c) return; remember(no, c); const v = (S.rv[c] = S.rv[c] || {}), a = (S.ra[c] = S.ra[c] || {}); if (v[no] === val && !a[no]) delete v[no]; else v[no] = val; delete a[no]; saveAll(); toast(rateMsg(no, c), true); };
 const setArea = (no, k, c = ctxNow()) => { if (!c) return; remember(no, c); const v = (S.rv[c] = S.rv[c] || {}), a = (S.ra[c] = S.ra[c] || {}); if (a[no] === k) { delete a[no]; delete v[no]; } else { a[no] = k; v[no] = 1; } saveAll(); toast(rateMsg(no, c), true); };
 const nRated = c => c ? Object.keys(S.rv[c] || {}).length : Object.values(S.rv).reduce((n, o) => n + Object.keys(o).length, 0);
-const RATE = [[1, 'up', 'いいね'], [0, 'mid', 'ふつう'], [-1, 'dn', 'イマイチ']], RN = { 1: 'いいね', 0: 'ふつう', '-1': 'イマイチ' }, RCLS = { 1: 'up', 0: 'mid', '-1': 'dn' };
+// 評価：2 めっちゃいい＝絶対に島に入れる（第35回）・1 いいね・0 ふつう・-1 イマイチ
+const RATE = [[2, 'top', 'めっちゃいい'], [1, 'up', 'いいね'], [0, 'mid', 'ふつう'], [-1, 'dn', 'イマイチ']], RN = { 2: 'めっちゃいい（絶対入れる）', 1: 'いいね', 0: 'ふつう', '-1': 'イマイチ' }, RCLS = { 2: 'top', 1: 'up', 0: 'mid', '-1': 'dn' };
 const AREAS = ['lon', 'egy', 'jpn', 'usa', 'hal', 'eur', 'port'], areaName = k => k === 'hal' ? 'ハロウィン' : TH[k];
 const labelOf = (r, c = ctxNow()) => { const v = rateOf(r, c); return v === null ? '' : areaOf(r, c) ? `いいね（→${areaName(areaOf(r, c))}）` : RN[v]; };
 const IMG = {}; const img = src => { if (!src) return null; if (!IMG[src]) { const i = new Image(); i.onload = () => { i.ok = true; redraw(); }; i.src = src; IMG[src] = i; } return IMG[src].ok ? IMG[src] : null; };
@@ -562,6 +568,7 @@ const bigUrl = no => { const b = D.big && D.big[no]; if (!b) return Promise.reso
   return BIGC[f].then(buf => (BIGU[no] = URL.createObjectURL(new Blob([buf.slice(b[1], b[1] + b[2])], { type: 'image/jpeg' })))).catch(() => null); };
 const thumbOf = no => (D.refs.find(r => r.no === no) || {}).thumb;
 const UP = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 21h4V9H2v12zm20-11a2 2 0 0 0-2-2h-6.3l1-4.6v-.3c0-.4-.2-.8-.4-1.1L13.2 1 6.6 7.6C6.2 8 6 8.5 6 9v10a2 2 0 0 0 2 2h9c.8 0 1.5-.5 1.8-1.2l3-7.1c.1-.2.2-.5.2-.7v-2z"/></svg>';
+const TOP = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5-4.8-4.6 6.6-.9z"/></svg>';
 const MID = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10.5h16v3H4z"/></svg>';
 const DN = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 3h-4v12h4V3zM2 14a2 2 0 0 0 2 2h6.3l-1 4.6v.3c0 .4.2.8.4 1.1l1.1 1 6.6-6.6c.4-.4.6-.9.6-1.4V5a2 2 0 0 0-2-2H7c-.8 0-1.5.5-1.8 1.2l-3 7.1c-.1.2-.2.5-.2.7v2z"/></svg>';
 // その地区の作例と、すべての地区向けの作例（島の施設の前など）を、その地区で使うかどうかで評価する
@@ -570,7 +577,7 @@ function voteList() { const v = S.vote; return D.refs.filter(r => inDist(r, v.th
 function renderVote() { S.vote = S.vote || { th: 'lon', cat: 'all', todo: true, i: 0, cur: null, seen: {}, mode: 'rate', rf: '1' }; const v = S.vote, RC = D.refCats || {}, TN = { ...TH, hal: 'ハロウィン' };
   const inD = D.refs.filter(r => inDist(r, v.th)), all = inD.length, done = inD.filter(r => rateOf(r) !== null).length, cnt = n => inD.filter(r => rateOf(r) === n).length;
   $('voteChips').innerHTML = `<div class="vmode" role="tablist" aria-label="審査のしかた"><button role="tab" data-vmode="rate" aria-selected="${v.mode !== 'review'}">1枚ずつ審査する</button><button role="tab" data-vmode="review" aria-selected="${v.mode === 'review'}">審査ずみを見直す（${done}）</button></div>
-    <div class="row" style="justify-content:space-between"><div class="row"><b>${esc(areaName(v.th))}：${done} / ${all} 審査ずみ</b><span class="vtag up">いいね ${cnt(1)}</span><span class="vtag up" style="opacity:.8">うち別の地区 ${inD.filter(r => areaOf(r)).length}</span><span class="vtag mid">ふつう ${cnt(0)}</span><span class="vtag dn">イマイチ ${cnt(-1)}</span><span class="muted" id="vDb">${DB ? 'データベースに保存中（Claude が読めます）' : 'このブラウザに保存中'}</span></div><button class="chip" data-refcopy="1">評価をコピー</button></div><div class="vbar"><i style="width:${(done / all * 100).toFixed(1)}%"></i></div>
+    <div class="row" style="justify-content:space-between"><div class="row"><b>${esc(areaName(v.th))}：${done} / ${all} 審査ずみ</b><span class="vtag top">めっちゃいい ${cnt(2)}</span><span class="vtag up">いいね ${cnt(1)}</span><span class="vtag up" style="opacity:.8">うち別の地区 ${inD.filter(r => areaOf(r)).length}</span><span class="vtag mid">ふつう ${cnt(0)}</span><span class="vtag dn">イマイチ ${cnt(-1)}</span><span class="muted" id="vDb">${DB ? 'データベースに保存中（Claude が読めます）' : 'このブラウザに保存中'}</span></div><button class="chip" data-refcopy="1">評価をコピー</button></div><div class="vbar"><i style="width:${(done / all * 100).toFixed(1)}%"></i></div>
     <div class="row"><span class="muted">どの地区で使うかを評価</span>${AREAS.map(k => `<button class="chip" data-vth="${k}" aria-pressed="${v.th === k}">${esc(areaName(k))}（${nRated(k)}）</button>`).join('')}</div>
     <details class="vfilt" id="vFilt"${v.fopen ? ' open' : ''}><summary>絞りこみ：用途 ${esc(v.cat === 'all' ? 'すべて' : RC[v.cat])}・${v.todo ? 'まだ審査していないものだけ' : '審査ずみも出す'}</summary><div><div class="row"><span class="muted">用途</span>${['all', ...Object.keys(RC)].map(k => `<button class="chip" data-vcat="${k}" aria-pressed="${v.cat === k}">${esc(k === 'all' ? 'すべて' : RC[k])}</button>`).join('')}</div><div class="row"><button class="chip" data-vtodo="1" aria-pressed="${v.todo}" title="いま評価したものは、ページを開き直すまで残ります">まだ審査していないものだけ</button></div></div></details>`;
   $('vFilt').ontoggle = e => { v.fopen = e.target.open; };
@@ -596,13 +603,13 @@ function renderVote() { S.vote = S.vote || { th: 'lon', cat: 'all', todo: true, 
   L.slice(v.i + 1, v.i + 3).forEach(n => bigUrl(n.no));
   $('vSide').innerHTML = `<div class="vstate ${rv === null ? '' : areaOf(r) ? 'up' : RCLS[rv]}">${rv === null ? 'まだ評価していません' : `評価ずみ：${esc(labelOf(r))}（押し直すと変えられます）`}</div><div class="row" style="gap:6px"><span class="no">${esc(r.no)}</span>${r.verdict ? `<span class="pill ok">${esc(r.verdict)}</span>` : ''}<span class="muted">${v.i + 1} / ${L.length}</span></div>${r.dups ? `<span class="vgrp" title="${esc(r.dups.join('、'))}">同じ作例 ${r.dups.length + 1}枚（同じ画像・角度ちがい）。評価は全部まとめて1つ</span>` : ''}
     ${r.title ? `<b style="font-size:15px">${esc(r.title)}</b>` : ''}<span class="muted">${esc((TN[r.th] || 'すべての地区') + '・' + (RC[r.cat] || ''))}</span><span class="muted">検索：${esc(r.q)}</span>${r.ma ? `<span class="ma" style="white-space:normal">${esc(r.ma)}</span>` : ''}
-    <div class="vctl"><div class="vbtns"><button class="vbtn up" data-vrate="1" aria-pressed="${rv === 1}">${UP}いいね<span class="kbd">1</span></button><button class="vbtn mid" data-vrate="0" aria-pressed="${rv === 0}">${MID}ふつう<span class="kbd">2</span></button><button class="vbtn dn" data-vrate="-1" aria-pressed="${rv === -1 }">${DN}イマイチ<span class="kbd">3</span></button></div>
-    <button class="vbtn alt" data-vpick="1" aria-expanded="${!!v.pick}" aria-pressed="${!!areaOf(r)}">${UP}<span>いいね（別の地区）${areaOf(r) ? `：${esc(areaName(areaOf(r)))}` : ''}</span><span class="kbd">4</span></button>
+    <div class="vctl"><div class="vbtns"><button class="vbtn top" data-vrate="2" aria-pressed="${rv === 2}">${TOP}<span>めっちゃいい<small style="font-weight:500;opacity:.85">・絶対に島に入れる</small></span><span class="kbd">1</span></button><button class="vbtn up" data-vrate="1" aria-pressed="${rv === 1 && !areaOf(r)}">${UP}いいね<span class="kbd">2</span></button><button class="vbtn mid" data-vrate="0" aria-pressed="${rv === 0}">${MID}ふつう<span class="kbd">3</span></button><button class="vbtn dn" data-vrate="-1" aria-pressed="${rv === -1 }">${DN}イマイチ<span class="kbd">4</span></button></div>
+    <button class="vbtn alt" data-vpick="1" aria-expanded="${!!v.pick}" aria-pressed="${!!areaOf(r)}">${UP}<span>いいね（別の地区）${areaOf(r) ? `：${esc(areaName(areaOf(r)))}` : ''}</span><span class="kbd">5</span></button>
     ${v.pick ? `<div class="vareas" role="group" aria-label="どの地区で使うか">${AREAS.filter(k => k !== v.th).map((k, j) => `<button data-varea="${k}" aria-pressed="${areaOf(r) === k}">${esc(areaName(k))}<span class="kbd">${'qwertyu'[j].toUpperCase()}</span></button>`).join('')}</div>` : ''}
     <div class="vnav"><button data-vgo="-1">← 前へ</button><button data-vgo="1">スキップ →</button></div></div>
     <a href="${esc(r.url)}" target="_blank" rel="noopener" class="muted">元の画像を開く</a>
-    <span class="muted vkeys"><span class="kbd">1</span> いいね　<span class="kbd">2</span> ふつう　<span class="kbd">3</span> イマイチ　<span class="kbd">4</span> 別の地区でいいね　<span class="kbd">←</span><span class="kbd">→</span> 前・次。評価をつけると次へ進みます。同じボタンをもう一度で取り消し</span>`; }
-function renderReview(inD) { const v = S.vote, groups = [['1', 'いいね', r => rateOf(r) === 1 && !areaOf(r)], ['area', 'いいね（別の地区）', r => !!areaOf(r)], ['0', 'ふつう', r => rateOf(r) === 0], ['-1', 'イマイチ', r => rateOf(r) === -1]];
+    <span class="muted vkeys"><span class="kbd">1</span> めっちゃいい（絶対に島に入れる）　<span class="kbd">2</span> いいね　<span class="kbd">3</span> ふつう　<span class="kbd">4</span> イマイチ　<span class="kbd">5</span> 別の地区でいいね　<span class="kbd">←</span><span class="kbd">→</span> 前・次。評価をつけると次へ進みます。同じボタンをもう一度で取り消し</span>`; }
+function renderReview(inD) { const v = S.vote, groups = [['2', 'めっちゃいい', r => rateOf(r) === 2], ['1', 'いいね', r => rateOf(r) === 1 && !areaOf(r)], ['area', 'いいね（別の地区）', r => !!areaOf(r)], ['0', 'ふつう', r => rateOf(r) === 0], ['-1', 'イマイチ', r => rateOf(r) === -1]];
   const g = groups.find(x => x[0] === v.rf) || groups[0], list = inD.filter(g[2]);
   $('vReview').innerHTML = `<div class="row">${groups.map(([k, t, f]) => `<button class="chip" data-vrf="${k}" aria-pressed="${g[0] === k}">${t}（${inD.filter(f).length}）</button>`).join('')}</div>
     ${list.length ? `<div class="vrgrid">${list.map(r => `<div class="vrcard"><button class="vrimg" data-vopen="${esc(r.no)}" title="大きく開く"><img src="${r.thumb}" data-big="${esc(r.no)}" alt="" loading="lazy"></button><div class="vrb"><div class="row" style="gap:5px"><span class="no">${esc(r.no)}</span><span class="vtag ${areaOf(r) ? 'up' : RCLS[rateOf(r)]}">${esc(labelOf(r))}</span></div>
@@ -638,7 +645,7 @@ document.addEventListener('change', e => { const t = e.target.closest('[data-rva
 document.addEventListener('keydown', e => { if (S.tab !== 'vote' || /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return; const k = e.key.toLowerCase();
   if ((k === 'z' && (e.ctrlKey || e.metaKey)) || k === 'u') { undo(); e.preventDefault(); return; }
   if (S.vote && S.vote.mode === 'review') return;
-  if (k === '1' || k === 'a') voteAct('rate', 1); else if (k === '2' || k === 's') voteAct('rate', 0); else if (k === '3' || k === 'z') voteAct('rate', -1); else if (k === '4') voteAct('pick'); else if (S.vote && S.vote.pick && 'qwertyu'.includes(k) && k) { const r = voteList()[S.vote.i], ks = AREAS.filter(a => a !== S.vote.th); if (ks['qwertyu'.indexOf(k)]) voteAct('area', ks['qwertyu'.indexOf(k)]); else return; } else if (k === 'escape' && S.vote && S.vote.pick) voteAct('pick'); else if (k === 'arrowright') voteAct('go', 1); else if (k === 'arrowleft') voteAct('go', -1); else return; e.preventDefault(); });
+  if (k === '1') voteAct('rate', 2); else if (k === '2' || k === 'a') voteAct('rate', 1); else if (k === '3' || k === 's') voteAct('rate', 0); else if (k === '4' || k === 'z') voteAct('rate', -1); else if (k === '5') voteAct('pick'); else if (S.vote && S.vote.pick && 'qwertyu'.includes(k) && k) { const r = voteList()[S.vote.i], ks = AREAS.filter(a => a !== S.vote.th); if (ks['qwertyu'.indexOf(k)]) voteAct('area', ks['qwertyu'.indexOf(k)]); else return; } else if (k === 'escape' && S.vote && S.vote.pick) voteAct('pick'); else if (k === 'arrowright') voteAct('go', 1); else if (k === 'arrowleft') voteAct('go', -1); else return; e.preventDefault(); });
 // 画像：クリックで拡大（マウスの位置に寄る）、もう一度で戻す。ダブルクリックでいいね
 let clickT = null;
 $('vImg').addEventListener('click', e => { const mb = e.target.closest('[data-vmain]'); if (mb) { S.vote.main = mb.dataset.vmain; renderVote(); return; }
