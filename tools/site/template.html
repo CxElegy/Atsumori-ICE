@@ -500,12 +500,12 @@ const UP = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 21h4V9H2v12z
 const MID = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10.5h16v3H4z"/></svg>';
 const DN = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 3h-4v12h4V3zM2 14a2 2 0 0 0 2 2h6.3l-1 4.6v.3c0 .4.2.8.4 1.1l1.1 1 6.6-6.6c.4-.4.6-.9.6-1.4V5a2 2 0 0 0-2-2H7c-.8 0-1.5.5-1.8 1.2l-3 7.1c-.1.2-.2.5-.2.7v2z"/></svg>';
 // その地区の作例と、すべての地区向けの作例（島の施設の前など）を、その地区で使うかどうかで評価する
-function voteList() { const v = S.vote; return D.refs.filter(r => (r.th === v.th || r.th === 'all') && (v.cat === 'all' || r.cat === v.cat) && (!v.todo || rateOf(r) === null)); }
-function renderVote() { S.vote = S.vote || { th: 'lon', cat: 'all', todo: true, i: 0, cur: null }; const v = S.vote, RC = D.refCats || {}, TN = { ...TH, hal: 'ハロウィン' };
+function voteList() { const v = S.vote; return D.refs.filter(r => (r.th === v.th || r.th === 'all') && (v.cat === 'all' || r.cat === v.cat) && (!v.todo || rateOf(r) === null || v.seen[v.th + '|' + r.no])); }
+function renderVote() { S.vote = S.vote || { th: 'lon', cat: 'all', todo: true, i: 0, cur: null, seen: {} }; const v = S.vote, RC = D.refCats || {}, TN = { ...TH, hal: 'ハロウィン' };
   const inD = D.refs.filter(r => r.th === v.th || r.th === 'all'), all = inD.length, done = inD.filter(r => rateOf(r) !== null).length, cnt = n => inD.filter(r => rateOf(r) === n).length;
   $('voteChips').innerHTML = `<div class="row" style="justify-content:space-between"><div class="row"><b>${esc(areaName(v.th))}：${done} / ${all} 審査ずみ</b><span class="vtag up">いいね ${cnt(1)}</span><span class="vtag up" style="opacity:.8">うち別の地区 ${inD.filter(r => areaOf(r)).length}</span><span class="vtag mid">ふつう ${cnt(0)}</span><span class="vtag dn">イマイチ ${cnt(-1)}</span><span class="muted" id="vDb">${DB ? 'データベースに保存中（Claude が読めます）' : 'このブラウザに保存中'}</span></div><button class="chip" data-refcopy="1">評価をコピー</button></div><div class="vbar"><i style="width:${(done / all * 100).toFixed(1)}%"></i></div>
     <div class="row"><span class="muted">どの地区で使うかを評価</span>${AREAS.map(k => `<button class="chip" data-vth="${k}" aria-pressed="${v.th === k}">${esc(areaName(k))}（${nRated(k)}）</button>`).join('')}</div>
-    <div class="row"><span class="muted">用途</span>${['all', ...Object.keys(RC)].map(k => `<button class="chip" data-vcat="${k}" aria-pressed="${v.cat === k}">${esc(k === 'all' ? 'すべて' : RC[k])}</button>`).join('')}<button class="chip" data-vtodo="1" aria-pressed="${v.todo}">まだ審査していないものだけ</button></div>`;
+    <div class="row"><span class="muted">用途</span>${['all', ...Object.keys(RC)].map(k => `<button class="chip" data-vcat="${k}" aria-pressed="${v.cat === k}">${esc(k === 'all' ? 'すべて' : RC[k])}</button>`).join('')}<button class="chip" data-vtodo="1" aria-pressed="${v.todo}" title="いま評価したものは、ページを開き直すまで残ります">まだ審査していないものだけ</button></div>`;
   const L = voteList(); if (v.cur) { const k = L.findIndex(r => r.no === v.cur); if (k >= 0) v.i = k; } if (v.i >= L.length) v.i = Math.max(0, L.length - 1);
   const r = L[v.i]; v.cur = r ? r.no : null;
   if (!r) { $('vImg').innerHTML = '<span class="ld">この条件の作例はすべて審査しました。地区や用途を変えるか「まだ審査していないものだけ」を外してください</span>'; $('vSide').innerHTML = ''; return; }
@@ -524,6 +524,8 @@ function renderVote() { S.vote = S.vote || { th: 'lon', cat: 'all', todo: true, 
     <span class="muted"><span class="kbd">1</span> いいね　<span class="kbd">2</span> ふつう　<span class="kbd">3</span> イマイチ　<span class="kbd">4</span> 別の地区でいいね　<span class="kbd">←</span><span class="kbd">→</span> 前・次。評価をつけると次へ進みます。同じボタンをもう一度で取り消し</span>`; }
 function stamp(cls, txt) { const st = $('vStamp'); if (!st) return; st.innerHTML = `<span class="${cls}">${txt}</span>`; }
 function voteAct(kind, val) { const v = S.vote, L = voteList(), r = L[v.i]; if (!r) return;
+  // この画面で評価したものは「まだ審査していないものだけ」でも列に残す（前へで戻れるように）。ページを開き直すと消える
+  if (kind === 'rate' || kind === 'area') v.seen[v.th + '|' + r.no] = 1;
   const next = () => { const L2 = voteList(), k = L2.findIndex(x => x.no === r.no); v.i = k >= 0 ? k + 1 : v.i; v.cur = L2[Math.min(v.i, L2.length - 1)] ? L2[Math.min(v.i, L2.length - 1)].no : null; renderVote(); };
   if (kind === 'jump') { v.i = val; v.cur = L[val] && L[val].no; return renderVote(); }
   if (kind === 'pick') { v.pick = !v.pick; return renderVote(); }
