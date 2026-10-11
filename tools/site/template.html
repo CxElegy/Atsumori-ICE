@@ -291,7 +291,9 @@ const setArea = (no, k, c = ctxNow()) => { if (!c) return; remember(no, c); cons
 const nRated = c => c ? Object.keys(S.rv[c] || {}).length : Object.values(S.rv).reduce((n, o) => n + Object.keys(o).length, 0);
 // 評価：2 めっちゃいい＝絶対に島に入れる（第35回）・1 いいね・0 ふつう・-1 イマイチ
 const RATE = [[2, 'top', 'めっちゃいい'], [1, 'up', 'いいね'], [0, 'mid', 'ふつう'], [-1, 'dn', 'イマイチ']], RN = { 2: 'めっちゃいい（絶対入れる）', 1: 'いいね', 0: 'ふつう', '-1': 'イマイチ' }, RCLS = { 2: 'top', 1: 'up', 0: 'mid', '-1': 'dn' };
-const AREAS = ['lon', 'egy', 'jpn', 'usa', 'hal', 'eur', 'port'], areaName = k => k === 'hal' ? 'ハロウィン' : TH[k];
+const AREAS = ['lon', 'egy', 'jpn', 'usa', 'hal', 'eur', 'port'], areaName = k => k === 'unk' ? '地区未定' : k === 'hal' ? 'ハロウィン' : TH[k];
+// 「いいね（別の地区）」で選べる行き先：ほかの地区と「わからない」（unk：この地区ではないが、どこに合うかはまだ決めない）
+const pickAreas = th => [...AREAS.filter(k => k !== th), 'unk'], pickName = k => k === 'unk' ? 'わからない' : areaName(k);
 const labelOf = (r, c = ctxNow()) => { const v = rateOf(r, c); return v === null ? '' : areaOf(r, c) ? `いいね（→${areaName(areaOf(r, c))}）` : RN[v]; };
 const IMG = {}; const img = src => { if (!src) return null; if (!IMG[src]) { const i = new Image(); i.onload = () => { i.ok = true; redraw(); }; i.src = src; IMG[src] = i; } return IMG[src].ok ? IMG[src] : null; };
 let redrawQ = false; const redraw = () => { if (redrawQ) return; redrawQ = true; requestAnimationFrame(() => { redrawQ = false; drawMap(); drawSketch(); }); };
@@ -605,16 +607,16 @@ function renderVote() { S.vote = S.vote || { th: 'lon', cat: 'all', todo: true, 
     ${r.title ? `<b style="font-size:15px">${esc(r.title)}</b>` : ''}<span class="muted">${esc((TN[r.th] || 'すべての地区') + '・' + (RC[r.cat] || ''))}</span><span class="muted">検索：${esc(r.q)}</span>${r.ma ? `<span class="ma" style="white-space:normal">${esc(r.ma)}</span>` : ''}
     <div class="vctl"><div class="vbtns"><button class="vbtn top" data-vrate="2" aria-pressed="${rv === 2}">${TOP}<span>めっちゃいい<small style="font-weight:500;opacity:.85">・絶対に島に入れる</small></span><span class="kbd">1</span></button><button class="vbtn up" data-vrate="1" aria-pressed="${rv === 1 && !areaOf(r)}">${UP}いいね<span class="kbd">2</span></button><button class="vbtn mid" data-vrate="0" aria-pressed="${rv === 0}">${MID}ふつう<span class="kbd">3</span></button><button class="vbtn dn" data-vrate="-1" aria-pressed="${rv === -1 }">${DN}イマイチ<span class="kbd">4</span></button></div>
     <button class="vbtn alt" data-vpick="1" aria-expanded="${!!v.pick}" aria-pressed="${!!areaOf(r)}">${UP}<span>いいね（別の地区）${areaOf(r) ? `：${esc(areaName(areaOf(r)))}` : ''}</span><span class="kbd">5</span></button>
-    ${v.pick ? `<div class="vareas" role="group" aria-label="どの地区で使うか">${AREAS.filter(k => k !== v.th).map((k, j) => `<button data-varea="${k}" aria-pressed="${areaOf(r) === k}">${esc(areaName(k))}<span class="kbd">${'qwertyu'[j].toUpperCase()}</span></button>`).join('')}</div>` : ''}
+    ${v.pick ? `<div class="vareas" role="group" aria-label="どの地区で使うか">${pickAreas(v.th).map((k, j) => `<button data-varea="${k}" aria-pressed="${areaOf(r) === k}">${esc(pickName(k))}<span class="kbd">${j + 1}</span></button>`).join('')}</div>` : ''}
     <div class="vnav"><button data-vgo="-1">← 前へ</button><button data-vgo="1">スキップ →</button></div></div>
     <a href="${esc(r.url)}" target="_blank" rel="noopener" class="muted">元の画像を開く</a>
-    <span class="muted vkeys"><span class="kbd">1</span> めっちゃいい（絶対に島に入れる）　<span class="kbd">2</span> いいね　<span class="kbd">3</span> ふつう　<span class="kbd">4</span> イマイチ　<span class="kbd">5</span> 別の地区でいいね　<span class="kbd">←</span><span class="kbd">→</span> 前・次。評価をつけると次へ進みます。同じボタンをもう一度で取り消し</span>`; }
+    <span class="muted vkeys"><span class="kbd">1</span> めっちゃいい（絶対に島に入れる）　<span class="kbd">2</span> いいね　<span class="kbd">3</span> ふつう　<span class="kbd">4</span> イマイチ　<span class="kbd">5</span> 別の地区でいいね（続けて 1〜7 で地区、7＝わからない）　<span class="kbd">←</span><span class="kbd">→</span> 前・次。評価をつけると次へ進みます。同じボタンをもう一度で取り消し</span>`; }
 function renderReview(inD) { const v = S.vote, groups = [['2', 'めっちゃいい', r => rateOf(r) === 2], ['1', 'いいね', r => rateOf(r) === 1 && !areaOf(r)], ['area', 'いいね（別の地区）', r => !!areaOf(r)], ['0', 'ふつう', r => rateOf(r) === 0], ['-1', 'イマイチ', r => rateOf(r) === -1]];
   const g = groups.find(x => x[0] === v.rf) || groups[0], list = inD.filter(g[2]);
   $('vReview').innerHTML = `<div class="row">${groups.map(([k, t, f]) => `<button class="chip" data-vrf="${k}" aria-pressed="${g[0] === k}">${t}（${inD.filter(f).length}）</button>`).join('')}</div>
     ${list.length ? `<div class="vrgrid">${list.map(r => `<div class="vrcard"><button class="vrimg" data-vopen="${esc(r.no)}" title="大きく開く"><img src="${r.thumb}" data-big="${esc(r.no)}" alt="" loading="lazy"></button><div class="vrb"><div class="row" style="gap:5px"><span class="no">${esc(r.no)}</span><span class="vtag ${areaOf(r) ? 'up' : RCLS[rateOf(r)]}">${esc(labelOf(r))}</span></div>
       <div class="vrbtns">${RATE.map(([n, c, t]) => `<button class="${c}" data-rvrate="${esc(r.no)}|${n}" aria-pressed="${rateOf(r) === n && !areaOf(r)}">${t}</button>`).join('')}</div>
-      <label class="muted vrsel">別の地区でいいね <select data-rvarea="${esc(r.no)}"><option value="">—</option>${AREAS.filter(k => k !== v.th).map(k => `<option value="${k}"${areaOf(r) === k ? ' selected' : ''}>${esc(areaName(k))}</option>`).join('')}</select></label></div></div>`).join('')}</div>`
+      <label class="muted vrsel">別の地区でいいね <select data-rvarea="${esc(r.no)}"><option value="">—</option>${pickAreas(v.th).map(k => `<option value="${k}"${areaOf(r) === k ? ' selected' : ''}>${esc(pickName(k))}</option>`).join('')}</select></label></div></div>`).join('')}</div>`
       : `<p class="muted">${esc(areaName(v.th))}で「${g[1]}」にした作例はまだありません。「1枚ずつ審査する」で評価すると、ここに並びます。</p>`}`;
   // 見えてきたカードから大きな画像に差しかえる（小さい縮小画像はぼやけるため）
   const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(en => { if (!en.isIntersecting) return; io.unobserve(en.target); bigUrl(en.target.dataset.big).then(u => { if (u) en.target.src = u; }); }), { rootMargin: '200px' }) : null;
@@ -645,7 +647,9 @@ document.addEventListener('change', e => { const t = e.target.closest('[data-rva
 document.addEventListener('keydown', e => { if (S.tab !== 'vote' || /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return; const k = e.key.toLowerCase();
   if ((k === 'z' && (e.ctrlKey || e.metaKey)) || k === 'u') { undo(); e.preventDefault(); return; }
   if (S.vote && S.vote.mode === 'review') return;
-  if (k === '1') voteAct('rate', 2); else if (k === '2' || k === 'a') voteAct('rate', 1); else if (k === '3' || k === 's') voteAct('rate', 0); else if (k === '4' || k === 'z') voteAct('rate', -1); else if (k === '5') voteAct('pick'); else if (S.vote && S.vote.pick && 'qwertyu'.includes(k) && k) { const r = voteList()[S.vote.i], ks = AREAS.filter(a => a !== S.vote.th); if (ks['qwertyu'.indexOf(k)]) voteAct('area', ks['qwertyu'.indexOf(k)]); else return; } else if (k === 'escape' && S.vote && S.vote.pick) voteAct('pick'); else if (k === 'arrowright') voteAct('go', 1); else if (k === 'arrowleft') voteAct('go', -1); else return; e.preventDefault(); });
+  // 地区を選ぶ一覧が開いているときは、数字キーで地区（1〜7、7＝わからない）
+  if (S.vote && S.vote.pick && /^[1-7]$/.test(k)) { const ks = pickAreas(S.vote.th); if (ks[+k - 1]) voteAct('area', ks[+k - 1]); e.preventDefault(); return; }
+  if (k === '1') voteAct('rate', 2); else if (k === '2' || k === 'a') voteAct('rate', 1); else if (k === '3' || k === 's') voteAct('rate', 0); else if (k === '4' || k === 'z') voteAct('rate', -1); else if (k === '5') voteAct('pick'); else if (k === 'escape' && S.vote && S.vote.pick) voteAct('pick'); else if (k === 'arrowright') voteAct('go', 1); else if (k === 'arrowleft') voteAct('go', -1); else return; e.preventDefault(); });
 // 画像：クリックで拡大（マウスの位置に寄る）、もう一度で戻す。ダブルクリックでいいね
 let clickT = null;
 $('vImg').addEventListener('click', e => { const mb = e.target.closest('[data-vmain]'); if (mb) { S.vote.main = mb.dataset.vmain; renderVote(); return; }
