@@ -309,7 +309,7 @@ class Component extends DCLogic {
   TOOLS = [['place', 'モジュールを置く', '#4a3b30'], ['select', '選ぶ', '#ffffff'], ['B', 'レンガ道', '#b8694b'], ['p', '石畳の道', '#c8b487'], ['S', '砂の道', '#ead39b'], ['F', '花', '#f6d3e2'], ['erase', '消しゴム', '#eeeeee']];
   state = { dist: 'lon', tool: 'B', mod: 'lon_st', rot: 0, placed: [], paint: {}, sel: null, hover: null, theme: 'ロンドン', mat: 'all', q: '', limit: 40, width: 3, mode: 'line', terrain: 'faint', lineA: null,
     notes: [], fileMods: [], custom: [], hidden: [], xd: 'ロンドン', noteId: null, imgIdx: 0, ed: this.blankEd() };
-  XDISTS = ['すべて', 'ロンドン', 'エジプト', '日本', 'アメリカ', 'ヨーロッパ', '地中海'];
+  XDISTS = ['すべて', 'ロンドン', 'エジプト', '日本', 'アメリカ', 'ヨーロッパ', '地中海', 'その他'];
   blankEd(w = 6, h = 5) { return { w, h, g: Array.from({ length: h }, () => Array(w).fill('.')), sym: 'B', name: '', memo: '', editId: null }; }
   // 小红书から作ったモジュール：xhs/modules.json（リポジトリ）＋このブラウザで作ったもの
   allCustom() { const s = this.state, out = {}; s.fileMods.forEach(m => out[m.id] = m); s.custom.forEach(m => out[m.id] = m); return Object.values(out).filter(m => !s.hidden.includes(m.id)); }

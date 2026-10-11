@@ -37,6 +37,20 @@ WORDS = {
     'ヨーロッパ': r'欧式|欧洲|法式|城堡|德式|意式|意大利|中世纪|教堂|荷兰|风车|巴黎|童话|小镇',
     '地中海': r'地中海|圣托里尼|希腊|海边|海滩|沙滩|码头|海岛|度假|港|蓝白|海景|渔',
 }
+# 国名に頼らない、动森で人気の場面・題材のキーワード（popular で使う。地区は後から classify で決める）
+SCENES = ['动森岛建', '动森 小场景', '动森 造景', '动森 岛建抄作业', '动森 场景设计', '动森 咖啡厅', '动森 面包店',
+          '动森 餐厅', '动森 车站', '动森 机场设计', '动森 码头', '动森 博物馆', '动森 市集', '动森 商店街', '动森 花园',
+          '动森 图书馆', '动森 城堡', '动森 哈利波特', '动森 霍格沃茨', '动森 吉卜力', '动森 迪士尼', '动森 游乐园',
+          '动森 温泉', '动森 神社', '动森 海滩', '动森 露营', '动森 农场', '动森 广场', '动森 入口设计', '动森 小镇']
+# 題材 → 地区（当たった数が一番多い地区。どれにも当たらなければ「その他」）
+CLASSIFY = {
+    'ロンドン': r'伦敦|英伦|英式|英国|哈利|霍格|魔法学院|魔法|站台|9¾|酒吧|电话亭|大本钟|维多利亚|红砖|书店|图书馆|下午茶|福尔摩斯|蒸汽|火车站|车站',
+    'エジプト': r'埃及|沙漠|金字塔|中东|集市|阿拉伯|绿洲|沙丘|狮身|撒哈拉|摩洛哥|异域|神庙|遗迹|巴扎|考古|发掘|骆驼|仙人掌',
+    '日本': r'日式|日本|和风|神社|鸟居|温泉|京都|商店街|樱|祭|茶屋|寺|居酒屋|拉面|竹林|狐狸|和室|鲤|灯笼|夏日祭',
+    'アメリカ': r'美式|美国|西部|牛仔|公路|汽车|露营|农场|纽约|餐车|加油站|快餐|汉堡|乡村|游乐园|万圣|南瓜|篮球|电影院',
+    'ヨーロッパ': r'欧式|欧洲|法式|城堡|德式|意式|意大利|中世纪|教堂|荷兰|风车|巴黎|童话|小镇|咖啡厅|咖啡|面包|花园|庭院|吉卜力|森林|田园|花店|甜品',
+    '地中海': r'地中海|圣托里尼|希腊|海边|海滩|沙滩|码头|海岛|度假|港|蓝白|海景|渔|灯塔|冲浪|椰|夏威夷|热带',
+}
 NOISE = re.compile(r'联动|水族馆|sea ?life|周边|抱枕|门店|快闪|打卡|留子|购物|手办|盲盒|实体|线下', re.I)
 
 
@@ -139,6 +153,16 @@ def fetch_note(nid, token, theme, keyword='', max_images=18):
     }
 
 
+def classify(note):
+    """タイトルの言葉で決める。タイトルで決まらなければ本文とタグで"""
+    for text in (note['title'], note['desc'] + ' ' + ' '.join(note['tags'])):
+        score = {t: len(re.findall(p, text)) for t, p in CLASSIFY.items()}
+        score = {t: v for t, v in score.items() if v}
+        if score:
+            return max(score, key=score.get)
+    return 'その他'
+
+
 def load():
     if os.path.exists(NOTES):
         with open(NOTES, encoding='utf-8') as f:
@@ -162,6 +186,7 @@ def pause():
 
 
 def grab(db, cands, theme, n, max_images):
+    """theme=None なら取得後に classify で地区を決める"""
     have = {x['id'] for x in db['notes']}
     seen, got = set(), 0
     for c in sorted(cands, key=lambda c: -c['likes']):
@@ -175,13 +200,15 @@ def grab(db, cands, theme, n, max_images):
             continue
         try:
             note = fetch_note(c['id'], c['token'], theme, c['keyword'], max_images)
+            if theme is None:
+                note['theme'] = classify(note)
         except Exception as e:
             print(f'  ! {c["title"]}: {e}', file=sys.stderr)
             pause()
             continue
         store(db, note)
         got += 1
-        print(f'  ♥{note["likes"]:>6}  {note["title"]}  （画像{len(note["images"])}枚）')
+        print(f'  ♥{note["likes"]:>6}  [{note["theme"]}] {note["title"]}  （画像{len(note["images"])}枚）')
         pause()
 
 
@@ -190,8 +217,10 @@ def main():
     sub = ap.add_subparsers(dest='cmd', required=True)
     t = sub.add_parser('themes'); t.add_argument('--only', nargs='*'); t.add_argument('--per-theme', type=int, default=8)
     s = sub.add_parser('search'); s.add_argument('keyword', nargs='+'); s.add_argument('--theme', required=True); s.add_argument('-n', type=int, default=5)
+    po = sub.add_parser('popular'); po.add_argument('--top', type=int, default=40); po.add_argument('--keywords', nargs='*')
+    r = sub.add_parser('reclassify')
     u = sub.add_parser('url'); u.add_argument('url'); u.add_argument('--theme', required=True)
-    for p in (t, s, u):
+    for p in (t, s, u, po):
         p.add_argument('--max-images', type=int, default=18)
     a = ap.parse_args()
 
@@ -204,6 +233,24 @@ def main():
         note = fetch_note(nid, tok, a.theme, '', a.max_images)
         store(db, note)
         print(f'♥{note["likes"]}  {note["title"]}  （画像{len(note["images"])}枚）')
+    elif a.cmd == 'reclassify':
+        for n in db['notes']:
+            print(f'{n["theme"]} → {classify(n)}  {n["title"]}')
+        return
+    elif a.cmd == 'popular':
+        cands = []
+        for kw in a.keywords or SCENES:
+            try:
+                got = search(kw)
+                cands += got
+                print(f'  {kw}: {len(got)}件')
+            except Exception as e:
+                print(f'  ! 検索失敗 {kw}: {e}', file=sys.stderr)
+            pause()
+        have = {x['id'] for x in db['notes']}
+        new = [c for c in cands if c['id'] not in have]
+        print(f'== 候補 {len({c["id"] for c in new})}件（既存を除く）から いいね上位 {a.top}件')
+        grab(db, new, None, a.top, a.max_images)
     elif a.cmd == 'search':
         kw = ' '.join(a.keyword)
         grab(db, search(kw), a.theme, a.n, a.max_images)
