@@ -37,5 +37,5 @@ date: 2026-10-11
 | 地勢 | plan-design.json → tools/plan_terrain.py → plan-terrain.json |
 | 見本 | tools/gen_samples.py → samples.json |
 | 確認 | tools/test_logic.js, tools/snap.js, tools/edge_run.py, tools/road_preview.js |
-| マイデザイン・作例 | designs/catalog.json（D-）・designs/refs.json（R-、tools/collect_refs.py で検索・分類）・designs/lon.json（ロンドンの細部モジュール・地面・断面）・designs/lon_paths.json（通り道）・tools/design_tiles.js |
+| マイデザイン・作例 | designs/catalog.json（D-）・designs/refs.json（R-、tools/collect_refs.py で検索・分類・--dedupe で重複に dup）・designs/lon.json（ロンドンの細部モジュール・地面・断面）・designs/lon_paths.json（通り道）・tools/design_tiles.js |
 | ビルドガイド | tools/build_site.py・tools/site/template.html・tools/site/render_views.js・tools/build_all.sh |

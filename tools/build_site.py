@@ -154,7 +154,13 @@ def main():
     # 集めた作例：検索で見つけた画像をすべて（使っていないものも）。目録は designs/refs.json
     lib = json.load(open(os.path.join(ROOT, 'designs', 'refs.json'), encoding='utf8'))
     used = {u: d['ma'] for d in cat.values() for u in d['images']}; usedEx = {x['image']: x['name'] for x in CATD['examples']}
-    refs = [{'no': r['no'], 'verdict': r.get('verdict', ''), 'note': r.get('use', ''), 'url': r['url'], 'q': r['q'], 'th': r.get('th', 'all'), 'cat': r.get('cat', ''), 'title': r.get('title', ''), 'score': r.get('score', 0), 'ma': used.get(r['url'], r.get('ma', '')), 'ocr': r['url'] not in used and bool(r.get('ma_ocr')), 'use': usedEx.get(r['url'], ''), 'thumb': uri(ImageOps.fit(open_url(r['url']), (100, 100), Image.LANCZOS, centering=(.5, .35)), q=42)} for r in lib if r['url'] in files]
+    refs = [{'no': r['no'], 'verdict': r.get('verdict', ''), 'note': r.get('use', ''), 'url': r['url'], 'q': r['q'], 'th': r.get('th', 'all'), 'cat': r.get('cat', ''), 'title': r.get('title', ''), 'score': r.get('score', 0), 'ma': used.get(r['url'], r.get('ma', '')), 'ocr': r['url'] not in used and bool(r.get('ma_ocr')), 'use': usedEx.get(r['url'], ''), 'thumb': uri(ImageOps.fit(open_url(r['url']), (100, 100), Image.LANCZOS, centering=(.5, .35)), q=42)} for r in lib if r['url'] in files and not r.get('dup')]
+    # 重複（refs.json の dup）は出さず、残す方に 重複の番号・出てきた地区 をまとめる
+    dupOf = {r['no']: r['dup'] for r in lib if r.get('dup')}; byNo = {r['no']: r for r in refs}; thOfNo = {r['no']: r.get('th', 'all') for r in lib}
+    for d, k in dupOf.items():
+        if k in byNo:
+            byNo[k].setdefault('dups', []).append(d)
+            if thOfNo[d] not in ('all', byNo[k]['th']) and thOfNo[d] not in byNo[k].setdefault('ths', []): byNo[k]['ths'].append(thOfNo[d])
     # 作例の審査タブの大きな画像：幅720まで・6枚の JPEG をつないで1つの .jpg に（Artifact は外の画像を読めず、ファイル数に上限があり、.bin は載せられない）
     big = {}
     if a.big:
@@ -162,12 +168,12 @@ def main():
         def flush():
             nonlocal chunk, k
             if chunk: open(os.path.join(a.big, 'big', 'c%03d.jpg' % k), 'wb').write(chunk); k += 1; chunk = b''
-        for i, r in enumerate(refs):
+        for i, r in enumerate([r for r in lib if r['url'] in files]):  # 重複も入れて、並びを変えない（載せた画像のファイルをそのまま使える）
             b = io.BytesIO(); fit(open_url(r['url']), 720).save(b, 'JPEG', quality=72); b = b.getvalue()
             big[r['no']] = [k, len(chunk), len(b)]; chunk += b
             if (i + 1) % 6 == 0: flush()
         flush(); print('大きな画像', len(big), '枚', k, 'ファイル')
-    data = {'options': opts, 'refs': refs, 'big': big, 'refCats': CATS, 'grid': G, 'h': H, 'inclines': T.get('inclines', []), 'paint': S['paint'], 'facs': S.get('facilities', []), 'places': places, 'mods': mods, 'leg': LEG, 'lon': lon, 'cat': cat, 'examples': ex,
+    data = {'options': opts, 'refs': refs, 'big': big, 'dupOf': dupOf, 'refCats': CATS, 'grid': G, 'h': H, 'inclines': T.get('inclines', []), 'paint': S['paint'], 'facs': S.get('facilities', []), 'places': places, 'mods': mods, 'leg': LEG, 'lon': lon, 'cat': cat, 'examples': ex,
             'th': {'lon': 'ロンドン', 'egy': 'エジプト', 'jpn': '日本', 'usa': 'アメリカ', 'eur': 'ヨーロッパ', 'port': '地中海'},
             'thColor': {'lon': '#b4503a', 'egy': '#d9a441', 'jpn': '#c45a7a', 'usa': '#3f6fb5', 'eur': '#4f9a8a', 'port': '#2f8fc9'},
             'role': {'landmark': '主役', 'support': '脇役', 'filler': 'すき間うめ', 'edge': '道ばた', 'step': '段差', 'facility': '施設'},

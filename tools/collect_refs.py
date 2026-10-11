@@ -3,6 +3,7 @@
   python tools/collect_refs.py              # 分類（cat）だけつけ直す
   python tools/collect_refs.py --search     # 下の検索語で Pinterest を探して、新しい画像を R- の続きの番号で足す
   python tools/collect_refs.py --cache DIR  # まだ置き場にない画像を DIR に落とす（index.json と 000.jpg…、build_site.py の --cache 用）
+  python tools/collect_refs.py --cache DIR --dedupe  # 置き場の画像で重複を探し、重複に dup: 残す番号 をつける
 
   一度つけた番号は変えない。採用・不採用（verdict）・用途（use）・作者ID（ma）はそのまま残す。
 """
@@ -71,8 +72,46 @@ def search(q, n=25):
         if u: out.append((u, (r.get('grid_title') or r.get('title') or '').strip()))
     return out
 
+def img_hashes(path):
+    """pHash（全体・まん中）と dHash。あつ森のマイデザイン保存画面（上がピンクの帯）は枠が同じなので見分ける"""
+    import numpy as np
+    from PIL import Image
+    def dct2(a):
+        k = np.arange(a.shape[0]); c = np.cos(np.pi * (2 * k[None, :] + 1) * k[:, None] / (2 * a.shape[0])); return c @ a @ c.T
+    def ph(im):
+        d = dct2(np.asarray(im.resize((32, 32), Image.LANCZOS), dtype=float))[:8, :8].flatten(); return d > np.median(d[1:])
+    rgb = Image.open(path).convert('RGB'); im = rgb.convert('L'); w, h = im.size
+    b = np.asarray(im.resize((9, 8), Image.LANCZOS), dtype=float)
+    t = np.asarray(rgb.resize((40, 40)), dtype=float)[:3].reshape(-1, 3).mean(0)
+    return ph(im), (b[:, 1:] > b[:, :-1]).flatten(), ph(im.crop((w * .25, h * .25, w * .75, h * .75))), bool(t[0] > 215 and t[1] < 205 and t[2] > 165 and t[0] - t[1] > 25)
+
+def dedupe(refs, cache):
+    """同じ画像（貼り直し・字幕や枠の違い・少しの切り抜き）をまとめる。番号は変えず、重複に dup: 残す番号。
+    残すのは 採用 があればそれ、なければいちばん小さい番号。保存画面どうしは、ほぼ同じものだけ重複にする"""
+    import numpy as np
+    idx = json.load(open(os.path.join(cache, 'index.json'))); files = {t[1]: os.path.join(cache, '%03d.jpg' % t[0]) for t in idx}
+    items = [r for r in refs if r['url'] in files]; H = [img_hashes(files[r['url']]) for r in items]
+    P, Dh, C, SC = (np.array([h[k] for h in H]) for k in range(4)); n = len(items); parent = list(range(n))
+    def find(x):
+        while parent[x] != x: parent[x] = parent[parent[x]]; x = parent[x]
+        return x
+    for i in range(n):
+        dp = (P[i] != P[i + 1:]).sum(1); dd = (Dh[i] != Dh[i + 1:]).sum(1); dc = (C[i] != C[i + 1:]).sum(1)
+        ok = (~SC[i] & ~SC[i + 1:] & (dc <= 6) & ((dp <= 4) | ((dp <= 8) & (dd <= 8)))) | ((dp == 0) & (dd <= 2) & (dc <= 1))
+        for j in np.nonzero(ok)[0]: parent[find(i + 1 + int(j))] = find(i)
+    groups = {}
+    for i in range(n): groups.setdefault(find(i), []).append(items[i])
+    for r in refs: r.pop('dup', None)
+    k = 0
+    for g in groups.values():
+        if len(g) < 2: continue
+        keep = sorted(g, key=lambda r: (r.get('verdict') != '採用', r['no']))[0]
+        for r in g:
+            if r is not keep: r['dup'] = keep['no']; k += 1
+    print('重複', k, '枚（', sum(len(g) > 1 for g in groups.values()), 'グループ）')
+
 def main():
-    ap = argparse.ArgumentParser(); ap.add_argument('--search', action='store_true'); ap.add_argument('--cache'); a = ap.parse_args()
+    ap = argparse.ArgumentParser(); ap.add_argument('--search', action='store_true'); ap.add_argument('--cache'); ap.add_argument('--dedupe', action='store_true'); a = ap.parse_args()
     refs = json.load(open(REFS, encoding='utf8'))
     qcat = {**OLD, **{q: c for _, c, q in NEW}}
     if a.search:
@@ -92,6 +131,9 @@ def main():
     miss = sorted({r['q'] for r in refs if r['q'] not in qcat})
     if miss: sys.exit('分類のない検索語：' + '、'.join(miss))
     for r in refs: r['cat'] = qcat[r['q']]
+    if a.dedupe:
+        if not a.cache: sys.exit('--dedupe には --cache（画像の置き場）が要る')
+        dedupe(refs, a.cache)
     with open(REFS, 'w', encoding='utf8') as f: f.write(json.dumps(refs, ensure_ascii=False, indent=0))
     print('全', len(refs), '件', {CATS[k]: sum(r['cat'] == k for r in refs) for k in CATS})
     if a.cache:
