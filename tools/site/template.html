@@ -91,11 +91,18 @@ a { color: var(--accent) }
   <button class="tab" data-tab="book" aria-pressed="false">マイデザイン図鑑</button>
 </nav>
 
-<section id="tab-map" class="grid2">
+<section id="tab-map" style="display:flex;flex-direction:column;gap:16px">
+<div class="panel" id="isoPanel">
+  <div class="row" style="justify-content:space-between"><h3>島の立体図</h3><div class="row" id="isoChips"></div></div>
+  <canvas id="iso" aria-label="島の立体図。建物や広場をクリックするとモジュールを開く" style="cursor:pointer;background:#86d3c4"></canvas>
+  <div class="hint" id="isoHint">立体図の建物や広場をクリックすると、下にそのモジュールを開きます</div>
+</div>
+<div class="grid2">
   <div class="panel sticky">
     <div class="row" style="justify-content:space-between">
-      <h3>島の地図</h3>
-      <div class="row" id="zoomChips"></div>
+      <h3>平面図（マス目）</h3>
+    </div>
+    <div class="row" id="zoomChips">
     </div>
     <canvas id="map" width="1120" height="960" aria-label="島の地図。四角をクリックするとモジュールを開く"></canvas>
     <div class="hint" id="mapHint">四角（モジュール）をクリックすると右に開きます</div>
@@ -105,6 +112,7 @@ a { color: var(--accent) }
     <div class="list" id="modList"></div>
   </div>
   <div class="panel" id="detail"></div>
+</div>
 </section>
 
 <section id="tab-prep" class="panel" hidden></section>
@@ -123,7 +131,7 @@ const DT = window.DesignTiles;
 const $ = id => document.getElementById(id);
 const TH = D.th, THC = D.thColor, LEG = D.leg, LON = D.lon, CAT = D.cat;
 const store = { get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} } };
-const S = { tab: 'map', zoom: 'lon', theme: 'lon', q: '', sel: 'lon_d_platform', hover: null, done: store.get('ice-done', {}), bookTh: 'lon' };
+const S = { isoView: 'lon', tab: 'map', zoom: 'lon', theme: 'lon', q: '', sel: 'lon_d_platform', hover: null, done: store.get('ice-done', {}), bookTh: 'lon' };
 const IMG = {}; const img = src => { if (!src) return null; if (!IMG[src]) { const i = new Image(); i.onload = () => { i.ok = true; redraw(); }; i.src = src; IMG[src] = i; } return IMG[src].ok ? IMG[src] : null; };
 let redrawQ = false; const redraw = () => { if (redrawQ) return; redrawQ = true; requestAnimationFrame(() => { redrawQ = false; drawMap(); drawSketch(); }); };
 const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -135,7 +143,19 @@ const mods = () => D.places.map(p => ({ ...D.mods[p.id], ...p, size: p.rows.join
 const TC = { S: '#5fbfca', s: '#ecdcaa', r: '#8b8697', w: '#86d8d6', b: '#a58f78', p: '#d6c595', P: '#dcc996', K: '#b8694b', t: '#3d8645', '1': '#6cb355', '3': '#86c862' };
 const ZB = { all: [0, 0, 112, 96], lon: [14, 50, 66, 96], egy: [0, 0, 40, 60], jpn: [34, 0, 68, 62], usa: [64, 0, 112, 48], eur: [56, 40, 112, 86], port: [56, 70, 112, 96] };
 function mapView() { const c = $('map'), b = ZB[S.zoom]; return { c, b, k: c.width / (b[2] - b[0]) }; }
-function drawMap() {
+// 立体図（London Render と同じ投影）。モジュールの中心を画面の位置に直して、クリックで選べるようにする
+const RV = { lon: [16, 52, 65, 94], egy: [8, 12, 40, 62], jpn: [32, 12, 67, 61], usa: [65, 12, 101, 47], eur: [57, 39, 101, 85], port: [64, 70, 112, 94], all: [0, 4, 112, 96] };
+function isoProj(v) { const [bx0, by0, bx1, by1] = RV[v], nx = bx1 - bx0, ny = by1 - by0, TW = nx + ny > 120 ? 12 : 16, TH = TW / 2, HZ = TW * .45, ZL = [0, 2, 6, 10], ox = ny * TW + 60, oy = 10 * HZ + 70;
+  return { TW, b: RV[v], P: (x, y) => { const h = +((D.h[Math.floor(y)] || '')[Math.floor(x)] || 0); return [ox + (x - bx0 - (y - by0)) * TW, oy + (x - bx0 + y - by0) * TH - ZL[h] * HZ]; } }; }
+function drawIso() { const v = S.isoView, V = D.views[v], c = $('iso'); if (!V) { $('isoPanel').hidden = true; return; } const im = img(V.img); c.width = V.w; c.height = V.h; const x = c.getContext('2d');
+  if (im) x.drawImage(im, 0, 0); const { P, TW, b } = isoProj(v);
+  const m = mods().find(m => m.id === S.sel && m.x === S.selX && m.y === S.selY);
+  if (m) { const [sx, sy] = P(m.x + m.rows[0].length / 2, m.y + m.rows.length / 2); x.strokeStyle = '#ffffff'; x.lineWidth = 4; x.beginPath(); x.ellipse(sx, sy, Math.max(30, m.rows[0].length * TW * .9), Math.max(16, m.rows[0].length * TW * .45), 0, 0, 7); x.stroke(); x.strokeStyle = '#b4503a'; x.lineWidth = 2; x.stroke();
+    x.font = '800 22px ' + getComputedStyle(document.body).getPropertyValue('--display'); const t = m.short || m.name, tw = x.measureText(t).width; x.fillStyle = '#b4503a'; x.fillRect(sx - tw / 2 - 10, sy - 70, tw + 20, 32); x.fillStyle = '#fff'; x.textAlign = 'center'; x.fillText(t, sx, sy - 46); x.textAlign = 'left'; } }
+function hitIso(e) { const v = S.isoView, c = $('iso'), r = c.getBoundingClientRect(), sx = (e.clientX - r.left) / r.width * c.width, sy = (e.clientY - r.top) / r.height * c.height, { P, TW, b } = isoProj(v);
+  let best = null, bd = 1e9; mods().forEach(m => { if (m.size < 6) return; const cx = m.x + m.rows[0].length / 2, cy = m.y + m.rows.length / 2; if (cx < b[0] || cx > b[2] || cy < b[1] || cy > b[3]) return; const [px, py] = P(cx, cy), d = Math.hypot(px - sx, (py - sy) * 1.6); if (d < bd) { bd = d; best = m; } });
+  return bd < TW * 5 ? best : null; }
+function drawMap() { drawIso();
   const { c, b, k } = mapView(); c.height = Math.round((b[3] - b[1]) * k); const x = c.getContext('2d');
   x.fillStyle = TC.S; x.fillRect(0, 0, c.width, c.height);
   for (let y = b[1]; y < b[3]; y++) for (let X = b[0]; X < b[2]; X++) { const ch = D.grid[y][X], h = +D.h[y][X];
@@ -147,8 +167,8 @@ function drawMap() {
     if (m.x + W < b[0] || m.x > b[2] || m.y + H < b[1] || m.y > b[3]) return;
     if (m.size < 6 && !(m.id === S.sel && m.x === S.selX)) return;   // 小物・すき間うめは地図に描かない（一覧からは選べる）
     const sel = m.id === S.sel && m.x === S.selX && m.y === S.selY, col = THC[m.zone] || '#888';
-    x.fillStyle = col + (sel ? 'ee' : m.role === 'landmark' || m.detail ? 'b0' : '48'); x.fillRect(px, py, W * k, H * k);
-    x.lineWidth = sel ? 3 : 1; x.strokeStyle = sel ? '#fff' : 'rgba(0,0,0,.35)'; x.strokeRect(px + .5, py + .5, W * k - 1, H * k - 1);
+    x.fillStyle = col + (sel ? 'ee' : m.role === 'landmark' || m.detail ? 'b0' : '60'); m.rows.forEach((row, dy) => [...row].forEach((ch, dx) => { if (ch !== '.') x.fillRect(px + dx * k, py + dy * k, k + .5, k + .5); }));   // 空きマス（.）は塗らない
+    if (sel) { x.lineWidth = 3; x.strokeStyle = '#fff'; x.strokeRect(px + .5, py + .5, W * k - 1, H * k - 1); }
     if (m.detail) { x.fillStyle = '#fff'; x.beginPath(); x.arc(px + W * k - 5, py + 5, 4, 0, 7); x.fill(); }
     if ((m.role === 'landmark' && S.zoom !== 'all') || sel) { x.font = `800 ${Math.max(10, Math.min(14, k * 1.1))}px ${getComputedStyle(document.body).getPropertyValue('--display')}`; const t = (m.short || m.name); const tw = x.measureText(t).width;
       x.fillStyle = 'rgba(255,255,255,.92)'; x.fillRect(px, py - 17, tw + 10, 16); x.fillStyle = '#22302d'; x.fillText(t, px + 5, py - 5); } });
@@ -157,10 +177,13 @@ function drawMap() {
 function hitMap(e) { const { c, b, k } = mapView(), r = c.getBoundingClientRect(); const X = (e.clientX - r.left) / r.width * c.width / k + b[0], Y = (e.clientY - r.top) / r.height * c.height / k + b[1];
   const hits = mods().filter(m => X >= m.x && X < m.x + m.rows[0].length && Y >= m.y && Y < m.y + m.rows.length); return { hit: hits.sort((a, b2) => a.rows.length * a.rows[0].length - b2.rows.length * b2.rows[0].length)[0], X: Math.floor(X), Y: Math.floor(Y) }; }
 $('map').addEventListener('click', e => { const { hit } = hitMap(e); if (hit) select(hit.id, hit.x, hit.y); });
+$('iso').addEventListener('click', e => { const hit = hitIso(e); if (hit) { select(hit.id, hit.x, hit.y, true); } });
+$('iso').addEventListener('mousemove', e => { const h = hitIso(e); $('isoHint').textContent = h ? `${h.name}（${TH[h.zone] || ''}・${where(h.x, h.y)}）をクリックで開く` : '立体図の建物や広場をクリックすると、下にそのモジュールを開きます'; });
 $('map').addEventListener('mousemove', e => { const { hit, X, Y } = hitMap(e); $('mapHint').textContent = `${where(X, Y)}（x${X}, y${Y}）` + (hit ? `　${hit.name}（${TH[hit.zone] || ''}）` : '　四角（モジュール）をクリックすると右に開きます'); });
 
 // ---------- 一覧 ----------
 function renderLists() {
+  $('isoChips').innerHTML = [['all', '島全体'], ['lon', 'ロンドン'], ['egy', 'エジプト'], ['jpn', '日本'], ['usa', 'アメリカ'], ['eur', 'ヨーロッパ'], ['port', '地中海']].map(([k, n]) => `<button class="chip" data-iso="${k}" aria-pressed="${S.isoView === k}">${n}</button>`).join('');
   $('zoomChips').innerHTML = [['all', '島全体'], ['lon', 'ロンドン'], ['egy', 'エジプト'], ['jpn', '日本'], ['usa', 'アメリカ'], ['eur', 'ヨーロッパ'], ['port', '地中海']].map(([k, n]) => `<button class="chip" data-zoom="${k}" aria-pressed="${S.zoom === k}">${n}</button>`).join('');
   $('themeChips').innerHTML = [['all', 'すべての地区'], ...Object.entries(TH).filter(([k]) => k !== 'hal')].map(([k, n]) => `<button class="chip" data-th="${k}" aria-pressed="${S.theme === k}">${n}</button>`).join('');
   $('legend').innerHTML = Object.entries(TH).filter(([k]) => k !== 'hal').map(([k, n]) => `<span><i class="dot" style="background:${THC[k]}"></i>${n}</span>`).join('') + '<span><i class="dot" style="background:#fff;border:1px solid var(--line)"></i>白い点＝マス目まで細かく決めたモジュール</span>';
@@ -170,7 +193,8 @@ function renderLists() {
   $('modList').innerHTML = list.slice(0, 120).map(m => `<button class="item" data-id="${m.id}" data-x="${m.x}" data-y="${m.y}" aria-current="${m.id === S.sel && m.x === S.selX && m.y === S.selY}"><i class="dot" style="background:${THC[m.zone]}"></i><span class="nm">${S.done[m.id] && allDone(m.id) ? '✓ ' : ''}${esc(m.name)}</span>${m.detail ? '<span class="pill">細部</span>' : ''}${m.role === 'landmark' ? '<span class="pill lm">主役</span>' : ''}<span class="muted">${where(m.x, m.y)}</span></button>`).join('') || '<span class="muted">見つかりません。ことばを変えてください</span>';
 }
 document.addEventListener('click', e => { const t = e.target.closest('button'); if (!t) return;
-  if (t.dataset.zoom) { S.zoom = t.dataset.zoom; renderLists(); drawMap(); }
+  if (t.dataset.iso) { S.isoView = t.dataset.iso; renderLists(); drawIso(); }
+  else if (t.dataset.zoom) { S.zoom = t.dataset.zoom; renderLists(); drawMap(); }
   else if (t.dataset.th) { S.theme = t.dataset.th; renderLists(); }
   else if (t.dataset.id) select(t.dataset.id, +t.dataset.x, +t.dataset.y);
   else if (t.dataset.tab) { S.tab = t.dataset.tab; document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-pressed', b.dataset.tab === S.tab)); ['map', 'prep', 'book'].forEach(k => $('tab-' + k).hidden = k !== S.tab); if (S.tab === 'prep') renderPrep(); if (S.tab === 'book') renderBook(); }
@@ -180,9 +204,9 @@ document.addEventListener('click', e => { const t = e.target.closest('button'); 
 });
 $('q').addEventListener('input', e => { S.q = e.target.value; renderLists(); });
 const allDone = id => { const d = S.done[id] || {}; return d.g && d.d && d.p; };
-function select(id, x, y) { const p = D.places.find(p => p.id === id && (x == null || (p.x === x && p.y === y))) || D.places.find(p => p.id === id); S.sel = id; S.selX = p.x; S.selY = p.y; S.hover = null;
+function select(id, x, y, fromIso) { const p = D.places.find(p => p.id === id && (x == null || (p.x === x && p.y === y))) || D.places.find(p => p.id === id); S.sel = id; S.selX = p.x; S.selY = p.y; S.hover = null;
   if (S.zoom !== 'all' && ZB[S.zoom] && !(p.x >= ZB[S.zoom][0] && p.x < ZB[S.zoom][2] && p.y >= ZB[S.zoom][1] && p.y < ZB[S.zoom][3])) S.zoom = p.zone in ZB ? p.zone : 'all';
-  renderLists(); renderDetail(); drawMap(); if (window.innerWidth < 980) $('detail').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  if (!fromIso && S.isoView !== 'all' && p.zone in RV && S.isoView !== p.zone) S.isoView = p.zone; renderLists(); renderDetail(); drawMap(); if (fromIso || window.innerWidth < 980) $('detail').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
 
 // ---------- モジュールの草図 ----------
 const CELL = 56, GRASS = '#7dbb5a';

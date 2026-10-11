@@ -26,7 +26,7 @@ def rotate(rows, rot):
     return [''.join(s) for s in r]
 
 def main():
-    ap = argparse.ArgumentParser(); ap.add_argument('--cache', required=True, nargs='+'); ap.add_argument('--out', required=True); a = ap.parse_args()
+    ap = argparse.ArgumentParser(); ap.add_argument('--cache', required=True, nargs='+'); ap.add_argument('--out', required=True); ap.add_argument('--board'); ap.add_argument('--views'); a = ap.parse_args()
     files = {}
     for c in a.cache:
         idx = json.load(open(os.path.join(c, 'index.json')))
@@ -77,7 +77,9 @@ def main():
     for z, lst in S['dists'].items():
         for e in lst:
             mid, x, y, rot = e[0], e[1], e[2], e[3] if len(e) > 3 else 0
-            if mid == 'lon_934' and not any(p['id'] == 'lon_d_platform' for p in places): mid, rot = 'lon_d_platform', 0
+            if mid == 'lon_934':   # 9¾番線は作例どおりの細部モジュールにして、地形で用意したレンガの浜（空港の入口の左・入り江に面する）へ
+                if any(p['id'] == 'lon_d_platform' for p in places): continue
+                mid, x, y, rot = 'lon_d_platform', 29, 84, 0
             rows = rotate(mods[mid]['r'], rot)
             places.append({'id': mid, 'x': x, 'y': y, 'rot': rot, 'zone': z, 'rows': rows})
             if sum(ch != '.' for row in rows for ch in row) >= 6:   # 道ばたの小物・すき間うめは、細部モジュールを置くときに場所をゆずる
@@ -96,8 +98,9 @@ def main():
     for m in LON['modules']:
         if any(p['id'] == m['id'] for p in places): continue
         done = False
-        for y in range(54, 92):
-            for x in range(16, 58):
+        px, py = m.get('prefer', [16, 54])   # 置きたい所（河岸は川のそば）に近い順に探す
+        for x, y in sorted(((x, y) for y in range(54, 92) for x in range(16, 58)), key=lambda c: abs(c[0] - px) + abs(c[1] - py)):
+            if True:
                 if fits(m['r'], x, y):
                     places.append({'id': m['id'], 'x': x, 'y': y, 'rot': 0, 'zone': 'lon', 'rows': m['r'], 'detail': True, 'tentative': True})
                     cells = {(x + dx, y + dy) for dy, row in enumerate(m['r']) for dx, ch in enumerate(row)}
@@ -105,8 +108,35 @@ def main():
                     for dy, row in enumerate(m['r']):
                         for dx, ch in enumerate(row): occ.add((x + dx, y + dy))
                     done = True; break
-            if done: break
         if not done: print('置けない:', m['id'])
+    # 家具のマスが重なる配置を直す：大事な順（細部・主役・脇役…）に置き、重なるものは近くの空きへずらす。ずらせなければ外す
+    GROUNDS = set('BpSgdwZDmlr_#^=')
+    pri = lambda p: (0 if mods[p['id']].get('detail') else 1 if mods[p['id']].get('role') == 'landmark' else 2 if mods[p['id']].get('role') in ('support', 'facility') else 3)
+    taken, kept, moved, dropped = set(), [], 0, []
+    def cells(p, x, y): return [(x + dx, y + dy) for dy, row in enumerate(p['rows']) for dx, ch in enumerate(row) if ch not in GROUNDS and ch != '.']
+    def ok_at(p, x, y):
+        lv = None
+        for dy, row in enumerate(p['rows']):
+            for dx, ch in enumerate(row):
+                if ch == '.': continue
+                X, Y = x + dx, y + dy
+                if not (0 <= X < 112 and 0 <= Y < 96) or G[Y][X] in 'Sw': return False
+                if lv is None: lv = H[Y][X]
+                elif H[Y][X] != lv: return False
+        return not any(c in taken for c in cells(p, x, y))
+    for p in sorted(places, key=pri):
+        x0, y0, spot = p['x'], p['y'], None
+        if not any(c in taken for c in cells(p, x0, y0)): spot = (x0, y0)
+        else:
+            for r in range(1, 7):
+                cand = [(x0 + dx, y0 + dy) for dx in range(-r, r + 1) for dy in range(-r, r + 1) if max(abs(dx), abs(dy)) == r]
+                spot = next((c for c in cand if ok_at(p, *c)), None)
+                if spot: break
+        if not spot: dropped.append(p['id']); continue
+        if spot != (x0, y0): moved += 1
+        p['x'], p['y'] = spot; taken.update(cells(p, *spot)); kept.append(p)
+    places = kept
+    print('ずらした', moved, '外した', len(dropped), dropped[:8])
     for p in places:
         if mods[p['id']].get('detail'): p['detail'] = True
         if p['id'] == 'lon_d_platform': p['short'] = '9¾番線'
@@ -115,6 +145,11 @@ def main():
             'thColor': {'lon': '#b4503a', 'egy': '#d9a441', 'jpn': '#c45a7a', 'usa': '#3f6fb5', 'eur': '#4f9a8a', 'port': '#2f8fc9'},
             'role': {'landmark': '主役', 'support': '脇役', 'filler': 'すき間うめ', 'edge': '道ばた', 'step': '段差', 'facility': '施設'},
             'facGlyph': {'fishing': '釣', 'home': '家', 'farm': '畑', 'orchard': '果', 'quarry': '石', 'flowers': '花'}}
+    if a.board:   # 立体図（London Render）に読ませる配置
+        paint = {k: v for pa in S['paint'].values() for k, v in pa.items()}
+        json.dump({'placed': [{'id': 'p%d' % i, 'm': p['id'], 'x': p['x'], 'y': p['y'], 'rot': p['rot']} for i, p in enumerate(places)], 'paint': paint, 'dist': 'lon',
+                   'defs': {k: v['r'] for k, v in mods.items()}}, open(a.board, 'w'), ensure_ascii=False)
+    data['views'] = json.load(open(a.views)) if a.views and os.path.exists(a.views) else {}
     html = open(os.path.join(ROOT, 'tools', 'site', 'template.html'), encoding='utf8').read()
     js = json.dumps(data, ensure_ascii=False).replace('</', '<\\/')
     tiles = open(os.path.join(ROOT, 'tools', 'design_tiles.js'), encoding='utf8').read()
