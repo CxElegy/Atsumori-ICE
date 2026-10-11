@@ -27,7 +27,7 @@ def rotate(rows, rot):
     return [''.join(s) for s in r]
 
 def main():
-    ap = argparse.ArgumentParser(); ap.add_argument('--cache', required=True, nargs='+'); ap.add_argument('--out', required=True); ap.add_argument('--board'); ap.add_argument('--views'); a = ap.parse_args()
+    ap = argparse.ArgumentParser(); ap.add_argument('--cache', required=True, nargs='+'); ap.add_argument('--out', required=True); ap.add_argument('--board'); ap.add_argument('--views'); ap.add_argument('--big', help='作例の大きな画像（big/c000.jpg…）を書き出す置き場。Artifact に files として一緒に載せる'); a = ap.parse_args()
     files = {}
     for c in a.cache:
         idx = json.load(open(os.path.join(c, 'index.json')))
@@ -155,7 +155,19 @@ def main():
     lib = json.load(open(os.path.join(ROOT, 'designs', 'refs.json'), encoding='utf8'))
     used = {u: d['ma'] for d in cat.values() for u in d['images']}; usedEx = {x['image']: x['name'] for x in CATD['examples']}
     refs = [{'no': r['no'], 'verdict': r.get('verdict', ''), 'note': r.get('use', ''), 'url': r['url'], 'q': r['q'], 'th': r.get('th', 'all'), 'cat': r.get('cat', ''), 'title': r.get('title', ''), 'score': r.get('score', 0), 'ma': used.get(r['url'], r.get('ma', '')), 'ocr': r['url'] not in used and bool(r.get('ma_ocr')), 'use': usedEx.get(r['url'], ''), 'thumb': uri(ImageOps.fit(open_url(r['url']), (100, 100), Image.LANCZOS, centering=(.5, .35)), q=42)} for r in lib if r['url'] in files]
-    data = {'options': opts, 'refs': refs, 'refCats': CATS, 'grid': G, 'h': H, 'inclines': T.get('inclines', []), 'paint': S['paint'], 'facs': S.get('facilities', []), 'places': places, 'mods': mods, 'leg': LEG, 'lon': lon, 'cat': cat, 'examples': ex,
+    # 作例の審査タブの大きな画像：幅720まで・6枚の JPEG をつないで1つの .jpg に（Artifact は外の画像を読めず、ファイル数に上限があり、.bin は載せられない）
+    big = {}
+    if a.big:
+        os.makedirs(os.path.join(a.big, 'big'), exist_ok=True); chunk, k = b'', 0
+        def flush():
+            nonlocal chunk, k
+            if chunk: open(os.path.join(a.big, 'big', 'c%03d.jpg' % k), 'wb').write(chunk); k += 1; chunk = b''
+        for i, r in enumerate(refs):
+            b = io.BytesIO(); fit(open_url(r['url']), 720).save(b, 'JPEG', quality=72); b = b.getvalue()
+            big[r['no']] = [k, len(chunk), len(b)]; chunk += b
+            if (i + 1) % 6 == 0: flush()
+        flush(); print('大きな画像', len(big), '枚', k, 'ファイル')
+    data = {'options': opts, 'refs': refs, 'big': big, 'refCats': CATS, 'grid': G, 'h': H, 'inclines': T.get('inclines', []), 'paint': S['paint'], 'facs': S.get('facilities', []), 'places': places, 'mods': mods, 'leg': LEG, 'lon': lon, 'cat': cat, 'examples': ex,
             'th': {'lon': 'ロンドン', 'egy': 'エジプト', 'jpn': '日本', 'usa': 'アメリカ', 'eur': 'ヨーロッパ', 'port': '地中海'},
             'thColor': {'lon': '#b4503a', 'egy': '#d9a441', 'jpn': '#c45a7a', 'usa': '#3f6fb5', 'eur': '#4f9a8a', 'port': '#2f8fc9'},
             'role': {'landmark': '主役', 'support': '脇役', 'filler': 'すき間うめ', 'edge': '道ばた', 'step': '段差', 'facility': '施設'},

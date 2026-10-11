@@ -78,6 +78,25 @@ ol.fix { margin: 0; padding-left: 20px; display: flex; flex-direction: column; g
 .stars { display: flex; gap: 0 }
 .stars button { border: 0; background: none; padding: 2px 2px; font-size: 17px; line-height: 1; color: var(--line); cursor: pointer }
 .stars button.on { color: #e0a526 }
+/* 作例の審査：Dota2 の飾りの投票のように、大きな画像を1枚ずつ。いいね／イマイチ／★ */
+#tab-vote { display: flex; flex-direction: column; gap: 12px }
+.vstage { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 16px; align-items: start }
+@media (max-width: 860px) { .vstage { grid-template-columns: minmax(0, 1fr) } }
+.vimg { position: relative; background: var(--chip); border-radius: 14px; overflow: hidden; min-height: 320px; display: grid; place-items: center }
+.vimg img { display: block; width: 100%; max-height: 78vh; object-fit: contain }
+.vimg .ld { color: var(--muted); font-size: 13px; padding: 40px }
+.vbtns { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px }
+.vbtn { min-width: 0; border: 2px solid var(--line); background: var(--panel); border-radius: 12px; padding: 12px 6px; font-weight: 700; font-size: 15px; display: flex; gap: 8px; align-items: center; justify-content: center }
+.vbtn svg { width: 22px; height: 22px; fill: currentColor }
+.vbtn.up[aria-pressed="true"] { background: var(--ok); border-color: var(--ok); color: var(--bg) }
+.vbtn.dn[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink) }
+.vbtn.up:hover { border-color: var(--ok) } .vbtn.dn:hover { border-color: var(--accent) }
+.vstars button { font-size: 30px; padding: 0 3px }
+.vnav { display: flex; gap: 8px } .vnav button { flex: 1; border: 1px solid var(--line); background: var(--panel); border-radius: 10px; padding: 8px }
+.vbar { height: 6px; background: var(--chip); border-radius: 99px; overflow: hidden } .vbar i { display: block; height: 100%; background: var(--ok) }
+.kbd { font-family: var(--mono); font-size: 11px; border: 1px solid var(--line); border-radius: 4px; padding: 0 4px; color: var(--muted) }
+.vtag { font-size: 11px; border-radius: 4px; padding: 1px 6px; font-weight: 700 }
+.vtag.up { background: var(--ok); color: var(--bg) } .vtag.dn { background: var(--accent); color: var(--accent-ink) }
 .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column }
 .card img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block }
 .card .b { padding: 10px 12px; display: flex; flex-direction: column; gap: 5px }
@@ -103,6 +122,7 @@ a { color: var(--accent) }
   <button class="tab" data-tab="prep" aria-pressed="false">建てる準備</button>
   <button class="tab" data-tab="book" aria-pressed="false">マイデザイン図鑑</button>
   <button class="tab" data-tab="refs" aria-pressed="false">集めた作例</button>
+  <button class="tab" data-tab="vote" aria-pressed="false">作例の審査</button>
 </nav>
 
 <section id="tab-map" style="display:flex;flex-direction:column;gap:16px">
@@ -137,6 +157,7 @@ a { color: var(--accent) }
 </div>
 
 <section id="tab-refs" hidden style="display:flex;flex-direction:column;gap:12px"><div class="row"><input type="search" id="refKw" placeholder="番号・作者ID・ことばで探す（例：R-0088、MA-2715、運河）" aria-label="作例を探す"></div><span class="muted">番号（R-0000 は作例、D-000 はマイデザイン）を伝えると、採用・不採用や使う所を登録できます。★で評価（ブラウザに保存）し、「評価をコピー」で送ってもらえば目録に登録します</span><div id="refChips" style="display:flex;flex-direction:column;gap:8px"></div><div class="row" id="refScoreBox" hidden><textarea id="refScoreText" readonly rows="4" style="flex:1;min-width:0;font:12px 'IBM Plex Mono',monospace;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink)" aria-label="評価の一覧"></textarea><span class="muted" id="refScoreMsg"></span></div><div class="book" id="refs"></div></section>
+<section id="tab-vote" hidden><div id="voteChips" style="display:flex;flex-direction:column;gap:8px"></div><div class="vstage"><div class="vimg" id="vImg"><span class="ld">読みこみ中…</span></div><div class="panel" id="vSide"></div></div></section>
 <script id="data" type="application/json">/*DATA*/</script>
 <script>/*TILES*/</script>
 <script>
@@ -146,7 +167,13 @@ const DT = window.DesignTiles;
 const $ = id => document.getElementById(id);
 const TH = D.th, THC = D.thColor, LEG = D.leg, LON = D.lon, CAT = D.cat;
 const store = { get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} } };
-const S = { choice: store.get('ice-choice', {}), isoView: 'lon', tab: 'map', zoom: 'lon', theme: 'lon', q: '', sel: 'lon_d_platform', hover: null, done: store.get('ice-done', {}), bookTh: 'lon', score: store.get('ice-ref-score', {}) };
+const S = { choice: store.get('ice-choice', {}), isoView: 'lon', tab: 'map', zoom: 'lon', theme: 'lon', q: '', sel: 'lon_d_platform', hover: null, done: store.get('ice-done', {}), bookTh: 'lon', votes: store.get('ice-votes', {}) };
+// 評価 {番号: [いいね 1／イマイチ -1／0, ★0〜5]}。ブラウザと、使えるときは作品のデータベース（votes/all）に保存し、Claude が読んで作例探しに使う
+const oldScore = store.get('ice-ref-score', {}); Object.keys(oldScore).forEach(no => { if (!S.votes[no]) S.votes[no] = [0, oldScore[no]]; });
+let DB = null, dbTimer = null, dbBusy = false, dbDirty = false;
+const saveDb = () => { if (!DB) return; if (dbBusy) { dbDirty = true; return; } dbBusy = true; dbDirty = false; DB.doc('votes/all').set({ v: S.votes, t: Date.now() }).catch(() => {}).finally(() => { dbBusy = false; if (dbDirty) saveDb(); }); };
+const setVote = (no, i, val) => { const o = (S.votes[no] || [0, 0]).slice(); o[i] = val; if (!o[0] && !o[1]) delete S.votes[no]; else S.votes[no] = o; store.set('ice-votes', S.votes); clearTimeout(dbTimer); dbTimer = setTimeout(saveDb, 1200); };
+const likeOf = r => (S.votes[r.no] || [0])[0];
 const IMG = {}; const img = src => { if (!src) return null; if (!IMG[src]) { const i = new Image(); i.onload = () => { i.ok = true; redraw(); }; i.src = src; IMG[src] = i; } return IMG[src].ok ? IMG[src] : null; };
 let redrawQ = false; const redraw = () => { if (redrawQ) return; redrawQ = true; requestAnimationFrame(() => { redrawQ = false; drawMap(); drawSketch(); }); };
 const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -216,7 +243,7 @@ document.addEventListener('click', e => { const t = e.target.closest('button'); 
   else if (t.dataset.zoom) { S.zoom = t.dataset.zoom; renderLists(); drawMap(); }
   else if (t.dataset.th) { S.theme = t.dataset.th; renderLists(); }
   else if (t.dataset.id) select(t.dataset.id, +t.dataset.x, +t.dataset.y);
-  else if (t.dataset.tab) { S.tab = t.dataset.tab; document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-pressed', b.dataset.tab === S.tab)); ['map', 'prep', 'book', 'refs'].forEach(k => $('tab-' + k).hidden = k !== S.tab); if (S.tab === 'prep') renderPrep(); if (S.tab === 'book') renderBook(); if (S.tab === 'refs') renderRefs(); }
+  else if (t.dataset.tab) { S.tab = t.dataset.tab; document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-pressed', b.dataset.tab === S.tab)); ['map', 'prep', 'book', 'refs', 'vote'].forEach(k => $('tab-' + k).hidden = k !== S.tab); if (S.tab === 'vote') renderVote(); if (S.tab === 'prep') renderPrep(); if (S.tab === 'book') renderBook(); if (S.tab === 'refs') renderRefs(); }
   else if (t.dataset.done) { const [id, k] = t.dataset.done.split('|'); S.done[id] = { ...(S.done[id] || {}), [k]: !(S.done[id] || {})[k] }; store.set('ice-done', S.done); renderDetail(); renderLists(); renderStats(); }
   else if (t.dataset.choice) { const [sl, cid] = t.dataset.choice.split('|'); S.choice[sl] = cid; store.set('ice-choice', S.choice); S.sel = cid; renderLists(); renderDetail(); drawMap(); renderStats(); }
   else if (t.dataset.book) { S.bookTh = t.dataset.book; renderBook(); }
@@ -392,7 +419,7 @@ function renderBook() { $('bookChips').innerHTML = [['lon', 'ロンドン'], ['e
   $('book').innerHTML = Object.values(CAT).filter(d => d.themes.includes(S.bookTh)).sort((a, b) => (b.verdict === '採用') - (a.verdict === '採用')).map(d => `<div class="card"><a href="${esc(d.images[0])}" target="_blank" rel="noopener"><img src="${d.thumb}" alt="${esc(d.name)}" loading="lazy"></a><div class="b"><div class="row" style="gap:6px"><span class="no">${esc(d.no)}</span>${d.verdict ? `<span class="pill ok">${esc(d.verdict)}</span>` : ''}</div><b>${esc(d.name)}</b>${d.use ? `<span style="font-size:12px;color:var(--ok)">用途：${esc(d.use)}</span>` : ''}<div class="row" style="gap:6px"><span class="ma">${esc(d.ma)}</span>${d.checked === false ? '<span class="pill" style="color:var(--warn)">要確認</span>' : ''}<span class="muted">${esc(d.creator)}</span></div><span style="font-size:12.5px;color:var(--muted)">${esc(d.look)}</span><div class="parts">${d.parts.map(p => `<span>${esc(p)}</span>`).join('')}</div>${use[d.id] && S.bookTh === 'lon' ? `<span style="font-size:12px;color:var(--ok)">ロンドンで使う：${esc([...use[d.id]].join('・'))}</span>` : ''}<span class="muted"><a href="${esc(d.search)}" target="_blank" rel="noopener">Pinterest で探す</a></span></div></div>`).join(''); }
 
 // 評価（★1〜5）：ブラウザに保存。refs.json に登録した score より、ブラウザで付けた評価を優先する
-const scoreOf = r => S.score[r.no] != null ? S.score[r.no] : (r.score || 0);
+const scoreOf = r => S.votes[r.no] ? S.votes[r.no][1] : (r.score || 0);
 const starsHtml = r => { const v = scoreOf(r); return `<div class="stars" role="group" aria-label="${esc(r.no)} の評価">${[1, 2, 3, 4, 5].map(n => `<button class="${n <= v ? 'on' : ''}" data-refstar="${esc(r.no)}|${n}" aria-label="★${n}" aria-pressed="${n === v}">★</button>`).join('')}</div>`; };
 function renderRefs() { S.refStar = S.refStar || 'all'; S.refTh = S.refTh || 'all'; S.refCat = S.refCat || 'all'; S.refQ = S.refQ || 'all'; S.refMa = !!S.refMa;
   const RC = D.refCats || {}, inTh = D.refs.filter(r => S.refTh === 'all' || r.th === S.refTh), byTh = inTh.filter(r => S.refCat === 'all' || r.cat === S.refCat), qs = [...new Set(byTh.map(r => r.q))]; if (S.refQ !== 'all' && !qs.includes(S.refQ)) S.refQ = 'all';
@@ -404,9 +431,50 @@ function renderRefs() { S.refStar = S.refStar || 'all'; S.refTh = S.refTh || 'al
   $('refQsel').onchange = e => { S.refQ = e.target.value; renderRefs(); };
   const kw = (S.refKw || '').trim().toUpperCase(); $('refs').innerHTML = byTh.slice().sort((a, b) => (S.refSort ? scoreOf(b) - scoreOf(a) : 0) || (b.verdict === '採用') - (a.verdict === '採用') || (a.verdict === '不採用') - (b.verdict === '不採用')).filter(r => (S.refQ === 'all' || r.q === S.refQ) && (!S.refMa || r.ma) && (!S.refOk || r.verdict) && (S.refStar === 'all' || (S.refStar === '0' ? !scoreOf(r) : scoreOf(r) >= +S.refStar)) && (!kw || (r.no + ' ' + (r.ma || '') + ' ' + r.q + ' ' + (r.use || '') + ' ' + (r.note || '') + ' ' + (r.title || '') + ' ' + (RC[r.cat] || '')).toUpperCase().includes(kw))).map(r => `<div class="card"><a href="${esc(r.url)}" target="_blank" rel="noopener"><img src="${r.thumb}" alt="" loading="lazy"></a><div class="b"><div class="row" style="gap:5px"><span class="no">${esc(r.no)}</span>${r.verdict ? `<span class="pill ok">${esc(r.verdict)}</span>` : ''}</div>${starsHtml(r)}${r.note ? `<span style="font-size:11.5px;color:var(--ok)">${esc(r.note)}</span>` : ''}${RC[r.cat] ? `<span class="muted">用途：${esc(RC[r.cat])}</span>` : ''}${r.title ? `<span style="font-size:11.5px">${esc(r.title)}</span>` : ''}<span class="muted">検索：${esc(r.q)}</span>${r.ma ? `<span class="ma" style="white-space:normal">${esc(r.ma)}</span>${r.ocr ? '<span class="muted">画像から自動で読んだ作者ID（要確認）</span>' : ''}` : ''}${r.use ? `<span style="font-size:12px;color:var(--ok)">使っている所：${esc(r.use)}</span>` : ''}</div></div>`).join(''); }
 $('refKw').addEventListener('input', e => { S.refKw = e.target.value; renderRefs(); });
-document.addEventListener('click', e => { const st = e.target.closest('[data-refstar]'); if (st) { const [no, n] = st.dataset.refstar.split('|'), r = D.refs.find(x => x.no === no); S.score[no] = scoreOf(r) === +n ? 0 : +n; if (S.score[no] === (r.score || 0)) delete S.score[no]; store.set('ice-ref-score', S.score); st.parentNode.outerHTML = starsHtml(r); const cp = document.querySelector('[data-refcopy]'); if (cp) cp.textContent = `評価をコピー（${D.refs.filter(x => scoreOf(x) !== (x.score || 0)).length}件）`; return; }
-  const cp = e.target.closest('[data-refcopy]'); if (cp) { const txt = D.refs.filter(r => scoreOf(r) !== (r.score || 0)).map(r => `${r.no} ★${scoreOf(r)}`).join('\n'); $('refScoreBox').hidden = false; $('refScoreText').value = txt || '（まだ評価していません）'; const ok = () => { $('refScoreMsg').textContent = 'コピーしました。そのまま送ってください'; }, fb = () => { $('refScoreText').focus(); $('refScoreText').select(); $('refScoreMsg').textContent = '選択しました。コピーしてください'; }; try { navigator.clipboard.writeText(txt).then(ok, fb); } catch (err) { fb(); } return; }
+document.addEventListener('click', e => { const st = e.target.closest('[data-refstar]'); if (st) { const [no, n] = st.dataset.refstar.split('|'), r = D.refs.find(x => x.no === no); setVote(no, 1, scoreOf(r) === +n ? 0 : +n); st.parentNode.outerHTML = starsHtml(r); const cp = document.querySelector('[data-refcopy]'); if (cp) cp.textContent = `評価をコピー（${D.refs.filter(x => scoreOf(x) !== (x.score || 0)).length}件）`; return; }
+  const cp = e.target.closest('[data-refcopy]'); if (cp) { const txt = D.refs.filter(r => likeOf(r) || scoreOf(r) !== (r.score || 0)).map(r => `${r.no}${likeOf(r) > 0 ? ' いいね' : likeOf(r) < 0 ? ' イマイチ' : ''}${scoreOf(r) ? ' ★' + scoreOf(r) : ''}`).join('\n'); if (S.tab === 'vote') { S.tab = 'refs'; document.querySelector('.tab[data-tab="refs"]').click(); } $('refScoreBox').hidden = false; $('refScoreText').value = txt || '（まだ評価していません）'; const ok = () => { $('refScoreMsg').textContent = 'コピーしました。そのまま送ってください'; }, fb = () => { $('refScoreText').focus(); $('refScoreText').select(); $('refScoreMsg').textContent = '選択しました。コピーしてください'; }; try { navigator.clipboard.writeText(txt).then(ok, fb); } catch (err) { fb(); } return; }
   const t = e.target.closest('[data-refq],[data-refth],[data-refcat],[data-refstarf],[data-refsort],[data-refma],[data-refok]'); if (!t) return; if (t.dataset.refstarf) S.refStar = t.dataset.refstarf; if (t.dataset.refsort) S.refSort = !S.refSort; if (t.dataset.refcat) S.refCat = t.dataset.refcat; if (t.dataset.refq) S.refQ = t.dataset.refq; if (t.dataset.refth) S.refTh = t.dataset.refth; if (t.dataset.refma) S.refMa = !S.refMa; if (t.dataset.refok) S.refOk = !S.refOk; renderRefs(); });
+// ---------- 作例の審査 ----------
+// 大きな画像は big/c000.jpg…（6枚ずつ JPEG をつないだもの）。D.big[番号] = [ファイル, 始まり, 長さ]
+const BIGC = {}, BIGU = {};
+const bigUrl = no => { const b = D.big && D.big[no]; if (!b) return Promise.resolve(null); if (BIGU[no]) return Promise.resolve(BIGU[no]);
+  const f = 'big/c' + String(b[0]).padStart(3, '0') + '.jpg'; BIGC[f] = BIGC[f] || fetch(f).then(r => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); });
+  return BIGC[f].then(buf => (BIGU[no] = URL.createObjectURL(new Blob([buf.slice(b[1], b[1] + b[2])], { type: 'image/jpeg' })))).catch(() => null); };
+const thumbOf = no => (D.refs.find(r => r.no === no) || {}).thumb;
+const UP = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 21h4V9H2v12zm20-11a2 2 0 0 0-2-2h-6.3l1-4.6v-.3c0-.4-.2-.8-.4-1.1L13.2 1 6.6 7.6C6.2 8 6 8.5 6 9v10a2 2 0 0 0 2 2h9c.8 0 1.5-.5 1.8-1.2l3-7.1c.1-.2.2-.5.2-.7v-2z"/></svg>';
+const DN = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 3h-4v12h4V3zM2 14a2 2 0 0 0 2 2h6.3l-1 4.6v.3c0 .4.2.8.4 1.1l1.1 1 6.6-6.6c.4-.4.6-.9.6-1.4V5a2 2 0 0 0-2-2H7c-.8 0-1.5.5-1.8 1.2l-3 7.1c-.1.2-.2.5-.2.7v2z"/></svg>';
+function voteList() { const v = S.vote; return D.refs.filter(r => (v.th === 'all' || r.th === v.th) && (v.cat === 'all' || r.cat === v.cat) && (!v.todo || (!likeOf(r) && !scoreOf(r)))); }
+function renderVote() { S.vote = S.vote || { th: 'all', cat: 'all', todo: true, i: 0, cur: null }; const v = S.vote, RC = D.refCats || {}, TN = { ...TH, hal: 'ハロウィン' };
+  const all = D.refs.length, done = D.refs.filter(r => likeOf(r) || scoreOf(r)).length, ups = D.refs.filter(r => likeOf(r) > 0).length, dns = D.refs.filter(r => likeOf(r) < 0).length;
+  $('voteChips').innerHTML = `<div class="row" style="justify-content:space-between"><div class="row"><b>${done} / ${all} 審査ずみ</b><span class="vtag up">いいね ${ups}</span><span class="vtag dn">イマイチ ${dns}</span><span class="muted" id="vDb">${DB ? 'データベースに保存中（Claude が読めます）' : 'このブラウザに保存中'}</span></div><button class="chip" data-refcopy="1">評価をコピー</button></div><div class="vbar"><i style="width:${(done / all * 100).toFixed(1)}%"></i></div>
+    <div class="row"><span class="muted">地区</span>${['all', 'lon', 'egy', 'jpn', 'usa', 'hal', 'eur', 'port'].map(k => `<button class="chip" data-vth="${k}" aria-pressed="${v.th === k}">${esc(k === 'all' ? 'すべて' : TN[k])}</button>`).join('')}</div>
+    <div class="row"><span class="muted">用途</span>${['all', ...Object.keys(RC)].map(k => `<button class="chip" data-vcat="${k}" aria-pressed="${v.cat === k}">${esc(k === 'all' ? 'すべて' : RC[k])}</button>`).join('')}<button class="chip" data-vtodo="1" aria-pressed="${v.todo}">まだ審査していないものだけ</button></div>`;
+  const L = voteList(); if (v.cur) { const k = L.findIndex(r => r.no === v.cur); if (k >= 0) v.i = k; } if (v.i >= L.length) v.i = Math.max(0, L.length - 1);
+  const r = L[v.i]; v.cur = r ? r.no : null;
+  if (!r) { $('vImg').innerHTML = '<span class="ld">この条件の作例はすべて審査しました。地区や用途を変えるか「まだ審査していないものだけ」を外してください</span>'; $('vSide').innerHTML = ''; return; }
+  const lk = likeOf(r), sc = scoreOf(r);
+  $('vImg').innerHTML = `<img id="vPic" src="${r.thumb}" alt="${esc(r.title || r.q)}" style="filter:blur(2px)">`;
+  bigUrl(r.no).then(u => { const im = $('vPic'); if (im && S.vote.cur === r.no) { if (u) im.src = u; im.style.filter = ''; } });
+  L.slice(v.i + 1, v.i + 3).forEach(n => bigUrl(n.no));
+  $('vSide').innerHTML = `<div class="row" style="gap:6px"><span class="no">${esc(r.no)}</span>${r.verdict ? `<span class="pill ok">${esc(r.verdict)}</span>` : ''}<span class="muted">${v.i + 1} / ${L.length}</span></div>
+    ${r.title ? `<b style="font-size:15px">${esc(r.title)}</b>` : ''}<span class="muted">${esc((TN[r.th] || 'すべての地区') + '・' + (RC[r.cat] || ''))}</span><span class="muted">検索：${esc(r.q)}</span>${r.ma ? `<span class="ma" style="white-space:normal">${esc(r.ma)}</span>` : ''}
+    <div class="vbtns"><button class="vbtn up" data-vlike="1" aria-pressed="${lk > 0}">${UP}いいね</button><button class="vbtn dn" data-vlike="-1" aria-pressed="${lk < 0}">${DN}イマイチ</button></div>
+    <div class="stars vstars" role="group" aria-label="★で評価">${[1, 2, 3, 4, 5].map(n => `<button class="${n <= sc ? 'on' : ''}" data-vstar="${n}" aria-label="★${n}" aria-pressed="${n === sc}">★</button>`).join('')}</div>
+    <div class="vnav"><button data-vgo="-1">← 前へ</button><button data-vgo="1">スキップ →</button></div>
+    <a href="${esc(r.url)}" target="_blank" rel="noopener" class="muted">元の画像を開く</a>
+    <span class="muted"><span class="kbd">A</span> いいね　<span class="kbd">Z</span> イマイチ　<span class="kbd">1</span>〜<span class="kbd">5</span> ★　<span class="kbd">←</span><span class="kbd">→</span> 前・次。いいね・イマイチ・★をつけると次へ進みます</span>`; }
+function voteAct(kind, val) { const v = S.vote, L = voteList(), r = L[v.i]; if (!r) return;
+  if (kind === 'go') { v.i = Math.min(Math.max(0, v.i + val), L.length - 1); v.cur = L[v.i] && L[v.i].no; return renderVote(); }
+  if (kind === 'like') setVote(r.no, 0, likeOf(r) === val ? 0 : val); else setVote(r.no, 1, scoreOf(r) === val ? 0 : val);
+  const L2 = voteList(), k = L2.findIndex(x => x.no === r.no); if (k >= 0) v.i = k + 1; v.cur = L2[Math.min(v.i, L2.length - 1)] ? L2[Math.min(v.i, L2.length - 1)].no : null; renderVote(); }
+document.addEventListener('click', e => { const t = e.target.closest('[data-vth],[data-vcat],[data-vtodo],[data-vlike],[data-vstar],[data-vgo]'); if (!t) return; const v = S.vote;
+  if (t.dataset.vth) { v.th = t.dataset.vth; v.i = 0; v.cur = null; } if (t.dataset.vcat) { v.cat = t.dataset.vcat; v.i = 0; v.cur = null; } if (t.dataset.vtodo) { v.todo = !v.todo; }
+  if (t.dataset.vlike) return voteAct('like', +t.dataset.vlike); if (t.dataset.vstar) return voteAct('star', +t.dataset.vstar); if (t.dataset.vgo) return voteAct('go', +t.dataset.vgo); renderVote(); });
+document.addEventListener('keydown', e => { if (S.tab !== 'vote' || /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return; const k = e.key.toLowerCase();
+  if (k === 'a') voteAct('like', 1); else if (k === 'z') voteAct('like', -1); else if ('12345'.includes(k) && k) voteAct('star', +k); else if (k === 'arrowright') voteAct('go', 1); else if (k === 'arrowleft') voteAct('go', -1); else return; e.preventDefault(); });
+// データベース：開いたときに読みこんで、このブラウザの評価と合わせる（新しく変えた方を残す）
+if (window.claude && window.claude.use) window.claude.use('db').then(db => { if (!db) return; DB = db; return db.doc('votes/all').get().then(snap => { const d = snap.data(); const local = Object.keys(S.votes).length;
+  if (d && d.v) { S.votes = { ...d.v, ...S.votes }; store.set('ice-votes', S.votes); } if (local) saveDb(); if (S.tab === 'vote') renderVote(); if (S.tab === 'refs') renderRefs(); }); }).catch(() => {});
 renderStats(); renderLists(); select(S.sel); window.addEventListener('resize', () => drawMap());
 })();
 </script>
