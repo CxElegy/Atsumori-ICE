@@ -129,6 +129,8 @@ const DISTS = { egy: [8, 12, 40, 62], jpn: [32, 12, 67, 61], usa: [65, 12, 101, 
   ok('マイデザイン：参考の写真はあるモジュールに付く', CAT.examples.every(x => x.for.every(id => DZL.modules.some(m => m.id === id) || id in S.defs)));
   ok('マイデザイン：案の選択肢はすべてあるモジュール', DZL.options.every(o => o.choices.every(id => DZL.modules.some(m => m.id === id) || id in S.defs)));
   ok('番号：作例 R-0000・マイデザイン D-000 は重ならない', (() => { const r = J('designs/refs.json').map(x => x.no), d = CAT.designs.map(x => x.no); return r.every(x => /^R-\d{4}$/.test(x)) && d.every(x => /^D-\d{3}$/.test(x)) && new Set(r).size === r.length && new Set(d).size === d.length; })());
+  { const R = J('designs/refs.json'), by = Object.fromEntries(R.map(r => [r.no, r])); ok('判定：R-0045 不採用・R-0033 はヨーロッパ', by['R-0045'].verdict === '不採用' && /ヨーロッパ/.test(by['R-0033'].use)); }
+  ok('通り道：飛行機ラウンジのまわりに4本（P1〜P4）', J('designs/lon_paths.json').routes.map(r => r.id).join() === 'P1,P2,P3,P4');
   ok('判定：駅が作れるマイデザは採用・飛行機ラウンジ', CAT.designs.find(x => x.ma === 'MA-2715-7913-6849').verdict === '採用' && DZL.options[0].default === 'lon_d_station');
   ok('作例の目録：URLと検索語', J('designs/refs.json').length >= 200 && J('designs/refs.json').every(r => /^https:\/\/i\.pinimg\.com\//.test(r.url) && r.q));
   const MG = loadComponent('Module Guide.dc.html', { w: 400, h: 300 }); const mg = await MG.start(); await new Promise(r => setTimeout(r, 30)); mg.setState({});

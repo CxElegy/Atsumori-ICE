@@ -186,6 +186,8 @@ function drawMap() { drawIso();
     if (m.detail) { x.fillStyle = '#fff'; x.beginPath(); x.arc(px + W * k - 5, py + 5, 4, 0, 7); x.fill(); }
     if ((m.role === 'landmark' && S.zoom !== 'all') || sel) { x.font = `800 ${Math.max(10, Math.min(14, k * 1.1))}px ${getComputedStyle(document.body).getPropertyValue('--display')}`; const t = (m.short || m.name); const tw = x.measureText(t).width;
       x.fillStyle = 'rgba(255,255,255,.92)'; x.fillRect(px, py - 17, tw + 10, 16); x.fillStyle = '#22302d'; x.fillText(t, px + 5, py - 5); } });
+  (D.routes || []).forEach(rt => { x.fillStyle = 'rgba(180,80,58,.55)'; rt.cells.forEach(([X, y]) => { if (X >= b[0] && X < b[2] && y >= b[1] && y < b[3]) x.fillRect((X - b[0]) * k + k * .2, (y - b[1]) * k + k * .2, k * .6, k * .6); });
+    const c0 = rt.cells[0]; if (c0 && c0[0] >= b[0] && c0[0] < b[2] && c0[1] >= b[1] && c0[1] < b[3]) { x.fillStyle = '#b4503a'; x.font = `800 ${Math.max(10, k * .9)}px sans-serif`; x.fillText(rt.id, (c0[0] - b[0]) * k + 2, (c0[1] - b[1]) * k - 2); } });
   D.facs.forEach(([nm, kind, fx, fy]) => { if (fx < b[0] || fx >= b[2] || fy < b[1] || fy >= b[3]) return; x.fillStyle = '#ffffff'; x.beginPath(); x.arc((fx - b[0] + .5) * k, (fy - b[1] + .5) * k, Math.max(4, k * .45), 0, 7); x.fill(); x.fillStyle = '#22302d'; x.font = `700 ${Math.max(8, k * .6)}px sans-serif`; x.textAlign = 'center'; x.fillText(D.facGlyph[kind] || '・', (fx - b[0] + .5) * k, (fy - b[1] + .5) * k + k * .22); x.textAlign = 'left'; });
 }
 function hitMap(e) { const { c, b, k } = mapView(), r = c.getBoundingClientRect(); const X = (e.clientX - r.left) / r.width * c.width / k + b[0], Y = (e.clientY - r.top) / r.height * c.height / k + b[1];
@@ -304,6 +306,9 @@ function renderDetail() {
       <div class="row"><button class="chip" id="ovBtn" aria-pressed="${!!S.overlay}">設計の線（奥・中・手前／中心線）</button>${lon ? '<span class="muted">地面と家具は作者のマイデザインの図をそのまま貼っています</span>' : '<span class="muted">この地区はまだマイデザインを決めていません（色の図）</span>'}</div></div>
     <div style="display:flex;flex-direction:column;gap:8px;min-width:0"><h3>実際のゲームの作例</h3>${refs.length ? refs.slice(0, 3).map(r => `<figure class="ref" style="margin:0"><a href="${esc(r.link || r.img)}" target="_blank" rel="noopener"><img src="${r.img}" alt="${esc(r.name)}"></a><figcaption>${esc(r.name)}　${esc(r.by || '')}</figcaption></figure>`).join('') : '<p class="muted" style="margin:0">まだ作例の写真がありません。似た作例を見つけたら、草図とならべて見比べます。</p>'}</div>
   </div>
+  ${(() => { const W2 = m.r[0].length, H2 = m.r.length, near = (D.routes || []).filter(rt => rt.cells.some(([X, y]) => X >= m.x - 3 && X < m.x + W2 + 3 && y >= m.y - 3 && y < m.y + H2 + 3)); if (!near.length) return '';
+    const MN = { B: 'レンガ（歩道）', p: '古い石畳', bridge: '橋（今ある橋）', '~': '駅のタイル' };
+    return `<div class="step"><h3>まわりの通り道</h3><span class="muted">平面図に赤い点で示した道。番号（P1…）で伝えてもらえれば直します</span>${near.map(rt => { const d = CAT[rt.design] || {}; return `<div class="check"><span class="no">${esc(rt.id)}</span><span><b>${esc(rt.name)}</b>　幅${rt.w}マス・${esc(MN[rt.mat] || rt.mat)}${d.ma ? `（<span class="ma">${esc(d.ma)}</span>）` : ''}・${rt.cells.length}マス<br><span class="muted">${esc(rt.why)}</span></span></div>`; }).join('')}</div>`; })()}
   ${m.fix ? `<div class="step"><h3>作例とくらべて、こう作る</h3><ol class="fix">${m.fix.map(f => `<li>${esc(f)}</li>`).join('')}</ol></div>` : ''}
   <div class="step"><h3>設計のしかた</h3>${dsg ? `<div><b>ねらい</b>　${esc(dsg.concept)}</div><div><b>カメラから見える場面</b>　${esc(dsg.scene)}</div>` : ''}
     <div class="layers">${layers.map(l => `<span class="band" style="background:${BAND[l.band] || '#eee'}">${esc(l.band)}</span><b>${esc(l.role)}</b><span>${esc(l.what)}</span>`).join('')}</div>

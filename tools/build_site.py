@@ -155,9 +155,30 @@ def main():
             'thColor': {'lon': '#b4503a', 'egy': '#d9a441', 'jpn': '#c45a7a', 'usa': '#3f6fb5', 'eur': '#4f9a8a', 'port': '#2f8fc9'},
             'role': {'landmark': '主役', 'support': '脇役', 'filler': 'すき間うめ', 'edge': '道ばた', 'step': '段差', 'facility': '施設'},
             'facGlyph': {'fishing': '釣', 'home': '家', 'farm': '畑', 'orchard': '果', 'quarry': '石', 'flowers': '花'}}
+    # まわりの通り道（designs/lon_paths.json）：線を幅で太らせ、地面を敷く。通り道の上の小さなモジュール（すき間うめ・道ばた）は外す
+    routes = json.load(open(os.path.join(ROOT, 'designs', 'lon_paths.json'), encoding='utf8'))['routes']
+    for rt in routes:
+        cells = []
+        for (x1, y1), (x2, y2) in zip(rt['pts'], rt['pts'][1:]):
+            n = max(abs(x2 - x1), abs(y2 - y1))
+            for i in range(n + 1):
+                x = x1 + (x2 - x1) * i // max(n, 1); y = y1 + (y2 - y1) * i // max(n, 1)
+                for dx in range(rt['w'] if y1 != y2 else 1):
+                    for dy in range(rt['w'] if x1 != x2 else 1):
+                        cells.append((x + dx, y + dy))
+        cells = sorted(set(c for c in cells if 0 <= c[0] < 112 and 0 <= c[1] < 96 and G[c[1]][c[0]] not in 'Swr'))
+        rt['cells'] = [list(c) for c in cells]
+        if rt['mat'] == 'bridge': continue
+        cs = set(cells)
+        def hits(p):
+            return any((p['x'] + dx, p['y'] + dy) in cs for dy, row in enumerate(p['rows']) for dx, ch in enumerate(row) if ch != '.' and ch not in GROUNDS)
+        places = [p for p in places if not (hits(p) and pri(p) >= 2)]
+        for x, y in cells: S['paint'].setdefault('lon', {})['%d,%d' % (x, y)] = rt['mat']
+    data['routes'] = routes
+    data['places'] = places
     if a.board:   # 立体図（London Render）に読ませる配置
         paint = {k: v for pa in S['paint'].values() for k, v in pa.items()}
-        json.dump({'placed': [{'id': 'p%d' % i, 'm': p['id'], 'x': p['x'], 'y': p['y'], 'rot': p['rot']} for i, p in enumerate(places)], 'paint': paint, 'dist': 'lon',
+        json.dump({'placed': [{'id': 'p%d' % i, 'm': (opts[p['slot']].get('default') if p.get('slot') else None) or p['id'], 'x': p['x'], 'y': p['y'], 'rot': p['rot']} for i, p in enumerate(places)], 'paint': paint, 'dist': 'lon',
                    'defs': {k: v['r'] for k, v in mods.items()}}, open(a.board, 'w'), ensure_ascii=False)
     data['views'] = json.load(open(a.views)) if a.views and os.path.exists(a.views) else {}
     html = open(os.path.join(ROOT, 'tools', 'site', 'template.html'), encoding='utf8').read()
