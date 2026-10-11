@@ -102,6 +102,28 @@ const DISTS = { egy: [8, 12, 40, 62], jpn: [32, 12, 67, 61], usa: [65, 12, 101, 
   ok('組み立て台：凡例に白砂・畑・果物の木', ['m', 'y', 'j', 'l'].every(c => c in mb.LEG));
   mb.state.tool = 'B'; eq('組み立て台：レンガ道はそのまま B', mb.paintVal(30, 70), 'B');
   eq('組み立て台：stamp 幅3は9マス', mb.stamp(10, 10, 3).length, 9); eq('組み立て台：stamp 幅2は4マス', mb.stamp(10, 10, 2).length, 4);
+  // ---- マイデザインの細部（第18回：ロンドン） ----
+  const CAT = J('designs/catalog.json'), DZL = J('designs/lon.json'), DT = require('./design_tiles.js');
+  ok('マイデザイン：作者IDは MA-0000-0000-0000 の形', CAT.designs.every(d => /^MA-\d{4}-\d{4}-\d{4}$/.test(d.ma)), CAT.designs.filter(d => !/^MA-\d{4}-\d{4}-\d{4}$/.test(d.ma)).map(d => d.id).join(','));
+  ok('マイデザイン：目録のidは重ならない', new Set(CAT.designs.map(d => d.id)).size === CAT.designs.length);
+  ok('マイデザイン：ロンドンの割り当ては目録にある', [...Object.values(DZL.ground), ...Object.values(DZL.items)].every(g => CAT.designs.some(d => d.id === g.design)));
+  ok('マイデザイン：ロンドンのデザインはすべてロンドン向け', [...Object.values(DZL.ground), ...Object.values(DZL.items)].every(g => CAT.designs.find(d => d.id === g.design).themes.includes('lon')));
+  ok('マイデザイン：細部モジュールは長方形で、記号は凡例にある', DZL.modules.length >= 8 && DZL.modules.every(m => new Set(m.r.map(r => r.length)).size === 1 && m.r.every(r => [...r].every(c => c === '.' || c in mb.LEG))));
+  const tpc = DT.tilePieces(DZL.modules.find(m => m.id === 'lon_d_crossing').r, DZL.ground);
+  eq('マイデザイン：車道と歩道の境は段差のパーツ', tpc[2][0].piece, '段差（縁石）'); eq('マイデザイン：横断歩道のパーツ', tpc[3][4].piece, '横断歩道'); eq('マイデザイン：歩道の中はレンガの全面', tpc[5][4].piece, '全面');
+  ok('マイデザイン：レンガの外の角は「ななめ」', DT.tilePieces(DZL.modules.find(m => m.id === 'lon_d_tube').r, DZL.ground).flat().some(t => t && t.kind === 'diag'));
+  eq('マイデザイン：車道に止めたバスの下は車道', DT.underlay(DZL.modules.find(m => m.id === 'lon_d_bus').r, DZL.ground)[2], '_______');
+  eq('マイデザイン：線路の上の汽車の下は線路', DT.underlay(DZL.modules.find(m => m.id === 'lon_d_platform').r, DZL.ground)[3], '^^^^^^^^');
+  ok('マイデザイン：木の下には道を敷かない', DT.underlay(['tB', 'BB'], DZL.ground)[0][0] === 't');
+  await new Promise(r => setTimeout(r, 30));
+  ok('組み立て台：細部モジュールを一覧に足す', mb.MODS.some(m => m.id === 'lon_d_crossing'));
+  const dzc = mb.dzOf(mb.modById('lon_d_crossing'));
+  ok('組み立て台：モジュールのマイデザイン（レンガ・車道・LOOK RIGHT）', ['MA-7705-5897-7581', 'MA-3533-6629-1009', 'MA-4969-7472-0919'].every(c => dzc.some(d => d.ma === c)), dzc.map(d => d.ma).join(','));
+  ok('組み立て台：エジプトにはまだ割り当てがない', mb.dzOf({ th: 'エジプト', r: ['SS'] }).length === 0);
+  mb.state.placed = [{ id: 'p1', m: 'lon_d_bus', x: 30, y: 70, rot: 0 }]; mb.state.paint = { '31,74': 'r:lon' }; mb.state.dist = 'lon';
+  ok('組み立て台：買い物リストにマイデザイン', mb.shopping('dist').designs.some(d => d.ma === 'MA-2644-7906-9909'));
+  mb.state.placed = []; mb.state.paint = {};
+  ok('立体図：車道と線路の色', /_: '#5c5856'/.test(fs.readFileSync(path.join(ROOT, 'London Render.dc.html'), 'utf8')));
   const lc = mb.lineCells([10, 10], [20, 10], 1); ok('組み立て台：直線は横にまっすぐ', lc.length === 11 && lc.every(c => c[1] === 10));
   const lc2 = mb.lineCells([10, 10], [20, 20], 1); ok('組み立て台：斜め45度', lc2.length === 11 && lc2.every(c => c[0] - 10 === c[1] - 10));
   eq('組み立て台：回転 R で4回もとに戻る', mb.rows({ r: ['ab', 'cd', 'ef'] }, 4).map(r => r.join('')), ['ab', 'cd', 'ef']);

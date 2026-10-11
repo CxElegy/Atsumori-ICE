@@ -98,7 +98,7 @@ class Component extends DCLogic {
     // ---- 配置の整理 ----
     const fur = {}, gnd = {}, blds = [], mons = [], mills = [], lights = [];
     const GR = 'BpSgdwZD=';
-    const GC = { B: '#b8694b', p: '#cdbb91', S: '#ead39b', g: '#dedbd2', d: '#c9a074', m: '#f7f5ef', r: '#6f9e4f' };
+    const GC = { B: '#b8694b', p: '#cdbb91', S: '#ead39b', g: '#dedbd2', d: '#c9a074', m: '#f7f5ef', r: '#6f9e4f', _: '#5c5856', '#': '#e9e7e1', '^': '#8b7b6a' };
     P0.placed.forEach(([id, px, py, r]) => {
       const rows = P0.defs[id]; if (!rows) return; const a = this.rot(rows, r || 0);
       let hb = null, ms = null, ss = [];
@@ -238,6 +238,8 @@ class Component extends DCLogic {
     switch (ch) {
       case 'L': { const t = pole(5, '#2f2a28'); ctx.fillStyle = '#ffd86b'; ctx.beginPath(); ctx.arc(t[0], t[1], 3.2, 0, 7); ctx.fill(); glow(t, 34); break; }
       case 'T': prism(x + .2, y + .2, .6, .6, z, z + 4.2, '#c8352b'); break;
+      case '$': prism(x + .32, y + .32, .36, .36, z, z + 2.2, '#c8352b'); prism(x + .28, y + .28, .44, .44, z + 2.2, z + 2.6, '#2f2f33'); break;   // 円柱の郵便ポスト
+      case '%': prism(x + .45, y + .45, .1, .1, z, z + 5, '#3a3a3a'); prism(x + .5, y + .45, .5, .08, z + 3.4, z + 5, '#23306b'); break;      // 旗（ユニオンジャック）
       case 'b': prism(x + .15, y + .35, .7, .3, z, z + .8, '#8a5a3a'); break;
       case 'h': prism(x + .3, y + .3, .4, .4, z, z + .8, '#8a5a3a'); break;
       case 'c': prism(x + .2, y + .2, .6, .6, z, z + 1.1, '#f1ece2'); break;

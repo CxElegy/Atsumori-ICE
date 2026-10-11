@@ -1,0 +1,276 @@
+{
+ "theme": "lon",
+ "name": "ロンドン",
+ "note": "ロンドンのマイデザインの割り当て。地面は1マスごとにパーツ（全面・縁・角・ななめ・内角・段差）を tools/design_tiles.js が決める。色は濃い灰色の車道・くすんだ茶色のレンガ・灰色の石畳の3つにしぼる（美的センス：テーマの一貫性）",
+ "ground": {
+  "_": {
+   "slot": "車道",
+   "design": "road_chic_stone",
+   "base": "石畳",
+   "edge": "段差（縁石）",
+   "corner": "段差（縁石）",
+   "color": "#5c5856",
+   "pattern": "cobble",
+   "note": "濃い灰色の小さな石畳。歩道（レンガ）との境は段差のパーツ"
+  },
+  "#": {
+   "slot": "横断歩道",
+   "design": "road_chic_stone",
+   "base": "横断歩道",
+   "color": "#5c5856",
+   "pattern": "zebra",
+   "note": "車道を横切るゼブラ。両端に London Road Design の LOOK LEFT / LOOK RIGHT を描く",
+   "marks": "road_london"
+  },
+  "B": {
+   "slot": "歩道・広場（レンガ）",
+   "design": "brick_natural",
+   "base": "全面",
+   "edge": "縁",
+   "corner": "ななめ",
+   "inner": "内角",
+   "color": "#a8846a",
+   "pattern": "brick",
+   "note": "くすんだ茶色のレンガ。外の角は「ななめ」、へこんだ角は「内角」で丸く見せる。車道との境は車道側の段差だけにする（レンガ側に縁を重ねない）",
+   "join": "_#"
+  },
+  "p": {
+   "slot": "石畳（駅前・河岸）",
+   "design": "stone_old",
+   "base": "石畳",
+   "edge": "板石の縁",
+   "corner": "角",
+   "color": "#9a9690",
+   "pattern": "stone",
+   "note": "灰色の丸い石畳を板石の縁で囲む。側溝のパーツを3〜4マスおきに"
+  },
+  "g": {
+   "slot": "芝の敷石",
+   "design": "lawn_grating",
+   "base": "芝の敷石",
+   "color": "#8db070",
+   "pattern": "lawn",
+   "note": "公園の芝に置く敷石"
+  },
+  "^": {
+   "slot": "線路",
+   "design": "station_set",
+   "base": "線路",
+   "color": "#8b7b6a",
+   "pattern": "rail",
+   "note": "ホームの横の線路"
+  }
+ },
+ "items": {
+  "W": {
+   "slot": "壁（シンプルパネル）",
+   "design": "wall_brick_lamp",
+   "note": "レンガのあかり・まど・ドアを交互に"
+  },
+  "Q": {
+   "slot": "城塔（シンプルパネル）",
+   "design": "wall_stone_window",
+   "note": "石造りの窓"
+  },
+  "A": {
+   "slot": "城門（シンプルパネル）",
+   "design": "wall_stone_window",
+   "note": "アーチの窓"
+  },
+  "C": {
+   "slot": "汽車（顔出し看板）",
+   "design": "train_orient",
+   "note": "オリエント急行の客車 A〜E を横に並べる"
+  },
+  "v": {
+   "slot": "2階建てバス（顔出し看板）",
+   "design": "bus_double_decker",
+   "note": "4枚で1台"
+  },
+  "i": {
+   "slot": "看板",
+   "design": "signboard",
+   "note": "PUB・Baker Street"
+  },
+  "Y": {
+   "slot": "パブのカウンターの吊り看板",
+   "design": "hanging_sign",
+   "note": "鉄の吊り下げ看板"
+  },
+  "E": {
+   "slot": "地下鉄の案内板",
+   "design": "underground",
+   "note": "赤い丸の標識と路線案内"
+  },
+  "N": {
+   "slot": "バス停・道しるべ",
+   "design": "underground",
+   "note": "観光地図"
+  },
+  "L": {
+   "slot": "ガス灯の花かご",
+   "design": "hanging_basket",
+   "note": "街灯の腕に吊るす（白とピンクを交互に）"
+  },
+  "$": {
+   "slot": "郵便ポスト",
+   "design": "pillar_box",
+   "note": "赤い円柱ポスト。床に散らばったはがきも"
+  },
+  "%": {
+   "slot": "旗",
+   "design": "union_jack",
+   "note": "旗・のぼりに貼る"
+  }
+ },
+ "legend": {
+  "_": "車道（濃い灰色の石畳）",
+  "#": "横断歩道",
+  "^": "線路",
+  "$": "郵便ポスト（円柱）",
+  "%": "旗（ユニオンジャック）"
+ },
+ "modules": [
+  {
+   "id": "lon_d_crossing",
+   "th": "ロンドン",
+   "role": "support",
+   "name": "細部：横断歩道の角（LOOK RIGHT）",
+   "r": [
+    "LqBBBBBqL",
+    "BBBBBBBBB",
+    "___###___",
+    "___###___",
+    "___###___",
+    "BBBBBBBBB",
+    "T$BBBBBbL"
+   ],
+   "marks": [
+    [
+     1,
+     2,
+     "LOOK RIGHT"
+    ],
+    [
+     7,
+     4,
+     "LOOK LEFT"
+    ]
+   ],
+   "note": "車道を横切るゼブラの横断歩道。両わきの歩道はレンガ、角にガス灯（花かご）と円柱の郵便ポスト",
+   "mat": "B",
+   "detail": true
+  },
+  {
+   "id": "lon_d_telstop",
+   "th": "ロンドン",
+   "role": "support",
+   "name": "細部：電話ボックスの停留所",
+   "r": [
+    "tK.T.Lt",
+    "ppbbppp",
+    "pqppppp"
+   ],
+   "marks": [],
+   "note": "時計・ベンチ・電話ボックス・鉢植え。古びた石畳の小さな停留所（自転車はゲームの家具で）",
+   "mat": "B",
+   "detail": true
+  },
+  {
+   "id": "lon_d_pub",
+   "th": "ロンドン",
+   "role": "support",
+   "name": "細部：パブの前（Baker Street）",
+   "r": [
+    "WiWWWiW",
+    "xBhchBx",
+    "BBBBBBB",
+    "LBBqBBL"
+   ],
+   "marks": [],
+   "note": "レンガの壁（シンプルパネル）に PUB と Baker Street の看板。樽とテラス席",
+   "mat": "B",
+   "detail": true
+  },
+  {
+   "id": "lon_d_post",
+   "th": "ロンドン",
+   "role": "support",
+   "name": "細部：郵便局の前",
+   "r": [
+    "WWWWW",
+    "$BBBi",
+    "BBBBB",
+    "LBBBb"
+   ],
+   "marks": [],
+   "note": "郵便局の壁に円柱ポストと看板。ベンチで待ち合わせ",
+   "mat": "B",
+   "detail": true
+  },
+  {
+   "id": "lon_d_tube",
+   "th": "ロンドン",
+   "role": "support",
+   "name": "細部：地下鉄の入口",
+   "r": [
+    "E.f.E",
+    "fpppf",
+    "fpppf",
+    "BBpBB"
+   ],
+   "marks": [],
+   "note": "柵で囲んだ石畳を階段の入口に見立てる。両わきに赤い丸の地下鉄の標識",
+   "mat": "B",
+   "detail": true
+  },
+  {
+   "id": "lon_d_bus",
+   "th": "ロンドン",
+   "role": "support",
+   "name": "細部：2階建てバスの停留所",
+   "r": [
+    "LBBNbbB",
+    "BBBBBBB",
+    "_vvvv__",
+    "_______"
+   ],
+   "marks": [],
+   "note": "歩道のバス停（道しるべ）と、車道に止まる赤い2階建てバス（顔出し看板4枚）",
+   "mat": "B",
+   "detail": true
+  },
+  {
+   "id": "lon_d_platform",
+   "th": "ロンドン",
+   "role": "landmark",
+   "name": "細部：9¾番線のホーム（オリエント急行）",
+   "r": [
+    "QWWAAWWQ",
+    "bppNpppb",
+    "pppppppp",
+    "CCCCC^^^",
+    "^^^^^^^^"
+   ],
+   "marks": [],
+   "note": "石の駅舎の壁の前のホーム。線路にオリエント急行の客車 A〜E",
+   "mat": "B",
+   "detail": true
+  },
+  {
+   "id": "lon_d_embank",
+   "th": "ロンドン",
+   "role": "support",
+   "name": "細部：テムズ川の河岸",
+   "r": [
+    "LbbL%bbL",
+    "pppppppp",
+    "ffffffff"
+   ],
+   "marks": [],
+   "note": "川ぞいの石畳。ベンチとガス灯、旗。水ぎわに手すり（柵）",
+   "mat": "B",
+   "detail": true
+  }
+ ]
+}

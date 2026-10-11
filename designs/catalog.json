@@ -1,0 +1,709 @@
+{
+ "note": "あつ森のマイデザイン（作者ID MA-xxxx-xxxx-xxxx）の目録。Pinterest の画像に写った作者IDを読み取った。checked=false は画像が小さく、数字を読み違えている恐れがあるもの。ゲームの「マイデザインショップ」の作者ID検索で確かめてから使う",
+ "how": "エイブルシスターズ → マイデザインの端末 → 作者IDで探す（Nintendo Switch Online が必要）",
+ "designs": [
+  {
+   "id": "road_chic_stone",
+   "themes": [
+    "lon"
+   ],
+   "kind": "path",
+   "name": "シックないしだたみ（濃い灰色の石畳・段差・横断歩道・センターライン）",
+   "creator": "@nag_acnh",
+   "ma": "MA-3533-6629-1009",
+   "look": "濃い灰色の小さな石畳。歩道との段差、横断歩道、センターラインのパーツつき",
+   "parts": [
+    "石畳",
+    "段差（縁石）",
+    "横断歩道",
+    "センターライン"
+   ],
+   "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
+   "checked": true
+  },
+  {
+   "id": "road_london",
+   "themes": [
+    "lon"
+   ],
+   "kind": "path",
+   "name": "London Road Design（LOOK LEFT / LOOK RIGHT の路面表示）",
+   "creator": "@sesamesaltchan",
+   "ma": "MA-4969-7472-0919",
+   "look": "灰色の石畳に、ロンドンの「LOOK LEFT/RIGHT」、ゼブラの横断歩道、PARK LIFE の路面表示。A/B/C の3タイプ",
+   "parts": [
+    "石畳",
+    "縁",
+    "角",
+    "ななめ",
+    "横断歩道",
+    "LOOK LEFT",
+    "LOOK RIGHT",
+    "PARK LIFE"
+   ],
+   "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
+   "checked": true
+  },
+  {
+   "id": "brick_natural",
+   "themes": [
+    "lon",
+    "eur"
+   ],
+   "kind": "path",
+   "name": "Natural brick（ナチュラルなレンガ道）",
+   "creator": "wakamori003（COTTONFIELD Design）",
+   "ma": "MA-7705-5897-7581",
+   "look": "くすんだ茶色のレンガ。縁つき・角・ななめ・内角・崩れたレンガのパーツ",
+   "parts": [
+    "全面",
+    "縁",
+    "角",
+    "ななめ",
+    "内角",
+    "くずれ"
+   ],
+   "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
+   "checked": true
+  },
+  {
+   "id": "brick_walk",
+   "themes": [
+    "lon",
+    "eur"
+   ],
+   "kind": "path",
+   "name": "レンガの歩道",
+   "creator": "@joreyakuruto／あみ・フルール島",
+   "ma": "MA-4203-2040-7392",
+   "look": "明るい茶色のレンガ。八角形の広場、ななめ用、内角のパーツ",
+   "parts": [
+    "全面",
+    "縁",
+    "角",
+    "ななめ",
+    "内角"
+   ],
+   "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
+   "checked": true
+  },
+  {
+   "id": "brick_grey",
+   "themes": [
+    "lon"
+   ],
+   "kind": "path",
+   "name": "Grey Brick Path（灰色のレンガ・博物館とエイブルの段差に合う色）",
+   "creator": "ectopi",
+   "ma": "MA-7622-6391-3364",
+   "look": "灰色のレンガ。角・ななめ・縁・歩道・ハート。博物館とエイブルの入口の段差と同じ色",
+   "parts": [
+    "全面",
+    "縁",
+    "角",
+    "ななめ",
+    "歩道"
+   ],
+   "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
+   "checked": true
+  },
+  {
+   "id": "brick_vintage_red",
+   "themes": [
+    "lon"
+   ],
+   "kind": "path",
+   "name": "ヴィンテージな赤いレンガ道（ヘリンボーン＋石の縁）",
+   "creator": "@ren04at",
+   "ma": "MA-2070-7720-6103",
+   "look": "赤いレンガのヘリンボーンを石の縁で囲む。埋め込み型・凹凸型",
+   "parts": [
+    "全面",
+    "縁",
+    "角",
+    "その他"
+   ],
+   "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
+   "checked": true
+  },
+  {
+   "id": "brick_arch",
+   "themes": [
+    "lon",
+    "eur"
+   ],
+   "kind": "path",
+   "name": "アーチレンガの道（ヘリンボーン・アーチ）",
+   "creator": "@rinnekira",
+   "ma": "MA-9611-6541-4595",
+   "look": "焦げ茶のヘリンボーンのレンガ。アーチ・ななめ・角",
+   "parts": [
+    "全面",
+    "アーチ",
+    "角",
+    "ななめ"
+   ],
+   "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
+   "checked": true
+  },
+  {
+   "id": "brick_greige",
+   "themes": [
+    "lon",
+    "eur"
+   ],
+   "kind": "path",
+   "name": "グレージュのレンガとタイル",
+   "creator": "@lenlen_AC",
+   "ma": "MA-1126-9255-1623",
+   "look": "灰ベージュのレンガと菱形タイル、側溝のふた",
+   "parts": [
+    "全面",
+    "角",
+    "ななめ",
+    "タイル",
+    "側溝"
+   ],
+   "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
+   "checked": true
+  },
+  {
+   "id": "stone_old",
+   "themes": [
+    "lon",
+    "eur",
+    "port"
+   ],
+   "kind": "path",
+   "name": "old stone road 古びた石造りの道＋他",
+   "creator": "（作者名は画像に記載なし）",
+   "ma": "MA-5773-8140-8987",
+   "look": "灰色の丸い石畳と板石の縁、側溝。同じ作者IDに「細かいレンガ・白いタイル・布地」「古びたレンガと白いタイルみち」もある",
+   "parts": [
+    "石畳",
+    "板石の縁",
+    "角",
+    "側溝",
+    "白いタイル"
+   ],
+   "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
+   "checked": true
+  },
+  {
+   "id": "stone_curved",
+   "themes": [
+    "lon",
+    "eur"
+   ],
+   "kind": "path",
+   "name": "curved cobblestone path（曲線の石畳）",
+   "creator": "colin.crossing",
+   "ma": "MA-1268-9572-8883",
+   "look": "曲線で囲める灰色の石畳",
+   "parts": [
+    "全面",
+    "曲線の縁"
+   ],
+   "found": "Pinterest 検索「acnh london design code」の画像から読み取り",
+   "checked": true
+  },
+  {
+   "id": "stone_natural",
+   "themes": [
+    "lon",
+    "usa"
+   ],
+   "kind": "path",
+   "name": "自然石の道（落ち葉・横断歩道つき）",
+   "creator": "@kushicrossing",
+   "ma": "MA-7913-0336-4162",
+   "look": "自然石の縁の小道。同じ作者IDにレンガの歩道・横断歩道・落ち葉のパーツ",
+   "parts": [
+    "全面",
+    "縁",
+    "落ち葉",
+    "横断歩道"
+   ],
+   "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
+   "checked": true
+  },
+  {
+   "id": "road_pass",
+   "themes": [
+    "usa"
+   ],
+   "kind": "path",
+   "name": "ROAD PASS（赤茶の車道と歩道）",
+   "creator": "@haru_chi_ate",
+   "ma": "MA-2392-5111-5327",
+   "look": "赤茶の車道、白線、歩道の縁",
+   "parts": [
+    "車道",
+    "白線",
+    "縁",
+    "ななめ"
+   ],
+   "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
+   "checked": true
+  },
+  {
+   "id": "road_suburban",
+   "themes": [
+    "usa"
+   ],
+   "kind": "path",
+   "name": "Suburban Road（アスファルト）",
+   "creator": "@oddovah",
+   "ma": "MA-1215-1043-4705",
+   "look": "灰色のアスファルトと白線・横断歩道・自転車レーン",
+   "parts": [
+    "車道",
+    "白線",
+    "横断歩道",
+    "ななめ"
+   ],
+   "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
+   "checked": true
+  },
+  {
+   "id": "road_nereida",
+   "themes": [
+    "usa"
+   ],
+   "kind": "path",
+   "name": "ROAD PATH（白線・横断歩道・自転車マーク）",
+   "creator": "ACNH_NEREIDA",
+   "ma": "MA-8007-6998-6540",
+   "look": "Hayley さんの道（MA-4933-9023-8605）に重ねる白線",
+   "parts": [
+    "白線",
+    "横断歩道",
+    "自転車"
+   ],
+   "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
+   "checked": true
+  },
+  {
+   "id": "road_parking",
+   "themes": [
+    "usa"
+   ],
+   "kind": "path",
+   "name": "駐車場の道",
+   "creator": "りい",
+   "ma": "MA-9466-2340-2336",
+   "look": "アスファルトと駐車場の白線、落ち葉",
+   "parts": [
+    "車道",
+    "駐車場",
+    "落ち葉"
+   ],
+   "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
+   "checked": true
+  },
+  {
+   "id": "brick_city_old",
+   "themes": [
+    "eur"
+   ],
+   "kind": "path",
+   "name": "old city road / brick road（明るい石畳）",
+   "creator": "kuroneko5810",
+   "ma": "MA-3699-7940-3608",
+   "look": "明るい黄土色の丸い石畳。丸い広場の縁",
+   "parts": [
+    "全面",
+    "丸い縁",
+    "ななめ"
+   ],
+   "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
+   "checked": true
+  },
+  {
+   "id": "lawn_grating",
+   "themes": [
+    "lon",
+    "eur"
+   ],
+   "kind": "path",
+   "name": "lawn & grating & bricks（芝・格子・レンガ）",
+   "creator": "kuroneko5810",
+   "ma": "MA-1888-1692-4600",
+   "look": "芝に置く敷石、側溝の格子、線路",
+   "parts": [
+    "芝の敷石",
+    "格子",
+    "線路",
+    "レンガ"
+   ],
+   "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
+   "checked": true
+  },
+  {
+   "id": "brick_autumn",
+   "themes": [
+    "eur"
+   ],
+   "kind": "path",
+   "name": "Autumn Color Road set",
+   "creator": "@saco_adzuki",
+   "ma": "MA-9101-0923-5301",
+   "look": "明るいレンガに紅葉",
+   "parts": [
+    "全面",
+    "落ち葉"
+   ],
+   "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
+   "checked": true
+  },
+  {
+   "id": "brick_yellow_leaves",
+   "themes": [
+    "eur"
+   ],
+   "kind": "path",
+   "name": "黄色いレンガと落ち葉",
+   "creator": "@boiscrossing",
+   "ma": "MA-8935-7484-1673",
+   "look": "黄土色のレンガに落ち葉、ななめ",
+   "parts": [
+    "全面",
+    "ななめ",
+    "落ち葉"
+   ],
+   "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
+   "checked": true
+  },
+  {
+   "id": "bus_double_decker",
+   "themes": [
+    "lon"
+   ],
+   "kind": "standee",
+   "name": "London double decker bus（2階建てバス）",
+   "creator": "@lasthopes.island",
+   "ma": "MA-2644-7906-9909",
+   "look": "顔出し看板4枚で赤い2階建てバス。屋台2つ・赤いソファも",
+   "parts": [
+    "顔出し看板×4",
+    "屋台",
+    "ソファ"
+   ],
+   "found": "Pinterest 検索「acnh london design code」の画像から読み取り",
+   "checked": true
+  },
+  {
+   "id": "train_orient",
+   "themes": [
+    "lon"
+   ],
+   "kind": "standee",
+   "name": "Orient Express（オリエント急行の客車）",
+   "creator": "@love_sprout",
+   "ma": "MA-1448-0247-9444",
+   "look": "紺色の客車を顔出し看板5枚（A〜E）で",
+   "parts": [
+    "顔出し看板A〜E"
+   ],
+   "found": "Pinterest 検索「acnh london design code」の画像から読み取り",
+   "checked": true
+  },
+  {
+   "id": "station_set",
+   "themes": [
+    "lon"
+   ],
+   "kind": "path",
+   "name": "駅が作れるマイデザ（線路・ホーム）",
+   "creator": "@Yanchagirl",
+   "ma": "MA-2715-7913-6849",
+   "look": "線路とホームの床。同じ作者IDに店の窓・ひさし・壁",
+   "parts": [
+    "線路",
+    "ホーム",
+    "窓",
+    "ひさし",
+    "壁"
+   ],
+   "found": "Pinterest 検索「acnh london design code」の画像から読み取り",
+   "checked": true
+  },
+  {
+   "id": "signboard",
+   "themes": [
+    "lon"
+   ],
+   "kind": "sign",
+   "name": "Signboard patterns（PUB・Baker Street・ユニオンジャック）",
+   "creator": "（作者名は画像に記載なし）",
+   "ma": "MA-0687-4578-5842",
+   "look": "看板に貼る PUB・Baker Street・THE GARTH・ユニオンジャックの図柄",
+   "parts": [
+    "看板",
+    "旗"
+   ],
+   "found": "Pinterest 検索「acnh london design code」の画像から読み取り",
+   "checked": true
+  },
+  {
+   "id": "underground",
+   "themes": [
+    "lon"
+   ],
+   "kind": "sign",
+   "name": "Underground（地下鉄の標識・案内・観光地図）",
+   "creator": "Katie（Sakura島）",
+   "ma": "MA-8566-4471-2247",
+   "look": "ロンドン地下鉄の赤い丸の標識、路線案内、観光地図",
+   "parts": [
+    "標識",
+    "案内",
+    "地図"
+   ],
+   "found": "Pinterest 検索「acnh london design code」の画像から読み取り",
+   "checked": true
+  },
+  {
+   "id": "union_jack",
+   "themes": [
+    "lon"
+   ],
+   "kind": "sign",
+   "name": "ユニオンジャックの旗（My design set）",
+   "creator": "@rkaraopuri",
+   "ma": "MA-5669-9809-1977",
+   "look": "ユニオンジャック。同じ作者IDに港町の色とりどりの壁と水面",
+   "parts": [
+    "旗",
+    "壁",
+    "水面"
+   ],
+   "found": "Pinterest 検索「acnh british design code」の画像から読み取り",
+   "checked": true
+  },
+  {
+   "id": "door_curtain",
+   "themes": [
+    "lon"
+   ],
+   "kind": "panel",
+   "name": "ドア・カーテン（My design set）",
+   "creator": "@rkaraopuri",
+   "ma": "MA-5718-7135-8145",
+   "look": "木のドアの顔出し看板と緑・紺のカーテン",
+   "parts": [
+    "ドア",
+    "カーテン"
+   ],
+   "found": "Pinterest 検索「acnh british design code」の画像から読み取り",
+   "checked": true
+  },
+  {
+   "id": "hanging_basket",
+   "themes": [
+    "lon",
+    "eur"
+   ],
+   "kind": "sign",
+   "name": "Hanging basket（街灯に吊るす花かご）",
+   "creator": "@ren04at",
+   "ma": "MA-1944-3607-0570",
+   "look": "街灯の腕に吊るす花かご。黄・白・ピンク・紫・青",
+   "parts": [
+    "花かご×5色"
+   ],
+   "found": "Pinterest 検索「あつ森 ロンドン マイデザイン」の画像から読み取り",
+   "checked": true
+  },
+  {
+   "id": "hanging_sign",
+   "themes": [
+    "lon",
+    "eur"
+   ],
+   "kind": "sign",
+   "name": "吊り下げ看板（Citron Island）",
+   "creator": "Citron Island",
+   "ma": "MA-4073-4971-1308",
+   "look": "鉄の吊り下げ看板。ノーマル・バラ・ブドウ",
+   "parts": [
+    "吊り看板×3"
+   ],
+   "found": "Pinterest 検索「あつ森 ロンドン マイデザイン」の画像から読み取り",
+   "checked": true
+  },
+  {
+   "id": "iron_sign",
+   "themes": [
+    "lon",
+    "eur"
+   ],
+   "kind": "sign",
+   "name": "Iron Sign Plates・autumn swag",
+   "creator": "@siumai_mgmg",
+   "ma": "MA-1428-4169-0099",
+   "look": "カフェ・ケーキの鉄の看板と、秋のスワッグ",
+   "parts": [
+    "鉄の看板",
+    "スワッグ"
+   ],
+   "found": "Pinterest 検索「acnh london design code」の画像から読み取り",
+   "checked": true
+  },
+  {
+   "id": "pillar_box",
+   "themes": [
+    "lon"
+   ],
+   "kind": "standee",
+   "name": "レトロなポスト セット（円柱の赤いポスト）",
+   "creator": "@noconoco_acnh",
+   "ma": "MA-4037-0735-3722",
+   "look": "赤い円柱ポスト（顔出し看板＋レコードボックス）と散らばったはがき",
+   "parts": [
+    "ポスト",
+    "はがき"
+   ],
+   "found": "Pinterest 検索「acnh red telephone box design code」の画像から読み取り",
+   "checked": true
+  },
+  {
+   "id": "post_box",
+   "themes": [
+    "lon"
+   ],
+   "kind": "sign",
+   "name": "POST（赤・黄・緑・紺の郵便ポスト）",
+   "creator": "ワダ（@wd_mori）",
+   "ma": "MA-0686-4693-6303",
+   "look": "郵便ポストに貼る POST の図柄",
+   "parts": [
+    "ポストの図柄×4色"
+   ],
+   "found": "Pinterest 検索「acnh red telephone box design code」の画像から読み取り",
+   "checked": true
+  },
+  {
+   "id": "post_office",
+   "themes": [
+    "lon"
+   ],
+   "kind": "panel",
+   "name": "郵便局セット",
+   "creator": "@nag_acnh",
+   "ma": "MA-3533-6629-1009",
+   "look": "郵便局の窓口・棚。車道の石畳と同じ作者",
+   "parts": [
+    "壁",
+    "窓口"
+   ],
+   "found": "Pinterest 検索「acnh london path code」の画像から読み取り",
+   "checked": true
+  },
+  {
+   "id": "wall_brick_lamp",
+   "themes": [
+    "lon"
+   ],
+   "kind": "panel",
+   "name": "ヨーロッパの街並みシリーズ（レンガのあかり・まど・ドア）",
+   "creator": "@ritose_acnh",
+   "ma": "MA-6119-9554-9965",
+   "look": "シンプルパネルに貼るレンガ壁。あかり・窓・黒と緑のドア、白いレンガも",
+   "parts": [
+    "レンガ壁",
+    "窓",
+    "あかり",
+    "ドア"
+   ],
+   "found": "Pinterest 検索「acnh british design code」の画像から読み取り",
+   "checked": true
+  },
+  {
+   "id": "wall_stone_window",
+   "themes": [
+    "lon",
+    "eur"
+   ],
+   "kind": "panel",
+   "name": "石造りの街並み Stone Window Series",
+   "creator": "Piccolino",
+   "ma": "MA-9278-7443-5692",
+   "look": "石造りの壁の窓・アーチ・バルコニー",
+   "parts": [
+    "窓",
+    "アーチ",
+    "バルコニー",
+    "ひさし"
+   ],
+   "found": "Pinterest 検索「acnh red telephone box design code」の画像から読み取り",
+   "checked": true
+  },
+  {
+   "id": "wall_windows_bricks",
+   "themes": [
+    "lon"
+   ],
+   "kind": "panel",
+   "name": "Windows & Bricks",
+   "creator": "@rico_ravi_acnh",
+   "ma": "MA-5290-7180-3371",
+   "look": "レンガ壁に窓（よろい戸・ガラス）。5色のレンガ",
+   "parts": [
+    "窓",
+    "レンガ壁"
+   ],
+   "found": "Pinterest 検索「acnh london design code」の画像から読み取り",
+   "checked": true
+  },
+  {
+   "id": "window_hp",
+   "themes": [
+    "lon"
+   ],
+   "kind": "panel",
+   "name": "窓（Honeydukes・Ollivander's）",
+   "creator": "casey（Iris Isle）",
+   "ma": "MA-2136-4879-8864",
+   "look": "魔法の街の店の窓",
+   "parts": [
+    "窓"
+   ],
+   "found": "Pinterest 検索「acnh london design code」の画像から読み取り",
+   "checked": false
+  },
+  {
+   "id": "london_door",
+   "themes": [
+    "lon"
+   ],
+   "kind": "standee",
+   "name": "London Door・Sherlock Holmes（顔出し看板）",
+   "creator": "Hermione（Lumos）",
+   "ma": "MA-1354-7553-5643",
+   "look": "黒いドアとベーカー街の店先",
+   "parts": [
+    "ドア",
+    "店先"
+   ],
+   "found": "Pinterest 検索「acnh london design code」の画像から読み取り",
+   "checked": false
+  },
+  {
+   "id": "versailles",
+   "themes": [
+    "eur"
+   ],
+   "kind": "path",
+   "name": "Versailles Garden（幾何学の庭）",
+   "creator": "@KarmaCrossing",
+   "ma": "MA-3642-0982-7924",
+   "look": "フランス式庭園の芝の模様",
+   "parts": [
+    "芝の模様"
+   ],
+   "found": "Pinterest 検索「acnh london design code」の画像から読み取り",
+   "checked": true
+  }
+ ]
+}

@@ -103,6 +103,7 @@
 <div style="display:flex;flex-direction:column;gap:3px;min-width:0">
 <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap"><sc-if value="{{ m.isPop }}" hint-placeholder-val="{{ false }}"><span style="font-size:10px;font-weight:700;background:#f2c14e;color:#4a3b30;border-radius:4px;padding:1px 5px">人気</span></sc-if><b style="font-size:14px">{{ m.name }}</b><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:oklch(0.5 0.02 60)">{{ m.size }}</span></div>
 <span style="font-size:12px;line-height:1.6;color:oklch(0.42 0.02 60)">{{ m.note }}</span>
+<sc-if value="{{ m.dz }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;line-height:1.6;color:oklch(0.45 0.09 235);font-family:'IBM Plex Mono','Zen Maru Gothic',monospace">マイデザイン　{{ m.dz }}</span></sc-if>
 <div style="display:flex;gap:10px;flex-wrap:wrap;font-size:12px">
 <sc-if value="{{ m.hasVar }}" hint-placeholder-val="{{ false }}"><button onClick="{{ m.openVar }}" style="font:inherit;font-size:12px;border:0;background:none;padding:0;cursor:pointer;color:#a8402a;font-weight:700">バリエーション {{ m.nVar }}種 ▸</button></sc-if>
 <sc-if value="{{ m.url }}" hint-placeholder-val="{{ false }}"><a href="{{ m.url }}" target="_blank">参考ページ</a></sc-if>
@@ -126,6 +127,8 @@
 <sc-for list="{{ shopGround }}" as="c" hint-placeholder-count="0"><span style="font-size:12px;background:white;border-radius:999px;padding:4px 10px;display:flex;gap:5px;align-items:center"><span style="width:10px;height:10px;border-radius:2px;background:{{ c.bg }}"></span>{{ c.name }} {{ c.n }}マス</span></sc-for></div>
 <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center"><span style="font-size:12px;color:oklch(0.5 0.02 60);width:64px">家具</span>
 <sc-for list="{{ shopItems }}" as="c" hint-placeholder-count="0"><span style="font-size:12px;background:white;border-radius:999px;padding:4px 10px">{{ c.name }} ×{{ c.n }}</span></sc-for></div>
+<sc-if value="{{ hasDesigns }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center"><span style="font-size:12px;color:oklch(0.5 0.02 60);width:64px">マイデザイン</span>
+<sc-for list="{{ shopDesigns }}" as="c" hint-placeholder-count="0"><span style="font-size:12px;background:white;border-radius:999px;padding:4px 10px">{{ c.name }} <b style="font-family:'IBM Plex Mono',monospace;color:oklch(0.45 0.09 235)">{{ c.ma }}</b></span></sc-for></div></sc-if>
 </section>
 
 <section style="display:flex;flex-direction:column;gap:10px">
@@ -188,7 +191,9 @@ class Component extends DCLogic {
     q: ['鉢植え・壺', '#e9c9a0', '鉢'], s: ['像・大型オブジェ', '#e3d7b8', '像'], v: ['乗り物', '#f0b9a8', '乗'], z: ['墓石', '#cfcbd6', '墓'],
     I: ['温泉', '#b8e3ef', '湯'], U: ['噴水・井戸', '#bfe6f0', '泉'], i: ['看板', '#f4ecd2', '看'],
     // 第14回：枯山水の白砂（砂紋）・畑・果物の木・空けるマス（木・岩・花のまわりは何も置かない）
-    m: ['砂紋（箒目）の白砂', '#efece3', ''], y: ['畑（野菜）', '#9cc46a', '畑'], j: ['果物の木', '#7fbf5a', '果'], l: ['空けるマス', '#dcefcf', ''], r: ['苔', '#6f9e4f', '']
+    m: ['砂紋（箒目）の白砂', '#efece3', ''], y: ['畑（野菜）', '#9cc46a', '畑'], j: ['果物の木', '#7fbf5a', '果'], l: ['空けるマス', '#dcefcf', ''], r: ['苔', '#6f9e4f', ''],
+    // 第18回：マイデザインの細部（designs/lon.json の細部モジュールで使う）
+    _: ['車道（濃い灰色の石畳）', '#5c5856', ''], '#': ['横断歩道', '#e9e7e1', '横'], '^': ['線路', '#8b7b6a', ''], $: ['郵便ポスト', '#e7a59f', '〒'], '%': ['旗', '#c9cfe6', '旗']
   };
   genAll(hand) {
     const out = [], seen = new Set(), MN = { B: 'レンガ', p: '石畳', S: '砂' };
@@ -309,6 +314,10 @@ class Component extends DCLogic {
     fetch('plan-terrain.json').then(r => r.json()).then(j => { this.grid = j.grid; this.lvl = j.h; this.facs = j.facilities || []; this.draw(); });   // 計画の地形（表面と高さ）
     fetch('modules-curated.json').then(r => r.json()).then(d => { this.MODS = this.MODS.concat(d.modules.filter(m => !this.modById(m.id))); this.SRC = d.sources; this.setState({ modsLoaded: d.modules.length }); }).catch(() => {});
     fetch('samples.json').then(r => r.json()).then(d => { this.SAMPLES = d; this.setState({ samplesLoaded: true }); }).catch(() => {});
+    // マイデザインの割り当て（地区ごと）と作者IDの目録。細部モジュールも一覧に足す
+    Promise.all([fetch('designs/catalog.json').then(r => r.json()), fetch('designs/lon.json').then(r => r.json())]).then(([cat, lon]) => {
+      this.CAT = Object.fromEntries(cat.designs.map(d => [d.id, d])); this.DZ = { lon };
+      this.MODS = this.MODS.concat(lon.modules.filter(m => !this.modById(m.id))); this.setState({ dzLoaded: true }); }).catch(() => {});
     this.onKey = e => {
       if (e.target && /INPUT|TEXTAREA/.test(e.target.tagName)) return;
       if (e.ctrlKey || e.metaKey) { const k = e.key.toLowerCase(); if (k === 'z' && !e.shiftKey) { e.preventDefault(); this.undo(); } else if (k === 'y' || (k === 'z' && e.shiftKey)) { e.preventDefault(); this.redo(); } return; }
@@ -390,7 +399,7 @@ class Component extends DCLogic {
     this._issFor = s.placed; this._issP = s.paint; this._issN = this.MODS.length; this._iss = out; return out;
   }
   // 買い物リスト：地面はマス数、家具は個数（数マスで1つのものは換算）
-  GROUND = 'BpSgdwZDmlr'; UNIT = { Y: 2, M: 9, C: 3, E: 3, U: 4, I: 4, R: 2, '=': 3 };
+  GROUND = 'BpSgdwZDmlr_#^'; UNIT = { Y: 2, M: 9, C: 3, E: 3, U: 4, I: 4, R: 2, '=': 3 };
   shopping(scope) {
     const s = this.state, b = scope === 'all' ? null : this.DISTS[s.dist][1], inB = (x, y) => !b || (x >= b[0] && x < b[2] && y >= b[1] && y < b[3]);
     const cells = {}, add = ch => { cells[ch] = (cells[ch] || 0) + 1; }; let bld = 0;
@@ -399,8 +408,17 @@ class Component extends DCLogic {
     const L = this.LEG, ground = [], items = [];
     Object.entries(cells).forEach(([ch, n]) => { const l = L[ch]; if (!l || ch === 'l') return; if (ch.startsWith('r:') || this.GROUND.includes(ch)) { if (ch !== 'D') ground.push({ name: l[0], n, bg: l[1] }); } else items.push({ name: l[0], n: Math.ceil(n / (this.UNIT[ch] || 1)) }); });
     if (bld) items.push({ name: '建物（家・施設）', n: bld });
-    return { ground: ground.sort((a, b) => b.n - a.n), items: items.sort((a, b) => b.n - a.n) };
+    const dz = new Map(), addDz = list => list.forEach(d => { if (!dz.has(d.id)) dz.set(d.id, d); });
+    Object.entries(s.paint).forEach(([k, v]) => { const [x, y] = k.split(',').map(Number); if (inB(x, y) && v.startsWith('r:')) addDz(this.dzOf({ th: this.DIST_TH[v.slice(2)], r: ['_'] })); });
+    s.placed.forEach(p => { if (!inB(p.x, p.y)) return; const m = this.modById(p.m); if (m) addDz(this.dzOf(m)); });
+    return { ground: ground.sort((a, b) => b.n - a.n), items: items.sort((a, b) => b.n - a.n), designs: [...dz.values()] };
   }
+  // モジュール（または道路の塗り）で使うマイデザイン。地区の割り当てがあるテーマだけ
+  CAT = {}; DZ = {};
+  dzOf(m) { const k = Object.keys(this.DIST_TH).find(k => this.DIST_TH[k] === m.th), doc = this.DZ[k]; if (!doc) return [];
+    const ids = new Map(); m.r.join('').split('').forEach(ch => { const g = doc.ground[ch] || doc.items[ch]; if (g && !ids.has(g.design)) ids.set(g.design, g.slot); });
+    if (m.r.some(r => r.includes('#')) && doc.ground['#'].marks) ids.set(doc.ground['#'].marks, '路面の表示');
+    return [...ids].map(([id, slot]) => ({ id, slot, ma: (this.CAT[id] || {}).ma || '', name: (this.CAT[id] || {}).name || id, who: (this.CAT[id] || {}).creator || '', ok: (this.CAT[id] || {}).checked !== false })); }
   TERR = { '1': '下の段', '3': '上の段', t: '林', p: '道・広場（今ある）', P: '広場', b: '橋', K: 'レンガ（9¾）', w: '川・池', S: '海', s: '浜', r: '岩' };
   where(x, y) { return 'ABCDEF'[Math.floor(y / 16)] + (Math.floor(x / 16) + 1); }
   removeSel() { const id = this.state.sel; if (id) this.remember(); if (id) this.setState(s => ({ placed: s.placed.filter(p => p.id !== id), sel: null })); }
@@ -421,7 +439,7 @@ class Component extends DCLogic {
       const r = m.r, w = r[0].length;
       const cells = []; r.forEach(row => row.split('').forEach(ch => { const l = L[ch]; cells.push({ bg: l ? l[1] : 'white', g: l ? l[2] : '' }); }));
       const nv = m.base ? nVar[m.base] : 0;
-      return { isPop: isPop(m), url: m.src || '', hasVar: s.group && !s.base && nv > 1, nVar: nv, openVar: () => this.setState({ base: m.base, limit: 40 }), name: m.name, note: m.note, size: `${w}×${r.length}マス`, gtc: `repeat(${w}, 13px)`, cells, outline: s.tool === 'place' && s.mod === m.id ? '2px solid #4a3b30' : 'none', pick: () => this.setState({ mod: m.id, tool: 'place', rot: 0 }) };
+      return { isPop: isPop(m), url: m.src || '', hasVar: s.group && !s.base && nv > 1, nVar: nv, openVar: () => this.setState({ base: m.base, limit: 40 }), name: m.name, note: m.note, dz: this.dzOf(m).map(d => `${d.slot} ${d.ma}`).join('　'), size: `${w}×${r.length}マス`, gtc: `repeat(${w}, 13px)`, cells, outline: s.tool === 'place' && s.mod === m.id ? '2px solid #4a3b30' : 'none', pick: () => this.setState({ mod: m.id, tool: 'place', rot: 0 }) };
     });
     const cnt = {}; s.placed.forEach(p => { const m = this.modById(p.m); if (m) cnt[m.name] = (cnt[m.name] || 0) + 1; });
     const counts = Object.entries(cnt).map(([name, n]) => ({ name, n }));
@@ -436,8 +454,8 @@ class Component extends DCLogic {
       groupLabel: s.group ? '色違いをまとめる：オン' : '色違いをまとめる：オフ', toggleGroup: () => this.setState(st => ({ group: !st.group, base: null, limit: 40 })),
       inBase: !!s.base, backBase: () => this.setState({ base: null, limit: 40 }),
       matChips: [['all', 'すべての素材'], ['B', 'レンガ'], ['p', '石畳'], ['S', '砂'], ['g', '砂利'], ['d', 'ウッドデッキ']].map(([k, n]) => ({ name: n, pick: () => this.setState({ mat: k, limit: 40 }), bg: s.mat === k ? '#4a3b30' : 'white', fg: s.mat === k ? 'white' : '#4a3b30' })),
-      ...(() => { const sh = this.shopping(s.shop); return { shopGround: sh.ground, shopItems: sh.items,
-        saveShop: () => { const nm = s.shop === 'all' ? '島全体' : this.DISTS[s.dist][0], txt = [`アイス島 買い物リスト（${nm}・目安）`, '', '■ 道・地面', ...sh.ground.map(g => `${g.name}\t${g.n}マス`), '', '■ 家具', ...sh.items.map(g => `${g.name}\t${g.n}`)].join('\n');
+      ...(() => { const sh = this.shopping(s.shop); return { shopGround: sh.ground, shopItems: sh.items, shopDesigns: sh.designs.map(d => ({ name: `${d.slot}：${d.name.replace(/（.*$/, '')}`, ma: d.ma + (d.ok ? '' : '（要確認）') })), hasDesigns: sh.designs.length > 0,
+        saveShop: () => { const nm = s.shop === 'all' ? '島全体' : this.DISTS[s.dist][0], txt = [`アイス島 買い物リスト（${nm}・目安）`, '', '■ 道・地面', ...sh.ground.map(g => `${g.name}\t${g.n}マス`), '', '■ 家具', ...sh.items.map(g => `${g.name}\t${g.n}`), '', '■ マイデザイン（作者IDで探す）', ...sh.designs.map(d => `${d.slot}\t${d.name}\t${d.who}\t${d.ma}${d.ok ? '' : '（要確認）'}`)].join('\n');
           const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([txt], { type: 'text/plain' })); a.download = `買い物リスト_${nm}.txt`; a.click(); } }; })(),
       shopScopes: [['dist', 'この地区'], ['all', '島全体']].map(([k, n]) => ({ name: n, pick: () => this.setState({ shop: k }), bg: s.shop === k ? '#4a3b30' : 'white', fg: s.shop === k ? 'white' : '#4a3b30' })),
       hoverInfo: (() => { const h = s.hover; if (!h || !this.grid) return 'マウスを乗せると、ゲームの地図の区画（A1〜F7）と地形を表示します'; const v = (this.grid[h[1]] || '')[h[0]], id = this.hit(h[0], h[1]), p = id && s.placed.find(q => q.id === id), mm = p && this.modById(p.m), pv = s.paint[h[0] + ',' + h[1]];
