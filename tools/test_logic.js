@@ -136,6 +136,9 @@ const DISTS = { egy: [8, 12, 40, 62], jpn: [32, 12, 67, 61], usa: [65, 12, 101, 
   mg.setState({ group: 'adopt', sel: 'lon_934' }); const g934 = mg.renderVals();
   ok('組み方：採用ずみのモジュール（9¾番線）も組める', g934.mName.startsWith('9¾') && g934.dzItems.some(d => d.ma === 'MA-1448-0247-9444') && /見本での場所/.test(g934.mPlace), g934.mPlace);
   eq('組み方：横に続く家具はまとめて言う', mg.posText(mg.cur(), 'C'), '奥から3列目の4〜6番目');
+  for (const [yaw, pitch] of [[0, 50], [90, 25], [215, 78], [35, 50]]) { MG.stats.calls = 0; MG.stats.bad = []; mg.dk3 = null; mg.setState({ yaw, pitch }); ok(`組み方：立体図（向き${yaw}°・角度${pitch}°）`, MG.stats.calls > 300 && MG.stats.bad.length === 0, MG.stats.bad.slice(0, 2).join(',')); }
+  const v3 = mg.renderVals(); v3.dDown({ clientX: 100, clientY: 100 }); v3.dMove({ clientX: 160, clientY: 120 }); v3.dUp(); eq('組み方：ドラッグで回す', mg.state.yaw, 5); eq('組み方：ドラッグで角度', mg.state.pitch, 56);
+  ok('組み方：細部モジュールの家具はすべて立体の形がある', DZL.modules.every(m => m.r.join('').split('').every(ch => ch === '.' || ch in DZL.ground || mg.SHAPES(ch, 0, 0)[0].c !== '#cfc8bb')));
   mg.setState({ tab: 'book', bookTh: 'lon' }); const gb = mg.renderVals(); ok('図鑑：ロンドンのデザインを画像つきで並べる', gb.book.length >= 25 && gb.book.every(d => d.img && d.ma));
   ok('組み立て台：モジュールの組み方へのリンク', fs.readFileSync(path.join(ROOT, 'Module Builder.dc.html'), 'utf8').includes('Module Guide.dc.html'));
   const lc = mb.lineCells([10, 10], [20, 10], 1); ok('組み立て台：直線は横にまっすぐ', lc.length === 11 && lc.every(c => c[1] === 10));

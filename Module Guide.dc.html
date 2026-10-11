@@ -41,6 +41,14 @@
 <span style="font-size:13px;line-height:1.7;color:oklch(0.42 0.02 60)">{{ mNote }}</span>
 <canvas ref="{{ cvRef }}" onMouseMove="{{ onMove }}" onMouseLeave="{{ onLeave }}" style="width:100%;display:block;border-radius:10px;background:#7dbb5a"></canvas>
 <div style="font-size:12px;color:oklch(0.4 0.02 60);min-height:20px;font-family:'IBM Plex Mono','Zen Maru Gothic',monospace">{{ hoverInfo }}</div>
+<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:6px"><b style="font-size:15px;margin-right:6px">立体図</b>
+<sc-for list="{{ views }}" as="v" hint-placeholder-count="4"><button onClick="{{ v.pick }}" style="font:inherit;font-size:12px;border:1px solid oklch(0.85 0.02 85);border-radius:999px;padding:4px 10px;cursor:pointer;background:{{ v.bg }};color:{{ v.fg }}">{{ v.name }}</button></sc-for>
+<span style="width:8px"></span>
+<sc-for list="{{ pitches }}" as="v" hint-placeholder-count="3"><button onClick="{{ v.pick }}" style="font:inherit;font-size:12px;border:1px solid oklch(0.85 0.02 85);border-radius:999px;padding:4px 10px;cursor:pointer;background:{{ v.bg }};color:{{ v.fg }}">{{ v.name }}</button></sc-for>
+<button onClick="{{ spin }}" style="font:inherit;font-size:12px;border:0;border-radius:999px;padding:5px 12px;cursor:pointer;background:#a8402a;color:white">{{ spinLabel }}</button>
+</div>
+<canvas ref="{{ cv3Ref }}" onMouseDown="{{ dDown }}" onMouseMove="{{ dMove }}" onMouseUp="{{ dUp }}" onMouseLeave="{{ dUp }}" style="width:100%;height:440px;display:block;border-radius:10px;background:linear-gradient(#cfeaf3,#eaf6f0);cursor:grab;touch-action:none"></canvas>
+<span style="font-size:12px;color:oklch(0.5 0.02 60)">ドラッグで回す（左右＝向き、上下＝見下ろす角度）。あつ森のカメラは「南から・ななめ」</span>
 <span style="font-size:12px;color:oklch(0.5 0.02 60)">{{ mPlace }}</span>
 <sc-if value="{{ hasEx }}" hint-placeholder-val="{{ false }}">
 <b style="font-size:13px;margin-top:6px">参考の写真（作例）</b>
@@ -124,7 +132,8 @@
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
   cv = React.createRef();
-  state = { tab: 'guide', group: 'detail', sel: 'lon_d_crossing', bookTh: 'lon', hover: null, loaded: false };
+  state = { tab: 'guide', group: 'detail', sel: 'lon_d_crossing', bookTh: 'lon', hover: null, loaded: false, yaw: 0, pitch: 50, spinning: false };
+  cv3 = React.createRef();
   CAT = {}; CATL = []; EX = []; DOC = null; ADOPT = []; SAMPLES = null; DT = null;
   S = 44;
   TH = { lon: 'ロンドン', eur: 'ヨーロッパ', usa: 'アメリカ', port: '地中海' };
@@ -147,7 +156,90 @@ class Component extends DCLogic {
       this.setState({ loaded: true });
     });
   }
-  componentDidUpdate() { this.draw(); }
+  componentDidUpdate() { this.draw(); this.draw3(); }
+  componentWillUnmount() { clearInterval(this.timer); }
+
+  // ---- 立体図：モジュールを小さな箱庭にして、好きな向きと角度から見る ----
+  // 1マス＝1。z は高さ（1＝1マスの幅と同じ）。向き yaw は 0＝南から（あつ森のカメラ）・90＝東から
+  SHAPES(ch, x, y) {
+    const B = (x0, y0, z0, x1, y1, z1, c) => ({ t: 'box', b: [x + x0, y + y0, z0, x + x1, y + y1, z1], c }), O = (cx, cy, cz, r, c) => ({ t: 'ball', p: [x + cx, y + cy, cz], r, c });
+    switch (ch) {
+      case 'W': return [B(0, .05, 0, 1, .2, 1.7, '#9a5440'), B(.2, .19, .55, .45, .22, 1.15, '#3b4f62'), B(.55, .19, .55, .8, .22, 1.15, '#3b4f62'), B(0, .03, 1.7, 1, .22, 1.8, '#d9c9b0')];
+      case 'Q': return [B(0, .02, 0, 1, .3, 2.5, '#a39c90'), B(.3, .29, 1.2, .7, .32, 1.9, '#3b4f62'), B(-.02, 0, 2.5, 1.02, .32, 2.7, '#8a8378')];
+      case 'A': return [B(0, .05, 0, .2, .25, 2.1, '#a39c90'), B(.8, .05, 0, 1, .25, 2.1, '#a39c90'), B(0, .05, 1.6, 1, .25, 2.1, '#a39c90'), B(.2, .1, 0, .8, .15, 1.6, '#4a3a2e')];
+      case 'C': return [B(.02, .15, .15, .98, .85, 1.25, '#23306b'), B(.1, .84, .6, .9, .87, .95, '#e8d48a'), B(.02, .15, 1.25, .98, .85, 1.35, '#3a3f5c'), B(.15, .2, 0, .3, .8, .15, '#222'), B(.7, .2, 0, .85, .8, .15, '#222')];
+      case 'v': return [B(0, .1, .1, 1, .9, 2.0, '#d23a2f'), B(.08, .89, .55, .92, .92, .95, '#cfe6f2'), B(.08, .89, 1.35, .92, .92, 1.75, '#cfe6f2'), B(0, .1, 2.0, 1, .9, 2.06, '#b02a22')];
+      case 'T': return [B(.2, .2, 0, .8, .8, 1.9, '#c8352b'), B(.27, .79, .3, .73, .82, 1.55, '#d8e9f0'), B(.17, .17, 1.9, .83, .83, 2.05, '#a8281f')];
+      case '$': return [B(.32, .32, 0, .68, .68, 1.0, '#c8352b'), B(.29, .29, 1.0, .71, .71, 1.12, '#2f2f33'), B(.38, .67, .7, .62, .7, .76, '#2f2f33')];
+      case 'L': return [B(.46, .46, 0, .54, .54, 2.2, '#2f2f33'), B(.38, .38, 2.2, .62, .62, 2.45, '#ffe7a3'), B(.36, .36, 2.45, .64, .64, 2.52, '#2f2f33'), B(.54, .48, 1.75, .85, .52, 1.8, '#2f2f33'), O(.85, .5, 1.6, .14, '#f2a7c3')];
+      case 'K': return [B(.45, .45, 0, .55, .55, 1.9, '#2f2f33'), B(.3, .42, 1.9, .7, .58, 2.3, '#2f2f33'), B(.34, .57, 1.94, .66, .6, 2.26, '#f6f1e2')];
+      case 'b': return [B(.1, .35, .3, .9, .7, .38, '#6b4b35'), B(.1, .32, .38, .9, .38, .75, '#6b4b35'), B(.15, .4, 0, .22, .65, .3, '#2f2f33'), B(.78, .4, 0, .85, .65, .3, '#2f2f33')];
+      case 'x': return [B(.25, .25, 0, .75, .75, .65, '#8a5a33'), B(.24, .24, .2, .76, .76, .26, '#4a3a2e'), B(.24, .24, .45, .76, .76, .5, '#4a3a2e')];
+      case 'h': return [B(.3, .3, .35, .7, .7, .42, '#6b4b35'), B(.3, .27, .42, .7, .33, .85, '#6b4b35'), B(.33, .33, 0, .67, .67, .35, '#4a3a2e')];
+      case 'c': return [B(.2, .2, .6, .8, .8, .68, '#7a5130'), B(.46, .46, 0, .54, .54, .6, '#4a3a2e')];
+      case 'Y': return [B(.05, .25, 0, .95, .75, .8, '#7a5130'), B(0, .2, .8, 1, .8, .86, '#c9a074'), B(.45, .7, .86, .55, .75, 1.7, '#3a3a3a'), B(.3, .73, 1.5, .7, .76, 1.8, '#3b5a3a')];
+      case 'i': return [B(.47, .47, 0, .53, .53, 1.2, '#4a3a2e'), B(.15, .45, .9, .85, .55, 1.4, '#3b5a3a'), B(.2, .55, .98, .8, .56, 1.32, '#f3e2a9')];
+      case 'N': return [B(.47, .47, 0, .53, .53, 1.6, '#4a3a2e'), O(.5, .5, 1.75, .22, '#c8352b'), B(.25, .45, 1.68, .75, .55, 1.82, '#23306b')];
+      case 'E': return [B(.15, .42, 0, .85, .58, 1.4, '#f4f1ea'), O(.5, .6, 1.0, .2, '#c8352b'), B(.25, .58, .95, .75, .61, 1.05, '#23306b')];
+      case '%': return [B(.46, .46, 0, .54, .54, 2.6, '#3a3a3a'), B(.54, .48, 1.9, 1.15, .52, 2.5, '#23306b'), B(.54, .47, 2.15, 1.15, .53, 2.25, '#d23a2f')];
+      case 'f': return [B(0, .45, 0, 1, .55, .08, '#2f2f33'), B(0, .45, .5, 1, .55, .58, '#2f2f33'), B(.05, .47, 0, .12, .53, .6, '#2f2f33'), B(.88, .47, 0, .95, .53, .6, '#2f2f33'), B(.47, .47, 0, .53, .53, .6, '#2f2f33')];
+      case 't': return [B(.42, .42, 0, .58, .58, .9, '#7a5130'), O(.5, .5, 1.35, .55, '#3f8f3a')];
+      case 'q': return [B(.3, .3, 0, .7, .7, .4, '#c98b5a'), O(.5, .5, .62, .27, '#4f9a44')];
+      case 'F': return [O(.3, .35, .18, .14, '#f2a7c3'), O(.65, .4, .2, .14, '#ffffff'), O(.45, .7, .18, .14, '#f6d36b')];
+      case 'e': return [B(.05, .05, 0, .95, .95, .85, '#4f8f40')];
+      case 'u': return [B(.47, .47, 0, .53, .53, 1.7, '#3a3a3a'), B(-.2, -.2, 1.7, 1.2, 1.2, 1.85, '#e6e0d0')];
+      case 'R': return [B(0, 0, 0, 1, 1, .03, '#c96b4b')];
+      case 'V': return [B(.25, .3, 0, .75, .7, .6, '#7d93b0')];
+      default: return [B(.25, .25, 0, .75, .75, .6, '#cfc8bb')];
+    }
+  }
+  draw3() {
+    const c = this.cv3.current, m = this.DOC && this.DT && this.cur(); if (!c || !m) return;
+    const s = this.state, key = [m.id, s.yaw, s.pitch].join('|'); if (this.dk3 === key && this.dc3 === c) return; this.dk3 = key; this.dc3 = c;
+    const rc = c.getBoundingClientRect ? c.getBoundingClientRect() : { width: 600, height: 440 }, CW = Math.max(300, Math.round(rc.width || 600)), CH = 440, dpr = (typeof window !== 'undefined' && window.devicePixelRatio) || 1;
+    c.width = CW * dpr; c.height = CH * dpr; const ctx = c.getContext('2d'); if (ctx.setTransform) ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, CW, CH);
+    const D = this.DOC, rows = this.DT.underlay(m.r, D.ground), tiles = this.DT.tilePieces(m.r, D.ground), H = rows.length, W = rows[0].length;
+    const a = s.yaw * Math.PI / 180, p = s.pitch * Math.PI / 180, ca = Math.cos(a), sa = Math.sin(a), sp = Math.sin(p), cp = Math.cos(p);
+    const k = Math.min(CW / (Math.hypot(W, H) + 1.6), CH / (Math.hypot(W, H) * sp + 3.2 * cp + 1.2)), cx = W / 2, cy = H / 2, ox = CW / 2, oy = CH / 2 + 1.1 * cp * k;
+    const R = (x, y) => { const dx = x - cx, dy = y - cy; return [dx * ca - dy * sa, dx * sa + dy * ca]; };
+    const P = (x, y, z) => { const [xr, yr] = R(x, y); return [ox + xr * k, oy + yr * sp * k - z * cp * k]; };
+    const poly = (pts, fill) => { ctx.beginPath(); pts.forEach((q, i) => i ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1])); ctx.closePath(); ctx.fillStyle = fill; ctx.fill(); };
+    const shade = (col, f) => { const n = parseInt(col.slice(1), 16); return `rgb(${Math.min(255, Math.round(((n >> 16) & 255) * f))},${Math.min(255, Math.round(((n >> 8) & 255) * f))},${Math.min(255, Math.round((n & 255) * f))})`; };
+    const quad = (x0, y0, x1, y1, z, col) => poly([P(x0, y0, z), P(x1, y0, z), P(x1, y1, z), P(x0, y1, z)], col);
+    // 箱庭の土台（側面）
+    const Z0 = -.45, sides = [[[0, 0], [W, 0], 0, -1], [[W, 0], [W, H], 1, 0], [[W, H], [0, H], 0, 1], [[0, H], [0, 0], -1, 0]];
+    sides.forEach(([u, v, nx, ny]) => { const vis = nx * sa + ny * ca; if (vis <= 0) return; poly([P(u[0], u[1], 0), P(v[0], v[1], 0), P(v[0], v[1], Z0), P(u[0], u[1], Z0)], shade('#8a6a4a', .75 + .2 * Math.abs(nx * ca - ny * sa))); });
+    // 地面（パーツ）
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      const t = tiles[y][x];
+      if (!t) { quad(x, y, x + 1, y + 1, 0, (x + y) % 2 ? '#7dbb5a' : '#78b555'); continue; }
+      const G = D.ground[t.ch]; quad(x, y, x + 1, y + 1, 0, G.color);
+      if (G.pattern === 'brick') { ctx.strokeStyle = 'rgba(70,45,30,.35)'; ctx.lineWidth = 1; for (let r = 1; r < 4; r++) { const a0 = P(x, y + r / 4, 0), a1 = P(x + 1, y + r / 4, 0); ctx.beginPath(); ctx.moveTo(a0[0], a0[1]); ctx.lineTo(a1[0], a1[1]); ctx.stroke(); } }
+      else if (G.pattern === 'cobble' || G.pattern === 'stone') { for (let r = 0; r < 3; r++) for (let q = 0; q < 3; q++) quad(x + .08 + q / 3, y + .08 + r / 3, x + q / 3 + .27, y + r / 3 + .27, 0, shade(G.color, 1.12)); }
+      else if (G.pattern === 'rail') { quad(x, y + .25, x + 1, y + .32, .02, '#c9ccd1'); quad(x, y + .68, x + 1, y + .75, .02, '#c9ccd1'); for (let q = 0; q < 3; q++) quad(x + .1 + q / 3, y + .15, x + .22 + q / 3, y + .85, .01, '#6b5a48'); }
+      if (G.pattern === 'zebra') for (let r = 0; r < 3; r++) quad(x + .06, y + .06 + r / 3, x + .94, y + r / 3 + .26, .005, '#f4f2ec');
+      if (t.kind !== 'base') { const ec = G.pattern === 'brick' ? '#6e4a37' : '#e2ded6', w = .12, [n, e, so, wst] = t.miss;
+        if (n) quad(x, y, x + 1, y + w, .01, ec); if (so) quad(x, y + 1 - w, x + 1, y + 1, .01, ec); if (wst) quad(x, y, x + w, y + 1, .01, ec); if (e) quad(x + 1 - w, y, x + 1, y + 1, .01, ec);
+        if (t.kind === 'diag') { const X = e ? x + 1 : x, Y = so ? y + 1 : y, dx = e ? -1 : 1, dy = so ? -1 : 1; poly([P(X, Y, .02), P(X + dx * .55, Y, .02), P(X, Y + dy * .55, .02)], '#7dbb5a'); } }
+    }
+    (m.marks || []).forEach(([x, y, txt]) => { const q = P(x + .5, y + .5, 0); ctx.fillStyle = '#f4f2ec'; ctx.font = `700 ${Math.max(8, k * .22)}px 'Zen Maru Gothic', sans-serif`; ctx.textAlign = 'center'; ctx.fillText(txt, q[0], q[1] + 3); ctx.textAlign = 'left'; });
+    // 家具：箱と玉。奥から順に描く（箱は見える面だけ）
+    const items = [];
+    m.r.forEach((row, y) => [...row].forEach((ch, x) => { if (ch === '.' || ch in D.ground) return; this.SHAPES(ch, x, y).forEach(sh => {
+      const ctr = sh.t === 'box' ? [(sh.b[0] + sh.b[3]) / 2, (sh.b[1] + sh.b[4]) / 2, sh.b[2]] : sh.p; const [, yr] = R(ctr[0], ctr[1]);
+      items.push({ d: yr + ctr[2] * .02 * cp + (sh.t === 'ball' ? .01 : 0), sh }); }); }));
+    items.sort((u, v) => u.d - v.d).forEach(({ sh }) => {
+      if (sh.t === 'ball') { const q = P(...sh.p), r = sh.r * k; ctx.fillStyle = shade(sh.c, .85); ctx.beginPath(); ctx.arc(q[0], q[1], r, 0, 7); ctx.fill(); ctx.fillStyle = shade(sh.c, 1.12); ctx.beginPath(); ctx.arc(q[0] - r * .25, q[1] - r * .3, r * .55, 0, 7); ctx.fill(); return; }
+      const [x0, y0, z0, x1, y1, z1] = sh.b, col = sh.c;
+      [[[x0, y1], [x1, y1], 0, 1], [[x1, y0], [x1, y1], 1, 0], [[x0, y0], [x1, y0], 0, -1], [[x0, y0], [x0, y1], -1, 0]].forEach(([u, v, nx, ny]) => {
+        const vis = nx * sa + ny * ca; if (vis <= 1e-6) return;
+        poly([P(u[0], u[1], z0), P(v[0], v[1], z0), P(v[0], v[1], z1), P(u[0], u[1], z1)], shade(col, .62 + .25 * vis)); });
+      if (sp > .05) quad(x0, y0, x1, y1, z1, shade(col, 1.08));
+    });
+    // 方位
+    const nq = P(cx, -1.4, 0); ctx.fillStyle = '#4a3b30'; ctx.font = "700 13px 'Zen Maru Gothic', sans-serif"; ctx.textAlign = 'center'; ctx.fillText('北', nq[0], nq[1]); ctx.textAlign = 'left';
+  }
   mods() { return this.state.group === 'detail' ? (this.DOC ? this.DOC.modules : []) : this.ADOPT; }
   cur() { return this.mods().find(m => m.id === this.state.sel) || this.mods()[0]; }
   // 家具に①②…の番号（モジュールに出てくる順）
@@ -202,11 +294,23 @@ class Component extends DCLogic {
       ctx.strokeStyle = '#6e4a37'; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(cx + dx * s * .55, cy); ctx.lineTo(cx, cy + dy * s * .55); ctx.stroke(); }
     if (t.kind === 'inner') { ctx.fillStyle = '#6e4a37'; ctx.fillRect(x0 + s / 2 - 3, y0 + s / 2 - 3, 6, 6); }
   }
+  view3() {
+    const s = this.state, dark = on => ({ bg: on ? '#4a3b30' : 'white', fg: on ? 'white' : '#4a3b30' }), norm = v => ((v % 360) + 360) % 360;
+    return {
+      views: [[0, '南から'], [90, '東から'], [180, '北から'], [270, '西から'], [35, 'ななめ']].map(([v, n]) => ({ name: n, pick: () => this.setState({ yaw: v, spinning: false }), ...dark(!s.spinning && norm(s.yaw) === v) })),
+      pitches: [[78, '真上から'], [50, 'あつ森の角度'], [25, '低く']].map(([v, n]) => ({ name: n, pick: () => this.setState({ pitch: v }), ...dark(s.pitch === v) })),
+      spinLabel: s.spinning ? '止める' : 'ぐるっと回す',
+      spin: () => { clearInterval(this.timer); if (s.spinning) return this.setState({ spinning: false }); this.timer = setInterval(() => this.setState(t => ({ yaw: norm(t.yaw + 3) })), 50); this.setState({ spinning: true }); },
+      dDown: e => { this.drag = [e.clientX, e.clientY, s.yaw, s.pitch]; clearInterval(this.timer); if (s.spinning) this.setState({ spinning: false }); },
+      dMove: e => { const d = this.drag; if (!d) return; this.setState({ yaw: norm(Math.round(d[2] - (e.clientX - d[0]) * .5)), pitch: Math.max(12, Math.min(88, Math.round(d[3] + (e.clientY - d[1]) * .3))) }); },
+      dUp: () => { this.drag = null; },
+    };
+  }
   dz(id) { const d = this.CAT[id] || {}; return { ma: d.ma || '', name: d.name || id, who: d.creator || '', img: (d.images || [])[0] || '', search: d.search || '', warn: d.checked === false ? '要確認' : '' }; }
   renderVals() {
     const s = this.state, dark = on => ({ bg: on ? '#4a3b30' : 'white', fg: on ? 'white' : '#4a3b30' });
     const tabs = [['guide', 'モジュールの組み方'], ['book', 'マイデザイン図鑑']].map(([k, n]) => ({ name: n, pick: () => this.setState({ tab: k }), ...dark(s.tab === k) }));
-    const base = { tabs, isGuide: s.tab === 'guide', isBook: s.tab === 'book', docName: this.DOC ? this.DOC.name : 'ロンドン', cvRef: this.cv };
+    const base = { tabs, isGuide: s.tab === 'guide', isBook: s.tab === 'book', docName: this.DOC ? this.DOC.name : 'ロンドン', cvRef: this.cv, cv3Ref: this.cv3, ...this.view3() };
     if (!this.DOC || !this.DT) return { ...base, groups: [], chips: [], mName: '読み込み中…', mSize: '', mRole: '', mNote: '', hoverInfo: '', mPlace: '', hasEx: false, examples: [], grounds: [], dzItems: [], plain: [], noGround: false, noDz: false, noPlain: false, onMove: () => {}, onLeave: () => {}, bookThemes: [], book: [], bookCount: 0, bookNote: '' };
     const D = this.DOC, m = this.cur();
     const groups = [['detail', `細部モジュール（${D.modules.length}）`], ['adopt', `採用ずみ（${this.ADOPT.length}）`]].map(([k, n]) => ({ name: n, pick: () => this.setState({ group: k, sel: (k === 'detail' ? D.modules : this.ADOPT)[0].id, hover: null }), ...dark(s.group === k) }));

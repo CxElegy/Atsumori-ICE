@@ -56,7 +56,7 @@ function loadComponent(file, opt = {}) {
     s => { alerts.push(s); }, () => true, { log: (...a) => logs.push(a.join(' ')), error: (...a) => logs.push('ERR ' + a.join(' ')) });
   const comp = new Comp();
   // 画面の canvas の代わり
-  for (const k of ['cv', 'mp']) if (comp[k] && 'current' in comp[k]) comp[k].current = opt['canvas_' + k] || mk(opt.w || 300, opt.h || 150);
+  for (const k of ['cv', 'mp', 'cv3']) if (comp[k] && 'current' in comp[k]) comp[k].current = opt['canvas_' + k] || mk(opt.w || 300, opt.h || 150);
   return { comp, stats, store, listeners, clicks, alerts, logs, made, win,
     async start() { if (comp.componentDidMount) comp.componentDidMount(); comp.__up = true; for (let i = 0; i < 20; i++) await new Promise(r => tick(r)); if (comp.componentDidUpdate) { try { comp.componentDidUpdate(); } catch (e) { throw e; } } return comp; },
     async settle() { for (let i = 0; i < 10; i++) await new Promise(r => tick(r)); } };
