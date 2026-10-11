@@ -13,6 +13,7 @@
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #141b1a; --panel: #1c2624; --ink: #e5ece9; --muted: #9db0aa; --line: #2f3d3a; --sea: #2f7c86; --accent: #e07a5f; --accent-ink: #1a1210; --ok: #6fbf84; --warn: #e2a65a; --chip: #26332f; color-scheme: dark } }
 :root[data-theme="dark"] { --bg: #141b1a; --panel: #1c2624; --ink: #e5ece9; --muted: #9db0aa; --line: #2f3d3a; --sea: #2f7c86; --accent: #e07a5f; --accent-ink: #1a1210; --ok: #6fbf84; --warn: #e2a65a; --chip: #26332f; color-scheme: dark }
 * { box-sizing: border-box }
+[hidden] { display: none !important }
 body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 14px; line-height: 1.65 }
 .wrap { max-width: 1440px; margin: 0 auto; padding-inline: 16px; padding-block: 18px 60px; display: flex; flex-direction: column; gap: 16px }
 header { display: flex; flex-wrap: wrap; gap: 10px 24px; align-items: flex-end; justify-content: space-between }
@@ -64,6 +65,10 @@ canvas { display: block; width: 100%; border-radius: 10px }
 .layers { display: grid; grid-template-columns: auto auto minmax(0, 1fr); gap: 6px 10px; font-size: 13px }
 .band { border-radius: 6px; padding: 0 8px; font-weight: 700; text-align: center; color: #23302c }
 ol.fix { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px; font-size: 13.5px }
+.opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px }
+.opt { display: flex; flex-direction: column; gap: 4px; text-align: left; border: 1px solid var(--line); background: var(--panel); border-radius: 10px; padding: 6px; font-size: 12.5px }
+.opt[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent) inset }
+.opt img, .opt .noimg { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 6px; display: grid; place-items: center; background: var(--chip) }
 .book { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px }
 .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column }
 .card img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block }
@@ -89,6 +94,7 @@ a { color: var(--accent) }
   <button class="tab" data-tab="map" aria-pressed="true">地図とモジュール</button>
   <button class="tab" data-tab="prep" aria-pressed="false">建てる準備</button>
   <button class="tab" data-tab="book" aria-pressed="false">マイデザイン図鑑</button>
+  <button class="tab" data-tab="refs" aria-pressed="false">集めた作例</button>
 </nav>
 
 <section id="tab-map" style="display:flex;flex-direction:column;gap:16px">
@@ -122,6 +128,7 @@ a { color: var(--accent) }
 </section>
 </div>
 
+<section id="tab-refs" hidden style="display:flex;flex-direction:column;gap:12px"><div class="row" id="refChips"></div><div class="book" id="refs"></div></section>
 <script id="data" type="application/json">/*DATA*/</script>
 <script>/*TILES*/</script>
 <script>
@@ -131,13 +138,15 @@ const DT = window.DesignTiles;
 const $ = id => document.getElementById(id);
 const TH = D.th, THC = D.thColor, LEG = D.leg, LON = D.lon, CAT = D.cat;
 const store = { get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} } };
-const S = { isoView: 'lon', tab: 'map', zoom: 'lon', theme: 'lon', q: '', sel: 'lon_d_platform', hover: null, done: store.get('ice-done', {}), bookTh: 'lon' };
+const S = { choice: store.get('ice-choice', {}), isoView: 'lon', tab: 'map', zoom: 'lon', theme: 'lon', q: '', sel: 'lon_d_platform', hover: null, done: store.get('ice-done', {}), bookTh: 'lon' };
 const IMG = {}; const img = src => { if (!src) return null; if (!IMG[src]) { const i = new Image(); i.onload = () => { i.ok = true; redraw(); }; i.src = src; IMG[src] = i; } return IMG[src].ok ? IMG[src] : null; };
 let redrawQ = false; const redraw = () => { if (redrawQ) return; redrawQ = true; requestAnimationFrame(() => { redrawQ = false; drawMap(); drawSketch(); }); };
 const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const where = (x, y) => 'ABCDEF'[Math.floor(y / 16)] + (Math.floor(x / 16) + 1);
 const isLon = m => m.th === 'ロンドン';
-const mods = () => D.places.map(p => ({ ...D.mods[p.id], ...p, size: p.rows.join('').replace(/\./g, '').length }));
+const docOf = m => ({ ...LON, items: { ...LON.items, ...(m.itemsOv || {}) } }), texOf = (m, ch) => (m.texOv || {})[ch] || LON.texItems[ch];
+const chosen = p => (p.slot && S.choice[p.slot]) || p.id;
+const mods = () => D.places.map(p => ({ ...D.mods[chosen(p)], ...p, id: chosen(p), rows: p.slot ? D.mods[chosen(p)].r : p.rows, size: p.rows.join('').replace(/\./g, '').length }));
 
 // ---------- 地図 ----------
 const TC = { S: '#5fbfca', s: '#ecdcaa', r: '#8b8697', w: '#86d8d6', b: '#a58f78', p: '#d6c595', P: '#dcc996', K: '#b8694b', t: '#3d8645', '1': '#6cb355', '3': '#86c862' };
@@ -197,14 +206,15 @@ document.addEventListener('click', e => { const t = e.target.closest('button'); 
   else if (t.dataset.zoom) { S.zoom = t.dataset.zoom; renderLists(); drawMap(); }
   else if (t.dataset.th) { S.theme = t.dataset.th; renderLists(); }
   else if (t.dataset.id) select(t.dataset.id, +t.dataset.x, +t.dataset.y);
-  else if (t.dataset.tab) { S.tab = t.dataset.tab; document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-pressed', b.dataset.tab === S.tab)); ['map', 'prep', 'book'].forEach(k => $('tab-' + k).hidden = k !== S.tab); if (S.tab === 'prep') renderPrep(); if (S.tab === 'book') renderBook(); }
+  else if (t.dataset.tab) { S.tab = t.dataset.tab; document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-pressed', b.dataset.tab === S.tab)); ['map', 'prep', 'book', 'refs'].forEach(k => $('tab-' + k).hidden = k !== S.tab); if (S.tab === 'prep') renderPrep(); if (S.tab === 'book') renderBook(); if (S.tab === 'refs') renderRefs(); }
   else if (t.dataset.done) { const [id, k] = t.dataset.done.split('|'); S.done[id] = { ...(S.done[id] || {}), [k]: !(S.done[id] || {})[k] }; store.set('ice-done', S.done); renderDetail(); renderLists(); renderStats(); }
+  else if (t.dataset.choice) { const [sl, cid] = t.dataset.choice.split('|'); S.choice[sl] = cid; store.set('ice-choice', S.choice); S.sel = cid; renderLists(); renderDetail(); drawMap(); renderStats(); }
   else if (t.dataset.book) { S.bookTh = t.dataset.book; renderBook(); }
   else if (t.dataset.copy) copyList(t);
 });
 $('q').addEventListener('input', e => { S.q = e.target.value; renderLists(); });
 const allDone = id => { const d = S.done[id] || {}; return d.g && d.d && d.p; };
-function select(id, x, y, fromIso) { const p = D.places.find(p => p.id === id && (x == null || (p.x === x && p.y === y))) || D.places.find(p => p.id === id); S.sel = id; S.selX = p.x; S.selY = p.y; S.hover = null;
+function select(id, x, y, fromIso) { const M = mods(); const p = M.find(p => p.id === id && (x == null || (p.x === x && p.y === y))) || M.find(p => p.id === id); S.sel = id; S.selX = p.x; S.selY = p.y; S.hover = null;
   if (S.zoom !== 'all' && ZB[S.zoom] && !(p.x >= ZB[S.zoom][0] && p.x < ZB[S.zoom][2] && p.y >= ZB[S.zoom][1] && p.y < ZB[S.zoom][3])) S.zoom = p.zone in ZB ? p.zone : 'all';
   if (!fromIso && S.isoView !== 'all' && p.zone in RV && S.isoView !== p.zone) S.isoView = p.zone; renderLists(); renderDetail(); drawMap(); if (fromIso || window.innerWidth < 980) $('detail').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
 
@@ -226,7 +236,7 @@ function drawSketch() {
     else if (ch !== '.' && LEG[ch] && 'BpSgdwZDmlr_#^='.includes(ch)) { x.fillStyle = LEG[ch][1]; x.fillRect(px, py, CELL, CELL); } }
   x.strokeStyle = 'rgba(0,0,0,.10)'; x.lineWidth = 1; for (let y = 0; y <= H; y++) { x.beginPath(); x.moveTo(0, y * CELL); x.lineTo(W * CELL, y * CELL); x.stroke(); } for (let X = 0; X <= W; X++) { x.beginPath(); x.moveTo(X * CELL, 0); x.lineTo(X * CELL, H * CELL); x.stroke(); }
   const N = nums(m, ground);
-  m.r.forEach((row, y) => [...row].forEach((ch, X) => { if (!(ch in N)) return; const px = X * CELL, py = y * CELL, it = lon && LON.items[ch], tx = lon && LON.texItems[ch];
+  m.r.forEach((row, y) => [...row].forEach((ch, X) => { if (!(ch in N)) return; const px = X * CELL, py = y * CELL, it = lon && docOf(m).items[ch], tx = lon && texOf(m, ch);
     let im = null; if (tx) { im = img(pieceOf(m, ch, X, y, tx)); }
     if (im) { x.drawImage(im, px + 3, py + 3, CELL - 6, CELL - 6); x.strokeStyle = 'rgba(0,0,0,.35)'; x.strokeRect(px + 3.5, py + 3.5, CELL - 7, CELL - 7); }
     else { const L = LEG[ch] || ['?', '#ccc', '?']; x.fillStyle = L[1]; x.beginPath(); x.roundRect ? x.roundRect(px + 5, py + 5, CELL - 10, CELL - 10, 9) : x.rect(px + 5, py + 5, CELL - 10, CELL - 10); x.fill(); x.fillStyle = '#2a2420'; x.font = '700 19px sans-serif'; x.textAlign = 'center'; x.fillText(L[2] || ch, px + CELL / 2, py + CELL / 2 + 7); x.textAlign = 'left'; }
@@ -263,9 +273,9 @@ function analyze(m) {
 
 // ---------- 作業台（選んだモジュール） ----------
 function renderDetail() {
-  const m0 = D.mods[S.sel]; if (!m0) return; const p = D.places.find(p => p.id === S.sel && p.x === S.selX && p.y === S.selY) || {}; const m = { ...m0, ...p };
+  const m = mods().find(q => q.id === S.sel && q.x === S.selX && q.y === S.selY) || { ...D.mods[S.sel], id: S.sel }; if (!m.r) return; const opt = m.slot && D.options[m.slot];
   const lon = isLon(m) && LON, W = m.r[0].length, H = m.r.length, dn = S.done[m.id] || {}, N = nums(m, lon ? LON.ground : {});
-  const used = lon ? DT.designsUsed(m.r, LON, m.under) : [];
+  const used = lon ? DT.designsUsed(m.r, docOf(m), m.under) : [];
   const dzRow = (u, extra) => { const d = CAT[u.design] || {}; return `<div class="dz"><a href="${esc((d.images || [])[0] || d.search)}" target="_blank" rel="noopener"><img src="${d.thumb || ''}" alt="${esc(d.name)}"></a><div style="display:flex;flex-direction:column;gap:3px;min-width:0"><div class="row" style="gap:6px">${extra || ''}<b>${esc(u.slot)}</b><span class="ma">${esc(d.ma)}</span>${d.checked === false ? '<span class="pill" style="color:var(--warn)">要確認</span>' : ''}</div><span class="muted">${esc((d.name || '').replace(/（.*$/, ''))}　${esc(d.creator)}</span>${u.partsHtml || ''}${u.pos ? `<span style="font-size:12.5px">置く所：${esc(u.pos)}</span>` : ''}<span class="muted"><a href="${esc(d.search)}" target="_blank" rel="noopener">作者IDで Pinterest を探す</a></span></div></div>`; };
   const ground = used.filter(u => Object.values(LON ? LON.ground : {}).some(g => g.design === u.design && g.slot === u.slot) || u.slot === '路面の表示');
   const cnt = {}; m.r.join('').split('').forEach(ch => { if (ch in N) cnt[ch] = (cnt[ch] || 0) + 1; });
@@ -273,8 +283,8 @@ function renderDetail() {
   const pos = ch => { const runs = []; m.r.forEach((r, y) => [...r].forEach((c, X) => { if (c !== ch) return; const R = runs.find(R => R.y === y && R.x2 === X - 1); if (R) R.x2 = X; else runs.push({ y, x1: X, x2: X }); }));
     const row = y => y === 0 ? '奥' : y === H - 1 ? '手前' : `奥から${y + 1}列目`, col = X => X === 0 ? '左端' : X === W - 1 ? '右端' : `左から${X + 1}番目`; return runs.map(R => R.x1 === R.x2 ? `${row(R.y)}の${col(R.x1)}` : `${row(R.y)}の${R.x1 + 1}〜${R.x2 + 1}番目`).join('・'); };
   const badge = ch => { const L = LEG[ch] || ['', '#ccc', '']; return `<span class="badge" style="background:${L[1]};color:#2a2420">${N[ch]}</span>`; };
-  const dzItems = lon ? order.filter(ch => LON.items[ch]).map(ch => dzRow({ design: LON.items[ch].design, slot: `${fname(m, ch)} ×${Math.ceil(cnt[ch] / (unit[ch] || 1))}`, pos: pos(ch) }, badge(ch))) : [];
-  const plain = order.filter(ch => !(lon && LON.items[ch])).map(ch => `<div class="check">${badge(ch)}<span><b>${esc(fname(m, ch))} ×${Math.ceil(cnt[ch] / (unit[ch] || 1))}</b>　${esc(pos(ch))}</span></div>`);
+  const IT = lon ? docOf(m).items : {}; const dzItems = lon ? order.filter(ch => IT[ch]).map(ch => dzRow({ design: IT[ch].design, slot: `${fname(m, ch)} ×${Math.ceil(cnt[ch] / (unit[ch] || 1))}`, pos: pos(ch) }, badge(ch))) : [];
+  const plain = order.filter(ch => !(lon && IT[ch])).map(ch => `<div class="check">${badge(ch)}<span><b>${esc(fname(m, ch))} ×${Math.ceil(cnt[ch] / (unit[ch] || 1))}</b>　${esc(pos(ch))}</span></div>`);
   const A = analyze(m), dsg = m.design || (LON && LON.design_extra || {})[m.id];
   const layers = dsg ? dsg.layers : ['奥', '中', '手前'].map(b => { const its = [...new Set(m.r.filter((r, y) => A.band(y) === b).join('').split('').filter(ch => ch in N))].map(ch => fname(m, ch)); return { band: b, role: its.length ? '家具' : '地面', what: its.length ? its.join('・') : '空けておく（通り道・余白）' }; });
   const refs = (m.refs || []).concat((D.examples || []).filter(x => x.for.includes(m.id)).map(x => ({ img: x.thumb, name: x.name, by: '作者IDなしの作例', link: x.image })));
@@ -282,6 +292,8 @@ function renderDetail() {
   $('detail').innerHTML = `
   <div class="row" style="justify-content:space-between;align-items:flex-start"><div style="display:flex;flex-direction:column;gap:2px;min-width:0"><span class="eyebrow">${esc(TH[m.zone] || m.th)} · ${where(m.x, m.y)}（x${m.x}, y${m.y}）· ${W}×${H} マス${m.detail ? ' · マス目まで決めたモジュール' : ''}</span><h2>${esc(m.name)}</h2></div>${m.role === 'landmark' ? '<span class="pill lm">主役</span>' : `<span class="pill">${esc(D.role[m.role] || m.role || '')}</span>`}</div>
   <p style="margin:0">${esc(m.note || '')}</p>
+  ${opt ? `<div class="step" style="border-top:0;padding-top:0"><h3>この場所の案：${esc(opt.title)}</h3><span class="muted">${esc(opt.why)}。選んだ案は地図と一覧にも反映し、このブラウザに覚えます（立体図は最初の案のまま）</span>
+    <div class="opts">${opt.choices.map((cid, i) => { const c = D.mods[cid], th = (c.refs && c.refs[0] && c.refs[0].img) || ((D.examples.find(x => x.for.includes(cid)) || {}).thumb) || ''; return `<button class="opt" data-choice="${m.slot}|${cid}" aria-pressed="${cid === m.id}">${th ? `<img src="${th}" alt="">` : '<span class="noimg">作例なし</span>'}<b>案${'ABCD'[i]}：${esc(c.name)}</b><span class="muted">${esc((c.design && c.design.concept) || c.note || '')}</span></button>`; }).join('')}</div></div>` : ''}
   <div class="two">
     <div style="display:flex;flex-direction:column;gap:6px;min-width:0"><h3>マス目の草図</h3><canvas id="sketch" aria-label="モジュールのマス目の草図"></canvas><div class="hint" id="cellHint">マスにマウスを乗せると、敷くパーツと置く家具を表示します</div>
       <div class="row"><button class="chip" id="ovBtn" aria-pressed="${!!S.overlay}">設計の線（奥・中・手前／中心線）</button>${lon ? '<span class="muted">地面と家具は作者のマイデザインの図をそのまま貼っています</span>' : '<span class="muted">この地区はまだマイデザインを決めていません（色の図）</span>'}</div></div>
@@ -307,11 +319,11 @@ function renderDetail() {
 }
 
 // ---------- 建てる準備・図鑑 ----------
-function lonAll() { return D.places.filter(p => p.zone === 'lon').map(p => ({ ...D.mods[p.id], ...p })); }
+function lonAll() { return mods().filter(p => p.zone === 'lon'); }
 function prepData() { const all = lonAll(), dz = new Map(), g = new Set(), it = new Set();
-  all.forEach(m => { DT.designsUsed(m.r, LON, m.under).forEach(u => { if (!dz.has(u.design)) dz.set(u.design, new Set()); dz.get(u.design).add(u.slot); });
+  all.forEach(m => { DT.designsUsed(m.r, docOf(m), m.under).forEach(u => { if (!dz.has(u.design)) dz.set(u.design, new Set()); dz.get(u.design).add(u.slot); });
     DT.tilePieces(m.r, LON.ground, m.under).flat().forEach(t => { if (t) g.add(t.design + t.piece); });
-    m.r.forEach((r, y) => [...r].forEach((ch, X) => { const tx = LON.texItems[ch]; if (tx) it.add(pieceOf(m, ch, X, y, tx)); else if (LON.items[ch]) it.add(ch); })); });
+    m.r.forEach((r, y) => [...r].forEach((ch, X) => { const tx = texOf(m, ch); if (tx) it.add(pieceOf(m, ch, X, y, tx)); else if (docOf(m).items[ch]) it.add(ch); })); });
   return { all, dz, slots: g.size + it.size, g: g.size, it: it.size }; }
 function renderStats() { const P = prepData(), mods2 = D.places.length; const done = Object.keys(S.done).filter(allDone).length;
   $('stats').innerHTML = `<span><b>${mods2}</b>モジュール（島全体）</span><span><b>${done}</b>でき上がり</span><span><b>${P.dz.size}</b>ロンドンで使うマイデザイン</span><span><b>${P.slots}</b>保存する枠（ロンドン）</span>`; }
@@ -331,6 +343,10 @@ function renderBook() { $('bookChips').innerHTML = [['lon', 'ロンドン'], ['e
   const use = {}; if (LON) [...Object.values(LON.ground), ...Object.values(LON.items)].forEach(g => { (use[g.design] = use[g.design] || new Set()).add(g.slot); });
   $('book').innerHTML = Object.values(CAT).filter(d => d.themes.includes(S.bookTh)).map(d => `<div class="card"><a href="${esc(d.images[0])}" target="_blank" rel="noopener"><img src="${d.thumb}" alt="${esc(d.name)}" loading="lazy"></a><div class="b"><b>${esc(d.name)}</b><div class="row" style="gap:6px"><span class="ma">${esc(d.ma)}</span>${d.checked === false ? '<span class="pill" style="color:var(--warn)">要確認</span>' : ''}<span class="muted">${esc(d.creator)}</span></div><span style="font-size:12.5px;color:var(--muted)">${esc(d.look)}</span><div class="parts">${d.parts.map(p => `<span>${esc(p)}</span>`).join('')}</div>${use[d.id] && S.bookTh === 'lon' ? `<span style="font-size:12px;color:var(--ok)">ロンドンで使う：${esc([...use[d.id]].join('・'))}</span>` : ''}<span class="muted"><a href="${esc(d.search)}" target="_blank" rel="noopener">Pinterest で探す</a></span></div></div>`).join(''); }
 
+function renderRefs() { const qs = [...new Set(D.refs.map(r => r.q))]; S.refQ = S.refQ || 'all';
+  $('refChips').innerHTML = [['all', `すべて（${D.refs.length}）`], ...qs.map(q => [q, q])].map(([k, n]) => `<button class="chip" data-refq="${esc(k)}" aria-pressed="${S.refQ === k}">${esc(n)}</button>`).join('');
+  $('refs').innerHTML = D.refs.filter(r => S.refQ === 'all' || r.q === S.refQ).map(r => `<div class="card"><a href="${esc(r.url)}" target="_blank" rel="noopener"><img src="${r.thumb}" alt="" loading="lazy"></a><div class="b"><span class="muted">検索：${esc(r.q)}</span>${r.ma ? `<span class="ma">${esc(r.ma)}</span>` : ''}${r.use ? `<span style="font-size:12px;color:var(--ok)">使っている所：${esc(r.use)}</span>` : ''}</div></div>`).join(''); }
+document.addEventListener('click', e => { const t = e.target.closest('[data-refq]'); if (t) { S.refQ = t.dataset.refq; renderRefs(); } });
 renderStats(); renderLists(); select(S.sel); window.addEventListener('resize', () => drawMap());
 })();
 </script>

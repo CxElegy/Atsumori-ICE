@@ -68,6 +68,9 @@ def main():
         mods[mid] = {'name': mm.get('name') or NAMES.get(mid, mid), 'role': mm.get('role', 'landmark' if mid in NAMES else ''), 'th': mm.get('th', ''), 'note': mm.get('note', ''), 'r': rows}
     for m in LON['modules']:
         mods[m['id']] = {k: v for k, v in m.items() if k != 'id'}; mods[m['id']]['name'] = m['name'].replace('細部：', '')
+        for ch, g in (m.get('itemsOv') or {}).items():
+            t = g.get('tex')
+            if t: mods[m['id']].setdefault('texOv', {})[ch] = {'pieces': [crop(g['design'], t['img'], b) for b in t['pieces']], 'run': t.get('run', False)}
         for r in m.get('refs', []):
             r['img'] = uri(fit(Image.open(os.path.join(ROOT, r['img'])), 900), q=80)
     for mid in ('lon_934', 'pop0007', 'pop0084'):
@@ -95,8 +98,9 @@ def main():
                 if Y >= 96 or X >= 112 or G[Y][X] not in '13ptPK' or H[Y][X] != lv: return False
                 if (X, Y) in occ: return False
         return True
+    optonly = {c for o in LON.get('options', []) for c in o['choices']} - {'lon_d_platform'}   # 案としてだけ使うモジュールは、ほかの所に置かない
     for m in LON['modules']:
-        if any(p['id'] == m['id'] for p in places): continue
+        if any(p['id'] == m['id'] for p in places) or m['id'] in optonly: continue
         done = False
         px, py = m.get('prefer', [16, 54])   # 置きたい所（河岸は川のそば）に近い順に探す
         for x, y in sorted(((x, y) for y in range(54, 92) for x in range(16, 58)), key=lambda c: abs(c[0] - px) + abs(c[1] - py)):
@@ -137,10 +141,16 @@ def main():
         p['x'], p['y'] = spot; taken.update(cells(p, *spot)); kept.append(p)
     places = kept
     print('ずらした', moved, '外した', len(dropped), dropped[:8])
+    opts = {o['at']: o for o in LON.get('options', [])}
     for p in places:
+        if p['id'] in opts: p['slot'] = p['id']
         if mods[p['id']].get('detail'): p['detail'] = True
         if p['id'] == 'lon_d_platform': p['short'] = '9¾番線'
-    data = {'grid': G, 'h': H, 'paint': S['paint'], 'facs': S.get('facilities', []), 'places': places, 'mods': mods, 'leg': LEG, 'lon': lon, 'cat': cat, 'examples': ex,
+    # 集めた作例：検索で見つけた画像をすべて（使っていないものも）。目録は designs/refs.json
+    lib = json.load(open(os.path.join(ROOT, 'designs', 'refs.json'), encoding='utf8'))
+    used = {u: d['ma'] for d in cat.values() for u in d['images']}; usedEx = {x['image']: x['name'] for x in CATD['examples']}
+    refs = [{'url': r['url'], 'q': r['q'], 'ma': used.get(r['url'], r.get('ma', '')), 'use': usedEx.get(r['url'], ''), 'thumb': uri(fit(open_url(r['url']), 220), q=55)} for r in lib if r['url'] in files]
+    data = {'options': opts, 'refs': refs, 'grid': G, 'h': H, 'paint': S['paint'], 'facs': S.get('facilities', []), 'places': places, 'mods': mods, 'leg': LEG, 'lon': lon, 'cat': cat, 'examples': ex,
             'th': {'lon': 'ロンドン', 'egy': 'エジプト', 'jpn': '日本', 'usa': 'アメリカ', 'eur': 'ヨーロッパ', 'port': '地中海'},
             'thColor': {'lon': '#b4503a', 'egy': '#d9a441', 'jpn': '#c45a7a', 'usa': '#3f6fb5', 'eur': '#4f9a8a', 'port': '#2f8fc9'},
             'role': {'landmark': '主役', 'support': '脇役', 'filler': 'すき間うめ', 'edge': '道ばた', 'step': '段差', 'facility': '施設'},

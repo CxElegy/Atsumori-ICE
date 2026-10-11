@@ -904,6 +904,97 @@
     "https://i.pinimg.com/736x/ff/2e/58/ff2e584fe499ebe5be3e837787a4a64e.jpg"
    ],
    "search": "https://www.pinterest.com/search/pins/?q=MA-2707-3480-4939"
+  },
+  {
+   "id": "flight_board_blue",
+   "themes": [
+    "lon",
+    "usa",
+    "port"
+   ],
+   "kind": "sign",
+   "name": "Flight Schedule（青い航空便の案内板）",
+   "creator": "exenos（Cozy Dream）",
+   "ma": "MA-4567-5503-7426",
+   "look": "青い画面に飛行機と行き先・時刻。2枚ならべて大きな案内板に",
+   "parts": [
+    "案内板A",
+    "案内板B"
+   ],
+   "found": "Pinterest 検索「acnh departure board design code」の画像から読み取り",
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/fe/6d/f7/fe6df7ecf6c192df8a527c9d9acdc883.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-4567-5503-7426"
+  },
+  {
+   "id": "arrive_depart",
+   "themes": [
+    "lon",
+    "usa",
+    "port"
+   ],
+   "kind": "sign",
+   "name": "Arrivals / Departures（到着・出発の掲示板）",
+   "creator": "Mariëlle92（IslaBonita）",
+   "ma": "MA-8877-9321-2171",
+   "look": "黒い掲示板に ARRIVE / DEPART。2枚で到着と出発",
+   "parts": [
+    "到着",
+    "出発"
+   ],
+   "found": "Pinterest 検索「acnh departure board design code」の画像から読み取り",
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/1b/6d/ee/1b6dee100e74ec923ba5067660a7e82f.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-8877-9321-2171"
+  },
+  {
+   "id": "terminal5",
+   "themes": [
+    "lon",
+    "usa",
+    "port"
+   ],
+   "kind": "sign",
+   "name": "airport（TERMINAL 5 の案内板）",
+   "creator": "Fania（Mavides）",
+   "ma": "MA-9867-6419-6554",
+   "look": "紺の TERMINAL 5 の看板と時刻表",
+   "parts": [
+    "看板"
+   ],
+   "found": "Pinterest 検索「acnh departure board design code」の画像から読み取り",
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/5a/9a/ff/5a9affd063269ccb4a18b9e911ab7c5f.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-9867-6419-6554"
+  },
+  {
+   "id": "flight_board_michi",
+   "themes": [
+    "lon",
+    "usa",
+    "port"
+   ],
+   "kind": "sign",
+   "name": "Flight Board・Bus Stop Timetable",
+   "creator": "Michi（Arcadia）",
+   "ma": "MA-4088-3122-1883",
+   "look": "黒い航空便の案内板。同じ作者にバス停の時刻表",
+   "parts": [
+    "航空便",
+    "バス時刻表"
+   ],
+   "found": "Pinterest 検索「acnh departure board design code」の画像から読み取り",
+   "checked": true,
+   "images": [
+    "https://i.pinimg.com/736x/5e/3a/ae/5e3aaec1f22c219f948afb27851938ce.jpg"
+   ],
+   "search": "https://www.pinterest.com/search/pins/?q=MA-4088-3122-1883"
   }
  ],
  "examples": [
@@ -1002,6 +1093,49 @@
    "image": "https://i.pinimg.com/736x/ff/2e/58/ff2e584fe499ebe5be3e837787a4a64e.jpg",
    "for": [
     "lon_d_platform"
+   ]
+  },
+  {
+   "id": "ex_air0",
+   "name": "屋外の出発ロビー：青い案内板・時計・ベンチ（exenos）",
+   "image": "https://i.pinimg.com/736x/80/10/b6/8010b6abaf0efc0ea6010632cb525753.jpg",
+   "for": [
+    "lon_d_lounge"
+   ]
+  },
+  {
+   "id": "ex_air1",
+   "name": "到着・出発の掲示板を石畳に（Mariëlle92）",
+   "image": "https://i.pinimg.com/736x/1b/6d/ee/1b6dee100e74ec923ba5067660a7e82f.jpg",
+   "for": [
+    "lon_d_arrive"
+   ]
+  },
+  {
+   "id": "ex_air2",
+   "name": "空港の入口：ベンチ・電話ボックス・花壇（@brinn.acnh）",
+   "image": "https://i.pinimg.com/736x/3e/58/a0/3e58a0318e5df7aa6c9d1f0e5ff4cddf.jpg",
+   "for": [
+    "lon_d_lounge",
+    "lon_d_arrive",
+    "lon_lounge"
+   ]
+  },
+  {
+   "id": "ex_air3",
+   "name": "屋外の待合：椅子とトランク（crossing_vee）",
+   "image": "https://i.pinimg.com/736x/cd/2d/89/cd2d89bd96a9a15817c804fc04300ef6.jpg",
+   "for": [
+    "lon_d_arrive",
+    "lon_lounge"
+   ]
+  },
+  {
+   "id": "ex_air4",
+   "name": "駅の待合：案内板・時計・椅子",
+   "image": "https://i.pinimg.com/736x/25/f4/ad/25f4ad8d5f75e7672ae080ef2b603e34.jpg",
+   "for": [
+    "lon_d_lounge"
    ]
   }
  ]
