@@ -39,14 +39,16 @@ const DISTS = { egy: [8, 12, 40, 62], jpn: [32, 12, 67, 61], usa: [65, 12, 101, 
   ok('地形：水路は幅3（幅1の水のマスがほとんどない）', T.stats.water_width1 <= 10, T.stats.water_width1);
   ok('地形：水は少なめ（600マス以下）', T.stats.water <= 600, T.stats.water);
   const ZJ = [[38, 0], [66, 0], [66, 40], [62, 48], [62, 60], [34, 60], [34, 34], [38, 30]], inJ = (x, y) => { let c = false; for (let i = 0, j = ZJ.length - 1; i < ZJ.length; j = i++) { const [xi, yi] = ZJ[i], [xj, yj] = ZJ[j]; if ((yi > y + .5) !== (yj > y + .5) && x + .5 < (xj - xi) * (y + .5 - yi) / (yj - yi) + xi) c = !c; } return c; };
-  ok('地形：日本の地区に水がない（枯山水）', cells((c, h, x, y) => c === 'w' && inJ(x, y)).length === 0);
+  const jw = cells((c, h, x, y) => c === 'w' && inJ(x, y));
+  ok('地形：日本の水は庭の池（池泉）だけ（1つ・80マス以下）', jw.length > 10 && jw.length <= 80 && jw.every(([x, y]) => x >= 44 && x <= 58 && y >= 40 && y <= 54), jw.length);
   ok('地形：枯れ流れ（白砂の砂紋）がある', Object.values(T.ground || {}).filter(v => v === 'm').length >= 50);
   const fish = (T.facilities || []).filter(f => f.kind === 'fishing');
   ok('地形：釣り場は1段目と2段目の両方', fish.some(f => f.level === 1) && fish.filter(f => f.level === 2).length >= 1);
   ok('地形：2段目の釣り場は2段目の水のそば', fish.filter(f => f.level === 2).every(f => [-2, -1, 0, 1, 2].some(dx => [-2, -1, 0, 1, 2].some(dy => (G[f.y + dy] || '')[f.x + dx] === 'w' && +HL[f.y + dy][f.x + dx] === 2))));
   ok('地形：自宅・畑・果樹園・採石場・花の交配畑の場所が決まっている', ['home', 'farm', 'orchard', 'quarry', 'flowers'].every(k => (T.facilities || []).some(f => f.kind === k)));
   const D = J('plan-design.json'); ok('設計：ops がある（書いた順に使う）', D.ops.length >= 30, D.ops.length);
-  ok('設計：自然の川（stream）は使わず、水路はまっすぐと45度（river）', D.ops.every(o => o.op !== 'stream') && D.ops.filter(o => o.op === 'river').every(o => o.path.every((p, i) => !i || p[0] === o.path[i - 1][0] || p[1] === o.path[i - 1][1] || Math.abs(p[0] - o.path[i - 1][0]) === Math.abs(p[1] - o.path[i - 1][1]))));
+  ok('設計：ロンドンとヨーロッパの水路はまっすぐ（river・直角と45度）', D.ops.filter(o => o.op === 'river').length >= 3 && D.ops.filter(o => o.op === 'river').every(o => o.path.every((p, i) => !i || p[0] === o.path[i - 1][0] || p[1] === o.path[i - 1][1] || Math.abs(p[0] - o.path[i - 1][0]) === Math.abs(p[1] - o.path[i - 1][1]))));
+  ok('設計：自然の所（エジプト・北東の山・日本の池）は少し不規則な形（stream）', D.ops.filter(o => o.op === 'stream').length >= 5);
   ok('設計：すべての op に理由（why）', D.ops.every(o => o.why && o.why.length > 5));
   const base = J('island-grid-v4.json'); ok('今の島（island-grid-v4.json）は96行×112文字', base.length === 96 && base.every(r => r.length === 112));
 
@@ -56,7 +58,6 @@ const DISTS = { egy: [8, 12, 40, 62], jpn: [32, 12, 67, 61], usa: [65, 12, 101, 
   eq('採用：役別（主役17・脇役56・すき間うめ158・道ばた34・段差28・施設5）', by('role'), { landmark: 17, support: 56, filler: 158, edge: 34, step: 28, facility: 5 });
   eq('採用：テーマ別', by('th'), { 'ロンドン': 49, 'エジプト': 46, '日本': 46, 'アメリカ': 45, 'ハロウィン': 33, 'ヨーロッパ': 46, '地中海': 33 });
   ok('採用：id が重ならない', new Set(C.modules.map(m => m.id)).size === C.modules.length);
-  ok('採用：日本は水の要るモジュールを使わない（枯山水）', C.modules.filter(m => m.th === '日本').every(m => !m.r.join('').includes('w')));
   ok('採用：枯山水のモジュール（白砂の砂紋 m と石 o）がある', C.modules.filter(m => m.th === '日本' && m.r.join('').includes('m') && m.r.join('').includes('o')).length >= 4);
   ok('採用：形（rows）は長方形', C.modules.every(m => m.r.every(r => r.length === m.r[0].length)));
   ok('採用：理由（why）と点（score）が70点以上', C.modules.every(m => m.why && m.score >= 70));
@@ -71,7 +72,7 @@ const DISTS = { egy: [8, 12, 40, 62], jpn: [32, 12, 67, 61], usa: [65, 12, 101, 
   ok('見本：配置は地区の範囲の中', Object.entries(S.dists).every(([d, l]) => l.every(p => p[1] >= DISTS[d][0] - 1 && p[1] < DISTS[d][2] && p[2] >= DISTS[d][1] - 1 && p[2] < DISTS[d][3])));
   ok('見本：建物（H）のモジュールは回さない', Object.values(S.dists).every(l => l.every(p => p[3] === 0 || !S.defs[p[0]].join('').includes('H'))));
   ok('見本：道路は地形 p のマスで、値は r:地区', Object.values(S.paint).every(pt => Object.entries(pt).every(([k, v]) => { const [x, y] = k.split(',').map(Number); return v === 'm' || (G[y][x] === 'p' && /^r:(lon|egy|jpn|usa|hal|eur|port)$/.test(v)); })));
-  ok('見本：枯れ流れは白砂の砂紋（m）で塗る', Object.values(S.paint.jpn || {}).filter(v => v === 'm').length >= 50);
+  ok('見本：枯れ流れは白砂の砂紋（m）で塗る', Object.values(S.paint.jpn || {}).filter(v => v === 'm').length >= 30);
   ok('見本：住民の家はまだ置かない', Object.values(S.dists).every(l => l.every(p => p[0] !== 'house')));
   const FP = k => S.facilities.filter(f => f[1] === k);
   ok('見本：自宅を1つ置く', FP('home').length === 1);

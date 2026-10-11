@@ -35,7 +35,7 @@ QUOTA = {
     'facility': {k: 9 for k in TH},     # 島の暮らしの施設は点検に通ればすべて採用（枠の外）
 }
 TARGET = 293
-NO_WATER = {'jpn'}     # 第14回：日本は水を使わない（枯山水）
+NO_WATER = set()     # 第15回：日本にも庭の池（池泉）があるので、水のモジュールも使える
 
 
 def conn():
