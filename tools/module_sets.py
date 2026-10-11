@@ -10,7 +10,7 @@ from gen_popular_modules import SOURCES, TH
 
 # テーマで使う家具・地面（美的センス「テーマの一貫性」の判定に使う）
 THEME_ITEMS = {
-    'lon': 'LTbKWAQCxYRfNEVFtcughBpqed',
+    'lon': 'LTbKWAQCxYRfNEVFtcughBpqedy',   # y：郊外の市民農園
     'egy': 'PORYxqfFtSgdsuXcNholi',
     'jpn': 'GnaefFtqgpdIcuhYXmolrU',
     'usa': 'LbFNiuqxckfeHDXhtpgdYfyjl',
@@ -250,6 +250,29 @@ def karesansui():
         ('niwa_lantern', 'filler', '雪見灯籠と苔', ['rn', 'rr'], '小さな灯籠'),
     ]
     return [{'id': k, 'th': '日本', 'name': ('枯山水：' if k.startswith('kare') else '庭：') + nm, 'r': r, 'note': nt, 'mat': 'm' if k.startswith('kare') else 'r', 'role': role} for k, role, nm, r, nt in K]
+
+# ---- ロンドンの郊外（第31回）：川の西岸と南西の浜の村。旧石畳（p）・生け垣（e）・白い柵（f）・花・木・畑。
+#      レンガ・電話ボックス・バス停は市街だけ。住民の家はまだ決めないので建物は置かない ------------------------
+def london_suburb():
+    K = [
+        ('sub_lon_green', 'landmark', '村の緑地（ヴィレッジ・グリーン）', ['e.t.t.e', 'eFFpFFe', '.pbNbp.', '.ppppp.', 'eFFpFFe', 'e.....e'],
+         '芝生の真ん中に道しるべとベンチ。まわりを生け垣と花で囲む村の顔'),
+        ('sub_lon_manor', 'landmark', '屋敷の門と並木道', ['QWWAWWQ', 'e.ppp.e', 't.ppp.t', 'e.ppp.e', 't.ppp.t'],
+         '門柱（城塔）と塀の門から、並木の石畳の道がまっすぐ続く'),
+        ('sub_lon_allot', 'support', '市民農園（アロットメント）', ['ffffff', 'fyyyyf', 'fppppf', 'fyyyyf', 'fbxqpf'], '柵で囲んだ小さな畑。道具の樽とベンチ'),
+        ('sub_lon_cottage', 'support', 'コテージガーデン', ['eFqFe', 'FFbFF', 'FpppF', 'ee.ee'], '花を盛りに植えた庭にベンチ。生け垣の切れ目から入る'),
+        ('sub_lon_lane', 'support', '生け垣の小道', ['epe', 'epe', 'tpt', 'epe', 'epe'], '両側を生け垣で囲った田舎道。ところどころに木'),
+        ('sub_lon_tea', 'support', '庭のティーテーブル', ['eFtFe', '.hch.', '.ppp.', 'FFpFF'], '木陰でお茶。花の小道から入る'),
+        ('sub_lon_picnic', 'support', '芝生のピクニック', ['.u.u.', 'hcRch', 'F.F.F'], '敷物とパラソルのピクニック'),
+        ('sub_lon_gate', 'support', '白い柵の木戸', ['fffpff', 'FFFpFF', '..tp..'], '白い柵の木戸から小道へ。柵の前に花'),
+        ('sub_lon_hedge', 'filler', '生け垣と花', ['eee', 'FFF'], '生け垣の前に花を一列'),
+        ('sub_lon_stone', 'filler', '石畳と鉢植え', ['pq', 'pp'], 'すき間を旧石畳と鉢植えで埋める'),
+        ('sub_lon_post', 'filler', '道しるべと生け垣', ['eNe'], '分かれ道の道しるべ'),
+        ('sub_lon_grove', 'filler', '木立と花', ['t.t', 'FFF'], '木を1マスあけて並べ、根元に花'),
+        ('sub_lon_deco_1', 'edge', '生け垣', ['e'], '郊外の道ばた'),
+        ('sub_lon_deco_2', 'edge', '白い柵と花', ['fF'], '郊外の道ばた'),
+    ]
+    return [{'id': k, 'th': 'ロンドン', 'name': '郊外：' + nm, 'r': r, 'note': nt, 'mat': 'p', 'role': role} for k, role, nm, r, nt in K]
 
 # ---- 島の暮らしの施設：自宅のそばの畑・果樹園、採石場、釣り場、花の交配畑 ----------------------
 def facility():

@@ -173,7 +173,8 @@ def main():
             big[r['no']] = [k, len(chunk), len(b)]; chunk += b
             if (i + 1) % 6 == 0: flush()
         flush(); print('大きな画像', len(big), '枚', k, 'ファイル')
-    data = {'options': opts, 'refs': refs, 'big': big, 'dupOf': dupOf, 'refCats': CATS, 'grid': G, 'h': H, 'inclines': T.get('inclines', []), 'paint': S['paint'], 'facs': S.get('facilities', []), 'places': places, 'mods': mods, 'leg': LEG, 'lon': lon, 'cat': cat, 'examples': ex,
+    from gen_samples import LON_SUB
+    data = {'options': opts, 'refs': refs, 'big': big, 'dupOf': dupOf, 'lonSub': LON_SUB, 'refCats': CATS, 'grid': G, 'h': H, 'inclines': T.get('inclines', []), 'paint': S['paint'], 'facs': S.get('facilities', []), 'places': places, 'mods': mods, 'leg': LEG, 'lon': lon, 'cat': cat, 'examples': ex,
             'th': {'lon': 'ロンドン', 'egy': 'エジプト', 'jpn': '日本', 'usa': 'アメリカ', 'eur': 'ヨーロッパ', 'port': '地中海'},
             'thColor': {'lon': '#b4503a', 'egy': '#d9a441', 'jpn': '#c45a7a', 'usa': '#3f6fb5', 'eur': '#4f9a8a', 'port': '#2f8fc9'},
             'role': {'landmark': '主役', 'support': '脇役', 'filler': 'すき間うめ', 'edge': '道ばた', 'step': '段差', 'facility': '施設'},

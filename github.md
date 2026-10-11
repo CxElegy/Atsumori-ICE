@@ -30,6 +30,9 @@ date: 2026-10-11
 ## 一括で作り直す
 `bash tools/build_all.sh [出力の置き場]`（作例の審査の大きな画像は build_site.py の `--big` で big/c000.jpg… を書き出し、Artifact に files として何回かに分けて載せる。1回64MBまで）：地勢 → 見本 → 確認 → ビルドガイド（ICE_CACHE に作例の写真の置き場、立体図は playwright）
 
+## ロンドンの市街と郊外（第31回）
+- テムズ川を境に、東岸・北岸が市街、西岸と南西の浜が郊外（村）。境は tools/gen_samples.py の LON_SUB。郊外は sub_lon_* のモジュールと旧石畳の小道
+
 ## Tools
 | tool | files |
 |---|---|

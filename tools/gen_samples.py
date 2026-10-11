@@ -23,6 +23,7 @@ W, H = 112, 96
 GROUND = 'BpSgdwZDmlr'
 SMALL = 'LbFNiuqxnJkfeaz'
 CAP = {'support': 3, 'filler': 6, 'edge': 8}
+SUB_BONUS = 0.8      # 第31回：ロンドンの郊外は郊外のモジュール（生け垣・木立・石畳・道しるべ）を優先。鉢植えとベンチばかりにしない
 KARE_BONUS = 0.6     # 第17回：日本は庭のモジュール（苔・飛び石・延段・蹲踞・茶庭・石組み）を優先。白砂だけのものは優先しない
 
 # 地区の表示範囲（組み立て台の DISTS と同じ）
@@ -37,13 +38,21 @@ ZONES = [['hal', [[86, 0], [112, 0], [112, 25], [86, 25]]], ['usa', [[82, 25], [
          ['port', [[76, 72], [112, 72], [112, 96], [58, 96], [58, 84], [76, 84]]],
          ['eur', [[66, 40], [76, 46], [112, 46], [112, 72], [76, 72], [76, 84], [58, 84], [58, 60], [62, 60], [62, 48]]],
          ['lon', [[0, 84], [18, 84], [18, 56], [30, 56], [34, 52], [34, 60], [58, 60], [58, 96], [0, 96]]]]
+# 第31回：ロンドンを市街と郊外に分ける。郊外＝テムズ川の西岸（ハイドパークの林）と南西の浜の村。ほかはすべて市街
+LON_SUB = [[18, 56], [25, 56], [25, 71], [28, 71], [28, 74], [25, 84], [29, 84], [29, 96], [0, 96], [0, 84], [18, 84]]
+# 郊外にも置いてよい家具・地面（レンガ・ガス灯・電話ボックス・バス停・時計などは市街だけ）
+SUB_OK = set('FtegpqbfNxhcuRyld.')
+# 市街の型でも郊外に置いてよいもの（ハイドパークの小道は郊外の公園）
+LON_ANY = {'lon_park', 'fac_fishing'}
 # 木を残す所（アメリカの森林・ハイドパーク）
 KEEP_TREES = [[82, 25, 112, 46], [16, 66, 32, 82]]
 
 # 主役の表：(モジュールの id か 'LM:地区:k'=その地区の採用した主役のk番目 / 'SUP:地区:k'、目標 x, y、探す半径)
 SPEC = {
     'lon': [('lon_lounge', 38, 77, 0), ('lon_934', 29, 84, 3), ('lon_park', 22, 74, 3), ('LM:lon:0', 41, 62, 3),
-            ('lon_corner', 36, 70, 6), ('lon_bus', 52, 71, 6), ('SUP:lon:0', 33, 78, 6), ('SUP:lon:1', 54, 66, 6)],
+            ('lon_corner', 36, 70, 6), ('lon_bus', 52, 71, 6), ('SUP:lon:0', 33, 78, 6), ('SUP:lon:1', 54, 66, 6),
+            # 郊外：川の西岸の村の緑地、南西の浜の屋敷の並木道・市民農園・コテージガーデン
+            ('sub_lon_green', 20, 60, 4), ('sub_lon_manor', 14, 86, 6), ('sub_lon_allot', 22, 88, 6), ('sub_lon_cottage', 6, 89, 6), ('sub_lon_tea', 20, 67, 6)],
     'egy': [('museum', 27, 25, 0), ('egy_court', 27, 28, 2), ('egy_pyramid', 20, 18, 6), ('nook', 20, 33, 6),
             ('egy_dig', 12, 22, 6), ('egy_mkt', 22, 38, 6), ('SUP:egy:0', 12, 30, 8)],
     'jpn': [('able', 55, 15, 4), ('LM:jpn:0', 41, 15, 4), ('jpn_court', 53, 21, 4), ('kare_ryoanji', 45, 48, 6), ('niwa_roji', 54, 30, 6),
@@ -108,6 +117,10 @@ class Mod:
         self.pure_ground = all(c in GROUND for c in ''.join(self.rows).replace('.', ''))
         self.needs_water = any(c in 'w=Z' for c in ''.join(self.rows))
         self.items = set(c for c in ''.join(self.rows) if c not in GROUND and c != '.')
+        # ロンドンの市街・郊外：sub＝郊外だけ、city＝市街だけ、any＝どちらでも
+        chars = set(''.join(self.rows))
+        # （テーマのない共通の型（広場・休憩など）も中身で決める。ロンドンのマス以外では使わない）
+        self.lon = 'sub' if self.id.startswith('sub_lon_') else 'any' if self.id in LON_ANY or chars <= SUB_OK else 'city'
 
 
 class World:
@@ -116,6 +129,7 @@ class World:
         self.g = t['grid']; self.h = [[int(c) for c in row] for row in t['h']]
         self.facs = t.get('facilities', []); self.ground_plan = t.get('ground', {}); self.fac_pos = []
         self.zone = [[zone_of(x, y) for x in range(W)] for y in range(H)]
+        self.lsub = [[self.zone[y][x] == 'lon' and in_poly(x, y, LON_SUB) for x in range(W)] for y in range(H)]   # ロンドンの郊外
         self.placed = []              # [id, x, y, rot, zone]
         self.paint = {}               # "x,y" -> "r:地区"
         self.fur = [[None] * W for _ in range(H)]     # 家具があるマス
@@ -142,6 +156,8 @@ class World:
         for dx, dy, c in cells:
             cx, cy = x + dx, y + dy
             if not (0 <= cx < W and 0 <= cy < H) or not mask[cy][cx]:
+                return False
+            if m.lon != 'any' and self.zone[cy][cx] == 'lon' and self.lsub[cy][cx] != (m.lon == 'sub'):
                 return False
             v = self.g[cy][cx]
             if c == 'w' or c == '=' or c == 'Z':
@@ -266,7 +282,8 @@ def paint_roads(w, dist, mask):
         for x in range(W):
             if mask[y][x] and w.g[y][x] == 'p' and d[y][x] <= 2 and not w.cov[y][x]:
                 z = w.zone[y][x]
-                w.paint['%d,%d' % (x, y)] = 'r:' + ('hal' if z == 'hal' else ('usa' if z == 'usa' else z))
+                # ロンドンの郊外は車道にせず、旧石畳の小道（p）にする
+                w.paint['%d,%d' % (x, y)] = 'p' if w.lsub[y][x] else 'r:' + ('hal' if z == 'hal' else ('usa' if z == 'usa' else z))
                 w.road[y][x] = True; w.cov[y][x] = True; n += 1
     return n
 
@@ -353,7 +370,7 @@ def fill(w, dist, mask, zone_pools):
                     new = sum(1 for dx, dy, c in cells if 0 <= y + dy < H and 0 <= x + dx < W and not w.cov[y + dy][x + dx])
                     if not new or not w.ok(mask, cells, x, y, m):
                         continue
-                    pts = new * (1.2 if m.role == 'support' else 1) - w.use[(zone, m.id)] * 6 + (3 if m.area <= 2 else 0) - near(cells, x, y, m) * 2.5 + (0.5 if m.pure_ground else 0) + (KARE_BONUS * new if zone == 'jpn' and m.id.startswith('niwa_') and m.id != 'niwa_mossbed' else 0) - (2 * new if zone == 'jpn' and m.id == 'kare_sand' else 0)
+                    pts = new * (1.2 if m.role == 'support' else 1) - w.use[(zone, m.id)] * 6 + (3 if m.area <= 2 else 0) - near(cells, x, y, m) * 2.5 + (0.5 if m.pure_ground else 0) + (KARE_BONUS * new if zone == 'jpn' and m.id.startswith('niwa_') and m.id != 'niwa_mossbed' else 0) - (2 * new if zone == 'jpn' and m.id == 'kare_sand' else 0) + (SUB_BONUS * new + 2 if m.lon == 'sub' else 0)
                     if best is None or pts > best[0]:
                         best = (pts, m, rot)
             if best:

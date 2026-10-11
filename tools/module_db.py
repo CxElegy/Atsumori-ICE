@@ -34,6 +34,11 @@ QUOTA = {
     'filler': {'lon': 29, 'egy': 25, 'jpn': 26, 'usa': 23, 'hal': 15, 'eur': 26, 'port': 14},
     'facility': {k: 9 for k in TH},     # 島の暮らしの施設は点検に通ればすべて採用（枠の外）
 }
+# 第31回：ロンドンの郊外（sub_lon_*）は市街と枠を分ける（市街のモジュールを押し出さない）
+for _r, _n in {'landmark': 2, 'support': 6, 'filler': 4, 'edge': 2, 'step': 0, 'facility': 0}.items():
+    QUOTA[_r]['lons'] = _n
+GROUP_NAME = {**TH, 'lons': 'ロンドン郊外'}
+group_of = lambda m: 'lons' if m['id'].startswith('sub_lon_') else TH_KEY[m['theme']]
 TARGET = 293
 NO_WATER = set()     # 第15回：日本にも庭の池（池泉）があるので、水のモジュールも使える
 
@@ -70,7 +75,7 @@ def all_modules():
     out = []
     for m in P:
         out.append(dict(m, role=GP.ROLES[m['base']]))
-    for m in MS.deco() + MS.tiny() + MS.vignette() + MS.site() + MS.step() + MS.karesansui() + MS.facility():
+    for m in MS.deco() + MS.tiny() + MS.vignette() + MS.site() + MS.step() + MS.karesansui() + MS.london_suburb() + MS.facility():
         m = dict(m)
         m.setdefault('src', ''); m.setdefault('base', m['id'].rsplit('_', 1)[0] if m['id'].startswith(('deco', 'tiny', 'vig', 'stp')) else m['id'])
         out.append(m)
@@ -186,8 +191,8 @@ def cmd_judge():
     # 2) 枠（QUOTA）に合わせて採用を決める。点が高い順
     status = {}
     for role in ROLES:
-        for th in TH:
-            cand = [m for m in rows if m['role'] == role and TH_KEY[m['theme']] == th and m['id'] not in forced]
+        for th in list(TH) + ['lons']:
+            cand = [m for m in rows if m['role'] == role and group_of(m) == th and m['id'] not in forced]
             cand.sort(key=lambda m: (-res[m['id']][0], m['id']))
             n = 0
             for m in cand:
@@ -202,8 +207,8 @@ def cmd_judge():
                     status[m['id']] = ('reserve', '。50〜69点（控え）')
                 else:
                     status[m['id']] = ('reject', '。50点未満')
-            if n < QUOTA[role][th] and role != 'facility':
-                print('警告: %s %s は採用が %d/%d' % (TH[th], role, n, QUOTA[role][th]), file=sys.stderr)
+            if n < QUOTA[role][th] and role not in ('facility', 'step') or (role == 'step' and th != 'lons' and n < QUOTA[role][th]):
+                print('警告: %s %s は採用が %d/%d' % (GROUP_NAME[th], role, n, QUOTA[role][th]), file=sys.stderr)
     # 3) 保留に決めている段差（坂を2本使う大きな階段）・旧案
     for k, v in forced.items():
         if k in res:

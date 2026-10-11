@@ -54,10 +54,10 @@ const DISTS = { egy: [8, 12, 40, 62], jpn: [32, 12, 67, 61], usa: [65, 12, 101, 
   const base = J('island-grid-v4.json'); ok('今の島（island-grid-v4.json）は96行×112文字', base.length === 96 && base.every(r => r.length === 112));
 
   const C = J('modules-curated.json');
-  ok('採用：302個（293＋日本の庭の脇役4＋島の暮らしの施設5）', C.count === 302 && C.modules.length === 302, C.modules.length);
+  ok('採用：316個（293＋日本の庭の脇役4＋島の暮らしの施設5＋ロンドン郊外14）', C.count === 316 && C.modules.length === 316, C.modules.length);
   const by = (k) => C.modules.reduce((a, m) => (a[m[k]] = (a[m[k]] || 0) + 1, a), {});
-  eq('採用：役別（主役17・脇役60・すき間うめ158・道ばた34・段差28・施設5）', by('role'), { landmark: 17, support: 60, filler: 158, edge: 34, step: 28, facility: 5 });
-  eq('採用：テーマ別', by('th'), { 'ロンドン': 49, 'エジプト': 46, '日本': 50, 'アメリカ': 45, 'ハロウィン': 33, 'ヨーロッパ': 46, '地中海': 33 });
+  eq('採用：役別（主役19・脇役66・すき間うめ162・道ばた36・段差28・施設5）', by('role'), { landmark: 19, support: 66, filler: 162, edge: 36, step: 28, facility: 5 });
+  eq('採用：テーマ別', by('th'), { 'ロンドン': 63, 'エジプト': 46, '日本': 50, 'アメリカ': 45, 'ハロウィン': 33, 'ヨーロッパ': 46, '地中海': 33 });
   ok('採用：id が重ならない', new Set(C.modules.map(m => m.id)).size === C.modules.length);
   ok('採用：枯山水の石庭（白砂の砂紋 m と石 o）がある', C.modules.filter(m => m.th === '日本' && m.r.join('').includes('m') && m.r.join('').includes('o')).length >= 1);
   ok('採用：形（rows）は長方形', C.modules.every(m => m.r.every(r => r.length === m.r[0].length)));
@@ -72,7 +72,13 @@ const DISTS = { egy: [8, 12, 40, 62], jpn: [32, 12, 67, 61], usa: [65, 12, 101, 
   ok('見本：配置のモジュールはすべて形がある', Object.values(S.dists).every(l => l.every(p => S.defs[p[0]])));
   ok('見本：配置は地区の範囲の中', Object.entries(S.dists).every(([d, l]) => l.every(p => p[1] >= DISTS[d][0] - 1 && p[1] < DISTS[d][2] && p[2] >= DISTS[d][1] - 1 && p[2] < DISTS[d][3])));
   ok('見本：建物（H）のモジュールは回さない', Object.values(S.dists).every(l => l.every(p => p[3] === 0 || !S.defs[p[0]].join('').includes('H'))));
-  ok('見本：道路は地形 p のマスで、値は r:地区', Object.values(S.paint).every(pt => Object.entries(pt).every(([k, v]) => { const [x, y] = k.split(',').map(Number); return v === 'm' || (G[y][x] === 'p' && /^r:(lon|egy|jpn|usa|hal|eur|port)$/.test(v)); })));
+  // 第31回：ロンドンの郊外（テムズ川の西岸と南西の浜。gen_samples.py の LON_SUB と同じ）は車道にせず旧石畳の小道 p
+  const LON_SUB = [[18, 56], [25, 56], [25, 71], [28, 71], [28, 74], [25, 84], [29, 84], [29, 96], [0, 96], [0, 84], [18, 84]];
+  const inPoly = (x, y, poly) => { const px = x + .5, py = y + .5; let ins = false; for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) { const [xi, yi] = poly[i], [xj, yj] = poly[j]; if ((yi > py) !== (yj > py) && px < (xj - xi) * (py - yi) / (yj - yi) + xi) ins = !ins; } return ins; };
+  ok('見本：道路は地形 p のマスで、値は r:地区（ロンドンの郊外は旧石畳 p）', Object.entries(S.paint).every(([d, pt]) => Object.entries(pt).every(([k, v]) => { const [x, y] = k.split(',').map(Number); return v === 'm' || (G[y][x] === 'p' && (/^r:(lon|egy|jpn|usa|hal|eur|port)$/.test(v) || (d === 'lon' && v === 'p' && inPoly(x, y, LON_SUB)))); })));
+  const lonPl = (S.dists.lon || []), defs = S.defs || {};
+  ok('見本：ロンドン郊外のモジュール（sub_lon_*）は郊外だけに置く', lonPl.filter(p => p[0].startsWith('sub_lon_')).length >= 5 && lonPl.filter(p => p[0].startsWith('sub_lon_')).every(p => inPoly(p[1], p[2], LON_SUB)));
+  ok('見本：ロンドン郊外にレンガ・電話ボックス・バス停・ガス灯・時計を置かない（ハイドパークの小道は別）', lonPl.filter(p => inPoly(p[1], p[2], LON_SUB) && p[0] !== 'lon_park' && defs[p[0]]).every(p => !/[BTKLE]/.test(defs[p[0]].join(''))));
   ok('見本：枯れ流れは白砂の砂紋（m）で塗る', Object.values(S.paint.jpn || {}).filter(v => v === 'm').length >= 30);
   const jc = {}; S.dists.jpn.forEach(([id]) => S.defs[id].join('').split('').forEach(c => { if (c !== '.') jc[c] = (jc[c] || 0) + 1; })); Object.values(S.paint.jpn).forEach(v => { const c = v === 'm' ? 'm' : 'road'; jc[c] = (jc[c] || 0) + 1; });
   const jt = Object.values(jc).reduce((a, b) => a + b, 0);

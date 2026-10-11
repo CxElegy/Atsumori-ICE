@@ -274,6 +274,11 @@ function drawMap() { drawIso();
       x.fillStyle = 'rgba(255,255,255,.92)'; x.fillRect(px, py - 17, tw + 10, 16); x.fillStyle = '#22302d'; x.fillText(t, px + 5, py - 5); } });
   (D.routes || []).forEach(rt => { x.fillStyle = 'rgba(180,80,58,.55)'; rt.cells.forEach(([X, y]) => { if (X >= b[0] && X < b[2] && y >= b[1] && y < b[3]) x.fillRect((X - b[0]) * k + k * .2, (y - b[1]) * k + k * .2, k * .6, k * .6); });
     const c0 = rt.cells[0]; if (c0 && c0[0] >= b[0] && c0[0] < b[2] && c0[1] >= b[1] && c0[1] < b[3]) { x.fillStyle = '#b4503a'; x.font = `800 ${Math.max(10, k * .9)}px sans-serif`; x.fillText(rt.id, (c0[0] - b[0]) * k + 2, (c0[1] - b[1]) * k - 2); } });
+  // ロンドンの市街と郊外の境（郊外＝テムズ川の西岸と南西の浜の村）
+  if (D.lonSub && (S.zoom === 'lon' || S.zoom === 'all')) { x.save(); x.setLineDash([k * .6, k * .4]); x.lineWidth = Math.max(2, k * .18); x.strokeStyle = '#3d7d4f'; x.beginPath();
+    D.lonSub.forEach(([px, py], i) => x[i ? 'lineTo' : 'moveTo']((px - b[0]) * k, (py - b[1]) * k)); x.closePath(); x.stroke(); x.restore();
+    x.font = `800 ${Math.max(11, k * .9)}px sans-serif`; x.textAlign = 'left';
+    [['ロンドン郊外（村）', 14, 54, '#3d7d4f'], ['ロンドン市街', 40, 82, '#b4503a']].forEach(([t, lx, ly, col]) => { if (lx < b[0] || lx >= b[2] || ly < b[1] || ly >= b[3]) return; const tw = x.measureText(t).width; x.fillStyle = 'rgba(255,255,255,.9)'; x.fillRect((lx - b[0]) * k - 4, (ly - b[1]) * k - k, tw + 8, k * 1.3); x.fillStyle = col; x.fillText(t, (lx - b[0]) * k, (ly - b[1]) * k); }); }
   D.facs.forEach(([nm, kind, fx, fy]) => { if (fx < b[0] || fx >= b[2] || fy < b[1] || fy >= b[3]) return; x.fillStyle = '#ffffff'; x.beginPath(); x.arc((fx - b[0] + .5) * k, (fy - b[1] + .5) * k, Math.max(4, k * .45), 0, 7); x.fill(); x.fillStyle = '#22302d'; x.font = `700 ${Math.max(8, k * .6)}px sans-serif`; x.textAlign = 'center'; x.fillText(D.facGlyph[kind] || '・', (fx - b[0] + .5) * k, (fy - b[1] + .5) * k + k * .22); x.textAlign = 'left'; });
 }
 function hitMap(e) { const { c, b, k } = mapView(), r = c.getBoundingClientRect(); const X = (e.clientX - r.left) / r.width * c.width / k + b[0], Y = (e.clientY - r.top) / r.height * c.height / k + b[1];

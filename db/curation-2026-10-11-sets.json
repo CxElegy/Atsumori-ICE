@@ -483,6 +483,104 @@
 "reason": "テーマ20/25・役15/15・密度20/20・重ね15/15・地形15/15・作れる10/10"
 },
 {
+"id": "sub_lon_allot",
+"status": "adopt",
+"role": "support",
+"score": 92,
+"reason": "テーマ25/25・役15/15・密度15/20・重ね15/15・地形15/15・作れる7/10"
+},
+{
+"id": "sub_lon_cottage",
+"status": "adopt",
+"role": "support",
+"score": 94,
+"reason": "テーマ25/25・役15/15・密度14/20・重ね15/15・地形15/15・作れる10/10"
+},
+{
+"id": "sub_lon_deco_1",
+"status": "adopt",
+"role": "edge",
+"score": 88,
+"reason": "テーマ25/25・役15/15・密度8/20・重ね15/15・地形15/15・作れる10/10"
+},
+{
+"id": "sub_lon_deco_2",
+"status": "adopt",
+"role": "edge",
+"score": 88,
+"reason": "テーマ25/25・役15/15・密度8/20・重ね15/15・地形15/15・作れる10/10"
+},
+{
+"id": "sub_lon_gate",
+"status": "adopt",
+"role": "support",
+"score": 97,
+"reason": "テーマ25/25・役15/15・密度17/20・重ね15/15・地形15/15・作れる10/10"
+},
+{
+"id": "sub_lon_green",
+"status": "adopt",
+"role": "landmark",
+"score": 100,
+"reason": "テーマ25/25・役15/15・密度20/20・重ね15/15・地形15/15・作れる10/10"
+},
+{
+"id": "sub_lon_grove",
+"status": "adopt",
+"role": "filler",
+"score": 88,
+"reason": "テーマ25/25・役15/15・密度8/20・重ね15/15・地形15/15・作れる10/10"
+},
+{
+"id": "sub_lon_hedge",
+"status": "adopt",
+"role": "filler",
+"score": 88,
+"reason": "テーマ25/25・役15/15・密度8/20・重ね15/15・地形15/15・作れる10/10"
+},
+{
+"id": "sub_lon_lane",
+"status": "adopt",
+"role": "support",
+"score": 100,
+"reason": "テーマ25/25・役15/15・密度20/20・重ね15/15・地形15/15・作れる10/10"
+},
+{
+"id": "sub_lon_manor",
+"status": "adopt",
+"role": "landmark",
+"score": 100,
+"reason": "テーマ25/25・役15/15・密度20/20・重ね15/15・地形15/15・作れる10/10"
+},
+{
+"id": "sub_lon_picnic",
+"status": "adopt",
+"role": "support",
+"score": 88,
+"reason": "テーマ25/25・役15/15・密度8/20・重ね15/15・地形15/15・作れる10/10"
+},
+{
+"id": "sub_lon_post",
+"status": "adopt",
+"role": "filler",
+"score": 88,
+"reason": "テーマ25/25・役15/15・密度8/20・重ね15/15・地形15/15・作れる10/10"
+},
+{
+"id": "sub_lon_stone",
+"status": "adopt",
+"role": "filler",
+"score": 98,
+"reason": "テーマ25/25・役15/15・密度18/20・重ね15/15・地形15/15・作れる10/10"
+},
+{
+"id": "sub_lon_tea",
+"status": "adopt",
+"role": "support",
+"score": 98,
+"reason": "テーマ25/25・役15/15・密度18/20・重ね15/15・地形15/15・作れる10/10"
+},
+{
 "id": "tiny_egy_F1",
 "status": "adopt",
 "role": "filler",
