@@ -301,11 +301,109 @@
 "reason": "テーマ25/25・役15/15・密度20/20・重ね15/15・地形15/15・作れる10/10"
 },
 {
+"id": "fac_farm",
+"status": "adopt",
+"role": "facility",
+"score": 91,
+"reason": "テーマ25/25・役15/15・密度17/20・重ね15/15・地形15/15・作れる4/10"
+},
+{
+"id": "fac_fishing",
+"status": "adopt",
+"role": "facility",
+"score": 100,
+"reason": "テーマ25/25・役15/15・密度20/20・重ね15/15・地形15/15・作れる10/10"
+},
+{
+"id": "fac_flowers",
+"status": "adopt",
+"role": "facility",
+"score": 100,
+"reason": "テーマ25/25・役15/15・密度20/20・重ね15/15・地形15/15・作れる10/10"
+},
+{
+"id": "fac_orchard",
+"status": "adopt",
+"role": "facility",
+"score": 100,
+"reason": "テーマ25/25・役15/15・密度20/20・重ね15/15・地形15/15・作れる10/10"
+},
+{
+"id": "fac_quarry",
+"status": "adopt",
+"role": "facility",
+"score": 95,
+"reason": "テーマ25/25・役15/15・密度18/20・重ね15/15・地形15/15・作れる7/10"
+},
+{
 "id": "jpn_court",
 "status": "adopt",
 "role": "landmark",
 "score": 99,
 "reason": "テーマ24/25・役15/15・密度20/20・重ね15/15・地形15/15・作れる10/10"
+},
+{
+"id": "kare_bamboo",
+"status": "adopt",
+"role": "support",
+"score": 95,
+"reason": "テーマ20/25・役15/15・密度20/20・重ね15/15・地形15/15・作れる10/10"
+},
+{
+"id": "kare_bridge",
+"status": "adopt",
+"role": "support",
+"score": 95,
+"reason": "テーマ20/25・役15/15・密度20/20・重ね15/15・地形15/15・作れる10/10"
+},
+{
+"id": "kare_island",
+"status": "adopt",
+"role": "support",
+"score": 95,
+"reason": "テーマ20/25・役15/15・密度20/20・重ね15/15・地形15/15・作れる10/10"
+},
+{
+"id": "kare_lantern",
+"status": "adopt",
+"role": "support",
+"score": 95,
+"reason": "テーマ20/25・役15/15・密度20/20・重ね15/15・地形15/15・作れる10/10"
+},
+{
+"id": "kare_moss",
+"status": "adopt",
+"role": "filler",
+"score": 95,
+"reason": "テーマ20/25・役15/15・密度20/20・重ね15/15・地形15/15・作れる10/10"
+},
+{
+"id": "kare_ryoanji",
+"status": "adopt",
+"role": "landmark",
+"score": 92,
+"reason": "テーマ20/25・役15/15・密度20/20・重ね15/15・地形15/15・作れる7/10"
+},
+{
+"id": "kare_sand",
+"status": "adopt",
+"role": "filler",
+"score": 93,
+"reason": "テーマ20/25・役15/15・密度18/20・重ね15/15・地形15/15・作れる10/10"
+},
+{
+"id": "kare_sanzon",
+"status": "reserve",
+"role": "support",
+"score": 95,
+"reason": "テーマ20/25・役15/15・密度20/20・重ね15/15・地形15/15・作れる10/10。70点以上だがこの地区の脇役の枠（8個）が埋まっている"
+},
+{
+"id": "kare_tsukubai",
+"status": "reserve",
+"role": "support",
+"score": 95,
+"reason": "テーマ20/25・役15/15・密度20/20・重ね15/15・地形15/15・作れる10/10。70点以上だがこの地区の脇役の枠（8個）が埋まっている"
 },
 {
 "id": "lon_934",
@@ -834,17 +932,17 @@
 },
 {
 "id": "tiny_jpn_q2",
-"status": "adopt",
+"status": "reserve",
 "role": "filler",
 "score": 73,
-"reason": "テーマ25/25・役15/15・密度8/20・重ね0/15・地形15/15・作れる10/10。同じ型の14個目（色違いは重ねない）"
+"reason": "テーマ25/25・役15/15・密度8/20・重ね0/15・地形15/15・作れる10/10。同じ型の14個目（色違いは重ねない）。70点以上だがこの地区のすき間うめの枠（26個）が埋まっている"
 },
 {
 "id": "tiny_jpn_qn",
-"status": "adopt",
+"status": "reserve",
 "role": "filler",
 "score": 73,
-"reason": "テーマ25/25・役15/15・密度8/20・重ね0/15・地形15/15・作れる10/10。同じ型の15個目（色違いは重ねない）"
+"reason": "テーマ25/25・役15/15・密度8/20・重ね0/15・地形15/15・作れる10/10。同じ型の15個目（色違いは重ねない）。70点以上だがこの地区のすき間うめの枠（26個）が埋まっている"
 },
 {
 "id": "tiny_jpn_t1",

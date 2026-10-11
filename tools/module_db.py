@@ -23,7 +23,7 @@ import module_sets as MS
 TH = GP.TH
 TH_KEY = {v: k for k, v in TH.items()}
 THEME_ORDER = ['ロンドン', 'エジプト', '日本', 'アメリカ', 'ハロウィン', 'ヨーロッパ', '地中海']
-ROLES = ['landmark', 'support', 'filler', 'edge', 'step']
+ROLES = ['landmark', 'support', 'filler', 'edge', 'step', 'facility']
 
 # 採用の枠（1地区の目安：主役2〜4・脇役8〜12・すき間うめ6〜10・道ばた2〜4・段差2〜4 を、全体293個に合わせて配る）
 QUOTA = {
@@ -32,8 +32,10 @@ QUOTA = {
     'edge': {'lon': 5, 'egy': 5, 'jpn': 5, 'usa': 5, 'hal': 4, 'eur': 5, 'port': 5},
     'step': {k: 4 for k in TH},
     'filler': {'lon': 29, 'egy': 25, 'jpn': 26, 'usa': 23, 'hal': 15, 'eur': 26, 'port': 14},
+    'facility': {k: 9 for k in TH},     # 島の暮らしの施設は点検に通ればすべて採用（枠の外）
 }
 TARGET = 293
+NO_WATER = {'jpn'}     # 第14回：日本は水を使わない（枯山水）
 
 
 def conn():
@@ -68,7 +70,7 @@ def all_modules():
     out = []
     for m in P:
         out.append(dict(m, role=GP.ROLES[m['base']]))
-    for m in MS.deco() + MS.tiny() + MS.vignette() + MS.site() + MS.step():
+    for m in MS.deco() + MS.tiny() + MS.vignette() + MS.site() + MS.step() + MS.karesansui() + MS.facility():
         m = dict(m)
         m.setdefault('src', ''); m.setdefault('base', m['id'].rsplit('_', 1)[0] if m['id'].startswith(('deco', 'tiny', 'vig', 'stp')) else m['id'])
         out.append(m)
@@ -125,6 +127,8 @@ def score(m, rank):
     parts['役'] = (rc, 15)
     d = m['density']
     lo, hi = (0.25, 0.7) if role == 'landmark' else (0.3, 0.7)
+    if m['mat'] == 'm' or role == 'facility':   # 枯山水は余白（白砂）が主役。施設は使い方で決まる
+        lo, hi = 0.05, 0.7
     dist = 0 if lo <= d <= hi else min(abs(d - lo), abs(d - hi))
     parts['密度'] = (max(20 - round(40 * dist), 4), 20)
     if role in ('filler', 'edge'):
@@ -132,7 +136,10 @@ def score(m, rank):
     else:
         ov = [15, 9][rank] if rank < 2 else 0
     parts['重ね'] = (ov, 15)
-    parts['地形'] = (15 if area <= 49 or role == 'landmark' else 5, 15)
+    tf = 15 if area <= 49 or role in ('landmark', 'facility') else 5
+    if th in NO_WATER and 'w' in ''.join(m['r']):   # 日本は枯山水（水を使わない）。水の要るものは置けない
+        tf = 0
+    parts['地形'] = (tf, 15)
     parts['作れる'] = (10 if m['props'] <= 24 else (7 if m['props'] <= 40 else 4), 10)
     bonus = 10 if role == 'step' and m['slopes'] <= 1 else (5 if role == 'step' else 0)
     parts['段差'] = (bonus, 10)
@@ -171,7 +178,7 @@ def cmd_judge():
     # 保留に決めている段差（坂を2本使う大きな階段）・旧案。枠には数えない
     forced = {'stp_jpn_5': '段々の茶畑は坂を2本使うので、坂に余りがあるときだけ（保留）', 'stp_eur_5': '城下町の大階段は坂を2本使うので保留',
               'stp_port_5': '段々のぶどう畑は坂を2本使うので保留', 'lon_court': '博物館をエジプトへ移したので、ロンドンの前庭は保留'}
-    CAP = {'landmark': 2, 'support': 2, 'filler': 3, 'edge': 3, 'step': 3}
+    CAP = {'landmark': 2, 'support': 2, 'filler': 3, 'edge': 3, 'step': 3, 'facility': 1}
     # 2) 枠（QUOTA）に合わせて採用を決める。点が高い順
     status = {}
     for role in ROLES:
@@ -186,12 +193,12 @@ def cmd_judge():
                 elif t >= 70 and n < QUOTA[role][th]:
                     status[m['id']] = ('adopt', ''); n += 1
                 elif t >= 70:
-                    status[m['id']] = ('reserve', '。70点以上だがこの地区の%sの枠（%d個）が埋まっている' % ({'landmark': '主役', 'support': '脇役', 'filler': 'すき間うめ', 'edge': '道ばた', 'step': '段差'}[role], QUOTA[role][th]))
+                    status[m['id']] = ('reserve', '。70点以上だがこの地区の%sの枠（%d個）が埋まっている' % ({'landmark': '主役', 'support': '脇役', 'filler': 'すき間うめ', 'edge': '道ばた', 'step': '段差', 'facility': '施設'}[role], QUOTA[role][th]))
                 elif t >= 50:
                     status[m['id']] = ('reserve', '。50〜69点（控え）')
                 else:
                     status[m['id']] = ('reject', '。50点未満')
-            if n < QUOTA[role][th]:
+            if n < QUOTA[role][th] and role != 'facility':
                 print('警告: %s %s は採用が %d/%d' % (TH[th], role, n, QUOTA[role][th]), file=sys.stderr)
     # 3) 保留に決めている段差（坂を2本使う大きな階段）・旧案
     for k, v in forced.items():

@@ -98,7 +98,7 @@ class Component extends DCLogic {
     // ---- 配置の整理 ----
     const fur = {}, gnd = {}, blds = [], mons = [], mills = [], lights = [];
     const GR = 'BpSgdwZD=';
-    const GC = { B: '#b8694b', p: '#cdbb91', S: '#ead39b', g: '#dedbd2', d: '#c9a074' };
+    const GC = { B: '#b8694b', p: '#cdbb91', S: '#ead39b', g: '#dedbd2', d: '#c9a074', m: '#f7f5ef' };
     P0.placed.forEach(([id, px, py, r]) => {
       const rows = P0.defs[id]; if (!rows) return; const a = this.rot(rows, r || 0);
       let hb = null, ms = null, ss = [];
@@ -106,6 +106,7 @@ class Component extends DCLogic {
         if (ch === 'H') { hb = hb || { x1: 1e9, y1: 1e9, x2: -1, y2: -1 }; hb.x1 = Math.min(hb.x1, x); hb.y1 = Math.min(hb.y1, y); hb.x2 = Math.max(hb.x2, x); hb.y2 = Math.max(hb.y2, y); }
         else if (ch === 'M') { ms = ms || { x1: 1e9, y1: 1e9, x2: -1, y2: -1 }; ms.x1 = Math.min(ms.x1, x); ms.y1 = Math.min(ms.y1, y); ms.x2 = Math.max(ms.x2, x); ms.y2 = Math.max(ms.y2, y); }
         else if (ch === 's') ss.push([x, y]);
+        else if (ch === 'l') { }   // 空けるマス（木・岩・花のまわり）は草地のまま
         else if (GC[ch]) { if (!gnd[x + ',' + y]) gnd[x + ',' + y] = ch; }
         else if (ch === 'D' || ch === 'w' || ch === '=' || ch === 'Z') { }
         else fur[x + ',' + y] = ch; }));
@@ -115,7 +116,8 @@ class Component extends DCLogic {
       else ss.forEach(([x, y]) => { fur[x + ',' + y] = 's'; });
     });
     blds.push({ x: 28, y: 63, w: 6, d: 4, id: '_info' }); blds.push({ x: 44, y: 85, w: 8, d: 5, id: '_airport' });
-    const paint = P0.paint;
+    const paint = {};
+    Object.entries(P0.paint).forEach(([k, v]) => { if (v.startsWith('r:')) paint[k] = v; else gnd[k] = v; });
     // ---- 高さ ----
     const slope = {};   // 坂のマスの四隅の高さ
     (T.inclines || []).forEach(([sx, sy, d]) => {
@@ -178,10 +180,15 @@ class Component extends DCLogic {
         else if (z2 === 'B') { ctx.strokeStyle = 'rgba(90,40,25,.35)'; ctx.beginPath(); ctx.moveTo(c0[0] - 4, c0[1] - 1); ctx.lineTo(c0[0] + 4, c0[1] + 1); ctx.stroke(); }
         else if (z2 === 'usa') { const rw = (dx, dy) => !!paint[(x + dx) + ',' + (y + dy)]; if (rw(1, 0) && rw(-1, 0) && !(rw(0, 1) && rw(0, -1)) && x % 3 === 0) { ctx.fillStyle = '#f4d44a'; ctx.fillRect(c0[0] - 3, c0[1] - .5, 6, 1.6); } }
         else if (z2 === 'port') { const rw = (dx, dy) => !!paint[(x + dx) + ',' + (y + dy)]; if (!rw(0, 1)) { poly([PJ(x, y + .8, cn[3]), PJ(x + 1, y + .8, cn[2]), PJ(x + 1, y + 1, cn[2]), PJ(x, y + 1, cn[3])], '#5b9aa0'); } }
+      } else if (gnd[k] === 'm') {      // 砂紋（箒目）：白砂に引いた波の線
+        ctx.strokeStyle = 'rgba(140,128,105,.45)'; ctx.lineWidth = 1;
+        for (const f of [.3, .62]) { const a = PJ(x, y + f, cn[0]), b = PJ(x + 1, y + f, cn[1]), m1 = PJ(x + .5, y + f - .12, cn[0]); ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.quadraticCurveTo(m1[0], m1[1], b[0], b[1]); ctx.stroke(); }
       } else if (gnd[k] === 'd') { ctx.strokeStyle = 'rgba(80,50,20,.3)'; ctx.beginPath(); ctx.moveTo(c0[0] - 5, c0[1] - 1); ctx.lineTo(c0[0] + 5, c0[1] + 1); ctx.stroke(); }
       // 足元の影（北・西が高いとき）
       for (const [dx, dy] of [[0, -1], [-1, 0]]) { const nb = corners(x + dx, y + dy); const hh = dx ? Math.max(nb[1], nb[2]) : Math.max(nb[2], nb[3]); if (hh - Math.min(...cn) > 1.5 && at(x + dx, y + dy) !== 'S') { ctx.fillStyle = 'rgba(20,35,15,.22)'; ctx.beginPath(); if (dy) { ctx.moveTo(PJ(x, y, cn[0])[0], PJ(x, y, cn[0])[1]); ctx.lineTo(PJ(x + 1, y, cn[1])[0], PJ(x + 1, y, cn[1])[1]); ctx.lineTo(PJ(x + 1, y + .3, cn[1])[0], PJ(x + 1, y + .3, cn[1])[1]); ctx.lineTo(PJ(x, y + .3, cn[0])[0], PJ(x, y + .3, cn[0])[1]); } else { ctx.moveTo(PJ(x, y, cn[0])[0], PJ(x, y, cn[0])[1]); ctx.lineTo(PJ(x, y + 1, cn[3])[0], PJ(x, y + 1, cn[3])[1]); ctx.lineTo(PJ(x + .3, y + 1, cn[3])[0], PJ(x + .3, y + 1, cn[3])[1]); ctx.lineTo(PJ(x + .3, y, cn[0])[0], PJ(x + .3, y, cn[0])[1]); } ctx.closePath(); ctx.fill(); } }
     }
+    for (const [k, ch] of Object.entries(fur)) { if (ch !== 'o') continue; const [x, y] = k.split(',').map(Number); if (x < bx0 || x >= bx1 || y < by0 || y >= by1) continue; if (![[1, 0], [-1, 0], [0, 1], [0, -1]].some(([dx, dy]) => gnd[(x + dx) + ',' + (y + dy)] === 'm')) continue;
+      const c0 = PJ(x + .5, y + .5, ZL[Math.max(1, lvl(x, y))]); ctx.strokeStyle = 'rgba(140,128,105,.45)'; ctx.lineWidth = 1; for (const r of [.85, 1.25]) { ctx.beginPath(); ctx.ellipse(c0[0], c0[1], r * TW, r * TH, 0, 0, 7); ctx.stroke(); } }
     // ---- 物（奥から手前へ） ----
     const zTop = (x, y) => { const cn = corners(x, y); return (cn[0] + cn[1] + cn[2] + cn[3]) / 4; };
     const items = [];
@@ -210,6 +217,7 @@ class Component extends DCLogic {
     const inV = (x, y) => x >= bx0 && x < bx1 && y >= by0 && y < by1;
     if (s.names !== 'none') {
       [[24, 40, 'エジプト'], [50, 50, '日本庭園'], [80, 58, 'ヨーロッパ'], [90, 80, '地中海の港'], [52, 22, '日本・神社'], [82, 22, 'アメリカ'], [97, 18, 'ハロウィン'], [90, 36, '森林'], [34, 78, 'ロンドン']].forEach(([x, y, t]) => { if (inV(x, y)) label(x, y, t, true); });
+      if (s.names === 'all') (T.facilities || []).forEach(f => { if (inV(f.x, f.y)) label(f.x + .5, f.y + .5, f.name.replace(/（.*）/, ''), false); });
       if (s.names === 'all') [[34, 86, '9¾番線'], [44, 74, 'ロンドン街道'], [49, 63, '時計台の高台'], [31, 65, '案内所'], [47, 88, '飛行場'], [43, 79, '飛行機ラウンジ'], [22, 76, 'ハイドパーク'], [30, 27, 'エジプト考古学博物館'], [20, 33, 'バザール'], [55, 17, '神社'], [107, 88, '桟橋'], [75, 64, 'エイブル'], [90, 41, 'キャンプ場']].forEach(([x, y, t]) => { if (inV(x, y)) label(x, y, t, false); });
     }
   }
@@ -263,7 +271,9 @@ class Component extends DCLogic {
       case 'I': prism(x, y, 1, 1, z, z + .5, '#a8dce8'); break;
       case 'U': prism(x + .1, y + .1, .8, .8, z, z + 1, '#d9d3c4'); prism(x + .2, y + .2, .6, .6, z + 1, z + 1.2, '#9fd8ea'); break;
       case 's': prism(x + .2, y + .2, .6, .6, z, z + 2.6, '#d9ceb0'); break;
-      case 'g': case 'd': break;
+      case 'y': ['#e88a2a', '#d9482b', '#e9d36a', '#5aa04a'].forEach((col, i) => { const p = PJ(x + .2 + (i % 2) * .5, y + .25 + (i >> 1) * .5, z + .25); ctx.fillStyle = '#4f8f3a'; ctx.fillRect(p[0] - 2.5, p[1] - 1, 5, 2.5); ctx.fillStyle = col; ctx.beginPath(); ctx.arc(p[0], p[1] - 2, 2, 0, 7); ctx.fill(); }); break;
+      case 'j': { this.tree(ctx, PJ, x, y, z, 'eur', false); const t = PJ(cx, cy, z + 3.4); ['#e8452c', '#f2a23a', '#e8452c'].forEach((col, i) => { ctx.fillStyle = col; ctx.beginPath(); ctx.arc(t[0] - 4 + i * 4, t[1] + (i % 2) * 3, 1.8, 0, 7); ctx.fill(); }); break; }
+      case 'g': case 'd': case 'm': case 'l': break;
       default: prism(x + .25, y + .25, .5, .5, z, z + 1.2, '#cfc8bb');
     }
   }

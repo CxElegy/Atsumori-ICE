@@ -56,12 +56,12 @@ class Component extends DCLogic {
   state = { dist: 'lon', spot: 0, cam: 'normal', time: 'day', names: 'all', tx: 31, ty: 72, source: '', ms: '', ready: 0 };
   // 見る場所（地区→地点）。立つ所は計画書の地点と、実際に置いた物のそば
   SPOTS = {
-    lon: ['ロンドン', [['役場前広場', 31, 72], ['時計台の高台', 48, 70], ['飛行機ラウンジ', 44, 79], ['9¾番線', 30, 82], ['ハイドパーク', 24, 72], ['飛行場', 53, 82]]],
-    egy: ['エジプト', [['考古学博物館', 30, 31], ['ピラミッド', 21, 29], ['バザール', 20, 35], ['ナイル川の船着き場', 13, 43], ['台地', 24, 22]]],
-    jpn: ['日本', [['神社', 56, 20], ['千本鳥居', 44, 20], ['池泉庭園', 50, 34], ['中島の庭園', 50, 52], ['茶屋', 48, 28]]],
-    usa: ['アメリカ', [['ダウンタウン', 80, 19], ['お化けの森', 91, 21], ['国立公園キャンプ', 89, 43], ['郊外の住宅地', 80, 28]]],
-    eur: ['ヨーロッパ', [['パリの広場', 71, 47], ['風車の丘', 74, 68], ['大運河', 80, 55], ['エイブル', 75, 70]]],
-    port: ['地中海の港', [['白い崖町', 92, 77], ['桟橋', 107, 90], ['ビーチクラブ', 80, 80]]]
+    lon: ['ロンドン', [['役場前広場', 31, 72], ['時計台の高台', 48, 70], ['テムズ川の釣り場', 37, 72], ['飛行機ラウンジ', 44, 79], ['9¾番線', 30, 82], ['ハイドパーク', 24, 72], ['飛行場', 53, 82]]],
+    egy: ['エジプト', [['考古学博物館', 30, 31], ['台地の池の釣り場', 21, 27], ['ナイル川と滝', 19, 40], ['ピラミッド', 21, 22], ['バザール', 20, 35], ['採石場', 31, 50]]],
+    jpn: ['日本', [['神社', 56, 20], ['千本鳥居', 44, 20], ['枯れ流れ', 55, 31], ['石庭（枯山水）', 49, 56], ['茶屋', 48, 28]]],
+    usa: ['アメリカ', [['自宅と畑', 73, 33], ['果樹園', 70, 28], ['山の湖の釣り場', 84, 36], ['ダウンタウン', 80, 19], ['お化けの森', 91, 21], ['国立公園キャンプ', 92, 44]]],
+    eur: ['ヨーロッパ', [['パリの広場', 71, 47], ['運河の釣り場', 77, 51], ['風車の丘', 77, 68], ['花の交配畑', 85, 68], ['エイブル', 75, 72]]],
+    port: ['地中海の港', [['白い崖町', 92, 77], ['桟橋（海釣り）', 107, 90], ['ビーチクラブ', 80, 80]]]
   };
   CAMS = { normal: ['ふつう', 50, 22, 1400, 30], near: ['近づく', 38, 14, 1500, 30], far: ['遠くを見る', 20, 13, 1150, 30] };
   TIMES = [['day', '昼'], ['dusk', '夕方'], ['night', '夜']];
@@ -118,7 +118,7 @@ class Component extends DCLogic {
     if (this.pk === k && this.PL) return this.PL;
     this.pk = k;
     const fur = {}, gnd = {}, blds = [], mills = [], mons = [];
-    const GC = { B: '#b8694b', p: '#cdbb91', S: '#ead39b', g: '#dedbd2', d: '#c9a074' };
+    const GC = { B: '#b8694b', p: '#cdbb91', S: '#ead39b', g: '#dedbd2', d: '#c9a074', m: '#f7f5ef' };
     P.placed.forEach(([id, px, py, r]) => {
       const rows = P.defs[id]; if (!rows) return; const a = this.rot(rows, r || 0);
       let hb = null, ms = null, ss = [], door = null;
@@ -127,6 +127,7 @@ class Component extends DCLogic {
         else if (ch === 'M') { ms = ms || { x1: 1e9, y1: 1e9, x2: -1, y2: -1 }; ms.x1 = Math.min(ms.x1, x); ms.y1 = Math.min(ms.y1, y); ms.x2 = Math.max(ms.x2, x); ms.y2 = Math.max(ms.y2, y); }
         else if (ch === 's') ss.push([x, y]);
         else if (ch === 'D') door = [x, y];
+        else if (ch === 'l') { }   // 空けるマス（木・岩・花のまわり）は草地のまま
         else if (GC[ch]) { if (!gnd[x + ',' + y]) gnd[x + ',' + y] = ch; }
         else if (ch === 'w' || ch === '=' || ch === 'Z') { }
         else fur[x + ',' + y] = ch; }));
@@ -136,7 +137,9 @@ class Component extends DCLogic {
       else ss.forEach(([x, y]) => { fur[x + ',' + y] = 's'; });
     });
     blds.push({ x: 28, y: 63, w: 6, d: 4, id: '_info' }); blds.push({ x: 44, y: 85, w: 8, d: 5, id: '_airport' });
-    this.PL = { fur, gnd, blds, mills, mons, paint: P.paint, src: P.src };
+    const roads = {};
+    Object.entries(P.paint).forEach(([k, v]) => { if (v.startsWith('r:')) roads[k] = v; else gnd[k] = v; });   // 白砂（砂紋）などは地面
+    this.PL = { fur, gnd, blds, mills, mons, paint: roads, src: P.src };
     return this.PL;
   }
   draw() {
@@ -210,7 +213,7 @@ class Component extends DCLogic {
     const glow = (x, y, z, r) => { const p = PJ(x, y, z); if (p) lights.push([p[0], p[1], r * .4 * p[3]]); };
     const SIDE = { s: '#d9c98e', r: '#6e6b7c' };
     const ROAD = { lon: '#605b58', egy: '#c99a5a', jpn: '#b9b4aa', usa: '#4a4d52', hal: '#4b4057', eur: '#bdb7ac', port: '#f2efe6' };
-    const GC = { B: '#b8694b', p: '#cdbb91', S: '#ead39b', g: '#dedbd2', d: '#c9a074' };
+    const GC = { B: '#b8694b', p: '#cdbb91', S: '#ead39b', g: '#dedbd2', d: '#c9a074', m: '#f7f5ef' };
     const GRASS = ['#4c9f48', '#58aa4a', '#66b653', '#74c15b'];
     const TOPC = { S: '#79d3c0', s: '#f2e5a8', r: '#8a8798', w: '#8ee0d0', p: '#cfbb8e', P: '#d9c9a0', K: '#b8694b', b: '#9a96a0' };
     const zOf = (x, y) => { const cn = corners(x, y); return (cn[0] + cn[1] + cn[2] + cn[3]) / 4; };
@@ -236,6 +239,7 @@ class Component extends DCLogic {
         if (inMap && road) { const z2 = road.slice(2), rw = (dx, dy) => !!PL.paint[(x + dx) + ',' + (y + dy)];
           if (z2 === 'usa' && rw(1, 0) && rw(-1, 0) && !(rw(0, 1) && rw(0, -1)) && x % 3 === 0) poly([PJ(x + .25, y + .45, cn[0]), PJ(x + .75, y + .45, cn[0]), PJ(x + .75, y + .55, cn[0]), PJ(x + .25, y + .55, cn[0])], '#f4d44a');
           if (z2 === 'port' && !rw(0, 1)) poly([PJ(x, y + .8, cn[3]), PJ(x + 1, y + .8, cn[2]), PJ(x + 1, y + 1, cn[2]), PJ(x, y + 1, cn[3])], '#5b9aa0'); }
+        if (inMap && PL.gnd[k] === 'm') { ctx.strokeStyle = 'rgba(140,128,105,.5)'; for (const f of [.3, .62]) { const a = PJ(x, y + f, cn[0]), b = PJ(x + 1, y + f, cn[1]), m1 = PJ(x + .5, y + f - .1, cn[0]); if (a && b && m1) { ctx.lineWidth = Math.max(1, a[3] / 30); ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.quadraticCurveTo(m1[0], m1[1], b[0], b[1]); ctx.stroke(); } } }
         if (inMap && v === 'w' && (x + y) % 3 === 0) { const p = PJ(x + .5, y + .5, cn[0]); if (p) { ctx.fillStyle = 'rgba(255,255,255,.35)'; ctx.fillRect(p[0] - 4 * p[3] / 40, p[1], 8 * p[3] / 40, 1.5); } }
       }
       // 物（家具・木・岩・建物）
@@ -330,7 +334,9 @@ class Component extends DCLogic {
       case 'I': box(x, y, 1, 1, z, z + .15, '#a8dce8'); break;
       case 'U': cyl(cx, cy, z, .45, .7, '#d9d3c4'); break;
       case 's': box(x + .2, y + .2, .6, .6, z, z + 1.8, '#d9ceb0'); break;
-      case 'g': case 'd': break;
+      case 'y': [['#e88a2a', .25, .3], ['#d9482b', .75, .3], ['#e9d36a', .25, .75], ['#5aa04a', .75, .75]].forEach(([col, a, b]) => { line(x + a, y + b, z, .3, '#4f8f3a', .05); ball(x + a, y + b, z + .32, .13, col); }); break;
+      case 'j': line(cx, cy, z, 2, '#6b4a2f', .3); ball(cx, cy, z + 2.5, 1.05, '#4c9e45'); [[-.4, .2], [.35, .3], [0, -.2]].forEach(([a, b]) => ball(cx + a, cy + .9, z + 2.4 + b, .14, '#e8452c')); break;
+      case 'g': case 'd': case 'm': case 'l': break;
       default: box(x + .25, y + .25, .5, .5, z, z + .8, '#cfc8bb');
     }
   }

@@ -23,6 +23,7 @@ W, H = 112, 96
 GROUND = 'BpSgdwZD'
 SMALL = 'LbFNiuqxnJkfeaz'
 CAP = {'support': 3, 'filler': 6, 'edge': 8}
+KARE_BONUS = 0.6     # 第14回：日本は枯山水（白砂の砂紋と石組み）を優先して埋める
 
 # 地区の表示範囲（組み立て台の DISTS と同じ）
 DISTS = {'egy': [8, 12, 40, 62], 'jpn': [32, 12, 67, 61], 'usa': [65, 12, 101, 47], 'eur': [57, 39, 101, 85], 'port': [64, 70, 112, 94], 'lon': [16, 52, 65, 94]}
@@ -41,16 +42,19 @@ KEEP_TREES = [[82, 25, 112, 46], [16, 66, 32, 82]]
 
 # 主役の表：(モジュールの id か 'LM:地区:k'=その地区の採用した主役のk番目 / 'SUP:地区:k'、目標 x, y、探す半径)
 SPEC = {
-    'lon': [('lon_lounge', 38, 77, 0), ('lon_934', 29, 84, 3), ('lon_park', 22, 74, 3), ('LM:lon:0', 41, 62, 3), ('house', 40, 66, 5),
-            ('lon_corner', 36, 72, 6), ('lon_bus', 52, 72, 6), ('SUP:lon:0', 33, 78, 6), ('SUP:lon:1', 54, 66, 6)],
-    'egy': [('museum', 27, 25, 0), ('egy_court', 27, 28, 2), ('egy_pyramid', 20, 18, 6), ('house', 24, 16, 6), ('house', 24, 46, 6), ('nook', 20, 33, 6),
-            ('egy_dig', 14, 24, 6), ('egy_mkt', 22, 38, 6), ('SUP:egy:0', 12, 30, 8)],
-    'jpn': [('able', 55, 15, 4), ('LM:jpn:0', 41, 15, 4), ('jpn_court', 53, 21, 4), ('jpn_tea', 48, 26, 6), ('house', 41, 36, 6),
-            ('house', 49, 48, 6), ('house', 58, 45, 6), ('jpn_torii', 41, 30, 6), ('SUP:jpn:0', 44, 40, 8)],
-    'usa': [('usa_diner', 80, 15, 4), ('usa_yard', 78, 24, 6), ('house', 74, 17, 6), ('camp', 90, 41, 5), ('home', 80, 42, 5), ('LM:usa:0', 93, 20, 6), ('SUP:usa:0', 70, 30, 8)],
-    'eur': [('eur_cafe', 73, 45, 4), ('eur_mill', 73, 59, 6), ('able', 75, 64, 5), ('eur_eiffel', 84, 57, 8), ('house', 88, 52, 6), ('house', 83, 62, 6), ('eur_canal', 79, 53, 6), ('SUP:eur:0', 66, 74, 8)],
-    'port': [('port_beach', 80, 78, 5), ('port_fish', 90, 87, 6), ('house', 80, 76, 5), ('LM:port:0', 100, 80, 8), ('SUP:port:0', 71, 82, 8)],
+    'lon': [('lon_lounge', 38, 77, 0), ('lon_934', 29, 84, 3), ('lon_park', 22, 74, 3), ('LM:lon:0', 41, 62, 3),
+            ('lon_corner', 36, 70, 6), ('lon_bus', 52, 71, 6), ('SUP:lon:0', 33, 78, 6), ('SUP:lon:1', 54, 66, 6)],
+    'egy': [('museum', 27, 25, 0), ('egy_court', 27, 28, 2), ('egy_pyramid', 20, 18, 6), ('nook', 20, 33, 6),
+            ('egy_dig', 12, 22, 6), ('egy_mkt', 22, 38, 6), ('SUP:egy:0', 12, 30, 8)],
+    'jpn': [('able', 55, 15, 4), ('LM:jpn:0', 41, 15, 4), ('jpn_court', 53, 21, 4), ('kare_ryoanji', 45, 48, 6), ('kare_island', 54, 30, 6),
+            ('kare_bamboo', 44, 36, 6), ('jpn_tea', 48, 26, 6), ('jpn_torii', 41, 30, 6), ('SUP:jpn:0', 44, 40, 8)],
+    'usa': [('usa_diner', 80, 15, 4), ('camp', 90, 41, 5), ('LM:usa:0', 93, 20, 6), ('SUP:usa:0', 68, 38, 8)],
+    'eur': [('eur_cafe', 73, 45, 4), ('eur_mill', 76, 59, 6), ('able', 75, 66, 6), ('eur_eiffel', 86, 57, 8), ('SUP:eur:0', 64, 70, 8)],
+    'port': [('port_beach', 80, 78, 5), ('port_fish', 90, 87, 6), ('LM:port:0', 100, 80, 8), ('SUP:port:0', 66, 82, 8)],
 }
+# 島の暮らしの施設（plan-design.json の facilities）。種類 → モジュール・探す半径・水ぎわに置くか
+FAC = {'home': ('home', 4, False), 'farm': ('fac_farm', 5, False), 'orchard': ('fac_orchard', 5, False), 'quarry': ('fac_quarry', 6, False),
+       'flowers': ('fac_flowers', 6, False), 'fishing': ('fac_fishing', 4, True)}
 # 自分で足す大きな像のモジュール（s が6マス以上かたまると大きな建造物1つ）
 LOCAL = [
     {'id': 'egy_pyramid', 'th': 'エジプト', 'r': ['sssss', 'sssss', 'sssss', 'sssss'], 'role': 'landmark'},
@@ -110,6 +114,7 @@ class World:
     def __init__(self):
         t = json.load(open(os.path.join(ROOT, 'plan-terrain.json'), encoding='utf-8'))
         self.g = t['grid']; self.h = [[int(c) for c in row] for row in t['h']]
+        self.facs = t.get('facilities', []); self.ground_plan = t.get('ground', {}); self.fac_pos = []
         self.zone = [[zone_of(x, y) for x in range(W)] for y in range(H)]
         self.placed = []              # [id, x, y, rot, zone]
         self.paint = {}               # "x,y" -> "r:地区"
@@ -153,6 +158,14 @@ class World:
             if self.road[cy][cx] and c not in SMALL:
                 return False
         return len(lv) <= 1
+
+    def by_water(self, cells, x, y, lv):
+        for dx, dy, c in cells:
+            for ax, ay in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                X, Y = x + dx + ax, y + dy + ay
+                if 0 <= X < W and 0 <= Y < H and ((self.g[Y][X] == 'w' and self.h[Y][X] == lv) or (lv == 0 and self.g[Y][X] == 'S')):
+                    return True
+        return False
 
     def put(self, m, rot, x, y, zone, margin=False):
         for r in m.rots:
@@ -210,8 +223,9 @@ def resolve(sel, mods, cur):
     return None
 
 
-def search(w, mask, m, x, y, r, zone):
-    """目標 (x,y) の近くで置ける所を探す。r=0 はその場所だけ。それ以外は半径 r の1〜3倍まで広げる"""
+def search(w, mask, m, x, y, r, zone, near_water=None):
+    """目標 (x,y) の近くで置ける所を探す。r=0 はその場所だけ。それ以外は半径 r の1〜3倍まで広げる。
+    near_water=段：モジュールのどこかが、その段の水（海釣りは海）のとなりにあること"""
     if r == 0:
         spans = [0]
     else:
@@ -225,7 +239,7 @@ def search(w, mask, m, x, y, r, zone):
                     cands.append((abs(xx - x) + abs(yy - y), xx, yy, rot, cells))
         cands.sort(key=lambda c: (c[0], c[3]))
         for _, xx, yy, rot, cells in cands:
-            if w.ok(mask, cells, xx, yy, m, True):
+            if w.ok(mask, cells, xx, yy, m, True) and (near_water is None or w.by_water(cells, xx, yy, near_water)):
                 return xx, yy, rot
         if r == 0:
             break
@@ -333,13 +347,13 @@ def fill(w, dist, mask, zone_pools):
             zone = w.zone[y][x]
             best = None
             for m in zone_pools[zone]:
-                if m.area > 2 and w.use[(zone, m.id)] >= CAP.get(m.role, 6):
+                if m.area > 2 and not m.pure_ground and w.use[(zone, m.id)] >= CAP.get(m.role, 6):   # 地面だけのもの（白砂など）は上限なし
                     continue
                 for rot, cells, mw, mh in m.rots:
                     new = sum(1 for dx, dy, c in cells if 0 <= y + dy < H and 0 <= x + dx < W and not w.cov[y + dy][x + dx])
                     if not new or not w.ok(mask, cells, x, y, m):
                         continue
-                    pts = new * (1.2 if m.role == 'support' else 1) - w.use[(zone, m.id)] * 6 + (3 if m.area <= 2 else 0) - near(cells, x, y, m) * 2.5 + (0.5 if m.pure_ground else 0)
+                    pts = new * (1.2 if m.role == 'support' else 1) - w.use[(zone, m.id)] * 6 + (3 if m.area <= 2 else 0) - near(cells, x, y, m) * 2.5 + (0.5 if m.pure_ground else 0) + (KARE_BONUS * new if zone == 'jpn' and 'm' in ''.join(m.rows) else 0)
                     if best is None or pts > best[0]:
                         best = (pts, m, rot)
             if best:
@@ -402,7 +416,24 @@ def build():
             if not pos:
                 print('警告: 主役を置けません', dist, sel, (x, y), 'r=%d' % r, file=sys.stderr); continue
             zone = w.zone[pos[1]][pos[0]]
-            w.put(m, pos[2], pos[0], pos[1], zone, margin=(m.role == 'landmark' or m.id in ('house', 'home', 'museum', 'nook', 'able', 'camp')))
+            w.put(m, pos[2], pos[0], pos[1], zone, margin=(m.role == 'landmark' or m.id in ('museum', 'nook', 'able', 'camp')))
+        # 1b 島の暮らしの施設（自宅・畑・果樹園・採石場・釣り場・花の交配畑）
+        for f in w.facs:
+            if not mask[f['y']][f['x']] or f['kind'] not in FAC:
+                continue
+            mid, r, wet = FAC[f['kind']]
+            m = mods.get(mid)
+            lv = (0 if '海' in f['name'] else f.get('level', 1)) if wet else None
+            pos = search(w, mask, m, f['x'], f['y'], r, dist, lv) if m else None
+            if not pos:
+                print('警告: 施設を置けません', f['name'], (f['x'], f['y']), file=sys.stderr); continue
+            w.put(m, pos[2], pos[0], pos[1], w.zone[pos[1]][pos[0]], margin=(f['kind'] == 'home'))
+            w.fac_pos.append([f['name'], f['kind'], pos[0], pos[1]])
+        # 1c 枯れ流れ（白砂の砂紋）
+        for k, v in w.ground_plan.items():
+            x, y = map(int, k.split(','))
+            if mask[y][x] and not w.cov[y][x]:
+                w.paint[k] = v; w.cov[y][x] = True
         # 2 道路
         nr = paint_roads(w, dist, mask)
         # 3 道ばた
@@ -412,9 +443,10 @@ def build():
         out['dists'][dist] = [[p[0], p[1], p[2], p[3]] for p in w.placed[n0:]]
         out['paint'][dist] = {k: v for k, v in w.paint.items() if mask[int(k.split(',')[1])][int(k.split(',')[0])]}
         s = stats_for(w, dist, mask)
-        s.update({'items': len(out['dists'][dist]), 'road': len(out['paint'][dist]), 'roadside': ne})
+        s.update({'items': len(out['dists'][dist]), 'road': sum(1 for v in out['paint'][dist].values() if v.startswith('r:')), 'sand': sum(1 for v in out['paint'][dist].values() if v == 'm'), 'roadside': ne})
         out['stats'][dist] = s
     out['defs'] = w.defs
+    out['facilities'] = w.fac_pos
     out['stats']['all'] = {'items': sum(s['items'] for s in out['stats'].values()), 'modules': len(w.defs),
                            'road': sum(s['road'] for k, s in out['stats'].items() if k != 'all' and 'road' in s)}
     return out, w

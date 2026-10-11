@@ -10,15 +10,15 @@ from gen_popular_modules import SOURCES, TH
 
 # テーマで使う家具・地面（美的センス「テーマの一貫性」の判定に使う）
 THEME_ITEMS = {
-    'lon': 'LTbKWAQCxYRfNEVFtcughBpqe',
-    'egy': 'PORYxqfFtSgdsuXcNh',
-    'jpn': 'GnaefFtqgpdIcuhYX',
-    'usa': 'LbFNiuqxckfeHDXhtpgdYf',
+    'lon': 'LTbKWAQCxYRfNEVFtcughBpqed',
+    'egy': 'PORYxqfFtSgdsuXcNholi',
+    'jpn': 'GnaefFtqgpdIcuhYXmol',
+    'usa': 'LbFNiuqxckfeHDXhtpgdYfyjl',
     'hal': 'kJzXtsefLqcgpd',
-    'eur': 'LbFcMUsKxefthuqNYBpgd',
+    'eur': 'LbFcMUsKxefthuqNYBpgdl',
     'port': 'uPFqxYcosthLeSpd',
 }
-GROUND_CH = 'BpSgdwZD='
+GROUND_CH = 'BpSgdwZD=ml'      # m=砂紋（箒目）の白砂・l=空けておくマス（木や岩のまわり）
 SMALL_CH = 'LbFNiuqxnJkfeaz'      # 道路の上に置いてよい小物（Module Builder の SMALL と同じ）
 
 # ---- DECO：道ばたの装飾 -------------------------------------------------
@@ -224,3 +224,31 @@ BAD_STEPS = [
     {'r': ['ZZZZ', 'ZZZZ', 'ZZZZ', 'ZZZZ', 'ZZZZ', 'ZZZZ', 'ZZZZ', 'ZZZZ', 'ZZZZ', 'ZZZZ', 'ZZZZ', 'ZZZZ'], 'lv': ['1111'] + ['0000'] * 11},   # 坂が3本以上
     {'r': ['pp', 'pp'], 'lv': ['1', '0']},                                    # lv の大きさが違う
 ]
+
+# ---- 枯山水（日本）：水を使わず、白砂の砂紋（m）と石組み（o）で山水を表す ----------------------
+def karesansui():
+    K = [
+        ('kare_ryoanji', 'landmark', '石庭（龍安寺の見立て）', ['ee.......ee', 'emmmmmmmmme', 'emommmmmome', 'emmmmommmme', 'emmommmmmme', 'emmmmmmmome', 'eeeeeeeeeee'],
+         '白砂に石を5つ組んだ石庭。塀（生け垣）の内側に、砂紋を水面の波に見立てる'),
+        ('kare_tsukubai', 'support', '縁側から見る石組み', ['nmmmmn', 'mmoomm', 'mmmmmm', 'h.mm.h'], '灯籠と腰掛けから、白砂の中の二石を眺める'),
+        ('kare_sanzon', 'support', '三尊石', ['mmmmmmm', 'mmmommm', 'mmooomm', 'mmmmmmm'], '大きな石を中心に左右に石を添える（三尊石組）'),
+        ('kare_island', 'support', '白砂の島（亀島）', ['.mmmmm.', 'mmeoemm', 'mmeeemm', '.mmmmm.'], '苔（生け垣）の島に石を置き、まわりを渦巻きの砂紋で囲む'),
+        ('kare_bridge', 'support', '枯れ流れの石橋', ['mmmmm', 'ooooo', 'mmmmm'], '枯れ流れに板石を渡す'),
+        ('kare_lantern', 'support', '灯籠と白砂', ['nmm', 'mmm', 'mmo'], '小さな坪庭'),
+        ('kare_bamboo', 'support', '竹垣と白砂', ['aaaaa', 'mmmmm', 'mmomm'], '竹垣を背に白砂と石'),
+        ('kare_moss', 'filler', '苔と飛び石', ['eme', 'mom', 'eme'], 'すき間を苔と白砂で埋める'),
+        ('kare_sand', 'filler', '白砂（砂紋）', ['mm', 'mm'], '白砂に箒目を引いた地面'),
+    ]
+    return [{'id': k, 'th': '日本', 'name': '枯山水：%s' % nm, 'r': r, 'note': nt, 'mat': 'm', 'role': role} for k, role, nm, r, nt in K]
+
+# ---- 島の暮らしの施設：自宅のそばの畑・果樹園、採石場、釣り場、花の交配畑 ----------------------
+def facility():
+    F = [
+        ('fac_farm', 'アメリカ', '畑（野菜）', ['ffff.fffff', 'fyyyyyyyyf', 'fppppppppf', 'fyyyyyyyyf', 'fppppppppf', 'fyyyyyyyyf', 'ffffffffff'],
+         'カボチャ・トマト・小麦・サトウキビ・ジャガイモ・ニンジンを列に植え、間を歩けるようにする。北の入口から'),
+        ('fac_orchard', 'アメリカ', '果樹園', ['jljljlj', 'lllllll', 'jljljlj', 'lllllll', 'jljljlj'], '果物の木は1マスずつあける（まわりに物を置かない）'),
+        ('fac_quarry', 'エジプト', '採石場（石切り場）', ['fffffff', 'fololof', 'flllllf', 'fololof', 'fffifff'], '岩6つが毎日出る所。柵で囲み、岩と岩の間を1マスあけてたたけるようにする'),
+        ('fac_fishing', 'ロンドン', '釣り場', ['dddd', 'bddx'], '水ぎわの板張り。ベンチと道具箱'),
+        ('fac_flowers', 'ヨーロッパ', '花の交配畑', ['FlFlFlF', 'lllllll', 'FlFlFlF', 'lllllll', 'FlFlFlF'], '花を市松に植えて、間をあけて交配させる'),
+    ]
+    return [{'id': k, 'th': th, 'name': '施設：%s' % nm, 'r': r, 'note': nt, 'mat': '', 'role': 'facility'} for k, th, nm, r, nt in F]

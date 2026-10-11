@@ -89,6 +89,7 @@ class Terrain:
         self.inclines = []
         self.bridges = []
         self.warn = []
+        self.ground = {}
         self.cnt = {}
 
     # -- 1 土地の形 --------------------------------------------------------
@@ -137,6 +138,12 @@ class Terrain:
             if self.grid[y][x] == 'w' and not any(in_rect(x, y, k) for k in keep):
                 self.grid[y][x] = '1'
                 self.h[y][x] = max(self.h[y][x], 1)
+
+    def dry(self, op):
+        """枯れ流れ：水を使わず白砂に砂紋（箒目）を引いた川。地形は変えず、地面の模様（m）として残す"""
+        for x, y in stroke([[p[0], p[1], op.get('w', 3)] for p in op['path']]):
+            if self.grid[y][x] in '13tp':
+                self.ground['%d,%d' % (x, y)] = 'm'
 
     def unroad(self, op):
         for x, y in region(op):
@@ -311,7 +318,7 @@ class Terrain:
     # -- 全体 -------------------------------------------------------------------
     def run(self, design):
         ops = design['ops']
-        land = ('level', 'flatten', 'river', 'stream', 'fillwater', 'unroad', 'set')
+        land = ('level', 'flatten', 'river', 'stream', 'fillwater', 'unroad', 'set', 'dry')
         for op in ops:
             if op['op'] in land:
                 getattr(self, op['op'])(op)
@@ -319,6 +326,7 @@ class Terrain:
         for op in ops:
             if op['op'] in ('incline', 'road', 'bridge'):
                 getattr(self, op['op'])(op)
+        self.ground = {k: v for k, v in self.ground.items() if self.grid[int(k.split(',')[1])][int(k.split(',')[0])] in '13t'}
         # 坂は上の1マスの段を変えず、下の3マスはもともと1段低い所。橋の下の段をそろえる
         existing_bridges = sum(1 for y in range(H) for x in range(W) if self.grid[y][x] == 'b')
         return existing_bridges
@@ -371,11 +379,33 @@ def main():
     thin = sum(1 for y in range(H) for x in range(W) if water(x, y) and ((not wat(x - 1, y) and not wat(x + 1, y)) or (not wat(x, y - 1) and not wat(x, y + 1))))
     falls = sum(1 for y in range(H) for x in range(W) if water(x, y) and any(0 <= x + dx < W and 0 <= y + dy < H and water(x + dx, y + dy) and t.h[y + dy][x + dx] < t.h[y][x] for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1))))
     nb = len(t.bridges) + existing_old_bridges(design, t)
+    fe = [(x, y) for y in range(H) for x in range(W) if water(x, y) and any(0 <= x + dx < W and 0 <= y + dy < H and water(x + dx, y + dy) and t.h[y + dy][x + dx] < t.h[y][x] for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)))]
+    nfalls, seenf = 0, set()
+    for c in fe:
+        if c in seenf:
+            continue
+        nfalls += 1; st = [c]; seenf.add(c)
+        while st:
+            a = st.pop()
+            for b in fe:
+                if b not in seenf and abs(a[0] - b[0]) <= 1 and abs(a[1] - b[1]) <= 1:
+                    seenf.add(b); st.append(b)
+    facs = []
+    for f in design.get('facilities', []):
+        f = dict(f)
+        if f['kind'] == 'fishing':
+            # 釣り場：陸のマスで、となり（2マス以内）に同じ段の水がある
+            lv = f.get('level', 1)
+            okw = any(0 <= f['x'] + dx < W and 0 <= f['y'] + dy < H and water(f['x'] + dx, f['y'] + dy) and t.h[f['y'] + dy][f['x'] + dx] == lv for dx in range(-2, 3) for dy in range(-2, 3))
+            if t.grid[f['y']][f['x']] in 'wSr' or (not okw and t.grid[f['y']][f['x']] != 's'):
+                t.warn.append('釣り場のそばに%d段目の水がない：%s (%d,%d)' % (lv, f['name'], f['x'], f['y']))
+        f['h'] = t.h[f['y']][f['x']]
+        facs.append(f)
     lv = [sum(1 for y in range(H) for x in range(W) if t.h[y][x] == k and t.grid[y][x] not in 'Sr') for k in (1, 2, 3)]
     stats = {'water': wcount, 'water_bodies': components(water), 'water_width1': thin, 'inclines': len(t.inclines), 'bridges': nb,
-             'fall_edges': falls, 'level_cells': {'1': lv[0], '2': lv[1], '3': lv[2]},
+             'fall_edges': falls, 'waterfalls': nfalls, 'dry_cells': len(t.ground), 'level_cells': {'1': lv[0], '2': lv[1], '3': lv[2]},
              'irregularity': {k: irregularity(t.grid, v) for k, v in design.get('measure', {}).items()}}
-    out = {'note': design.get('note', ''), 'grid': grid, 'h': hh, 'inclines': t.inclines, 'stats': stats}
+    out = {'note': design.get('note', ''), 'grid': grid, 'h': hh, 'inclines': t.inclines, 'ground': t.ground, 'facilities': facs, 'stats': stats}
     with open(os.path.join(ROOT, 'plan-terrain.json'), 'w', encoding='utf-8') as f:
         json.dump(out, f, ensure_ascii=False, separators=(',', ':'))
     if not quiet:
@@ -383,7 +413,7 @@ def main():
         for o in design['ops']:
             ops[o['op']] = ops.get(o['op'], 0) + 1
         print('ops:', ' '.join('%s %d' % kv for kv in ops.items()))
-        print('水 %d マス・%d のかたまり・幅1の水のマス %d・坂 %d/%d・橋 %d/%d・滝の落ち口 %d' % (wcount, stats['water_bodies'], thin, len(t.inclines), LIMIT, nb, LIMIT, falls))
+        print('水 %d マス・%d のかたまり・幅1の水のマス %d・坂 %d/%d・橋 %d/%d・滝 %d か所（落ち口 %d マス）・枯れ流れ %d マス' % (wcount, stats['water_bodies'], thin, len(t.inclines), LIMIT, nb, LIMIT, nfalls, falls, len(t.ground)))
         print('段：1段目 %d・2段目 %d・3段目 %d' % tuple(lv))
         for k, v in stats['irregularity'].items():
             print('道の不規則さ', k, v)
