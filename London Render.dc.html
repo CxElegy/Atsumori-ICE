@@ -98,7 +98,7 @@ class Component extends DCLogic {
     // ---- 配置の整理 ----
     const fur = {}, gnd = {}, blds = [], mons = [], mills = [], lights = [];
     const GR = 'BpSgdwZD=';
-    const GC = { B: '#b8694b', p: '#cdbb91', S: '#ead39b', g: '#dedbd2', d: '#c9a074', m: '#f7f5ef', r: '#6f9e4f', _: '#5c5856', '#': '#e9e7e1', '^': '#8b7b6a' };
+    const GC = { B: '#b8694b', p: '#cdbb91', S: '#ead39b', g: '#dedbd2', d: '#c9a074', m: '#f7f5ef', r: '#6f9e4f', _: '#5c5856', '#': '#e9e7e1', '^': '#8b7b6a', '~': '#cfc4b2' };
     P0.placed.forEach(([id, px, py, r]) => {
       const rows = P0.defs[id]; if (!rows) return; const a = this.rot(rows, r || 0);
       let hb = null, ms = null, ss = [];
