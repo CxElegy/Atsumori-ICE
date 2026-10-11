@@ -126,7 +126,9 @@ const DISTS = { egy: [8, 12, 40, 62], jpn: [32, 12, 67, 61], usa: [65, 12, 101, 
   ok('立体図：車道と線路の色', /_: '#5c5856'/.test(fs.readFileSync(path.join(ROOT, 'London Render.dc.html'), 'utf8')));
   // ---- モジュールの組み方（Module Guide） ----
   ok('マイデザイン：目録の全件に作者の画像のリンク', CAT.designs.every(d => d.images.length && d.images.every(u => /^https:\/\/i\.pinimg\.com\//.test(u)) && /^https:\/\/www\.pinterest\.com\/search/.test(d.search)));
-  ok('マイデザイン：参考の写真は細部モジュールに付く', CAT.examples.every(x => x.for.every(id => DZL.modules.some(m => m.id === id))));
+  ok('マイデザイン：参考の写真はあるモジュールに付く', CAT.examples.every(x => x.for.every(id => DZL.modules.some(m => m.id === id) || id in S.defs)));
+  ok('マイデザイン：案の選択肢はすべてあるモジュール', DZL.options.every(o => o.choices.every(id => DZL.modules.some(m => m.id === id) || id in S.defs)));
+  ok('作例の目録：URLと検索語', J('designs/refs.json').length >= 200 && J('designs/refs.json').every(r => /^https:\/\/i\.pinimg\.com\//.test(r.url) && r.q));
   const MG = loadComponent('Module Guide.dc.html', { w: 400, h: 300 }); const mg = await MG.start(); await new Promise(r => setTimeout(r, 30)); mg.setState({});
   ok('組み方：読み込んで描く', !!mg.DT && !!mg.DOC && MG.stats.calls > 100 && MG.stats.bad.length === 0, MG.stats.bad.slice(0, 2).join(','));
   const gr = mg.renderVals();
