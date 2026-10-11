@@ -1,17 +1,19 @@
 <title>アイス島ビルドガイド</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;800&family=Zen+Kaku+Gothic+New:wght@400;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Zen+Kaku+Gothic+New:wght@400;700&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
 /* Layout: 左に島の地図（いつも見える）、右に選んだモジュールの作業台。スマホでは縦に重ねる */
 :root {
-  --bg: #eef3f1; --panel: #fbfcfa; --ink: #22302d; --muted: #5f706b; --line: #d5dfdb;
-  --sea: #6fc6cf; --accent: #b4503a; --accent-ink: #ffffff; --ok: #3d7d4f; --top: #7b4fb3; --mid: #a07a1c; --warn: #b9772a; --chip: #e3ebe8;
+  /* あつ森のメニュー画面：クリーム色の紙・こげ茶の文字・選んだ所は黄色・葉っぱの緑 */
+  --bg: #f6f0dc; --dot: #ece2c2; --panel: #fffbec; --ink: #6b5536; --muted: #9a8665; --line: #e6dab8; --shade: #e3d4a8;
+  --sea: #78d1c6; --accent: #c8603f; --accent-ink: #ffffff; --ok: #4f9a4e; --top: #8a5cc4; --mid: #b58a1d; --warn: #c17f2c; --chip: #f1e8cc;
+  --sel: #f6d34a; --sel-dk: #d9b02a; --sel-ink: #5a4421; --leaf: #6cbf55;
   --display: 'M PLUS Rounded 1c', 'Hiragino Maru Gothic ProN', 'Yu Gothic', sans-serif;
-  --body: 'Zen Kaku Gothic New', 'Hiragino Sans', 'Yu Gothic', 'Noto Sans JP', sans-serif;
+  --body: 'M PLUS Rounded 1c', 'Hiragino Maru Gothic ProN', 'Yu Gothic', 'Noto Sans JP', sans-serif;
   --mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
 }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #141b1a; --panel: #1c2624; --ink: #e5ece9; --muted: #9db0aa; --line: #2f3d3a; --sea: #2f7c86; --accent: #e07a5f; --accent-ink: #1a1210; --ok: #6fbf84; --top: #b99ae8; --mid: #d8b35a; --warn: #e2a65a; --chip: #26332f; color-scheme: dark } }
-:root[data-theme="dark"] { --bg: #141b1a; --panel: #1c2624; --ink: #e5ece9; --muted: #9db0aa; --line: #2f3d3a; --sea: #2f7c86; --accent: #e07a5f; --accent-ink: #1a1210; --ok: #6fbf84; --top: #b99ae8; --mid: #d8b35a; --warn: #e2a65a; --chip: #26332f; color-scheme: dark }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #1e2a3d; --dot: #2a3a52; --panel: #283850; --ink: #f4ecd4; --muted: #bdb294; --line: #3c4f6b; --shade: #17202e; --sea: #2f7c86; --accent: #ef8a6a; --accent-ink: #1a1210; --ok: #7fcf86; --top: #c3a3f0; --mid: #e3bf5e; --warn: #e9ad62; --chip: #324560; --sel: #f2cf4a; --sel-dk: #b8962a; --sel-ink: #3a2b10; --leaf: #8fd879; color-scheme: dark } }
+:root[data-theme="dark"] { --bg: #1e2a3d; --dot: #2a3a52; --panel: #283850; --ink: #f4ecd4; --muted: #bdb294; --line: #3c4f6b; --shade: #17202e; --sea: #2f7c86; --accent: #ef8a6a; --accent-ink: #1a1210; --ok: #7fcf86; --top: #c3a3f0; --mid: #e3bf5e; --warn: #e9ad62; --chip: #324560; --sel: #f2cf4a; --sel-dk: #b8962a; --sel-ink: #3a2b10; --leaf: #8fd879; color-scheme: dark }
 * { box-sizing: border-box }
 [hidden] { display: none !important }
 body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 14px; line-height: 1.65 }
@@ -23,7 +25,7 @@ h1 { font-family: var(--display); font-weight: 800; font-size: clamp(24px, 3.4vw
 .stats b { font-family: var(--display); font-size: 20px; color: var(--ink); font-variant-numeric: tabular-nums; margin-right: 2px }
 nav { display: flex; gap: 6px; flex-wrap: wrap }
 button { font: inherit; cursor: pointer; color: inherit }
-button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid var(--sel-dk); outline-offset: 2px }
 .tab { border: 1px solid var(--line); background: var(--panel); border-radius: 999px; padding: 6px 14px; font-weight: 700 }
 .tab[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink) }
 .chip { border: 1px solid var(--line); background: var(--panel); border-radius: 999px; padding: 3px 10px; font-size: 12px }
@@ -192,6 +194,45 @@ input[type="search"] { font: inherit; padding: 6px 10px; border: 1px solid var(-
 .legend span { display: inline-flex; gap: 4px; align-items: center }
 a { color: var(--accent) }
 @media (prefers-reduced-motion: no-preference) { .item, .tab, .chip { transition: background .15s, border-color .15s } }
+
+/* ---------- あつ森ふうの見た目（第36回） ---------- */
+body { background-color: var(--bg); background-image: radial-gradient(var(--dot) 2px, transparent 2.5px); background-size: 26px 26px; font-weight: 500 }
+h1 { display: flex; align-items: center; gap: 10px; color: var(--ink) }
+h1::before { content: ''; width: 34px; height: 34px; flex: none; border-radius: 50%; background: var(--leaf) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23fff' d='M12 3c4.5 2.4 6.6 6 6.3 10.2-.3 3.6-3 6.3-6.3 6.8-3.3-.5-6-3.2-6.3-6.8C5.4 9 7.5 5.4 12 3zm0 3.2V18'/%3E%3Cpath stroke='%236cbf55' stroke-width='1.4' fill='none' d='M12 6.5V18M12 11l2.6-2M12 14l-2.6-2'/%3E%3C/svg%3E") center / 72% no-repeat; box-shadow: 0 3px 0 rgb(0 0 0 / .12) }
+.eyebrow { font-family: var(--display); letter-spacing: .08em }
+/* 丸いボタン：押すと少し沈む */
+.tab, .chip, .vmode button, .vbtn, .vnav button, .vpager button, .vrbtns button, .rate3 button, .vareas button, .copy, .done, .opt, .item { transition: transform .08s, box-shadow .08s, background .15s, border-color .15s }
+.tab { border: 0; background: var(--panel); color: var(--ink); border-radius: 999px; padding: 8px 18px; box-shadow: 0 3px 0 var(--shade) }
+.tab:hover { background: var(--chip) }
+.tab[aria-pressed="true"], .tab[aria-pressed="true"]:hover { background: var(--sel); color: var(--sel-ink); box-shadow: 0 3px 0 var(--sel-dk) }
+.tab:active, .chip:active, .vbtn:active, .vnav button:active, .vpager button:active, .vmode button:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--shade) }
+.chip { border: 0; background: var(--panel); color: var(--ink); box-shadow: 0 2px 0 var(--shade); padding: 4px 12px }
+.chip:hover { background: var(--chip) }
+.chip[aria-pressed="true"], .chip[aria-pressed="true"]:hover { background: var(--sel); color: var(--sel-ink); box-shadow: 0 2px 0 var(--sel-dk) }
+.panel, .card, .vrcard { border: 0; border-radius: 22px; box-shadow: 0 4px 0 var(--shade); background: var(--panel) }
+.card, .vrcard { border-radius: 18px }
+.vimg { border-radius: 22px; box-shadow: 0 4px 0 var(--shade) }
+.vmode { border: 0; border-radius: 999px; box-shadow: 0 3px 0 var(--shade); background: var(--panel); padding: 4px; gap: 4px }
+.vmode button { border-radius: 999px; background: transparent } .vmode button + button { border-left: 0 }
+.vmode button[aria-selected="true"] { background: var(--sel); color: var(--sel-ink); box-shadow: 0 2px 0 var(--sel-dk) }
+.vbtn { border: 0; border-radius: 18px; background: var(--chip); box-shadow: 0 3px 0 var(--shade) }
+.vbtn:hover { background: var(--panel) }
+.vbtn[aria-pressed="true"] { box-shadow: 0 3px 0 rgb(0 0 0 / .18) }
+.vnav button, .vpager button { border: 0; border-radius: 999px; background: var(--chip); box-shadow: 0 2px 0 var(--shade) }
+.vstate { border-radius: 999px; text-align: center }
+.no { background: var(--ink); color: var(--panel); border-radius: 999px; padding: 0 8px }
+.kbd { border-radius: 999px; padding: 0 6px; border-color: var(--line); background: var(--panel) }
+.vtag, .pill { border-radius: 999px; padding: 1px 8px }
+.vbar { height: 10px; background: var(--chip); box-shadow: inset 0 1px 0 rgb(0 0 0 / .06) } .vbar i { background: linear-gradient(90deg, var(--leaf), var(--ok)); border-radius: 99px }
+.vstrip button, .vthumbs button { border-radius: 12px }
+input[type="search"], select { border-radius: 999px !important; border: 0 !important; background: var(--panel) !important; box-shadow: inset 0 2px 0 var(--shade); padding-inline: 14px }
+/* 投票のあとの吹き出し（住民のセリフのように） */
+.vtoast { background: var(--panel); color: var(--ink); border-radius: 26px; padding: 12px 18px; box-shadow: 0 4px 0 var(--shade), 0 10px 30px rgb(0 0 0 / .18); font-weight: 700 }
+.vtoast::after { content: ''; position: absolute; left: 34px; bottom: -9px; width: 18px; height: 18px; background: var(--panel); transform: rotate(45deg); border-radius: 3px }
+.vtoast button { border: 0; background: var(--sel); color: var(--sel-ink); box-shadow: 0 2px 0 var(--sel-dk); border-radius: 999px } .vtoast button .kbd { background: transparent; color: inherit; border-color: currentColor }
+.vstamp span { background: var(--panel); border-radius: 999px; padding: 6px 30px }
+details.vfilt summary { list-style: none } details.vfilt summary::before { content: '🍃 '; }
+@media (prefers-reduced-motion: reduce) { .tab, .chip, .vbtn, .vnav button { transition: none } .tab:active, .chip:active, .vbtn:active { transform: none } }
 </style>
 
 <div class="wrap">
@@ -369,7 +410,7 @@ document.addEventListener('click', e => { const t = e.target.closest('button'); 
   else if (t.dataset.zoom) { S.zoom = t.dataset.zoom; renderLists(); drawMap(); }
   else if (t.dataset.th) { S.theme = t.dataset.th; renderLists(); }
   else if (t.dataset.id) select(t.dataset.id, +t.dataset.x, +t.dataset.y);
-  else if (t.dataset.tab) { S.tab = t.dataset.tab; document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-pressed', b.dataset.tab === S.tab)); ['map', 'prep', 'book', 'refs', 'vote'].forEach(k => $('tab-' + k).hidden = k !== S.tab); if (S.tab === 'vote') renderVote(); if (S.tab === 'prep') renderPrep(); if (S.tab === 'book') renderBook(); if (S.tab === 'refs') renderRefs(); }
+  else if (t.dataset.tab) { const vt = document.getElementById('vToast'); if (vt) vt.hidden = true; S.tab = t.dataset.tab; document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-pressed', b.dataset.tab === S.tab)); ['map', 'prep', 'book', 'refs', 'vote'].forEach(k => $('tab-' + k).hidden = k !== S.tab); if (S.tab === 'vote') renderVote(); if (S.tab === 'prep') renderPrep(); if (S.tab === 'book') renderBook(); if (S.tab === 'refs') renderRefs(); }
   else if (t.dataset.done) { const [id, k] = t.dataset.done.split('|'); S.done[id] = { ...(S.done[id] || {}), [k]: !(S.done[id] || {})[k] }; store.set('ice-done', S.done); renderDetail(); renderLists(); renderStats(); }
   else if (t.dataset.choice) { const [sl, cid] = t.dataset.choice.split('|'); S.choice[sl] = cid; store.set('ice-choice', S.choice); S.sel = cid; renderLists(); renderDetail(); drawMap(); renderStats(); }
   else if (t.dataset.book) { S.bookTh = t.dataset.book; renderBook(); }
