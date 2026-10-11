@@ -6,7 +6,7 @@
   縮小して HTML に埋めこむ。作者の画像なので、出力の HTML はリポジトリに入れない。
 """
 import argparse, base64, io, json, os, re, sys
-from PIL import Image
+from PIL import Image, ImageOps
 ROOT = os.path.join(os.path.dirname(__file__), '..')
 sys.path.insert(0, os.path.dirname(__file__))
 J = lambda f: json.load(open(os.path.join(ROOT, f), encoding='utf8'))
@@ -149,7 +149,7 @@ def main():
     # 集めた作例：検索で見つけた画像をすべて（使っていないものも）。目録は designs/refs.json
     lib = json.load(open(os.path.join(ROOT, 'designs', 'refs.json'), encoding='utf8'))
     used = {u: d['ma'] for d in cat.values() for u in d['images']}; usedEx = {x['image']: x['name'] for x in CATD['examples']}
-    refs = [{'url': r['url'], 'q': r['q'], 'ma': used.get(r['url'], r.get('ma', '')), 'use': usedEx.get(r['url'], ''), 'thumb': uri(fit(open_url(r['url']), 220), q=55)} for r in lib if r['url'] in files]
+    refs = [{'url': r['url'], 'q': r['q'], 'th': r.get('th', 'all'), 'ma': used.get(r['url'], r.get('ma', '')), 'use': usedEx.get(r['url'], ''), 'thumb': uri(ImageOps.fit(open_url(r['url']), (128, 128), Image.LANCZOS, centering=(.5, .35)), q=50)} for r in lib if r['url'] in files]
     data = {'options': opts, 'refs': refs, 'grid': G, 'h': H, 'paint': S['paint'], 'facs': S.get('facilities', []), 'places': places, 'mods': mods, 'leg': LEG, 'lon': lon, 'cat': cat, 'examples': ex,
             'th': {'lon': 'ロンドン', 'egy': 'エジプト', 'jpn': '日本', 'usa': 'アメリカ', 'eur': 'ヨーロッパ', 'port': '地中海'},
             'thColor': {'lon': '#b4503a', 'egy': '#d9a441', 'jpn': '#c45a7a', 'usa': '#3f6fb5', 'eur': '#4f9a8a', 'port': '#2f8fc9'},

@@ -1137,6 +1137,78 @@
    "for": [
     "lon_d_lounge"
    ]
+  },
+  {
+   "id": "ex_lon2_0",
+   "name": "Anticipation Station：レンガの待合ホール（椅子・掲示板・電話ボックス）",
+   "image": "https://i.pinimg.com/736x/37/f5/8f/37f58fa59b2274e7c0139cbc0a796306.jpg",
+   "for": [
+    "lon_d_hall"
+   ]
+  },
+  {
+   "id": "ex_lon2_1",
+   "name": "レンガの壁の駅のホーム（電話ボックス・時計）",
+   "image": "https://i.pinimg.com/736x/84/b3/c0/84b3c0716ada37ca05f3f667ba74be6e.jpg",
+   "for": [
+    "lon_d_hall"
+   ]
+  },
+  {
+   "id": "ex_lon2_2",
+   "name": "秋の駅前：時計・ベンチ・電話ボックス・汽車",
+   "image": "https://i.pinimg.com/736x/eb/4e/59/eb4e5900b93f8d7cd7482f704d006ff0.jpg",
+   "for": [
+    "lon_d_hall"
+   ]
+  },
+  {
+   "id": "ex_lon2_3",
+   "name": "噴水と石畳の広場（ベンチ・ガス灯）",
+   "image": "https://i.pinimg.com/736x/03/3f/08/033f084ea224ba9e6fd1779fe718893e.jpg",
+   "for": [
+    "lon_d_plaza"
+   ]
+  },
+  {
+   "id": "ex_lon2_4",
+   "name": "時計と生け垣の島の入口",
+   "image": "https://i.pinimg.com/736x/d1/43/37/d143375cc4cacc69bb6dfee4b9c8cfa8.jpg",
+   "for": [
+    "lon_d_plaza"
+   ]
+  },
+  {
+   "id": "ex_lon2_5",
+   "name": "ガス灯と生け垣の入口の道",
+   "image": "https://i.pinimg.com/736x/1f/4a/b3/1f4ab37b6d92552931458f8b85a5f4c1.jpg",
+   "for": [
+    "lon_d_plaza"
+   ]
+  },
+  {
+   "id": "ex_lon2_6",
+   "name": "アイアンフェンスのテラス席",
+   "image": "https://i.pinimg.com/736x/f5/1e/03/f51e03183733c63a6db8d55b91c449ff.jpg",
+   "for": [
+    "lon_d_tearoom"
+   ]
+  },
+  {
+   "id": "ex_lon2_7",
+   "name": "パラソルのテラスカフェ",
+   "image": "https://i.pinimg.com/736x/e5/40/d5/e540d5ecc44a92cd533d68fff9534fa4.jpg",
+   "for": [
+    "lon_d_tearoom"
+   ]
+  },
+  {
+   "id": "ex_lon2_8",
+   "name": "クラシックなティールーム",
+   "image": "https://i.pinimg.com/736x/7d/c8/a8/7dc8a8cefd7668e615f72ea1cb48c470.jpg",
+   "for": [
+    "lon_d_tearoom"
+   ]
   }
  ]
 }
