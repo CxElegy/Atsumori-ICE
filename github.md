@@ -24,7 +24,7 @@ date: 2026-10-11
 - 案の比較：飛行機ラウンジなどの枠ごとに複数の案（選んだ案はブラウザに保存）
 - 作例：参考写真・修正点・断面図（モジュールごとの軸）・まわりの通り道 P1〜P7・組み方の手順①②③と「済み」
 - 建てる準備：使うマイデザインの作者IDの一覧（コピー）・保存枠の数
-- マイデザイン図鑑（D-000）・集めた作例（R-0000、テーマ・検索語・MA の有無・採用だけ・キーワードで絞りこみ、採用を先頭）
+- マイデザイン図鑑（D-000）・集めた作例（R-0000、テーマ・用途（10分類）・検索語・MA の有無・採用だけ・キーワードで絞りこみ、採用を先頭）
 
 ## 一括で作り直す
 `bash tools/build_all.sh [出力の置き場]`：地勢 → 見本 → 確認 → ビルドガイド（ICE_CACHE に作例の写真の置き場、立体図は playwright）
@@ -36,5 +36,5 @@ date: 2026-10-11
 | 地勢 | plan-design.json → tools/plan_terrain.py → plan-terrain.json |
 | 見本 | tools/gen_samples.py → samples.json |
 | 確認 | tools/test_logic.js, tools/snap.js, tools/edge_run.py, tools/road_preview.js |
-| マイデザイン・作例 | designs/catalog.json（D-）・designs/refs.json（R-）・designs/lon.json（ロンドンの細部モジュール・地面・断面）・designs/lon_paths.json（通り道）・tools/design_tiles.js |
+| マイデザイン・作例 | designs/catalog.json（D-）・designs/refs.json（R-、tools/collect_refs.py で検索・分類）・designs/lon.json（ロンドンの細部モジュール・地面・断面）・designs/lon_paths.json（通り道）・tools/design_tiles.js |
 | ビルドガイド | tools/build_site.py・tools/site/template.html・tools/site/render_views.js・tools/build_all.sh |
