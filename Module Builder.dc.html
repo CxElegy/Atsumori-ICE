@@ -193,7 +193,7 @@ class Component extends DCLogic {
     // 第14回：枯山水の白砂（砂紋）・畑・果物の木・空けるマス（木・岩・花のまわりは何も置かない）
     m: ['砂紋（箒目）の白砂', '#efece3', ''], y: ['畑（野菜）', '#9cc46a', '畑'], j: ['果物の木', '#7fbf5a', '果'], l: ['空けるマス', '#dcefcf', ''], r: ['苔', '#6f9e4f', ''],
     // 第18回：マイデザインの細部（designs/lon.json の細部モジュールで使う）
-    _: ['車道（濃い灰色の石畳）', '#5c5856', ''], '#': ['横断歩道', '#e9e7e1', '横'], '^': ['線路', '#8b7b6a', ''], $: ['郵便ポスト', '#e7a59f', '〒'], '%': ['旗', '#c9cfe6', '旗'], '~': ['駅の床（タイル）', '#cfc4b2', ''], '&': ['マンホール', '#9a9690', 'マ'], '*': ['ボート', '#e9e3d4', '舟'], ';': ['地下へ下りる階段の図', '#d9c8a8', '段']
+    _: ['車道（濃い灰色の石畳）', '#5c5856', ''], '#': ['横断歩道', '#e9e7e1', '横'], '^': ['線路', '#8b7b6a', ''], $: ['郵便ポスト', '#e7a59f', '〒'], '%': ['旗', '#c9cfe6', '旗'], '~': ['駅の床（タイル）', '#cfc4b2', ''], '&': ['マンホール', '#9a9690', 'マ'], '*': ['ボート', '#e9e3d4', '舟'], ';': ['地下へ下りる階段の図', '#d9c8a8', '段'], '+': ['階段', '#d9d2c3', '段']
   };
   genAll(hand) {
     const out = [], seen = new Set(), MN = { B: 'レンガ', p: '石畳', S: '砂' };
@@ -277,6 +277,9 @@ class Component extends DCLogic {
     { id: 'usa_camp', th: 'アメリカ', name: '国立公園キャンプ', r: ['tHHHHt', '.HHHH.', '.HHHH.', '.HHHH.', 'h.DX.h', 'ttpptt'], note: 'キャンプサイトの前に焚き火と丸太椅子' },
     { id: 'usa_pump', th: 'ハロウィン', name: 'かぼちゃ畑', r: ['kkkk', 'kkkk', 'kpkk', 'kpkk'], note: '畑の中に1本細い道' },
     { id: 'usa_lantern', th: 'ハロウィン', name: 'ランタンの小道', r: ['JpJ', '.p.', '.p.', 'JpJ', '.p.', '.p.'], note: '3マスおきにランタン' },
+    { id: 'eur_apt', th: 'ヨーロッパ', name: '石造りアパート北棟（中央が窪む形）', r: ['HHHHHHHHHHHHHHH', 'HHHHHHHHHHHHHHH', 'HHHHH.III.HHHHH', 'HHHHHp...pHHHHH', '.....ppppp.....'], note: '15×5。白い石造り4階建て。両翼が前に出て、中央の階段を挟む。動画「ヨーロッパ風・白い石造りの街並み」より' },
+    { id: 'eur_fountain', th: 'ヨーロッパ', name: '噴水の階段広場', r: ['L+++p+++L', 'F+++p+++x', 'pppUUUppp', 'FppUUUppx', 'pppUUUppp', 'LpppppppL'], note: '9×6。噴水を囲んで両側に階段、花のワゴンと樽、四隅に街灯' },
+    { id: 'eur_terrace', th: 'ヨーロッパ', name: '石畳のカフェテラス前', r: ['tTb.L..L.bTt', 'pppppppppppp', 'fhchpppphchf', 'tpuppppppupt'], note: '12×4。建物の足元に。植木・電話ボックス・街灯、柵越しにテーブル2卓' },
     { id: 'eur_cafe', th: 'ヨーロッパ', name: 'カフェテラス', r: ['xYYYYL', 'pppppp', 'hchhch', 'pppppp'], note: 'カウンターの前に2卓' },
     { id: 'eur_mill', th: 'ヨーロッパ', name: '風車とチューリップ', r: ['FFFFF', 'FMMMF', 'FMMMF', 'FMMMF', 'FFpFF'], note: '風車の周りを花で一周' },
     { id: 'eur_canal', th: 'ヨーロッパ', name: '運河の橋', r: ['.www.', '.www.', 'p===p', '.www.', '.www.'], note: '幅3の運河に石の橋' },
