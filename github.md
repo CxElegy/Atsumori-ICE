@@ -39,7 +39,10 @@ date: 2026-10-11
 - 作例の審査も Pages でできる：はじめは Claude のページ（Artifact）の votes/all の写し。つけた評価はそのブラウザ（localStorage）に保存し、「評価をファイルに保存」で votes-日付.json（Artifact と同じ形 {r, a, k, t}）に書き出す。Claude はそのファイル（チャットか db/votes/）を読む。「ファイルから読みこむ」で別のブラウザへ移せる
 - 公開：Settings → Pages → Deploy from a branch → main / docs
 
-## Tools
+## 小红书のノート（第40回）
+- ノートを集めるのはブランチ claude/intelligent-bohr-avhvea（ローカルで xiaohongshu-mcp にログインして tools/xhs_fetch.py。画像もそのブランチの xhs/img/）
+- main には清单だけ：`python3 tools/xhs_refs.py <notes.json>` → designs/xhs_refs.json（X-0001…、地区・用途。番号はノートの id で引きつぐ）
+- ビルドガイドは `--xhs <そのブランチの xhs を git archive した置き場>`。1ノート＝1作例（画像はまとめて1グループ、評価は1つ）。Pages はブランチの raw を直接読む。集めた作例・審査に「出どころ」の絞りこみ
 | tool | files |
 |---|---|
 | モジュール | tools/gen_popular_modules.py → modules-popular.json／tools/module_db.py → db/modules.sqlite, modules-curated.json |
