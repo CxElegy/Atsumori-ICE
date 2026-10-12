@@ -15,6 +15,7 @@ date: 2026-10-11
 | 計画書 v1〜v4 | World Travel Island Plan.dc.html, Plan v2/v3/v4.dc.html, island-grid*.json |
 | 組み立て台 | Module Builder.dc.html, plan-terrain.json, modules-curated.json, samples.json |
 | 完成イメージ（俯瞰） | London Render.dc.html |
+| ロンドン 地形と川の再設計案（L1〜L3） | London Redesign.dc.html, london-redesign.json |
 | ゲーム画面 | Game View.dc.html |
 | 組み方（旧・細部の1枚） | Module Guide.dc.html（ビルドガイドに統合ずみ） |
 | **ビルドガイド（全部入り）** | tools/build_site.py + tools/site/template.html → ice-guide.html（作例の写真入りのため、リポジトリに入れず Artifact で公開） |
@@ -51,3 +52,8 @@ date: 2026-10-11
 | 確認 | tools/test_logic.js, tools/snap.js, tools/edge_run.py, tools/road_preview.js |
 | マイデザイン・作例 | designs/catalog.json（D-）・designs/refs.json（R-、tools/collect_refs.py で検索・分類・--dedupe で重複に dup）・designs/lon.json（ロンドンの細部モジュール・地面・断面）・designs/lon_paths.json（通り道）・tools/design_tiles.js |
 | ビルドガイド | tools/build_site.py・tools/site/template.html・tools/site/render_views.js・tools/build_all.sh |
+
+## ロンドンの地形と川の再設計案（第41回）
+- ロンドンの作例の審査がすべて終わったので（469件：めっちゃいい30・いいね285・ふつう117・イマイチ37、写しは db/votes/claude-page-2026-10-12-lon-done.json）、高評価の作例から地形と川の好みを読み取り、plan-terrain.json のロンドンを3通りに作り直した案
+- L1 カムデン・ロック（高台に切り通しの運河と閘門）・L2 セント・キャサリン・ドック（南岸に船だまり）・L3 エンバンクメント（テムズ川を3マス南へ、崖のすそを河岸通りに）。3案とも橋6/8・坂8/8のまま
+- 案が決まったら plan-design.json に手を足して plan-terrain.json を作り直す（まだ反映していない）

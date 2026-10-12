@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>body{margin:0;background:oklch(0.975 0.01 85);color:oklch(0.27 0.02 60);font-family:'Zen Maru Gothic',sans-serif;-webkit-font-smoothing:antialiased}a{color:oklch(0.45 0.1 235)}a:hover{color:oklch(0.35 0.12 235)}*{box-sizing:border-box}</style>
+</helmet>
+<div style="max-width:1280px;margin:0 auto;padding:40px 24px 80px;display:flex;flex-direction:column;gap:36px">
+
+<header style="display:flex;flex-direction:column;gap:10px">
+<div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:oklch(0.5 0.02 60)">アイス島 改造プラン ／ ロンドン地区 地形と川の再設計案</div>
+<h1 style="margin:0;font-size:clamp(28px,4vw,42px);font-weight:700;line-height:1.2">ロンドン地区　地形と川の再設計案</h1>
+<p style="margin:0;max-width:840px;font-size:15px;line-height:1.8;text-wrap:pretty">作例の審査（ロンドン469件）で「めっちゃいい」「いいね」をつけた作例から、地形と川の好みを読み取り、いまの地勢計画（plan-terrain.json）のロンドンを3通りに作り直しました。3案とも橋6/8・坂8/8のままで、あつ森の仕様の範囲に収まります。気になる案のIDか、組み合わせを教えてください。</p>
+</header>
+
+<section style="display:flex;flex-wrap:wrap;gap:16px">
+<div style="flex:1 1 520px;background:white;border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:12px">
+<b style="color:oklch(0.42 0.1 30)">審査の結果から読み取った好み</b>
+<div style="font-size:13px;color:oklch(0.45 0.02 60);line-height:1.7">ロンドン 469件：めっちゃいい 30・いいね 285・ふつう 117・イマイチ 37。めっちゃいいの内訳は 駅・空港 11、街並み 6、名所 6、お店 4、水辺 2、小物 1。</div>
+<ol style="margin:0;padding-left:20px;font-size:14px;line-height:1.75;display:flex;flex-direction:column;gap:4px">
+<li><b>川はレンガの岸壁にはさまれた運河</b>。水ぎわの歩道と、その上の段の道が重なる（R-1148・R-1231・R-1233・X-0003）</li>
+<li><b>石の階段で上り下りする2段の街</b>。崖の面がそのまま店の壁になる（R-1233・X-0003）</li>
+<li><b>船だまり</b>。木の桟橋と、陸に上げたボート（R-0187・R-1235・R-1239）</li>
+<li><b>アーチの石橋</b>（R-1271・R-1274）</li>
+<li><b>レンガの駅舎と線路、木の空港待合</b>（R-1217・R-1266・R-1118・R-0184・R-1130・R-1134）</li>
+<li><b>夜の魔法の庭・本屋・占いの部屋</b>（R-0862・R-0867・R-0871・X-0006）</li>
+</ol>
+<div style="font-size:13px;line-height:1.7;color:oklch(0.45 0.02 60)">イマイチ 37件のうち14件がスーツケースの展示、5件が2階建てバスでした。どちらも案には入れていません。</div>
+</div>
+<div style="flex:1 1 300px;background:white;border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:10px">
+<b>3案とも変えないもの</b>
+<ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.75">
+<li>案内所と広場、飛行場、海岸線と岩、河口3つ</li>
+<li>駅舎の空港ラウンジ（第25回で決定）と9¾番線の場所</li>
+<li>北の高台（2段目）と、その奥の林の尾根（3段目）。大英博物館はエジプト考古学博物館としてエジプトの (27,25) へ移ったので、高台の上は時計台と街の通り</li>
+<li>テムズ川の西半分（案内所の南から南の河口まで）とハイドパーク・郊外の村</li>
+<li>橋6/8・坂8/8（坂はもう余りがないので、どの案も坂を増やさない）</li>
+</ul>
+</div>
+</section>
+
+<div style="display:flex;flex-wrap:wrap;gap:8px 16px;font-size:13px;align-items:center">
+<span style="display:flex;gap:6px;align-items:center"><span style="width:14px;height:14px;background:#4c9f48"></span>1段目</span>
+<span style="display:flex;gap:6px;align-items:center"><span style="width:14px;height:14px;background:#72c752"></span>2段目</span>
+<span style="display:flex;gap:6px;align-items:center"><span style="width:14px;height:14px;background:#9bd96e"></span>3段目</span>
+<span style="display:flex;gap:6px;align-items:center"><span style="width:14px;height:14px;background:#3c843a"></span>林</span>
+<span style="display:flex;gap:6px;align-items:center"><span style="width:14px;height:14px;background:#8ee0d0"></span>川・運河</span>
+<span style="display:flex;gap:6px;align-items:center"><span style="width:14px;height:14px;background:#c8b487"></span>道・河岸</span>
+<span style="display:flex;gap:6px;align-items:center"><span style="width:14px;height:14px;background:#8d8a92"></span>橋</span>
+<span style="display:flex;gap:6px;align-items:center"><span style="width:14px;height:14px;background:#d9c48f;outline:2px solid white"></span>坂</span>
+<span style="display:flex;gap:6px;align-items:center"><span style="width:14px;height:14px;background:#b8694b"></span>レンガ（9¾）</span>
+<span style="display:flex;gap:6px;align-items:center"><span style="width:14px;height:14px;background:#ffd84a;border-radius:50%"></span>変えた所</span>
+</div>
+
+<section id="base" style="background:white;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:14px">
+<h3 style="margin:0;font-size:19px;color:oklch(0.45 0.02 60)">比べる用：いまの計画（main）</h3>
+<div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start">
+<canvas ref="{{ cvBaseTop }}" style="flex:1 1 380px;max-width:560px;width:100%;display:block;border-radius:10px"></canvas>
+<canvas ref="{{ cvBaseIso }}" style="flex:1 1 420px;max-width:660px;width:100%;display:block;border-radius:10px;background:#7fd6c3"></canvas>
+</div>
+<p style="margin:0;font-size:14px;line-height:1.75;max-width:900px">高台（2段目）のすぐ南をテムズ川が東西に流れ、崖のすそが北岸2マスのカフェ、南岸3マスが手すりの散歩道（作例 R-0088 の運河）。坂①を下りて橋②を渡ると、駅舎の空港ラウンジ④に出ます。③は崖のすその船着き場です。</p>
+</section>
+
+<section id="L1" style="background:white;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:14px">
+<h3 style="margin:0;font-size:21px;color:oklch(0.42 0.1 30)"><span style="font-family:'IBM Plex Mono',monospace">L1</span>　カムデン・ロック：高台に切り通しの運河</h3>
+<div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start">
+<canvas ref="{{ cvL1Top }}" style="flex:1 1 380px;max-width:560px;width:100%;display:block;border-radius:10px"></canvas>
+<canvas ref="{{ cvL1Iso }}" style="flex:1 1 420px;max-width:660px;width:100%;display:block;border-radius:10px;background:#7fd6c3"></canvas>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:20px">
+<div style="flex:1 1 420px;display:flex;flex-direction:column;gap:10px">
+<p style="margin:0;font-size:14px;line-height:1.75">高台の東寄り（x48〜54・y63〜70）を1段目まで切り下げ、幅3の運河を通します。運河はテムズ川の手前で閘門（ロック）で止め、その上を歩いて渡れるので、橋は増えません。両側の曳舟道に市場の屋台、崖の上にはテラス席。作例の「レンガの岸壁にはさまれた運河と、上の段の道」にいちばん近い形です。</p>
+<ol style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px;font-size:14px;line-height:1.6">
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">1</span><span><b>運河の突き当たりの船だまり</b>　陸に上げたボートと木の桟橋</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">2</span><span><b>曳舟道の市場</b>　屋台・パブ・本屋。崖の面にアーチ窓の店の壁</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">3</span><span><b>閘門（ロック）</b>　木の柵とハンドルで水門に見立てる。テムズ川の北岸の通り道がここで続く</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">4</span><span><b>崖の上のテラス席</b>　運河を見下ろすカフェ（幅3）</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">5</span><span><b>上の通り</b>　切り通しの北をまわって高台の東西をつなぐ。アーチの石橋の見立てを置く所</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">6</span><span><b>坂（地下鉄の入口）</b>　いまのまま</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">7</span><span><b>テムズ川の橋</b>　いまのまま</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">8</span><span><b>駅舎の空港ラウンジ</b>　いまのまま</span></li>
+</ol>
+</div>
+<div style="flex:1 1 280px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;font-size:13px;line-height:1.7;align-content:start">
+<div><b style="color:oklch(0.45 0.12 145)">良いところ</b><ul style="margin:4px 0 0;padding-left:16px"><li>好みの1と2（岸壁の運河・2段の街）がそのまま形になる</li><li>運河の水は止めてあるので、橋も坂も増えない</li></ul></div>
+<div><b style="color:oklch(0.5 0.14 40)">気になるところ</b><ul style="margin:4px 0 0;padding-left:16px"><li>高台の上の平らな所が約50マス減る</li><li>崖のすその船着き場（いまの R-0088）は、切り通しの西だけになる</li></ul></div>
+</div>
+</div>
+</section>
+
+<section id="L2" style="background:white;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:14px">
+<h3 style="margin:0;font-size:21px;color:oklch(0.42 0.1 30)"><span style="font-family:'IBM Plex Mono',monospace">L2</span>　セント・キャサリン・ドック：南岸に船だまり</h3>
+<div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start">
+<canvas ref="{{ cvL2Top }}" style="flex:1 1 380px;max-width:560px;width:100%;display:block;border-radius:10px"></canvas>
+<canvas ref="{{ cvL2Iso }}" style="flex:1 1 420px;max-width:660px;width:100%;display:block;border-radius:10px;background:#7fd6c3"></canvas>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:20px">
+<div style="flex:1 1 420px;display:flex;flex-direction:column;gap:10px">
+<p style="margin:0;font-size:14px;line-height:1.75">テムズ川の南岸、駅舎の空港ラウンジの東に、8×3マスの船だまり（ドック）を掘ります。ラウンジの東の端がそのまま岸になり、飛行場を出ると最初に船の並ぶ水辺が見えます。東の岸には倉庫とパブ。地形は掘るだけなので、崖も坂も橋も変わりません。</p>
+<ol style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px;font-size:14px;line-height:1.6">
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">1</span><span><b>船だまり</b>　木の桟橋を岸に沿わせ、ボートは陸と桟橋の上に</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">2</span><span><b>ドックの倉庫とパブ</b>　レンガの壁・樽・木箱・ガス灯</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">3</span><span><b>ラウンジの東のテラス</b>　船だまりに面した待合の席</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">4</span><span><b>崖のすその船着き場</b>　いまのまま（R-0088）。北岸と南岸の両方に船が並ぶ</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">5</span><span><b>坂（地下鉄の入口）</b>　いまのまま</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">6</span><span><b>テムズ川の橋</b>　いまのまま</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">7</span><span><b>駅舎の空港ラウンジ</b>　いまのまま</span></li>
+</ol>
+</div>
+<div style="flex:1 1 280px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;font-size:13px;line-height:1.7;align-content:start">
+<div><b style="color:oklch(0.45 0.12 145)">良いところ</b><ul style="margin:4px 0 0;padding-left:16px"><li>到着してすぐ船の水辺（好みの3）</li><li>いまの計画をほとんど崩さない</li></ul></div>
+<div><b style="color:oklch(0.5 0.14 40)">気になるところ</b><ul style="margin:4px 0 0;padding-left:16px"><li>2段の街は増えない（好みの1・2は今のまま）</li><li>南岸の東の空き地（郵便局・バス停の候補地）が狭くなる</li></ul></div>
+</div>
+</div>
+</section>
+
+<section id="L3" style="background:white;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:14px">
+<h3 style="margin:0;font-size:21px;color:oklch(0.42 0.1 30)"><span style="font-family:'IBM Plex Mono',monospace">L3</span>　エンバンクメント：テムズ川を南へずらし、崖のすそを河岸通りに</h3>
+<div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start">
+<canvas ref="{{ cvL3Top }}" style="flex:1 1 380px;max-width:560px;width:100%;display:block;border-radius:10px"></canvas>
+<canvas ref="{{ cvL3Iso }}" style="flex:1 1 420px;max-width:660px;width:100%;display:block;border-radius:10px;background:#7fd6c3"></canvas>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:20px">
+<div style="flex:1 1 420px;display:flex;flex-direction:column;gap:10px">
+<p style="margin:0;font-size:14px;line-height:1.75">テムズ川を3マス南（y74〜76）へ移し、ラウンジのすぐ北を流します。高台の崖のすそには幅5の河岸通り（y69〜73）ができ、崖の面をアーチ窓の店の壁にして、カフェ・パブ・市場を並べられます。橋はラウンジの北の口と一直線のまま南へ移すだけで、数は変わりません。東は45度で上げて、ヨーロッパ側の川へつなぎます。</p>
+<ol style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px;font-size:14px;line-height:1.6">
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">1</span><span><b>河岸通り</b>　幅5。手すり・ガス灯・テラス席・屋台</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">2</span><span><b>崖の面の店の壁</b>　レンガとアーチ窓。上の段の手すりが真上に重なる</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">3</span><span><b>テムズ川の橋</b>　南へ移す。ラウンジの北の口からそのまま渡る</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">4</span><span><b>坂（地下鉄の入口）</b>　坂の下に広い通りができ、水からも離れる</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">5</span><span><b>駅舎の空港ラウンジ</b>　北の壁がそのまま川の岸。待合から川が見える</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">6</span><span><b>45度の河道</b>　ヨーロッパ側の川（y71〜73）へつなぐ</span></li>
+<li style="display:grid;grid-template-columns:26px 1fr;gap:10px"><span style="width:24px;height:24px;border-radius:50%;background:#d9483b;color:white;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px">7</span><span><b>案内所の東の角</b>　川を埋めた所。釣り場を西の川沿いへ寄せる</span></li>
+</ol>
+</div>
+<div style="flex:1 1 280px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;font-size:13px;line-height:1.7;align-content:start">
+<div><b style="color:oklch(0.45 0.12 145)">良いところ</b><ul style="margin:4px 0 0;padding-left:16px"><li>崖のすそに広い通りができ、店の壁と通りと川の3段の眺めになる</li><li>ラウンジから川が見える</li></ul></div>
+<div><b style="color:oklch(0.5 0.14 40)">気になるところ</b><ul style="margin:4px 0 0;padding-left:16px"><li>崖のすぐ下が水になる R-0088 の形はなくなる</li><li>川とラウンジのあいだに歩ける所がない（橋の口だけ）</li></ul></div>
+</div>
+</div>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:12px">
+<h2 style="margin:0;font-size:24px">3案の比較</h2>
+<div style="background:white;border-radius:14px;padding:8px 20px;font-size:14px;line-height:1.6;overflow-x:auto">
+<div style="display:grid;grid-template-columns:minmax(120px,1fr) repeat(3,minmax(150px,1.3fr));gap:12px;padding:12px 0;border-bottom:1px solid oklch(0.92 0.01 85);font-weight:700"><span></span><span>L1 カムデン・ロック</span><span>L2 船だまり</span><span>L3 エンバンクメント</span></div>
+<div style="display:grid;grid-template-columns:minmax(120px,1fr) repeat(3,minmax(150px,1.3fr));gap:12px;padding:12px 0;border-bottom:1px solid oklch(0.92 0.01 85)"><span>変える地形</span><span>高台を切り下げて運河</span><span>南岸に船だまりを掘る</span><span>テムズ川を3マス南へ</span></div>
+<div style="display:grid;grid-template-columns:minmax(120px,1fr) repeat(3,minmax(150px,1.3fr));gap:12px;padding:12px 0;border-bottom:1px solid oklch(0.92 0.01 85)"><span>いちばん合う好み</span><span>1・2 岸壁の運河と2段の街</span><span>3 船だまり</span><span>1 運河と上の段の道</span></div>
+<div style="display:grid;grid-template-columns:minmax(120px,1fr) repeat(3,minmax(150px,1.3fr));gap:12px;padding:12px 0;border-bottom:1px solid oklch(0.92 0.01 85)"><span>水のマス</span><span>529 → 551</span><span>529 → 553</span><span>529 → 526</span></div>
+<div style="display:grid;grid-template-columns:minmax(120px,1fr) repeat(3,minmax(150px,1.3fr));gap:12px;padding:12px 0;border-bottom:1px solid oklch(0.92 0.01 85)"><span>橋・坂</span><span>6/8・8/8（変わらない）</span><span>6/8・8/8（変わらない）</span><span>6/8・8/8（橋を1本移す）</span></div>
+<div style="display:grid;grid-template-columns:minmax(120px,1fr) repeat(3,minmax(150px,1.3fr));gap:12px;padding:12px 0"><span>ほかの案と組み合わせ</span><span>L2・L3 のどちらとも組める</span><span>L1 と組める（L3 とは同じ所を使う）</span><span>L1 と組める（L2 とは同じ所を使う）</span></div>
+</div>
+<p style="margin:0;font-size:13px;color:oklch(0.45 0.02 60);line-height:1.7">3案とも、川はロンドンの南の河口と港の南の河口につながったままです。2段目以上が砂浜・岩のとなりに来る所もありません。テムズ川の両岸を2段にする形（両岸の崖のあいだを川が通る）も考えましたが、南岸に上がる坂がもう1本要るため（坂は8/8）、外しました。</p>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:12px">
+<h2 style="margin:0;font-size:24px">決めてほしいこと</h2>
+<ol style="margin:0;padding-left:20px;font-size:14px;line-height:1.9;max-width:860px">
+<li>L1・L2・L3 のどれにするか。組み合わせなら L1＋L2 か L1＋L3</li>
+<li>夜の魔法の庭（R-0862・R-0867）をハイドパークの林の中に入れるか</li>
+<li>アーチの石橋（R-1271・R-1274）をテムズ川の橋の見た目にするか（あつ森の橋の上と両脇を、家具とマイデザインで作例のように飾る）</li>
+</ol>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showNumbers&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;表示&quot;},&quot;showChanges&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;表示&quot;}}">
+class Component extends DCLogic {
+  cvs = Object.fromEntries(['base', 'L1', 'L2', 'L3'].flatMap(k => [[k + 'Top', React.createRef()], [k + 'Iso', React.createRef()]]));
+  data = null;
+  B = [14, 50, 62, 94];
+  BI = [26, 53, 61, 88];
+  componentDidMount() {
+    fetch('london-redesign.json').then(r => r.json()).then(d => { this.data = d; this.drawAll(); });
+    if (document.fonts) document.fonts.ready.then(() => this.drawAll());
+  }
+  componentDidUpdate() { this.drawAll(); }
+  renderVals() { const c = this.cvs; return { cvBaseTop: c.baseTop, cvBaseIso: c.baseIso, cvL1Top: c.L1Top, cvL1Iso: c.L1Iso, cvL2Top: c.L2Top, cvL2Iso: c.L2Iso, cvL3Top: c.L3Top, cvL3Iso: c.L3Iso }; }
+  drawAll() {
+    if (!this.data) return;
+    const P = this.props, opt = { nums: P.showNumbers ?? true, diff: P.showChanges ?? true };
+    ['base', 'L1', 'L2', 'L3'].forEach(k => {
+      const o = this.data.opts[k], t = this.cvs[k + 'Top'].current, i = this.cvs[k + 'Iso'].current;
+      if (t) this.drawTop(t, o, k, opt);
+      if (i) this.drawIso(i, o, k, opt);
+    });
+  }
+  lv(o, x, y) { const r = o.h[y]; return r ? +r[x] : 0; }
+  ch(o, x, y) { const r = o.grid[y]; return r ? r[x] : 'S'; }
+  changed(o, x, y) { const b = this.data.opts.base; return o !== b && (this.ch(o, x, y) !== this.ch(b, x, y) || this.lv(o, x, y) !== this.lv(b, x, y)); }
+  incl(o) { return o.inclines.map(([x, y, d]) => d === 'S' ? [x, y, 2, 4] : d === 'N' ? [x, y - 3, 2, 4] : d === 'W' ? [x - 3, y, 4, 2] : [x, y, 4, 2]); }
+  colorOf(o, x, y) {
+    const v = this.ch(o, x, y), l = this.lv(o, x, y);
+    const C = { S: '#7fd6c3', s: '#f0e4a4', r: '#7c7f94', w: '#8ee0d0', p: '#c8b487', b: '#8d8a92', P: '#cdb88c', K: '#b8694b' };
+    if (C[v]) return C[v];
+    return l >= 3 ? '#9bd96e' : l === 2 ? '#72c752' : '#4c9f48';
+  }
+  icon(ctx, cx, cy, t, R, bg) { ctx.fillStyle = 'rgba(0,0,0,.2)'; ctx.beginPath(); ctx.arc(cx, cy + 2, R + 1, 0, 7); ctx.fill(); ctx.fillStyle = bg || '#4a3b30'; ctx.beginPath(); ctx.arc(cx, cy, R, 0, 7); ctx.fill(); ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke(); ctx.fillStyle = '#fff'; ctx.font = `700 ${Math.round(R)}px 'Zen Maru Gothic', sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(t, cx, cy + 1); ctx.textAlign = 'left'; }
+  num(ctx, cx, cy, n, R) { ctx.fillStyle = '#d9483b'; ctx.strokeStyle = '#fff'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.arc(cx, cy, R, 0, 7); ctx.fill(); ctx.stroke(); ctx.fillStyle = '#fff'; ctx.font = `700 ${Math.round(R * 1.05)}px 'IBM Plex Mono', monospace`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(String(n), cx, cy + 1); ctx.textAlign = 'left'; }
+  drawTop(c, o, k, opt) {
+    const [x0, y0, x1, y1] = this.B, S = 20;
+    c.width = (x1 - x0) * S; c.height = (y1 - y0) * S;
+    const ctx = c.getContext('2d');
+    ctx.setTransform(1, 0, 0, 1, -x0 * S, -y0 * S);
+    for (let y = y0; y < y1; y++) for (let x = x0; x < x1; x++) {
+      const v = this.ch(o, x, y), l = this.lv(o, x, y);
+      ctx.fillStyle = this.colorOf(o, x, y); ctx.fillRect(x * S, y * S, S, S);
+      if (v === 't') { ctx.fillStyle = l >= 2 ? '#3f8a3a' : '#2f6d2f'; ctx.beginPath(); ctx.arc(x * S + ((x + y) % 2 ? 8 : 12), y * S + 10, 6, 0, 7); ctx.fill(); }
+      if (v === 'b') { ctx.fillStyle = '#6f6c75'; ctx.fillRect(x * S, y * S + 2, S, 3); ctx.fillRect(x * S, y * S + S - 5, S, 3); }
+      if (v === 'K') { ctx.fillStyle = 'rgba(110,50,30,.45)'; ctx.fillRect(x * S, y * S + 9, S, 2); ctx.fillRect(x * S + (y % 2 ? 5 : 14), y * S, 2, 9); }
+      if (v === 'w' && (x * 7 + y * 3) % 5 === 0) { ctx.fillStyle = 'rgba(255,255,255,.45)'; ctx.fillRect(x * S + 4, y * S + 9, 10, 2); }
+    }
+    ctx.fillStyle = 'rgba(25,55,20,.8)';
+    const edge = (a, b) => !'Ssr'.includes(a) && !'Ssr'.includes(b);
+    for (let y = y0; y < y1; y++) for (let x = x0; x < x1; x++) {
+      const l = this.lv(o, x, y);
+      if (edge(this.ch(o, x, y), this.ch(o, x + 1, y)) && this.lv(o, x + 1, y) !== l) ctx.fillRect((x + 1) * S - 2, y * S, 4, S);
+      if (edge(this.ch(o, x, y), this.ch(o, x, y + 1)) && this.lv(o, x, y + 1) !== l) ctx.fillRect(x * S, (y + 1) * S - 2, S, 4);
+    }
+    this.incl(o).forEach(([x, y, w, h]) => { ctx.fillStyle = '#d9c48f'; ctx.fillRect(x * S, y * S, w * S, h * S); ctx.fillStyle = 'rgba(120,90,40,.4)'; for (let i = 0; i < Math.max(w, h) * 4; i++) { if (w > h) ctx.fillRect(x * S + i * S / 4, y * S, 2, h * S); else ctx.fillRect(x * S, y * S + i * S / 4, w * S, 2); } ctx.strokeStyle = '#fff'; ctx.lineWidth = 3; ctx.strokeRect(x * S + 1.5, y * S + 1.5, w * S - 3, h * S - 3); });
+    if (opt.diff && k !== 'base') {
+      ctx.strokeStyle = '#ffd84a'; ctx.lineWidth = 2.5;
+      for (let y = y0; y < y1; y++) for (let x = x0; x < x1; x++) if (this.changed(o, x, y)) ctx.strokeRect(x * S + 3, y * S + 3, S - 6, S - 6);
+    }
+    for (let i = 1; i < 7; i++) { ctx.strokeStyle = 'rgba(255,255,255,.6)'; ctx.lineWidth = 2; ctx.setLineDash([8, 8]); ctx.beginPath(); ctx.moveTo(i * 16 * S, 0); ctx.lineTo(i * 16 * S, 96 * S); ctx.stroke(); }
+    for (let i = 1; i < 6; i++) { ctx.beginPath(); ctx.moveTo(0, i * 16 * S); ctx.lineTo(112 * S, i * 16 * S); ctx.stroke(); }
+    ctx.setLineDash([]);
+    this.data.common.forEach(([x, y, t]) => this.icon(ctx, x * S, y * S, t, 15, t === '駅' ? '#b8694b' : '#4a3b30'));
+    if (opt.nums) (this.data.pts[k] || []).forEach(([x, y], i) => this.num(ctx, x * S, y * S, i + 1, 12));
+  }
+  drawIso(c, o, k, opt) {
+    const [x0, y0, x1, y1] = this.BI, nx = x1 - x0, ny = y1 - y0, TW = 12, TH = 6, HZ = 11;
+    c.width = Math.round((nx + ny) * TW + 40); c.height = Math.round((nx + ny) * TH + 6 * HZ + 60);
+    const ctx = c.getContext('2d'), ox = ny * TW + 20, oy = 4 * HZ + 30;
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, c.width, c.height);
+    const P = (x, y, z) => [ox + (x - x0 - (y - y0)) * TW, oy + (x - x0 + y - y0) * TH - z * HZ];
+    const shade = (col, f) => { const n = parseInt(col.slice(1), 16); return `rgb(${Math.min(255, ((n >> 16) & 255) * f) | 0},${Math.min(255, ((n >> 8) & 255) * f) | 0},${Math.min(255, (n & 255) * f) | 0})`; };
+    const poly = (pts, fill) => { ctx.beginPath(); pts.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])); ctx.closePath(); ctx.fillStyle = fill; ctx.fill(); };
+    const prism = (x, y, w, d, z0, z1, col) => {
+      poly([P(x, y + d, z1), P(x + w, y + d, z1), P(x + w, y + d, z0), P(x, y + d, z0)], shade(col, .78));
+      poly([P(x + w, y, z1), P(x + w, y + d, z1), P(x + w, y + d, z0), P(x + w, y, z0)], shade(col, .62));
+      poly([P(x, y, z1), P(x + w, y, z1), P(x + w, y + d, z1), P(x, y + d, z1)], col);
+    };
+    const inc = this.incl(o);
+    const inInc = (x, y) => inc.find(([ix, iy, w, h]) => x >= ix && x < ix + w && y >= iy && y < iy + h);
+    const zOf = (x, y) => { const v = this.ch(o, x, y), l = this.lv(o, x, y); if (v === 'S') return 0; if (v === 'w') return l - .35; if (v === 's' || v === 'r' || l === 0) return v === 'r' ? 1.1 : .5; return l; };
+    for (let s = 0; s < nx + ny; s++) for (let x = x0; x < x1; x++) {
+      const y = y0 + s - (x - x0); if (y < y0 || y >= y1) continue;
+      const v = this.ch(o, x, y); let z = zOf(x, y), col = this.colorOf(o, x, y);
+      const ic = inInc(x, y);
+      if (ic) { col = '#d9c48f'; }
+      prism(x, y, 1, 1, 0, z, col);
+      if (v === 'b') prism(x, y, 1, 1, z, z + .15, '#8d8a92');
+      if (opt.diff && k !== 'base' && this.changed(o, x, y)) { const a = P(x + .5, y + .5, z); ctx.fillStyle = 'rgba(255,216,74,.9)'; ctx.beginPath(); ctx.arc(a[0], a[1], 1.8, 0, 7); ctx.fill(); }
+      if (v === 't') { const b = P(x + .5, y + .5, z), t = P(x + .5, y + .5, z + 2.2); ctx.fillStyle = '#6b4a2f'; ctx.fillRect(b[0] - 1, t[1], 2, b[1] - t[1]); ctx.fillStyle = '#2f7a34'; ctx.beginPath(); ctx.arc(t[0], t[1] - 2, 6, 0, 7); ctx.fill(); }
+    }
+    this.data.common.forEach(([x, y, t]) => { const p = P(x, y, zOf(Math.floor(x), Math.floor(y)) + 2.5); this.icon(ctx, p[0], p[1], t, 11, t === '駅' ? '#b8694b' : '#4a3b30'); });
+    if (opt.nums) (this.data.pts[k] || []).forEach(([x, y], i) => { const p = P(x, y, zOf(Math.floor(x), Math.floor(y)) + 1.5); this.num(ctx, p[0], p[1], i + 1, 9); });
+  }
+}
+</script>
+</body>
+</html>
