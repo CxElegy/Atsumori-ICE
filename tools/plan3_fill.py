@@ -33,7 +33,7 @@ lv = lambda x, y: Hh[y][x] if inside(x, y) else 0
 g = lambda x, y: G[y][x] if inside(x, y) else 'S'
 
 # ---- 地区（中心からの近さ＋ノイズ。さかいは崖・川・道で自然に切れる）----
-CENT = {'C': [(30, 64), (22, 58), (36, 56), (46, 60), (44, 74)], 'S': [(22, 45), (32, 46), (80, 50), (76, 70)], 'F': [(52, 26), (44, 34)], 'J': [(27, 22)], 'B': [(15, 32), (34, 36)],
+CENT = {'C': [(30, 64), (22, 58), (36, 56), (46, 60), (44, 74), (22, 49), (38, 49)], 'S': [(80, 50), (76, 70), (66, 44)], 'F': [(52, 26), (44, 34)], 'J': [(27, 22)], 'B': [(15, 32), (34, 36)],
         'H': [(88, 26)], 'P': [(93, 66), (86, 80)]}
 NAMES = {'C': 'ロンドン市内', 'S': '郊外と村', 'F': '森', 'B': '竹林', 'J': '日本（霊峰）', 'H': 'ハロウィン', 'P': '海辺の港町'}
 Z = [['S'] * W for _ in range(H)]
@@ -86,8 +86,8 @@ def fits(kid, ax, ay, flip=False):
     ring = [(x, y) for x in range(ax - 1, ax + KW + 1) for y in range(ay - 1, ay + KD + 1) if not (ax <= x < ax + KW and ay <= y < ay + KD)]
     return any(p in road and lv(*p) == L for p in ring)   # 同じ段の道に面する（崖の下の道では入れない）
 PLAN_KITS = {'C': ['lon_square', 'lon_cafe', 'lon_market', 'lon_books', 'lon_pub', 'lon_records', 'lon_crossing', 'lon_benches', 'lon_quay', 'lon_garden', 'lon_station', 'lon_dock', 'lon_cafe', 'lon_market'],
-             'S': ['cot_garden', 'cot_greenhouse', 'bakery', 'allotment', 'formal_garden', 'cot_garden', 'tea_picnic', 'allotment'],
-             'F': ['tea_picnic', 'tea_picnic'], 'J': ['jp_tea'], 'B': ['tea_picnic'], 'H': ['spooky_yard'], 'P': ['harbor_quay', 'lon_dock', 'bakery']}
+             'S': ['cot_garden', 'cot_greenhouse', 'bakery', 'allotment', 'formal_garden', 'cot_garden', 'tea_picnic', 'allotment', 'cot_greenhouse', 'bakery', 'cot_garden', 'tea_picnic'],
+             'F': ['tea_picnic', 'tea_picnic', 'tea_picnic'], 'J': ['jp_tea'], 'B': ['tea_picnic'], 'H': ['spooky_yard'], 'P': ['harbor_quay', 'lon_dock', 'bakery']}
 groups, ground, plants = [], [], []
 def ring_skip(ax, ay, KW, KD):   # 囲みの1マスのうち、ちがう段・水・道などには地面を貼らない
     L = lv(ax, ay)
@@ -120,6 +120,51 @@ for kd in SPEC.get('kits', []):   # 設計の見せ場（ねらいの場所の�
     tx, ty = kd.get('at') or kd['near']
     place_kit(kd['kit'], tx, ty, 0 if 'at' in kd else kd.get('r', 6), kd['zone'], kd.get('style'), kd.get('flip'), name=kd.get('name'))
 
+# 地区の見せ場も木より先に（道に面した平地を林にとられないように）
+n = 0
+for z, kl in PLAN_KITS.items():
+    if z in SPEC.get('manual_zones', ''):
+        continue
+    anchors = [(x, y) for y in range(H) for x in range(W) if Z[y][x] == z]
+    rng.shuffle(anchors)
+    # 地区の中心に近い順に試す（見せ場を地区の芯に）
+    cs = CENT[z]
+    anchors.sort(key=lambda p: min(math.hypot(p[0] - cx, p[1] - cy) for cx, cy in cs) + rng.random() * 6)
+    for kid in kl:
+        k = KITS[kid]; KW, KD = k['size']
+        spur = None
+        for ax, ay in anchors:
+            flip = rng.random() < .5
+            ok = fits(kid, ax, ay, flip)
+            if not ok and z in 'FJBHP':   # 野山の地区：道から11マスまでなら、小道（土の道）を1本引いてつなぐ
+                L = lv(ax, ay)
+                if all(free(x, y, L) for y in range(ay, ay + KD) for x in range(ax, ax + KW)):
+                    for rx, ry, dx, dy in [(x, ay - 1, 0, -1) for x in range(ax, ax + KW)] + [(x, ay + KD, 0, 1) for x in range(ax, ax + KW)] + [(ax - 1, y, -1, 0) for y in range(ay, ay + KD)] + [(ax + KW, y, 1, 0) for y in range(ay, ay + KD)]:
+                        cells = []
+                        for i in range(12):
+                            c = (rx + dx * i, ry + dy * i)
+                            if c in road and lv(*c) == L:
+                                spur = cells; break
+                            if not free(c[0], c[1], L):
+                                break
+                            cells.append(c)
+                        if spur:
+                            break
+                    ok = bool(spur)
+            if ok:
+                for c in (spur or []):
+                    G[c[1]][c[0]] = 'p'; road.add(c)
+                n += 1; gid = f'{z}-{n:02d}'
+                groups.append({'id': gid, 'zone': z, 'kit': kid, 'at': [ax, ay], 'flip': flip, 'items': [], 'lines': []})
+                for y in range(ay - 1, ay + KD + 1):
+                    for x in range(ax - 1, ax + KW + 1):
+                        occ.add((x, y))
+                st = GSTYLE[z][n % len(GSTYLE[z])]
+                ground.append({'id': gid, 'style': st, 'rect': [ax - 1, ay - 1, ax + KW, ay + KD], 'design': GDES[st], 'skip': ring_skip(ax, ay, KW, KD)})
+                break
+        else:
+            print('地区のキットを置けない', z, kid, len(anchors))
+
 # ---- 木（190本まで。林のかたまり＝植えかえた大人の木はとなり合ってよい）と低木 ----
 def tree_ok(x, y):
     if g(x, y) not in '13' or (x, y) in occ_b or (x, y) in slope or (x, y) in front or (x, y) in occ:
@@ -129,7 +174,7 @@ def tree_ok(x, y):
         if not inside(a, b) or g(a, b) in 'wbsSrKPp' or (a, b) in slope or lv(a, b) != lv(x, y) or (a, b) in occ_b:
             return False
     return True
-GROVES = {'F': (7, 9), 'J': (4, 7), 'H': (5, 6), 'B': (4, 6), 'S': (3, 5), 'C': (2, 4), 'P': (2, 4)}   # 林の数・1つの林の木の数
+GROVES = {'F': (7, 9), 'J': (4, 7), 'H': (5, 6), 'B': (4, 6), 'S': (3, 5), 'C': (9, 2), 'P': (3, 3)}   # 林の数・1つの林の木の数
 trees = set()
 for z, (ng, nt) in GROVES.items():
     cells = [(x, y) for y in range(H) for x in range(W) if Z[y][x] == z and tree_ok(x, y)]
@@ -145,7 +190,7 @@ for z, (ng, nt) in GROVES.items():
         trees |= set(grove)
 trees = set(sorted(trees, key=lambda p: (p[0] * 7 + p[1] * 13) % 97)[:185])
 bush = set()
-BUSH = {'F': .55, 'J': .35, 'H': .5, 'B': .3, 'S': .06, 'C': .02, 'P': .05}
+BUSH = {'F': .55, 'J': .35, 'H': .5, 'B': .3, 'S': .14, 'C': .02, 'P': .12}
 for y in range(H):
     for x in range(W):
         z = Z[y][x]
@@ -157,48 +202,56 @@ for y in range(H):
 for x, y in trees:
     G[y][x] = 't'
 
-n = 0
-for z, kl in PLAN_KITS.items():
-    if z in SPEC.get('manual_zones', ''):
-        continue
-    anchors = [(x, y) for y in range(H) for x in range(W) if Z[y][x] == z]
-    rng.shuffle(anchors)
-    # 地区の中心に近い順に試す（見せ場を地区の芯に）
-    cs = CENT[z]
-    anchors.sort(key=lambda p: min(math.hypot(p[0] - cx, p[1] - cy) for cx, cy in cs) + rng.random() * 6)
-    for kid in kl:
-        k = KITS[kid]; KW, KD = k['size']
-        for ax, ay in anchors:
-            flip = rng.random() < .5
-            if fits(kid, ax, ay, flip):
-                n += 1; gid = f'{z}-{n:02d}'
-                groups.append({'id': gid, 'zone': z, 'kit': kid, 'at': [ax, ay], 'flip': flip, 'items': [], 'lines': []})
-                for y in range(ay - 1, ay + KD + 1):
-                    for x in range(ax - 1, ax + KW + 1):
-                        occ.add((x, y))
-                st = GSTYLE[z][n % len(GSTYLE[z])]
-                ground.append({'id': gid, 'style': st, 'rect': [ax - 1, ay - 1, ax + KW, ay + KD], 'design': GDES[st], 'skip': ring_skip(ax, ay, KW, KD)})
-                break
 
-# ---- 町の崖のすそのパネルの壁（ロンドン・港）と、崖の上のふちの柵 ----
+# ---- 町の崖のすそのパネルの壁（ロンドン・港）と、崖の上のふちの柵・運河の岸の柵 ----
+# パネルは崖のある向き rot（0北 1東 2南 3西）に背を当て、マイデザイン（窓・あかり・ドア・アーチ）を表に向ける。
+# 設計のアーチ（spec の panels）は、道のつきあたりの崖に貼る「トンネルの入口」：下の道が上の町の下をくぐるように見せる
+DIRS = [(0, -1), (1, 0), (0, 1), (-1, 0)]
+PIECES = ['window', 'window', 'lamp', 'window', 'door', 'window', 'lamp']
 panel_groups = []
 cnt8 = {}
-for y in range(1, H):
-    for x in range(W):
+def panel(x, y, rot, piece):
+    des = 'wall_brick_lamp' if piece in ('lamp', 'door', 'arch') else 'wall_windows_bricks'
+    panel_groups.append(['simple panel', x, y, rot, 'Brown', des, piece]); occ.add((x, y))
+    cnt8[(x // 8, y // 8)] = cnt8.get((x // 8, y // 8), 0) + 1
+for x, y, rot, piece in SPEC.get('panels', {}).get('items', []):
+    if g(x, y) in '13' and (x, y) not in occ and (x, y) not in road and (x, y) not in slope and (x, y) not in front and (x, y) not in occ_b:
+        panel(x, y, rot, piece)
+    elif (x, y) in road and g(x, y) in '13' and (x, y) not in slope:   # 道のつきあたり：道の最後の1マスにアーチ
+        panel(x, y, rot, piece)
+CAP = {'C': 14, 'P': 6}
+k = 0
+for y in range(1, H - 1):
+    for x in range(1, W - 1):
         z = Z[y][x]
-        if z not in 'CP' or g(x, y) not in '13' or lv(x, y - 1) != lv(x, y) + 1 or g(x, y - 1) == 'w':
+        if z not in CAP or g(x, y) not in '13p' or (x, y) in occ_b or (x, y) in slope or (x, y) in front or (x, y) in occ or (x, y) in trees:
             continue
-        if (x, y) in occ_b or (x, y) in slope or (x, y) in front or (x, y) in road or (x, y) in occ or (x, y) in trees:
-            continue
-        key = (x // 8, y // 8)
-        if cnt8.get(key, 0) >= 6:
-            continue
-        cnt8[key] = cnt8.get(key, 0) + 1
-        panel_groups.append(['simple panel', x, y, 0, 'Brown', 'wall_windows_bricks' if (x // 3) % 2 else 'wall_brick_lamp'])
-        occ.add((x, y))
+        for rot, (dx, dy) in enumerate(DIRS):
+            a, b_ = x + dx, y + dy
+            if (x, y) in road and not ((x - dx, y - dy) in road and (x - 2 * dx, y - 2 * dy) not in slope and any((x - dx + sx, y - dy + sy) in road for sx, sy in ((dy, dx), (-dy, -dx)))):
+                continue   # 道の上には、崖と反対がわにも道が続く（2マス幅の）所だけ貼る
+            if lv(a, b_) == lv(x, y) + 1 and g(a, b_) != 'w' and (a, b_) not in slope and cnt8.get((x // 8, y // 8), 0) < CAP[z]:
+                panel(x, y, rot, PIECES[k % len(PIECES)]); k += 1
+                break
 if panel_groups:
     groups.append({'id': 'C-walls', 'zone': 'C', 'name': '崖のすそのレンガの壁（シンプルなパネル＋マイデザイン）', 'at': [0, 0], 'items': panel_groups, 'lines': [],
-                   'note': '町の崖（2段目）のすそにレンガと窓のマイデザインのパネルを並べて、崖を建物の壁・擁壁に見せる（8×8 に6枚まで）'})
+                   'note': '町の崖のすそにレンガ・窓・あかり・ドアのマイデザインのパネルを崖に背を当てて並べ、崖を建物の壁・擁壁に見せる。道のつきあたりの崖にはアーチ（上の町の下をくぐるトンネルに見せる）'})
+edge = []
+for y in range(1, H - 1):
+    for x in range(1, W - 1):
+        if Z[y][x] != 'C' or g(x, y) not in '13' or (x, y) in occ or (x, y) in occ_b or (x, y) in road or (x, y) in slope or (x, y) in front or (x, y) in trees:
+            continue
+        near_slope = any((x + dx, y + dy) in slope for dx in (-1, 0, 1) for dy in (-1, 0, 1))
+        if lv(x, y) == 2 and not near_slope and any(lv(x + dx, y + dy) < lv(x, y) and g(x + dx, y + dy) not in 'w' for dx, dy in DIRS):
+            edge.append(['iron fence', x, y, 0, None]); occ.add((x, y))   # 上の町の崖のふち：鉄の柵（高架の手すりに見せる）
+        elif lv(x, y) == 1 and not near_slope and sum(g(x + dx, y + dy) == 'w' and lv(x + dx, y + dy) == 1 for dx, dy in DIRS) == 1 and sum(g(x + dx, y + dy) == 'w' for dx in (-1, 0, 1) for dy in (-1, 0, 1)) <= 3 and (x + y) % 5 != 0:
+            edge.append(['iron-and-stone fence', x, y, 0, None]); occ.add((x, y))   # 運河の岸：石と鉄の柵（5マスに1つあけて岸に下りられる）
+ec = {(e[1], e[2]): e[0] for e in edge}
+lone = [e for e in edge if not any(ec.get((e[1] + dx, e[2] + dy)) == e[0] for dx, dy in DIRS)]   # 1本だけの柵はやめる
+for e in lone:
+    edge.remove(e); occ.discard((e[1], e[2]))
+if edge:
+    groups.append({'id': 'C-edges', 'zone': 'C', 'name': '上の町の崖のふちの鉄の柵・運河の岸の石と鉄の柵', 'at': [0, 0], 'items': edge, 'lines': []})
 
 # ---- 家のまわりの柵・生け垣（入口の前と道はあける。地区ごとの柵）----
 FENCE = {'S': 'hedge', 'J': 'bamboo lattice fence', 'H': 'spooky fence', 'P': 'lattice fence', 'F': 'log fence', 'B': 'green bamboo fence', 'C': 'iron fence'}
@@ -214,12 +267,55 @@ for b in LAY['buildings']:
 if fences:
     groups.append({'id': 'S-fences', 'zone': 'S', 'name': '家のまわりの柵と生け垣（地区ごとの柵）', 'at': [0, 0], 'items': fences, 'lines': []})
 
-# ---- 町の道ぞいの地面のマイデザイン（ロンドン：広場と道のまわりを敷きつめる）----
+# ---- ロンドンの通りの小物（街灯・電話ボックス・花の荷車・自転車・植木ばち…）：道に面したあいたマスに、間をあけて ----
+STREET1 = [('streetlamp', 'Black'), ('round topiary', 'Green'), ('monstera', 'Black'), ('pot', 'Brown'), ('garbage bin', 'Black'), ('streetlamp', 'Black'), ('barrel', None),
+           ('round topiary', 'Green'), ('standing shop sign', 'Black'), ('wooden box', 'Brown'), ('round streetlight', 'Black'), ('pot', 'White'), ('phone box', 'Red'), ('monstera', 'Black'),
+           ('streetlamp', 'Black'), ('tin bucket', None), ('round topiary', 'Green'), ('plain wooden shop sign', 'Dark wood'), ('fire hydrant', 'Red'), ('barrel', None), ('pot', 'Brown'), ('park clock', 'Black')]
+STREET2 = [('garden wagon', 'Dark brown'), ('cruiser bike', 'Green'), ('flower bed', 'Dark brown'), ('iron garden bench', 'Black'), ('cruiser bike', 'Red'), ('medium cardboard boxes', None)]
+props, street = set(), []
+def cand(x, y):
+    return Z[y][x] == 'C' and g(x, y) in '13' and (x, y) not in occ and (x, y) not in occ_b and (x, y) not in road and (x, y) not in slope and (x, y) not in front and (x, y) not in trees
+cells = [(x, y) for y in range(1, H - 1) for x in range(1, W - 1) if cand(x, y) and any((x + dx, y + dy) in road for dx, dy in N4)]
+cells.sort(key=lambda p: (hash((p[0] * 31 + p[1] * 17) % 9973) % 1000))
+k1 = k2 = 0
+for x, y in cells:
+    if not cand(x, y) or any((x + dx, y + dy) in props for dx in (-1, 0, 1) for dy in (-1, 0, 1)):
+        continue
+    if cand(x + 1, y) and (x + 1, y) not in props and (x + y) % 3 == 0 and lv(x + 1, y) == lv(x, y) and any((x + 1 + dx, y + dy) in props for dx in (-1, 0, 1) for dy in (-1, 0, 1)) is False:
+        it, var = STREET2[k2 % len(STREET2)]; k2 += 1
+        street.append([it, x, y, 0, var]); props |= {(x, y), (x + 1, y)}; occ |= {(x, y), (x + 1, y)}
+    else:
+        it, var = STREET1[k1 % len(STREET1)]; k1 += 1
+        street.append([it, x, y, 0, var]); props.add((x, y)); occ.add((x, y))
+if street:
+    groups.append({'id': 'C-street', 'zone': 'C', 'name': 'ロンドンの通りの小物（街灯・電話ボックス・花の荷車・自転車・植木ばち）', 'at': [0, 0], 'items': street, 'lines': []})
+
+# ---- 3段目のかたまりの屋上の庭（バラ）----
 for y in range(H):
     for x in range(W):
-        if Z[y][x] == 'C' and g(x, y) in '13' and (x, y) not in occ and (x, y) not in occ_b and (x, y) not in slope and (x, y) not in trees:
-            if any((x + dx, y + dy) in road or g(x + dx, y + dy) == 'P' for dx, dy in N4) and noise(x * 3, y * 3) > -.35:
-                ground.append({'id': 'C-paving', 'style': 'cobble', 'rect': [x, y, x, y], 'design': 'road_chic_stone', 'skip': []}); occ.add((x, y))
+        if Z[y][x] == 'C' and lv(x, y) == 3 and g(x, y) in '13' and (x, y) not in occ and (x, y) not in trees:
+            plants.append({'id': 'C-roof', 'type': 'roses', 'rect': [x, y, x, y], 'colors': ['red', 'white', 'pink'], 'fit': True}); occ.add((x, y))
+
+# ---- ロンドンの地面はすべてマイデザインで敷く（家のまわりはレンガ、ほかは石畳。物の下も敷く）----
+pave = {(x, y) for y in range(H) for x in range(W) if Z[y][x] == 'C' and g(x, y) in '13' and lv(x, y) <= 2 and (x, y) not in slope and (x, y) not in trees and ((x, y) not in occ or (x, y) in props) and (x, y) not in road}
+q = [p for p in pave if any((p[0] + dx, p[1] + dy) in road and lv(p[0] + dx, p[1] + dy) == lv(*p) for dx, dy in N4)]
+reach = set(q)
+while q:   # 道から歩いて行ける所だけ敷く
+    x, y = q.pop()
+    for dx, dy in N4:
+        p_ = (x + dx, y + dy)
+        if p_ in pave and p_ not in reach and lv(*p_) == lv(x, y):
+            reach.add(p_); q.append(p_)
+for y in range(H):
+    for x in range(W):
+        if (x, y) in reach:
+            if (x, y) in occ_b and not any(x0 <= x < x0 + SIZE[b['kind']][0] and y0 <= y < y0 + SIZE[b['kind']][1] for b in LAY['buildings'] for x0, y0 in [b['at']]):
+                st, des = 'brick', 'brick_vintage_red'   # 家のまわり1マス：赤いレンガ
+            elif (x, y) in occ_b:
+                continue
+            else:
+                st, des = ('herring', 'brick_arch') if noise(x * .35 + 9, y * .35) > .25 else ('cobble', 'road_chic_stone')
+            ground.append({'id': 'C-paving', 'style': st, 'rect': [x, y, x, y], 'design': des, 'skip': []}); occ.add((x, y))
 
 # ---- 花（村の家の庭・郊外の花畑・森のふち）----
 for b in LAY['buildings']:
@@ -234,7 +330,7 @@ fields = [(rng.choice(['cosmos', 'tulips', 'lilies', 'hyacinths', 'windflowers']
 k = 0
 for y in range(H):
     for x in range(W):
-        if Z[y][x] == 'S' and free(x, y, lv(x, y)) and (x, y) not in trees and (x, y) not in bush and noise(x * .8 + 50, y * .8) > .42:
+        if Z[y][x] == 'S' and free(x, y, lv(x, y)) and (x, y) not in trees and (x, y) not in bush and noise(x * .8 + 50, y * .8) > .18:
             t, cs = fields[(x // 9 + y // 7) % len(fields)]
             plants.append({'id': 'S-fields', 'type': t, 'rect': [x, y, x, y], 'colors': cs, 'fit': True}); occ.add((x, y))
 for x, y in list(bush):

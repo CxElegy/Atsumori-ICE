@@ -77,6 +77,8 @@ def expand():
             var = it[4] if len(it) > 4 else None
             des = it[5] if len(it) > 5 else None
             out.append({'item': name, 'x': ax + dx, 'y': ay + dy, 'rot': rot, 'var': var, 'design': des, 'group': gp['id']})
+            if len(it) > 6:
+                out[-1]['piece'] = it[6]   # マイデザインのどの絵か（窓・あかり・ドア・アーチ）
         for ln in gp.get('lines', []):
             (x1, y1), (x2, y2) = ln['from'], ln['to']
             step = ln.get('step', 1)

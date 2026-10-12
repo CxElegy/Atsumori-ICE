@@ -210,7 +210,8 @@ class Layout:
     def connect(self, targets, w=2, name=''):
         if not self.roads:
             self.roads |= set(targets); return True
-        path = self.astar(list(self.roads), set(targets))
+        net = getattr(self, 'net', None) or self.roads   # 飛行場からつながった道だけから引く（設計の通りが離れ小島にならない）
+        path = self.astar(list(net), set(targets))
         if not path:
             self.log.append(f'道 {name}：つながらない'); return False
         for (x, y), e in path:
@@ -229,6 +230,18 @@ class Layout:
                         for side in br['banks']:
                             self.roads |= set(side); self.blocked |= set(side)
         cells = [p for p, _ in path]
+        if hasattr(self, 'net'):   # 新しい道と、それにふれた設計の通りを「つながった道」に入れる
+            q = [c for c in cells if c in self.roads or True]
+            seen = set(self.net)
+            for c in q:
+                seen.add(c)
+            while q:
+                x, y = q.pop()
+                for dx, dy in N4:
+                    p = (x + dx, y + dy)
+                    if p in self.roads and p not in seen and self.lv(*p) == self.lv(x, y):
+                        seen.add(p); q.append(p)
+            self.net = seen
         self.paths = getattr(self, 'paths', []) + [(name, cells, [e for _, e in path if e])]
         for i, (x, y) in enumerate(cells):
             for dx in range(w):
@@ -371,7 +384,19 @@ def run(seed):
     lay.build_graph()
     # 飛行場の出口から（飛行場のすぐ北の浜の上を始まりに）
     start = tuple(spec['start'])
-    lay.roads.add(start)
+    lay.roads.add(start); lay.net = {start}
+    # 設計の通り（spec の streets）を先に引く（あとの道はこれを使う）：折れ線で引く通り（同じ段だけ。水・建物・坂の上はとばす）
+    for st in spec.get('streets', []):
+        pts = st['path']; w = st.get('w', 2)
+        for (x1, y1), (x2, y2) in zip(pts, pts[1:]):
+            n = max(abs(x2 - x1), abs(y2 - y1), 1)
+            for i in range(n + 1):
+                x, y = round(x1 + (x2 - x1) * i / n), round(y1 + (y2 - y1) * i / n)
+                for dx in range(w):
+                    for dy in range(w):
+                        a, b = x + dx - (w - 1) // 2, y + dy - (w - 1) // 2
+                        if inside(a, b) and isl.g[b][a] in '13t' and (a, b) not in lay.blocked:
+                            lay.roads.add((a, b))
     for r in spec['routes']:
         if 'bridge' in r:   # 設計の橋：いちばん近い橋の候補の両岸へ道を引く（片方は橋を渡る）
             px, py = r['bridge']
@@ -389,18 +414,6 @@ def run(seed):
         else:
             targets = [tuple(t) for t in tgt]
         lay.connect(targets, r.get('w', 2), r.get('name', str(tgt)))
-    # 設計の通り（spec の streets）：折れ線で引く通り（同じ段だけ。水・建物・坂の上はとばす）
-    for st in spec.get('streets', []):
-        pts = st['path']; w = st.get('w', 2)
-        for (x1, y1), (x2, y2) in zip(pts, pts[1:]):
-            n = max(abs(x2 - x1), abs(y2 - y1), 1)
-            for i in range(n + 1):
-                x, y = round(x1 + (x2 - x1) * i / n), round(y1 + (y2 - y1) * i / n)
-                for dx in range(w):
-                    for dy in range(w):
-                        a, b = x + dx - (w - 1) // 2, y + dy - (w - 1) // 2
-                        if inside(a, b) and isl.g[b][a] in '13t' and (a, b) not in lay.blocked:
-                            lay.roads.add((a, b))
     lay.paint_roads()
     return isl, lay
 

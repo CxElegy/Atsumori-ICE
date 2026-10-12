@@ -99,28 +99,28 @@
    "id": "v5",
    "kind": "villager",
    "villager": "Pecan",
-   "zone": "S",
+   "zone": "C",
    "at": [
-    22,
-    42
+    17,
+    46
    ],
    "door": [
-    24,
-    46
+    19,
+    50
    ]
   },
   {
    "id": "v6",
    "kind": "villager",
    "villager": "Bea",
-   "zone": "S",
+   "zone": "C",
    "at": [
-    28,
-    44
+    30,
+    46
    ],
    "door": [
-    30,
-    48
+    32,
+    50
    ]
   },
   {
