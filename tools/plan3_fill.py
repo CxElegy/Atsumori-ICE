@@ -75,6 +75,7 @@ road = {(x, y) for y in range(H) for x in range(W) if g(x, y) in 'pb'}
 
 # ---- 見せ場（キット）を地区ごとに置く：道のとなり・平ら・あいている所 ----
 occ = set()   # 家具・花・地面の予約
+kitring = set()   # 見せ場のまわり1マス（城壁や岸の小物は置いてよい）
 def free(x, y, L):
     return inside(x, y) and g(x, y) in '13' and lv(x, y) == L and (x, y) not in occ_b and (x, y) not in slope and (x, y) not in front and (x, y) not in road and (x, y) not in occ
 def fits(kid, ax, ay, flip=False):
@@ -111,6 +112,8 @@ def place_kit(kid, tx, ty, r, z, style=None, flip=None, gid=None, name=None):
     for y in range(ay - 1, ay + KD + 1):
         for x in range(ax - 1, ax + KW + 1):
             occ.add((x, y))
+            if not (ax <= x < ax + KW and ay <= y < ay + KD):
+                kitring.add((x, y))
     st = style or GSTYLE[z][len(groups) % len(GSTYLE[z])]
     ground.append({'id': gid, 'style': st, 'rect': [ax - 1, ay - 1, ax + KW, ay + KD], 'design': GDES[st], 'skip': ring_skip(ax, ay, KW, KD)})
     return True
@@ -159,6 +162,8 @@ for z, kl in PLAN_KITS.items():
                 for y in range(ay - 1, ay + KD + 1):
                     for x in range(ax - 1, ax + KW + 1):
                         occ.add((x, y))
+                        if not (ax <= x < ax + KW and ay <= y < ay + KD):
+                            kitring.add((x, y))
                 st = GSTYLE[z][n % len(GSTYLE[z])]
                 ground.append({'id': gid, 'style': st, 'rect': [ax - 1, ay - 1, ax + KW, ay + KD], 'design': GDES[st], 'skip': ring_skip(ax, ay, KW, KD)})
                 break
@@ -236,6 +241,68 @@ for y in range(1, H - 1):
 if panel_groups:
     groups.append({'id': 'C-walls', 'zone': 'C', 'name': '崖のすそのレンガの壁（シンプルなパネル＋マイデザイン）', 'at': [0, 0], 'items': panel_groups, 'lines': [],
                    'note': '町の崖のすそにレンガ・窓・あかり・ドアのマイデザインのパネルを崖に背を当てて並べ、崖を建物の壁・擁壁に見せる。道のつきあたりの崖にはアーチ（上の町の下をくぐるトンネルに見せる）'})
+# ---- 町の運河の岸（spec の water の wall・quay・bank）：片がわは城壁（castle wall・レンガのマイデザイン）、
+#      もう片がわは岸壁（街灯・花の荷車・自転車・石と鉄の柵・ヨット）。副水路の岸は草と花（R-0088・R-1148 にならう）----
+SIDE = {'N': (0, -1), 'S': (0, 1), 'W': (-1, 0), 'E': (1, 0)}
+bld = {(x, y) for b in LAY['buildings'] for x0, y0 in [b['at']] for x in range(x0, x0 + SIZE[b['kind']][0]) for y in range(y0, y0 + SIZE[b['kind']][1])}
+def near_bridge(x, y):
+    return any(g(x + dx, y + dy) == 'b' for dx in range(-1, 2) for dy in range(-1, 2))
+def bank_ok(x, y):
+    return inside(x, y) and g(x, y) in '13p' and (x, y) not in slope and (x, y) not in bld and (x, y) not in front and ((x, y) not in occ or (x, y) in kitring) and (x, y) not in trees and not near_bridge(x, y) \
+        and not any((x + dx, y + dy) in slope for dx, dy in N4)
+canal_items = []
+for op in SPEC.get('water', []):
+    if 'canal' in op:
+        w = op.get('w', 3); wc = set()
+        for (xa, ya), (xb, yb) in zip(op['canal'], op['canal'][1:]):
+            wc |= {(x, y) for x in range(min(xa, xb), max(xa, xb) + w) for y in range(min(ya, yb), max(ya, yb) + w)}
+    elif 'pool' in op:
+        x0, y0, x1, y1 = op['pool']; wc = {(x, y) for y in range(y0, y1) for x in range(x0, x1)}
+    else:
+        continue
+    wc = {c for c in wc if g(*c) == 'w'}
+    def banks(side):
+        dx, dy = SIDE[side]
+        out = sorted({(x + dx, y + dy) for x, y in wc if (x + dx, y + dy) not in wc and inside(x + dx, y + dy) and g(x + dx, y + dy) != 'w'})
+        return out
+    if op.get('bank') == 'flowers':
+        for side in SIDE:
+            for x, y in banks(side):
+                if bank_ok(x, y) and (x, y) not in road:
+                    plants.append({'id': 'C-bank-flowers', 'type': 'cosmos' if (x + y) % 3 else 'tulips', 'rect': [x, y, x, y], 'colors': ['white', 'pink', 'red'], 'fit': True}); occ.add((x, y))
+    if op.get('wall'):
+        horiz = op['wall'] in 'NS'
+        cells = banks(op['wall']); used = set()
+        for x, y in cells:
+            x2, y2 = (x + 1, y) if horiz else (x, y + 1)
+            if (x, y) in used or (x2, y2) not in cells or not bank_ok(x, y) or not bank_ok(x2, y2) or lv(x, y) != lv(x2, y2):
+                continue
+            canal_items.append(['castle wall', x, y, 0 if horiz else 1, 'Brown', 'wall_windows_bricks']); used |= {(x, y), (x2, y2)}; occ |= {(x, y), (x2, y2)}; kitring -= {(x, y), (x2, y2)}
+    if op.get('quay'):
+        cells = [c for c in banks(op['quay']) if bank_ok(*c)]
+        dx, dy = SIDE[op['quay']]; horiz = op['quay'] in 'NS'
+        boat = False
+        for i, (x, y) in enumerate(cells):
+            if not bank_ok(x, y):
+                continue
+            if not boat and i > 3:   # 岸壁に1そうのヨット（3×2）
+                fp = [(x + (k if horiz else j * dx), y + (j * dy if horiz else k)) for k in range(3) for j in range(2)]
+                if all(bank_ok(*c) and lv(*c) == lv(x, y) for c in fp):
+                    ax, ay = min(c[0] for c in fp), min(c[1] for c in fp)
+                    canal_items.append(['yacht', ax, ay, 0 if horiz else 1, 'White']); occ |= set(fp); boat = True; continue
+            k = i % 6
+            if k == 0:
+                canal_items.append(['streetlamp', x, y, 0, 'Black']); occ.add((x, y))
+            elif k in (2, 3):
+                canal_items.append(['iron-and-stone fence', x, y, 0, None]); occ.add((x, y))
+            elif k == 4 and i % 12 == 4:
+                nx, ny = (x + 1, y) if horiz else (x, y + 1)
+                if (nx, ny) in cells and bank_ok(nx, ny):
+                    canal_items.append(['garden wagon' if i % 24 == 4 else 'cruiser bike', x, y, 0 if horiz else 1, 'Dark brown' if i % 24 == 4 else 'Green']); occ |= {(x, y), (nx, ny)}
+if canal_items:
+    groups.append({'id': 'C-canals', 'zone': 'C', 'name': '運河の岸：城壁と岸壁（街灯・柵・花の荷車・自転車・ヨット）', 'at': [0, 0], 'items': canal_items, 'lines': [],
+                   'note': '主水路の片がわは城壁（castle wall にレンガのマイデザイン）、もう片がわは岸壁。副水路の岸は草と花'})
+
 edge = []
 for y in range(1, H - 1):
     for x in range(1, W - 1):
