@@ -315,6 +315,25 @@ class Terrain:
                 self.grid[y][x] = 'b'; self.h[y][x] = lv.copy().pop()
         self.bridges.append([(x, y) for y in range(y0, y1) for x in range(x0, x1)])
 
+    def forest(self, op):
+        """林：1マスおき（x・y とも偶数のマス、行ごとに少しずらす）に木（竹林も t）を植える。草地だけ。
+        道・水・橋・坂・広場のとなりと、clear の四角（目じるし・畑など）はあける。dens は植える割合（0〜1）"""
+        dens = op.get('dens', .6); clear = op.get('clear', [])
+        slope = {c for o in self.inclines for c, _ in self.slope_cells(o[0], o[1], o[2], 9)}
+        g = self.grid
+        n = 0
+        for x, y in region(op):
+            if (y % 2) or ((x + (y // 2) % 2) % 2):
+                continue
+            if g[y][x] not in '13' or (x, y) in slope or any(in_rect(x, y, [r[0], r[1], r[2] + 1, r[3] + 1]) for r in clear):
+                continue
+            if any(0 <= x + dx < W and 0 <= y + dy < H and (g[y + dy][x + dx] in 'pPbwKSr' or (x + dx, y + dy) in slope)
+                   for dx in (-1, 0, 1) for dy in (-1, 0, 1)):
+                continue
+            if ((x * 73856093) ^ (y * 19349663)) % 1000 / 1000 < dens:
+                g[y][x] = 't'; n += 1
+        self.cnt['forest'] = self.cnt.get('forest', 0) + n
+
     # -- 全体 -------------------------------------------------------------------
     def run(self, design):
         ops = design['ops']
@@ -324,7 +343,7 @@ class Terrain:
                 getattr(self, op['op'])(op)
         self.fix()
         for op in ops:
-            if op['op'] in ('incline', 'road', 'bridge'):
+            if op['op'] in ('incline', 'road', 'bridge', 'forest'):
                 getattr(self, op['op'])(op)
         self.ground = {k: v for k, v in self.ground.items() if self.grid[int(k.split(',')[1])][int(k.split(',')[0])] in '13t'}
         # 坂は上の1マスの段を変えず、下の3マスはもともと1段低い所。橋の下の段をそろえる

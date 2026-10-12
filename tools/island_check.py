@@ -18,7 +18,10 @@ T = J('plan-terrain.json')
 G, H = T['grid'], T['h']
 MH, MW = len(G), len(G[0])
 Z = J('designs/zones_plan2.json')
-BLK, NAMES = Z['blocks'], Z['names']
+NAMES = Z['names']
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from zones import zone_cells
+ZC = zone_cells(H)
 ROUTES = J('designs/lon_paths.json')['routes']
 SPOTS = J('london-redesign.json')['spots']
 INC = T['inclines']   # [x, y, 向き]。2×4 の足もとは (x, y) から（plan_terrain.py の slope_cells と同じ）
@@ -26,7 +29,7 @@ INC = T['inclines']   # [x, y, 向き]。2×4 の足もとは (x, y) から（pl
 inside = lambda x, y: 0 <= x < MW and 0 <= y < MH
 g = lambda x, y: G[y][x] if inside(x, y) else 'S'
 lv = lambda x, y: int(H[y][x]) if inside(x, y) else 0
-zone = lambda x, y: BLK[y >> 3][x >> 3]
+zone = lambda x, y: ZC[y][x]
 grass = lambda c: c in '123'
 
 # 道（地形の p・広場 P・橋 b・lon_paths の道・坂の足もと）
@@ -82,10 +85,13 @@ open_rate = {k: round(100 * opn.get(k, 0) / area[k]) for k in area}
 floating = []
 for name, z, (a, b, c, d) in things:
     ring = [(x, y) for x in range(a - 1, c + 2) for y in range(b - 1, d + 2) if not (a <= x <= c and b <= y <= d)]
-    entry = any(p in road for p in ring)
+    ringset = set(ring)
+    entry = any(p in road for p in ring) or (g(a, b) == 's' and any(g(*p) == 's' for p in ring))   # 浜の物は浜から入れる
     def bound(x, y):
         if (x, y) in road or (x, y) in occ or g(x, y) in 'twbrsS':
             return True
+        if any((x + dx, y + dy) in ringset and g(x + dx, y + dy) == 't' for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1))):
+            return True   # 木は1マスおきにしか植えられないので、木と木のあいだも並木の囲みに数える
         return inside(x, y) and lv(x, y) != lv(min(max(x, a), c), min(max(y, b), d))   # 崖
     rate = round(100 * sum(bound(*p) for p in ring) / len(ring))
     if not entry or rate < 40:
@@ -105,7 +111,7 @@ for y in range(MH):
 border_rate = round(100 * on / max(edge, 1))
 
 # 4. 道のつながり：飛行場（いちばん下の道）からつながる道と、行き止まり・道に着かない目じるし
-walk = road | {p for p in occ if inside(*p) and g(*p) not in 'wSr'}   # 物の中（広場・庭・店先）も歩いて通れる
+walk = road | {p for p in occ if inside(*p) and g(*p) not in 'wSr'} | {(x, y) for y in range(MH) for x in range(MW) if g(x, y) == 's'}   # 物の中（広場・庭・店先）と浜も歩いて通れる
 def nb(x, y):
     for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
         p = (x + dx, y + dy)
@@ -119,11 +125,12 @@ while q:
             seen.add(p); q.append(p)
 comps = 0; rest = set(walk) - seen
 while rest:
-    comps += 1; s = rest.pop(); qq = deque([s])
+    s = rest.pop(); qq = deque([s]); hasroad = s in road
     while qq:
         for p in nb(*qq.popleft()):
             if p in rest:
-                rest.discard(p); qq.append(p)
+                rest.discard(p); qq.append(p); hasroad = hasroad or p in road
+    comps += hasroad   # 道をふくむ切れはしだけ数える（浜や物の中だけの所は数えない）
 unreached = []
 for name, z, (a, b, c, d) in things:
     ring = [(x, y) for x in range(a - 1, c + 2) for y in range(b - 1, d + 2)]

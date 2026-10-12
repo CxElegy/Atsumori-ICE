@@ -153,6 +153,8 @@ class World:
     # -- 置けるか ------------------------------------------------------------
     def ok(self, mask, cells, x, y, m, ignore_margin=False):
         lv = set()
+        if m.id != 'lon_park' and 0 <= x < W and 0 <= y < H and self.lsub[y][x] and any(c in 'BTKLE' for _, _, c in cells):
+            return False   # 第44回：置く点が郊外なら、町の物（レンガ・電話・バス停・ガス灯・時計）をふくむ見本は置かない
         for dx, dy, c in cells:
             cx, cy = x + dx, y + dy
             if not (0 <= cx < W and 0 <= cy < H) or not mask[cy][cx]:
