@@ -318,7 +318,8 @@ moveDups(); store.set('ice-rv', S.rv); store.set('ice-ra', S.ra);
 let DB = null, dbTimer = null, dbBusy = false, dbDirty = false;
 const saveDb = () => { if (!DB) return; if (dbBusy) { dbDirty = true; return; } dbBusy = true; dbDirty = false; DB.doc('votes/all').set({ r: S.rv, a: S.ra, k: S.kind, t: Date.now() }).then(() => saved(true), () => saved(false)).finally(() => { dbBusy = false; if (dbDirty) saveDb(); }); };
 // 画像の種類（第38回）：景色・マイデザイン・まとめ（表紙）。自動の分類 r.kind を、見て直したもの S.kind が上書き
-const KINDS = [['scene', '景色'], ['design', 'マイデザイン'], ['cover', 'まとめ・表紙']], KN = Object.fromEntries(KINDS);
+// 景色＝実景（下にマイデザインの図がついたものも）、design＝マイデザインの図だけ（実景なし）、cover＝まとめ記事の表紙・拼図
+const KINDS = [['scene', '景色'], ['design', 'マイデザインだけ'], ['cover', 'まとめ・表紙']], KN = Object.fromEntries(KINDS);
 S.kind = store.get('ice-kind', {});
 const kindOf = r => S.kind[r.no] || r.kind || 'scene';
 const setKind = (no, k) => { const r = D.refs.find(x => x.no === no); if (r && (r.kind || 'scene') === k) delete S.kind[no]; else S.kind[no] = k; saveAll(); };
