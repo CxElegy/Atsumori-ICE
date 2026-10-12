@@ -154,7 +154,7 @@ def main():
     # 集めた作例：検索で見つけた画像をすべて（使っていないものも）。目録は designs/refs.json
     lib = json.load(open(os.path.join(ROOT, 'designs', 'refs.json'), encoding='utf8'))
     used = {u: d['ma'] for d in cat.values() for u in d['images']}; usedEx = {x['image']: x['name'] for x in CATD['examples']}
-    refs = [{'no': r['no'], 'verdict': r.get('verdict', ''), 'note': r.get('use', ''), 'url': r['url'], 'q': r['q'], 'th': r.get('th', 'all'), 'cat': r.get('cat', ''), 'title': r.get('title', ''), 'score': r.get('score', 0), 'ma': used.get(r['url'], r.get('ma', '')), 'ocr': r['url'] not in used and bool(r.get('ma_ocr')), 'use': usedEx.get(r['url'], ''), 'thumb': uri(ImageOps.fit(open_url(r['url']), (100, 100), Image.LANCZOS, centering=(.5, .35)), q=42)} for r in lib if r['url'] in files and not r.get('dup')]
+    refs = [{'no': r['no'], 'verdict': r.get('verdict', ''), 'note': r.get('use', ''), 'url': r['url'], 'q': r['q'], 'th': r.get('th', 'all'), 'cat': r.get('cat', ''), 'kind': r.get('kind', 'scene'), 'title': r.get('title', ''), 'score': r.get('score', 0), 'ma': used.get(r['url'], r.get('ma', '')), 'ocr': r['url'] not in used and bool(r.get('ma_ocr')), 'use': usedEx.get(r['url'], ''), 'thumb': uri(ImageOps.fit(open_url(r['url']), (100, 100), Image.LANCZOS, centering=(.5, .35)), q=42)} for r in lib if r['url'] in files and not r.get('dup')]
     # 重複（refs.json の dup）は出さず、残す方に 重複の番号・出てきた地区 をまとめる
     dupOf = {r['no']: r['dup'] for r in lib if r.get('dup')}; byNo = {r['no']: r for r in refs}; thOfNo = {r['no']: r.get('th', 'all') for r in lib}
     for d, k in dupOf.items():
