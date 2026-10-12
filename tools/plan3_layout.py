@@ -358,6 +358,27 @@ def force_incline(isl, px, py, d):
 def run(seed):
     spec = json.load(open(os.path.join(ROOT, 'designs/plan3_spec.json')))
     isl = gen.build(seed)
+    # 町の水路（spec の water）：生まれた川を町の中だけ消し、設計した水路（まっすぐな運河・池・溝）を掘る。郊外の川はそのまま
+    for op in spec.get('water', []):
+        if 'clear' in op:
+            x0, y0, x1, y1 = op['clear']
+            for y in range(y0, y1):
+                for x in range(x0, x1):
+                    if isl.g[y][x] == 'w':
+                        isl.g[y][x] = '1'; isl.h[y][x] = 1
+        cells = []
+        if 'pool' in op:
+            x0, y0, x1, y1 = op['pool']
+            cells = [(x, y) for y in range(y0, y1) for x in range(x0, x1)]
+        if 'canal' in op:   # 折れ線（たて・よこ）を幅 w の帯で掘る。点は帯の左上
+            w = op.get('w', 3)
+            for (xa, ya), (xb, yb) in zip(op['canal'], op['canal'][1:]):
+                for x in range(min(xa, xb), max(xa, xb) + w):
+                    for y in range(min(ya, yb), max(ya, yb) + w):
+                        cells.append((x, y))
+        for x, y in cells:
+            if inside(x, y) and isl.g[y][x] not in 'SsrKPb':
+                isl.g[y][x] = 'w'; isl.h[y][x] = op.get('level', 1)
     for e in spec.get('edits', []):
         x0, y0, x1, y1 = e['rect']
         for y in range(y0, y1):
@@ -400,8 +421,24 @@ def run(seed):
     for r in spec['routes']:
         if 'bridge' in r:   # 設計の橋：いちばん近い橋の候補の両岸へ道を引く（片方は橋を渡る）
             px, py = r['bridge']
-            k = min(range(len(lay.br_cand)), key=lambda k: math.hypot((lay.br_cand[k]['rect'][0] + lay.br_cand[k]['rect'][2]) / 2 - px, (lay.br_cand[k]['rect'][1] + lay.br_cand[k]['rect'][3]) / 2 - py))
-            for bank in lay.br_cand[k]['banks']:
+            dist = lambda k: math.hypot((lay.br_cand[k]['rect'][0] + lay.br_cand[k]['rect'][2]) / 2 - px, (lay.br_cand[k]['rect'][1] + lay.br_cand[k]['rect'][3]) / 2 - py)
+            built = {tuple(b['rect']) for b in lay.bridges}
+            def ok(k):   # となりの橋とは1マスあける・岸がふさがっていない
+                x0, y0, x1, y1 = lay.br_cand[k]['rect']
+                if any(not (x1 + 1 <= b[0] or b[2] + 1 <= x0 or y1 + 1 <= b[1] or b[3] + 1 <= y0) for b in built):
+                    return False
+                return all(c not in lay.blocked for bank in lay.br_cand[k]['banks'] for c in bank)
+            ks = sorted((k for k in range(len(lay.br_cand)) if dist(k) <= 5 and ok(k)), key=dist)
+            if not ks:
+                lay.log.append(f"橋 {r.get('name')}：かけられる所がない"); continue
+            br = lay.br_cand[ks[0]]   # 設計の橋は、道が遠回りできても必ずかける
+            lay.bridges.append(br)
+            for cx, cy in br['span']:
+                lay.g[cy][cx] = 'b'
+            for bank in br['banks']:
+                lay.roads |= set(bank); lay.blocked |= set(bank)
+            lay.edges.setdefault(br['banks'][0][1], []).append((br['banks'][1][1], ('br', ks[0]))); lay.edges.setdefault(br['banks'][1][1], []).append((br['banks'][0][1], ('br', ks[0])))
+            for bank in br['banks']:
                 lay.connect(bank, r.get('w', 2), r.get('name', 'bridge'))
             continue
         tgt = r['to']
