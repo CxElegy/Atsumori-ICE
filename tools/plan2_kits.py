@@ -65,7 +65,7 @@ kit('lon_garden', '駅前の生け垣の庭（噴水・バラ・ベンチ・電�
 kit('cot_garden', 'コテージの庭（井戸・花のワゴン・ベンチ・ノーム）', [6, 4], ['R-1283', 'R-1289'], [
     ('brick well', 0, 0, 0, 'Red'), ('garden wagon', 2, 0, 0, 'White'), ('garden bench', 4, 0, 0, 'White'),
     ('garden gnome', 4, 2, 0, 'Sleepy gnome'), ('wooden bucket', 2, 2), ('garden lantern', 5, 3, 0, 'White')],
-    plants=[P('tulips', [0, 2, 1, 3], ['pink', 'white']), P('cosmos', [3, 2, 3, 3], ['pink', 'white']), P('tulips', [2, 3, 4, 3], ['yellow', 'white'])])
+    plants=[P('tulips', [0, 2, 1, 3], ['pink', 'white']), P('cosmos', [3, 2, 3, 3], ['pink', 'white']), P('tulips', [2, 3, 2, 3], ['yellow', 'white']), P('tulips', [4, 3, 4, 3], ['yellow', 'white'])])
 kit('cot_greenhouse', '温室と白い柵の庭（温室だな・苗・道具）', [6, 4], ['R-0915'], [
     ('greenhouse box', 1, 0), ('tool shelf', 3, 0, 0, 'White'), ('potted starter plants', 5, 0, 0, 'Green'),
     ('garden faucet', 1, 2, 0, 'Red brick'), ('wooden toolbox', 4, 2, 0, 'Natural'), ('handcart', 2, 2, 0, 'Green')],

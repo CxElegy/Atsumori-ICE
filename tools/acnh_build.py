@@ -26,10 +26,11 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 J = lambda p: json.load(open(os.path.join(ROOT, p), encoding='utf-8'))
 CAT = J('designs/acnh_catalog.json')
 ITEMS, CONS, VILL = CAT['items'], CAT['construction'], CAT['villagers']
-T = J('plan2-terrain.json')
+PLAN = os.environ.get('ICE_PLAN', '2')   # 第49回：ICE_PLAN=3 で案3（plan3-terrain.json・designs/build_plan3.json）
+T = J(f'plan{PLAN}-terrain.json')
 G, H = T['grid'], T['h']
 GR = T.get('ground', {})
-B = J('designs/build_plan2.json')
+B = J(f'designs/build_plan{PLAN}.json')
 KITS = J('designs/kits.json')['kits'] if os.path.exists(os.path.join(ROOT, 'designs/kits.json')) else {}   # 第48回：見せ場のキット（いいねの作例をゲームの家具で組んだもの）
 MW, MH = len(G[0]), len(G)
 inside = lambda x, y: 0 <= x < MW and 0 <= y < MH

@@ -13,6 +13,8 @@ node tools/test_logic.js | tail -1
 python3 tools/plan_terrain.py --design plan2-design.json --out plan2-terrain.json --quiet   # 案2（第45回）
 python3 tools/acnh_build.py   # 第47回：あつ森で作れるか（建物・家具・花・木）
 node tools/test_plan2.js | tail -3
+bash tools/plan3_build.sh >/dev/null   # 案3（第49回）：地形から作り直した島（種 seed から作る）
+node tools/test_plan3.js | tail -3
 if [ -z "${ICE_CACHE:-}" ]; then echo "ICE_CACHE がないので、ビルドガイドは作りません（確認まで）"; exit 0; fi
 python3 tools/build_site.py --cache $ICE_CACHE --out "$OUT/ice-guide.html" --board "$OUT/board.json" | tail -1
 if node -e "require(process.env.PW || 'playwright')" 2>/dev/null; then

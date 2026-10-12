@@ -1,0 +1,209 @@
+{
+ "buildings": [
+  {
+   "id": "museum",
+   "kind": "museum",
+   "name": "博物館（高台の上）",
+   "at": [
+    47,
+    55
+   ],
+   "door": [
+    50,
+    59
+   ]
+  },
+  {
+   "id": "nook",
+   "kind": "nook",
+   "name": "タヌキ商店（広場の東）",
+   "at": [
+    40,
+    64
+   ],
+   "door": [
+    43,
+    68
+   ]
+  },
+  {
+   "id": "able",
+   "kind": "able",
+   "name": "エイブルシスターズ（広場の北西）",
+   "at": [
+    20,
+    57
+   ],
+   "door": [
+    22,
+    61
+   ]
+  },
+  {
+   "id": "v1",
+   "kind": "villager",
+   "villager": "Raymond",
+   "zone": "C",
+   "at": [
+    27,
+    56
+   ],
+   "door": [
+    29,
+    60
+   ]
+  },
+  {
+   "id": "v2",
+   "kind": "villager",
+   "villager": "Maelle",
+   "zone": "C",
+   "at": [
+    33,
+    56
+   ],
+   "door": [
+    35,
+    60
+   ]
+  },
+  {
+   "id": "v3",
+   "kind": "villager",
+   "villager": "Truffles",
+   "zone": "C",
+   "at": [
+    39,
+    56
+   ],
+   "door": [
+    41,
+    60
+   ]
+  },
+  {
+   "id": "v4",
+   "kind": "villager",
+   "villager": "Deena",
+   "zone": "C",
+   "at": [
+    49,
+    66
+   ],
+   "door": [
+    51,
+    70
+   ]
+  },
+  {
+   "id": "v5",
+   "kind": "villager",
+   "villager": "Pecan",
+   "zone": "S",
+   "at": [
+    22,
+    42
+   ],
+   "door": [
+    24,
+    46
+   ]
+  },
+  {
+   "id": "v6",
+   "kind": "villager",
+   "villager": "Bea",
+   "zone": "S",
+   "at": [
+    28,
+    44
+   ],
+   "door": [
+    30,
+    48
+   ]
+  },
+  {
+   "id": "v7",
+   "kind": "villager",
+   "villager": "Genji",
+   "zone": "J",
+   "at": [
+    34,
+    20
+   ],
+   "door": [
+    36,
+    24
+   ]
+  },
+  {
+   "id": "v8",
+   "kind": "villager",
+   "villager": "Muffy",
+   "zone": "H",
+   "at": [
+    85,
+    23
+   ],
+   "door": [
+    87,
+    27
+   ]
+  },
+  {
+   "id": "v9",
+   "kind": "villager",
+   "villager": "Scoot",
+   "zone": "P",
+   "at": [
+    91,
+    62
+   ],
+   "door": [
+    93,
+    66
+   ]
+  },
+  {
+   "id": "v10",
+   "kind": "villager",
+   "villager": "Ed",
+   "zone": "P",
+   "at": [
+    91,
+    75
+   ],
+   "door": [
+    93,
+    79
+   ]
+  },
+  {
+   "id": "home",
+   "kind": "player_house",
+   "name": "自宅",
+   "at": [
+    76,
+    46
+   ],
+   "door": [
+    78,
+    50
+   ]
+  },
+  {
+   "id": "camp",
+   "kind": "campsite",
+   "name": "キャンプ場（森）",
+   "at": [
+    46,
+    32
+   ],
+   "door": [
+    48,
+    36
+   ]
+  }
+ ]
+}

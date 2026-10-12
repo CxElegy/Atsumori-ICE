@@ -1,0 +1,266 @@
+#!/usr/bin/env python3
+"""案3（第49回）：plan3_layout.py の島に、地区・木と低木・見せ場（キット）・地面のマイデザイン・崖のパネルの壁・花を置く。
+
+  python3 tools/plan3_fill.py       # plan3-terrain.json に zones と木・低木を書き、designs/build_plan3.json を作る
+
+決まりは skill acnh-basics：木は190本くらいまで・崖や水や浜や建物や坂や橋のとなりには植えない・低木はどこでも（浜以外）・
+家具は目録の名前・8×8 のかたまりで45マス未満・同じ家具は6個まで・花は草地だけ。乱れはたね（seed）で決まる。
+"""
+import json, math, os, random, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import plan3_gen as gen
+from acnh_build import foot
+
+ROOT = gen.ROOT
+W, H = gen.W, gen.H
+N4, N8 = gen.N4, gen.N8
+inside = gen.inside
+J = lambda p: json.load(open(os.path.join(ROOT, p), encoding='utf-8'))
+T = J('plan3-terrain.json')
+if 'zones' in T:
+    sys.exit('plan3-terrain.json はもう中身が入っている。先に python3 tools/plan3_layout.py を流す')
+SPEC = J('designs/plan3_spec.json')
+LAY = J('designs/plan3_layout_out.json')
+CAT = J('designs/acnh_catalog.json')['items']
+KITS = J('designs/kits.json')['kits']
+P2 = J('designs/build_plan2.json')
+G = [list(r) for r in T['grid']]
+Hh = [[int(c) for c in r] for r in T['h']]
+rng = random.Random(T['seed'] * 101 + 3)
+noise = gen.Noise(T['seed'] * 13 + 7, 7)
+SIZE = {'villager': (4, 4), 'player_house': (5, 4), 'museum': (7, 4), 'nook': (7, 4), 'able': (5, 4), 'campsite': (4, 4)}
+lv = lambda x, y: Hh[y][x] if inside(x, y) else 0
+g = lambda x, y: G[y][x] if inside(x, y) else 'S'
+
+# ---- 地区（中心からの近さ＋ノイズ。さかいは崖・川・道で自然に切れる）----
+CENT = {'C': [(30, 64), (22, 58), (36, 56), (46, 60), (44, 74)], 'S': [(22, 45), (32, 46), (80, 50), (76, 70)], 'F': [(52, 26), (44, 34)], 'J': [(27, 22)], 'B': [(15, 32), (34, 36)],
+        'H': [(88, 26)], 'P': [(93, 66), (86, 80)]}
+NAMES = {'C': 'ロンドン市内', 'S': '郊外と村', 'F': '森', 'B': '竹林', 'J': '日本（霊峰）', 'H': 'ハロウィン', 'P': '海辺の港町'}
+Z = [['S'] * W for _ in range(H)]
+for y in range(H):
+    for x in range(W):
+        best = None
+        for k, cs in CENT.items():
+            for cx, cy in cs:
+                d = math.hypot(x - cx, y - cy) + noise(x, y) * 7
+                if best is None or d < best[0]:
+                    best = (d, k)
+        Z[y][x] = best[1]
+# 高い所は地区をよせる：霊峰の2・3段目は日本、北東の尾根はハロウィン
+for y in range(H):
+    for x in range(W):
+        if lv(x, y) >= 2 and x < 42 and y < 36: Z[y][x] = 'J'
+        if lv(x, y) >= 2 and x > 74 and y < 40: Z[y][x] = 'H'
+
+# ---- 建物 ----
+B_ALL = [{'id': 'rs', 'kind': 'resident_services', 'fixed': True, 'rect': [28, 62, 6, 4], 'name': '案内所', 'note': '広場（12×10）ごと動かせない'},
+         {'id': 'airport', 'kind': 'airport', 'fixed': True, 'rect': [29, 84, 11, 6], 'name': '飛行場', 'note': '南の浜。動かせない'}]
+occ_b, front = set(), set()
+for b in LAY['buildings']:
+    nb = {k: v for k, v in b.items() if k != 'door'}
+    w, d = SIZE[b['kind']]; x0, y0 = b['at']
+    nb['zone'] = Z[y0][x0]
+    B_ALL.append(nb)
+    for y in range(y0 - 1, y0 + d + 1):
+        for x in range(x0 - 1, x0 + w + 1):
+            occ_b.add((x, y))
+    cols = range(x0, x0 + w) if w % 2 == 0 else range(x0 + w // 2 - 1, x0 + w // 2 + 2)
+    for k in range(2):
+        for x in cols:
+            front.add((x, y0 + d + k))
+slope = set()
+for x, y, d in T['inclines']:
+    slope.update([(x + i, y + j) for i in range(2) for j in range(4)] if d in 'NS' else [(x + i, y + j) for i in range(4) for j in range(2)])
+road = {(x, y) for y in range(H) for x in range(W) if g(x, y) in 'pb'}
+
+# ---- 見せ場（キット）を地区ごとに置く：道のとなり・平ら・あいている所 ----
+occ = set()   # 家具・花・地面の予約
+def free(x, y, L):
+    return inside(x, y) and g(x, y) in '13' and lv(x, y) == L and (x, y) not in occ_b and (x, y) not in slope and (x, y) not in front and (x, y) not in road and (x, y) not in occ
+def fits(kid, ax, ay, flip=False):
+    k = KITS[kid]; KW, KD = k['size']; L = lv(ax, ay)
+    for y in range(ay, ay + KD):
+        for x in range(ax, ax + KW):
+            if not free(x, y, L):
+                return False
+    ring = [(x, y) for x in range(ax - 1, ax + KW + 1) for y in range(ay - 1, ay + KD + 1) if not (ax <= x < ax + KW and ay <= y < ay + KD)]
+    return any(p in road and lv(*p) == L for p in ring)   # 同じ段の道に面する（崖の下の道では入れない）
+PLAN_KITS = {'C': ['lon_square', 'lon_cafe', 'lon_market', 'lon_books', 'lon_pub', 'lon_records', 'lon_crossing', 'lon_benches', 'lon_quay', 'lon_garden', 'lon_station', 'lon_dock', 'lon_cafe', 'lon_market'],
+             'S': ['cot_garden', 'cot_greenhouse', 'bakery', 'allotment', 'formal_garden', 'cot_garden', 'tea_picnic', 'allotment'],
+             'F': ['tea_picnic', 'tea_picnic'], 'J': ['jp_tea'], 'B': ['tea_picnic'], 'H': ['spooky_yard'], 'P': ['harbor_quay', 'lon_dock', 'bakery']}
+groups, ground, plants = [], [], []
+def ring_skip(ax, ay, KW, KD):   # 囲みの1マスのうち、ちがう段・水・道などには地面を貼らない
+    L = lv(ax, ay)
+    return [[x, y] for y in range(ay - 1, ay + KD + 1) for x in range(ax - 1, ax + KW + 1)
+            if not (inside(x, y) and g(x, y) in '13' and lv(x, y) == L)]
+def place_kit(kid, tx, ty, r, z, style=None, flip=None, gid=None, name=None):
+    k = KITS[kid]; KW, KD = k['size']; best = None
+    for y in range(ty - r, ty + r + 1):
+        for x in range(tx - r, tx + r + 1):
+            if fits(kid, x, y):
+                d = math.hypot(x - tx, y - ty)
+                if best is None or d < best[0]:
+                    best = (d, x, y)
+    if not best:
+        print('キットを置けない', kid, tx, ty); return False
+    _, ax, ay = best
+    gid = gid or f'{z}-{kid}-{ax}-{ay}'
+    g_ = {'id': gid, 'zone': z, 'kit': kid, 'at': [ax, ay], 'flip': rng.random() < .5 if flip is None else flip, 'items': [], 'lines': []}
+    if name: g_['name'] = name
+    groups.append(g_)
+    for y in range(ay - 1, ay + KD + 1):
+        for x in range(ax - 1, ax + KW + 1):
+            occ.add((x, y))
+    st = style or GSTYLE[z][len(groups) % len(GSTYLE[z])]
+    ground.append({'id': gid, 'style': st, 'rect': [ax - 1, ay - 1, ax + KW, ay + KD], 'design': GDES[st], 'skip': ring_skip(ax, ay, KW, KD)})
+    return True
+GSTYLE = {'C': ['herring', 'brick', 'flag', 'cobble'], 'S': ['garden', 'flag'], 'P': ['plank', 'flag'], 'J': ['moss'], 'B': ['moss'], 'H': ['leaves'], 'F': ['leaves']}
+GDES = {'herring': 'brick_arch', 'brick': 'brick_vintage_red', 'flag': 'brick_greige', 'cobble': 'road_chic_stone', 'garden': 'brick_city_old', 'plank': 'plank', 'moss': 'stone_natural', 'leaves': 'brick_autumn'}
+for kd in SPEC.get('kits', []):   # 設計の見せ場（ねらいの場所のまわりに）。木より先に場所をとる
+    tx, ty = kd.get('at') or kd['near']
+    place_kit(kd['kit'], tx, ty, 0 if 'at' in kd else kd.get('r', 6), kd['zone'], kd.get('style'), kd.get('flip'), name=kd.get('name'))
+
+# ---- 木（190本まで。林のかたまり＝植えかえた大人の木はとなり合ってよい）と低木 ----
+def tree_ok(x, y):
+    if g(x, y) not in '13' or (x, y) in occ_b or (x, y) in slope or (x, y) in front or (x, y) in occ:
+        return False
+    for dx, dy in N4:
+        a, b = x + dx, y + dy
+        if not inside(a, b) or g(a, b) in 'wbsSrKPp' or (a, b) in slope or lv(a, b) != lv(x, y) or (a, b) in occ_b:
+            return False
+    return True
+GROVES = {'F': (7, 9), 'J': (4, 7), 'H': (5, 6), 'B': (4, 6), 'S': (3, 5), 'C': (2, 4), 'P': (2, 4)}   # 林の数・1つの林の木の数
+trees = set()
+for z, (ng, nt) in GROVES.items():
+    cells = [(x, y) for y in range(H) for x in range(W) if Z[y][x] == z and tree_ok(x, y)]
+    rng.shuffle(cells)
+    for c in cells[:ng]:
+        grove = [c]; q = [c]
+        while q and len(grove) < nt + rng.randint(-2, 2):
+            x, y = q.pop(0)
+            for dx, dy in rng.sample(N8, 8):
+                p = (x + dx, y + dy)
+                if p not in grove and p not in trees and tree_ok(*p) and Z[p[1]][p[0]] == z and rng.random() < .55:
+                    grove.append(p); q.append(p)
+        trees |= set(grove)
+trees = set(sorted(trees, key=lambda p: (p[0] * 7 + p[1] * 13) % 97)[:185])
+bush = set()
+BUSH = {'F': .55, 'J': .35, 'H': .5, 'B': .3, 'S': .06, 'C': .02, 'P': .05}
+for y in range(H):
+    for x in range(W):
+        z = Z[y][x]
+        if g(x, y) in '13' and (x, y) not in trees and (x, y) not in occ_b and (x, y) not in slope and (x, y) not in front and (x, y) not in road and (x, y) not in occ:
+            near = sum((x + dx, y + dy) in trees for dx in range(-2, 3) for dy in range(-2, 3))
+            p = BUSH.get(z, 0) + .12 * near
+            if lv(x, y) >= 1 and rng.random() < p * (.6 + .4 * (noise(x * 2, y * 2) + 1)):
+                bush.add((x, y))
+for x, y in trees:
+    G[y][x] = 't'
+
+n = 0
+for z, kl in PLAN_KITS.items():
+    if z in SPEC.get('manual_zones', ''):
+        continue
+    anchors = [(x, y) for y in range(H) for x in range(W) if Z[y][x] == z]
+    rng.shuffle(anchors)
+    # 地区の中心に近い順に試す（見せ場を地区の芯に）
+    cs = CENT[z]
+    anchors.sort(key=lambda p: min(math.hypot(p[0] - cx, p[1] - cy) for cx, cy in cs) + rng.random() * 6)
+    for kid in kl:
+        k = KITS[kid]; KW, KD = k['size']
+        for ax, ay in anchors:
+            flip = rng.random() < .5
+            if fits(kid, ax, ay, flip):
+                n += 1; gid = f'{z}-{n:02d}'
+                groups.append({'id': gid, 'zone': z, 'kit': kid, 'at': [ax, ay], 'flip': flip, 'items': [], 'lines': []})
+                for y in range(ay - 1, ay + KD + 1):
+                    for x in range(ax - 1, ax + KW + 1):
+                        occ.add((x, y))
+                st = GSTYLE[z][n % len(GSTYLE[z])]
+                ground.append({'id': gid, 'style': st, 'rect': [ax - 1, ay - 1, ax + KW, ay + KD], 'design': GDES[st], 'skip': ring_skip(ax, ay, KW, KD)})
+                break
+
+# ---- 町の崖のすそのパネルの壁（ロンドン・港）と、崖の上のふちの柵 ----
+panel_groups = []
+cnt8 = {}
+for y in range(1, H):
+    for x in range(W):
+        z = Z[y][x]
+        if z not in 'CP' or g(x, y) not in '13' or lv(x, y - 1) != lv(x, y) + 1 or g(x, y - 1) == 'w':
+            continue
+        if (x, y) in occ_b or (x, y) in slope or (x, y) in front or (x, y) in road or (x, y) in occ or (x, y) in trees:
+            continue
+        key = (x // 8, y // 8)
+        if cnt8.get(key, 0) >= 6:
+            continue
+        cnt8[key] = cnt8.get(key, 0) + 1
+        panel_groups.append(['simple panel', x, y, 0, 'Brown', 'wall_windows_bricks' if (x // 3) % 2 else 'wall_brick_lamp'])
+        occ.add((x, y))
+if panel_groups:
+    groups.append({'id': 'C-walls', 'zone': 'C', 'name': '崖のすそのレンガの壁（シンプルなパネル＋マイデザイン）', 'at': [0, 0], 'items': panel_groups, 'lines': [],
+                   'note': '町の崖（2段目）のすそにレンガと窓のマイデザインのパネルを並べて、崖を建物の壁・擁壁に見せる（8×8 に6枚まで）'})
+
+# ---- 家のまわりの柵・生け垣（入口の前と道はあける。地区ごとの柵）----
+FENCE = {'S': 'hedge', 'J': 'bamboo lattice fence', 'H': 'spooky fence', 'P': 'lattice fence', 'F': 'log fence', 'B': 'green bamboo fence', 'C': 'iron fence'}
+fences = []
+for b in LAY['buildings']:
+    x0, y0 = b['at']; w, d = SIZE[b['kind']]; z = Z[y0][x0]
+    if z == 'C':
+        continue
+    ring = [(x0 - 1, y) for y in range(y0 - 1, y0 + d + 1)] + [(x0 + w, y) for y in range(y0 - 1, y0 + d + 1)] + [(x, y0 - 1) for x in range(x0, x0 + w)]
+    for x, y in ring:
+        if inside(x, y) and g(x, y) in '13' and (x, y) not in road and (x, y) not in slope and (x, y) not in front and (x, y) not in occ and (x, y) not in trees and lv(x, y) == lv(x0, y0):
+            fences.append([FENCE[z], x, y, 0, 'White' if FENCE[z] == 'lattice fence' else None]); occ.add((x, y))
+if fences:
+    groups.append({'id': 'S-fences', 'zone': 'S', 'name': '家のまわりの柵と生け垣（地区ごとの柵）', 'at': [0, 0], 'items': fences, 'lines': []})
+
+# ---- 町の道ぞいの地面のマイデザイン（ロンドン：広場と道のまわりを敷きつめる）----
+for y in range(H):
+    for x in range(W):
+        if Z[y][x] == 'C' and g(x, y) in '13' and (x, y) not in occ and (x, y) not in occ_b and (x, y) not in slope and (x, y) not in trees:
+            if any((x + dx, y + dy) in road or g(x + dx, y + dy) == 'P' for dx, dy in N4) and noise(x * 3, y * 3) > -.35:
+                ground.append({'id': 'C-paving', 'style': 'cobble', 'rect': [x, y, x, y], 'design': 'road_chic_stone', 'skip': []}); occ.add((x, y))
+
+# ---- 花（村の家の庭・郊外の花畑・森のふち）----
+for b in LAY['buildings']:
+    z = Z[b['at'][1]][b['at'][0]]
+    if z in 'SJ' and b['kind'] in ('villager', 'player_house'):
+        x0, y0 = b['at']; w, d = SIZE[b['kind']]
+        for x in range(x0 - 2, x0 + w + 2):
+            for y in range(y0 - 1, y0 + d + 1):
+                if (x in (x0 - 2, x0 - 1, x0 + w, x0 + w + 1)) and free(x, y, lv(x0, y0)) and (x, y) not in trees:
+                    plants.append({'id': b['id'] + '-garden', 'type': 'roses' if z == 'S' else 'mums', 'rect': [x, y, x, y], 'colors': ['red', 'white', 'pink', 'yellow'] if z == 'S' else ['white', 'yellow'], 'fit': True}); occ.add((x, y))
+fields = [(rng.choice(['cosmos', 'tulips', 'lilies', 'hyacinths', 'windflowers']), rng.choice([['red', 'yellow', 'white'], ['pink', 'white'], ['purple', 'blue', 'white'], ['orange', 'yellow']])) for _ in range(6)]
+k = 0
+for y in range(H):
+    for x in range(W):
+        if Z[y][x] == 'S' and free(x, y, lv(x, y)) and (x, y) not in trees and (x, y) not in bush and noise(x * .8 + 50, y * .8) > .42:
+            t, cs = fields[(x // 9 + y // 7) % len(fields)]
+            plants.append({'id': 'S-fields', 'type': t, 'rect': [x, y, x, y], 'colors': cs, 'fit': True}); occ.add((x, y))
+for x, y in list(bush):
+    if (x, y) in occ:
+        bush.discard((x, y))
+
+# ---- 書き出し ----
+for y in range(H):
+    for x in range(W):
+        if G[y][x] == '1' and Hh[y][x] >= 2:
+            G[y][x] = '3'
+T['grid'] = [''.join(r) for r in G]
+T['zones'] = [''.join(r) for r in Z]
+T['zone_names'] = NAMES
+gr = {k: v for k, v in T.get('ground', {}).items() if v == 'm'}
+for x, y in bush:
+    gr['%d,%d' % (x, y)] = 'u'
+T['ground'] = gr
+T['facilities'] = []
+json.dump(T, open(os.path.join(ROOT, 'plan3-terrain.json'), 'w'))
+INC = {'C': 'brick staircase', 'S': 'natural ramp', 'F': 'log staircase', 'J': 'stone staircase', 'B': 'stone staircase', 'H': 'log staircase', 'P': 'white-plank ramp'}
+BRI = {'C': 'brick bridge', 'S': 'stone bridge', 'F': 'log bridge', 'J': 'red zen bridge', 'B': 'zen bridge', 'H': 'log bridge', 'P': 'wooden bridge'}
+B3 = {'note': '案3（第49回）：乱れ（たね %d）で作りなおした島。地形 tools/plan3_gen.py・配置 tools/plan3_layout.py・中身 tools/plan3_fill.py' % T['seed'],
+      'season': P2['season'], 'rules': P2['rules'], 'buildings': B_ALL,
+      'inclines': {'%d,%d' % (x, y): INC[Z[y][x]] for x, y, d in T['inclines']},
+      'bridges': {'%d,%d' % (r[0], r[1]): BRI[Z[r[1]][r[0]]] for r in T.get('bridges', [])},
+      'paths': P2['paths'], 'groups': groups, 'ground': ground, 'plants': plants, 'orchards': [], 'ground_styles': P2.get('ground_styles', {})}
+json.dump(B3, open(os.path.join(ROOT, 'designs/build_plan3.json'), 'w'), ensure_ascii=False, indent=1)
+print('木', len(trees), '低木', len(bush), 'キット', len([g_ for g_ in groups if g_.get('kit')]), 'パネル', len(panel_groups), '地面', len(ground), '花', len(plants))

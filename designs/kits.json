@@ -1158,6 +1158,20 @@
      "rect": [
       2,
       3,
+      2,
+      3
+     ],
+     "colors": [
+      "yellow",
+      "white"
+     ],
+     "pattern": "fill"
+    },
+    {
+     "type": "tulips",
+     "rect": [
+      4,
+      3,
       4,
       3
      ],

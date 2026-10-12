@@ -1,0 +1,481 @@
+{
+ "note": "案3（第49回）の配置の意図。tools/plan3_layout.py が、ねらいの場所（near）のまわり r マスでいちばん近い建てられる所に建物を置き、routes の順に飛行場から道を引く（坂と橋は自動で、8本まで）",
+ "seed": 6,
+ "edits": [
+  {
+   "rect": [
+    45,
+    53,
+    56,
+    61
+   ],
+   "h": 2,
+   "why": "町の高台を博物館が建つ広さに"
+  }
+ ],
+ "start": [
+  34,
+  82
+ ],
+ "buildings": [
+  {
+   "id": "museum",
+   "kind": "museum",
+   "near": [
+    47,
+    55
+   ],
+   "r": 5,
+   "name": "博物館（高台の上）"
+  },
+  {
+   "id": "nook",
+   "kind": "nook",
+   "near": [
+    40,
+    64
+   ],
+   "r": 6,
+   "name": "タヌキ商店（広場の東）"
+  },
+  {
+   "id": "able",
+   "kind": "able",
+   "near": [
+    20,
+    57
+   ],
+   "r": 8,
+   "name": "エイブルシスターズ（広場の北西）"
+  },
+  {
+   "id": "v1",
+   "kind": "villager",
+   "villager": "Raymond",
+   "near": [
+    26,
+    56
+   ],
+   "r": 8,
+   "zone": "C"
+  },
+  {
+   "id": "v2",
+   "kind": "villager",
+   "villager": "Maelle",
+   "near": [
+    32,
+    56
+   ],
+   "r": 8,
+   "zone": "C"
+  },
+  {
+   "id": "v3",
+   "kind": "villager",
+   "villager": "Truffles",
+   "near": [
+    38,
+    56
+   ],
+   "r": 8,
+   "zone": "C"
+  },
+  {
+   "id": "v4",
+   "kind": "villager",
+   "villager": "Deena",
+   "near": [
+    48,
+    66
+   ],
+   "r": 8,
+   "zone": "C"
+  },
+  {
+   "id": "v5",
+   "kind": "villager",
+   "villager": "Pecan",
+   "near": [
+    20,
+    44
+   ],
+   "r": 6,
+   "zone": "S"
+  },
+  {
+   "id": "v6",
+   "kind": "villager",
+   "villager": "Bea",
+   "near": [
+    28,
+    44
+   ],
+   "r": 6,
+   "zone": "S"
+  },
+  {
+   "id": "v7",
+   "kind": "villager",
+   "villager": "Genji",
+   "near": [
+    34,
+    23
+   ],
+   "r": 7,
+   "zone": "J"
+  },
+  {
+   "id": "v8",
+   "kind": "villager",
+   "villager": "Muffy",
+   "near": [
+    84,
+    22
+   ],
+   "r": 6,
+   "zone": "H"
+  },
+  {
+   "id": "v9",
+   "kind": "villager",
+   "villager": "Scoot",
+   "near": [
+    91,
+    61
+   ],
+   "r": 4,
+   "zone": "P"
+  },
+  {
+   "id": "v10",
+   "kind": "villager",
+   "villager": "Ed",
+   "near": [
+    91,
+    68
+   ],
+   "r": 7,
+   "zone": "P"
+  },
+  {
+   "id": "home",
+   "kind": "player_house",
+   "near": [
+    76,
+    46
+   ],
+   "r": 8,
+   "name": "自宅"
+  },
+  {
+   "id": "camp",
+   "kind": "campsite",
+   "near": [
+    46,
+    32
+   ],
+   "r": 8,
+   "name": "キャンプ場（森）"
+  }
+ ],
+ "routes": [
+  {
+   "name": "飛行場 → 案内所の広場",
+   "to": [
+    [
+     30,
+     72
+    ],
+    [
+     31,
+     72
+    ],
+    [
+     32,
+     72
+    ]
+   ],
+   "w": 3
+  },
+  {
+   "name": "橋：博物館の北の川",
+   "bridge": [
+    52,
+    43
+   ]
+  },
+  {
+   "name": "橋：東の川（家の南）",
+   "bridge": [
+    66,
+    54
+   ]
+  },
+  {
+   "name": "タヌキ商店",
+   "to": "nook",
+   "w": 3
+  },
+  {
+   "name": "博物館",
+   "to": "museum",
+   "w": 3
+  },
+  {
+   "name": "エイブル",
+   "to": "able",
+   "w": 2
+  },
+  {
+   "name": "v1",
+   "to": "v1"
+  },
+  {
+   "name": "v2",
+   "to": "v2"
+  },
+  {
+   "name": "v3",
+   "to": "v3"
+  },
+  {
+   "name": "v4",
+   "to": "v4"
+  },
+  {
+   "name": "v5",
+   "to": "v5"
+  },
+  {
+   "name": "v6",
+   "to": "v6"
+  },
+  {
+   "name": "v7",
+   "to": "v7"
+  },
+  {
+   "name": "camp",
+   "to": "camp"
+  },
+  {
+   "name": "v8",
+   "to": "v8"
+  },
+  {
+   "name": "home",
+   "to": "home"
+  },
+  {
+   "name": "v9",
+   "to": "v9"
+  },
+  {
+   "name": "v10",
+   "to": "v10"
+  }
+ ],
+ "bridge_sites": [
+  [
+   22,
+   38,
+   "NS"
+  ],
+  [
+   57,
+   31,
+   "EW"
+  ],
+  [
+   50,
+   40,
+   "NS"
+  ],
+  [
+   50,
+   74,
+   "NS"
+  ],
+  [
+   64,
+   80,
+   "EW"
+  ],
+  [
+   62,
+   52,
+   "EW"
+  ]
+ ],
+ "incline_sites": [
+  [
+   87,
+   64,
+   "W"
+  ],
+  [
+   50,
+   61,
+   "S"
+  ],
+  [
+   39,
+   27,
+   "E"
+  ]
+ ],
+ "manual_zones": "C",
+ "streets": [
+  {
+   "name": "テラスの通り（家の前）",
+   "path": [
+    [
+     16,
+     60
+    ],
+    [
+     46,
+     60
+    ]
+   ]
+  },
+  {
+   "name": "西の並木道（駅へ）",
+   "path": [
+    [
+     16,
+     60
+    ],
+    [
+     16,
+     79
+    ],
+    [
+     28,
+     79
+    ]
+   ]
+  },
+  {
+   "name": "運河の南岸の通り",
+   "path": [
+    [
+     30,
+     80
+    ],
+    [
+     64,
+     80
+    ]
+   ]
+  },
+  {
+   "name": "テラスの裏の小道",
+   "path": [
+    [
+     24,
+     54
+    ],
+    [
+     41,
+     54
+    ]
+   ],
+   "w": 1
+  }
+ ],
+ "kits": [
+  {
+   "kit": "lon_crossing",
+   "at": [
+    13,
+    57
+   ],
+   "zone": "C",
+   "style": "cobble",
+   "name": "テラスの西の交差点"
+  },
+  {
+   "kit": "lon_market",
+   "at": [
+    25,
+    50
+   ],
+   "zone": "C",
+   "style": "cobble",
+   "name": "テラスの裏の屋台の路地"
+  },
+  {
+   "kit": "lon_books",
+   "at": [
+    18,
+    68
+   ],
+   "zone": "C",
+   "style": "herring",
+   "name": "並木道の屋根のない本屋"
+  },
+  {
+   "kit": "lon_station",
+   "at": [
+    18,
+    73
+   ],
+   "zone": "C",
+   "style": "brick",
+   "name": "9¾番線（並木道の終わりの駅）"
+  },
+  {
+   "kit": "lon_dock",
+   "at": [
+    32,
+    74
+   ],
+   "zone": "C",
+   "style": "herring",
+   "name": "運河の船だまり"
+  },
+  {
+   "kit": "lon_quay",
+   "at": [
+    52,
+    77
+   ],
+   "zone": "C",
+   "style": "cobble",
+   "name": "南岸の岸壁通り"
+  },
+  {
+   "kit": "lon_benches",
+   "at": [
+    18,
+    63
+   ],
+   "zone": "C",
+   "style": "flag",
+   "name": "並木道のベンチ"
+  },
+  {
+   "kit": "lon_pub",
+   "at": [
+    33,
+    50
+   ],
+   "zone": "C",
+   "style": "brick",
+   "name": "テラスの裏のパブ"
+  },
+  {
+   "kit": "lon_records",
+   "near": [
+    45,
+    48
+   ],
+   "r": 4,
+   "zone": "C",
+   "style": "flag",
+   "name": "博物館への道のレコードの屋台"
+  }
+ ]
+}

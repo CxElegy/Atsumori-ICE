@@ -14,16 +14,17 @@ from collections import deque
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 J = lambda p: json.load(open(os.path.join(ROOT, p), encoding='utf-8'))
 
-T = J('plan2-terrain.json')
+PLAN = os.environ.get('ICE_PLAN', '2')   # 第49回：ICE_PLAN=3 で案3
+T = J(f'plan{PLAN}-terrain.json')
 G, H = T['grid'], T['h']
 GR = T.get('ground', {})
 MH, MW = len(G), len(G[0])
-Z = J('designs/zones_plan2.json')
+Z = J('designs/zones_plan2.json') if PLAN == '2' else {'names': T['zone_names']}
 NAMES = Z['names']
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from zones import zone_cells
-ZC = zone_cells(H)
-ROUTES = J('designs/lon_paths2.json')['routes']
+ZC = zone_cells(H) if PLAN == '2' else T['zones']
+ROUTES = J('designs/lon_paths2.json')['routes'] if PLAN == '2' else []
 INC = T['inclines']   # [x, y, 向き]。2×4 の足もとは (x, y) から（plan_terrain.py の slope_cells と同じ）
 
 inside = lambda x, y: 0 <= x < MW and 0 <= y < MH
@@ -70,7 +71,8 @@ bb = {}
 for p in expand():
     r = bb.setdefault(p['group'], [999, 999, -1, -1])
     r[0], r[1] = min(r[0], p['x']), min(r[1], p['y']); r[2], r[3] = max(r[2], p['x'] + p['w'] - 1), max(r[3], p['y'] + p['d'] - 1)
-names = {g['id']: g['name'] for g in BUILD['groups']}
+from acnh_build import KITS as _K
+names = {g['id']: g.get('name') or (_K[g['kit']]['name'] if g.get('kit') else g['id']) for g in BUILD['groups']}
 from acnh_build import expand_plants
 PLANTED = {(q['x'], q['y']) for q in expand_plants()}   # 花・作物の植わったマスも「物」（あき地ではない）
 things += [(k + ' ' + names[k], zone(r[0], r[1]), r) for k, r in bb.items()]
@@ -134,7 +136,7 @@ def nb(x, y):
         p = (x + dx, y + dy)
         if p in walk and (lv(*p) == lv(x, y) or p in slope or (x, y) in slope or g(*p) == 'b' or g(x, y) == 'b'):
             yield p
-start = (44, 84)   # 飛行場の出口（lon_paths の P1）
+start = (44, 84) if PLAN == '2' else tuple(J('designs/plan3_spec.json')['start'])   # 飛行場の出口
 seen, q = {start}, deque([start])
 while q:
     for p in nb(*q.popleft()):
@@ -142,12 +144,15 @@ while q:
             seen.add(p); q.append(p)
 comps = 0; rest = set(walk) - seen
 while rest:
-    s = rest.pop(); qq = deque([s]); hasroad = s in road
+    s = rest.pop(); qq = deque([s]); hasroad = s in road; part = [s]
     while qq:
         for p in nb(*qq.popleft()):
             if p in rest:
-                rest.discard(p); qq.append(p); hasroad = hasroad or p in road
-    comps += hasroad   # 道をふくむ切れはしだけ数える（浜や物の中だけの所は数えない）
+                rest.discard(p); qq.append(p); hasroad = hasroad or p in road; part.append(p)
+    comps += hasroad
+    if hasroad and '--islands' in sys.argv:
+        rp = sorted(p for p in part if p in road)
+        print('切れた道', len(rp), 'マス', rp[:6])   # 道をふくむ切れはしだけ数える（浜や物の中だけの所は数えない）
 unreached = []
 for name, z, (a, b, c, d) in things:
     ring = [(x, y) for x in range(a - 1, c + 2) for y in range(b - 1, d + 2)]
