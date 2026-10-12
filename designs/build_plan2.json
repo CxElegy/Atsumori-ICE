@@ -3317,6 +3317,18 @@
    "skip": []
   },
   {
+   "id": "S",
+   "style": "leaves",
+   "rect": [
+    26,
+    39,
+    33,
+    39
+   ],
+   "design": "stone_natural",
+   "skip": []
+  },
+  {
    "id": "J",
    "style": "moss",
    "rect": [

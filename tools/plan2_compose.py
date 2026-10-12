@@ -117,6 +117,7 @@ grp('S-mill', '村の東のはずれの農家（風車とサイロ）',
     note='水車は家具にない。ゲームの「ふうしゃ」（牧場の風車 2×2）とサイロ')
 PL.append({'id': 'S-river', 'type': 'hyacinths', 'rect': [13, 40, 34, 41], 'colors': ['blue', 'white', 'purple', 'pink'], 'pattern': 'fill', 'fit': True})   # 村の家の裏、川ぞいの花
 grp('S-river', '村の家の裏の川ぞいの花とベンチ', [('garden bench', 28, 38, 0, 'White'), ('fishing-rod stand', 31, 38, 0, 'Natural')])
+ground('S', 'leaves', [26, 39, 33, 39], 'stone_natural')   # 川ぞいの小道（竹林の道から）
 # ======== 東の郊外 ========
 kit('S-allot', 'allotment', [62, 30], name='村の畑（市民農園）', ref=['R-1284', 'R-1288'])
 plant('S-field', 'cosmos', [62, 36, 71, 38], ['yellow', 'orange', 'pink', 'white'], 'rows')
