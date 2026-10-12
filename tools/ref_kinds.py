@@ -1,8 +1,7 @@
 """集めた作例の画像の種類を自動で分ける（第38回）。refs.json の kind に書く。
 
-  scene  景色：島の実景（下にマイデザインの図がついたものも）
+  scene  景色：島の実景（下にマイデザインの図がついたもの、まとめ記事の表紙も）
   design マイデザインだけ：マイデザインの図・作者ID・保存画面だけで、実景がない
-  cover  まとめ・表紙：まとめ記事の表紙（「15 … Ideas」など）・拼図
 
   python tools/ref_kinds.py <画像の置き場> <OCR.json>
     OCR.json は {画像のURL: tesseract で読んだ文字}。見て直した分は designs/ref_kinds.json の fix（番号→種類）で上書きする
@@ -13,7 +12,6 @@ from PIL import Image
 ROOT = os.path.join(os.path.dirname(__file__), '..')
 REFS = os.path.join(ROOT, 'designs', 'refs.json')
 CODE = re.compile(r'\b(M[AO]|DA)\s*[-:–]?\s*\d{4}', re.I)
-COVER = re.compile(r'\bideas?\b|アイデア|まとめ', re.I)
 
 def flat_bands(path):
     """横に4つに切り、どの帯にも単色の地（いちばん多い色が25%以上）があるか。実景の帯は色がばらける"""
@@ -43,9 +41,7 @@ def main():
         txt = ocr.get(r['url'], ''); title = r.get('title', '')
         bands = flat_bands(p)
         has_code = bool(CODE.search(txt)) or bool(r.get('ma'))
-        if COVER.search(title) and re.search(r'\d', title) or (COVER.search(txt) and not has_code):
-            k = 'cover'
-        elif save_screen(p) or (has_code and min(bands) >= .25):
+        if save_screen(p) or (has_code and min(bands) >= .25):
             k = 'design'
         else:
             k = 'scene'
