@@ -57,6 +57,8 @@ road |= slope
 # 物（ロンドンの場所と全島の目じるし）
 things = [(s[0] + ' ' + s[1], 'C' if zone(s[2][0], s[2][1]) == 'C' else zone(s[2][0], s[2][1]), s[2]) for s in SPOTS]
 things += [(n, z, r) for n, z, r in Z['landmarks']]
+CT = J('designs/country.json')
+things += [(k + ' ' + n, zone(r[0], r[1]), r) for k, n, r, *_ in CT['spots'] + CT['terraces']]
 occ = set()
 for _, _, (a, b, c, d) in things:
     occ.update((x, y) for x in range(a, c + 1) for y in range(b, d + 1))

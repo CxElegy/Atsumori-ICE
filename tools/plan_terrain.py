@@ -334,6 +334,12 @@ class Terrain:
                 g[y][x] = 't'; n += 1
         self.cnt['forest'] = self.cnt.get('forest', 0) + n
 
+    def untree(self, op):
+        """置く所（目じるし・田舎の作例・家並み）の木をぬいて草地にする（林を植えたあとに働く）"""
+        for x, y in region(op):
+            if self.grid[y][x] == 't':
+                self.grid[y][x] = '3' if self.h[y][x] >= 2 else '1'
+
     # -- 全体 -------------------------------------------------------------------
     def run(self, design):
         ops = design['ops']
@@ -343,7 +349,7 @@ class Terrain:
                 getattr(self, op['op'])(op)
         self.fix()
         for op in ops:
-            if op['op'] in ('incline', 'road', 'bridge', 'forest'):
+            if op['op'] in ('incline', 'road', 'bridge', 'forest', 'untree'):
                 getattr(self, op['op'])(op)
         self.ground = {k: v for k, v in self.ground.items() if self.grid[int(k.split(',')[1])][int(k.split(',')[0])] in '13t'}
         # 坂は上の1マスの段を変えず、下の3マスはもともと1段低い所。橋の下の段をそろえる
