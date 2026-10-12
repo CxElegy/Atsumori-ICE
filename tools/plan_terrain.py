@@ -403,7 +403,9 @@ def irregularity(grid, rect):
 
 def main():
     quiet = '--quiet' in sys.argv
-    design = json.load(open(os.path.join(ROOT, 'plan-design.json'), encoding='utf-8'))
+    arg = lambda k, d: sys.argv[sys.argv.index(k) + 1] if k in sys.argv else d
+    src, dst = arg('--design', 'plan-design.json'), arg('--out', 'plan-terrain.json')   # 第45回：案2 は plan2-design.json → plan2-terrain.json
+    design = json.load(open(os.path.join(ROOT, src), encoding='utf-8'))
     t = Terrain()
     existing = t.run(design)
     grid = [''.join(r) for r in t.grid]
@@ -441,7 +443,7 @@ def main():
              'fall_edges': falls, 'waterfalls': nfalls, 'dry_cells': len(t.ground), 'level_cells': {'1': lv[0], '2': lv[1], '3': lv[2]},
              'irregularity': {k: irregularity(t.grid, v) for k, v in design.get('measure', {}).items()}}
     out = {'note': design.get('note', ''), 'grid': grid, 'h': hh, 'inclines': t.inclines, 'ground': t.ground, 'facilities': facs, 'stats': stats}
-    with open(os.path.join(ROOT, 'plan-terrain.json'), 'w', encoding='utf-8') as f:
+    with open(os.path.join(ROOT, dst), 'w', encoding='utf-8') as f:
         json.dump(out, f, ensure_ascii=False, separators=(',', ':'))
     if not quiet:
         ops = {}

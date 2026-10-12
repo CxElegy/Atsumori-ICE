@@ -14,7 +14,7 @@ from collections import deque
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 J = lambda p: json.load(open(os.path.join(ROOT, p), encoding='utf-8'))
 
-T = J('plan-terrain.json')
+T = J('plan2-terrain.json')
 G, H = T['grid'], T['h']
 GR = T.get('ground', {})
 MH, MW = len(G), len(G[0])

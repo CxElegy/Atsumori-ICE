@@ -12,7 +12,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 def zone_cells(h=None):
     Z = json.load(open(os.path.join(ROOT, 'designs/zones_plan2.json'), encoding='utf-8'))
     if h is None:
-        h = json.load(open(os.path.join(ROOT, 'plan-terrain.json'), encoding='utf-8'))['h']
+        h = json.load(open(os.path.join(ROOT, 'plan2-terrain.json'), encoding='utf-8'))['h']
     H, W = len(h), len(h[0])
     z = [['S'] * W for _ in range(H)]
     for code, r, *_ in Z['paint']:
