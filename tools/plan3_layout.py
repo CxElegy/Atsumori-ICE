@@ -359,13 +359,32 @@ def run(seed):
     spec = json.load(open(os.path.join(ROOT, 'designs/plan3_spec.json')))
     isl = gen.build(seed)
     # 町の水路（spec の water）：生まれた川を町の中だけ消し、設計した水路（まっすぐな運河・池・溝）を掘る。郊外の川はそのまま
+    fixed = {}   # 段を決めて掘った水（運河・2段目の水路）。settle で動かさない
     for op in spec.get('water', []):
-        if 'clear' in op:
+        if 'clear' in op:   # 生まれた川を消す。消したマスはまわりの陸の段にもどす
             x0, y0, x1, y1 = op['clear']
-            for y in range(y0, y1):
-                for x in range(x0, x1):
-                    if isl.g[y][x] == 'w':
-                        isl.g[y][x] = '1'; isl.h[y][x] = 1
+            gone = [(x, y) for y in range(y0, y1) for x in range(x0, x1) if isl.g[y][x] == 'w']
+            for x, y in gone:
+                isl.g[y][x] = '1'
+            for _ in range(4):
+                for x, y in gone:
+                    nb = [isl.h[y + dy][x + dx] for dx, dy in N4 if inside(x + dx, y + dy) and (x + dx, y + dy) not in gone and isl.g[y + dy][x + dx] not in 'Ss']
+                    if nb:
+                        isl.h[y][x] = max(set(nb), key=nb.count)
+            for x, y in gone:
+                isl.g[y][x] = '3' if isl.h[y][x] >= 2 else '1'
+            continue
+        if 'river' in op:   # 自然の川：なめらかな線をノイズでゆらし、幅を変えて掘る（段は settle で決まり、段をまたぐ所が滝）
+            isl.river([tuple(p) for p in op['river']], op.get('wmin', 2), op.get('wmax', 3), op.get('name', ''))
+            continue
+        if 'pond' in op:
+            cx, cy, rx, ry = op['pond']; isl.pond(cx, cy, rx, ry, islet=op.get('islet', False))
+            continue
+        if 'settle' in op:
+            isl.settle_water()
+            for (x, y), lvl in fixed.items():
+                isl.g[y][x] = 'w'; isl.h[y][x] = lvl
+            continue
         cells = []
         if 'pool' in op:
             x0, y0, x1, y1 = op['pool']
@@ -378,7 +397,7 @@ def run(seed):
                         cells.append((x, y))
         for x, y in cells:
             if inside(x, y) and isl.g[y][x] not in 'SsrKPb':
-                isl.g[y][x] = 'w'; isl.h[y][x] = op.get('level', 1)
+                isl.g[y][x] = 'w'; isl.h[y][x] = op.get('level', 1); fixed[(x, y)] = op.get('level', 1)
     for e in spec.get('edits', []):
         x0, y0, x1, y1 = e['rect']
         for y in range(y0, y1):
