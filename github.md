@@ -15,7 +15,7 @@ date: 2026-10-11
 | 計画書 v1〜v4 | World Travel Island Plan.dc.html, Plan v2/v3/v4.dc.html, island-grid*.json |
 | 組み立て台 | Module Builder.dc.html, plan-terrain.json, modules-curated.json, samples.json |
 | 完成イメージ（俯瞰） | London Render.dc.html |
-| ロンドン 地形と川の再設計案（L1〜L3） | London Redesign.dc.html, london-redesign.json |
+| ロンドン 地形と川の再設計（審査の結果から） | London Redesign.dc.html, london-redesign.json |
 | ゲーム画面 | Game View.dc.html |
 | 組み方（旧・細部の1枚） | Module Guide.dc.html（ビルドガイドに統合ずみ） |
 | **ビルドガイド（全部入り）** | tools/build_site.py + tools/site/template.html → ice-guide.html（作例の写真入りのため、リポジトリに入れず Artifact で公開） |
@@ -55,5 +55,6 @@ date: 2026-10-11
 
 ## ロンドンの地形と川の再設計案（第41回）
 - ロンドンの作例の審査がすべて終わったので（469件：めっちゃいい30・いいね285・ふつう117・イマイチ37、写しは db/votes/claude-page-2026-10-12-lon-done.json）、高評価の作例から地形と川の好みを読み取り、plan-terrain.json のロンドンを3通りに作り直した案
-- L1 カムデン・ロック（高台に切り通しの運河と閘門）・L2 セント・キャサリン・ドック（南岸に船だまり）・L3 エンバンクメント（テムズ川を3マス南へ、崖のすそを河岸通りに）。3案とも橋6/8・坂8/8のまま
-- 案が決まったら plan-design.json に手を足して plan-terrain.json を作り直す（まだ反映していない）
+- めっちゃいい30件・いいね285件を1件ずつ見て判断：めっちゃいい24件といいね25件を20か所（S1〜S20）に置く。いいね10件は道ばたの小物と地面に使う。ロンドンらしくないもの・同じ型の重なり・室内の場面・滝や坂が足りないものは外し、理由を残す
+- 地形：高台に切り通しの運河（坂をその中へ移す）・切り通しの口に橋（7/8）・テムズ川の西半分をまっすぐに・南岸に船だまり・キングス・クロス駅の平地・ハイドパークのあき地。坂8/8・河口へのつながり・2段目と砂浜の間隔は確認ずみ
+- 決まったら plan-design.json に手を足して plan-terrain.json を作り直す（まだ反映していない）
