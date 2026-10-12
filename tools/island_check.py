@@ -48,6 +48,10 @@ for rt in ROUTES:
                 for dy in range(rt['w'] if x1 != x2 else 1):
                     if inside(x + dx, y + dy) and g(x + dx, y + dy) not in 'Swr':
                         road.add((x + dx, y + dy))
+import acnh_build as _ab
+_res = _ab.check()
+GROUNDD = set(_res[5])   # 第48回：地面のマイデザイン（敷きつめた石畳・レンガ）も道として歩ける
+road |= {p for p in GROUNDD if g(*p) not in 'Swr'}
 slope = set()
 for x, y, d in INC:
     cells = [(x + i, y + j) for i in range(2) for j in range(4)] if d in 'NS' else [(x + i, y + j) for i in range(4) for j in range(2)]
@@ -119,7 +123,7 @@ for y in range(MH):
             if not inside(x2, y2) or g(x, y) == 'S' or g(x2, y2) == 'S' or zone(x, y) == zone(x2, y2):
                 continue
             edge += 1
-            if lv(x, y) != lv(x2, y2) or set(g(x, y) + g(x2, y2)) & set('wbrst') or (x, y) in road or (x2, y2) in road:
+            if lv(x, y) != lv(x2, y2) or set(g(x, y) + g(x2, y2)) & set('wbrst') or (x, y) in road or (x2, y2) in road or 'u' in (GR.get('%d,%d' % (x, y)), GR.get('%d,%d' % (x2, y2))):
                 on += 1
 border_rate = round(100 * on / max(edge, 1))
 

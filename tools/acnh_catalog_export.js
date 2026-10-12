@@ -1,6 +1,6 @@
 // animal-crossing@8.2.0（あつ森のデータ表）から、島の外に置ける物・工事（坂・橋）・住民の目録を書き出す
 const ac = require('animal-crossing'), fs = require('fs');
-const SHEETS = ['Housewares', 'Miscellaneous', 'Wall-mounted', 'Fencing', 'Umbrellas', 'Artwork'];   // かさ（地面に開いて置ける）・美術品（像）も外に置ける
+const SHEETS = ['Housewares', 'Miscellaneous', 'Wall-mounted', 'Fencing', 'Umbrellas', 'Artwork'];   // 目録には入れるが、外に置けるのは place が true の物だけ
 const icon = i => { const v = (i.variations || [])[0] || i; const u = v.image || v.storageImage || v.closetImage || i.image || i.storageImage || i.highResTexture || ''; return u.replace('https://acnhcdn.com/latest/FtrIcon/', '').replace('https://acnhcdn.com/latest/', ''); };
 const uniq = i => { const seen = {}, out = []; (i.variations || []).forEach(v => { if (v.variation && !seen[v.variation]) { seen[v.variation] = 1; out.push([v.variation, (v.variantTranslations || {}).jPja || '', (v.image || '').replace('https://acnhcdn.com/latest/FtrIcon/', '')]); } }); return out; };
 const items = {};
@@ -8,7 +8,9 @@ ac.items.filter(i => SHEETS.includes(i.sourceSheet)).forEach(i => {
   const t = i.translations || {};
   items[i.name] = { ja: t.jPja || '', zh: t.cNzh || '', sheet: i.sourceSheet, size: i.size || (i.sourceSheet === 'Fencing' ? '1x1' : ''), tag: i.tag || '',
     src: (i.source || []).join('/'), diy: !!i.diy, ver: i.versionAdded, custom: !!(i.patternCustomize), outdoorOnly: !!i.outdoor,
-    vars: uniq(i), icon: icon(i) };
+    vars: uniq(i), icon: icon(i),
+    // 第48回：外の地面に置けるか。壁かけ・かさは置けない（壁かけは自宅のドアのかざりだけ・かさは手に持つ物）。美術品は像だけ（絵は壁かけ）
+    place: ['Housewares', 'Miscellaneous', 'Fencing'].includes(i.sourceSheet) || (i.sourceSheet === 'Artwork' && (i.size || '') !== '' && /Sculpture/.test(i.tag || i.category || '') ) };
 });
 const cons = {};
 ac.construction.filter(c => ['Incline', 'Bridge', 'Roofing', 'Siding', 'Door', 'Mailbox'].includes(c.category)).forEach(c => { (cons[c.category] = cons[c.category] || {})[c.name] = { ja: (c.translations || {}).jPja || '', img: (c.image || '').replace('https://acnhcdn.com/', '') }; });

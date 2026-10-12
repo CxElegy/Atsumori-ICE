@@ -30,6 +30,7 @@ T = J('plan2-terrain.json')
 G, H = T['grid'], T['h']
 GR = T.get('ground', {})
 B = J('designs/build_plan2.json')
+KITS = J('designs/kits.json')['kits'] if os.path.exists(os.path.join(ROOT, 'designs/kits.json')) else {}   # 第48回：見せ場のキット（いいねの作例をゲームの家具で組んだもの）
 MW, MH = len(G[0]), len(G)
 inside = lambda x, y: 0 <= x < MW and 0 <= y < MH
 g = lambda x, y: G[y][x] if inside(x, y) else 'S'
@@ -53,6 +54,22 @@ def expand():
     out = []
     for gp in B['groups']:
         ax, ay = gp.get('at', [0, 0])
+        if gp.get('kit'):   # キット：kits.json の家具をこの位置に。flip で左右をいれかえる
+            k = KITS[gp['kit']]; KW = k['size'][0]
+            for it in k.get('items', []):
+                name, dx, dy = it[0], it[1], it[2]
+                rot = it[3] if len(it) > 3 else 0
+                w = foot(ITEMS[name]['size'] or '1x1', rot)[0] if name in ITEMS else 1
+                if gp.get('flip'):
+                    dx = KW - dx - w
+                out.append({'item': name, 'x': ax + dx, 'y': ay + dy, 'rot': rot, 'var': it[4] if len(it) > 4 else None, 'design': it[5] if len(it) > 5 else None, 'group': gp['id']})
+            for ln in k.get('lines', []):
+                (x1, y1), (x2, y2) = ln['from'], ln['to']
+                if gp.get('flip'):
+                    x1, x2 = KW - 1 - x1, KW - 1 - x2
+                for x in range(min(x1, x2), max(x1, x2) + 1):
+                    for y in range(min(y1, y2), max(y1, y2) + 1):
+                        out.append({'item': ln['item'], 'x': ax + x, 'y': ay + y, 'rot': ln.get('rot', 0), 'var': ln.get('var'), 'design': ln.get('design'), 'group': gp['id']})
         for it in gp.get('items', []):
             name, dx, dy = it[0], it[1], it[2]
             rot = it[3] if len(it) > 3 else 0
@@ -79,7 +96,16 @@ def expand():
 def expand_plants():
     """plants（花畑・作物）を1マスずつに開く。pattern：fill（全部）・checker（市松）・rows（1列おき）・edge（ふちだけ）"""
     out = []
-    for pl in B.get('plants', []):
+    pls = list(B.get('plants', []))
+    for gp in B['groups']:   # キットの花と作物
+        if gp.get('kit'):
+            k = KITS[gp['kit']]; KW = k['size'][0]; ax, ay = gp['at']
+            for pl in k.get('plants', []):
+                a, b, c, d = pl['rect']
+                if gp.get('flip'):
+                    a, c = KW - 1 - c, KW - 1 - a
+                pls.append(dict(pl, id=gp['id'], rect=[ax + a, ay + b, ax + c, ay + d]))
+    for pl in pls:
         x0, y0, x1, y1 = pl['rect']
         skip = {tuple(p) for p in pl.get('skip', [])}
         pat = pl.get('pattern', 'fill')
@@ -94,7 +120,7 @@ def expand_plants():
                     continue
                 if pat == 'edge' and x0 < x < x1 and y0 < y < y1:
                     continue
-                out.append({'id': pl['id'], 'type': pl['type'], 'x': x, 'y': y, 'color': cs[(x * 3 + y * 5) % len(cs)] if pat != 'rows' else cs[((y - y0) // 2) % len(cs)]})
+                out.append({'id': pl['id'], 'type': pl['type'], 'x': x, 'y': y, 'color': cs[(x * 3 + y * 5) % len(cs)] if pat != 'rows' else cs[((y - y0) // 2) % len(cs)], 'fit': pl.get('fit', False)})
     return out
 
 
@@ -123,6 +149,8 @@ def check():
             for x in range(x0 - 1, x0 + w + 1):
                 inner = x0 <= x < x0 + w and y0 <= y < y0 + d
                 c = g(x, y)
+                if not inner and c == 't':
+                    bad(f"建物 {b['id']}（{b.get('villager') or b['kind']}）：まわり ({x},{y}) に木（木は建物から1マスはなす）")
                 if lv(x, y) != L or c in 'wSsrbPK' or (x, y) in slope:
                     bad(f"建物 {b['id']}（{b.get('villager') or b['kind']}）：まわり ({x},{y}) が {c}・{lv(x, y)}段（同じ段の平地が要る）"); break
                 if inner and c in 'tp':
@@ -132,8 +160,12 @@ def check():
         for y in range(y0, y0 + d):
             for x in range(x0, x0 + w):
                 occ_b[(x, y)] = b['id']
-        door = x0 + w // 2 - (1 if w % 2 == 0 else 0)
-        front.update({(door, y0 + d), (door + 1, y0 + d)} if w % 2 == 0 else {(door, y0 + d)})
+        # 入口の前：ほとんどの建物は 3×2（博物館 3×1・キャンプ場 2×1）。掘れない・家具を置けない（道はよい）。4マス幅の家は真ん中の入口の前を幅いっぱいふさぐ
+        cols = range(x0, x0 + w) if w % 2 == 0 else range(x0 + w // 2 - 1, x0 + w // 2 + 2)
+        rows = 1 if b['kind'] in ('museum', 'campsite') else 2
+        if b['kind'] == 'campsite':
+            cols = range(x0 + 1, x0 + 3)
+        front.update((x, y0 + d + k) for x in cols for k in range(rows))
     ids = [b for b in bl if not b.get('fixed')]
     for i, a in enumerate(ids):   # 建物どうしは1マスあける
         for c in ids[i + 1:]:
@@ -162,6 +194,8 @@ def check():
         if not it:
             near = [n for n in ITEMS if p['item'].split()[-1] in n][:5]
             bad(f"物 {p['group']}：「{p['item']}」は目録にない（近い名前：{'・'.join(near)}）"); continue
+        if not it.get('place', True):
+            bad(f"物 {p['group']}：{p['item']}（{it['sheet']}）は外の地面に置けない（壁かけは自宅のドアだけ・かさは手に持つ物・絵は壁かけ）")
         if p['var'] and p['var'] not in [v[0] for v in it['vars']]:
             bad(f"物 {p['group']}：{p['item']} に「{p['var']}」の色はない（{'・'.join(v[0] for v in it['vars'])}）")
         if p['design'] and not (it['custom'] or p['item'] in B['rules']['design_items']):
@@ -180,33 +214,89 @@ def check():
                 elif (x, y) in occ:
                     bad(f"物 {p['group']}：{p['item']} ({p['x']},{p['y']}) と {occ[(x, y)]} が重なる ({x},{y})")
                 occ[(x, y)] = p['item'] + ' ' + p['group']
+    # 3b. 地面のマイデザイン（かたい道とおなじ：掘れない・花を植えられない。家具は置ける）。水・海・岩・橋・広場・飛行場・建物・坂の上には敷かない
+    ground = {}
+    pcells = {(q['x'], q['y']) for q in expand_plants()}   # 花壇のマスは地面のデザインを敷かずに草のまま残す（ゲームでも花のまわりだけ敷く）
+    for gd in B.get('ground', []):
+        x0, y0, x1, y1 = gd['rect']
+        skip = {tuple(p) for p in gd.get('skip', [])}
+        for y in range(y0, y1 + 1):
+            for x in range(x0, x1 + 1):
+                c = g(x, y)
+                if (x, y) in skip or c in 'wSrbPK' or (x, y) in occ_b or (x, y) in slope or (x, y) in pcells:
+                    continue
+                if c == 't' or GR.get('%d,%d' % (x, y)) == 'u':
+                    cut.add((x, y))
+                ground[(x, y)] = gd['style']
     # 4. 花と作物（ゲームの花8種類・作物6種類。草地だけに植えられる：道・家具・木・建物の上は不可）
     FLOWERS = B['rules'].get('plants', {})
     plants = expand_plants()
+    keep = []
+    for q in plants:
+        if q.get('fit'):   # 畑・花畑の広い四角：草地でないマス（道・木・家具・建物）は植えずに飛ばす
+            x, y = q['x'], q['y']; c = g(x, y)
+            if c not in '123' or (x, y) in occ or (x, y) in occ_b or (x, y) in slope or (x, y) in front or GR.get('%d,%d' % (x, y)) in ('u', 'm') or (x, y) in ground:
+                continue
+        keep.append(q)
+    plants = keep
     for q in plants:
         if q['type'] not in FLOWERS:
             bad(f"花 {q['id']}：{q['type']} はゲームにない"); continue
         x, y = q['x'], q['y']; c = g(x, y)
-        if c not in '123' or (x, y) in occ or (x, y) in occ_b or (x, y) in slope or (x, y) in front or GR.get('%d,%d' % (x, y)) in ('u', 'm'):
+        if c not in '123' or (x, y) in occ or (x, y) in occ_b or (x, y) in slope or (x, y) in front or GR.get('%d,%d' % (x, y)) in ('u', 'm') or (x, y) in ground:
             bad(f"花 {q['id']}：({x},{y}) は草地ではない（{c}）{'・家具' if (x, y) in occ else ''}{'・建物' if (x, y) in occ_b else ''}")
         occ[(x, y)] = '花 ' + q['id']
-    # 5. 木
+    # 5. 木（大きくなった木は掘って植えかえれば、木どうしはとなり合ってよい。崖・水・砂浜・建物・坂・橋のとなりには植えられない）
     tt = [(x, y) for y in range(MH) for x in range(MW) if g(x, y) == 't' and (x, y) not in cut]
-    adj = [(x, y) for x, y in tt if g(x + 1, y) == 't' or g(x, y + 1) == 't']
-    if adj:
-        bad(f'木：縦横にとなり合う木が {len(adj)} か所（例 {adj[:4]}）')
-    return errs, warn, P, sorted(cut), plants
+    def blocker(x, y, x2, y2):
+        c = g(x2, y2)
+        return c in 'wbsSrK' or (x2, y2) in occ_b or (x2, y2) in slope or (c not in 'P' and lv(x2, y2) != lv(x, y))
+    near = [(x, y) for x, y in tt if any(blocker(x, y, x + dx, y + dy) for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)))]
+    if near:
+        bad(f'木：崖・水・砂浜・建物・坂・橋のとなりの木が {len(near)} 本（例 {near[:5]}）')
+    diag = [(x, y) for x, y in tt if (x, y) not in near and any(blocker(x, y, x + dx, y + dy) for dx, dy in ((1, 1), (-1, 1), (1, -1), (-1, -1)))]
+    if diag:
+        warn.append(f'木：崖・水などにななめに接する木 {len(diag)} 本（植えられるか確かめていない）')
+    if len(tt) > 220:
+        bad(f'木：{len(tt)} 本（木の点が220をこえると「木が多すぎる」で5つ星にならない。190本くらいまで）')
+    elif len(tt) > 190:
+        warn.append(f'木：{len(tt)} 本（190本くらいまでにする）')
+    # 6. 8×8 マスのかたまり（島の評価の単位）：45マス以上ふさぐと「ごちゃごちゃ」で5つ星にならない。同じ家具は6個まで
+    blk, same = Counter(), Counter()
+    for (x, y), v in occ.items():
+        if not v.startswith('花'):
+            blk[(x // 8, y // 8)] += 1
+    for p in P:
+        same[(p['x'] // 8, p['y'] // 8, p['item'])] += 1
+    for k, n in blk.items():
+        if n >= 45:
+            bad(f'8×8 のかたまり x{k[0] * 8}〜・y{k[1] * 8}〜：家具が {n} マスをふさぐ（45 以上はごちゃごちゃ）')
+    for (bx, by, it), n in same.items():
+        if n > 6 and ITEMS.get(it, {}).get('sheet') != 'Fencing':
+            warn.append(f'8×8 のかたまり x{bx * 8}〜・y{by * 8}〜：{it} が {n} 個（6個をこえると点が下がる）')
+    # 7. 坂・橋・崖のかたち
+    for x, y, d in T['inclines']:
+        ends = [(x, y - 1), (x + 1, y - 1), (x, y + 4), (x + 1, y + 4)] if d in 'NS' else [(x - 1, y), (x - 1, y + 1), (x + 4, y), (x + 4, y + 1)]
+        if any(g(*e) in 'wS' for e in ends):
+            bad(f'坂 ({x},{y})：上か下の出口が水に向いている')
+    for y in range(MH):
+        for x in range(MW):
+            L = lv(x, y)
+            if L >= 2 and g(x, y) not in 'w':
+                if not any(all(lv(x + i, y + j) >= L for i in (a, a + 1) for j in (b, b + 1)) for a in (-1, 0) for b in (-1, 0)):
+                    bad(f'崖 ({x},{y})：{L}段目が幅1マス（崖は2マス幅から）')
+    return errs, warn, P, sorted(cut), plants, ground
 
 
 if __name__ == '__main__':
-    errs, warn, P, cut, plants = check()
+    errs, warn, P, cut, plants, ground = check()
     if '--json' in sys.argv:
-        print(json.dumps({'errors': errs, 'warnings': warn, 'placements': P, 'untree': cut, 'plants': plants, 'items': len(P), 'kinds': len({p['item'] for p in P})}, ensure_ascii=False))
+        print(json.dumps({'errors': errs, 'warnings': warn, 'placements': P, 'untree': cut, 'plants': plants, 'ground': [[x, y, v] for (x, y), v in sorted(ground.items())], 'items': len(P), 'kinds': len({p['item'] for p in P})}, ensure_ascii=False))
         sys.exit()
     for w in warn:
         print('注意', w)
     for e in errs[:80]:
         print('NG', e)
     vc = Counter(b['kind'] for b in B['buildings'])
-    print(f"建物 {len(B['buildings'])}（住民の家 {vc['villager']}/10）・坂 {len(T['inclines'])}・置く物 {len(P)} 個（{len({p['item'] for p in P})} 種類）・花と作物 {len(plants)} 株・物の下でぬく木と低木 {len(cut)}・NG {len(errs)}")
+    print(f"建物 {len(B['buildings'])}（住民の家 {vc['villager']}/10）・坂 {len(T['inclines'])}・置く物 {len(P)} 個（{len({p['item'] for p in P})} 種類）・花と作物 {len(plants)} 株・地面のデザイン {len(ground)} マス・物の下でぬく木と低木 {len(cut)}・NG {len(errs)}")
     sys.exit(1 if errs else 0)

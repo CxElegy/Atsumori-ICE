@@ -335,7 +335,7 @@ class Terrain:
         bush = op.get('bush', 0)   # 低木（記号 u・地面の模様として残す）：木の間をうめて林を濃くする。低木はとなり合ってよい
         if bush:
             for x, y in region(op):
-                if g[y][x] not in '13' or (x, y) in slope or any(in_rect(x, y, [r[0], r[1], r[2] + 1, r[3] + 1]) for r in clear):
+                if g[y][x] not in '13' or (x, y) in slope or '%d,%d' % (x, y) in self.ground or any(in_rect(x, y, [r[0], r[1], r[2] + 1, r[3] + 1]) for r in clear):
                     continue
                 if any(0 <= x + dx < W and 0 <= y + dy < H and (g[y + dy][x + dx] in 'pPbwKSr' or (x + dx, y + dy) in slope) for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1))):
                     continue
@@ -358,6 +358,33 @@ class Terrain:
                 self.grid[y][x] = '3' if self.h[y][x] >= 2 else '1'; n += 1
         self.cnt['thin'] = self.cnt.get('thin', 0) + n
 
+    def treecap(self, op):
+        """第48回：あつ森の木の決まり。①崖・水・浜・橋・坂のとなりの木はぬく（植えられない）②地区ごとの本数まで（島ぜんぶで190本くらい。
+        木の点が220をこえると5つ星にならない）。木の多い所（林のかたまり）を残し、ぬいた林の木は低木（u）にかえて林のかさを保つ"""
+        import sys as _s; _s.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        from zones import zone_cells
+        g, h = self.grid, self.h
+        slope = {c for o in self.inclines for c, _ in self.slope_cells(o[0], o[1], o[2], 9)}
+        bad = lambda x, y, x2, y2: not (0 <= x2 < W and 0 <= y2 < H) or g[y2][x2] in 'wbsSrKP' or (x2, y2) in slope or (g[y2][x2] != 'P' and h[y2][x2] != h[y][x])
+        Z = zone_cells([''.join(str(v) for v in r) for r in h])
+        trees = [(x, y) for y in range(H) for x in range(W) if g[y][x] == 't']
+        cut = 0
+        for x, y in trees:
+            if any(bad(x, y, x + dx, y + dy) for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1))):
+                g[y][x] = '3' if h[y][x] >= 2 else '1'; cut += 1
+        trees = [(x, y) for x, y in trees if g[y][x] == 't']
+        tset = set(trees)
+        dens = {(x, y): sum((x + dx, y + dy) in tset for dx in range(-2, 3) for dy in range(-2, 3)) for x, y in trees}
+        quota = op['quota']; keep = {}
+        for x, y in sorted(trees, key=lambda q: (-dens[q], ((q[0] * 73856093) ^ (q[1] * 19349663)) % 1000)):
+            z = Z[y][x]
+            if keep.get(z, 0) < quota.get(z, 0):
+                keep[z] = keep.get(z, 0) + 1; continue
+            g[y][x] = '3' if h[y][x] >= 2 else '1'
+            if z in op.get('bush_zones', '') and ((x * 19349663) ^ (y * 83492791)) % 1000 / 1000 < op.get('bush', .7):
+                self.ground['%d,%d' % (x, y)] = 'u'
+        self.cnt['treecap'] = (cut, sum(keep.values()))
+
     # -- 全体 -------------------------------------------------------------------
     def run(self, design):
         ops = design['ops']
@@ -367,7 +394,7 @@ class Terrain:
                 getattr(self, op['op'])(op)
         self.fix()
         for op in ops:
-            if op['op'] in ('incline', 'road', 'bridge', 'forest', 'untree', 'thin'):
+            if op['op'] in ('incline', 'road', 'bridge', 'forest', 'untree', 'thin', 'treecap'):
                 getattr(self, op['op'])(op)
         self.ground = {k: v for k, v in self.ground.items() if self.grid[int(k.split(',')[1])][int(k.split(',')[0])] in '13t'}
         # 坂は上の1マスの段を変えず、下の3マスはもともと1段低い所。橋の下の段をそろえる
