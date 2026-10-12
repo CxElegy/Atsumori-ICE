@@ -310,25 +310,26 @@ const loadRa = (ra, area) => { const out = JSON.parse(JSON.stringify(ra || {}));
 const oldScore = store.get('ice-ref-score', {}), oldFlat = { ...Object.fromEntries(Object.entries(oldScore).map(([k, v]) => [k, [0, v]])), ...S.votes };
 // GitHub Pages 版（D.pages）：見るだけ。評価は Claude のページの最新の写し（D.pages.votes）を出し、ここでは書きかえない
 const PAGES = D.pages || null, PV = (PAGES && PAGES.votes) || {};
-if (PAGES) { const vb = document.querySelector('.tab[data-tab="vote"]'), ln = document.createElement('a'); ln.className = 'tab'; ln.href = PAGES.artifact; ln.target = '_blank'; ln.rel = 'noopener'; ln.textContent = '作例の審査（Claude のページ）↗'; vb.replaceWith(ln);
-  const nb = document.createElement('p'); nb.className = 'pagesnote'; nb.innerHTML = `この GitHub Pages 版は見るだけです。画像は Pinterest から直接読みこみます。評価は <a href="${PAGES.artifact}" target="_blank" rel="noopener">Claude のページ</a>でつけてください（ここに出ている評価は ${new Date(PV.t || PAGES.built).toLocaleString('ja-JP')} の写し）。`; document.querySelector('nav').after(nb); }
-S.rv = PAGES ? loadRv(PV.r || {}, {}) : loadRv(store.get('ice-rv', {}), oldFlat); S.ra = PAGES ? loadRa(PV.a || {}, {}) : loadRa(store.get('ice-ra', {}), store.get('ice-area', {})); delete S.votes;
+if (PAGES) { const nb = document.createElement('p'); nb.className = 'pagesnote'; nb.innerHTML = `GitHub Pages 版：画像は Pinterest から直接読みこみます。評価は<b>このブラウザに保存</b>されます（はじめは ${new Date(PV.t || PAGES.built).toLocaleString('ja-JP')} の Claude のページの評価）。Claude に渡すときは <button class="chip" data-pexport>評価をファイルに保存</button> して、そのファイルをチャットに送るか GitHub の db/votes/ に入れてください。<label class="chip" style="cursor:pointer">ファイルから読みこむ<input type="file" accept=".json" data-pimport hidden></label>`; document.querySelector('nav').after(nb); }
+// Pages：Claude のページの評価の写しに、このブラウザでつけた評価を重ねる（このブラウザの方が優先）
+const mergeV = (base, mine) => { const o = JSON.parse(JSON.stringify(base || {})); Object.keys(mine || {}).forEach(c => { o[c] = { ...(o[c] || {}), ...mine[c] }; }); return o; };
+S.rv = PAGES ? loadRv(mergeV(PV.r, store.get('ice-rv', {})), {}) : loadRv(store.get('ice-rv', {}), oldFlat); S.ra = PAGES ? loadRa(mergeV(PV.a, store.get('ice-ra', {})), {}) : loadRa(store.get('ice-ra', {}), store.get('ice-area', {})); delete S.votes;
 // 重複として隠した作例の評価は、残した方へ移す（残した方にまだ評価がなければ）
 const moveDups = () => { const m = D.dupOf || {};
   [S.rv, S.ra].forEach(o => Object.values(o).forEach(c => Object.keys(c).forEach(no => { if (m[no]) { if (!(m[no] in c)) c[m[no]] = c[no]; delete c[no]; } })));
   // 共通の作例（th: all）は、前に各地区でつけた評価を「共通」へ移す（共通にまだ評価がなければ）
   const isCom = no => { const r = D.refs.find(x => x.no === no); return r && r.th === 'all'; };
   AREAS.forEach(c => { const v = S.rv[c] || {}, a = S.ra[c] || {}; Object.keys(v).forEach(no => { if (!isCom(no) || a[no]) return; S.rv.com = S.rv.com || {}; if (!(no in S.rv.com)) S.rv.com[no] = v[no]; delete v[no]; }); }); };
-moveDups(); if (!PAGES) { store.set('ice-rv', S.rv); store.set('ice-ra', S.ra); }
+moveDups(); store.set('ice-rv', S.rv); store.set('ice-ra', S.ra);
 let DB = null, dbTimer = null, dbBusy = false, dbDirty = false;
 const saveDb = () => { if (!DB) return; if (dbBusy) { dbDirty = true; return; } dbBusy = true; dbDirty = false; DB.doc('votes/all').set({ r: S.rv, a: S.ra, k: S.kind, t: Date.now() }).then(() => saved(true), () => saved(false)).finally(() => { dbBusy = false; if (dbDirty) saveDb(); }); };
 // 画像の種類（第38回）：景色・マイデザインだけ。自動の分類 r.kind を、見て直したもの S.kind が上書き
 // 2つ：景色＝実景（下にマイデザインの図がついたもの・まとめ記事の表紙も）、design＝マイデザインの図だけ（実景なし）
 const KINDS = [['scene', '景色'], ['design', 'マイデザインだけ']], KN = Object.fromEntries(KINDS);
-S.kind = PAGES ? (PV.k || {}) : store.get('ice-kind', {});
+S.kind = PAGES ? { ...(PV.k || {}), ...store.get('ice-kind', {}) } : store.get('ice-kind', {});
 const kindOf = r => S.kind[r.no] || r.kind || 'scene';
 const setKind = (no, k) => { const r = D.refs.find(x => x.no === no); if (r && (r.kind || 'scene') === k) delete S.kind[no]; else S.kind[no] = k; saveAll(); };
-const saveAll = () => { if (PAGES) return; store.set('ice-kind', S.kind); store.set('ice-rv', S.rv); store.set('ice-ra', S.ra); clearTimeout(dbTimer); dbTimer = setTimeout(saveDb, 1200); };
+const saveAll = () => { store.set('ice-kind', S.kind); store.set('ice-rv', S.rv); store.set('ice-ra', S.ra); clearTimeout(dbTimer); dbTimer = setTimeout(saveDb, 1200); };
 // いま評価している地区：作例の審査タブはそのタブの地区、集めた作例タブは選んだ地区（「すべて」のときは評価しない）
 const ctxNow = () => S.tab === 'vote' ? (S.vote && S.vote.th) : (S.refTh && S.refTh !== 'all' ? S.refTh : null);
 const rateOf = (r, c = ctxNow()) => c && S.rv[c] && r.no in S.rv[c] ? S.rv[c][r.no] : null;
@@ -345,7 +346,7 @@ let toastT = null;
 const toast = (msg, canUndo) => { let el = document.getElementById('vToast'); if (!el) { el = document.createElement('div'); el.id = 'vToast'; el.className = 'vtoast'; el.setAttribute('role', 'status'); document.body.appendChild(el); }
   el.innerHTML = `<span>${esc(msg)}</span>${canUndo ? '<button data-vundo="1">取り消す <span class="kbd">U</span></button>' : ''}`; el.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => { el.hidden = true; }, 5000); };
 const rateMsg = (no, c) => { const v = S.rv[c] && no in S.rv[c] ? S.rv[c][no] : null; return v === null ? `${no} の評価を外しました` : `${no}：${areaName(c)}で ${S.ra[c] && S.ra[c][no] ? 'いいね（→' + areaName(S.ra[c][no]) + '）' : RN[v]}`; };
-const setVote = (no, val, c = ctxNow()) => { if (!c || PAGES) return; remember(no, c); const v = (S.rv[c] = S.rv[c] || {}), a = (S.ra[c] = S.ra[c] || {}); if (v[no] === val && !a[no]) delete v[no]; else v[no] = val; delete a[no]; saveAll(); toast(rateMsg(no, c), true); };
+const setVote = (no, val, c = ctxNow()) => { if (!c) return; remember(no, c); const v = (S.rv[c] = S.rv[c] || {}), a = (S.ra[c] = S.ra[c] || {}); if (v[no] === val && !a[no]) delete v[no]; else v[no] = val; delete a[no]; saveAll(); toast(rateMsg(no, c), true); };
 const setArea = (no, k, c = ctxNow()) => { if (!c) return; remember(no, c); const v = (S.rv[c] = S.rv[c] || {}), a = (S.ra[c] = S.ra[c] || {}); if (a[no] === k) { delete a[no]; delete v[no]; } else { a[no] = k; v[no] = 1; } saveAll(); toast(rateMsg(no, c), true); };
 const nRated = c => c ? Object.keys(S.rv[c] || {}).length : Object.values(S.rv).reduce((n, o) => n + Object.keys(o).length, 0);
 // 評価：2 めっちゃいい＝絶対に島に入れる（第35回）・1 いいね・0 ふつう・-1 イマイチ
@@ -609,7 +610,7 @@ function renderBook() { $('bookChips').innerHTML = [['lon', 'ロンドン'], ['e
 // 集めた作例のカード：いいね／ふつう／イマイチの3つのボタン
 // 地区を選んでいるときだけ評価ボタン。「すべて」のときは、地区ごとの評価を小さく出す
 const rate3Html = r => { const c = ctxNow();
-  if (!c || PAGES) { const tags = VA.filter(k => rateOf(r, k) !== null).map(k => `<span class="vtag ${areaOf(r, k) ? 'up' : RCLS[rateOf(r, k)]}">${esc(areaName(k))}：${esc(labelOf(r, k))}</span>`).join(''); return `<div class="r3w" style="display:flex;flex-wrap:wrap;gap:3px">${tags}</div>`; }
+  if (!c) { const tags = VA.filter(k => rateOf(r, k) !== null).map(k => `<span class="vtag ${areaOf(r, k) ? 'up' : RCLS[rateOf(r, k)]}">${esc(areaName(k))}：${esc(labelOf(r, k))}</span>`).join(''); return `<div class="r3w" style="display:flex;flex-wrap:wrap;gap:3px">${tags}</div>`; }
   const v = rateOf(r); return `<div class="r3w" style="display:flex;flex-direction:column;gap:3px">${areaOf(r) ? `<span class="vtag up" style="align-self:flex-start">いいね（→${esc(areaName(areaOf(r)))}）</span>` : ''}<div class="rate3" role="group" aria-label="${esc(r.no)} の${esc(areaName(c))}での評価">${RATE.map(([n, cl, t]) => `<button class="${cl}" data-refrate="${esc(r.no)}|${n}" aria-pressed="${v === n && !areaOf(r)}">${t}</button>`).join('')}</div></div>`; };
 function renderRefs() { S.refRate = S.refRate || 'all'; S.refTh = S.refTh || 'all'; S.refCat = S.refCat || 'all'; S.refQ = S.refQ || 'all'; S.refMa = !!S.refMa;
   const RC = D.refCats || {}, inTh = D.refs.filter(r => S.refTh === 'all' || (S.refTh === 'com' ? r.th === 'all' : r.th === S.refTh)), byTh = inTh.filter(r => (S.refCat === 'all' || r.cat === S.refCat) && (!S.refKind || S.refKind === 'all' || kindOf(r) === S.refKind)), qs = [...new Set(byTh.map(r => r.q))]; if (S.refQ !== 'all' && !qs.includes(S.refQ)) S.refQ = 'all';
@@ -625,6 +626,10 @@ $('refKw').addEventListener('input', e => { S.refKw = e.target.value; renderRefs
 document.addEventListener('click', e => { const st = e.target.closest('[data-refrate]'); if (st) { const [no, n] = st.dataset.refrate.split('|'), r = D.refs.find(x => x.no === no); setVote(no, +n); st.closest('.r3w').outerHTML = rate3Html(r); const cp = document.querySelector('#refChips [data-refcopy]'); if (cp) cp.textContent = `評価をコピー（${nRated()}件）`; return; }
   const cp = e.target.closest('[data-refcopy]'); if (cp) { const txt = VA.flatMap(c => D.refs.filter(r => rateOf(r, c) !== null).map(r => `${r.no} ${areaName(c)} ${labelOf(r, c)}`)).join('\n'); if (S.tab === 'vote') { S.tab = 'refs'; document.querySelector('.tab[data-tab="refs"]').click(); } $('refScoreBox').hidden = false; $('refScoreText').value = txt || '（まだ評価していません）'; const ok = () => { $('refScoreMsg').textContent = 'コピーしました。そのまま送ってください'; }, fb = () => { $('refScoreText').focus(); $('refScoreText').select(); $('refScoreMsg').textContent = '選択しました。コピーしてください'; }; try { navigator.clipboard.writeText(txt).then(ok, fb); } catch (err) { fb(); } return; }
   const t = e.target.closest('[data-refq],[data-refth],[data-refcat],[data-refkind],[data-refratef],[data-refsort],[data-refma],[data-refok]'); if (!t) return; if (t.dataset.refkind) S.refKind = t.dataset.refkind; if (t.dataset.refratef) S.refRate = t.dataset.refratef; if (t.dataset.refsort) S.refSort = !S.refSort; if (t.dataset.refcat) S.refCat = t.dataset.refcat; if (t.dataset.refq) S.refQ = t.dataset.refq; if (t.dataset.refth) S.refTh = t.dataset.refth; if (t.dataset.refma) S.refMa = !S.refMa; if (t.dataset.refok) S.refOk = !S.refOk; renderRefs(); });
+// Pages：評価をファイルに書き出す・読みこむ（Claude のページと同じ形 {r, a, k, t}）
+document.addEventListener('click', e => { if (!e.target.closest('[data-pexport]')) return; const blob = new Blob([JSON.stringify({ r: S.rv, a: S.ra, k: S.kind, t: Date.now() })], { type: 'application/json' }), a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = 'votes-' + new Date().toISOString().slice(0, 10) + '.json'; document.body.appendChild(a); a.click(); a.remove(); toast(`評価 ${nRated()}件をファイルに保存しました`); });
+document.addEventListener('change', e => { const f = e.target.matches && e.target.matches('[data-pimport]') && e.target.files[0]; if (!f) return; f.text().then(t => { const d = JSON.parse(t); S.rv = loadRv(mergeV(S.rv, d.r), {}); S.ra = loadRa(mergeV(S.ra, d.a), {}); S.kind = { ...S.kind, ...(d.k || {}) }; saveAll(); toast(`読みこみました（評価 ${nRated()}件）`); if (S.tab === 'vote') renderVote(); if (S.tab === 'refs') renderRefs(); }).catch(() => toast('読みこめませんでした')); });
 // ---------- 作例の審査 ----------
 // 大きな画像は big/c000.jpg…（6枚ずつ JPEG をつないだもの）。D.big[番号] = [ファイル, 始まり, 長さ]
 const BIGC = {}, BIGU = {};
