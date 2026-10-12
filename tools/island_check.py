@@ -16,6 +16,7 @@ J = lambda p: json.load(open(os.path.join(ROOT, p), encoding='utf-8'))
 
 T = J('plan-terrain.json')
 G, H = T['grid'], T['h']
+GR = T.get('ground', {})
 MH, MW = len(G), len(G[0])
 Z = J('designs/zones_plan2.json')
 NAMES = Z['names']
@@ -66,7 +67,7 @@ for _, _, (a, b, c, d) in things:
 # 1. 何もない草地：草地で、木・道・水・物から2マス以上はなれている所（地区ごとの割合）
 def busy(x, y):
     c = g(x, y)
-    return c in 'tpPbwsrS' or (x, y) in road or (x, y) in occ
+    return c in 'tpPbwsrS' or GR.get('%d,%d' % (x, y)) == 'u' or (x, y) in road or (x, y) in occ
 open_cells = set()
 for y in range(MH):
     for x in range(MW):
@@ -90,7 +91,7 @@ for name, z, (a, b, c, d) in things:
     ringset = set(ring)
     entry = any(p in road for p in ring) or (g(a, b) == 's' and any(g(*p) == 's' for p in ring))   # 浜の物は浜から入れる
     def bound(x, y):
-        if (x, y) in road or (x, y) in occ or g(x, y) in 'twbrsS':
+        if (x, y) in road or (x, y) in occ or g(x, y) in 'twbrsS' or GR.get('%d,%d' % (x, y)) == 'u':
             return True
         if any((x + dx, y + dy) in ringset and g(x + dx, y + dy) == 't' for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1))):
             return True   # 木は1マスおきにしか植えられないので、木と木のあいだも並木の囲みに数える

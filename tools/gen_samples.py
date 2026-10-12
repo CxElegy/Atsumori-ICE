@@ -450,6 +450,8 @@ def build():
             w.fac_pos.append([f['name'], f['kind'], pos[0], pos[1]])
         # 1c 枯れ流れ（白砂の砂紋）
         for k, v in w.ground_plan.items():
+            if v == 'u':
+                continue   # 低木（第44回の林）は塗らない（植えるもの）
             x, y = map(int, k.split(','))
             if mask[y][x] and not w.cov[y][x]:
                 w.paint[k] = v; w.cov[y][x] = True

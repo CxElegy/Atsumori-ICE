@@ -332,6 +332,15 @@ class Terrain:
                 continue
             if ((x * 73856093) ^ (y * 19349663)) % 1000 / 1000 < dens:
                 g[y][x] = 't'; n += 1
+        bush = op.get('bush', 0)   # 低木（記号 u・地面の模様として残す）：木の間をうめて林を濃くする。低木はとなり合ってよい
+        if bush:
+            for x, y in region(op):
+                if g[y][x] not in '13' or (x, y) in slope or any(in_rect(x, y, [r[0], r[1], r[2] + 1, r[3] + 1]) for r in clear):
+                    continue
+                if any(0 <= x + dx < W and 0 <= y + dy < H and (g[y + dy][x + dx] in 'pPbwKSr' or (x + dx, y + dy) in slope) for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1))):
+                    continue
+                if ((x * 19349663) ^ (y * 83492791)) % 1000 / 1000 < bush:
+                    self.ground['%d,%d' % (x, y)] = 'u'
         self.cnt['forest'] = self.cnt.get('forest', 0) + n
 
     def untree(self, op):
@@ -339,6 +348,7 @@ class Terrain:
         for x, y in region(op):
             if self.grid[y][x] == 't':
                 self.grid[y][x] = '3' if self.h[y][x] >= 2 else '1'
+            self.ground.pop('%d,%d' % (x, y), None) if self.ground.get('%d,%d' % (x, y)) == 'u' else None
 
     # -- 全体 -------------------------------------------------------------------
     def run(self, design):
