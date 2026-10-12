@@ -23,7 +23,7 @@ NAMES = Z['names']
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from zones import zone_cells
 ZC = zone_cells(H)
-ROUTES = J('designs/lon_paths.json')['routes']
+ROUTES = J('designs/lon_paths2.json')['routes']
 SPOTS = J('london-redesign.json')['spots']
 INC = T['inclines']   # [x, y, 向き]。2×4 の足もとは (x, y) から（plan_terrain.py の slope_cells と同じ）
 
@@ -56,6 +56,8 @@ for x, y, d in INC:
 road |= slope
 
 # 物（ロンドンの場所と全島の目じるし）
+MOVES = J('designs/lon_moves2.json')['moves']   # 案2 で動かしたロンドンの場所
+SPOTS = [[s[0], s[1], MOVES[s[0]][0] if s[0] in MOVES else s[2]] + s[3:] for s in SPOTS]
 things = [(s[0] + ' ' + s[1], 'C' if zone(s[2][0], s[2][1]) == 'C' else zone(s[2][0], s[2][1]), s[2]) for s in SPOTS]
 things += [(n, z, r) for n, z, r in Z['landmarks']]
 CT = J('designs/country.json')
