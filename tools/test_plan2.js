@@ -37,5 +37,11 @@ ok('案2 点検：何もない草地が全地区で上限以内', Object.entries
 ok('案2 点検：浮いた物（入口の道がない・囲み4割未満）が0', C.floating.length === 0, C.floating.map(f => f.name).join('・'));
 ok('案2 点検：地区のさかいの8割以上が地形（崖・水・道・林）の上', C.zone_border_on_terrain_pct >= 80, C.zone_border_on_terrain_pct);
 ok('案2 点検：飛行場から道が切れずにつながる・道に着かない目じるし0', C.road_islands === 0 && C.landmarks_off_network.length === 0, C.road_islands + '・' + C.landmarks_off_network.map(l => l.name).join('・'));
+// 第47回：あつ森で作れるか（tools/acnh_build.py：本物の建物・目録の家具・マイデザインの貼り方・花と作物・木の植え方）
+const A = JSON.parse(execFileSync('python3', [path.join(ROOT, 'tools/acnh_build.py'), '--json'], { encoding: 'utf8', maxBuffer: 1 << 26 }));
+ok('案2 あつ森：作れない所が0（建物・家具・花・木・坂と橋の種類）', A.errors.length === 0, A.errors.slice(0, 3).join(' / '));
+const BP = J('designs/build_plan2.json'), kinds = BP.buildings.map(b => b.kind);
+ok('案2 あつ森：住民の家は10軒まで・博物館・タヌキ商店・エイブル・キャンプ場は1つずつ', kinds.filter(k => k === 'villager').length <= 10 && ['museum', 'nook', 'able', 'campsite'].every(k => kinds.filter(x => x === k).length === 1));
+ok('案2 あつ森：置く家具は200個以上（島ぜんぶに家具のまとまりがある）', A.items >= 200, A.items);
 console.log(`案2：${n}項目 中 ${n - bad} 項目OK` + (bad ? `・NG ${bad}` : '　→ すべてOK'));
 process.exitCode = bad ? 1 : 0;

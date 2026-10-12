@@ -350,6 +350,14 @@ class Terrain:
                 self.grid[y][x] = '3' if self.h[y][x] >= 2 else '1'
             self.ground.pop('%d,%d' % (x, y), None) if self.ground.get('%d,%d' % (x, y)) == 'u' else None
 
+    def thin(self, op):
+        """第47回：あつ森では木は縦横にとなり合って植えられない（ななめは植えられる）。左か上に木がある木をぬき、市松にする"""
+        n = 0
+        for x, y in region(op):
+            if self.grid[y][x] == 't' and ((x > 0 and self.grid[y][x - 1] == 't') or (y > 0 and self.grid[y - 1][x] == 't')):
+                self.grid[y][x] = '3' if self.h[y][x] >= 2 else '1'; n += 1
+        self.cnt['thin'] = self.cnt.get('thin', 0) + n
+
     # -- 全体 -------------------------------------------------------------------
     def run(self, design):
         ops = design['ops']
@@ -359,7 +367,7 @@ class Terrain:
                 getattr(self, op['op'])(op)
         self.fix()
         for op in ops:
-            if op['op'] in ('incline', 'road', 'bridge', 'forest', 'untree'):
+            if op['op'] in ('incline', 'road', 'bridge', 'forest', 'untree', 'thin'):
                 getattr(self, op['op'])(op)
         self.ground = {k: v for k, v in self.ground.items() if self.grid[int(k.split(',')[1])][int(k.split(',')[0])] in '13t'}
         # 坂は上の1マスの段を変えず、下の3マスはもともと1段低い所。橋の下の段をそろえる

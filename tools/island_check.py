@@ -4,8 +4,8 @@
   python3 tools/island_check.py          # 表で出す
   python3 tools/island_check.py --json   # 数を JSON で出す
 
-読むもの：plan-terrain.json（地形）・designs/lon_paths.json（道）・london-redesign.json（ロンドンの場所）・
-designs/zones_plan2.json（地区と目じるし）。地形の記号は plan_terrain.py と同じ
+読むもの：plan2-terrain.json（地形）・designs/lon_paths2.json（道）・designs/zones_plan2.json（地区）・
+designs/build_plan2.json（第47回：あつ森で作れる建物と家具のまとまり。tools/acnh_build.py）。地形の記号は plan_terrain.py と同じ
 （数字＝草地・t 木・p 道・P 案内所の広場・w 水・b 橋・s 砂・r 岩・S 海）。
 """
 import json, os, sys
@@ -24,7 +24,6 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from zones import zone_cells
 ZC = zone_cells(H)
 ROUTES = J('designs/lon_paths2.json')['routes']
-SPOTS = J('london-redesign.json')['spots']
 INC = T['inclines']   # [x, y, 向き]。2×4 の足もとは (x, y) から（plan_terrain.py の slope_cells と同じ）
 
 inside = lambda x, y: 0 <= x < MW and 0 <= y < MH
@@ -55,14 +54,23 @@ for x, y, d in INC:
     slope.update(cells)
 road |= slope
 
-# 物（ロンドンの場所と全島の目じるし）
-MOVES = J('designs/lon_moves2.json')['moves']   # 案2 で動かしたロンドンの場所
-SPOTS = [[s[0], s[1], MOVES[s[0]][0] if s[0] in MOVES else s[2]] + s[3:] for s in SPOTS]
-things = [(s[0] + ' ' + s[1], 'C' if zone(s[2][0], s[2][1]) == 'C' else zone(s[2][0], s[2][1]), s[2]) for s in SPOTS]
-things += [(n, z, r) for n, z, r in Z['landmarks']]
-CT = J('designs/country.json')
-things += [(k + ' ' + n, zone(r[0], r[1]), r) for k, n, r, *_ in CT['spots'] + CT['terraces']]
-occ = set()
+# 物（第47回：あつ森で作れる物だけ。designs/build_plan2.json の本物の建物と、家具のまとまり）
+from acnh_build import expand, SIZE, B as BUILD
+things = []
+for b in BUILD['buildings']:
+    if b.get('fixed'):
+        continue
+    w, d = SIZE[b['kind']]; x, y = b['at']
+    things.append((b['id'] + ' ' + (b.get('villager') or b.get('name', b['kind'])), zone(x, y), [x, y, x + w - 1, y + d - 1]))
+bb = {}
+for p in expand():
+    r = bb.setdefault(p['group'], [999, 999, -1, -1])
+    r[0], r[1] = min(r[0], p['x']), min(r[1], p['y']); r[2], r[3] = max(r[2], p['x'] + p['w'] - 1), max(r[3], p['y'] + p['d'] - 1)
+names = {g['id']: g['name'] for g in BUILD['groups']}
+from acnh_build import expand_plants
+PLANTED = {(q['x'], q['y']) for q in expand_plants()}   # 花・作物の植わったマスも「物」（あき地ではない）
+things += [(k + ' ' + names[k], zone(r[0], r[1]), r) for k, r in bb.items()]
+occ = set(PLANTED)
 for _, _, (a, b, c, d) in things:
     occ.update((x, y) for x in range(a, c + 1) for y in range(b, d + 1))
 
@@ -91,7 +99,7 @@ floating = []
 for name, z, (a, b, c, d) in things:
     ring = [(x, y) for x in range(a - 1, c + 2) for y in range(b - 1, d + 2) if not (a <= x <= c and b <= y <= d)]
     ringset = set(ring)
-    entry = any(p in road for p in ring) or (g(a, b) == 's' and any(g(*p) == 's' for p in ring))   # 浜の物は浜から入れる
+    entry = any(p in road for p in ring) or (sum(g(x, y) == 's' for x in range(a, c + 1) for y in range(b, d + 1)) * 2 > (c - a + 1) * (d - b + 1) and any(g(*p) == 's' for p in ring))   # 浜の物は浜から入れる
     def bound(x, y):
         if (x, y) in road or (x, y) in occ or g(x, y) in 'twbrsS' or GR.get('%d,%d' % (x, y)) == 'u':
             return True

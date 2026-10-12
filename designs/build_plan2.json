@@ -1,0 +1,2843 @@
+{
+ "note": "第47回：案2の島を、あつ森の中で本当に作れるものだけで組み立てる。建物は数と大きさの決まった本物の建物、物は目録（designs/acnh_catalog.json）にある家具の名前、マイデザインは地面とパネルなど貼れる家具だけ。点検は tools/acnh_build.py",
+ "season": "秋（北半球の10月）。広葉樹は黄と橙、ハロウィンの家具がそろう時期",
+ "rules": {
+  "sources": {
+   "建物の数（住民10人・自宅は8人まで）と、案内所・飛行場は動かせない": "https://nookipedia.com/wiki/Town",
+   "建物の移動": "https://nookipedia.com/wiki/Resident_Services",
+   "建物の大きさ（住民 4×4・自宅 5×4・博物館 7×4・タヌキ商店 7×4・エイブル 5×4・キャンプ場 4×4・建物のあいだ1マス）": "https://www.mtmmo.com/news/295--animal-crossing-new-horizons-building-plot-sizes-acnh-house-shop-tailor-museum-campsite-exterior-dimensions",
+   "坂 8本（建設ライセンスの追加で10本）・2×4・8種類": "https://nookipedia.com/wiki/Incline",
+   "橋 8本（同じく10本）・8種類": "https://nookipedia.com/wiki/Bridge",
+   "崖は3段まで。崖・水は木・岩・建物・橋・坂・家具の近くには作れない。案内所の広場・浜・河口は工事できない": "https://nookipedia.com/wiki/Island_Designer",
+   "案内所の広場には家具を置けない": "https://nookipedia.com/wiki/Plaza",
+   "シンプルなパネル（1×0.5）にマイデザインを貼れる": "https://nookipedia.com/wiki/Item:Simple_panel_(New_Horizons)",
+   "マイデザインの地面（道）。PRO は かさ・うちわ・旗・顔出し看板にも": "https://nookipedia.com/wiki/Custom_design",
+   "柵はつながる（ななめにはつながらない）": "https://nookipedia.com/wiki/Fence",
+   "ヤシは砂浜だけ": "https://nookipedia.com/wiki/Tree",
+   "住民の家の見た目（住民ごとに決まっている。ハッピーホームパラダイスで外観を変えられる）": "https://nookipedia.com/wiki/Villager_house",
+   "物の名前・大きさ・手に入れ方": "https://www.npmjs.com/package/animal-crossing（ACNH のデータ表）",
+   "花8種類と色・作物6種類（ver 2.0）": "https://nookipedia.com/wiki/Flower"
+  },
+  "cannot": [
+   "崖の面・水の面にマイデザインを貼る",
+   "高層ビル・ガラスの壁・観覧車の大きな建物・高架の鉄道・クレーン（どれも家具にない）",
+   "目録にない家具（ポスト・バス・二階建ての家など）",
+   "決まった数より多い建物（住民の家は10軒まで）",
+   "橋の上・坂の上・案内所の広場に家具を置く"
+  ],
+  "design_items": [
+   "simple panel",
+   "short simple panel"
+  ],
+  "plants": {
+   "roses": {
+    "ja": "バラ",
+    "colors": [
+     "red",
+     "white",
+     "yellow",
+     "orange",
+     "pink",
+     "purple",
+     "black",
+     "blue",
+     "gold"
+    ]
+   },
+   "tulips": {
+    "ja": "チューリップ",
+    "colors": [
+     "red",
+     "white",
+     "yellow",
+     "orange",
+     "pink",
+     "purple",
+     "black"
+    ]
+   },
+   "pansies": {
+    "ja": "パンジー",
+    "colors": [
+     "red",
+     "white",
+     "yellow",
+     "orange",
+     "purple",
+     "blue"
+    ]
+   },
+   "cosmos": {
+    "ja": "コスモス",
+    "colors": [
+     "red",
+     "white",
+     "yellow",
+     "orange",
+     "pink",
+     "black"
+    ]
+   },
+   "lilies": {
+    "ja": "ユリ",
+    "colors": [
+     "red",
+     "white",
+     "yellow",
+     "orange",
+     "pink",
+     "black"
+    ]
+   },
+   "hyacinths": {
+    "ja": "ヒヤシンス",
+    "colors": [
+     "red",
+     "white",
+     "yellow",
+     "orange",
+     "pink",
+     "purple",
+     "blue"
+    ]
+   },
+   "windflowers": {
+    "ja": "アネモネ",
+    "colors": [
+     "red",
+     "white",
+     "orange",
+     "pink",
+     "purple",
+     "blue"
+    ]
+   },
+   "mums": {
+    "ja": "キク",
+    "colors": [
+     "red",
+     "white",
+     "yellow",
+     "pink",
+     "purple",
+     "green"
+    ]
+   },
+   "pumpkins": {
+    "ja": "カボチャ（作物）",
+    "colors": [
+     "orange",
+     "yellow",
+     "white",
+     "green"
+    ]
+   },
+   "wheat": {
+    "ja": "小麦（作物）",
+    "colors": [
+     "gold"
+    ]
+   },
+   "carrots": {
+    "ja": "ニンジン（作物）",
+    "colors": [
+     "green"
+    ]
+   },
+   "potatoes": {
+    "ja": "ジャガイモ（作物）",
+    "colors": [
+     "green"
+    ]
+   },
+   "tomatoes": {
+    "ja": "トマト（作物）",
+    "colors": [
+     "red"
+    ]
+   },
+   "sugarcane": {
+    "ja": "サトウキビ（作物）",
+    "colors": [
+     "green"
+    ]
+   }
+  }
+ },
+ "buildings": [
+  {
+   "id": "rs",
+   "kind": "resident_services",
+   "fixed": true,
+   "rect": [
+    28,
+    62,
+    6,
+    4
+   ],
+   "name": "案内所",
+   "note": "広場（12×10）ごと動かせない"
+  },
+  {
+   "id": "airport",
+   "kind": "airport",
+   "fixed": true,
+   "rect": [
+    29,
+    84,
+    11,
+    6
+   ],
+   "name": "飛行場",
+   "note": "南の浜。動かせない"
+  },
+  {
+   "id": "museum",
+   "kind": "museum",
+   "at": [
+    20,
+    49
+   ],
+   "name": "博物館（ブルームズベリー）"
+  },
+  {
+   "id": "nook",
+   "kind": "nook",
+   "at": [
+    36,
+    77
+   ],
+   "name": "タヌキ商店（南岸の駅前）"
+  },
+  {
+   "id": "able",
+   "kind": "able",
+   "at": [
+    56,
+    55
+   ],
+   "name": "エイブルシスターズ（高台の通り）"
+  },
+  {
+   "id": "camp",
+   "kind": "campsite",
+   "at": [
+    57,
+    17
+   ],
+   "name": "キャンプ場（森のあき地）"
+  },
+  {
+   "id": "home",
+   "kind": "player_house",
+   "at": [
+    65,
+    41
+   ],
+   "name": "自宅",
+   "exterior": {
+    "roof": "black stone roof",
+    "siding": "brown cobblestones",
+    "door": "black rustic door",
+    "mailbox": "rustic mailbox"
+   }
+  },
+  {
+   "id": "v1",
+   "kind": "villager",
+   "villager": "Raymond",
+   "at": [
+    41,
+    55
+   ],
+   "zone": "C"
+  },
+  {
+   "id": "v2",
+   "kind": "villager",
+   "villager": "Maelle",
+   "at": [
+    46,
+    55
+   ],
+   "zone": "C"
+  },
+  {
+   "id": "v3",
+   "kind": "villager",
+   "villager": "Truffles",
+   "at": [
+    51,
+    55
+   ],
+   "zone": "C"
+  },
+  {
+   "id": "v4",
+   "kind": "villager",
+   "villager": "Deena",
+   "at": [
+    62,
+    55
+   ],
+   "zone": "C"
+  },
+  {
+   "id": "v5",
+   "kind": "villager",
+   "villager": "Pecan",
+   "at": [
+    17,
+    42
+   ],
+   "zone": "S"
+  },
+  {
+   "id": "v6",
+   "kind": "villager",
+   "villager": "Bea",
+   "at": [
+    25,
+    42
+   ],
+   "zone": "S"
+  },
+  {
+   "id": "v7",
+   "kind": "villager",
+   "villager": "Genji",
+   "at": [
+    25,
+    28
+   ],
+   "zone": "J"
+  },
+  {
+   "id": "v8",
+   "kind": "villager",
+   "villager": "Muffy",
+   "at": [
+    86,
+    20
+   ],
+   "zone": "H"
+  },
+  {
+   "id": "v9",
+   "kind": "villager",
+   "villager": "Scoot",
+   "at": [
+    89,
+    58
+   ],
+   "zone": "P"
+  },
+  {
+   "id": "v10",
+   "kind": "villager",
+   "villager": "Ed",
+   "at": [
+    93,
+    63
+   ],
+   "zone": "P"
+  }
+ ],
+ "inclines": {
+  "47,61": "brick staircase",
+  "52,61": "brick staircase",
+  "43,66": "stone staircase",
+  "22,35": "stone staircase",
+  "22,25": "stone staircase",
+  "83,46": "natural ramp",
+  "92,73": "white-plank ramp"
+ },
+ "bridges": {
+  "43,71": "brick bridge",
+  "49,67": "stone bridge",
+  "60,71": "iron bridge",
+  "70,61": "iron bridge",
+  "70,78": "wooden bridge",
+  "44,39": "stone bridge",
+  "58,45": "log bridge"
+ },
+ "paths": {
+  "C": {
+   "kind": "custom",
+   "design": "road_chic_stone"
+  },
+  "S": {
+   "kind": "game",
+   "name": "dirt path"
+  },
+  "F": {
+   "kind": "game",
+   "name": "dark dirt path"
+  },
+  "B": {
+   "kind": "game",
+   "name": "stone path"
+  },
+  "J": {
+   "kind": "game",
+   "name": "stone path"
+  },
+  "H": {
+   "kind": "game",
+   "name": "dark dirt path"
+  },
+  "P": {
+   "kind": "custom",
+   "design": "stone_old"
+  }
+ },
+ "groups": [
+  {
+   "id": "C-terrace",
+   "zone": "C",
+   "name": "高台の通り（住民の家4軒とエイブルの家並み・2段目）",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "streetlamp",
+     45,
+     58,
+     0,
+     "Black"
+    ],
+    [
+     "streetlamp",
+     50,
+     58,
+     0,
+     "Black"
+    ],
+    [
+     "streetlamp",
+     55,
+     58,
+     0,
+     "Black"
+    ],
+    [
+     "streetlamp",
+     61,
+     58,
+     0,
+     "Black"
+    ],
+    [
+     "phone box",
+     40,
+     57,
+     0,
+     "Red"
+    ],
+    [
+     "fire hydrant",
+     40,
+     58,
+     0,
+     "Red"
+    ],
+    [
+     "steel trash can",
+     66,
+     58,
+     0,
+     "Black"
+    ],
+    [
+     "crosswalk signal",
+     42,
+     61,
+     0,
+     "Black"
+    ],
+    [
+     "crosswalk signal",
+     45,
+     61,
+     0,
+     "Black"
+    ],
+    [
+     "tourist telescope",
+     67,
+     59,
+     0,
+     "Black"
+    ],
+    [
+     "plaza bench",
+     66,
+     55,
+     0,
+     "Classic"
+    ],
+    [
+     "round streetlight",
+     67,
+     57,
+     0,
+     "Black"
+    ]
+   ],
+   "lines": [
+    {
+     "item": "iron fence",
+     "from": [
+      46,
+      61
+     ],
+     "to": [
+      55,
+      61
+     ],
+     "var": "Black",
+     "skip": [
+      [
+       47,
+       61
+      ],
+      [
+       48,
+       61
+      ],
+      [
+       52,
+       61
+      ],
+      [
+       53,
+       61
+      ]
+     ]
+    }
+   ],
+   "ref": [
+    "R-0849",
+    "R-1225"
+   ],
+   "note": "ホワイトホールの通り（R-0849）の街灯・信号・鉄の柵を、本物の住民の家（ジャック・アンヌ・トンコ・まりも）とエイブルの前に"
+  },
+  {
+   "id": "C-cut",
+   "zone": "C",
+   "name": "切り通しの運河と曳舟道（1段目）",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "stall",
+     54,
+     62,
+     1,
+     "Green"
+    ],
+    [
+     "barrel",
+     54,
+     64
+    ],
+    [
+     "phone box",
+     54,
+     65,
+     0,
+     "Red"
+    ],
+    [
+     "stall",
+     54,
+     67,
+     1,
+     "White"
+    ],
+    [
+     "wooden box",
+     46,
+     62,
+     0,
+     "Natural"
+    ],
+    [
+     "barrel",
+     46,
+     63
+    ],
+    [
+     "streetlamp",
+     46,
+     65,
+     0,
+     "Black"
+    ],
+    [
+     "garden wagon",
+     46,
+     66,
+     1,
+     "Green"
+    ],
+    [
+     "streetlamp",
+     46,
+     69,
+     0,
+     "Black"
+    ]
+   ],
+   "lines": [],
+   "ref": [
+    "R-1233",
+    "R-1241"
+   ],
+   "note": "崖の面は変えられないので、レンガの壁の写真（R-1233）は崖そのもの。曳舟道に屋台・たる・木箱・街灯"
+  },
+  {
+   "id": "C-quay",
+   "zone": "C",
+   "name": "岸壁通り（テムズ川の北岸・1段目）",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "phone box",
+     38,
+     67,
+     0,
+     "Red"
+    ],
+    [
+     "public bench",
+     39,
+     67,
+     0,
+     "Green"
+    ],
+    [
+     "streetlamp",
+     41,
+     67,
+     0,
+     "Black"
+    ],
+    [
+     "scooter",
+     38,
+     68,
+     0,
+     null
+    ]
+   ],
+   "lines": [],
+   "ref": [
+    "R-1231",
+    "R-1148"
+   ]
+  },
+  {
+   "id": "C-tower",
+   "zone": "C",
+   "name": "タワーブリッジ（レンガの橋と城の塔）",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "castle tower",
+     41,
+     75,
+     0,
+     "Gray"
+    ],
+    [
+     "castle tower",
+     47,
+     74,
+     0,
+     "Gray"
+    ],
+    [
+     "street lamp with banners",
+     41,
+     68,
+     0,
+     "Black"
+    ]
+   ],
+   "lines": [],
+   "ref": [
+    "R-1274"
+   ],
+   "note": "あつ森の橋は平らで上に物を置けない。レンガの橋の南のたもとの両わきに「おしろのとう」を立てて塔に見せる"
+  },
+  {
+   "id": "C-plaza",
+   "zone": "C",
+   "name": "案内所の広場のまわり（トラファルガー広場）",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "valiant statue",
+     38,
+     62
+    ],
+    [
+     "gallant statue",
+     38,
+     65
+    ],
+    [
+     "round streetlight",
+     38,
+     61,
+     0,
+     "Black"
+    ],
+    [
+     "street lamp with banners",
+     22,
+     62,
+     0,
+     "Black"
+    ],
+    [
+     "public bench",
+     22,
+     65,
+     0,
+     "Green"
+    ],
+    [
+     "round streetlight",
+     23,
+     68,
+     0,
+     "Black"
+    ],
+    [
+     "park clock",
+     23,
+     61,
+     0,
+     "Black"
+    ]
+   ],
+   "lines": [],
+   "note": "広場（P）には物を置けないので、広場をかこむ道の外に像・街灯・ベンチ"
+  },
+  {
+   "id": "C-museum",
+   "zone": "C",
+   "name": "ブルームズベリー（博物館の前の庭）",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "sphinx",
+     27,
+     50,
+     0
+    ],
+    [
+     "pyramid",
+     27,
+     55,
+     0
+    ],
+    [
+     "fountain",
+     22,
+     55,
+     0,
+     "Gray"
+    ],
+    [
+     "iron garden bench",
+     19,
+     56,
+     0,
+     "Black"
+    ],
+    [
+     "streetlamp",
+     19,
+     55,
+     0,
+     "Black"
+    ],
+    [
+     "streetlamp",
+     29,
+     58,
+     0,
+     "Black"
+    ]
+   ],
+   "lines": [],
+   "ref": [
+    "R-0862"
+   ],
+   "note": "博物館は本物の建物（7×4）。前の庭にスフィンクス・ピラミッド（いなりのしょうひん）と噴水"
+  },
+  {
+   "id": "C-alley",
+   "zone": "C",
+   "name": "魔法の路地（パネルの店先）",
+   "at": [
+    0,
+    0
+   ],
+   "items": [],
+   "lines": [
+    {
+     "item": "simple panel",
+     "from": [
+      18,
+      59
+     ],
+     "to": [
+      23,
+      59
+     ],
+     "var": "Brown",
+     "design": "wall_windows_bricks"
+    },
+    {
+     "item": "simple panel",
+     "from": [
+      25,
+      59
+     ],
+     "to": [
+      30,
+      59
+     ],
+     "var": "Brown",
+     "design": "wall_brick_lamp"
+    }
+   ],
+   "ref": [
+    "X-0006",
+    "R-0870"
+   ],
+   "note": "二階建ての店は作れないので、シンプルなパネルにレンガの壁と窓のマイデザインを貼って店先の列にする（1マスの路地 y60 に面する）"
+  },
+  {
+   "id": "C-south",
+   "zone": "C",
+   "name": "南岸の駅前（タヌキ商店・バス停・カフェ）",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "retro transportation stop",
+     47,
+     80,
+     0,
+     "Red"
+    ],
+    [
+     "drink machine",
+     35,
+     79,
+     0,
+     "Red"
+    ],
+    [
+     "flower stand",
+     34,
+     77,
+     0,
+     "Red"
+    ],
+    [
+     "stall",
+     49,
+     75,
+     0,
+     "Natural"
+    ],
+    [
+     "outdoor table",
+     49,
+     77,
+     0,
+     "White"
+    ],
+    [
+     "menu chalkboard",
+     51,
+     75
+    ],
+    [
+     "streetlamp",
+     47,
+     77,
+     0,
+     "Black"
+    ],
+    [
+     "streetlamp",
+     42,
+     81,
+     0,
+     "Black"
+    ]
+   ],
+   "lines": [],
+   "ref": [
+    "X-0011",
+    "R-1266"
+   ]
+  },
+  {
+   "id": "C-docks",
+   "zone": "C",
+   "name": "船だまり（テムズ川の南岸）",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "yacht",
+     53,
+     79,
+     0,
+     "White"
+    ],
+    [
+     "anchor statue",
+     52,
+     79,
+     0,
+     "Black"
+    ],
+    [
+     "barrel",
+     57,
+     79
+    ],
+    [
+     "wooden box",
+     57,
+     80,
+     0,
+     "Natural"
+    ]
+   ],
+   "lines": [],
+   "ref": [
+    "R-0187",
+    "R-1235"
+   ]
+  },
+  {
+   "id": "C-plaza2",
+   "zone": "C",
+   "name": "ドックランズの広場（観覧車とメリーゴーランド）",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "plaza ferris wheel",
+     63,
+     75,
+     0,
+     "Classic"
+    ],
+    [
+     "plaza merry-go-round",
+     63,
+     78,
+     0,
+     "Classic"
+    ],
+    [
+     "plaza bench",
+     66,
+     77,
+     1,
+     "Classic"
+    ],
+    [
+     "plaza clock",
+     62,
+     77,
+     0,
+     "Classic"
+    ],
+    [
+     "plaza balloon wagon",
+     66,
+     80,
+     0,
+     "Classic"
+    ]
+   ],
+   "lines": [],
+   "note": "ロンドン・アイは作れない。かわりにゲームの「ひろばのかんらんしゃ」（3×2）と「ひろばのメリーゴーランド」"
+  },
+  {
+   "id": "C-market",
+   "zone": "C",
+   "name": "東の河岸の市場（コヴェント・ガーデン）",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "stall",
+     58,
+     61,
+     0,
+     "Green"
+    ],
+    [
+     "stall",
+     61,
+     61,
+     0,
+     "White"
+    ],
+    [
+     "stall",
+     64,
+     61,
+     0,
+     "Pink"
+    ],
+    [
+     "outdoor table",
+     58,
+     62,
+     0,
+     "Green"
+    ],
+    [
+     "outdoor table",
+     63,
+     62,
+     0,
+     "Green"
+    ],
+    [
+     "street lamp with banners",
+     66,
+     66,
+     0,
+     "Green"
+    ],
+    [
+     "flower stand",
+     66,
+     61,
+     0,
+     "Colorful"
+    ],
+    [
+     "menu chalkboard",
+     57,
+     65
+    ],
+    [
+     "iron garden bench",
+     60,
+     66,
+     0,
+     "Green"
+    ]
+   ],
+   "lines": [],
+   "ref": [
+    "R-1241",
+    "R-1130"
+   ]
+  },
+  {
+   "id": "C-regent",
+   "zone": "C",
+   "name": "リージェンツ・パーク（北のはしの公園）",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "park fountain",
+     48,
+     49,
+     0
+    ],
+    [
+     "public bench",
+     45,
+     49,
+     0,
+     "Green"
+    ],
+    [
+     "public bench",
+     52,
+     49,
+     0,
+     "Green"
+    ],
+    [
+     "park clock",
+     47,
+     52,
+     0,
+     "Black"
+    ],
+    [
+     "streetlamp",
+     44,
+     52,
+     0,
+     "Black"
+    ],
+    [
+     "streetlamp",
+     52,
+     52,
+     0,
+     "Black"
+    ]
+   ],
+   "lines": [
+    {
+     "item": "hedge",
+     "from": [
+      44,
+      53
+     ],
+     "to": [
+      53,
+      53
+     ]
+    }
+   ],
+   "ref": [
+    "R-0913",
+    "R-0912"
+   ]
+  },
+  {
+   "id": "C-hyde",
+   "zone": "C",
+   "name": "ハイドパークの林のお茶会",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "outdoor picnic set",
+     20,
+     75
+    ],
+    [
+     "log stakes",
+     19,
+     74
+    ],
+    [
+     "tree's bounty lamp",
+     22,
+     76
+    ],
+    [
+     "mush lamp",
+     20,
+     80
+    ],
+    [
+     "mush lamp",
+     22,
+     80
+    ],
+    [
+     "mush log",
+     21,
+     81
+    ]
+   ],
+   "lines": [],
+   "ref": [
+    "R-1157",
+    "R-1161",
+    "R-0867"
+   ]
+  },
+  {
+   "id": "S-pecan",
+   "zone": "S",
+   "name": "レベッカの家の庭（花の小道のコテージ）",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "brick well",
+     14,
+     42,
+     0,
+     "Red"
+    ],
+    [
+     "garden wagon",
+     14,
+     44,
+     0,
+     "White"
+    ],
+    [
+     "rose bed",
+     22,
+     42,
+     0,
+     "Red"
+    ],
+    [
+     "garden lantern",
+     22,
+     45,
+     0,
+     "White"
+    ]
+   ],
+   "lines": [
+    {
+     "item": "lattice fence",
+     "from": [
+      13,
+      41
+     ],
+     "to": [
+      16,
+      41
+     ],
+     "var": "White"
+    }
+   ],
+   "ref": [
+    "R-1283"
+   ],
+   "note": "コテージはレベッカ（石の壁とかやぶき屋根の住民の家）そのもの"
+  },
+  {
+   "id": "S-bea",
+   "zone": "S",
+   "name": "ベーグルの家の庭と温室（バラのアーチのコテージ）",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "pergola",
+     30,
+     42,
+     0,
+     "Pink flowers"
+    ],
+    [
+     "greenhouse box",
+     33,
+     42,
+     0
+    ],
+    [
+     "potted starter plants",
+     33,
+     43,
+     0,
+     "Green"
+    ],
+    [
+     "garden bench",
+     33,
+     45,
+     0,
+     "White"
+    ]
+   ],
+   "lines": [
+    {
+     "item": "lattice fence",
+     "from": [
+      30,
+      45
+     ],
+     "to": [
+      32,
+      45
+     ],
+     "var": "White"
+    }
+   ],
+   "ref": [
+    "R-1289",
+    "R-0915"
+   ],
+   "note": "家はベーグル（かやぶき屋根の住民の家）。東どなりにパーゴラと温室だな"
+  },
+  {
+   "id": "S-green",
+   "zone": "S",
+   "name": "村の緑地（ブランコのベンチと花壇）",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "swinging bench",
+     36,
+     43,
+     0,
+     "White wood"
+    ],
+    [
+     "flower bed",
+     36,
+     45,
+     0,
+     "White"
+    ],
+    [
+     "garden lantern",
+     35,
+     44,
+     0,
+     "White"
+    ],
+    [
+     "garden lantern",
+     38,
+     44,
+     0,
+     "White"
+    ]
+   ],
+   "lines": []
+  },
+  {
+   "id": "S-square",
+   "zone": "S",
+   "name": "村の広場（橋のたもと・パン屋の屋台）",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "stall",
+     40,
+     42,
+     0,
+     "Natural"
+    ],
+    [
+     "outdoor table",
+     41,
+     44,
+     0,
+     "White"
+    ],
+    [
+     "picnic umbrella",
+     43,
+     44
+    ],
+    [
+     "menu chalkboard",
+     43,
+     42
+    ],
+    [
+     "signpost",
+     44,
+     45,
+     0,
+     "Shop"
+    ]
+   ],
+   "lines": [],
+   "ref": [
+    "R-1164",
+    "R-1160"
+   ]
+  },
+  {
+   "id": "S-mill",
+   "zone": "S",
+   "name": "村の東のはずれの農家（風車とサイロ）",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "windmill",
+     53,
+     42,
+     0,
+     "White"
+    ],
+    [
+     "silo",
+     55,
+     42,
+     0,
+     "Red & brown"
+    ],
+    [
+     "hay bed",
+     53,
+     45,
+     0,
+     "Brown"
+    ],
+    [
+     "wooden box",
+     56,
+     45,
+     0,
+     "Natural"
+    ]
+   ],
+   "lines": [],
+   "note": "水車は家具にないので、ゲームの「ふうしゃ」（2×2・牧場の風車）とサイロ"
+  },
+  {
+   "id": "S-home",
+   "zone": "S",
+   "name": "自宅の前（菜園と郵便受け）",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "scarecrow",
+     71,
+     45
+    ],
+    [
+     "water pump",
+     70,
+     45,
+     0,
+     "Green"
+    ]
+   ],
+   "lines": [
+    {
+     "item": "hedge",
+     "from": [
+      64,
+      40
+     ],
+     "to": [
+      70,
+      40
+     ]
+    },
+    {
+     "item": "hedge",
+     "from": [
+      64,
+      41
+     ],
+     "to": [
+      64,
+      44
+     ]
+    }
+   ],
+   "note": "自宅は5×4。家の外観は案内所で変えられる（屋根・壁・ドア・ポスト）"
+  },
+  {
+   "id": "S-orchard",
+   "zone": "S",
+   "name": "ガゼボの庭（桃の木のそば）",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "gazebo",
+     61,
+     43,
+     0,
+     "White"
+    ]
+   ],
+   "lines": [],
+   "ref": [
+    "R-1291"
+   ]
+  },
+  {
+   "id": "S-allot",
+   "zone": "S",
+   "name": "村の畑と鉢植えの小屋（市民農園）",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "storage shed",
+     67,
+     30,
+     0,
+     "Green"
+    ],
+    [
+     "wooden storage shed",
+     69,
+     30,
+     0,
+     "Green"
+    ],
+    [
+     "potted starter plants",
+     70,
+     30,
+     0,
+     "Black"
+    ],
+    [
+     "wooden field sign",
+     62,
+     30,
+     0,
+     "Flower"
+    ],
+    [
+     "water pump",
+     66,
+     33,
+     0,
+     "Green"
+    ],
+    [
+     "scarecrow",
+     64,
+     32
+    ]
+   ],
+   "lines": [],
+   "ref": [
+    "R-1284",
+    "R-1288"
+   ]
+  },
+  {
+   "id": "S-ranch",
+   "zone": "S",
+   "name": "牧場（横板の柵・干し草・トラクター）",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "hay bed",
+     73,
+     50,
+     0,
+     "Brown"
+    ],
+    [
+     "hay bed",
+     73,
+     52,
+     0,
+     "Pale green"
+    ],
+    [
+     "tractor",
+     81,
+     50,
+     0,
+     "Red"
+    ],
+    [
+     "silo",
+     84,
+     52,
+     0,
+     "Red & brown"
+    ]
+   ],
+   "lines": [
+    {
+     "item": "corral fence",
+     "from": [
+      71,
+      48
+     ],
+     "to": [
+      78,
+      48
+     ]
+    },
+    {
+     "item": "corral fence",
+     "from": [
+      73,
+      54
+     ],
+     "to": [
+      78,
+      54
+     ]
+    },
+    {
+     "item": "corral fence",
+     "from": [
+      80,
+      48
+     ],
+     "to": [
+      85,
+      48
+     ]
+    },
+    {
+     "item": "corral fence",
+     "from": [
+      80,
+      54
+     ],
+     "to": [
+      85,
+      54
+     ]
+    }
+   ],
+   "ref": [
+    "R-1292"
+   ],
+   "note": "うさぎなどの動物は置けない。柵で囲んだ牧草地と干し草のベッド・トラクター"
+  },
+  {
+   "id": "S-garden",
+   "zone": "S",
+   "name": "東の丘の庭園（生け垣の中庭・噴水・湖のガゼボ・風車）",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "fountain",
+     91,
+     42,
+     0,
+     "White"
+    ],
+    [
+     "garden bench",
+     88,
+     43,
+     0,
+     "White"
+    ],
+    [
+     "garden bench",
+     95,
+     43,
+     0,
+     "White"
+    ],
+    [
+     "round topiary",
+     88,
+     42,
+     0,
+     "Green"
+    ],
+    [
+     "round topiary",
+     97,
+     42,
+     0,
+     "Green"
+    ],
+    [
+     "gazebo",
+     86,
+     48,
+     0,
+     "White"
+    ],
+    [
+     "windmill",
+     89,
+     51,
+     0,
+     "White"
+    ]
+   ],
+   "lines": [
+    {
+     "item": "hedge",
+     "from": [
+      87,
+      45
+     ],
+     "to": [
+      90,
+      45
+     ]
+    },
+    {
+     "item": "hedge",
+     "from": [
+      94,
+      45
+     ],
+     "to": [
+      97,
+      45
+     ]
+    }
+   ],
+   "ref": [
+    "R-0904",
+    "R-0898",
+    "R-0897"
+   ],
+   "note": "館は作れない（住民の家は10軒まで）。丘の上を生け垣と噴水の庭園にして、湖のほとりにガゼボ"
+  },
+  {
+   "id": "J-shrine",
+   "zone": "J",
+   "name": "霊峰の頂（あずまやの社・五重塔・どら）",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "azumaya gazebo",
+     21,
+     16,
+     0,
+     "Natural"
+    ],
+    [
+     "pagoda",
+     18,
+     17,
+     0,
+     "Red"
+    ],
+    [
+     "gong",
+     25,
+     17,
+     0,
+     "Red"
+    ],
+    [
+     "stone lion-dog",
+     21,
+     20,
+     0,
+     "Natural"
+    ],
+    [
+     "stone lion-dog",
+     24,
+     20,
+     0,
+     "Natural"
+    ],
+    [
+     "tall lantern",
+     20,
+     22,
+     0,
+     "Natural"
+    ],
+    [
+     "tall lantern",
+     25,
+     22,
+     0,
+     "Natural"
+    ],
+    [
+     "torii",
+     21,
+     24,
+     0,
+     "Vermilion"
+    ]
+   ],
+   "lines": [],
+   "note": "社の建物は作れないので、あずまや（3×3）を社に見立てる。鳥居は通り抜けられるアーチ"
+  },
+  {
+   "id": "J-torii",
+   "zone": "J",
+   "name": "千本鳥居（2段目の参道）",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "torii",
+     21,
+     29,
+     0,
+     "Vermilion"
+    ],
+    [
+     "torii",
+     21,
+     31,
+     0,
+     "Vermilion"
+    ],
+    [
+     "torii",
+     21,
+     33,
+     0,
+     "Vermilion"
+    ]
+   ],
+   "lines": []
+  },
+  {
+   "id": "J-genji",
+   "zone": "J",
+   "name": "ゲンジの家と池泉（茶室に見立てる）",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "deer scare",
+     30,
+     32,
+     0,
+     "Green bamboo"
+    ],
+    [
+     "zen bench",
+     29,
+     27,
+     0
+    ],
+    [
+     "tall lantern",
+     29,
+     28,
+     0,
+     "Mossy"
+    ],
+    [
+     "bamboo partition",
+     24,
+     32,
+     0,
+     "Green bamboo"
+    ]
+   ],
+   "lines": [],
+   "note": "ゲンジ（瓦屋根・和風の壁の住民の家）を池のほとりの茶室に"
+  },
+  {
+   "id": "B-gate",
+   "zone": "B",
+   "name": "竹林の門と川のはじまりのピクニック",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "torii",
+     21,
+     40,
+     0,
+     "Gray"
+    ],
+    [
+     "outdoor picnic set",
+     29,
+     39
+    ],
+    [
+     "picnic basket",
+     31,
+     39,
+     0,
+     "Red"
+    ],
+    [
+     "log bench",
+     29,
+     41,
+     0,
+     "Orange wood"
+    ]
+   ],
+   "lines": [],
+   "ref": [
+    "R-1172"
+   ]
+  },
+  {
+   "id": "F-camp",
+   "zone": "F",
+   "name": "キャンプ場の前（たき火とまるたのベンチ）",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "campfire",
+     56,
+     22
+    ],
+    [
+     "log bench",
+     54,
+     21,
+     0,
+     "Dark wood"
+    ],
+    [
+     "log stakes",
+     57,
+     23
+    ]
+   ],
+   "lines": [
+    {
+     "item": "log fence",
+     "from": [
+      56,
+      16
+     ],
+     "to": [
+      61,
+      16
+     ]
+    },
+    {
+     "item": "log fence",
+     "from": [
+      56,
+      17
+     ],
+     "to": [
+      56,
+      20
+     ]
+    },
+    {
+     "item": "log fence",
+     "from": [
+      61,
+      17
+     ],
+     "to": [
+      61,
+      20
+     ]
+    }
+   ]
+  },
+  {
+   "id": "F-tea1",
+   "zone": "F",
+   "name": "森のふちのお茶会",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "log round table",
+     64,
+     26,
+     0,
+     "White birch"
+    ],
+    [
+     "log chair",
+     63,
+     26,
+     0,
+     "White birch"
+    ],
+    [
+     "log chair",
+     66,
+     26,
+     0,
+     "White birch"
+    ],
+    [
+     "tree's bounty lamp",
+     68,
+     26
+    ]
+   ],
+   "lines": [],
+   "ref": [
+    "R-1163",
+    "R-1168"
+   ]
+  },
+  {
+   "id": "F-tea2",
+   "zone": "F",
+   "name": "森の長いテーブルのピクニック",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "log dining table",
+     51,
+     32,
+     0,
+     "Orange wood"
+    ],
+    [
+     "log stool",
+     50,
+     32,
+     0,
+     "Orange wood"
+    ],
+    [
+     "log stool",
+     53,
+     32,
+     0,
+     "Orange wood"
+    ],
+    [
+     "picnic basket",
+     51,
+     34,
+     0,
+     "Red"
+    ]
+   ],
+   "lines": [],
+   "ref": [
+    "R-1151"
+   ]
+  },
+  {
+   "id": "F-tea3",
+   "zone": "F",
+   "name": "森の小さなお茶の席（キノコ）",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "mush table",
+     47,
+     31,
+     0,
+     "Red mushroom"
+    ],
+    [
+     "mush low stool",
+     49,
+     31,
+     0,
+     "Red mushroom"
+    ]
+   ],
+   "lines": [],
+   "ref": [
+    "R-1152"
+   ]
+  },
+  {
+   "id": "F-tea4",
+   "zone": "F",
+   "name": "湖のほとりのお茶",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "cute tea table",
+     54,
+     36,
+     0,
+     "White"
+    ],
+    [
+     "fishing-rod stand",
+     56,
+     36,
+     0,
+     "Natural"
+    ],
+    [
+     "log stool",
+     55,
+     36,
+     0,
+     "White birch"
+    ]
+   ],
+   "lines": [],
+   "ref": [
+    "R-1159"
+   ]
+  },
+  {
+   "id": "H-gate",
+   "zone": "H",
+   "name": "尾根の切り通しの門",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "spooky arch",
+     77,
+     28,
+     0,
+     "Orange"
+    ],
+    [
+     "spooky lantern",
+     76,
+     27,
+     0,
+     "Orange"
+    ],
+    [
+     "spooky lantern",
+     80,
+     27,
+     0,
+     "Orange"
+    ]
+   ],
+   "lines": []
+  },
+  {
+   "id": "H-yard",
+   "zone": "H",
+   "name": "フリルの家（お化け屋敷に見立てる）と墓場",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "spooky tree",
+     84,
+     20,
+     0,
+     "Orange"
+    ],
+    [
+     "decayed tree",
+     91,
+     20,
+     0,
+     "Dark brown"
+    ],
+    [
+     "spooky tower",
+     91,
+     23,
+     0,
+     "Orange"
+    ],
+    [
+     "spooky scarecrow",
+     85,
+     23,
+     0,
+     "Orange"
+    ],
+    [
+     "stone tablet",
+     86,
+     26,
+     0,
+     "Mossy"
+    ],
+    [
+     "stone tablet",
+     88,
+     26,
+     0,
+     "Mossy"
+    ],
+    [
+     "stone tablet",
+     90,
+     26,
+     0,
+     "Mossy"
+    ],
+    [
+     "creepy skeleton",
+     92,
+     26,
+     0,
+     "Plain"
+    ],
+    [
+     "spooky lantern set",
+     84,
+     26,
+     0,
+     "Orange"
+    ]
+   ],
+   "lines": [
+    {
+     "item": "spooky fence",
+     "from": [
+      85,
+      25
+     ],
+     "to": [
+      92,
+      25
+     ],
+     "skip": [
+      [
+       87,
+       25
+      ],
+      [
+       88,
+       25
+      ]
+     ]
+    }
+   ],
+   "note": "墓石は家具にないので「せきひ」。家はフリル（紫の屋根・黒い石の壁の住民の家）"
+  },
+  {
+   "id": "H-pond",
+   "zone": "H",
+   "name": "窪地の黒い池のほとり（馬車）",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "spooky carriage",
+     83,
+     31,
+     0,
+     "Monochrome"
+    ],
+    [
+     "decayed tree",
+     88,
+     32,
+     0,
+     "White"
+    ]
+   ],
+   "lines": []
+  },
+  {
+   "id": "P-cliff",
+   "zone": "P",
+   "name": "崖の上の町（マモルとキザノホマレの家・灯台）",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "lighthouse",
+     96,
+     58,
+     0,
+     "Red"
+    ],
+    [
+     "garden bench",
+     94,
+     61,
+     0,
+     "White"
+    ],
+    [
+     "streetlamp",
+     92,
+     62,
+     0,
+     "White"
+    ],
+    [
+     "streetlamp",
+     89,
+     66,
+     0,
+     "White"
+    ],
+    [
+     "anchor statue",
+     97,
+     65,
+     0,
+     "White"
+    ]
+   ],
+   "lines": [
+    {
+     "item": "lattice fence",
+     "from": [
+      97,
+      60
+     ],
+     "to": [
+      97,
+      64
+     ],
+     "var": "White"
+    },
+    {
+     "item": "hedge",
+     "from": [
+      89,
+      57
+     ],
+     "to": [
+      95,
+      57
+     ]
+    }
+   ],
+   "note": "白い家並みは作れないので、白い壁の住民の家（マモル・キザノホマレ）を崖の上に"
+  },
+  {
+   "id": "P-quay",
+   "zone": "P",
+   "name": "船着き場（干物・たる・ヨット）",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "fish-drying rack",
+     80,
+     80,
+     0,
+     "Fish"
+    ],
+    [
+     "fish-drying rack",
+     83,
+     80,
+     0,
+     "Squid"
+    ],
+    [
+     "barrel",
+     86,
+     80
+    ],
+    [
+     "wooden box",
+     87,
+     80,
+     0,
+     "Natural"
+    ],
+    [
+     "stall",
+     88,
+     80,
+     0,
+     "White"
+    ],
+    [
+     "yacht",
+     80,
+     84,
+     0,
+     "Blue"
+    ]
+   ],
+   "lines": [],
+   "ref": [
+    "R-1235"
+   ]
+  },
+  {
+   "id": "P-beach",
+   "zone": "P",
+   "name": "浜（ビーチベッドと監視台）",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "beach chairs with parasol",
+     90,
+     85,
+     0,
+     "Blue"
+    ],
+    [
+     "beach chairs with parasol",
+     93,
+     85,
+     0,
+     "Orange"
+    ],
+    [
+     "lifeguard chair",
+     96,
+     84,
+     0,
+     "Red"
+    ],
+    [
+     "surfboard",
+     98,
+     85
+    ]
+   ],
+   "lines": []
+  },
+  {
+   "id": "C-kx",
+   "zone": "C",
+   "name": "キングス・クロスの庭（南岸の西・噴水とバラ）",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "fountain",
+     30,
+     75,
+     0,
+     "White"
+    ],
+    [
+     "public bench",
+     27,
+     76,
+     0,
+     "Green"
+    ],
+    [
+     "public bench",
+     33,
+     76,
+     0,
+     "Green"
+    ],
+    [
+     "streetlamp",
+     29,
+     78,
+     0,
+     "Black"
+    ],
+    [
+     "streetlamp",
+     33,
+     78,
+     0,
+     "Black"
+    ],
+    [
+     "destinations signpost",
+     35,
+     75,
+     0,
+     "Old"
+    ]
+   ],
+   "lines": [
+    {
+     "item": "hedge",
+     "from": [
+      27,
+      80
+     ],
+     "to": [
+      35,
+      80
+     ]
+    }
+   ],
+   "ref": [
+    "R-1217"
+   ],
+   "note": "汽車の家具はないので、駅前の庭（噴水・バラ・生け垣・道しるべ）だけを作る。駅は飛行場"
+  },
+  {
+   "id": "C-speak",
+   "zone": "C",
+   "name": "スピーカーズ・コーナー（広場の西の芝生）",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "public bench",
+     14,
+     62,
+     0,
+     "Green"
+    ],
+    [
+     "public bench",
+     18,
+     62,
+     0,
+     "Green"
+    ],
+    [
+     "park clock",
+     16,
+     64,
+     0,
+     "Black"
+    ],
+    [
+     "streetlamp",
+     13,
+     64,
+     0,
+     "Black"
+    ],
+    [
+     "streetlamp",
+     21,
+     64,
+     0,
+     "Black"
+    ]
+   ],
+   "lines": [
+    {
+     "item": "hedge",
+     "from": [
+      13,
+      61
+     ],
+     "to": [
+      21,
+      61
+     ]
+    }
+   ]
+  },
+  {
+   "id": "P-meadow",
+   "zone": "P",
+   "name": "港の道の東の花畑とリンゴ園",
+   "at": [
+    0,
+    0
+   ],
+   "items": [
+    [
+     "wooden field sign",
+     80,
+     62,
+     0,
+     "Flower"
+    ],
+    [
+     "picnic basket",
+     82,
+     63,
+     0,
+     "Red"
+    ],
+    [
+     "outdoor picnic set",
+     83,
+     62
+    ]
+   ],
+   "lines": [],
+   "note": "広い草地は、ゲームのコスモスの花畑とリンゴの木（果物の木）にする"
+  }
+ ],
+ "plants": [
+  {
+   "id": "C-kx",
+   "type": "roses",
+   "colors": [
+    "red",
+    "white"
+   ],
+   "rect": [
+    27,
+    78,
+    28,
+    79
+   ]
+  },
+  {
+   "id": "C-kx",
+   "type": "tulips",
+   "colors": [
+    "yellow"
+   ],
+   "rect": [
+    30,
+    79,
+    32,
+    79
+   ]
+  },
+  {
+   "id": "C-speak",
+   "type": "tulips",
+   "colors": [
+    "red",
+    "white"
+   ],
+   "rect": [
+    14,
+    66,
+    22,
+    66
+   ]
+  },
+  {
+   "id": "C-terrace",
+   "type": "pansies",
+   "colors": [
+    "purple",
+    "white"
+   ],
+   "rect": [
+    40,
+    62,
+    42,
+    64
+   ]
+  },
+  {
+   "id": "S-pecan",
+   "type": "tulips",
+   "colors": [
+    "pink",
+    "white"
+   ],
+   "rect": [
+    13,
+    45,
+    13,
+    45
+   ]
+  },
+  {
+   "id": "S-allot",
+   "type": "tomatoes",
+   "rect": [
+    62,
+    31,
+    63,
+    31
+   ]
+  },
+  {
+   "id": "S-allot",
+   "type": "carrots",
+   "rect": [
+    65,
+    31,
+    66,
+    31
+   ]
+  },
+  {
+   "id": "S-allot",
+   "type": "potatoes",
+   "rect": [
+    62,
+    33,
+    63,
+    33
+   ]
+  },
+  {
+   "id": "S-field",
+   "type": "cosmos",
+   "colors": [
+    "yellow",
+    "orange",
+    "pink",
+    "white"
+   ],
+   "rect": [
+    62,
+    35,
+    71,
+    38
+   ],
+   "pattern": "rows"
+  },
+  {
+   "id": "S-home",
+   "type": "wheat",
+   "rect": [
+    70,
+    41,
+    71,
+    44
+   ]
+  },
+  {
+   "id": "H-gate",
+   "type": "pumpkins",
+   "colors": [
+    "orange",
+    "orange",
+    "white",
+    "yellow"
+   ],
+   "rect": [
+    75,
+    30,
+    80,
+    30
+   ]
+  },
+  {
+   "id": "P-cliff",
+   "type": "windflowers",
+   "colors": [
+    "blue",
+    "white"
+   ],
+   "rect": [
+    88,
+    69,
+    91,
+    72
+   ],
+   "pattern": "checker"
+  },
+  {
+   "id": "P-cliff",
+   "type": "windflowers",
+   "colors": [
+    "blue",
+    "white"
+   ],
+   "rect": [
+    94,
+    69,
+    97,
+    72
+   ],
+   "pattern": "checker"
+  },
+  {
+   "id": "P-meadow",
+   "type": "cosmos",
+   "colors": [
+    "pink",
+    "white",
+    "red"
+   ],
+   "rect": [
+    80,
+    57,
+    85,
+    61
+   ],
+   "pattern": "checker",
+   "skip": [
+    [
+     81,
+     57
+    ],
+    [
+     80,
+     58
+    ]
+   ]
+  }
+ ],
+ "orchards": [
+  {
+   "rect": [
+    80,
+    64,
+    87,
+    79
+   ],
+   "fruit": "apple",
+   "ja": "リンゴ"
+  },
+  {
+   "rect": [
+    56,
+    38,
+    65,
+    46
+   ],
+   "fruit": "peach",
+   "ja": "モモ"
+  }
+ ]
+}
