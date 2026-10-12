@@ -27,7 +27,7 @@ def rotate(rows, rot):
     return [''.join(s) for s in r]
 
 def main():
-    ap = argparse.ArgumentParser(); ap.add_argument('--cache', required=True, nargs='+'); ap.add_argument('--out', required=True); ap.add_argument('--board'); ap.add_argument('--views'); ap.add_argument('--big', help='作例の大きな画像（big/c000.jpg…）を書き出す置き場。Artifact に files として一緒に載せる'); a = ap.parse_args()
+    ap = argparse.ArgumentParser(); ap.add_argument('--cache', required=True, nargs='+'); ap.add_argument('--out', required=True); ap.add_argument('--board'); ap.add_argument('--views'); ap.add_argument('--pages', action='store_true', help='GitHub Pages 用：作者の画像は埋めこまず Pinterest の URL を直接使う（リポジトリに画像を入れない）。評価は見るだけ'); ap.add_argument('--votes', help='Pages に出す評価の写し（Artifact の votes/all）'); ap.add_argument('--big', help='作例の大きな画像（big/c000.jpg…）を書き出す置き場。Artifact に files として一緒に載せる'); a = ap.parse_args()
     files = {}
     for c in a.cache:
         idx = json.load(open(os.path.join(c, 'index.json')))
@@ -37,14 +37,16 @@ def main():
     def open_url(u):
         if u not in opened: opened[u] = Image.open(files[u]).convert('RGB')
         return opened[u]
+    def thumb(u, make):   # Pages は Pinterest の小さい画像（236x）を直接読む
+        return u.replace('/736x/', '/236x/') if a.pages else make()
     T, S, LON, CATD, CUR = J('plan-terrain.json'), J('samples.json'), J('designs/lon.json'), J('designs/catalog.json'), J('modules-curated.json')
     leg_src = open(os.path.join(ROOT, 'Module Builder.dc.html'), encoding='utf8').read()
     leg_txt = leg_src[leg_src.index('  LEG = {'):leg_src.index('  genAll(')]
     LEG = {k.strip("'"): [n, c, g] for k, n, c, g in re.findall(r"('[^']+'|[\w$]+): \['([^']*)', '(#[0-9a-fA-F]{6})', '([^']*)'\]", leg_txt)}
     cat = {d['id']: d for d in CATD['designs']}
     for d in cat.values():
-        d['thumb'] = uri(fit(open_url(d['images'][0]), 360), q=72) if d['images'][0] in files else ''
-    ex = [{**x, 'thumb': uri(fit(open_url(x['image']), 640), q=74)} for x in CATD['examples'] if x['image'] in files]
+        d['thumb'] = thumb(d['images'][0], lambda: uri(fit(open_url(d['images'][0]), 360), q=72)) if d['images'][0] in files else ''
+    ex = [{**x, 'thumb': thumb(x['image'], lambda: uri(fit(open_url(x['image']), 640), q=74))} for x in CATD['examples'] if x['image'] in files]
     # 地面・家具のマイデザインの図（1マス分を切り出す）
     def crop(design, img_i, box, rot=0, size=72):
         im = open_url(cat[design]['images'][img_i]); x, y, w, h = box
@@ -52,10 +54,10 @@ def main():
     tex, tex_items = {}, {}
     for ch, g in LON['ground'].items():
         t = g.get('tex')
-        if t: tex[ch] = {'pieces': {k: crop(t.get('design', g['design']), t['img'], b) for k, b in t['pieces'].items()}, 'rot': t.get('rot', 0)}
+        if t and not a.pages: tex[ch] = {'pieces': {k: crop(t.get('design', g['design']), t['img'], b) for k, b in t['pieces'].items()}, 'rot': t.get('rot', 0)}
     for ch, g in LON['items'].items():
         t = g.get('tex')
-        if t: tex_items[ch] = {'pieces': [crop(g['design'], t['img'], b) for b in t['pieces']], 'run': t.get('run', False)}
+        if t and not a.pages: tex_items[ch] = {'pieces': [crop(g['design'], t['img'], b) for b in t['pieces']], 'run': t.get('run', False)}
     lon = {k: LON[k] for k in ('ground', 'items', 'furniture', 'design_extra')}; lon['tex'] = tex; lon['texItems'] = tex_items
     # モジュール
     meta = {m['id']: m for m in CUR['modules']}
@@ -71,7 +73,7 @@ def main():
         mods[m['id']] = {k: v for k, v in m.items() if k != 'id'}; mods[m['id']]['name'] = m['name'].replace('細部：', '')
         for ch, g in (m.get('itemsOv') or {}).items():
             t = g.get('tex')
-            if t: mods[m['id']].setdefault('texOv', {})[ch] = {'pieces': [crop(g['design'], t['img'], b) for b in t['pieces']], 'run': t.get('run', False)}
+            if t and not a.pages: mods[m['id']].setdefault('texOv', {})[ch] = {'pieces': [crop(g['design'], t['img'], b) for b in t['pieces']], 'run': t.get('run', False)}
         for r in m.get('refs', []):
             r['img'] = uri(fit(Image.open(os.path.join(ROOT, r['img'])), 900), q=80)
     for mid in ('lon_934', 'pop0007', 'pop0084'):
@@ -154,7 +156,7 @@ def main():
     # 集めた作例：検索で見つけた画像をすべて（使っていないものも）。目録は designs/refs.json
     lib = json.load(open(os.path.join(ROOT, 'designs', 'refs.json'), encoding='utf8'))
     used = {u: d['ma'] for d in cat.values() for u in d['images']}; usedEx = {x['image']: x['name'] for x in CATD['examples']}
-    refs = [{'no': r['no'], 'verdict': r.get('verdict', ''), 'note': r.get('use', ''), 'url': r['url'], 'q': r['q'], 'th': r.get('th', 'all'), 'cat': r.get('cat', ''), 'kind': r.get('kind', 'scene'), 'title': r.get('title', ''), 'score': r.get('score', 0), 'ma': used.get(r['url'], r.get('ma', '')), 'ocr': r['url'] not in used and bool(r.get('ma_ocr')), 'use': usedEx.get(r['url'], ''), 'thumb': uri(ImageOps.fit(open_url(r['url']), (100, 100), Image.LANCZOS, centering=(.5, .35)), q=42)} for r in lib if r['url'] in files and not r.get('dup')]
+    refs = [{'no': r['no'], 'verdict': r.get('verdict', ''), 'note': r.get('use', ''), 'url': r['url'], 'q': r['q'], 'th': r.get('th', 'all'), 'cat': r.get('cat', ''), 'kind': r.get('kind', 'scene'), 'title': r.get('title', ''), 'score': r.get('score', 0), 'ma': used.get(r['url'], r.get('ma', '')), 'ocr': r['url'] not in used and bool(r.get('ma_ocr')), 'use': usedEx.get(r['url'], ''), 'thumb': thumb(r['url'], lambda: uri(ImageOps.fit(open_url(r['url']), (100, 100), Image.LANCZOS, centering=(.5, .35)), q=42))} for r in lib if r['url'] in files and not r.get('dup')]
     # 重複（refs.json の dup）は出さず、残す方に 重複の番号・出てきた地区 をまとめる
     dupOf = {r['no']: r['dup'] for r in lib if r.get('dup')}; byNo = {r['no']: r for r in refs}; thOfNo = {r['no']: r.get('th', 'all') for r in lib}
     for d, k in dupOf.items():
@@ -163,7 +165,7 @@ def main():
             if thOfNo[d] not in ('all', byNo[k]['th']) and thOfNo[d] not in byNo[k].setdefault('ths', []): byNo[k]['ths'].append(thOfNo[d])
     # 作例の審査タブの大きな画像：幅720まで・6枚の JPEG をつないで1つの .jpg に（Artifact は外の画像を読めず、ファイル数に上限があり、.bin は載せられない）
     big = {}
-    if a.big:
+    if a.big and not a.pages:
         os.makedirs(os.path.join(a.big, 'big'), exist_ok=True); chunk, k = b'', 0
         def flush():
             nonlocal chunk, k
@@ -175,7 +177,7 @@ def main():
         flush(); print('大きな画像', len(big), '枚', k, 'ファイル')
     from gen_samples import LON_SUB
     # 重複・角度ちがいとしてまとめた作例も、審査の画面で並べて見せるので縮小画像と出どころだけ持つ
-    dupRefs = {r['no']: {'thumb': uri(ImageOps.fit(open_url(r['url']), (100, 100), Image.LANCZOS, centering=(.5, .35)), q=42), 'url': r['url'], 'title': r.get('title', ''), 'kind': r.get('dup_kind', 'same')} for r in lib if r.get('dup') and r['url'] in files}
+    dupRefs = {r['no']: {'thumb': thumb(r['url'], lambda: uri(ImageOps.fit(open_url(r['url']), (100, 100), Image.LANCZOS, centering=(.5, .35)), q=42)), 'url': r['url'], 'title': r.get('title', ''), 'kind': r.get('dup_kind', 'same')} for r in lib if r.get('dup') and r['url'] in files}
     data = {'options': opts, 'refs': refs, 'big': big, 'dupOf': dupOf, 'dupRefs': dupRefs, 'lonSub': LON_SUB, 'refCats': CATS, 'grid': G, 'h': H, 'inclines': T.get('inclines', []), 'paint': S['paint'], 'facs': S.get('facilities', []), 'places': places, 'mods': mods, 'leg': LEG, 'lon': lon, 'cat': cat, 'examples': ex,
             'th': {'lon': 'ロンドン', 'egy': 'エジプト', 'jpn': '日本', 'usa': 'アメリカ', 'eur': 'ヨーロッパ', 'port': '地中海'},
             'thColor': {'lon': '#b4503a', 'egy': '#d9a441', 'jpn': '#c45a7a', 'usa': '#3f6fb5', 'eur': '#4f9a8a', 'port': '#2f8fc9'},
@@ -206,6 +208,9 @@ def main():
         paint = {k: v for pa in S['paint'].values() for k, v in pa.items()}
         json.dump({'placed': [{'id': 'p%d' % i, 'm': (opts[p['slot']].get('default') if p.get('slot') else None) or p['id'], 'x': p['x'], 'y': p['y'], 'rot': p['rot']} for i, p in enumerate(places)], 'paint': paint, 'dist': 'lon',
                    'defs': {k: v['r'] for k, v in mods.items()}}, open(a.board, 'w'), ensure_ascii=False)
+    if a.pages:
+        import time
+        data['pages'] = {'artifact': 'https://claude.ai/artifact/JeGyrb8mzyNQkLxQNVBXts', 'built': int(time.time() * 1000), 'votes': json.load(open(a.votes)) if a.votes else {}}
     data['views'] = json.load(open(a.views)) if a.views and os.path.exists(a.views) else {}
     html = open(os.path.join(ROOT, 'tools', 'site', 'template.html'), encoding='utf8').read()
     js = json.dumps(data, ensure_ascii=False).replace('</', '<\\/')

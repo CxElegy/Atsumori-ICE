@@ -33,6 +33,12 @@ date: 2026-10-11
 ## ロンドンの市街と郊外（第31回）
 - テムズ川を境に、東岸・北岸が市街、西岸と南西の浜が郊外（村）。境は tools/gen_samples.py の LON_SUB。郊外は sub_lon_* のモジュールと旧石畳の小道
 
+## GitHub Pages（第39回）
+- docs/index.html が Pages 版のビルドガイド。`python3 tools/build_site.py --cache <写真の置き場> --out docs/index.html --views <views.json> --pages --votes <votes/all の写し.json>`
+- 作者の画像はリポジトリに入れず、Pinterest（i.pinimg.com の 236x／736x）を直接読む。地面・家具の切り抜き（作者の図の一部）は Pages では出さず色で描く
+- 見るだけ：評価ボタンは出さず、Claude のページ（Artifact）の votes/all の写しを地区ごとのラベルで出す。「作例の審査」タブは Claude のページへのリンク
+- 公開：Settings → Pages → Deploy from a branch → main / docs
+
 ## Tools
 | tool | files |
 |---|---|
