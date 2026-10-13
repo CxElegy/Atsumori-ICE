@@ -210,7 +210,20 @@ for z, (ng, nt) in GROVES.items():
                 if p not in grove and p not in trees and tree_ok(*p) and Z[p[1]][p[0]] == z and rng.random() < .55:
                     grove.append(p); q.append(p)
         trees |= set(grove)
-trees = set(sorted(trees, key=lambda p: (p[0] * 7 + p[1] * 13) % 97)[:185])
+# 第58回：町の木（作例の並木・広場の木・屋上の木）。spec の street_trees に場所を手で決め、ゲームの決まりで確かめる：
+# 上下左右が水・橋・浜・海・岩・飛行場・坂・建物でなく同じ段（acnh_build.py と同じ）、建物のまわり1マス・入口の前・見せ場の上でない。道のマスなら草地にもどして植える
+street = []
+for x, y in SPEC.get('street_trees', []):
+    L = lv(x, y)
+    if g(x, y) not in '13p' or (x, y) in occ_b or (x, y) in slope or (x, y) in front or (x, y) in occ:
+        print('町の木を植えられない', x, y, g(x, y)); continue
+    if any(g(x + dx, y + dy) in 'wbsSrK' or (x + dx, y + dy) in bld_cells or (x + dx, y + dy) in slope or (g(x + dx, y + dy) != 'P' and lv(x + dx, y + dy) != L) for dx, dy in N4):
+        print('町の木を植えられない（となり）', x, y); continue
+    if (x, y) in road:
+        G[y][x] = '3' if L >= 2 else '1'; road.discard((x, y))
+    street.append((x, y)); occ.add((x, y))
+trees -= set(street)
+trees = set(sorted(trees, key=lambda p: (p[0] * 7 + p[1] * 13) % 97)[:185 - len(street)]) | set(street)   # 木は島ぜんたいで185本まで（森から町へ植えかえる）
 bush = set()
 BUSH = {'F': .55, 'J': .35, 'H': .5, 'B': .3, 'S': .14, 'C': .02, 'P': .12}
 if SPEC.get('base') == 'authored':
@@ -253,6 +266,8 @@ for y in range(1, H - 1):
             continue
         for rot, (dx, dy) in enumerate(DIRS):
             a, b_ = x + dx, y + dy
+            if rot == 2:
+                continue   # 第58回：北を向くパネル（崖が南）はゲームのカメラ（南から北を見る）から見えない
             if (x, y) in road and not (rot != 2 and all((x - i * dx, y - i * dy) in road and (x - i * dx, y - i * dy) not in occ and (x - i * dx, y - i * dy) not in slope and lv(x - i * dx, y - i * dy) == lv(x, y) for i in (1, 2))):
                 continue   # 道の上には、通りが3マス幅以上で、反対がわの2マスがあいている所だけ貼る（第57回：2マス幅の路地の両がわに貼ってふさいでいた）。北を向くパネルはカメラから見えないので道には貼らない
             if lv(a, b_) == lv(x, y) + 1 and g(a, b_) != 'w' and (a, b_) not in slope and cnt8.get((x // 8, y // 8), 0) < CAP[z]:
@@ -324,6 +339,18 @@ if canal_items:
                    'note': '主水路の片がわは城壁（castle wall にレンガのマイデザイン）、もう片がわは岸壁。副水路の岸は草と花'})
 
 # 案4：町の2段目・3段目のかたまりのうち、道のない（歩いて上がらない）かたまりは「建物」：ふちは城壁（銃眼のあるレンガの壁）、中は屋上の庭
+# 第58回：町の目じるし（spec の landmarks）：段の上の塔（castle tower＝ビッグ・ベン、倉庫の荷上げの塔）など。屋根より先に場所をとる
+marks = []
+for it in SPEC.get('landmarks', []):
+    name, x, y, rot = it[0], it[1], it[2], it[3]
+    w, d = foot(CAT[name]['size'], rot); L = lv(x, y)
+    cells = [(a, b) for a in range(x, x + w) for b in range(y, y + d)]
+    if all(g(a, b) in '13' and lv(a, b) == L and (a, b) not in occ and (a, b) not in slope and (a, b) not in occ_b and (a, b) not in front and (a, b) not in trees for a, b in cells):
+        marks.append(list(it)); occ |= set(cells)
+    else:
+        print('目じるしを置けない', it)
+if marks:
+    groups.append({'id': 'C-landmarks', 'zone': 'C', 'name': '町の目じるし（段の上の塔）', 'at': [0, 0], 'items': marks, 'lines': []})
 roofs, roofp = [], []
 if SPEC.get('base') == 'authored':
     seen = set()
@@ -347,21 +374,23 @@ if SPEC.get('base') == 'authored':
             #   fort＝ふちに城壁（3段目の塔・大きな建物だけ）／slate・slate_dark・red＝屋根のマイデザイン（目録の本物：灰色のレンガ・濃い灰色の石畳・くすんだ茶色のレンガ）に、
             #   煙突の代わりのレンガのカベ1本と、室外機・給水タンク／garden＝ふちは生け垣、中は花の屋上庭園
             n_ = len(comp); mx, my = min(comp)
-            kinds = ['slate', 'slate_dark', 'garden', 'slate', 'slate_dark'] if lv(x0, y0) == 2 else ['fort', 'slate_dark', 'fort', 'red']   # 茶色のレンガの屋根は2段目だと通りのレンガとまぎれるので3段目だけ
+            kinds = ['slate', 'garden', 'slate', 'garden', 'slate'] if lv(x0, y0) == 2 else ['fort', 'red', 'fort', 'red']   # 茶色のレンガの屋根は2段目だと通りのレンガとまぎれるので3段目だけ。第58回：通りの石畳（road_chic_stone）は屋根に使わない（屋根と通りが同じ柄になる）
             rk = 'fort' if n_ >= 40 and lv(x0, y0) == 2 and (mx * 7 + my) % 3 == 0 else kinds[(mx * 7 + my * 13) % len(kinds)]
             if n_ <= 3:
                 rk = 'slate' if rk == 'garden' else rk
             interior = [(x, y) for x, y in sorted(comp) if not any(lv(x + dx, y + dy) < lv(x, y) for dx, dy in DIRS)]
+            if rk == 'garden' and len(interior) < 4:
+                rk = 'slate'   # 第58回：中のない細いかたまりを生け垣でふちどると、緑の箱になる
             stacks = set(interior[2::9]) if rk in ('slate', 'slate_dark', 'red') else set()   # 煙突（レンガのカベ1本）
             units = set(interior[6::13]) - stacks if rk in ('slate', 'slate_dark') else set()   # 室外機
             for x, y in sorted(comp):
                 if (x, y) in occ or (x, y) in trees or (x, y) in slope:
                     continue
                 low = [(dx, dy) for dx, dy in DIRS if lv(x + dx, y + dy) < lv(x, y)]
-                if low and rk == 'fort':
-                    dx, dy = low[0]; x2, y2 = (x + 1, y) if dy else (x, y + 1)
-                    if (x2, y2) in cs and (x2, y2) not in occ and (x2, y2) not in trees and any(lv(x2 + a, y2 + b) < lv(x2, y2) for a, b in DIRS):
-                        roofs.append(['castle wall', x, y, 0 if dy else 1, 'Brown', 'wall_windows_bricks']); occ |= {(x, y), (x2, y2)}
+                if rk == 'fort' and (0, 1) in low:   # 第58回：城壁はカメラに向く南のふちだけ（背中あわせの2列にしない）
+                    x2, y2 = x + 1, y
+                    if (x2, y2) in cs and (x2, y2) not in occ and (x2, y2) not in trees and lv(x2, y2 + 1) < lv(x2, y2):
+                        roofs.append(['castle wall', x, y, 0, 'Brown', 'wall_windows_bricks']); occ |= {(x, y), (x2, y2)}
                     else:
                         roofs.append(['brick fence', x, y, 0, None]); occ.add((x, y))
                 elif low and rk == 'garden':
@@ -497,8 +526,8 @@ INC = {'C': 'brick staircase', 'S': 'natural ramp', 'F': 'log staircase', 'J': '
 BRI = {'C': 'brick bridge', 'S': 'stone bridge', 'F': 'log bridge', 'J': 'red zen bridge', 'B': 'zen bridge', 'H': 'log bridge', 'P': 'wooden bridge'}
 B3 = {'note': '案3（第49回）：乱れ（たね %d）で作りなおした島。地形 tools/plan3_gen.py・配置 tools/plan3_layout.py・中身 tools/plan3_fill.py' % T['seed'],
       'season': P2['season'], 'rules': P2['rules'], 'buildings': B_ALL,
-      'inclines': {'%d,%d' % (x, y): INC[Z[y][x]] for x, y, d in T['inclines']},
-      'bridges': {'%d,%d' % (r[0], r[1]): BRI[Z[r[1]][r[0]]] for r in T.get('bridges', [])},
+      'inclines': {'%d,%d' % (x, y): SPEC.get('incline_kinds', {}).get('%d,%d' % (x, y), INC[Z[y][x]]) for x, y, d in T['inclines']},   # 第58回：場所ごとに種類を変えられる（石の階段など）
+      'bridges': {'%d,%d' % (r[0], r[1]): SPEC.get('bridge_kinds', {}).get('%d,%d' % (r[0], r[1]), BRI[Z[r[1]][r[0]]]) for r in T.get('bridges', [])},
       'paths': P2['paths'], 'groups': groups, 'ground': ground, 'plants': plants, 'orchards': [], 'ground_styles': dict(P2.get('ground_styles', {}), roof='屋根（灰色のレンガ）', roof_slate='屋根（濃い灰色の石畳）', roof_red='屋根（茶色のレンガ）')}
 json.dump(B3, open(os.path.join(ROOT, f'designs/build_plan{PLAN}.json'), 'w'), ensure_ascii=False, indent=1)
 print('木', len(trees), '低木', len(bush), 'キット', len([g_ for g_ in groups if g_.get('kit')]), 'パネル', len(panel_groups), '地面', len(ground), '花', len(plants))
