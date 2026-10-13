@@ -1,0 +1,1429 @@
+{
+ "note": "第57回：地区ごとに設計した町の見せ場（キットと置き場所）。tools/plan4_kitcheck.py --merge で書く",
+ "manual_zones": "CP",
+ "kits": {
+  "p5c_d1_granary_cafe": {
+   "name": "グラナリー・スクエアのテラスのカフェ（鉄のテーブル・黒板・植木・ガス灯）",
+   "size": [
+    5,
+    2
+   ],
+   "items": [
+    [
+     "streetlamp",
+     0,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "round topiary",
+     1,
+     0,
+     0,
+     "Green"
+    ],
+    [
+     "menu chalkboard",
+     2,
+     0,
+     0,
+     "Dark brown"
+    ],
+    [
+     "potted starter plants",
+     4,
+     0,
+     0,
+     "Green"
+    ],
+    [
+     "iron garden chair",
+     1,
+     1,
+     0,
+     "Black"
+    ],
+    [
+     "iron garden table",
+     2,
+     1,
+     0,
+     "Black"
+    ],
+    [
+     "iron garden chair",
+     3,
+     1,
+     0,
+     "Black"
+    ]
+   ],
+   "note": "",
+   "ref": [
+    "X-0003",
+    "R-1231"
+   ]
+  },
+  "p5c_d1_granary_flowers": {
+   "name": "グラナリー・スクエアの花屋の屋台（緑の屋台・花のショーケース・苗）",
+   "size": [
+    5,
+    2
+   ],
+   "items": [
+    [
+     "stall",
+     0,
+     0,
+     0,
+     "Green"
+    ],
+    [
+     "flower display case",
+     2,
+     0,
+     0,
+     "Green"
+    ],
+    [
+     "streetlamp",
+     4,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "wooden bucket",
+     0,
+     1
+    ],
+    [
+     "potted starter plants",
+     1,
+     1,
+     0,
+     "White"
+    ],
+    [
+     "flower bed",
+     3,
+     1,
+     0,
+     "Brown"
+    ]
+   ],
+   "note": "",
+   "ref": [
+    "R-0849"
+   ]
+  },
+  "p5c_d1_pub": {
+   "name": "ユーストン通りのパブの店先（黒板・たる・外のテーブル・ガス灯）",
+   "size": [
+    6,
+    1
+   ],
+   "items": [
+    [
+     "menu chalkboard",
+     0,
+     0,
+     0,
+     "Natural"
+    ],
+    [
+     "barrel",
+     1,
+     0
+    ],
+    [
+     "outdoor table",
+     2,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "barrel",
+     4,
+     0
+    ],
+    [
+     "streetlamp",
+     5,
+     0,
+     0,
+     "Black"
+    ]
+   ],
+   "note": "",
+   "ref": [
+    "R-0877",
+    "R-0878"
+   ]
+  },
+  "p5c_d1_books": {
+   "name": "倉庫の下の古本の屋台（本だな・本の山・スクーター）",
+   "size": [
+    6,
+    1
+   ],
+   "items": [
+    [
+     "wooden bookshelf",
+     0,
+     0,
+     0,
+     "Dark brown"
+    ],
+    [
+     "stack of books",
+     2,
+     0,
+     0,
+     "Old"
+    ],
+    [
+     "strapped books",
+     3,
+     0,
+     0,
+     "Brown"
+    ],
+    [
+     "scooter",
+     4,
+     0,
+     0,
+     "Ivory"
+    ]
+   ],
+   "note": "",
+   "ref": [
+    "X-0006",
+    "R-1231"
+   ]
+  },
+  "p5c_d2_applemarket": {
+   "name": "アップル・マーケット（コの字のホールの中庭の屋台・服のラック・木箱）",
+   "size": [
+    4,
+    2
+   ],
+   "items": [
+    [
+     "stall",
+     0,
+     0,
+     0,
+     "Natural"
+    ],
+    [
+     "stall",
+     2,
+     0,
+     0,
+     "Pink"
+    ],
+    [
+     "wooden box",
+     0,
+     1,
+     0,
+     "Natural"
+    ],
+    [
+     "hanging clothing rack",
+     1,
+     1,
+     0,
+     "Dark wood"
+    ],
+    [
+     "small clothing rack",
+     3,
+     1,
+     0,
+     "Dark wood"
+    ]
+   ],
+   "note": "",
+   "ref": [
+    "R-0849",
+    "R-1241"
+   ]
+  },
+  "p5c_d2_grocer": {
+   "name": "タヌキ商店のわきの八百屋の屋台（路地に向く）",
+   "size": [
+    1,
+    3
+   ],
+   "items": [
+    [
+     "stall",
+     0,
+     0,
+     1,
+     "Green"
+    ],
+    [
+     "cardboard box",
+     0,
+     2,
+     0,
+     "Apples"
+    ]
+   ],
+   "note": "",
+   "ref": []
+  },
+  "p5c_d2_strand": {
+   "name": "ストランドの大道芸（手回しオルガン・レコード）と海を見るベンチ（電話ボックス・望遠鏡）",
+   "size": [
+    6,
+    2
+   ],
+   "items": [
+    [
+     "phone box",
+     0,
+     0,
+     0,
+     "Red"
+    ],
+    [
+     "street organ",
+     1,
+     0,
+     0,
+     "Natural"
+    ],
+    [
+     "portable record player",
+     2,
+     0,
+     0,
+     "Red"
+    ],
+    [
+     "streetlamp",
+     4,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "round topiary",
+     5,
+     0,
+     0,
+     "Green"
+    ],
+    [
+     "iron garden bench",
+     0,
+     1,
+     0,
+     "Green"
+    ],
+    [
+     "tourist telescope",
+     3,
+     1,
+     0,
+     "Green"
+    ],
+    [
+     "iron garden bench",
+     4,
+     1,
+     0,
+     "Green"
+    ]
+   ],
+   "note": "",
+   "ref": [
+    "R-0877"
+   ]
+  },
+  "p5c_d3_platform": {
+   "name": "駅の正面の9¾番線（汽車・駅の時計・待合いす・トランク・本）",
+   "size": [
+    8,
+    1
+   ],
+   "items": [
+    [
+     "plaza train",
+     0,
+     0,
+     0,
+     "Classic"
+    ],
+    [
+     "plaza clock",
+     2,
+     0,
+     0,
+     "Classic"
+    ],
+    [
+     "transit seat",
+     3,
+     0,
+     0,
+     "Brown"
+    ],
+    [
+     "Rover's briefcase",
+     5,
+     0
+    ],
+    [
+     "stack of books",
+     6,
+     0,
+     0,
+     "Old"
+    ],
+    [
+     "streetlamp",
+     7,
+     0,
+     0,
+     "Black"
+    ]
+   ],
+   "note": "",
+   "ref": [
+    "X-0010",
+    "R-1217"
+   ]
+  },
+  "p5c_d3_forecourt": {
+   "name": "大通りの噴水の前庭（噴水・トピアリー・花の荷車・白い柱・ベンチ）",
+   "size": [
+    3,
+    6
+   ],
+   "items": [
+    [
+     "triangular topiary",
+     0,
+     0,
+     0,
+     "Green"
+    ],
+    [
+     "streetlamp",
+     2,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "fountain",
+     0,
+     1,
+     0,
+     "Gray"
+    ],
+    [
+     "garden wagon",
+     0,
+     4,
+     0,
+     "Dark brown"
+    ],
+    [
+     "round topiary",
+     2,
+     4,
+     0,
+     "Green"
+    ],
+    [
+     "decorative pillar",
+     0,
+     5,
+     0,
+     "Whitestone marble"
+    ],
+    [
+     "iron garden bench",
+     1,
+     5,
+     0,
+     "Black"
+    ]
+   ],
+   "note": "",
+   "ref": [
+    "R-1103",
+    "R-1150"
+   ]
+  },
+  "p5c_d3_cabrank": {
+   "name": "大通りのタクシー乗り場と赤いバス停（黒い車・新聞のラック）",
+   "size": [
+    2,
+    5
+   ],
+   "items": [
+    [
+     "retro transportation stop",
+     0,
+     0,
+     1,
+     "Red"
+    ],
+    [
+     "magazine rack",
+     1,
+     0,
+     0,
+     "Red"
+    ],
+    [
+     "minicar",
+     0,
+     2,
+     1,
+     "Black"
+    ]
+   ],
+   "note": "",
+   "ref": [
+    "R-1148"
+   ]
+  },
+  "p5c_d3_arrivals": {
+   "name": "空港の到着口の前（道しるべ・電話ボックス・鉄のベンチ）",
+   "size": [
+    6,
+    2
+   ],
+   "items": [
+    [
+     "signpost",
+     0,
+     0,
+     0,
+     "Airport"
+    ],
+    [
+     "phone box",
+     1,
+     0,
+     0,
+     "Red"
+    ],
+    [
+     "steel trash can",
+     5,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "iron garden bench",
+     2,
+     1,
+     0,
+     "Black"
+    ],
+    [
+     "round topiary",
+     5,
+     1,
+     0,
+     "Green"
+    ]
+   ],
+   "note": "",
+   "ref": [
+    "R-1130",
+    "R-1134"
+   ]
+  },
+  "p5c_d3_hotelfront": {
+   "name": "ホテルの正面（ガス灯・ベンチ・トピアリー：浜の遊歩道に向く）",
+   "size": [
+    6,
+    1
+   ],
+   "items": [
+    [
+     "round topiary",
+     0,
+     0,
+     0,
+     "Green"
+    ],
+    [
+     "streetlamp",
+     1,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "iron garden bench",
+     2,
+     0,
+     0,
+     "Brown"
+    ],
+    [
+     "streetlamp",
+     4,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "round topiary",
+     5,
+     0,
+     0,
+     "Green"
+    ]
+   ],
+   "note": "",
+   "ref": [
+    "R-1231",
+    "R-1150"
+   ]
+  },
+  "p5c_d4_lock": {
+   "name": "閘門のわきの曳き舟道（ガス灯・自転車・時計・バケツ）",
+   "size": [
+    1,
+    5
+   ],
+   "items": [
+    [
+     "streetlamp",
+     0,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "cruiser bike",
+     0,
+     1,
+     1,
+     "Green"
+    ],
+    [
+     "park clock",
+     0,
+     3,
+     0,
+     "Black"
+    ],
+    [
+     "wooden bucket",
+     0,
+     4
+    ]
+   ],
+   "note": "",
+   "ref": [
+    "R-1148",
+    "R-1233"
+   ]
+  },
+  "p5c_d5_hall": {
+   "name": "市場ホールの中庭の屋台（八百屋・牛乳屋・かご）",
+   "size": [
+    4,
+    3
+   ],
+   "items": [
+    [
+     "stall",
+     0,
+     0,
+     0,
+     "Green"
+    ],
+    [
+     "stall",
+     2,
+     0,
+     0,
+     "White"
+    ],
+    [
+     "cardboard box",
+     0,
+     1,
+     0,
+     "Apples"
+    ],
+    [
+     "veggie basket",
+     1,
+     1
+    ],
+    [
+     "milk can",
+     2,
+     1,
+     0,
+     "Silver"
+    ],
+    [
+     "wooden box",
+     3,
+     1,
+     0,
+     "Natural"
+    ],
+    [
+     "stacked shopping baskets",
+     0,
+     2,
+     0,
+     "Orange"
+    ],
+    [
+     "plain wooden shop sign",
+     3,
+     2,
+     0,
+     "Dark wood"
+    ]
+   ],
+   "note": "",
+   "ref": [
+    "R-1235",
+    "R-1239"
+   ]
+  },
+  "p5c_d5_stalls": {
+   "name": "港の通りの屋台（びんのケース・フルーツ）",
+   "size": [
+    4,
+    1
+   ],
+   "items": [
+    [
+     "stall",
+     0,
+     0,
+     0,
+     "Light brown"
+    ],
+    [
+     "stacked bottle crates",
+     2,
+     0,
+     0,
+     "Green"
+    ],
+    [
+     "fruit basket",
+     3,
+     0
+    ]
+   ],
+   "note": "",
+   "ref": [
+    "R-1241"
+   ]
+  },
+  "p5c_d6_moorings": {
+   "name": "船だまりの岸壁のヨット（白と紺のヨット・浮き輪・たる）",
+   "size": [
+    7,
+    2
+   ],
+   "items": [
+    [
+     "yacht",
+     0,
+     0,
+     0,
+     "White"
+    ],
+    [
+     "life ring",
+     3,
+     0,
+     0,
+     "Red"
+    ],
+    [
+     "barrel",
+     3,
+     1
+    ],
+    [
+     "yacht",
+     4,
+     0,
+     0,
+     "Blue"
+    ]
+   ],
+   "note": "",
+   "ref": [
+    "R-1148",
+    "R-1235"
+   ]
+  },
+  "p5c_d6_fish": {
+   "name": "灯台の倉庫の下の魚の屋台（白い屋台・魚のコンテナ）",
+   "size": [
+    4,
+    1
+   ],
+   "items": [
+    [
+     "stall",
+     0,
+     0,
+     0,
+     "White"
+    ],
+    [
+     "fish container",
+     2,
+     0,
+     0,
+     "Light blue"
+    ],
+    [
+     "stacked fish containers",
+     3,
+     0,
+     0,
+     "Light blue"
+    ]
+   ],
+   "note": "",
+   "ref": []
+  },
+  "p5c_d7_bandstand": {
+   "name": "公園の音楽堂（ガゼボ・鉄のベンチ・ガス灯）",
+   "size": [
+    3,
+    4
+   ],
+   "items": [
+    [
+     "gazebo",
+     0,
+     0,
+     0,
+     "White"
+    ],
+    [
+     "iron garden bench",
+     0,
+     3,
+     0,
+     "Green"
+    ],
+    [
+     "streetlamp",
+     2,
+     3,
+     0,
+     "Black"
+    ]
+   ],
+   "note": "",
+   "ref": []
+  },
+  "p5c_d8_green": {
+   "name": "村の広場（れんがの井戸・花の荷車・ベンチ・ランタン）",
+   "size": [
+    5,
+    3
+   ],
+   "items": [
+    [
+     "brick well",
+     0,
+     0,
+     0,
+     "Red"
+    ],
+    [
+     "garden wagon",
+     3,
+     0,
+     0,
+     "Green"
+    ],
+    [
+     "garden lantern",
+     0,
+     2,
+     0,
+     "Black"
+    ],
+    [
+     "outdoor bench",
+     2,
+     2,
+     0,
+     "Green"
+    ]
+   ],
+   "note": "",
+   "ref": []
+  },
+  "p5c_d8_allotment": {
+   "name": "池のそばの市民農園（かかし・畑の看板・道具だな・ニンジンとトマト）",
+   "size": [
+    4,
+    4
+   ],
+   "items": [
+    [
+     "scarecrow",
+     0,
+     0
+    ],
+    [
+     "wooden field sign",
+     1,
+     0,
+     0,
+     "Light green"
+    ],
+    [
+     "tool shelf",
+     0,
+     3,
+     0,
+     "Green"
+    ]
+   ],
+   "note": "",
+   "plants": [
+    {
+     "type": "carrots",
+     "rect": [
+      0,
+      1,
+      1,
+      2
+     ],
+     "colors": [
+      "orange"
+     ]
+    },
+    {
+     "type": "tomatoes",
+     "rect": [
+      2,
+      1,
+      3,
+      2
+     ],
+     "colors": [
+      "red"
+     ]
+    }
+   ],
+   "ref": []
+  },
+  "p5c_d8_wheat": {
+   "name": "風車の丘のすその小麦畑（生け垣でかこむ）",
+   "size": [
+    6,
+    5
+   ],
+   "items": [
+    [
+     "scarecrow",
+     2,
+     4
+    ]
+   ],
+   "note": "",
+   "lines": [
+    {
+     "item": "hedge",
+     "from": [
+      0,
+      0
+     ],
+     "to": [
+      5,
+      0
+     ]
+    },
+    {
+     "item": "hedge",
+     "from": [
+      0,
+      1
+     ],
+     "to": [
+      0,
+      4
+     ]
+    },
+    {
+     "item": "hedge",
+     "from": [
+      5,
+      1
+     ],
+     "to": [
+      5,
+      2
+     ]
+    }
+   ],
+   "plants": [
+    {
+     "type": "wheat",
+     "rect": [
+      1,
+      1,
+      4,
+      3
+     ],
+     "colors": [
+      "yellow"
+     ]
+    }
+   ],
+   "ref": []
+  },
+  "p5c_d8_pumpkins": {
+   "name": "風車の丘のすそのカボチャ畑（生け垣でかこむ）",
+   "size": [
+    6,
+    5
+   ],
+   "items": [
+    [
+     "wooden field sign",
+     1,
+     4,
+     0,
+     "Yellow"
+    ]
+   ],
+   "note": "",
+   "lines": [
+    {
+     "item": "hedge",
+     "from": [
+      0,
+      0
+     ],
+     "to": [
+      5,
+      0
+     ]
+    },
+    {
+     "item": "hedge",
+     "from": [
+      5,
+      1
+     ],
+     "to": [
+      5,
+      4
+     ]
+    },
+    {
+     "item": "hedge",
+     "from": [
+      0,
+      1
+     ],
+     "to": [
+      0,
+      2
+     ]
+    }
+   ],
+   "plants": [
+    {
+     "type": "pumpkins",
+     "rect": [
+      1,
+      1,
+      4,
+      3
+     ],
+     "colors": [
+      "orange"
+     ]
+    }
+   ],
+   "ref": []
+  },
+  "p5c_d9_torii": {
+   "name": "霊峰の頂の社の朱の鳥居（石段をのぼった先）",
+   "size": [
+    3,
+    1
+   ],
+   "items": [
+    [
+     "torii",
+     0,
+     0,
+     0,
+     "Vermilion"
+    ]
+   ],
+   "note": "",
+   "ref": []
+  },
+  "p5c_d9_lanterns": {
+   "name": "頂の泉のそばの石灯籠と石碑",
+   "size": [
+    1,
+    2
+   ],
+   "items": [
+    [
+     "tall lantern",
+     0,
+     0,
+     0,
+     "Mossy"
+    ],
+    [
+     "stone tablet",
+     0,
+     1,
+     0,
+     "Mossy"
+    ]
+   ],
+   "note": "",
+   "ref": []
+  }
+ },
+ "placements": [
+  {
+   "kit": "p5c_d1_granary_cafe",
+   "at": [
+    23,
+    53
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "グラナリー・スクエアのテラスのカフェ（鉄のテーブル・黒板・植木・ガス灯）",
+   "style": "herring",
+   "zone": "C",
+   "district": "D1"
+  },
+  {
+   "kit": "p5c_d1_granary_flowers",
+   "at": [
+    33,
+    53
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "グラナリー・スクエアの花屋の屋台（緑の屋台・花のショーケース・苗）",
+   "style": "herring",
+   "zone": "C",
+   "district": "D1"
+  },
+  {
+   "kit": "p5c_d1_pub",
+   "at": [
+    14,
+    59
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "ユーストン通りのパブの店先（黒板・たる・外のテーブル・ガス灯）",
+   "style": "brick",
+   "zone": "C",
+   "district": "D1"
+  },
+  {
+   "kit": "p5c_d1_books",
+   "at": [
+    40,
+    59
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "倉庫の下の古本の屋台（本だな・本の山・スクーター）",
+   "style": "brick",
+   "zone": "C",
+   "district": "D1"
+  },
+  {
+   "kit": "p5c_d2_applemarket",
+   "at": [
+    16,
+    64
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "アップル・マーケット（コの字のホールの中庭の屋台・服のラック・木箱）",
+   "style": "herring",
+   "zone": "C",
+   "district": "D2"
+  },
+  {
+   "kit": "p5c_d2_grocer",
+   "at": [
+    21,
+    69
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "タヌキ商店のわきの八百屋の屋台（路地に向く）",
+   "style": "brick",
+   "zone": "C",
+   "district": "D2"
+  },
+  {
+   "kit": "p5c_d2_strand",
+   "at": [
+    16,
+    81
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "ストランドの大道芸（手回しオルガン・レコード）と海を見るベンチ（電話ボックス・望遠鏡）",
+   "style": "flag",
+   "zone": "C",
+   "district": "D2"
+  },
+  {
+   "kit": "p5c_d3_platform",
+   "at": [
+    40,
+    72
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "駅の正面の9¾番線（汽車・駅の時計・待合いす・トランク・本）",
+   "style": "brick",
+   "zone": "C",
+   "district": "D3"
+  },
+  {
+   "kit": "p5c_d3_forecourt",
+   "at": [
+    36,
+    75
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "大通りの噴水の前庭（噴水・トピアリー・花の荷車・白い柱・ベンチ）",
+   "style": "herring",
+   "zone": "C",
+   "district": "D3"
+  },
+  {
+   "kit": "p5c_d3_cabrank",
+   "at": [
+    31,
+    77
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "大通りのタクシー乗り場と赤いバス停（黒い車・新聞のラック）",
+   "style": "cobble",
+   "zone": "C",
+   "district": "D3"
+  },
+  {
+   "kit": "p5c_d3_arrivals",
+   "at": [
+    42,
+    81
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "空港の到着口の前（道しるべ・電話ボックス・鉄のベンチ）",
+   "style": "cobble",
+   "zone": "C",
+   "district": "D3"
+  },
+  {
+   "kit": "p5c_d3_hotelfront",
+   "at": [
+    24,
+    81
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "ホテルの正面（ガス灯・ベンチ・トピアリー：浜の遊歩道に向く）",
+   "style": "brick",
+   "zone": "C",
+   "district": "D3"
+  },
+  {
+   "kit": "p5c_d4_lock",
+   "at": [
+    46,
+    46
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "閘門のわきの曳き舟道（ガス灯・自転車・時計・バケツ）",
+   "style": "cobble",
+   "zone": "C",
+   "district": "D4"
+  },
+  {
+   "kit": "p5c_d5_hall",
+   "at": [
+    52,
+    73
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "市場ホールの中庭の屋台（八百屋・牛乳屋・かご）",
+   "style": "brick",
+   "zone": "C",
+   "district": "D5"
+  },
+  {
+   "kit": "p5c_d5_stalls",
+   "at": [
+    65,
+    75
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "港の通りの屋台（びんのケース・フルーツ）",
+   "style": "brick",
+   "zone": "C",
+   "district": "D5"
+  },
+  {
+   "kit": "p5c_d6_moorings",
+   "at": [
+    57,
+    81
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "船だまりの岸壁のヨット（白と紺のヨット・浮き輪・たる）",
+   "style": "plank",
+   "zone": "P",
+   "district": "D6"
+  },
+  {
+   "kit": "p5c_d6_fish",
+   "at": [
+    50,
+    80
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "灯台の倉庫の下の魚の屋台（白い屋台・魚のコンテナ）",
+   "style": "plank",
+   "zone": "P",
+   "district": "D6"
+  },
+  {
+   "kit": "p5c_d7_bandstand",
+   "at": [
+    68,
+    48
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "公園の音楽堂（ガゼボ・鉄のベンチ・ガス灯）",
+   "style": "garden",
+   "zone": "S",
+   "district": "D7"
+  },
+  {
+   "kit": "p5c_d8_green",
+   "at": [
+    80,
+    70
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "村の広場（れんがの井戸・花の荷車・ベンチ・ランタン）",
+   "style": "leaves",
+   "zone": "S",
+   "district": "D8"
+  },
+  {
+   "kit": "p5c_d8_allotment",
+   "at": [
+    79,
+    74
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "池のそばの市民農園（かかし・畑の看板・道具だな・ニンジンとトマト）",
+   "style": "leaves",
+   "zone": "S",
+   "district": "D8"
+  },
+  {
+   "kit": "p5c_d8_wheat",
+   "at": [
+    82,
+    50
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "風車の丘のすその小麦畑（生け垣でかこむ）",
+   "style": "leaves",
+   "zone": "S",
+   "district": "D8"
+  },
+  {
+   "kit": "p5c_d8_pumpkins",
+   "at": [
+    90,
+    51
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "風車の丘のすそのカボチャ畑（生け垣でかこむ）",
+   "style": "leaves",
+   "zone": "S",
+   "district": "D8"
+  },
+  {
+   "kit": "p5c_d9_torii",
+   "at": [
+    81,
+    18
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "霊峰の頂の社の朱の鳥居（石段をのぼった先）",
+   "style": "moss",
+   "zone": "J",
+   "district": "D9"
+  },
+  {
+   "kit": "p5c_d9_lanterns",
+   "at": [
+    84,
+    20
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "頂の泉のそばの石灯籠と石碑",
+   "style": "moss",
+   "zone": "J",
+   "district": "D9"
+  }
+ ]
+}
