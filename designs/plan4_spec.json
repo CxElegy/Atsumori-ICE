@@ -742,8 +742,622 @@
    ]
   }
  ],
- "manual_zones": "C",
- "kits": [],
+ "manual_zones": "CP",
+ "kits": [
+  {
+   "kit": "p4_d1_stairfoot",
+   "at": [
+    19,
+    56
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "坂の下の電話ボックスの角",
+   "style": "brick",
+   "zone": "C",
+   "district": "D1"
+  },
+  {
+   "kit": "p4_d1_platform",
+   "at": [
+    27,
+    56
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "アーチの下の9¾番線とダイアゴン横丁",
+   "style": "cobble",
+   "zone": "C",
+   "district": "D1"
+  },
+  {
+   "kit": "p4_d1_clockworks",
+   "at": [
+    35,
+    56
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "運河の角の時計職人の工房",
+   "style": "flag",
+   "zone": "C",
+   "district": "D1"
+  },
+  {
+   "kit": "p4_d1_upperwalk",
+   "at": [
+    22,
+    47
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "上の水路のプロムナードと城壁のカフェ",
+   "style": "herring",
+   "zone": "C",
+   "district": "D1"
+  },
+  {
+   "kit": "p4_d1_busstop",
+   "at": [
+    29,
+    38
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "北の通りのバス停と新聞スタンド",
+   "style": "flag",
+   "zone": "C",
+   "district": "D1"
+  },
+  {
+   "kit": "p4_d1_fishbar",
+   "at": [
+    13,
+    45
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "西の岸のフィッシュ＆チップス",
+   "style": "plank",
+   "zone": "C",
+   "district": "D1"
+  },
+  {
+   "kit": "p4_d2_beachhalt",
+   "at": [
+    13,
+    62
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "浜辺の小さな汽車の駅",
+   "style": "brick",
+   "zone": "C",
+   "district": "D2"
+  },
+  {
+   "kit": "p4_d2_portobello",
+   "at": [
+    16,
+    60
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "北通りのレコードと骨董の市・ポストとバス停の角",
+   "zone": "C",
+   "district": "D2"
+  },
+  {
+   "kit": "p4_d2_tailoryard",
+   "at": [
+    13,
+    69
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "仕立て屋の横庭",
+   "style": "herring",
+   "zone": "C",
+   "district": "D2"
+  },
+  {
+   "kit": "p4_d2_doorframe",
+   "at": [
+    19,
+    74
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "エイブルの戸口のトピアリー",
+   "zone": "C",
+   "district": "D2"
+  },
+  {
+   "kit": "p4_d2_puballey",
+   "at": [
+    18,
+    76
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "路地裏のパブ",
+   "zone": "C",
+   "district": "D2"
+  },
+  {
+   "kit": "p4_d2_lookout",
+   "at": [
+    13,
+    76
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "浜ぎわの錨の碑と緑のベンチ",
+   "style": "plank",
+   "zone": "C",
+   "district": "D2"
+  },
+  {
+   "kit": "p4_d2_flowercorner",
+   "at": [
+    23,
+    76
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "小道の角の花売り",
+   "style": "cobble",
+   "zone": "C",
+   "district": "D2"
+  },
+  {
+   "kit": "p4_d3_arrivals",
+   "at": [
+    37,
+    81
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "到着口の待合と駅の時計",
+   "style": "flag",
+   "zone": "C",
+   "district": "D3"
+  },
+  {
+   "kit": "p4_d3_avenue",
+   "at": [
+    36,
+    74
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "飛行場通りのバス停と地下鉄の入口",
+   "zone": "C",
+   "district": "D3"
+  },
+  {
+   "kit": "p4_d3_mall",
+   "at": [
+    32,
+    74
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "タヌキ商店の角の旗と絵はがき",
+   "style": "brick",
+   "zone": "C",
+   "district": "D3"
+  },
+  {
+   "kit": "p4_d3_greengrocer",
+   "at": [
+    30,
+    79
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "タヌキ商店の八百屋",
+   "style": "brick",
+   "zone": "C",
+   "district": "D3"
+  },
+  {
+   "kit": "p4_d3_cabrank",
+   "at": [
+    23,
+    79
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "タクシー乗り場",
+   "zone": "C",
+   "district": "D3"
+  },
+  {
+   "kit": "p4_d3_tearoom",
+   "at": [
+    40,
+    71
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "行き止まりのティールーム",
+   "style": "herring",
+   "zone": "C",
+   "district": "D3"
+  },
+  {
+   "kit": "p4_d3_bank",
+   "at": [
+    38,
+    62
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "広場の東の銀行の柱廊",
+   "zone": "C",
+   "district": "D3"
+  },
+  {
+   "kit": "p4_d4_flowers",
+   "at": [
+    51,
+    38
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "テムズ橋のたもとの花屋",
+   "style": "cobble",
+   "zone": "C",
+   "district": "D4"
+  },
+  {
+   "kit": "p4_d4_k6corner",
+   "at": [
+    42,
+    38
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "赤い電話ボックスの並ぶ角",
+   "style": "cobble",
+   "zone": "C",
+   "district": "D4"
+  },
+  {
+   "kit": "p4_d4_bookmarket",
+   "at": [
+    47,
+    45
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "博物館の壁ぞいの古本市",
+   "style": "brick",
+   "zone": "C",
+   "district": "D4"
+  },
+  {
+   "kit": "p4_d4_museumwest",
+   "at": [
+    50,
+    49
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "博物館の前庭・西",
+   "style": "flag",
+   "zone": "C",
+   "district": "D4"
+  },
+  {
+   "kit": "p4_d4_terracecafe",
+   "at": [
+    56,
+    49
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "博物館テラスのカフェ",
+   "style": "flag",
+   "zone": "C",
+   "district": "D4"
+  },
+  {
+   "kit": "p4_d4_waterbus",
+   "at": [
+    43,
+    58
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "運河の水上バスの乗り場",
+   "style": "plank",
+   "zone": "C",
+   "district": "D4"
+  },
+  {
+   "kit": "p4_d4_riverpub",
+   "at": [
+    52,
+    64
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "テムズ河畔のパブ",
+   "style": "herring",
+   "zone": "C",
+   "district": "D4"
+  },
+  {
+   "kit": "p4_d5_anchorgarden",
+   "at": [
+    43,
+    78
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "錨亭のビアガーデン",
+   "style": "brick",
+   "zone": "C",
+   "district": "D5"
+  },
+  {
+   "kit": "p4_d5_pillarbox",
+   "at": [
+    43,
+    74
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "自宅の戸口の赤いポスト",
+   "style": "flag",
+   "zone": "C",
+   "district": "D5"
+  },
+  {
+   "kit": "p4_d5_rivercorner",
+   "at": [
+    56,
+    73
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "テムズの曲がり角の欄干",
+   "style": "flag",
+   "zone": "C",
+   "district": "D5"
+  },
+  {
+   "kit": "p4_d5_backgarden",
+   "at": [
+    52,
+    68
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "ビーの家の裏庭の物干し",
+   "style": "garden",
+   "zone": "C",
+   "district": "D5"
+  },
+  {
+   "kit": "p4_d5_northhead",
+   "at": [
+    48,
+    68
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "北の坂の上の水飲み場",
+   "style": "cobble",
+   "zone": "C",
+   "district": "D5"
+  },
+  {
+   "kit": "p4_d5_phonealley",
+   "at": [
+    51,
+    71
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "坂の上の路地の電話ボックス",
+   "style": "cobble",
+   "zone": "C",
+   "district": "D5"
+  },
+  {
+   "kit": "p4_d5_quay",
+   "at": [
+    58,
+    78
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "船だまりの東の岸",
+   "style": "plank",
+   "zone": "C",
+   "district": "D5"
+  },
+  {
+   "kit": "p4_d6_borough",
+   "at": [
+    68,
+    66
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "バラ・マーケットの屋台の路地",
+   "style": "cobble",
+   "zone": "C",
+   "district": "D6"
+  },
+  {
+   "kit": "p4_d6_ovencoffee",
+   "at": [
+    68,
+    50
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "公園口のパンがまとコーヒーの屋台",
+   "style": "brick",
+   "zone": "C",
+   "district": "D6"
+  },
+  {
+   "kit": "p4_d6_pubyard",
+   "at": [
+    77,
+    55
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "市場ホールの奥のパブの中庭",
+   "style": "herring",
+   "zone": "C",
+   "district": "D6"
+  },
+  {
+   "kit": "p4_d6_hinde",
+   "at": [
+    67,
+    73
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "ゴールデン・ハインド号の船着き場",
+   "style": "plank",
+   "zone": "C",
+   "district": "D6"
+  },
+  {
+   "kit": "p4_d6_ruins",
+   "at": [
+    71,
+    73
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "ウィンチェスター宮殿の遺跡の庭",
+   "style": "garden",
+   "zone": "C",
+   "district": "D6"
+  },
+  {
+   "kit": "p4_d6_mews",
+   "at": [
+    73,
+    80
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "エドのうまや横丁",
+   "style": "cobble",
+   "zone": "C",
+   "district": "D6"
+  },
+  {
+   "kit": "p4_d6_postbench",
+   "at": [
+    64,
+    56
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "橋のたもとの赤いポストと川を見るベンチ",
+   "style": "brick",
+   "zone": "C",
+   "district": "D6"
+  },
+  {
+   "kit": "p4_d7_lighthouse",
+   "at": [
+    90,
+    55
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "トリニティ・ブイ埠頭の灯台",
+   "style": "cobble",
+   "zone": "P",
+   "district": "D7"
+  },
+  {
+   "kit": "p4_d7_shadthames",
+   "at": [
+    81,
+    57
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "シャド・テムズの倉庫の路地",
+   "style": "cobble",
+   "zone": "P",
+   "district": "D7"
+  },
+  {
+   "kit": "p4_d7_fishmarket",
+   "at": [
+    85,
+    63
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "ビリングズゲートの魚市場",
+   "zone": "P",
+   "district": "D7"
+  },
+  {
+   "kit": "p4_d7_embankment",
+   "at": [
+    83,
+    67
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "港の池の北の岸（エンバンクメント）",
+   "zone": "P",
+   "district": "D7"
+  },
+  {
+   "kit": "p4_d7_cyclehire",
+   "at": [
+    92,
+    63
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "坂の下の貸し自転車",
+   "zone": "P",
+   "district": "D7"
+  },
+  {
+   "kit": "p4_d7_pierhead",
+   "at": [
+    86,
+    70
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "突堤の先のヨット",
+   "zone": "P",
+   "district": "D7"
+  },
+  {
+   "kit": "p4_d7_moorings",
+   "at": [
+    83,
+    75
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "南の岸壁の係留",
+   "zone": "P",
+   "district": "D7"
+  }
+ ],
  "panels": {
   "items": [
    [

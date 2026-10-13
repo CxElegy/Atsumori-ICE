@@ -43,6 +43,12 @@ ok('案3 点検：飛行場から道が切れずにつながる・道に着か�
 // あつ森で作れるか（tools/acnh_build.py）
 const A = JSON.parse(execFileSync('python3', [path.join(ROOT, 'tools/acnh_build.py'), '--json'], { encoding: 'utf8', maxBuffer: 1 << 26, env }));
 ok('案3 あつ森：作れない所が0（建物・家具・花・木・坂と橋の種類）', A.errors.length === 0, A.errors.slice(0, 3).join(' / '));
+// 第57回：物（見せ場・崖のパネル・柵・通りの小物）を置いた後も、ゲームのとおりに歩いて、道・家の入口・坂・橋に行ける（2マス幅の路地の両がわのパネルでふさいでいた）
+if (SPEC.base === 'authored') {
+  const W_ = JSON.parse(execFileSync('python3', [path.join(ROOT, 'tools/plan4_kitcheck.py'), '--built', '--json'], { encoding: 'utf8', maxBuffer: 1 << 26, env }));
+  ok('案4 歩ける：物でふさがれて行けなくなる道・入口・坂・橋が0', W_.lost.length === 0 && W_.unreachable.length === 0, W_.lost.length + 'マス・' + W_.unreachable.join('・'));
+  ok('案4 歩ける：通りが物で切れていない（草地を回らずに通りだけで行ける）', W_.street_cut.length === 0, W_.street_cut.length + 'マス ' + JSON.stringify(W_.street_cut.slice(0, 5)));
+}
 const BP = J(`designs/build_plan${PL}.json`), kinds = BP.buildings.map(b => b.kind);
 ok('案3 あつ森：住民の家は10軒・博物館・タヌキ商店・エイブル・キャンプ場は1つずつ', kinds.filter(k => k === 'villager').length === 10 && ['museum', 'nook', 'able', 'campsite'].every(k => kinds.filter(x => x === k).length === 1));
 ok('案3 あつ森：置く家具は250個以上', A.items >= 250, A.items);

@@ -5,7 +5,8 @@
   python3 tools/plan4_kitcheck.py --find lamp              # 目録から名前でさがす（大きさ・色・マイデザインの可否）
   python3 tools/plan4_kitcheck.py proposal.json            # 案を確かめる（NG があれば終了コード 1）
   python3 tools/plan4_kitcheck.py proposal.json --map      # 案を地図に重ねて見る
-  python3 tools/plan4_kitcheck.py a.json b.json ...        # いくつかの案をまとめて（地区のあいだの重なりも）
+  python3 tools/plan4_kitcheck.py a.json b.json ...        # いくつかの案をまとめて（地区のあいだの重なりも）。--merge で designs/kits_plan4.json に書く
+  python3 tools/plan4_kitcheck.py --built                  # 組み上がった島（自動の飾りもふくめた物すべて）で、道・入口・坂・橋に歩いて行けるか
 
 案の形（JSON）
   {"district": "D3", "new_kits": {"p4_xxx": {kits.json と同じ形}}, "placements": [{"kit": "p4_xxx", "at": [x, y], "on_road": false, "flip": false, "name": "..."}]}
@@ -35,8 +36,10 @@ LAY = J(f'designs/plan{PLAN}_layout_out.json')
 SPEC = J(f'designs/plan{PLAN}_spec.json')
 BP = J(f'designs/build_plan{PLAN}.json')
 DESIGN_ITEMS = BP['rules']['design_items']
+DESIGNS = {d['id']: d for d in J('designs/catalog.json')['designs']}   # 本物のマイデザイン（MA コードつき）だけ
 FLOWERS = BP['rules'].get('plants', {})
 KITS = J('designs/kits.json')['kits']   # 前からあるキット（kits_plan4.json は案そのものから作るので読まない）
+KITS_ALL = dict(KITS, **(J('designs/kits_plan4.json')['kits'] if os.path.exists(os.path.join(ROOT, 'designs/kits_plan4.json')) else {}))   # --built 用
 G, HL = T['grid'], T['h']
 W, H = len(G[0]), len(G)
 inside = lambda x, y: 0 <= x < W and 0 <= y < H
@@ -121,7 +124,7 @@ def walk_set(blocked, extra):
 
 
 def reach(walk):
-    """飛行場の前の道から、同じ段どうし・坂の上の1マスと下の3マスのあいだ・橋とその岸を歩いて行けるマス"""
+    """飛行場の前の道から、同じ段どうし・坂の上の1マスと下の3マスのあいだ・橋とその岸・浜と1段目を歩いて行けるマス"""
     st = min(road, key=lambda p: abs(p[0] - 34) + abs(p[1] - 83))   # 飛行場（浜の上）を出てすぐの道
     seen = {st}; q = deque([st])
     while q:
@@ -130,7 +133,7 @@ def reach(walk):
             n = (x + dx, y + dy)
             if n in seen or n not in walk:
                 continue
-            ok = lv(x, y) == lv(*n) or (x, y) in bridge or n in bridge
+            ok = lv(x, y) == lv(*n) or (x, y) in bridge or n in bridge or {g(x, y), g(*n)} & {'s'} and max(lv(x, y), lv(*n)) <= 1
             if not ok and (x, y) in slope and slope.get(n) == slope[(x, y)]:
                 ok = True   # 坂の中（上の1マスと下の3マス）
             if ok:
@@ -187,6 +190,8 @@ def check(props):
                 errs.append(f"キット {kid}：{p['item']} に「{p['var']}」の色はない（{'・'.join(v[0] for v in it['vars']) or '色えらびなし'}）")
             if p['design'] and not (it['custom'] or p['item'] in DESIGN_ITEMS):
                 errs.append(f"キット {kid}：{p['item']} にはマイデザインを貼れない")
+            if p['design'] and p['design'] not in DESIGNS:
+                errs.append(f"キット {kid}：マイデザイン「{p['design']}」は designs/catalog.json にない（MA コードのある本物だけ。{'・'.join(DESIGNS)}）")
             if p['x'] < 0 or p['y'] < 0 or p['x'] + p['w'] > KW or p['y'] + p['d'] > KD:
                 errs.append(f"キット {kid}：{p['item']} ({p['x']},{p['y']}) 大きさ {p['w']}×{p['d']} がキットの {KW}×{KD} からはみ出す")
             for y in range(p['y'], p['y'] + p['d']):
@@ -284,8 +289,8 @@ def check(props):
     pinch = 0
     for (x, y) in after & road:
         if (x, y) in before:
-            nb = sum((x + dx, y + dy) in after for dx, dy in N4)
-            nb0 = sum((x + dx, y + dy) in before for dx, dy in N4)
+            nb = sum((x + dx, y + dy) in after and lv(x + dx, y + dy) == lv(x, y) for dx, dy in N4)   # 段のちがう道はとなりに数えない
+            nb0 = sum((x + dx, y + dy) in before and lv(x + dx, y + dy) == lv(x, y) for dx, dy in N4)
             if nb0 >= 3 and nb <= 2 and any((x + dx, y + dy) in blocked for dx, dy in N4):
                 pinch += 1
     if pinch > 6:
@@ -332,6 +337,31 @@ if __name__ == '__main__':
     a = sys.argv[1:]
     if not a:
         print(__doc__); sys.exit()
+    if a[0] == '--built':   # 組み上がった島（designs/build_plan*.json の物すべて：見せ場・崖のパネル・柵・通りの小物）で歩けるか
+        sys.path.insert(0, os.path.join(ROOT, 'tools'))
+        from acnh_build import expand
+        blocked = {(x, y) for p in expand() if p['item'] not in FLAT for x in range(p['x'], p['x'] + p['w']) for y in range(p['y'], p['y'] + p['d'])}
+        kitarea = set()
+        for gp in BP['groups']:
+            if gp.get('kit') and gp['kit'] in KITS_ALL:
+                KW, KD = KITS_ALL[gp['kit']]['size']; ax, ay = gp['at']
+                kitarea |= {(x, y) for y in range(ay, ay + KD) for x in range(ax, ax + KW) if land(x, y) or (x, y) in road}
+        trees = {(x, y) for y in range(H) for x in range(W) if g(x, y) == 't'}
+        # ゲームのとおり：草地・浜・道・橋・坂・広場は歩ける。物・木・建物・水・崖（段ちがい）は通れない
+        open_ = {(x, y) for y in range(H) for x in range(W) if g(x, y) in '13psbPt'} | set(slope)
+        g0 = reach(open_ - set(bld) - trees)
+        g1 = reach(open_ - set(bld) - trees - blocked)
+        lost = sorted(p for p in g0 if p not in g1 and p not in blocked and p in road)
+        miss = [n for n, cs in targets().items() if any(c in g0 for c in cs) and not any(c in g1 for c in cs)]
+        # 道だけで：通りが物で切れていないか（草地を回れば行けても、通りとしては切れている）
+        r0, r1 = reach(walk_set(set(), set())), reach(walk_set(blocked, kitarea))
+        cut = sorted(p for p in r0 if p not in r1 and p not in blocked and p in road)
+        out = {'lost': lost, 'unreachable': miss, 'street_cut': cut}
+        if '--json' in a:
+            print(json.dumps(out, ensure_ascii=False)); sys.exit()
+        print(f'歩いて行けなくなる道 {len(lost)} マス（例 {lost[:10]}）・行けなくなる入口や坂や橋 {len(miss)}：{"・".join(miss)}')
+        print(f'（参考）通りが物で切れて、草地を回らないと行けない道 {len(cut)} マス（例 {cut[:10]}）')
+        sys.exit(1 if lost or miss else 0)
     if a[0] == '--find':
         find(' '.join(a[1:])); sys.exit()
     if a[0] == '--map':

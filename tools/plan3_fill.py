@@ -122,10 +122,14 @@ def place_kit(kid, tx, ty, r, z, style=None, flip=None, gid=None, name=None, on_
     g_ = {'id': gid, 'zone': z, 'kit': kid, 'at': [ax, ay], 'flip': rng.random() < .5 if flip is None else flip, 'items': [], 'lines': []}
     if name: g_['name'] = name
     groups.append(g_)
+    L = lv(ax, ay)
     for y in range(ay - 1, ay + KD + 1):
         for x in range(ax - 1, ax + KW + 1):
+            inner = ax <= x < ax + KW and ay <= y < ay + KD
+            if not inner and lv(x, y) != L:
+                continue   # 第57回：段のちがうまわりのマス（屋根の城壁・崖の上の柵・崖のすそのパネル）は見せ場がとらない
             occ.add((x, y))
-            if not (ax <= x < ax + KW and ay <= y < ay + KD):
+            if not inner:
                 kitring.add((x, y))
     st = style or GSTYLE[z][len(groups) % len(GSTYLE[z])]
     ground.append({'id': gid, 'style': st, 'rect': [ax - 1, ay - 1, ax + KW, ay + KD], 'design': GDES[st], 'skip': ring_skip(ax, ay, KW, KD)})
@@ -249,8 +253,8 @@ for y in range(1, H - 1):
             continue
         for rot, (dx, dy) in enumerate(DIRS):
             a, b_ = x + dx, y + dy
-            if (x, y) in road and not ((x - dx, y - dy) in road and (x - 2 * dx, y - 2 * dy) not in slope and any((x - dx + sx, y - dy + sy) in road for sx, sy in ((dy, dx), (-dy, -dx)))):
-                continue   # 道の上には、崖と反対がわにも道が続く（2マス幅の）所だけ貼る
+            if (x, y) in road and not (rot != 2 and all((x - i * dx, y - i * dy) in road and (x - i * dx, y - i * dy) not in occ and (x - i * dx, y - i * dy) not in slope and lv(x - i * dx, y - i * dy) == lv(x, y) for i in (1, 2))):
+                continue   # 道の上には、通りが3マス幅以上で、反対がわの2マスがあいている所だけ貼る（第57回：2マス幅の路地の両がわに貼ってふさいでいた）。北を向くパネルはカメラから見えないので道には貼らない
             if lv(a, b_) == lv(x, y) + 1 and g(a, b_) != 'w' and (a, b_) not in slope and cnt8.get((x // 8, y // 8), 0) < CAP[z]:
                 panel(x, y, rot, PIECES[k % len(PIECES)]); k += 1
                 break

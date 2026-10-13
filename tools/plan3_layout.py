@@ -473,7 +473,7 @@ def run(seed):
     # 設計で場所を決めた見せ場（spec の kits の at）は、道を通さないように先にとっておく
     KS = json.load(open(os.path.join(ROOT, 'designs/kits.json')))['kits']
     for kd in spec.get('kits', []):
-        if 'at' in kd:
+        if 'at' in kd and not kd.get('district'):   # 第57回：地区ごとの見せ場は、できた地形に合わせて設計したもの（道を変えない）
             (ax, ay), (kw, kh) = kd['at'], KS[kd['kit']]['size']
             lay.reserved |= {(x, y) for x in range(ax, ax + kw) for y in range(ay, ay + kh)}
     lay.blocked |= lay.reserved
