@@ -2,11 +2,11 @@
    python3 tools/plan3_trim.py （plan3_fill.py のあと。ICE_PLAN=3 の acnh_build で数える）"""
 import json, os, sys
 from collections import Counter
-os.environ['ICE_PLAN'] = '3'
+os.environ.setdefault('ICE_PLAN', '3')
 sys.path.insert(0, os.path.dirname(__file__))
 ROOT = os.path.join(os.path.dirname(__file__), '..')
-PATH = os.path.join(ROOT, 'designs/build_plan3.json')
-TRIM = ['C-edges', 'S-fences', 'C-walls']   # へらしてよい組（先にあるほど先にへらす）
+PATH = os.path.join(ROOT, f"designs/build_plan{os.environ['ICE_PLAN']}.json")
+TRIM = ['C-roofs', 'C-edges', 'S-fences', 'C-walls']   # へらしてよい組（先にあるほど先にへらす）
 for _ in range(6):
     import importlib, acnh_build
     importlib.reload(acnh_build)

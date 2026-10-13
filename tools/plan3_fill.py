@@ -16,11 +16,12 @@ W, H = gen.W, gen.H
 N4, N8 = gen.N4, gen.N8
 inside = gen.inside
 J = lambda p: json.load(open(os.path.join(ROOT, p), encoding='utf-8'))
-T = J('plan3-terrain.json')
+PLAN = os.environ.get('ICE_PLAN', '3')   # 第54回：ICE_PLAN=4 で案4
+T = J(f'plan{PLAN}-terrain.json')
 if 'zones' in T:
-    sys.exit('plan3-terrain.json はもう中身が入っている。先に python3 tools/plan3_layout.py を流す')
-SPEC = J('designs/plan3_spec.json')
-LAY = J('designs/plan3_layout_out.json')
+    sys.exit(f'plan{PLAN}-terrain.json はもう中身が入っている。先に python3 tools/plan3_layout.py を流す')
+SPEC = J(f'designs/plan{PLAN}_spec.json')
+LAY = J(f'designs/plan{PLAN}_layout_out.json')
 CAT = J('designs/acnh_catalog.json')['items']
 KITS = J('designs/kits.json')['kits']
 P2 = J('designs/build_plan2.json')
@@ -51,6 +52,11 @@ for y in range(H):
     for x in range(W):
         if lv(x, y) >= 2 and x < 42 and y < 36: Z[y][x] = 'J'
         if lv(x, y) >= 2 and x > 74 and y < 40: Z[y][x] = 'H'
+if LAY.get('zones'):   # 案4：地区は手で塗ったもの（見せ場を置く芯は地区の重心）
+    Z = [list(r) for r in LAY['zones']]
+    for k in list(CENT):
+        cs = [(x, y) for y in range(H) for x in range(W) if Z[y][x] == k]
+        CENT[k] = [(sum(p[0] for p in cs) / len(cs), sum(p[1] for p in cs) / len(cs))] if cs else CENT[k]
 
 # ---- 建物 ----
 B_ALL = [{'id': 'rs', 'kind': 'resident_services', 'fixed': True, 'rect': [28, 62, 6, 4], 'name': '案内所', 'note': '広場（12×10）ごと動かせない'},
@@ -303,6 +309,39 @@ if canal_items:
     groups.append({'id': 'C-canals', 'zone': 'C', 'name': '運河の岸：城壁と岸壁（街灯・柵・花の荷車・自転車・ヨット）', 'at': [0, 0], 'items': canal_items, 'lines': [],
                    'note': '主水路の片がわは城壁（castle wall にレンガのマイデザイン）、もう片がわは岸壁。副水路の岸は草と花'})
 
+# 案4：町の2段目・3段目のかたまりのうち、道のない（歩いて上がらない）かたまりは「建物」：ふちは城壁（銃眼のあるレンガの壁）、中は屋上の庭
+roofs, roofp = [], []
+if SPEC.get('base') == 'authored':
+    seen = set()
+    for y0 in range(H):
+        for x0 in range(W):
+            if (x0, y0) in seen or Z[y0][x0] != 'C' or lv(x0, y0) < 2 or g(x0, y0) not in '13':
+                continue
+            comp, q = [], [(x0, y0)]; seen.add((x0, y0))
+            while q:
+                x, y = q.pop(); comp.append((x, y))
+                for dx, dy in N4:
+                    p_ = (x + dx, y + dy)
+                    if inside(*p_) and p_ not in seen and lv(*p_) == lv(x0, y0) and g(*p_) in '13p':
+                        seen.add(p_); q.append(p_)
+            if any(c in road for c in comp):
+                continue   # 歩いて上がるかたまり（テラス）は鉄の柵のまま
+            cs = set(comp)
+            for x, y in sorted(comp):
+                if (x, y) in occ or (x, y) in trees:
+                    continue
+                low = [(dx, dy) for dx, dy in DIRS if lv(x + dx, y + dy) < lv(x, y)]
+                if low:
+                    dx, dy = low[0]; x2, y2 = (x + 1, y) if dy else (x, y + 1)
+                    if (x2, y2) in cs and (x2, y2) not in occ and (x2, y2) not in trees and any(lv(x2 + a, y2 + b) < lv(x2, y2) for a, b in DIRS):
+                        roofs.append(['castle wall', x, y, 0 if dy else 1, 'Brown', 'wall_windows_bricks']); occ |= {(x, y), (x2, y2)}
+                    else:
+                        roofs.append(['brick fence', x, y, 0, None]); occ.add((x, y))
+                elif lv(x, y) == 2:
+                    roofp.append({'id': 'C-roofgarden', 'type': 'roses' if (x * 3 + y) % 4 else 'lilies', 'rect': [x, y, x, y], 'colors': ['red', 'white', 'pink'], 'fit': True}); occ.add((x, y))
+    if roofs:
+        groups.append({'id': 'C-roofs', 'zone': 'C', 'name': 'レンガのかたまりの上：ふちの城壁（castle wall）と屋上の庭', 'at': [0, 0], 'items': roofs, 'lines': []})
+    plants.extend(roofp)
 edge = []
 for y in range(1, H - 1):
     for x in range(1, W - 1):
@@ -417,7 +456,7 @@ for x, y in bush:
     gr['%d,%d' % (x, y)] = 'u'
 T['ground'] = gr
 T['facilities'] = []
-json.dump(T, open(os.path.join(ROOT, 'plan3-terrain.json'), 'w'))
+json.dump(T, open(os.path.join(ROOT, f'plan{PLAN}-terrain.json'), 'w'))
 INC = {'C': 'brick staircase', 'S': 'natural ramp', 'F': 'log staircase', 'J': 'stone staircase', 'B': 'stone staircase', 'H': 'log staircase', 'P': 'white-plank ramp'}
 BRI = {'C': 'brick bridge', 'S': 'stone bridge', 'F': 'log bridge', 'J': 'red zen bridge', 'B': 'zen bridge', 'H': 'log bridge', 'P': 'wooden bridge'}
 B3 = {'note': '案3（第49回）：乱れ（たね %d）で作りなおした島。地形 tools/plan3_gen.py・配置 tools/plan3_layout.py・中身 tools/plan3_fill.py' % T['seed'],
@@ -425,5 +464,5 @@ B3 = {'note': '案3（第49回）：乱れ（たね %d）で作りなおした�
       'inclines': {'%d,%d' % (x, y): INC[Z[y][x]] for x, y, d in T['inclines']},
       'bridges': {'%d,%d' % (r[0], r[1]): BRI[Z[r[1]][r[0]]] for r in T.get('bridges', [])},
       'paths': P2['paths'], 'groups': groups, 'ground': ground, 'plants': plants, 'orchards': [], 'ground_styles': P2.get('ground_styles', {})}
-json.dump(B3, open(os.path.join(ROOT, 'designs/build_plan3.json'), 'w'), ensure_ascii=False, indent=1)
+json.dump(B3, open(os.path.join(ROOT, f'designs/build_plan{PLAN}.json'), 'w'), ensure_ascii=False, indent=1)
 print('木', len(trees), '低木', len(bush), 'キット', len([g_ for g_ in groups if g_.get('kit')]), 'パネル', len(panel_groups), '地面', len(ground), '花', len(plants))

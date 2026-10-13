@@ -355,9 +355,41 @@ def force_incline(isl, px, py, d):
     return (tx - 3, ty, 'W')
 
 
+PLAN = os.environ.get('ICE_PLAN', '3')   # 第54回：ICE_PLAN=4 で案4（手で描いた島）
+
+
+def draw(isl, ops):
+    """手で描く地形（spec の draw）：rect（x0,y0,x1,y1 をふくむ）・blob（中心と半径・ふちのゆれ）・poly（多角形）を、その段 h にする。
+    浜・海・岩・広場・飛行場・河口はさわらない（動かせない所）"""
+    for op in ops:
+        cells = set()
+        if 'rect' in op:
+            x0, y0, x1, y1 = op['rect']; cells = {(x, y) for y in range(y0, y1 + 1) for x in range(x0, x1 + 1)}
+        elif 'blob' in op:
+            cx, cy, rx, ry = op['blob']; cells = isl.blob(cx, cy, rx, ry, op.get('amp', .2))
+        elif 'poly' in op:
+            P = op['poly']; xs = [p[0] for p in P]; ys = [p[1] for p in P]
+            for y in range(min(ys), max(ys) + 1):
+                for x in range(min(xs), max(xs) + 1):
+                    inside_ = False; j = len(P) - 1
+                    for i in range(len(P)):
+                        (xi, yi), (xj, yj) = P[i], P[j]
+                        if (yi > y + .5) != (yj > y + .5) and x + .5 < (xj - xi) * (y + .5 - yi) / (yj - yi) + xi:
+                            inside_ = not inside_
+                        j = i
+                    if inside_:
+                        cells.add((x, y))
+        for x, y in cells:
+            if isl.land(x, y) and isl.g[y][x] != 'w' and (op['h'] < 2 or isl.dcoast[y][x] >= 2):   # 崖は浜のとなりに作れない
+                isl.h[y][x] = op['h']; isl.g[y][x] = '3' if op['h'] >= 2 else '1'
+
+
 def run(seed):
-    spec = json.load(open(os.path.join(ROOT, 'designs/plan3_spec.json')))
-    isl = gen.build(seed)
+    spec = json.load(open(os.path.join(ROOT, f'designs/plan{PLAN}_spec.json')))
+    if spec.get('base') == 'authored':   # 案4：種の地形を使わず、平らな島に手で描く
+        isl = gen.Island(seed); draw(isl, spec.get('draw', []))
+    else:
+        isl = gen.build(seed)
     # 町の水路（spec の water）：生まれた川を町の中だけ消し、設計した水路（まっすぐな運河・池・溝）を掘る。郊外の川はそのまま
     fixed = {}   # 段を決めて掘った水（運河・2段目の水路）。settle で動かさない
     for op in spec.get('water', []):
@@ -421,7 +453,22 @@ def run(seed):
             (ax, ay), (kw, kh) = kd['at'], KS[kd['kit']]['size']
             lay.reserved |= {(x, y) for x in range(ax, ax + kw) for y in range(ay, ay + kh)}
     lay.blocked |= lay.reserved
+    for inc in spec.get('inclines', []):   # 設計の坂（場所と向きを手で決める）
+        if lay.incline_ok(*inc):
+            lay.inclines.append(list(inc)); lay.blocked |= {c for c, _ in gen_slope(*inc)}
+        else:
+            lay.log.append(f'坂 {inc}：置けない（段・まっすぐな崖・まわり1マス）')
     lay.build_graph()
+    for rect in spec.get('bridges', []):   # 設計の橋（場所を手で決める）
+        k = next((k for k, b in enumerate(lay.br_cand) if b['rect'] == list(rect)), None)
+        if k is None:
+            lay.log.append(f'橋 {rect}：かけられない（水3〜5・岸4マス・岸が平行）'); continue
+        br = lay.br_cand[k]; lay.bridges.append(br)
+        for cx, cy in br['span']:
+            lay.g[cy][cx] = 'b'
+        for bank in br['banks']:
+            lay.roads |= set(bank); lay.blocked |= set(bank)
+        lay.edges.setdefault(br['banks'][0][1], []).append((br['banks'][1][1], ('br', k))); lay.edges.setdefault(br['banks'][1][1], []).append((br['banks'][0][1], ('br', k)))
     # 飛行場の出口から（飛行場のすぐ北の浜の上を始まりに）
     start = tuple(spec['start'])
     lay.roads.add(start); lay.net = {start}
@@ -435,8 +482,8 @@ def run(seed):
                 for dx in range(w):
                     for dy in range(w):
                         a, b = x + dx - (w - 1) // 2, y + dy - (w - 1) // 2
-                        if inside(a, b) and isl.g[b][a] in '13t' and (a, b) not in lay.blocked:
-                            lay.roads.add((a, b))
+                        if inside(a, b) and isl.g[b][a] in '13t' and (a, b) not in lay.blocked and (spec.get('base') != 'authored' or isl.h[b][a] == st.get('level', 1)):
+                            lay.roads.add((a, b))   # 案4：通りは決めた段（ふつうは1段目）だけに引く
     for r in spec['routes']:
         if 'bridge' in r:   # 設計の橋：いちばん近い橋の候補の両岸へ道を引く（片方は橋を渡る）
             px, py = r['bridge']
@@ -482,5 +529,18 @@ if __name__ == '__main__':
         print(l)
     print('建物', len(lay.buildings), '坂', len(lay.inclines), '橋', len(lay.bridges), '道', len(lay.roads), '坂の候補', len(lay.inc_cand), '橋の候補', len(lay.br_cand))
     T = isl.dump(); T['inclines'] = lay.inclines; T['bridges'] = [b['rect'] for b in lay.bridges]
-    json.dump(T, open(os.path.join(ROOT, 'plan3-terrain.json'), 'w'))
-    json.dump({'buildings': lay.buildings}, open(os.path.join(ROOT, 'designs/plan3_layout_out.json'), 'w'), ensure_ascii=False, indent=1)
+    json.dump(T, open(os.path.join(ROOT, f'plan{PLAN}-terrain.json'), 'w'))
+    out = {'buildings': lay.buildings}
+    spec = json.load(open(os.path.join(ROOT, f'designs/plan{PLAN}_spec.json')))
+    if spec.get('zones'):   # 地区を手で塗る（あとの塗りが上書き）
+        Zg = [['S'] * gen.W for _ in range(gen.H)]
+        for zd in spec['zones']:
+            if 'rect' in zd:
+                x0, y0, x1, y1 = zd['rect']; cells = [(x, y) for y in range(y0, y1 + 1) for x in range(x0, x1 + 1)]
+            else:
+                cx, cy, rx, ry = zd['blob']; cells = isl.blob(cx, cy, rx, ry, .15)
+            for x, y in cells:
+                if inside(x, y):
+                    Zg[y][x] = zd['zone']
+        out['zones'] = [''.join(r) for r in Zg]
+    json.dump(out, open(os.path.join(ROOT, f'designs/plan{PLAN}_layout_out.json'), 'w'), ensure_ascii=False, indent=1)

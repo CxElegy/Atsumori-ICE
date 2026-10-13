@@ -15,6 +15,8 @@ python3 tools/acnh_build.py   # 第47回：あつ森で作れるか（建物・�
 node tools/test_plan2.js | tail -3
 bash tools/plan3_build.sh >/dev/null   # 案3（第49回）：地形から作り直した島（種 seed から作る）
 node tools/test_plan3.js | tail -3
+python3 tools/plan4_design.py >/dev/null && ICE_PLAN=4 bash tools/plan3_build.sh >/dev/null   # 案4（第54回）：手で描いた島
+ICE_PLAN=4 node tools/test_plan3.js | tail -3
 if [ -z "${ICE_CACHE:-}" ]; then echo "ICE_CACHE がないので、ビルドガイドは作りません（確認まで）"; exit 0; fi
 python3 tools/build_site.py --cache $ICE_CACHE --out "$OUT/ice-guide.html" --board "$OUT/board.json" | tail -1
 if node -e "require(process.env.PW || 'playwright')" 2>/dev/null; then

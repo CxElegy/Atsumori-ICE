@@ -136,7 +136,7 @@ def nb(x, y):
         p = (x + dx, y + dy)
         if p in walk and (lv(*p) == lv(x, y) or p in slope or (x, y) in slope or g(*p) == 'b' or g(x, y) == 'b'):
             yield p
-start = (44, 84) if PLAN == '2' else tuple(J('designs/plan3_spec.json')['start'])   # 飛行場の出口
+start = (44, 84) if PLAN == '2' else tuple(J(f'designs/plan{PLAN}_spec.json')['start'])   # 飛行場の出口
 seen, q = {start}, deque([start])
 while q:
     for p in nb(*q.popleft()):

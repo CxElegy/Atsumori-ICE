@@ -5,5 +5,5 @@ cd "$(dirname "$0")/.."
 python3 tools/plan3_layout.py --seed "${SEED:-6}"
 python3 tools/plan3_fill.py
 python3 tools/plan3_trim.py
-ICE_PLAN=3 python3 tools/acnh_build.py | tail -3
-ICE_PLAN=3 python3 tools/island_check.py | sed -n '9,30p'
+ICE_PLAN=${ICE_PLAN:-3} python3 tools/acnh_build.py | tail -3
+ICE_PLAN=${ICE_PLAN:-3} python3 tools/island_check.py | sed -n '9,30p'
