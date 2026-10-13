@@ -16,6 +16,8 @@ import json, os
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 R = lambda x0, y0, x1, y1, h, why='': {'rect': [x0, y0, x1, y1], 'h': h, 'why': why}
+_kp = os.path.join(ROOT, 'designs/kits_plan4.json')
+KP = json.load(open(_kp, encoding='utf-8')) if os.path.exists(_kp) else {}
 
 # ---- ロンドンの図（x13〜62・y38〜82）----
 X0, Y0, X1, Y1 = 13, 38, 62, 82
@@ -163,8 +165,9 @@ spec = {
         {'zone': 'C', 'rect': [12, 39, 80, 90]},
         {'zone': 'P', 'rect': [81, 53, 104, 90]},
     ],
-    'manual_zones': 'C',
-    'kits': [],
+    'manual_zones': KP.get('manual_zones', 'C'),
+    # 第57回：町の見せ場は地区ごとに設計した designs/kits_plan4.json（キットと置き場所。tools/plan4_kitcheck.py で確かめたもの）
+    'kits': [{k: v for k, v in p.items() if k in ('kit', 'at', 'zone', 'on_road', 'flip', 'name', 'style', 'district')} for p in KP.get('placements', [])],
     # 見た目の立体交差：下の通りのつきあたり・崖のすそにアーチ（トンネルの入口）（rot は崖の向き 0北 1東 2南 3西）
     'panels': {'items': [[18, 50, 1, 'arch'], [18, 51, 1, 'arch'], [18, 52, 1, 'window'], [18, 53, 1, 'arch'],
                          [29, 56, 0, 'arch'], [30, 56, 0, 'arch'], [21, 56, 0, 'door'], [37, 56, 0, 'door'], [38, 56, 0, 'arch'],

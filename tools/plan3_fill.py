@@ -24,6 +24,8 @@ SPEC = J(f'designs/plan{PLAN}_spec.json')
 LAY = J(f'designs/plan{PLAN}_layout_out.json')
 CAT = J('designs/acnh_catalog.json')['items']
 KITS = J('designs/kits.json')['kits']
+if os.path.exists(os.path.join(ROOT, 'designs/kits_plan4.json')):   # 第57回：地区ごとに設計した見せ場（案4）
+    KITS.update(J('designs/kits_plan4.json')['kits'])
 P2 = J('designs/build_plan2.json')
 G = [list(r) for r in T['grid']]
 Hh = [[int(c) for c in r] for r in T['h']]
@@ -100,11 +102,16 @@ def ring_skip(ax, ay, KW, KD):   # 囲みの1マスのうち、ちがう段・�
     L = lv(ax, ay)
     return [[x, y] for y in range(ay - 1, ay + KD + 1) for x in range(ax - 1, ax + KW + 1)
             if not (inside(x, y) and g(x, y) in '13' and lv(x, y) == L)]
-def place_kit(kid, tx, ty, r, z, style=None, flip=None, gid=None, name=None):
+bld_cells = {(x, y) for b in LAY['buildings'] for x0, y0 in [b['at']] for x in range(x0, x0 + SIZE[b['kind']][0]) for y in range(y0, y0 + SIZE[b['kind']][1])}
+def fits_designed(kid, ax, ay):   # 第57回：手で場所を決めた見せ場は通りの上にも置ける（歩ける幅は plan4_kitcheck.py で確かめる）
+    k = KITS[kid]; KW, KD = k['size']; L = lv(ax, ay)
+    return all(inside(x, y) and g(x, y) in '13p' and lv(x, y) == L and (x, y) not in bld_cells and (x, y) not in front and (x, y) not in slope and (x, y) not in occ
+               for y in range(ay, ay + KD) for x in range(ax, ax + KW))
+def place_kit(kid, tx, ty, r, z, style=None, flip=None, gid=None, name=None, on_road=False):
     k = KITS[kid]; KW, KD = k['size']; best = None
     for y in range(ty - r, ty + r + 1):
         for x in range(tx - r, tx + r + 1):
-            if fits(kid, x, y):
+            if (fits_designed(kid, x, y) if on_road else fits(kid, x, y)):
                 d = math.hypot(x - tx, y - ty)
                 if best is None or d < best[0]:
                     best = (d, x, y)
@@ -127,7 +134,7 @@ GSTYLE = {'C': ['herring', 'brick', 'flag', 'cobble'], 'S': ['garden', 'flag'], 
 GDES = {'herring': 'brick_arch', 'brick': 'brick_vintage_red', 'flag': 'brick_greige', 'cobble': 'road_chic_stone', 'garden': 'brick_city_old', 'plank': 'plank', 'moss': 'stone_natural', 'leaves': 'brick_autumn'}
 for kd in SPEC.get('kits', []):   # 設計の見せ場（ねらいの場所のまわりに）。木より先に場所をとる
     tx, ty = kd.get('at') or kd['near']
-    place_kit(kd['kit'], tx, ty, 0 if 'at' in kd else kd.get('r', 6), kd['zone'], kd.get('style'), kd.get('flip'), name=kd.get('name'))
+    place_kit(kd['kit'], tx, ty, 0 if 'at' in kd else kd.get('r', 6), kd['zone'], kd.get('style'), kd.get('flip'), name=kd.get('name'), on_road=kd.get('on_road', False))
 
 # 地区の見せ場も木より先に（道に面した平地を林にとられないように）
 n = 0
@@ -332,20 +339,38 @@ if SPEC.get('base') == 'authored':
             cs = set(comp)
             if any((x + dx, y + dy) in slope for x, y in comp for dx, dy in N4):
                 continue   # 坂で上がるかたまり（テラス）は鉄の柵のまま
+            # 第57回：屋根を1種類にしない（「城壁ばかりで単調」）。かたまりごとに屋根の種類を変える：
+            #   fort＝ふちに城壁（3段目の塔・大きな建物だけ）／slate・slate_dark・red＝屋根のマイデザイン（目録の本物：灰色のレンガ・濃い灰色の石畳・くすんだ茶色のレンガ）に、
+            #   煙突の代わりのレンガのカベ1本と、室外機・給水タンク／garden＝ふちは生け垣、中は花の屋上庭園
+            n_ = len(comp); mx, my = min(comp)
+            kinds = ['slate', 'slate_dark', 'garden', 'slate', 'slate_dark'] if lv(x0, y0) == 2 else ['fort', 'slate_dark', 'fort', 'red']   # 茶色のレンガの屋根は2段目だと通りのレンガとまぎれるので3段目だけ
+            rk = 'fort' if n_ >= 40 and lv(x0, y0) == 2 and (mx * 7 + my) % 3 == 0 else kinds[(mx * 7 + my * 13) % len(kinds)]
+            if n_ <= 3:
+                rk = 'slate' if rk == 'garden' else rk
+            interior = [(x, y) for x, y in sorted(comp) if not any(lv(x + dx, y + dy) < lv(x, y) for dx, dy in DIRS)]
+            stacks = set(interior[2::9]) if rk in ('slate', 'slate_dark', 'red') else set()   # 煙突（レンガのカベ1本）
+            units = set(interior[6::13]) - stacks if rk in ('slate', 'slate_dark') else set()   # 室外機
             for x, y in sorted(comp):
                 if (x, y) in occ or (x, y) in trees or (x, y) in slope:
                     continue
                 low = [(dx, dy) for dx, dy in DIRS if lv(x + dx, y + dy) < lv(x, y)]
-                if low:
+                if low and rk == 'fort':
                     dx, dy = low[0]; x2, y2 = (x + 1, y) if dy else (x, y + 1)
                     if (x2, y2) in cs and (x2, y2) not in occ and (x2, y2) not in trees and any(lv(x2 + a, y2 + b) < lv(x2, y2) for a, b in DIRS):
                         roofs.append(['castle wall', x, y, 0 if dy else 1, 'Brown', 'wall_windows_bricks']); occ |= {(x, y), (x2, y2)}
                     else:
                         roofs.append(['brick fence', x, y, 0, None]); occ.add((x, y))
-                elif noise(x * .5 + 3, y * .5) > -.1:   # 屋根：灰色のレンガのマイデザイン（はしごで上がって敷く）
-                    ground.append({'id': 'C-roof', 'style': 'roof', 'rect': [x, y, x, y], 'design': 'brick_grey', 'skip': []}); occ.add((x, y))
-                else:   # 屋上の庭
-                    roofp.append({'id': 'C-roofgarden', 'type': 'roses' if (x * 3 + y) % 4 else 'lilies', 'rect': [x, y, x, y], 'colors': ['red', 'white', 'pink'], 'fit': True}); occ.add((x, y))
+                elif low and rk == 'garden':
+                    roofs.append(['hedge', x, y, 0, None]); occ.add((x, y))
+                elif rk == 'garden' or rk == 'fort' and noise(x * .5 + 3, y * .5) <= -.1:   # 屋上の庭
+                    roofp.append({'id': 'C-roofgarden', 'type': ['roses', 'tulips', 'roses', 'lilies'][(x * 3 + y) % 4], 'rect': [x, y, x, y], 'colors': ['red', 'white', 'pink'] if (mx + my) % 2 else ['white', 'yellow', 'orange'], 'fit': True}); occ.add((x, y))
+                elif (x, y) in stacks:
+                    roofs.append(['brick fence', x, y, 0, None]); occ.add((x, y))
+                elif (x, y) in units:
+                    roofs.append(['outdoor air conditioner', x, y, 0, None]); occ.add((x, y))
+                else:   # 屋根のマイデザイン（はしごで上がって敷く）
+                    st = {'fort': 'roof', 'slate': 'roof', 'slate_dark': 'roof_slate', 'red': 'roof_red'}[rk]
+                    ground.append({'id': 'C-roof', 'style': st, 'rect': [x, y, x, y], 'design': {'roof': 'brick_grey', 'roof_slate': 'road_chic_stone', 'roof_red': 'brick_natural'}[st], 'skip': []}); occ.add((x, y))
     if roofs:
         groups.append({'id': 'C-roofs', 'zone': 'C', 'name': 'レンガのかたまりの上：ふちの城壁（castle wall）と屋上の庭', 'at': [0, 0], 'items': roofs, 'lines': []})
     plants.extend(roofp)
@@ -470,6 +495,6 @@ B3 = {'note': '案3（第49回）：乱れ（たね %d）で作りなおした�
       'season': P2['season'], 'rules': P2['rules'], 'buildings': B_ALL,
       'inclines': {'%d,%d' % (x, y): INC[Z[y][x]] for x, y, d in T['inclines']},
       'bridges': {'%d,%d' % (r[0], r[1]): BRI[Z[r[1]][r[0]]] for r in T.get('bridges', [])},
-      'paths': P2['paths'], 'groups': groups, 'ground': ground, 'plants': plants, 'orchards': [], 'ground_styles': P2.get('ground_styles', {})}
+      'paths': P2['paths'], 'groups': groups, 'ground': ground, 'plants': plants, 'orchards': [], 'ground_styles': dict(P2.get('ground_styles', {}), roof='屋根（灰色のレンガ）', roof_slate='屋根（濃い灰色の石畳）', roof_red='屋根（茶色のレンガ）')}
 json.dump(B3, open(os.path.join(ROOT, f'designs/build_plan{PLAN}.json'), 'w'), ensure_ascii=False, indent=1)
 print('木', len(trees), '低木', len(bush), 'キット', len([g_ for g_ in groups if g_.get('kit')]), 'パネル', len(panel_groups), '地面', len(ground), '花', len(plants))
