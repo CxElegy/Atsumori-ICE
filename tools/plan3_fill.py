@@ -330,8 +330,10 @@ if SPEC.get('base') == 'authored':
             if any(c in road for c in comp):
                 continue   # 歩いて上がるかたまり（テラス）は鉄の柵のまま
             cs = set(comp)
+            if any((x + dx, y + dy) in slope for x, y in comp for dx, dy in N4):
+                continue   # 坂で上がるかたまり（テラス）は鉄の柵のまま
             for x, y in sorted(comp):
-                if (x, y) in occ or (x, y) in trees:
+                if (x, y) in occ or (x, y) in trees or (x, y) in slope:
                     continue
                 low = [(dx, dy) for dx, dy in DIRS if lv(x + dx, y + dy) < lv(x, y)]
                 if low:

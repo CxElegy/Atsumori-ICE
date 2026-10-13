@@ -28,6 +28,12 @@ ok('案3 地形：坂は上の1マス＋下の3マス', T.inclines.every(inc => 
 ok('案3 地形：坂は水・海・広場の上にない', T.inclines.every(inc => slopeCells(inc).every(([x, y]) => !'wSsrPKb'.includes(at(x, y)))));
 ok('案3 地形：橋は10個まで（2.0 のプロの工事の許可）・幅4で水3〜5マス', T.bridges.length <= 10 && T.bridges.every(([x0, y0, x1, y1]) => { const w = x1 - x0, h = y1 - y0; return (w === 4 && h >= 3 && h <= 5) || (h === 4 && w >= 3 && w <= 5); }), JSON.stringify(T.bridges));
 ok('案3 地形：同じ種（seed）から作り直せる', T.seed === SPEC.seed);
+// 第56回：町の水は1割まで（「水路有点太多了 像被淹了一样」）。手で描いた案だけ（町の範囲は spec の zones の C と P）
+if (SPEC.base === 'authored') {
+  const zr = SPEC.zones.filter(z => 'CP'.includes(z.zone) && z.rect).map(z => z.rect);
+  let land = 0, wat = 0; for (let y = 0; y < 96; y++) for (let x = 0; x < 112; x++) { if ('Ssr'.includes(G[y][x]) || !zr.some(([a, b, c, d]) => x >= a && x <= c && y >= b && y <= d)) continue; land++; if ('wb'.includes(G[y][x])) wat++; }
+  ok('案4 町：水は町の陸の15%まで', wat / land <= .15, Math.round(100 * wat / land) + '%');
+}
 // island-planning の点検（tools/island_check.py）
 const env = Object.assign({}, process.env, { ICE_PLAN: PL });
 const C = JSON.parse(execFileSync('python3', [path.join(ROOT, 'tools/island_check.py'), '--json'], { encoding: 'utf8', env }));
