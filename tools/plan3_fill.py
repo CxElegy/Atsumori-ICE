@@ -24,8 +24,8 @@ SPEC = J(f'designs/plan{PLAN}_spec.json')
 LAY = J(f'designs/plan{PLAN}_layout_out.json')
 CAT = J('designs/acnh_catalog.json')['items']
 KITS = J('designs/kits.json')['kits']
-if os.path.exists(os.path.join(ROOT, 'designs/kits_plan4.json')):   # 第57回：地区ごとに設計した見せ場（案4）
-    KITS.update(J('designs/kits_plan4.json')['kits'])
+if os.path.exists(os.path.join(ROOT, f'designs/kits_plan{PLAN}.json')):   # 第57回：地区ごとに設計した見せ場（案4 は kits_plan4.json、案5 は kits_plan5*.json）
+    KITS.update(J(f'designs/kits_plan{PLAN}.json')['kits'])
 P2 = J('designs/build_plan2.json')
 G = [list(r) for r in T['grid']]
 Hh = [[int(c) for c in r] for r in T['h']]

@@ -39,7 +39,7 @@ DESIGN_ITEMS = BP['rules']['design_items']
 DESIGNS = {d['id']: d for d in J('designs/catalog.json')['designs']}   # 本物のマイデザイン（MA コードつき）だけ
 FLOWERS = BP['rules'].get('plants', {})
 KITS = J('designs/kits.json')['kits']   # 前からあるキット（kits_plan4.json は案そのものから作るので読まない）
-KITS_ALL = dict(KITS, **(J('designs/kits_plan4.json')['kits'] if os.path.exists(os.path.join(ROOT, 'designs/kits_plan4.json')) else {}))   # --built 用
+KITS_ALL = dict(KITS, **(J(f'designs/kits_plan{PLAN}.json')['kits'] if os.path.exists(os.path.join(ROOT, f'designs/kits_plan{PLAN}.json')) else {}))   # --built 用
 G, HL = T['grid'], T['h']
 W, H = len(G[0]), len(G)
 inside = lambda x, y: 0 <= x < W and 0 <= y < H
@@ -55,6 +55,10 @@ DISTRICTS = {'D1': ([13, 38, 44, 58], 'ハイタウン（2段目・3段目の上
              'D5': ([42, 68, 58, 82], 'バンクサイドと船だまり（2段目の町、下の通り、船だまり、波止場の道）'),
              'D6': ([62, 50, 80, 82], 'サザーク（2段目の町、ハイストリート、市場のホール、バラ・マーケット広場、路地、バンクサイド）'),
              'D7': ([81, 50, 98, 82], 'ドックランズ（灯台の丘、港の池と桟橋、倉庫、波止場）')}
+
+if SPEC.get('districts'):   # 第59回：地区の四角は案の spec から（案5 など）。{"D1": {"box": [x0, y0, x1, y1], "name": "...", "zone": "C"}}
+    DISTRICTS = {k: (v['box'], v.get('name', '')) for k, v in SPEC['districts'].items()}
+DZONE = {k: v.get('zone', 'C') for k, v in SPEC.get('districts', {}).items()} or {'D7': 'P'}
 
 SIZE = {'villager': (4, 4), 'player_house': (5, 4), 'museum': (7, 4), 'nook': (7, 4), 'able': (5, 4), 'campsite': (4, 4)}
 bld, ring_b, front = {}, set(), set()
@@ -390,7 +394,7 @@ if __name__ == '__main__':
         for pr in props:
             out['kits'].update(pr.get('new_kits', {}))
             for pl in pr.get('placements', []):
-                out['placements'].append(dict({k: v for k, v in pl.items() if k in ('kit', 'at', 'on_road', 'flip', 'name', 'style')}, zone='P' if pr['district'] == 'D7' else 'C', district=pr['district']))
-        json.dump(out, open(os.path.join(ROOT, 'designs/kits_plan4.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
-        print('designs/kits_plan4.json')
+                out['placements'].append(dict({k: v for k, v in pl.items() if k in ('kit', 'at', 'on_road', 'flip', 'name', 'style')}, zone=DZONE.get(pr['district'], 'C'), district=pr['district']))
+        json.dump(out, open(os.path.join(ROOT, f'designs/kits_plan{PLAN}.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+        print(f'designs/kits_plan{PLAN}.json')
     sys.exit(1 if errs else 0)

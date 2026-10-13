@@ -32,8 +32,8 @@ G, H = T['grid'], T['h']
 GR = T.get('ground', {})
 B = J(f'designs/build_plan{PLAN}.json')
 KITS = J('designs/kits.json')['kits'] if os.path.exists(os.path.join(ROOT, 'designs/kits.json')) else {}
-if os.path.exists(os.path.join(ROOT, 'designs/kits_plan4.json')):   # 第57回：地区ごとに設計した見せ場（案4）
-    KITS.update(J('designs/kits_plan4.json')['kits'])   # 第48回：見せ場のキット（いいねの作例をゲームの家具で組んだもの）
+if os.path.exists(os.path.join(ROOT, f'designs/kits_plan{PLAN}.json')):   # 第57回：地区ごとに設計した見せ場（案ごと）
+    KITS.update(J(f'designs/kits_plan{PLAN}.json')['kits'])   # 第48回：見せ場のキット（いいねの作例をゲームの家具で組んだもの）
 MW, MH = len(G[0]), len(G)
 inside = lambda x, y: 0 <= x < MW and 0 <= y < MH
 g = lambda x, y: G[y][x] if inside(x, y) else 'S'
