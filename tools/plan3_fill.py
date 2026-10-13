@@ -202,6 +202,8 @@ for z, (ng, nt) in GROVES.items():
 trees = set(sorted(trees, key=lambda p: (p[0] * 7 + p[1] * 13) % 97)[:185])
 bush = set()
 BUSH = {'F': .55, 'J': .35, 'H': .5, 'B': .3, 'S': .14, 'C': .02, 'P': .12}
+if SPEC.get('base') == 'authored':
+    BUSH['P'] = .02   # 案4：港も町（低木はほとんどなし）
 for y in range(H):
     for x in range(W):
         z = Z[y][x]
@@ -230,7 +232,8 @@ for x, y, rot, piece in SPEC.get('panels', {}).get('items', []):
         panel(x, y, rot, piece)
     elif (x, y) in road and g(x, y) in '13' and (x, y) not in slope:   # 道のつきあたり：道の最後の1マスにアーチ
         panel(x, y, rot, piece)
-CAP = {'C': 14, 'P': 6}
+CAP = {'C': 14, 'P': 6 if SPEC.get('base') != 'authored' else 12}
+URBAN = 'CP' if SPEC.get('base') == 'authored' else 'C'   # 案4：港（ドックランズ）も町
 k = 0
 for y in range(1, H - 1):
     for x in range(1, W - 1):
@@ -315,7 +318,7 @@ if SPEC.get('base') == 'authored':
     seen = set()
     for y0 in range(H):
         for x0 in range(W):
-            if (x0, y0) in seen or Z[y0][x0] != 'C' or lv(x0, y0) < 2 or g(x0, y0) not in '13':
+            if (x0, y0) in seen or Z[y0][x0] not in URBAN or lv(x0, y0) < 2 or g(x0, y0) not in '13':
                 continue
             comp, q = [], [(x0, y0)]; seen.add((x0, y0))
             while q:
@@ -337,7 +340,9 @@ if SPEC.get('base') == 'authored':
                         roofs.append(['castle wall', x, y, 0 if dy else 1, 'Brown', 'wall_windows_bricks']); occ |= {(x, y), (x2, y2)}
                     else:
                         roofs.append(['brick fence', x, y, 0, None]); occ.add((x, y))
-                elif lv(x, y) == 2:
+                elif noise(x * .5 + 3, y * .5) > -.1:   # 屋根：灰色のレンガのマイデザイン（はしごで上がって敷く）
+                    ground.append({'id': 'C-roof', 'style': 'roof', 'rect': [x, y, x, y], 'design': 'brick_grey', 'skip': []}); occ.add((x, y))
+                else:   # 屋上の庭
                     roofp.append({'id': 'C-roofgarden', 'type': 'roses' if (x * 3 + y) % 4 else 'lilies', 'rect': [x, y, x, y], 'colors': ['red', 'white', 'pink'], 'fit': True}); occ.add((x, y))
     if roofs:
         groups.append({'id': 'C-roofs', 'zone': 'C', 'name': 'レンガのかたまりの上：ふちの城壁（castle wall）と屋上の庭', 'at': [0, 0], 'items': roofs, 'lines': []})
@@ -345,7 +350,7 @@ if SPEC.get('base') == 'authored':
 edge = []
 for y in range(1, H - 1):
     for x in range(1, W - 1):
-        if Z[y][x] != 'C' or g(x, y) not in '13' or (x, y) in occ or (x, y) in occ_b or (x, y) in road or (x, y) in slope or (x, y) in front or (x, y) in trees:
+        if Z[y][x] not in URBAN or g(x, y) not in '13' or (x, y) in occ or (x, y) in occ_b or (x, y) in road or (x, y) in slope or (x, y) in front or (x, y) in trees:
             continue
         near_slope = any((x + dx, y + dy) in slope for dx in (-1, 0, 1) for dy in (-1, 0, 1))
         if lv(x, y) == 2 and not near_slope and any(lv(x + dx, y + dy) < lv(x, y) and g(x + dx, y + dy) not in 'w' for dx, dy in DIRS):
@@ -380,7 +385,7 @@ STREET1 = [('streetlamp', 'Black'), ('round topiary', 'Green'), ('monstera', 'Bl
 STREET2 = [('garden wagon', 'Dark brown'), ('cruiser bike', 'Green'), ('flower bed', 'Dark brown'), ('iron garden bench', 'Black'), ('cruiser bike', 'Red'), ('medium cardboard boxes', None)]
 props, street = set(), []
 def cand(x, y):
-    return Z[y][x] == 'C' and g(x, y) in '13' and (x, y) not in occ and (x, y) not in occ_b and (x, y) not in road and (x, y) not in slope and (x, y) not in front and (x, y) not in trees
+    return Z[y][x] in URBAN and g(x, y) in '13' and (x, y) not in occ and (x, y) not in occ_b and (x, y) not in road and (x, y) not in slope and (x, y) not in front and (x, y) not in trees
 cells = [(x, y) for y in range(1, H - 1) for x in range(1, W - 1) if cand(x, y) and any((x + dx, y + dy) in road for dx, dy in N4)]
 cells.sort(key=lambda p: (hash((p[0] * 31 + p[1] * 17) % 9973) % 1000))
 k1 = k2 = 0
@@ -403,7 +408,7 @@ for y in range(H):
             plants.append({'id': 'C-roof', 'type': 'roses', 'rect': [x, y, x, y], 'colors': ['red', 'white', 'pink'], 'fit': True}); occ.add((x, y))
 
 # ---- ロンドンの地面はすべてマイデザインで敷く（家のまわりはレンガ、ほかは石畳。物の下も敷く）----
-pave = {(x, y) for y in range(H) for x in range(W) if Z[y][x] == 'C' and g(x, y) in '13' and lv(x, y) <= 2 and (x, y) not in slope and (x, y) not in trees and ((x, y) not in occ or (x, y) in props) and (x, y) not in road}
+pave = {(x, y) for y in range(H) for x in range(W) if Z[y][x] in URBAN and g(x, y) in '13' and lv(x, y) <= 2 and (x, y) not in slope and (x, y) not in trees and ((x, y) not in occ or (x, y) in props) and (x, y) not in road}
 q = [p for p in pave if any((p[0] + dx, p[1] + dy) in road and lv(p[0] + dx, p[1] + dy) == lv(*p) for dx, dy in N4)]
 reach = set(q)
 while q:   # 道から歩いて行ける所だけ敷く

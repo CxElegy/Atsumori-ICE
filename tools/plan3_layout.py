@@ -50,7 +50,7 @@ class Layout:
             for x in range(x0 - 1, x0 + w + 1):
                 if not inside(x, y) or self.g[y][x] not in '13tp' or self.lv(x, y) != L:
                     return False
-                if (x, y) in self.blocked or any((x + dx, y + dy) in self.house for dx in (-1, 0, 1) for dy in (-1, 0, 1)):
+                if (x, y) in self.blocked or (x, y) in self.house:   # 建物のあいだは1マス（まわりのマスは重なってよい）
                     return False
         for x, y in front_cells(kind, x0, y0):
             if not inside(x, y) or self.g[y][x] not in '13tp' or self.lv(x, y) != L or (x, y) in self.blocked:
@@ -136,13 +136,17 @@ class Layout:
                         lvls = {self.lv(*c) for c in b1 + b2} | {self.lv(*c) for c in span}
                         if len(lvls) != 1:
                             continue
+                        L0 = lvls.pop(); foot_ = set(span) | set(b1) | set(b2)
+                        xs = [c[0] for c in foot_]; ys = [c[1] for c in foot_]
+                        if any(inside(a, b) and self.g[b][a] not in 'Ss' and self.lv(a, b) != L0 for a in range(min(xs) - 1, max(xs) + 2) for b in range(min(ys) - 1, max(ys) + 2) if (a, b) not in foot_):
+                            continue   # 橋のまわり1マスに崖（ちがう段）があるとかけられない（Game8）
                         out.append({'span': span, 'banks': (b1, b2), 'vert': vert, 'L': L, 'rect': [x, y, x + (4 if vert else L), y + (L if vert else 4)]})
         return out
 
     # ---- 道（A*）----
     def build_graph(self):
-        self.slopecells = set(c for inc in self.inclines for c, _ in gen_slope(*inc))
-        self.inc_cand = []
+        self.slopecells = set(c for inc in self.inclines for c, _ in gen_slope(*inc))   # 設計の坂もふくむ
+        self.inc_cand = [tuple(i) for i in self.inclines]   # すでにかけた坂（設計の坂）も道の網に入れる
         for y in range(H):
             for x in range(W):
                 for d in 'NSEW':
@@ -200,7 +204,7 @@ class Layout:
                 kind, k = e
                 key = tuple(self.inc_cand[k]) if kind == 'inc' else tuple(self.br_cand[k]['rect'])
                 built = key in (built_inc if kind == 'inc' else built_br)
-                if not built and len(self.inclines if kind == 'inc' else self.bridges) >= 8:
+                if not built and len(self.inclines if kind == 'inc' else self.bridges) >= 10:   # 2.0 のプロの工事の許可で10まで
                     continue
                 nc = c + (6 if built else (3 if kind == "br" and k in self.br_pref else 14 if kind == "br" else 18))   # 橋・坂を新しくかけるのは少し高い（遠回りよりは安い）
                 if nc < best.get((a, b), 1e9):
@@ -361,8 +365,26 @@ PLAN = os.environ.get('ICE_PLAN', '3')   # 第54回：ICE_PLAN=4 で案4（手�
 def draw(isl, ops):
     """手で描く地形（spec の draw）：rect（x0,y0,x1,y1 をふくむ）・blob（中心と半径・ふちのゆれ）・poly（多角形）を、その段 h にする。
     浜・海・岩・広場・飛行場・河口はさわらない（動かせない所）"""
+    fixed, streets = {}, []
     for op in ops:
         cells = set()
+        if 'canvas' in op:   # 1マスずつ描いた図：1 2 3＝段、- + #＝その段の通り、~ = ^＝1・2・3段目の水、空白＝さわらない
+            cv = op['canvas']; LV = {'1': 1, '2': 2, '3': 3, '-': 1, '+': 2, '#': 3, '~': 1, '=': 2, '^': 3}
+            for j, row in enumerate(cv['rows']):
+                for i, ch in enumerate(row):
+                    x, y = cv['x0'] + i, cv['y0'] + j
+                    if ch not in LV or not isl.land(x, y) or (x, y) in {c for v in gen.MOUTHS.values() for c in v}:
+                        continue   # 河口はさわらない
+                    h = LV[ch]
+                    if h >= 2 and isl.dcoast[y][x] < 2:
+                        h = 1   # 崖は浜のとなりに作れない
+                    if ch in '~=^':
+                        isl.g[y][x] = 'w'; isl.h[y][x] = h; fixed[(x, y)] = h
+                    else:
+                        isl.h[y][x] = h; isl.g[y][x] = '3' if h >= 2 else '1'
+                        if ch in '-+#':
+                            streets.append((x, y, h))
+            continue
         if 'rect' in op:
             x0, y0, x1, y1 = op['rect']; cells = {(x, y) for y in range(y0, y1 + 1) for x in range(x0, x1 + 1)}
         elif 'blob' in op:
@@ -382,16 +404,18 @@ def draw(isl, ops):
         for x, y in cells:
             if isl.land(x, y) and isl.g[y][x] != 'w' and (op['h'] < 2 or isl.dcoast[y][x] >= 2):   # 崖は浜のとなりに作れない
                 isl.h[y][x] = op['h']; isl.g[y][x] = '3' if op['h'] >= 2 else '1'
+    return fixed, streets
 
 
 def run(seed):
     spec = json.load(open(os.path.join(ROOT, f'designs/plan{PLAN}_spec.json')))
+    canvas_streets = []
     if spec.get('base') == 'authored':   # 案4：種の地形を使わず、平らな島に手で描く
-        isl = gen.Island(seed); draw(isl, spec.get('draw', []))
+        isl = gen.Island(seed); cfixed, canvas_streets = draw(isl, spec.get('draw', []))
     else:
-        isl = gen.build(seed)
+        isl = gen.build(seed); cfixed = {}
     # 町の水路（spec の water）：生まれた川を町の中だけ消し、設計した水路（まっすぐな運河・池・溝）を掘る。郊外の川はそのまま
-    fixed = {}   # 段を決めて掘った水（運河・2段目の水路）。settle で動かさない
+    fixed = dict(cfixed)   # 段を決めて掘った水（運河・2段目の水路・図の水）。settle で動かさない
     for op in spec.get('water', []):
         if 'clear' in op:   # 生まれた川を消す。消したマスはまわりの陸の段にもどす
             x0, y0, x1, y1 = op['clear']
@@ -454,8 +478,9 @@ def run(seed):
             lay.reserved |= {(x, y) for x in range(ax, ax + kw) for y in range(ay, ay + kh)}
     lay.blocked |= lay.reserved
     for inc in spec.get('inclines', []):   # 設計の坂（場所と向きを手で決める）
+        lay.slopecells = getattr(lay, 'slopecells', set())
         if lay.incline_ok(*inc):
-            lay.inclines.append(list(inc)); lay.blocked |= {c for c, _ in gen_slope(*inc)}
+            lay.inclines.append(list(inc)); lay.blocked |= {c for c, _ in gen_slope(*inc)}; lay.slopecells |= {c for c, _ in gen_slope(*inc)}
         else:
             lay.log.append(f'坂 {inc}：置けない（段・まっすぐな崖・まわり1マス）')
     lay.build_graph()
@@ -473,6 +498,9 @@ def run(seed):
     start = tuple(spec['start'])
     lay.roads.add(start); lay.net = {start}
     # 設計の通り（spec の streets）を先に引く（あとの道はこれを使う）：折れ線で引く通り（同じ段だけ。水・建物・坂の上はとばす）
+    for x, y, h in canvas_streets:   # 図の通り（その段だけ）
+        if isl.g[y][x] in '13t' and (x, y) not in lay.blocked and isl.h[y][x] == h:
+            lay.roads.add((x, y))
     for st in spec.get('streets', []):
         pts = st['path']; w = st.get('w', 2)
         for (x1, y1), (x2, y2) in zip(pts, pts[1:]):

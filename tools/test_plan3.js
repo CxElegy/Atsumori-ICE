@@ -23,10 +23,10 @@ ok('案3 地形：滝がある（上の段の水が下の段の水へ）', cells
 const islets = (() => { const seen = new Set(); let k = 0; for (let y = 0; y < 96; y++) for (let x = 0; x < 112; x++) { if ('wSb'.includes(G[y][x]) || seen.has(x + ',' + y)) continue; const st = [[x, y]], part = []; seen.add(x + ',' + y); let open = false; while (st.length) { const [a, b] = st.pop(); part.push([a, b]); for (const [dx, dy] of N4) { const c = at(a + dx, b + dy); if (c === 'S' || c === 'b') { open = true; continue; } if (c === 'w') continue; const q = (a + dx) + ',' + (b + dy); if (!seen.has(q)) { seen.add(q); st.push([a + dx, b + dy]); } } } if (!open && part.length >= 2) k++; } return k; })();
 ok('案3 地形：水に囲まれた中島がある', islets >= 1, islets);
 const slopeCells = ([x, y, d]) => { const out = []; for (let i = 0; i < 4; i++) for (let k = 0; k < 2; k++) out.push(d === 'E' || d === 'W' ? [x + i, y + k, d === 'E' ? i : 3 - i] : [x + k, y + i, d === 'S' ? i : 3 - i]); return out; };
-ok('案3 地形：坂は8個まで', T.inclines.length <= 8, T.inclines.length);
+ok('案3 地形：坂は10個まで（2.0 のプロの工事の許可）', T.inclines.length <= 10, T.inclines.length);
 ok('案3 地形：坂は上の1マス＋下の3マス', T.inclines.every(inc => { const sc = slopeCells(inc), top = sc.find(c => c[2] === 0), hi = lv(top[0], top[1]); return sc.every(([x, y, i]) => lv(x, y) === (i === 0 ? hi : hi - 1)); }));
 ok('案3 地形：坂は水・海・広場の上にない', T.inclines.every(inc => slopeCells(inc).every(([x, y]) => !'wSsrPKb'.includes(at(x, y)))));
-ok('案3 地形：橋は8個まで・幅4で水3〜5マス', T.bridges.length <= 8 && T.bridges.every(([x0, y0, x1, y1]) => { const w = x1 - x0, h = y1 - y0; return (w === 4 && h >= 3 && h <= 5) || (h === 4 && w >= 3 && w <= 5); }), JSON.stringify(T.bridges));
+ok('案3 地形：橋は10個まで（2.0 のプロの工事の許可）・幅4で水3〜5マス', T.bridges.length <= 10 && T.bridges.every(([x0, y0, x1, y1]) => { const w = x1 - x0, h = y1 - y0; return (w === 4 && h >= 3 && h <= 5) || (h === 4 && w >= 3 && w <= 5); }), JSON.stringify(T.bridges));
 ok('案3 地形：同じ種（seed）から作り直せる', T.seed === SPEC.seed);
 // island-planning の点検（tools/island_check.py）
 const env = Object.assign({}, process.env, { ICE_PLAN: PL });

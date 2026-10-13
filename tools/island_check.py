@@ -51,7 +51,7 @@ for rt in ROUTES:
                         road.add((x + dx, y + dy))
 import acnh_build as _ab
 _res = _ab.check()
-GROUNDD = set(_res[5])   # 第48回：地面のマイデザイン（敷きつめた石畳・レンガ）も道として歩ける
+GROUNDD = {p for p, v in _res[5].items() if v != 'roof'}   # 第55回：かたまりの上の屋根のマイデザイン（はしごで上がる）は道にふくめない   # 第48回：地面のマイデザイン（敷きつめた石畳・レンガ）も道として歩ける
 road |= {p for p in GROUNDD if g(*p) not in 'Swr'}
 slope = set()
 for x, y, d in INC:
