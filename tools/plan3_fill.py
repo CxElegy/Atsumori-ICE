@@ -122,6 +122,8 @@ def cam_ok(x, y):
         return True
     if (x, y) in KEEP_CLEAR or (x, y + 1) in TALL or (x, y + 2) in TALL:
         return False
+    if (x, y + 1) in globals().get('trees', ()):
+        return False   # 木のかさの真うしろ（第60回）
     L = lv(x, y)
     for k in (1, 2):
         if inside(x, y + k) and g(x, y + k) not in 'wSsb' and lv(x, y + k) - L >= k:
@@ -183,7 +185,7 @@ for z, kl in PLAN_KITS.items():
         spur = None
         for ax, ay in anchors:
             flip = rng.random() < .5
-            ok = fits(kid, ax, ay, flip)
+            ok = fits(kid, ax, ay, flip) and not any((x, y) in KEEP_CLEAR for x in range(ax, ax + KW) for y in range(ay, ay + KD))   # 第60回：自動の見せ場も keep_clear をよける（軸の北に墓地が来ないように）
             if not ok and z in 'FJBHP':   # 野山の地区：道から11マスまでなら、小道（土の道）を1本引いてつなぐ
                 L = lv(ax, ay)
                 if all(free(x, y, L) for y in range(ay, ay + KD) for x in range(ax, ax + KW)):
@@ -592,6 +594,6 @@ B3 = {'note': '案3（第49回）：乱れ（たね %d）で作りなおした�
       'season': P2['season'], 'rules': P2['rules'], 'buildings': B_ALL,
       'inclines': {'%d,%d' % (x, y): SPEC.get('incline_kinds', {}).get('%d,%d' % (x, y), INC[Z[y][x]]) for x, y, d in T['inclines']},   # 第58回：場所ごとに種類を変えられる（石の階段など）
       'bridges': {'%d,%d' % (r[0], r[1]): SPEC.get('bridge_kinds', {}).get('%d,%d' % (r[0], r[1]), BRI[Z[r[1]][r[0]]]) for r in T.get('bridges', [])},
-      'paths': dict(P2['paths'], **SPEC.get('paths', {})), 'groups': groups, 'ground': ground, 'plants': plants, 'orchards': [], 'ground_styles': dict(P2.get('ground_styles', {}), roof='屋根（灰色のレンガ）', roof_slate='屋根（濃い灰色の石畳）', roof_red='屋根（茶色のレンガ）')}
+      'paths': dict(P2['paths'], **SPEC.get('paths', {})), 'groups': groups, 'ground': ground, 'plants': plants, 'orchards': [], 'ground_styles': dict(P2.get('ground_styles', {}), roof='屋根（灰色のレンガ）', roof_slate='屋根（濃い灰色の石畳）', roof_red='屋根（茶色のレンガ）', **({'stoneold': '石畳（old stone road：町の通りと同じ）'} if SPEC.get('paving') else {}))}
 json.dump(B3, open(os.path.join(ROOT, f'designs/build_plan{PLAN}.json'), 'w'), ensure_ascii=False, indent=1)
 print('木', len(trees), '低木', len(bush), 'キット', len([g_ for g_ in groups if g_.get('kit')]), 'パネル', len(panel_groups), '地面', len(ground), '花', len(plants))
