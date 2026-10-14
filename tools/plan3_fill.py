@@ -208,6 +208,7 @@ def tree_ok(x, y):
             return False
     return True
 GROVES = {'F': (7, 9), 'J': (4, 7), 'H': (5, 6), 'B': (4, 6), 'S': (3, 5), 'C': (9, 2), 'P': (3, 3)}   # 林の数・1つの林の木の数
+GROVES.update({k: tuple(v) for k, v in SPEC.get('groves', {}).items()})   # 第60回：案ごとに林の数を変える（町 C は {"C": [0, 0]} で、木は street_trees だけ）
 trees = set()
 for z, (ng, nt) in GROVES.items():
     cells = [(x, y) for y in range(H) for x in range(W) if Z[y][x] == z and tree_ok(x, y)]
