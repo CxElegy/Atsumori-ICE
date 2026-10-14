@@ -120,6 +120,14 @@ def kit_cells(k, ax, ay, flip):
 
 
 FLAT = {'manhole cover'}   # 上を歩ける物
+ARCH = {'castle gate'}     # 第60回：まん中のアーチをくぐれる物（3×1 のまん中の1マス。出どころ https://miketendo64.com/2021/11/16/guide-how-to-obtain-castle-items-in-animal-crossing-new-horizons/ ・1つだけなので U）
+
+
+def arch_open(p):
+    """アーチのまん中（くぐれるマス）"""
+    if p['item'] not in ARCH:
+        return set()
+    return {(p['x'] + 1, p['y'])} if p['w'] >= 3 else {(p['x'], p['y'] + 1)}
 
 
 def walk_set(blocked, extra):
@@ -264,7 +272,7 @@ def check(props):
             for p in out:
                 for y in range(p['y'], p['y'] + p['d']):
                     for x in range(p['x'], p['x'] + p['w']):
-                        if p['item'] not in FLAT:
+                        if p['item'] not in FLAT and (x, y) not in arch_open(p):
                             blocked.add((x, y))
                         mine.add((x, y))
                         cells8[(x // 8, y // 8)] += 1
@@ -350,7 +358,7 @@ if __name__ == '__main__':
     if a[0] == '--built':   # 組み上がった島（designs/build_plan*.json の物すべて：見せ場・崖のパネル・柵・通りの小物）で歩けるか
         sys.path.insert(0, os.path.join(ROOT, 'tools'))
         from acnh_build import expand
-        blocked = {(x, y) for p in expand() if p['item'] not in FLAT for x in range(p['x'], p['x'] + p['w']) for y in range(p['y'], p['y'] + p['d'])}
+        blocked = {(x, y) for p in expand() if p['item'] not in FLAT for x in range(p['x'], p['x'] + p['w']) for y in range(p['y'], p['y'] + p['d']) if (x, y) not in arch_open(p)}
         kitarea = set()
         for gp in BP['groups']:
             if gp.get('kit') and gp['kit'] in KITS_ALL:
