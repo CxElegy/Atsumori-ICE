@@ -110,6 +110,8 @@ data = {'g': T['grid'], 'audit': audit, 'zlab': zlab, 'warnings': chk['warnings'
         'P': [dict({k: p[k] for k in ('k', 'x', 'y', 'w', 'd', 'rot', 'group', 'design')}, **({'piece': p['piece']} if p.get('piece') else {})) for p in P], 'untree': chk['untree'], 'plants': chk['plants'], 'plantTypes': B['rules']['plants'], 'orchards': B.get('orchards', []),
         'used': used, 'inclines': inc, 'bridges': bri, 'paths': B['paths'], 'designs': des, 'season': B['season'],
         'cannot': B['rules']['cannot'], 'sources': B['rules']['sources'], 'facilities': T['facilities']}
+_sp = json.load(open(R + f'designs/plan{PLAN}_spec.json')) if os.path.exists(R + f'designs/plan{PLAN}_spec.json') else {}
+data['cedar'] = _sp.get('cedar_belts', [])   # 第60回：杉（針葉樹）と濃い緑の低木の帯（主塔のうしろの静かな背景）
 t = open('acnh3d_tpl.html').read()
 js = lambda o: json.dumps(o, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/')
 t = t.replace('__DATA__', js(data)).replace('__ICONS__', js({k: v[0] for k, v in icons.items()})).replace('__ISZ__', js({k: v[1] for k, v in icons.items()})).replace('__HOUSES__', js({k: v[0] for k, v in houses.items()}))

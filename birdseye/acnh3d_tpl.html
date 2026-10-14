@@ -412,12 +412,14 @@ const trunks = [], crowns = [], crowns2 = [], cones = [], stems = [], leafs = []
 const TONES = { C: ['#c9a04a', '#c7773a', '#7d9152', '#b9893f', '#6b8a4a'], S: ['#c9a04a', '#c7773a', '#7d9152', '#b9893f', '#6b8a4a', '#d8a24a'], F: ['#5d8a48', '#6b8a4a', '#c9a04a', '#557f44', '#b9893f'], J: ['#c8503a', '#d8643a', '#c9a04a', '#6b8a4a'], H: ['#7a5a3a', '#8a5f3a', '#5a4a3a'], P: ['#7d9152', '#c9a04a', '#728f4f'] };
 const hash = (x, y) => (((x * 73856093) ^ (y * 19349663)) >>> 0) % 1000 / 1000;
 const FRUIT = { apple: '#d8453a', peach: '#f2a0a8', orange: '#f08a2a', pear: '#d8c84a', cherry: '#b8303a' };   // 果物の木（build_plan2.json の orchards）
+const inCedar = (x, y) => (D.cedar || []).some(([a, b, c, d]) => x >= a && x <= c && y >= b && y <= d);   // 第60回：spec の cedar_belts（杉の帯）
 function plant(x, y) {
   const t = topY(x, y), z = ZONE(x, y), wx = WX(x) + (r1() - .5) * .2, wz = WZ(y) + (r1() - .5) * .2, k = hash(x + 3, y + 7);
   aoBlobs.push({ p: [wx, t + .024, wz], s: [1.6, 1, 1.6] });
   if (z === 'B') { for (let i = 0; i < 5; i++) { const a = i * 1.256 + r1(), r = .12 + r1() * .22, hh = 2.2 + r1() * .9, sx = wx + Math.cos(a) * r, sz = wz + Math.sin(a) * r;
       stems.push({ p: [sx, t + hh / 2, sz], s: [.07, hh, .07], c: col(i % 2 ? '#7aa04a' : '#6a9440') }); leafs.push({ p: [sx, t + hh - .15, sz], s: [.42, .3, .42], c: col(i % 2 ? '#a8c860' : '#93b852') }); } return; }
-  const cedar = z === 'J' ? k < .55 : z === 'H' ? k < .6 : z === 'F' ? k < .3 : L(x, y) >= 3;
+  const belt = inCedar(x, y), cedar = belt || (z === 'J' ? k < .55 : z === 'H' ? k < .6 : z === 'F' ? k < .3 : L(x, y) >= 3);
+  if (belt) { trunks.push({ p: [wx, t + .35, wz], s: [.16, .7, .16], c: col('#5e3f28') }); const cc = '#3d5a41'; cones.push({ p: [wx, t + 1.25, wz], s: [.95, 1.3, .95], c: col(cc).offsetHSL(0, 0, (r1() - .5) * .04) }); cones.push({ p: [wx, t + 1.95, wz], s: [.7, 1, .7], c: col(cc).offsetHSL(0, 0, .03) }); return; }
   if (cedar) { trunks.push({ p: [wx, t + .35, wz], s: [.16, .7, .16], c: col('#6e4a2f') }); const cc = z === 'H' ? '#33433a' : '#4f6e4a'; cones.push({ p: [wx, t + 1.25, wz], s: [.95, 1.3, .95], c: col(cc).offsetHSL(0, 0, (r1() - .5) * .05) }); cones.push({ p: [wx, t + 1.95, wz], s: [.7, 1, .7], c: col(cc).offsetHSL(0, 0, .04) }); return; }
   const orch = D.orchards.some(o => x >= o.rect[0] && x <= o.rect[2] && y >= o.rect[1] && y <= o.rect[3]), tones = orch ? ['#6b8a4a', '#728f4f', '#7d9152'] : (TONES[z] || TONES.S), g = col(tones[Math.floor(k * tones.length)]).offsetHSL(0, 0, (r1() - .5) * .05);
   trunks.push({ p: [wx, t + .4, wz], s: [.18, .8, .18], c: col('#7a5236') });
@@ -426,7 +428,7 @@ function plant(x, y) {
 }
 for (let y = 0; y < MH; y++) for (let x = 0; x < MW; x++) if (G(x, y) === 't' && !UNTREE.has(x + ',' + y)) plant(x, y);
 const bushes = [], BUSHC = { F: ['#4f7a3f', '#5d8a48'], H: ['#46553f', '#3f4d3a'], J: ['#5d8a48', '#c8503a'], S: ['#5d8a48', '#6b9a4f'], B: ['#7aa04a'], C: ['#5d8a48'], P: ['#6b9a4f'] };
-Object.keys(D.ground).forEach(k => { if (D.ground[k] !== 'u' || UNTREE.has(k)) return; const [x, y] = k.split(',').map(Number); const z = ZONE(x, y), cs = BUSHC[z] || BUSHC.F, t = topY(x, y), h = hash(x + 5, y + 11);
+Object.keys(D.ground).forEach(k => { if (D.ground[k] !== 'u' || UNTREE.has(k)) return; const [x, y] = k.split(',').map(Number); const z = ZONE(x, y), cs = inCedar(x, y) ? ['#41593f', '#4a6545'] : (BUSHC[z] || BUSHC.F), t = topY(x, y), h = hash(x + 5, y + 11);
   const c = col(cs[Math.floor(h * cs.length)]).offsetHSL(0, 0, (h - .5) * .05); bushes.push({ p: [WX(x), t + .28, WZ(y)], s: [.86, .6, .86], c }); });
 const blooms = []; bushes.forEach((b, i) => { if (hash(i, 7) < .45) for (let k = 0; k < 5; k++) { const a = k * 1.26 + i; blooms.push({ p: [b.p[0] + Math.cos(a) * .3, b.p[1] + .12 + (k % 2) * .08, b.p[2] + Math.sin(a) * .3], s: [.1, .1, .1], c: col(hash(i, 3) < .5 ? '#f0a03a' : '#f2d04a') }); } });   // 10月はキンモクセイの花（橙・黄）
 inst(new THREE.SphereGeometry(.5, 10, 7), mat('#ffffff'), bushes, true); inst(new THREE.SphereGeometry(.5, 6, 5), mat('#ffffff'), blooms, false);
