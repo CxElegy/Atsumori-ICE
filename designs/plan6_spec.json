@@ -791,88 +791,16 @@
    "district": "D1"
   },
   {
-   "kit": "p6_d10_bakery",
+   "kit": "p6_d1_gate_lamps",
    "at": [
-    12,
-    68
+    33,
+    44
    ],
    "on_road": true,
    "flip": false,
-   "name": "コヴェント・ガーデンの市場のパン屋の屋台",
+   "name": "城門の前の対の街灯",
    "zone": "C",
-   "district": "D10"
-  },
-  {
-   "kit": "p6_d10_nookyard",
-   "at": [
-    12,
-    71
-   ],
-   "on_road": false,
-   "flip": false,
-   "name": "タヌキ商店のわきの荷おろし",
-   "zone": "C",
-   "district": "D10"
-  },
-  {
-   "kit": "p6_d10_quaycafe",
-   "at": [
-    16,
-    82
-   ],
-   "on_road": false,
-   "flip": false,
-   "name": "タヌキ商店の向かいの岸のカフェ",
-   "zone": "C",
-   "district": "D10"
-  },
-  {
-   "kit": "p6_d11_farmgate",
-   "at": [
-    76,
-    46
-   ],
-   "on_road": false,
-   "flip": false,
-   "name": "橋のたもとの果樹園の無人販売",
-   "zone": "S",
-   "district": "D11"
-  },
-  {
-   "kit": "p6_d11_pump",
-   "at": [
-    76,
-    52
-   ],
-   "on_road": true,
-   "flip": false,
-   "name": "分かれ道の村のポンプと道しるべ",
-   "zone": "S",
-   "district": "D11"
-  },
-  {
-   "kit": "p6_d11_apiary",
-   "at": [
-    76,
-    56
-   ],
-   "on_road": false,
-   "flip": false,
-   "name": "ビーの家の南の花畑の巣箱",
-   "zone": "S",
-   "district": "D11"
-  },
-  {
-   "kit": "p6_d11_pumpkins",
-   "at": [
-    83,
-    46
-   ],
-   "on_road": false,
-   "flip": false,
-   "name": "スクートの家の南東の菜園",
-   "zone": "S",
-   "district": "D11"
+   "district": "D1"
   },
   {
    "kit": "p6_d2_flourish",
@@ -926,7 +854,7 @@
    "kit": "p6_d2_stair_cart",
    "at": [
     26,
-    50
+    48
    ],
    "on_road": false,
    "flip": false,
@@ -937,12 +865,12 @@
   {
    "kit": "p6_d3_stairhead",
    "at": [
-    32,
+    33,
     55
    ],
    "on_road": false,
    "flip": false,
-   "name": "大石段の頭の西",
+   "name": "大石段の頭の西（双塔のすそ）",
    "zone": "C",
    "district": "D3"
   },
@@ -954,31 +882,7 @@
    ],
    "on_road": false,
    "flip": true,
-   "name": "大石段の頭の東",
-   "zone": "C",
-   "district": "D3"
-  },
-  {
-   "kit": "p6_d3_towerfoot",
-   "at": [
-    30,
-    49
-   ],
-   "on_road": false,
-   "flip": false,
-   "name": "西の角の塔のすそ",
-   "zone": "C",
-   "district": "D3"
-  },
-  {
-   "kit": "p6_d3_towerfoot",
-   "at": [
-    39,
-    49
-   ],
-   "on_road": true,
-   "flip": true,
-   "name": "東の角の塔のすそ",
+   "name": "大石段の頭の東（双塔のすそ）",
    "zone": "C",
    "district": "D3"
   },
@@ -1009,36 +913,12 @@
   {
    "kit": "p6_d5_back_antiques",
    "at": [
-    54,
-    36
-   ],
-   "on_road": false,
-   "flip": false,
-   "name": "裏の石段の下の古道具屋",
-   "zone": "C",
-   "district": "D5"
-  },
-  {
-   "kit": "p6_d5_roof_cafe",
-   "at": [
     66,
-    39
+    42
    ],
    "on_road": true,
    "flip": false,
-   "name": "屋上のテラスのパラソル",
-   "zone": "C",
-   "district": "D5"
-  },
-  {
-   "kit": "p6_d5_roof_garden",
-   "at": [
-    61,
-    41
-   ],
-   "on_road": false,
-   "flip": false,
-   "name": "西の棟の屋上の菜園",
+   "name": "中庭の古道具屋",
    "zone": "C",
    "district": "D5"
   },
@@ -1046,11 +926,23 @@
    "kit": "p6_d5_loading_bay",
    "at": [
     67,
-    44
+    46
    ],
    "on_road": false,
    "flip": false,
    "name": "荷あげの中庭",
+   "zone": "C",
+   "district": "D5"
+  },
+  {
+   "kit": "p6_d5_roof_lawn",
+   "at": [
+    61,
+    39
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "屋上のテラスの芝の部屋",
    "zone": "C",
    "district": "D5"
   },
@@ -1069,36 +961,36 @@
   {
    "kit": "p6_d6_mooring",
    "at": [
-    51,
+    42,
     60
    ],
    "on_road": false,
    "flip": false,
-   "name": "係留のくいのあいだのいかり",
+   "name": "西の岸壁の係留の道具",
    "zone": "C",
    "district": "D6"
   },
   {
-   "kit": "p6_d6_bridge_w",
+   "kit": "p6_d6_flowercart",
+   "at": [
+    59,
+    60
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "鉄の橋のたもとの花屋の荷車",
+   "zone": "C",
+   "district": "D6"
+  },
+  {
+   "kit": "p6_d6_bridge_foot",
    "at": [
     64,
     61
    ],
-   "on_road": false,
+   "on_road": true,
    "flip": false,
-   "name": "鉄の橋のたもとの親柱（西）",
-   "zone": "C",
-   "district": "D6"
-  },
-  {
-   "kit": "p6_d6_bridge_e",
-   "at": [
-    67,
-    61
-   ],
-   "on_road": false,
-   "flip": false,
-   "name": "鉄の橋のたもとの親柱（東）",
+   "name": "鉄の橋の南のたもとの親柱",
    "zone": "C",
    "district": "D6"
   },
@@ -1110,7 +1002,7 @@
    ],
    "on_road": false,
    "flip": false,
-   "name": "屋上の庭の棟の下のバラの花の屋台",
+   "name": "屋上の庭の棟の下のバラの花屋",
    "zone": "C",
    "district": "D7"
   },
@@ -1134,7 +1026,7 @@
    ],
    "on_road": true,
    "flip": false,
-   "name": "バラの路地の壁ぞい",
+   "name": "バラの路地の壁ぞいの腰かけ",
    "zone": "C",
    "district": "D7"
   },
@@ -1146,9 +1038,69 @@
    ],
    "on_road": true,
    "flip": false,
-   "name": "ピーカンの中庭の物干し",
+   "name": "ピーカンの中庭の洗たく日",
    "zone": "C",
    "district": "D7"
+  },
+  {
+   "kit": "p6_d7_market_w",
+   "at": [
+    52,
+    73
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "バラの市場（西の角の荷）",
+   "zone": "C",
+   "district": "D7"
+  },
+  {
+   "kit": "p6_d7_market_e",
+   "at": [
+    58,
+    73
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "バラの市場（奥の屋台）",
+   "zone": "C",
+   "district": "D7"
+  },
+  {
+   "kit": "p6_d7_market_s",
+   "at": [
+    53,
+    75
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "バラの市場（手前の店の列）",
+   "zone": "C",
+   "district": "D7"
+  },
+  {
+   "kit": "p6_d7_quiet",
+   "at": [
+    66,
+    75
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "市場の東の木かげのベンチ",
+   "zone": "C",
+   "district": "D7"
+  },
+  {
+   "kit": "p6_d8_cafe",
+   "at": [
+    43,
+    79
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "エイブルのわきの中庭のカフェ",
+   "zone": "C",
+   "district": "D8"
   },
   {
    "kit": "p6_d8_pubfoot",
@@ -1158,7 +1110,7 @@
    ],
    "on_road": false,
    "flip": false,
-   "name": "井戸の石段の下の西のパブの看板（PUB の看板・びんのケース・足もとのランタン）",
+   "name": "井戸の石段の下の西のパブの看板",
    "zone": "C",
    "district": "D8"
   },
@@ -1170,31 +1122,7 @@
    ],
    "on_road": false,
    "flip": false,
-   "name": "井戸の石段の下の東のたるの立ち飲み（木のスツール・たるのテーブル・壁のあかり）",
-   "zone": "C",
-   "district": "D8"
-  },
-  {
-   "kit": "p6_d8_dray",
-   "at": [
-    47,
-    82
-   ],
-   "on_road": false,
-   "flip": false,
-   "name": "胸壁の倉庫の荷おろし口の荷馬車（倉庫の戸・ほろ馬車・木箱）",
-   "zone": "C",
-   "district": "D8"
-  },
-  {
-   "kit": "p6_d8_tailor",
-   "at": [
-    43,
-    79
-   ],
-   "on_road": true,
-   "flip": false,
-   "name": "エイブルの東の店先のつるしの服（白いマネキン・つるしの服の棚・スタンド看板）",
+   "name": "井戸の石段の下の東のたるの立ち飲み",
    "zone": "C",
    "district": "D8"
   },
@@ -1206,7 +1134,7 @@
    ],
    "on_road": false,
    "flip": false,
-   "name": "レンガの橋の西のたもとの新聞売り（街灯・新聞のラック・見出しのポスタースタンド）",
+   "name": "レンガの橋の西のたもとの新聞売り",
    "zone": "C",
    "district": "D8"
   },
@@ -1223,26 +1151,26 @@
    "district": "D9"
   },
   {
-   "kit": "p6_d9_gate",
+   "kit": "p6_d9_fount",
    "at": [
     29,
     82
    ],
-   "on_road": false,
+   "on_road": true,
    "flip": false,
-   "name": "飛行場の出口の対の旗の街灯と道しるべ（案内所への道しるべ・ユニオンジャックの旗の街灯）",
+   "name": "前庭の口の西の花の荷車とベンチ",
    "zone": "C",
    "district": "D9"
   },
   {
-   "kit": "p6_d9_gate",
+   "kit": "p6_d9_fount",
    "at": [
-    39,
+    38,
     82
    ],
-   "on_road": false,
+   "on_road": true,
    "flip": true,
-   "name": "飛行場の出口の対の旗の街灯と道しるべ（案内所への道しるべ・ユニオンジャックの旗の街灯）",
+   "name": "前庭の口の東の花の荷車とベンチ",
    "zone": "C",
    "district": "D9"
   },
@@ -1257,6 +1185,90 @@
    "name": "博物館の南の浜ぞいの彫刻の芝（花壇・考える人の像・花壇）",
    "zone": "C",
    "district": "D9"
+  },
+  {
+   "kit": "p6_d10_bakery",
+   "at": [
+    12,
+    68
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "コヴェント・ガーデンの市場のパン屋の屋台と荷",
+   "zone": "C",
+   "district": "D10"
+  },
+  {
+   "kit": "p6_d10_quaycafe",
+   "at": [
+    16,
+    82
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "タヌキ商店の向かいの岸のカフェ",
+   "zone": "C",
+   "district": "D10"
+  },
+  {
+   "kit": "p6_d11_pump",
+   "at": [
+    76,
+    52
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "分かれ道の村のポンプと道しるべ",
+   "zone": "S",
+   "district": "D11"
+  },
+  {
+   "kit": "p6_d11_apiary",
+   "at": [
+    76,
+    56
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "ビーの家の前の花の荷車とみつばちの花畑",
+   "zone": "S",
+   "district": "D11"
+  },
+  {
+   "kit": "p6_d11_pumpkins",
+   "at": [
+    83,
+    46
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "スクートの家の南東の菜園",
+   "zone": "S",
+   "district": "D11"
+  },
+  {
+   "kit": "p6_d11_picnic",
+   "at": [
+    75,
+    66
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "橋のたもとの果樹園のピクニック",
+   "zone": "S",
+   "district": "D11"
+  },
+  {
+   "kit": "p6_d11_pondbench",
+   "at": [
+    75,
+    76
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "池のほとりのベンチと橋からの小道",
+   "zone": "S",
+   "district": "D11"
   }
  ],
  "groves": {
@@ -1796,6 +1808,22 @@
   [
    20,
    79
+  ],
+  [
+   76,
+   64
+  ],
+  [
+   79,
+   64
+  ],
+  [
+   79,
+   68
+  ],
+  [
+   76,
+   69
   ]
  ],
  "street_tree_kind": "hardwood",
