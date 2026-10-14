@@ -429,8 +429,8 @@ function plant(x, y) {
 for (let y = 0; y < MH; y++) for (let x = 0; x < MW; x++) if (G(x, y) === 't' && !UNTREE.has(x + ',' + y)) plant(x, y);
 const bushes = [], BUSHC = { F: ['#4f7a3f', '#5d8a48'], H: ['#46553f', '#3f4d3a'], J: ['#5d8a48', '#c8503a'], S: ['#5d8a48', '#6b9a4f'], B: ['#7aa04a'], C: ['#5d8a48'], P: ['#6b9a4f'] };
 Object.keys(D.ground).forEach(k => { if (D.ground[k] !== 'u' || UNTREE.has(k)) return; const [x, y] = k.split(',').map(Number); const z = ZONE(x, y), cs = inCedar(x, y) ? ['#41593f', '#4a6545'] : (BUSHC[z] || BUSHC.F), t = topY(x, y), h = hash(x + 5, y + 11);
-  const c = col(cs[Math.floor(h * cs.length)]).offsetHSL(0, 0, (h - .5) * .05); bushes.push({ p: [WX(x), t + .28, WZ(y)], s: [.86, .6, .86], c }); });
-const blooms = []; bushes.forEach((b, i) => { if (hash(i, 7) < .45) for (let k = 0; k < 5; k++) { const a = k * 1.26 + i; blooms.push({ p: [b.p[0] + Math.cos(a) * .3, b.p[1] + .12 + (k % 2) * .08, b.p[2] + Math.sin(a) * .3], s: [.1, .1, .1], c: col(hash(i, 3) < .5 ? '#f0a03a' : '#f2d04a') }); } });   // 10月はキンモクセイの花（橙・黄）
+  const c = col(cs[Math.floor(h * cs.length)]).offsetHSL(0, 0, (h - .5) * .05); bushes.push({ p: [WX(x), t + .28, WZ(y)], s: [.86, .6, .86], c, belt: inCedar(x, y) }); });
+const blooms = []; bushes.forEach((b, i) => { if (!b.belt && hash(i, 7) < .45) for (let k = 0; k < 5; k++) { const a = k * 1.26 + i; blooms.push({ p: [b.p[0] + Math.cos(a) * .3, b.p[1] + .12 + (k % 2) * .08, b.p[2] + Math.sin(a) * .3], s: [.1, .1, .1], c: col(hash(i, 3) < .5 ? '#f0a03a' : '#f2d04a') }); } });   // 10月はキンモクセイの花（橙・黄）
 inst(new THREE.SphereGeometry(.5, 10, 7), mat('#ffffff'), bushes, true); inst(new THREE.SphereGeometry(.5, 6, 5), mat('#ffffff'), blooms, false);
 inst(new THREE.CylinderGeometry(.5, .6, 1, 8), mat('#ffffff'), trunks, true);
 inst(new THREE.SphereGeometry(.5, 14, 10), mat('#ffffff'), crowns, true);
