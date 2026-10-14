@@ -195,6 +195,7 @@ res['plaza_box'] = [px0, py0, px1, py1]
 
 # 9. 見えない物
 hid = []
+tallc = {(x, y) for q in ITEMS if q['item'] in TALL for x in range(q['x'], q['x'] + q['w']) for y in range(q['y'], q['y'] + q['d'])}
 for p in ITEMS:
     if p['item'] in ('manhole cover',) or not town(p['x'], p['y']):
         continue
@@ -204,8 +205,11 @@ for p in ITEMS:
             hid.append((p['item'], p['x'], p['y'], 'cliff')); break
         if (x, yb + 1) in bld or (x, yb + 2) in bld:
             hid.append((p['item'], p['x'], p['y'], 'house')); break
+        if p['item'] not in TALL and ((x, yb + 1) in tallc or (x, yb + 2) in tallc):
+            hid.append((p['item'], p['x'], p['y'], 'tall')); break   # 第60回：城の塔・門・城壁の真うしろ
 npan = sum(1 for p in ITEMS if 'panel' in p['item'] and p.get('rot') == 2)
 res['hidden_items'] = len(hid); res['north_panels'] = npan
+res['side_panels'] = sum(1 for p in ITEMS if 'panel' in p['item'] and p.get('rot') in (1, 3) and town(p['x'], p['y']))   # 東・西を向く（カメラから横向き）
 bad['hidden'] = hid[:40]
 
 # 10. 複雑さ
@@ -255,7 +259,7 @@ if ax:
 else:
     print(' 7. 軸：spec に axis がない')
 print(f" 8. 町の木 {res['town_trees']}（島 {res['island_trees']}）・広場のまわりの木 {res['plaza_trees']}")
-print(f" 9. 見えない物 {res['hidden_items']}・北向きのパネル {res['north_panels']}")
+print(f" 9. 見えない物 {res['hidden_items']}・北向きのパネル {res['north_panels']}・東西を向くパネル {res['side_panels']}")
 print(f" 11. 広すぎる道（3×3 がまるごと道）{res['wide_road_cells']} マス・南北の断面で段が変わる回数（平均）{res['section_changes_avg']}")
 print(f" 10. 2段目以上のかたまり {res['upper_blocks']}・崖のふち {res['cliff_edge_len']}・町の滝 {res['town_waterfall_cells']}・段の割合 {res['town_tiers']}")
 if '--detail' in sys.argv:

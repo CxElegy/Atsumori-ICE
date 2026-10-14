@@ -72,7 +72,7 @@ if (SPEC.town_targets) {
     ok('案6 地形：滝・水・河口・坂の決まりの NG が0（島ぜんたい）', TR.errors.length === 0, TR.errors.length + '件 ' + TR.errors.slice(0, 3).join(' / '));
   }
   ok(`案6 町：町の木${TT.town_trees}本以上・広場のまわり${TT.plaza_trees}本以上`, K.town_trees >= TT.town_trees && K.plaza_trees >= TT.plaza_trees, K.town_trees + '・広場' + K.plaza_trees);
-  ok(`案6 町：カメラから見えない物が${TT.hidden_items}個まで・北向きのパネル0`, K.hidden_items <= TT.hidden_items && K.north_panels === 0, K.hidden_items + '・' + K.north_panels);
+  ok(`案6 町：カメラから見えない物が${TT.hidden_items}個まで・北向きのパネル0` + (TT.side_panels_max !== undefined ? `・東西を向くパネル${TT.side_panels_max}枚まで` : ''), K.hidden_items <= TT.hidden_items && K.north_panels === 0 && (TT.side_panels_max === undefined || K.side_panels <= TT.side_panels_max), K.hidden_items + '・' + K.north_panels + '・' + K.side_panels);
 }
 const BP = J(`designs/build_plan${PL}.json`), kinds = BP.buildings.map(b => b.kind);
 ok('案3 あつ森：住民の家は10軒・博物館・タヌキ商店・エイブル・キャンプ場は1つずつ', kinds.filter(k => k === 'villager').length === 10 && ['museum', 'nook', 'able', 'campsite'].every(k => kinds.filter(x => x === k).length === 1));

@@ -104,9 +104,24 @@ def ring_skip(ax, ay, KW, KD):   # 囲みの1マスのうち、ちがう段・�
             if not (inside(x, y) and g(x, y) in '13' and lv(x, y) == L)]
 bld_cells = {(x, y) for b in LAY['buildings'] for x0, y0 in [b['at']] for x in range(x0, x0 + SIZE[b['kind']][0]) for y in range(y0, y0 + SIZE[b['kind']][1])}
 CAMERA = bool(SPEC.get('camera_check'))   # 第60回：ゲームのカメラ（南から北を見る）から見えない所には自動の物を置かない
+# 第60回：自動の物を置かない所（spec の keep_clear の四角・坂の上下の出入口）と、背の高い物（城の塔・門・城壁）の真うしろ
+KEEP_CLEAR = {(x, y) for x0, y0, x1, y1 in SPEC.get('keep_clear', []) for x in range(x0, x1 + 1) for y in range(y0, y1 + 1)}
+if CAMERA:
+    for ix, iy, idir in T['inclines']:
+        if idir in 'NS':
+            KEEP_CLEAR |= {(ix + a, b) for a in range(2) for b in (iy - 2, iy - 1, iy + 4, iy + 5)}
+        else:
+            KEEP_CLEAR |= {(a, iy + b) for b in range(2) for a in (ix - 2, ix - 1, ix + 4, ix + 5)}
+TALL = set()
+for it in SPEC.get('landmarks', []):
+    if it[0] in ('castle tower', 'castle gate', 'castle wall', 'windmill', 'lighthouse'):
+        w_, d_ = foot(CAT[it[0]]['size'], it[3])
+        TALL |= {(a, b) for a in range(it[1], it[1] + w_) for b in range(it[2], it[2] + d_)}
 def cam_ok(x, y):
     if not CAMERA:
         return True
+    if (x, y) in KEEP_CLEAR or (x, y + 1) in TALL or (x, y + 2) in TALL:
+        return False
     L = lv(x, y)
     for k in (1, 2):
         if inside(x, y + k) and g(x, y + k) not in 'wSsb' and lv(x, y + k) - L >= k:
@@ -284,6 +299,8 @@ for y in range(1, H - 1):
             a, b_ = x + dx, y + dy
             if rot == 2:
                 continue   # 第58回：北を向くパネル（崖が南）はゲームのカメラ（南から北を見る）から見えない
+            if rot in (1, 3) and SPEC.get('panels_face_south'):
+                continue   # 第60回：東・西を向くパネルはカメラから横向き（ふちしか見えない）
             if (x, y) in road and not (rot != 2 and all((x - i * dx, y - i * dy) in road and (x - i * dx, y - i * dy) not in occ and (x - i * dx, y - i * dy) not in slope and lv(x - i * dx, y - i * dy) == lv(x, y) for i in (1, 2))):
                 continue   # 道の上には、通りが3マス幅以上で、反対がわの2マスがあいている所だけ貼る（第57回：2マス幅の路地の両がわに貼ってふさいでいた）。北を向くパネルはカメラから見えないので道には貼らない
             if lv(a, b_) == lv(x, y) + 1 and g(a, b_) != 'w' and (a, b_) not in slope and cnt8.get((x // 8, y // 8), 0) < CAP[z] and cam_ok(x, y):
@@ -403,6 +420,9 @@ if SPEC.get('base') == 'authored':
             rk = 'fort' if n_ >= 40 and lv(x0, y0) == 2 and (mx * 7 + my) % 3 == 0 else kinds[(mx * 7 + my * 13) % len(kinds)]
             if n_ <= 3:
                 rk = 'slate' if rk == 'garden' else rk
+            for ox, oy, ok_ in SPEC.get('roof_overrides', []):   # 第60回：かたまりごとに屋根を手で決める（屋上の庭・城壁など）
+                if (ox, oy) in cs:
+                    rk = ok_
             interior = [(x, y) for x, y in sorted(comp) if not any(lv(x + dx, y + dy) < lv(x, y) for dx, dy in DIRS)]
             if rk == 'garden' and len(interior) < 4:
                 rk = 'slate'   # 第58回：中のない細いかたまりを生け垣でふちどると、緑の箱になる
@@ -469,7 +489,9 @@ if fences:
 STREET1 = [('streetlamp', 'Black'), ('round topiary', 'Green'), ('monstera', 'Black'), ('pot', 'Brown'), ('garbage bin', 'Black'), ('streetlamp', 'Black'), ('barrel', None),
            ('round topiary', 'Green'), ('standing shop sign', 'Black'), ('wooden box', 'Brown'), ('round streetlight', 'Black'), ('pot', 'White'), ('phone box', 'Red'), ('monstera', 'Black'),
            ('streetlamp', 'Black'), ('tin bucket', None), ('round topiary', 'Green'), ('plain wooden shop sign', 'Dark wood'), ('fire hydrant', 'Red'), ('barrel', None), ('pot', 'Brown'), ('park clock', 'Black')]
+STREET1 = [tuple(v) for v in SPEC['street_props']] if SPEC.get('street_props') else STREET1   # 第60回：案ごとに通りの小物を変える（見せ場と同じ物をばらまかない）
 STREET2 = [('garden wagon', 'Dark brown'), ('cruiser bike', 'Green'), ('flower bed', 'Dark brown'), ('iron garden bench', 'Black'), ('cruiser bike', 'Red'), ('medium cardboard boxes', None)]
+STREET2 = [tuple(v) for v in SPEC['street_props2']] if 'street_props2' in SPEC else STREET2
 props, street = set(), []
 def cand(x, y):
     return Z[y][x] in URBAN and g(x, y) in '13' and (x, y) not in occ and (x, y) not in occ_b and (x, y) not in road and (x, y) not in slope and (x, y) not in front and (x, y) not in trees and cam_ok(x, y)
@@ -479,7 +501,7 @@ k1 = k2 = 0
 for x, y in cells:
     if not cand(x, y) or any((x + dx, y + dy) in props for dx in (-1, 0, 1) for dy in (-1, 0, 1)):
         continue
-    if cand(x + 1, y) and (x + 1, y) not in props and (x + y) % 3 == 0 and lv(x + 1, y) == lv(x, y) and any((x + 1 + dx, y + dy) in props for dx in (-1, 0, 1) for dy in (-1, 0, 1)) is False:
+    if STREET2 and cand(x + 1, y) and (x + 1, y) not in props and (x + y) % 3 == 0 and lv(x + 1, y) == lv(x, y) and any((x + 1 + dx, y + dy) in props for dx in (-1, 0, 1) for dy in (-1, 0, 1)) is False:
         it, var = STREET2[k2 % len(STREET2)]; k2 += 1
         street.append([it, x, y, 0, var]); props |= {(x, y), (x + 1, y)}; occ |= {(x, y), (x + 1, y)}
     else:
