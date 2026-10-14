@@ -67,3 +67,18 @@ R-1233・R-1148・R-0088（城壁の上の通り・運河の岸壁・石畳の�
 - リズム：にぎやか → ひと休み → にぎやか。せまい路地の先でぱっと開ける。どの地区も同じ密度にしない。
 - つまらなく見える理由（ref/stunning.md）：広すぎる道・まっすぐな線と整列だけ・平らな地面・同じ物のくり返し・高い物の詰めこみ・どこも同じ密度。
 - 見せ場の採用は island-aesthetics の110点（テーマ25・役15・密度20・重ねすぎない15・地形15・作れる10・段差+10）で70点以上。
+
+## 付録：作例の場面 → 目録の本物の家具（見せ場の設計の手がかり。名前は designs/acnh_catalog.json で確かめた）
+| 作例 | 場面 | 使える家具（英語名・大きさ） |
+|---|---|---|
+| R-1233 | 城壁の上の石畳の通り・木箱の上のランタン・花の荷車・石段 | castle wall(2×1)・streetlamp・fire hydrant・manhole cover・wooden box＋lantern・garden wagon(2×1)・iron garden bench(2×1)・坂は stone staircase |
+| R-1148・R-0088 | 運河の岸壁・ヨット・自転車・カフェ | yacht(3×2・陸の上)・log stakes（係留のくい）・cruiser bike(2×1)・iron-and-stone fence・outdoor table(2×1)＋iron garden chair・Festivale parasol(1.5×1.5)・garden wagon |
+| R-1231 | 博物館前の広場・電話ボックス・スクーター・木の植えます | phone box・garden bench・scooter(2×1)・fountain(3×3)・imperial fence・round topiary・streetlamp |
+| X-0003 | 中庭のカフェ・石段の左右の胸壁・植えますの木 | iron garden table＋iron garden chair・menu chalkboard・phone box（Brown）・fire hydrant・manhole cover・brick fence（植えますのふち）・stone staircase |
+| R-1217 | キングス・クロスの門・左右の塔・トピアリー | castle gate(3×1・まん中をくぐれる)・castle tower(2×2)・castle wall・triangular topiary・round topiary・public bench(2×1)・streetlamp |
+| R-0877・R-0878 | パブの店先 | barrel・menu chalkboard・standing shop sign・outdoor table・lantern・stacked bottle crates・signboard のマイデザイン（PUB） |
+| R-1103・R-1150 | 空港前の噴水の前庭・時計・待合 | fountain / park fountain(3×3)・plaza clock・park clock・public bench・retro transportation stop(2×1)・street lamp with banners(2×1)・arrive_depart のマイデザイン |
+| R-1235 | 港のカフェと船だまり | yacht・barrel・wooden box・fish container・rope fence・cruiser bike・scooter・outdoor table |
+| R-0849・R-0862〜0871 | 本屋と路地の店先 | wooden bookshelf(2×0.5)・stack of books・display stand・stall(2×1)・flower display case(2×1)・flower stand(1.5×1.5)・window_hp のマイデザイン（パネル） |
+- 1つの場面は関係のある3つ（ベンチ＋新聞＋コーヒー）。高い物は奥（北）、低い物は手前（南）。同じ組み方（テーブル＋いす＋街灯）を地区ごとにくり返さない。
+- 傘（かさ）は手に持つ物で地面に置けない。パラソルは家具の Festivale parasol・mush parasol・beach chairs with parasol だけ。
