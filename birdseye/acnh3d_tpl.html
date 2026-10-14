@@ -529,6 +529,22 @@ D.P.forEach(p => { const en = D.used[p.k].en; if (!/simple panel/.test(en)) retu
   const back = [[0, -1], [1, 0], [0, 1], [-1, 0]][r], face = [4, 1, 5, 0][r], br = mat('#7a5440'), mats = [br, br, br, br, br, br]; mats[face] = panelTex(p.design, p.piece);
   const m = new THREE.Mesh(box, mats); m.scale.set(r % 2 ? .14 : 1, h, r % 2 ? 1 : .14); m.position.set(WX(p.x) + back[0] * .42, t + h / 2, WZ(p.y) + back[1] * .42); m.castShadow = true; scene.add(m);
   if (p.piece === 'arch') aoBlobs.push({ p: [WX(p.x) + back[0] * .3, t + .024, WZ(p.y) + back[1] * .3], s: [1.1, 1, 1.1] }); });
+// 第60回：店先（storefront 2×1・レンガとあかりのマイデザイン）：崖のすそに背を当てた2マスの店の正面（ショーウィンドウ・日よけ・戸）
+function shopTex(seed) { const key = 'shop|' + seed; if (PANEL[key]) return PANEL[key];
+  const P = pbr(256, 192, (A, Hh, W, H) => { brickWall(A, Hh, W, H, 31 + seed * 7, 12, true);
+    A.fillStyle = '#2f3f35'; A.fillRect(W * .05, H * .13, W * .9, H * .12); Hh.fillStyle = '#d8d8d8'; Hh.fillRect(W * .05, H * .13, W * .9, H * .12);   // 看板
+    A.fillStyle = '#d9b25a'; A.fillRect(W * .2, H * .18, W * .3, H * .025);
+    const aw = [['#2f6b4a', '#efe6d2'], ['#9a3a32', '#efe6d2'], ['#2d4a6a', '#efe6d2']][seed % 3];
+    for (let i = 0; i < 12; i++) { A.fillStyle = aw[i % 2]; A.fillRect(W * (.05 + i * .075), H * .27, W * .075, H * .1); }   // 日よけ
+    Hh.fillStyle = '#f4f4f4'; Hh.fillRect(W * .05, H * .27, W * .9, H * .1);
+    A.fillStyle = '#e9e0cc'; A.fillRect(W * .07, H * .4, W * .55, H * .5); A.fillStyle = '#3a5262'; A.fillRect(W * .1, H * .43, W * .49, H * .38);   // ショーウィンドウ
+    const gg = A.createLinearGradient(0, H * .43, 0, H * .81); gg.addColorStop(0, 'rgba(200,225,240,.5)'); gg.addColorStop(1, 'rgba(255,210,140,.25)'); A.fillStyle = gg; A.fillRect(W * .1, H * .43, W * .49, H * .38);
+    A.fillStyle = '#e9e0cc'; A.fillRect(W * .34, H * .43, W * .015, H * .38);
+    for (let i = 0; i < 6; i++) blob(A, W * (.14 + i * .08), H * .79, 5, 4, ['#d8453a', '#f2cf3a', '#f6f2ea', '#6a9a4a'][i % 4]);   // 窓の中の品物
+    A.fillStyle = '#5a3a28'; A.fillRect(W * .68, H * .42, W * .2, H * .58); Hh.fillStyle = '#9a9a9a'; Hh.fillRect(W * .68, H * .42, W * .2, H * .58); blob(A, W * .84, H * .72, 3, 3, '#d9b25a'); });
+  return PANEL[key] = std({ map: P.map, normalMap: P.normalMap, normalScale: new THREE.Vector2(1.1, 1.1), roughness: .88 }); }
+D.P.forEach(p => { if (D.used[p.k].en !== 'storefront') return; const t = topY(p.x, p.y), h = 1.5, br = mat('#7a5440'), mats = [br, br, br, br, br, br]; mats[4] = shopTex((p.x * 3 + p.y) % 3);
+  const m = new THREE.Mesh(box, mats); m.scale.set(p.w, h, .18); m.position.set(WX(p.x) + (p.w - 1) / 2, t + h / 2, WZ(p.y) - .4); m.castShadow = true; scene.add(m); });
 // そのほかの家具：ゲームの絵（アイコン）を足もとに合わせて立てる。大きさは家具のマス数から
 const iconTex = {};
 // 城壁（castle wall・2×1）：レンガのマイデザインの壁と、上の凸凹（銃眼）
@@ -538,7 +554,7 @@ const iconTex = {};
     for (let i = 0; i < 5; i++) { const f = -.5 + (i + .5) / 5 * 2; merl.push({ p: [cx + (along ? f * p.w / 2 : 0), t + h + .19, cz + (along ? 0 : f * p.d / 2)], s: [along ? .22 : .62, .22, along ? .62 : .22], c: col('#6a5a4e') }); } });
   const cwm = panelTex('brick_castle', null).clone(); cwm.map = cwm.map.clone(); cwm.map.needsUpdate = true; cwm.map.repeat.set(2, 1); cwm.map.wrapS = THREE.RepeatWrapping; cwm.normalMap = cwm.normalMap.clone(); cwm.normalMap.needsUpdate = true; cwm.normalMap.repeat.set(2, 1); cwm.normalMap.wrapS = THREE.RepeatWrapping; bend(cwm);
   inst(box, cwm, cw, true); inst(box, std({ map: PB.brick.map, normalMap: PB.brick.normalMap }), merl, true); inst(box, mat('#ffffff'), capr, true); }
-D.P.forEach(p => { const u = D.used[p.k]; if (FENCE[u.en] || /simple panel/.test(u.en) || u.en === 'castle wall') return; const uri = ICONS[p.k]; if (!uri) return;
+D.P.forEach(p => { const u = D.used[p.k]; if (FENCE[u.en] || /simple panel/.test(u.en) || u.en === 'castle wall' || u.en === 'storefront') return; const uri = ICONS[p.k]; if (!uri) return;
   if (!iconTex[p.k]) { const t = loader.load(uri, () => { dirty = true; }); t.encoding = THREE.sRGBEncoding; t.anisotropy = 4; iconTex[p.k] = bendSprite(new THREE.SpriteMaterial({ map: t, alphaTest: .45 })); }
   const [iw, ih] = ISZ[p.k] || [100, 100], fw = Math.max(p.w, p.d), cap = fw <= 1 ? 2.3 : 4.6;
   let W = fw * 1.06, H = W * ih / iw; if (H > cap) { H = cap; W = H * iw / ih; }

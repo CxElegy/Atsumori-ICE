@@ -269,6 +269,10 @@ for x, y, rot, piece in SPEC.get('panels', {}).get('items', []):
     elif (x, y) in road and g(x, y) in '13' and (x, y) not in slope:   # 道のつきあたり：道の最後の1マスにアーチ
         panel(x, y, rot, piece)
 CAP = {'C': 14, 'P': 6 if SPEC.get('base') != 'authored' else 12}
+if SPEC.get('panel_cap'):   # 第60回：同じ物は 8×8 に6個まで（島の評価）。パネルを減らし、のこりの崖のすそは店先（storefront 2×1・マイデザイン）で
+    CAP = {k: SPEC['panel_cap'] for k in CAP}
+ALT = SPEC.get('panel_alt')
+alt8 = {}
 URBAN = 'CP' if SPEC.get('base') == 'authored' else 'C'   # 案4：港（ドックランズ）も町
 k = 0
 for y in range(1, H - 1):
@@ -285,6 +289,13 @@ for y in range(1, H - 1):
             if lv(a, b_) == lv(x, y) + 1 and g(a, b_) != 'w' and (a, b_) not in slope and cnt8.get((x // 8, y // 8), 0) < CAP[z] and cam_ok(x, y):
                 panel(x, y, rot, PIECES[k % len(PIECES)]); k += 1
                 break
+            if ALT and rot == 0 and (x, y) not in road and lv(a, b_) == lv(x, y) + 1 and g(a, b_) != 'w' and (a, b_) not in slope and alt8.get((x // 8, y // 8), 0) < 6 and cam_ok(x, y):
+                x2 = x + 1   # 店先は2マス：となりも崖のすそ・同じ段・あいている
+                if g(x2, y) in '13' and lv(x2, y) == lv(x, y) and lv(x2, y - 1) == lv(x, y) + 1 and g(x2, y - 1) != 'w' and (x2, y - 1) not in slope and cam_ok(x2, y) \
+                        and (x2, y) not in occ and (x2, y) not in road and (x2, y) not in occ_b and (x2, y) not in slope and (x2, y) not in front and (x2, y) not in trees and (x2 // 8) == (x // 8):
+                    panel_groups.append([ALT, x, y, 0, 'Brown', 'wall_brick_lamp']); occ |= {(x, y), (x2, y)}
+                    alt8[(x // 8, y // 8)] = alt8.get((x // 8, y // 8), 0) + 1
+                    break
 if panel_groups:
     groups.append({'id': 'C-walls', 'zone': 'C', 'name': '崖のすそのレンガの壁（シンプルなパネル＋マイデザイン）', 'at': [0, 0], 'items': panel_groups, 'lines': [],
                    'note': '町の崖のすそにレンガ・窓・あかり・ドアのマイデザインのパネルを崖に背を当てて並べ、崖を建物の壁・擁壁に見せる。道のつきあたりの崖にはアーチ（上の町の下をくぐるトンネルに見せる）'})
