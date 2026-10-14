@@ -1,0 +1,2100 @@
+{
+ "note": "第60回：案6の地区ごとの見せ場（キットと置き場所）。tools/plan4_kitcheck.py で確かめて、地区の案をまとめた",
+ "manual_zones": "CPS",
+ "kits": {
+  "p6_d1_stair_fountain": {
+   "name": "自宅の前の石段の上の水飲み場（鉢のモンステラ・水飲み・ガス灯）",
+   "size": [
+    3,
+    1
+   ],
+   "ref": [
+    "X-0003_1",
+    "R-1103"
+   ],
+   "items": [
+    [
+     "monstera",
+     0,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "drinking fountain",
+     1,
+     0,
+     0,
+     "Gray"
+    ],
+    [
+     "streetlamp",
+     2,
+     0,
+     0,
+     "Black"
+    ]
+   ],
+   "note": "石段（24,46）の上の西。ガス灯を石段の頭に、水飲みと鉢を西へ（X-0003 の石段の上のガス灯と植えます、R-1103 の前庭の水）"
+  },
+  "p6_d1_lane_bike": {
+   "name": "自宅とレイモンドの小路の自転車とゴミばこ（苗のポット・黒いゴミばこ・黒い自転車）",
+   "size": [
+    1,
+    4
+   ],
+   "ref": [
+    "R-1233",
+    "X-0011_1"
+   ],
+   "items": [
+    [
+     "potted starter plants",
+     0,
+     0,
+     0,
+     "Green"
+    ],
+    [
+     "garbage bin",
+     0,
+     1,
+     0,
+     "Black"
+    ],
+    [
+     "cruiser bike",
+     0,
+     2,
+     1,
+     "Black"
+    ]
+   ],
+   "note": "2軒のあいだの1マスの小路（家のまわり1マス：on_road）。自転車を小路の口に、ゴミばこと苗を奥へ"
+  },
+  "p6_d1_home_flowercart": {
+   "name": "自宅の西の庭（円すいのトピアリー・花の荷車・木のバケツ）",
+   "size": [
+    1,
+    4
+   ],
+   "ref": [
+    "X-0003_3"
+   ],
+   "items": [
+    [
+     "triangular topiary",
+     0,
+     0,
+     0,
+     "Green"
+    ],
+    [
+     "garden wagon",
+     0,
+     1,
+     1,
+     "Brown"
+    ],
+    [
+     "wooden bucket",
+     0,
+     3
+    ]
+   ],
+   "note": "自宅の西の壁ぞい（家のまわり1マス：on_road）。X-0003_3 の家のわきの花の荷車と円すいのトピアリー。高いトピアリーを北、荷車、手前に水やりのバケツ"
+  },
+  "p6_d1_river_landing": {
+   "name": "西の河口の船着き場（係留のくい・釣りざお立て・魚のコンテナ）",
+   "size": [
+    2,
+    3
+   ],
+   "ref": [
+    "R-1235",
+    "R-1148"
+   ],
+   "items": [
+    [
+     "log stakes",
+     0,
+     0,
+     0,
+     "Dark wood"
+    ],
+    [
+     "fishing-rod stand",
+     1,
+     0,
+     0,
+     "Natural"
+    ],
+    [
+     "stacked fish containers",
+     0,
+     2,
+     0,
+     "White"
+    ]
+   ],
+   "note": "海岸の道（13,41）のつきあたり、河口の岸。くいと竿を水ぎわ（北）、コンテナを手前"
+  },
+  "p6_d1_maelle_corner": {
+   "name": "マエルの家の東の角（白い柱・白い水盤・チューリップ）",
+   "size": [
+    1,
+    3
+   ],
+   "ref": [
+    "X-0003_3",
+    "R-0088"
+   ],
+   "items": [
+    [
+     "decorative pillar",
+     0,
+     0,
+     0,
+     "Whitestone marble"
+    ],
+    [
+     "birdbath",
+     0,
+     1,
+     0,
+     "White"
+    ]
+   ],
+   "plants": [
+    {
+     "type": "tulips",
+     "rect": [
+      0,
+      2,
+      0,
+      2
+     ],
+     "colors": [
+      "white",
+      "yellow"
+     ]
+    }
+   ],
+   "note": "マエル（アヒル）の家の東の壁ぞい（家のまわり1マス：on_road）。白い柱を北、水盤、手前にチューリップ"
+  },
+  "p6_d10_bakery": {
+   "name": "コヴェント・ガーデンの市場のパン屋の屋台（白い屋台・Market の看板・ミロのヴィーナス・マンホール）",
+   "size": [
+    4,
+    2
+   ],
+   "items": [
+    [
+     "stall",
+     0,
+     0,
+     0,
+     "White"
+    ],
+    [
+     "plain wooden shop sign",
+     2,
+     0,
+     0,
+     "Dark wood"
+    ],
+    [
+     "beautiful statue",
+     3,
+     0
+    ],
+    [
+     "manhole cover",
+     2,
+     1,
+     0,
+     "Bronze"
+    ]
+   ],
+   "note": "時計の広場の北のふち（屋上の庭のホールの前）。X-0011 の白い屋台・Market の看板・像。マンホールは通りの上（上を歩ける）",
+   "ref": [
+    "X-0011_1"
+   ],
+   "role": "support",
+   "rubric": 76
+  },
+  "p6_d10_nookyard": {
+   "name": "タヌキ商店のわきの荷おろし（ネコぐるま・ダンボールのやま）",
+   "size": [
+    2,
+    1
+   ],
+   "items": [
+    [
+     "handcart",
+     0,
+     0,
+     0,
+     "Green"
+    ],
+    [
+     "pile of cardboard boxes",
+     1,
+     0,
+     0,
+     "Labeled"
+    ]
+   ],
+   "note": "タヌキ商店の西の角、浜の小道の入口。R-1235 の店のまわりの荷物",
+   "ref": [
+    "R-1235"
+   ],
+   "role": "filler",
+   "rubric": 71
+  },
+  "p6_d10_quaycafe": {
+   "name": "タヌキ商店の向かいの岸のカフェ（黒い自転車・アルミウッドのテーブルといす2脚）",
+   "size": [
+    5,
+    1
+   ],
+   "items": [
+    [
+     "cruiser bike",
+     0,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "metal-and-wood chair",
+     2,
+     0,
+     0,
+     "Dark wood"
+    ],
+    [
+     "metal-and-wood table",
+     3,
+     0,
+     0,
+     "Dark wood"
+    ],
+    [
+     "metal-and-wood chair",
+     4,
+     0,
+     0,
+     "Dark wood"
+    ]
+   ],
+   "note": "タヌキ商店の正面から通りをわたった浜の小道のふち（いちばん手前なので低い物だけ）。R-1235 の Nook's Cranny の前の岸：自転車・いす・テーブル・いす",
+   "ref": [
+    "R-1235"
+   ],
+   "role": "support",
+   "rubric": 74
+  },
+  "p6_d11_farmgate": {
+   "name": "橋のたもとの果樹園の無人販売（黒板・リンゴとナシの箱・フルーツかご）",
+   "size": [
+    3,
+    2
+   ],
+   "items": [
+    [
+     "menu chalkboard",
+     0,
+     0,
+     0,
+     "Natural"
+    ],
+    [
+     "cardboard box",
+     1,
+     0,
+     0,
+     "Apples"
+    ],
+    [
+     "cardboard box",
+     1,
+     1,
+     0,
+     "Pears"
+    ],
+    [
+     "fruit basket",
+     2,
+     1
+    ]
+   ],
+   "ref": [
+    "X-0011_1",
+    "R-1235"
+   ],
+   "note": "評価76（テーマ19・役12・密度16・重ねすぎない11・地形14・作れる10）。北の橋のたもと、スクートの小道の角。X-0011 の黒板と果物かご、R-1235 の木箱。"
+  },
+  "p6_d11_pump": {
+   "name": "分かれ道の村のポンプと道しるべ（道しるべ・手おしポンプ・ブリキのバケツ）",
+   "size": [
+    2,
+    2
+   ],
+   "items": [
+    [
+     "signpost",
+     1,
+     0,
+     0,
+     "Resident Services"
+    ],
+    [
+     "water pump",
+     0,
+     1,
+     0,
+     "Green"
+    ],
+    [
+     "tin bucket",
+     1,
+     1
+    ]
+   ],
+   "ref": [
+    "R-1233"
+   ],
+   "note": "評価84（テーマ20・役13・密度15・重ねすぎない15・地形11・作れる10）。分かれ道の小さな目じるし。道 (76,52) はあけたまま、道幅3を保つ。R-1233 の角の目じるし（木箱の上のランタン）を村の形に。"
+  },
+  "p6_d11_apiary": {
+   "name": "ビーの家の南の花畑のみつばちの巣箱（巣箱・コスモス・丸太のベンチ）",
+   "size": [
+    4,
+    4
+   ],
+   "items": [
+    [
+     "beekeeper's hive",
+     0,
+     0,
+     0,
+     "Natural"
+    ],
+    [
+     "beekeeper's hive",
+     2,
+     0,
+     0,
+     "White"
+    ],
+    [
+     "log bench",
+     1,
+     3,
+     0,
+     "Orange wood"
+    ]
+   ],
+   "plants": [
+    {
+     "type": "cosmos",
+     "rect": [
+      0,
+      1,
+      3,
+      2
+     ],
+     "colors": [
+      "yellow",
+      "white",
+      "orange"
+     ]
+    }
+   ],
+   "ref": [
+    "R-1217"
+   ],
+   "note": "評価76（テーマ19・役12・密度15・重ねすぎない12・地形14・作れる10・段差0）。ビーの家の前の小道の南。R-1217 の通路でかこんだ花壇。"
+  },
+  "p6_d11_pumpkins": {
+   "name": "スクートの家の南東の菜園（緑の物置・かかし・カボチャ）",
+   "size": [
+    5,
+    2
+   ],
+   "items": [
+    [
+     "wooden storage shed",
+     4,
+     0,
+     0,
+     "Green"
+    ],
+    [
+     "scarecrow",
+     2,
+     0
+    ]
+   ],
+   "plants": [
+    {
+     "type": "pumpkins",
+     "rect": [
+      0,
+      0,
+      1,
+      1
+     ],
+     "colors": [
+      "orange"
+     ]
+    },
+    {
+     "type": "pumpkins",
+     "rect": [
+      2,
+      1,
+      3,
+      1
+     ],
+     "colors": [
+      "orange"
+     ]
+    },
+    {
+     "type": "pumpkins",
+     "rect": [
+      3,
+      0,
+      3,
+      0
+     ],
+     "colors": [
+      "orange"
+     ]
+    }
+   ],
+   "ref": [
+    "X-0011_1"
+   ],
+   "note": "評価78（テーマ20・役12・密度14・重ねすぎない15・地形12・作れる10）。スクートの入口の前2列の南。戸口の前（x83〜86）は背の低いカボチャだけ。背の高い物置とかかしは戸口から東にずらす。"
+  },
+  "p6_d2_flourish": {
+   "name": "ダイアゴン横丁のフローリシュ・アンド・ブロッツ（魔法の店の窓とドアのパネル・外の本だな・本の山）",
+   "size": [
+    4,
+    2
+   ],
+   "items": [
+    [
+     "simple panel",
+     0,
+     0,
+     0,
+     "Brown",
+     "window_hp"
+    ],
+    [
+     "simple panel",
+     1,
+     0,
+     0,
+     "Brown",
+     "window_hp"
+    ],
+    [
+     "simple panel",
+     2,
+     0,
+     0,
+     "Brown",
+     "wall_brick_lamp"
+    ],
+    [
+     "simple panel",
+     3,
+     0,
+     0,
+     "Brown",
+     "door_curtain"
+    ],
+    [
+     "wooden bookshelf",
+     0,
+     1,
+     0,
+     "Dark brown"
+    ],
+    [
+     "stack of books",
+     2,
+     1,
+     0,
+     "Old"
+    ]
+   ],
+   "note": "東のかたまりの崖のすそ（1段目）。崖にパネル4枚（魔法の店の窓2・あかり・ドア）を貼って店の正面にし、窓の前に本だな、あかりの下に本の山、東のはしのドアの前はあける。R-0849・X-0006・R-0870",
+   "ref": [
+    "R-0849",
+    "X-0006_1",
+    "R-0870"
+   ],
+   "role": "support",
+   "rubric": 82
+  },
+  "p6_d2_borgin": {
+   "name": "ノクターン横丁のボージン・アンド・バークス（すすけた窓・黒い鳥かご・あやしげなおおがま・黒いろうそく）",
+   "size": [
+    1,
+    4
+   ],
+   "items": [
+    [
+     "simple panel",
+     0,
+     0,
+     0,
+     "Brown",
+     "window_hp"
+    ],
+    [
+     "birdcage",
+     0,
+     1,
+     0,
+     "Black"
+    ],
+    [
+     "suspicious cauldron",
+     0,
+     2,
+     0,
+     "Green"
+    ],
+    [
+     "candle",
+     0,
+     3,
+     0,
+     "Black"
+    ]
+   ],
+   "note": "井戸の石段の西の1マスの切りこみ（1段目）。奥の崖に店の窓、手前に鳥かご・おおがま・ろうそく。R-0871",
+   "ref": [
+    "R-0871"
+   ],
+   "role": "filler",
+   "rubric": 76
+  },
+  "p6_d2_wellphone": {
+   "name": "井戸の石段の下の茶色い電話ボックスと消火栓（X-0003 の石段のわき）",
+   "size": [
+    1,
+    3
+   ],
+   "items": [
+    [
+     "simple panel",
+     0,
+     0,
+     0,
+     "Brown",
+     "wall_windows_bricks"
+    ],
+    [
+     "phone box",
+     0,
+     1,
+     0,
+     "Brown"
+    ],
+    [
+     "fire hydrant",
+     0,
+     2,
+     0,
+     "Rust"
+    ]
+   ],
+   "note": "井戸の石段の東の切りこみ（1段目）。X-0003_2 の石段の下の茶色い電話ボックスと消火栓",
+   "ref": [
+    "X-0003_2"
+   ],
+   "role": "edge",
+   "rubric": 78
+  },
+  "p6_d2_stair_lantern": {
+   "name": "稜堡のわきの石段の下のランタンと木箱・マンホール（R-1233）",
+   "size": [
+    1,
+    3
+   ],
+   "items": [
+    [
+     "lantern",
+     0,
+     0,
+     0,
+     "Gold"
+    ],
+    [
+     "wooden box",
+     0,
+     1,
+     0,
+     "Dark brown"
+    ],
+    [
+     "manhole cover",
+     0,
+     2,
+     0,
+     "Bronze"
+    ]
+   ],
+   "note": "レンガの石段（24,46）の下の西。木箱・ランタン、城壁通りの石畳にマンホール（上を歩ける）。R-1233",
+   "ref": [
+    "R-1233"
+   ],
+   "role": "step",
+   "rubric": 78
+  },
+  "p6_d2_stair_cart": {
+   "name": "稜堡のわきの石段の下の花の荷車（R-1233）",
+   "size": [
+    2,
+    1
+   ],
+   "items": [
+    [
+     "garden wagon",
+     0,
+     0,
+     0,
+     "Brown"
+    ]
+   ],
+   "note": "レンガの石段の下の東、城壁通りに向く花の荷車。R-1233・R-1148",
+   "ref": [
+    "R-1233",
+    "R-1148"
+   ],
+   "role": "edge",
+   "rubric": 72
+  },
+  "p6_d3_stairhead": {
+   "name": "大石段の上の対のベンチ（円すいのトピアリー・ガス灯・鉄のベンチ）",
+   "size": [
+    2,
+    2
+   ],
+   "ref": [
+    "R-1217"
+   ],
+   "items": [
+    [
+     "triangular topiary",
+     0,
+     0,
+     0,
+     "Green"
+    ],
+    [
+     "streetlamp",
+     1,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "iron garden bench",
+     0,
+     1,
+     0,
+     "Black"
+    ]
+   ],
+   "note": "双塔の稜堡と大石段（34,56）の頭のあいだ。左右対（東は flip）。高い物を北、ベンチは南（広場を見おろす）"
+  },
+  "p6_d3_towerfoot": {
+   "name": "角の塔のすその鉢の木とランタン（丸いトピアリー・ヤシの鉢・足もとのランタン）",
+   "size": [
+    1,
+    3
+   ],
+   "ref": [
+    "R-1217"
+   ],
+   "items": [
+    [
+     "round topiary",
+     0,
+     0,
+     0,
+     "Green"
+    ],
+    [
+     "fan palm",
+     0,
+     1,
+     0,
+     "Black"
+    ],
+    [
+     "garden lantern",
+     0,
+     2,
+     0,
+     "Black"
+    ]
+   ],
+   "note": "角の塔（31,48・37,48）の外がわ。左右対（東は道の上：on_road、道は x40〜41 の2マスのこる）"
+  },
+  "p6_d4_falls_scooter": {
+   "name": "貯水池の滝のわきのスクーター（曲がった街灯・クリーム色のスクーター・城のマンホール）",
+   "size": [
+    3,
+    2
+   ],
+   "ref": [
+    "R-1231"
+   ],
+   "items": [
+    [
+     "curved streetlight",
+     0,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "scooter",
+     1,
+     0,
+     0,
+     "Ivory"
+    ],
+    [
+     "manhole cover",
+     1,
+     1,
+     0,
+     "Castle"
+    ]
+   ],
+   "note": "石の橋（42,49）の東のたもとの北、貯水池の滝（x42〜44・y45→46）のすぐ東。R-1231 の『アーチの滝の壁の前に停めたクリーム色のスクーターと曲がった街灯・マンホール』。マンホールは橋のたもとの道の上（平らで歩ける）。橋のたもと x45 と石段の足もとはあける"
+  },
+  "p6_d4_stair_clock": {
+   "name": "上の町への石段の下の案内板と時計（壁の観光地図・公園の時計・鉢のゴールドクレスト）",
+   "size": [
+    1,
+    3
+   ],
+   "ref": [
+    "R-1103",
+    "R-1231"
+   ],
+   "items": [
+    [
+     "simple panel",
+     0,
+     0,
+     0,
+     "Black",
+     "underground"
+    ],
+    [
+     "park clock",
+     0,
+     1,
+     0,
+     "Black"
+    ],
+    [
+     "cypress plant",
+     0,
+     2,
+     0,
+     "Black"
+    ]
+   ],
+   "note": "レンガの石段（48,47）の東のわき、橋の小広場の東のはし（下は東の倉庫街）。3段目の壁に観光地図（Underground のマイデザイン）を貼り、その前に背の高い公園の時計、手前に鉢の針葉樹（R-1103 の石段の鉢）。石段の西のスクーターと左右でちがう物にする"
+  },
+  "p6_d5_back_antiques": {
+   "name": "倉庫街の裏の石段の下の古道具屋（レンガの店先・柱時計・ゆりいす・地球儀）",
+   "size": [
+    5,
+    2
+   ],
+   "ref": [
+    "X-0006_1",
+    "R-0849"
+   ],
+   "items": [
+    [
+     "storefront",
+     0,
+     0,
+     0,
+     "Brown",
+     "wall_brick_lamp"
+    ],
+    [
+     "antique clock",
+     2,
+     0,
+     0,
+     "Brown"
+    ],
+    [
+     "simple panel",
+     3,
+     0,
+     0,
+     "Brown",
+     "wall_windows_bricks"
+    ],
+    [
+     "rocking chair",
+     1,
+     1,
+     0,
+     "Natural wood"
+    ],
+    [
+     "globe",
+     3,
+     1,
+     0,
+     "Sepia"
+    ]
+   ],
+   "note": "北の台地の崖のすそ（y36）に店の正面（店先・背の高い柱時計・窓のパネル）、手前（y37）に低いゆりいすと地球儀（X-0006_1 の古い本屋の品）。倉庫街の古道具の店（バーモンジーの骨董市のように）。東どなりは倉庫街の裏の石段（59,35）の足もと（x58 はあける）"
+  },
+  "p6_d5_roof_cafe": {
+   "name": "L字の倉庫の屋上のテラスのパラソル（白いパラソルテーブル・木と鉄のいす・鉢のシェフレラ）",
+   "size": [
+    3,
+    3
+   ],
+   "ref": [
+    "R-0088",
+    "X-0003_2"
+   ],
+   "items": [
+    [
+     "natural garden chair",
+     0,
+     0,
+     1,
+     "Natural"
+    ],
+    [
+     "bistro table",
+     1,
+     0,
+     0,
+     "White"
+    ],
+    [
+     "schefflera",
+     2,
+     2,
+     0,
+     "Green"
+    ]
+   ],
+   "note": "屋上のテラス（2段目）の東のはし、川A を見おろす角。テーブルはテラスの道のはし（67,40）にかかる（道は x62〜66 がのこり、石段の頭 64〜65,40 はあく）。鉢の木は胸壁の角（68,41）"
+  },
+  "p6_d5_roof_garden": {
+   "name": "L字の倉庫の西の棟の屋上の菜園（小さな温室だな・レンガの水道・ホースリール・トマト・ふちのチューリップ）",
+   "size": [
+    2,
+    6
+   ],
+   "ref": [
+    "X-0003_2",
+    "R-1217"
+   ],
+   "items": [
+    [
+     "greenhouse box",
+     0,
+     1,
+     0
+    ],
+    [
+     "garden faucet",
+     0,
+     4,
+     0
+    ],
+    [
+     "hose reel",
+     1,
+     4,
+     0,
+     "Green"
+    ]
+   ],
+   "plants": [
+    {
+     "type": "tomatoes",
+     "rect": [
+      0,
+      2,
+      1,
+      3
+     ],
+     "colors": [
+      "red"
+     ]
+    },
+    {
+     "type": "tulips",
+     "rect": [
+      0,
+      5,
+      1,
+      5
+     ],
+     "colors": [
+      "red",
+      "white"
+     ]
+    }
+   ],
+   "note": "西の棟（2段目・x61〜62）の屋上。北の1列（y41）はテラスからの入口にあける。温室だなを奥（北）、水道とホースを手前、南のふち（y46）に1マスの花（崖の上のふち）"
+  },
+  "p6_d5_loading_bay": {
+   "name": "石畳の荷あげの中庭（かご台車・ミルク缶・木箱・さびたドラム缶）",
+   "size": [
+    2,
+    4
+   ],
+   "ref": [
+    "R-1235"
+   ],
+   "items": [
+    [
+     "caged cart",
+     0,
+     0,
+     0,
+     "Silver"
+    ],
+    [
+     "milk can",
+     1,
+     0,
+     0,
+     "Silver"
+    ],
+    [
+     "wooden box",
+     1,
+     1,
+     0,
+     "Natural"
+    ],
+    [
+     "oil barrel",
+     0,
+     2,
+     0,
+     "Damaged"
+    ]
+   ],
+   "note": "中庭の東のはし（x67〜68）、川ぞいの道からの入口。背の高い台車とミルク缶を奥（北）、木箱とドラム缶を手前。倉庫の壁ぎわ（y42〜43）と y47 はあける"
+  },
+  "p6_d5_bridge_head": {
+   "name": "鉄の橋の北のたもとのレンガの親柱と見張りの望遠鏡",
+   "size": [
+    5,
+    1
+   ],
+   "ref": [
+    "R-1148",
+    "R-1235"
+   ],
+   "items": [
+    [
+     "decorative pillar",
+     0,
+     0,
+     0,
+     "Red brick"
+    ],
+    [
+     "decorative pillar",
+     3,
+     0,
+     0,
+     "Red brick"
+    ],
+    [
+     "tourist telescope",
+     4,
+     0,
+     0,
+     "Black"
+    ]
+   ],
+   "note": "鉄の橋（64,57）へ下りる2マスの道（x65〜66・y55）を対のレンガの親柱ではさむ（D6 の南のたもとの親柱 (64,61)(67,61) と南北で対）。東の柱のとなり、運河と川A の合う角に望遠鏡（うしろに茶色の見張りの塔 67,52）。道の2マスはあける"
+  },
+  "p6_d6_mooring": {
+   "name": "係留のくいのあいだのいかり（運河の岸壁のいかりのオブジェ）",
+   "size": [
+    1,
+    1
+   ],
+   "ref": [
+    "R-1235",
+    "R-1148"
+   ],
+   "items": [
+    [
+     "anchor statue",
+     0,
+     0,
+     0,
+     "Black"
+    ]
+   ],
+   "note": "土台の係留のくい（49,60）と（53,60）のあいだ、岸壁の石と鉄の柵の列のまん中に黒いいかり。くい・いかり・くいで水ぎわの場面（R-1235 の港の岸・R-1148 の運河のくい）。うきわは D5 の見張りの塔の岸の角にあるので使わない。西の岸壁のほかの所にキットを置くと、自動のヨットと柵がくいの上にずれる（plan3_fill の岸の並べ方）ので、西の岸壁はこの1マスだけ",
+   "role": "filler",
+   "rubric": 73
+  },
+  "p6_d6_bridge_w": {
+   "name": "鉄の橋の南のたもとのレンガの親柱（西）",
+   "size": [
+    1,
+    1
+   ],
+   "ref": [
+    "R-1148"
+   ],
+   "items": [
+    [
+     "decorative pillar",
+     0,
+     0,
+     0,
+     "Red brick"
+    ]
+   ],
+   "note": "R-1148（下）の橋のたもとのレンガの柱。橋から運河通りへ下りる2マスの道（x65〜66）をはさむ対の西",
+   "role": "edge",
+   "rubric": 73
+  },
+  "p6_d6_bridge_e": {
+   "name": "鉄の橋の南のたもとのレンガの親柱（東）",
+   "size": [
+    1,
+    1
+   ],
+   "ref": [
+    "R-1148"
+   ],
+   "items": [
+    [
+     "decorative pillar",
+     0,
+     0,
+     0,
+     "Red brick"
+    ]
+   ],
+   "note": "対の東。東どなりの土台の木箱（69,61）と岸壁の柵につづく",
+   "role": "edge",
+   "rubric": 73
+  },
+  "p6_d7_florist": {
+   "name": "屋上の庭の棟の下のバラの花の屋台（バラの吊り看板・ピンクの屋台・スタンドの花・バラの植えこみ）",
+   "size": [
+    7,
+    1
+   ],
+   "ref": [
+    "X-0011_1",
+    "R-0849"
+   ],
+   "items": [
+    [
+     "simple panel",
+     0,
+     0,
+     0,
+     "Brown",
+     "hanging_sign"
+    ],
+    [
+     "stall",
+     1,
+     0,
+     0,
+     "Pink"
+    ],
+    [
+     "wedding flower stand",
+     4,
+     0,
+     0,
+     "Garden"
+    ]
+   ],
+   "plants": [
+    {
+     "type": "roses",
+     "rect": [
+      5,
+      0,
+      6,
+      0
+     ],
+     "colors": [
+      "red",
+      "pink"
+     ]
+    }
+   ],
+   "note": "屋上の庭の棟（2段目）の南の崖のすそ・市場の通りに向く店先（コロンビア・ロードの花市）。西に鉄の吊り看板（バラの図柄：hanging_sign）とピンクの屋台、木の植えますの切りこみ（x65）はあけ、東にスタンドの花とバラの植えこみ。X-0011 の屋台の店先を花屋に（D10 のパンの白い屋台・D5 の花のショーケースと組み方を変える）",
+   "role": "landmark",
+   "rubric": 80
+  },
+  "p6_d7_post": {
+   "name": "家のあいだの小さな郵便局（赤い円柱ポスト・郵便局の窓口・壁のあかり）",
+   "size": [
+    3,
+    1
+   ],
+   "ref": [
+    "R-1241"
+   ],
+   "items": [
+    [
+     "record box",
+     0,
+     0,
+     0,
+     "Red",
+     "pillar_box"
+    ],
+    [
+     "simple panel",
+     1,
+     0,
+     0,
+     "Brown",
+     "post_office"
+    ],
+    [
+     "simple panel",
+     2,
+     0,
+     0,
+     "Brown",
+     "wall_brick_lamp"
+    ]
+   ],
+   "note": "ピーカンとディーナの家のあいだの2段目の柱（2×3）の南の崖（市場の通りに向く）。崖に郵便局の窓口とあかりのパネル、ピーカンの家の角（家のまわり1マス：on_road）に円柱ポスト（レコードボックスに円柱ポストのマイデザイン：作者のセットの使い方）。南の旗の街灯（55,73）にかくれないよう、ポストは西のはし。R-1241 の赤いポストとレンガの壁のあかり",
+   "role": "support",
+   "rubric": 76
+  },
+  "p6_d7_rosealley": {
+   "name": "バラの路地の家の壁ぞい（ガーデンライト・赤とピンクと白のバラ）",
+   "size": [
+    1,
+    4
+   ],
+   "ref": [
+    "R-1217",
+    "R-0878"
+   ],
+   "items": [
+    [
+     "garden lantern",
+     0,
+     0,
+     0,
+     "Bronze"
+    ]
+   ],
+   "plants": [
+    {
+     "type": "roses",
+     "rect": [
+      0,
+      1,
+      0,
+      3
+     ],
+     "colors": [
+      "red",
+      "pink",
+      "white"
+     ]
+    }
+   ],
+   "note": "ピーカンの家の西の壁（家のまわり1マス：on_road）と南北のバラの路地（x46〜47）のあいだの1列。路地の曲がり角（y67）の北にガーデンライト、南へ赤・ピンク・白のバラ（R-1217 のバラの花壇・R-0878 の店先の花壇）。路地の2マスはそのまま",
+   "role": "edge",
+   "rubric": 74
+  },
+  "p6_d7_laundry": {
+   "name": "ピーカンの中庭の物干しとバラ（バラの植えこみ・物干しロープ）",
+   "size": [
+    4,
+    1
+   ],
+   "ref": [
+    "R-1241",
+    "X-0003_1"
+   ],
+   "items": [
+    [
+     "clothesline",
+     2,
+     0,
+     0
+    ]
+   ],
+   "plants": [
+    {
+     "type": "roses",
+     "rect": [
+      0,
+      0,
+      1,
+      0
+     ],
+     "colors": [
+      "red",
+      "pink"
+     ]
+    }
+   ],
+   "note": "中庭の奥（裏の2段目の壁の南のすそ・1段目）。西はピーカンの家の角のバラ、東に物干し。柱（2段目）の上ごしと x53・x56 のすき間から見える。南北の柱の路地（x57〜58）に面する",
+   "role": "filler",
+   "rubric": 72
+  },
+  "p6_d8_pubfoot": {
+   "name": "井戸の石段の下の西のパブの看板（PUB の看板・びんのケース・足もとのランタン）",
+   "size": [
+    3,
+    1
+   ],
+   "items": [
+    [
+     "simple panel",
+     0,
+     0,
+     0,
+     "Brown",
+     "signboard"
+    ],
+    [
+     "bottle crate",
+     1,
+     0,
+     0,
+     "Green"
+    ],
+    [
+     "lantern",
+     2,
+     0,
+     0,
+     "Gold"
+    ]
+   ],
+   "ref": [
+    "R-0877",
+    "R-0878"
+   ],
+   "role": "step",
+   "note": "テラス（2段目・屋上のビアガーデン）の井戸の石段（56,78）の足もとの西（1段目・y82）。テラスの崖に PUB の看板（signboard のマイデザイン）、その前に緑のびんのケース、石段のわき（55,82）に足もとの金のランタン。上のビアガーデンの看板。石段の足もと（56〜57,82）はあける",
+   "rubric": 78
+  },
+  "p6_d8_barreltable": {
+   "name": "井戸の石段の下の東のたるの立ち飲み（木のスツール・たるのテーブル・壁のあかり）",
+   "size": [
+    3,
+    1
+   ],
+   "items": [
+    [
+     "wooden stool",
+     0,
+     0,
+     0,
+     "Dark wood"
+    ],
+    [
+     "barrel",
+     1,
+     0
+    ],
+    [
+     "simple panel",
+     2,
+     0,
+     0,
+     "Brown",
+     "wall_brick_lamp"
+    ]
+   ],
+   "ref": [
+    "R-0877",
+    "R-0878"
+   ],
+   "role": "step",
+   "note": "井戸の石段の足もとの東（1段目・y82）。テラスの崖にレンガの壁のあかり、その前にたるのテーブル（ロンドンのパブの外の立ち飲み）、石段のわき（58,82）に低い木のスツール。西の PUB の看板・びんのケース・ランタンと石段をはさんで1つのパブの店先にする（同じ物はくり返さない）",
+   "rubric": 77
+  },
+  "p6_d8_dray": {
+   "name": "胸壁の倉庫の荷おろし口の荷馬車（倉庫の戸・ほろ馬車・木箱）",
+   "size": [
+    4,
+    1
+   ],
+   "items": [
+    [
+     "simple panel",
+     0,
+     0,
+     0,
+     "Brown",
+     "door_curtain"
+    ],
+    [
+     "covered wagon",
+     1,
+     0,
+     0,
+     "Brown"
+    ],
+    [
+     "wooden box",
+     3,
+     0,
+     0,
+     "Brown"
+    ]
+   ],
+   "ref": [
+    "R-1235",
+    "R-1233"
+   ],
+   "role": "support",
+   "note": "胸壁の屋根の倉庫（2段目・x47〜50）の南の崖のすそ（1段目・y82）。崖に倉庫の戸のパネル、その前に醸造所の荷馬車（茶色のほろ馬車）、2マスの路地の出口のわきに麦芽の木箱1つ（R-1235 の港の木箱・R-1233 の木箱）。たるは石段の下の立ち飲みにだけ置き、くり返さない。南は岩の浜（低い）",
+   "rubric": 72
+  },
+  "p6_d8_tailor": {
+   "name": "エイブルの東の店先のつるしの服（白いマネキン・つるしの服の棚・スタンド看板）",
+   "size": [
+    4,
+    2
+   ],
+   "items": [
+    [
+     "dress mannequin",
+     0,
+     0,
+     0,
+     "White"
+    ],
+    [
+     "hanging clothing rack",
+     1,
+     0,
+     0,
+     "Dark wood"
+    ],
+    [
+     "standing shop sign",
+     3,
+     1,
+     0,
+     "Black"
+    ]
+   ],
+   "ref": [
+    "R-0849",
+    "X-0011_1"
+   ],
+   "role": "support",
+   "note": "エイブル（39〜43,75〜78）の入口の前（40〜42,79〜80）の東どなり。入口のすぐ東に白いマネキン、その東につるしの服の棚、手前の東に低いスタンド看板。x46・y79 はあけて、倉庫のわきの小さな庭へ入れる",
+   "rubric": 78
+  },
+  "p6_d8_newsstand": {
+   "name": "レンガの橋の西のたもとの新聞売り（街灯・新聞のラック・見出しのポスタースタンド）",
+   "size": [
+    1,
+    4
+   ],
+   "items": [
+    [
+     "streetlamp",
+     0,
+     0,
+     0,
+     "Brown"
+    ],
+    [
+     "magazine rack",
+     0,
+     1,
+     0,
+     "Natural"
+    ],
+    [
+     "poster stand",
+     0,
+     2,
+     0,
+     "White"
+    ]
+   ],
+   "ref": [
+    "R-1150",
+    "R-0849"
+   ],
+   "role": "edge",
+   "note": "胸壁の屋根の川べりの倉庫（2段目・x63〜67）の東の1列（1段目・x68）。運河通り（x69〜70）をはさんでレンガの橋（71,76）の西のたもとに向く角（R-1150 の三角の建物の角の街灯と小物）。奥（北）に背の高い街灯、その下に新聞のラック、手前に見出しのポスタースタンド（ロンドンの新聞売りの立て看板）。南のはし（68,80）はあける",
+   "rubric": 72
+  },
+  "p6_d9_museum_phone": {
+   "name": "博物館の西の電話ボックスとベンチ（白い電話ボックス・ガーデンベンチ・マンホール）",
+   "size": [
+    3,
+    2
+   ],
+   "items": [
+    [
+     "phone box",
+     0,
+     0,
+     0,
+     "White"
+    ],
+    [
+     "garden bench",
+     1,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "manhole cover",
+     1,
+     1,
+     0,
+     "Silver"
+    ]
+   ],
+   "ref": [
+    "R-1231"
+   ],
+   "role": "support",
+   "note": "博物館（24〜30,75〜78）の正面の西（家のまわり1マス・y79）。R-1231 の博物館の前：クリーム色の電話ボックスとベンチ、手前の通りにマンホール（上を歩ける）。入口の前（26〜28,79〜80）はあける",
+   "rubric": 80
+  },
+  "p6_d9_gate": {
+   "name": "飛行場の出口の対の旗の街灯と道しるべ（案内所への道しるべ・ユニオンジャックの旗の街灯）",
+   "size": [
+    3,
+    1
+   ],
+   "items": [
+    [
+     "signpost",
+     0,
+     0,
+     0,
+     "Resident Services"
+    ],
+    [
+     "street lamp with banners",
+     1,
+     0,
+     0,
+     "Black",
+     "union_jack"
+    ]
+   ],
+   "ref": [
+    "R-1103",
+    "R-1217"
+   ],
+   "role": "landmark",
+   "note": "飛行場の出口の道（x32〜38・y82）を左右からはさむ対（x=35 で左右対称：西 x29〜31、東 x39〜41 は flip）。内がわにユニオンジャックの旗の街灯（島への到着を迎える門柱）、外がわに案内所への道しるべ。D3 の大石段の上の対（トピアリー・街灯・ベンチ）と組み方を変える。南は浜（低い）",
+   "rubric": 75
+  },
+  "p6_d9_seaborder": {
+   "name": "博物館の南の浜ぞいの彫刻の芝（花壇・考える人の像・花壇）",
+   "size": [
+    5,
+    1
+   ],
+   "items": [
+    [
+     "flower bed",
+     0,
+     0,
+     0,
+     "Brown"
+    ],
+    [
+     "familiar statue",
+     2,
+     0
+    ],
+    [
+     "flower bed",
+     3,
+     0,
+     0,
+     "Brown"
+    ]
+   ],
+   "ref": [
+    "X-0011_1",
+    "R-1231"
+   ],
+   "role": "support",
+   "note": "博物館の南の通り（y80〜81）と浜のあいだの1列の芝（y82）。博物館の外の彫刻（考える人）を低い花壇2つではさむ（X-0011 の市場のわきの像と花の荷車、R-1231 の博物館の前のレンガの植えます）。手前は低く、博物館の正面をかくさない",
+   "rubric": 73
+  }
+ },
+ "placements": [
+  {
+   "kit": "p6_d1_stair_fountain",
+   "at": [
+    21,
+    46
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "自宅の前の石段の上の水飲み場",
+   "zone": "C",
+   "district": "D1"
+  },
+  {
+   "kit": "p6_d1_lane_bike",
+   "at": [
+    23,
+    40
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "自宅とレイモンドの小路",
+   "zone": "C",
+   "district": "D1"
+  },
+  {
+   "kit": "p6_d1_home_flowercart",
+   "at": [
+    17,
+    43
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "自宅の西の庭",
+   "zone": "C",
+   "district": "D1"
+  },
+  {
+   "kit": "p6_d1_river_landing",
+   "at": [
+    14,
+    38
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "西の河口の船着き場",
+   "zone": "C",
+   "district": "D1"
+  },
+  {
+   "kit": "p6_d1_maelle_corner",
+   "at": [
+    50,
+    42
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "マエルの家の東の角",
+   "zone": "C",
+   "district": "D1"
+  },
+  {
+   "kit": "p6_d10_bakery",
+   "at": [
+    12,
+    68
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "コヴェント・ガーデンの市場のパン屋の屋台",
+   "zone": "C",
+   "district": "D10"
+  },
+  {
+   "kit": "p6_d10_nookyard",
+   "at": [
+    12,
+    71
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "タヌキ商店のわきの荷おろし",
+   "zone": "C",
+   "district": "D10"
+  },
+  {
+   "kit": "p6_d10_quaycafe",
+   "at": [
+    16,
+    82
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "タヌキ商店の向かいの岸のカフェ",
+   "zone": "C",
+   "district": "D10"
+  },
+  {
+   "kit": "p6_d11_farmgate",
+   "at": [
+    76,
+    46
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "橋のたもとの果樹園の無人販売",
+   "zone": "S",
+   "district": "D11"
+  },
+  {
+   "kit": "p6_d11_pump",
+   "at": [
+    76,
+    52
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "分かれ道の村のポンプと道しるべ",
+   "zone": "S",
+   "district": "D11"
+  },
+  {
+   "kit": "p6_d11_apiary",
+   "at": [
+    76,
+    56
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "ビーの家の南の花畑の巣箱",
+   "zone": "S",
+   "district": "D11"
+  },
+  {
+   "kit": "p6_d11_pumpkins",
+   "at": [
+    83,
+    46
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "スクートの家の南東の菜園",
+   "zone": "S",
+   "district": "D11"
+  },
+  {
+   "kit": "p6_d2_flourish",
+   "at": [
+    24,
+    58
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "ダイアゴン横丁のフローリシュ・アンド・ブロッツ",
+   "zone": "C",
+   "district": "D2"
+  },
+  {
+   "kit": "p6_d2_borgin",
+   "at": [
+    20,
+    54
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "ノクターン横丁のボージン・アンド・バークス",
+   "zone": "C",
+   "district": "D2"
+  },
+  {
+   "kit": "p6_d2_wellphone",
+   "at": [
+    23,
+    54
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "井戸の石段の下の電話ボックス",
+   "zone": "C",
+   "district": "D2"
+  },
+  {
+   "kit": "p6_d2_stair_lantern",
+   "at": [
+    23,
+    49
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "石段の下の木箱とランタン",
+   "zone": "C",
+   "district": "D2"
+  },
+  {
+   "kit": "p6_d2_stair_cart",
+   "at": [
+    26,
+    50
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "石段の下の花の荷車",
+   "zone": "C",
+   "district": "D2"
+  },
+  {
+   "kit": "p6_d3_stairhead",
+   "at": [
+    32,
+    55
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "大石段の頭の西",
+   "zone": "C",
+   "district": "D3"
+  },
+  {
+   "kit": "p6_d3_stairhead",
+   "at": [
+    36,
+    55
+   ],
+   "on_road": false,
+   "flip": true,
+   "name": "大石段の頭の東",
+   "zone": "C",
+   "district": "D3"
+  },
+  {
+   "kit": "p6_d3_towerfoot",
+   "at": [
+    30,
+    49
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "西の角の塔のすそ",
+   "zone": "C",
+   "district": "D3"
+  },
+  {
+   "kit": "p6_d3_towerfoot",
+   "at": [
+    39,
+    49
+   ],
+   "on_road": true,
+   "flip": true,
+   "name": "東の角の塔のすそ",
+   "zone": "C",
+   "district": "D3"
+  },
+  {
+   "kit": "p6_d4_falls_scooter",
+   "at": [
+    45,
+    48
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "貯水池の滝のわきのスクーター",
+   "zone": "C",
+   "district": "D4"
+  },
+  {
+   "kit": "p6_d4_stair_clock",
+   "at": [
+    50,
+    48
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "石段の下の案内板と時計",
+   "zone": "C",
+   "district": "D4"
+  },
+  {
+   "kit": "p6_d5_back_antiques",
+   "at": [
+    54,
+    36
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "裏の石段の下の古道具屋",
+   "zone": "C",
+   "district": "D5"
+  },
+  {
+   "kit": "p6_d5_roof_cafe",
+   "at": [
+    66,
+    39
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "屋上のテラスのパラソル",
+   "zone": "C",
+   "district": "D5"
+  },
+  {
+   "kit": "p6_d5_roof_garden",
+   "at": [
+    61,
+    41
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "西の棟の屋上の菜園",
+   "zone": "C",
+   "district": "D5"
+  },
+  {
+   "kit": "p6_d5_loading_bay",
+   "at": [
+    67,
+    44
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "荷あげの中庭",
+   "zone": "C",
+   "district": "D5"
+  },
+  {
+   "kit": "p6_d5_bridge_head",
+   "at": [
+    64,
+    55
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "鉄の橋の北のたもとの親柱と望遠鏡",
+   "zone": "C",
+   "district": "D5"
+  },
+  {
+   "kit": "p6_d6_mooring",
+   "at": [
+    51,
+    60
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "係留のくいのあいだのいかり",
+   "zone": "C",
+   "district": "D6"
+  },
+  {
+   "kit": "p6_d6_bridge_w",
+   "at": [
+    64,
+    61
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "鉄の橋のたもとの親柱（西）",
+   "zone": "C",
+   "district": "D6"
+  },
+  {
+   "kit": "p6_d6_bridge_e",
+   "at": [
+    67,
+    61
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "鉄の橋のたもとの親柱（東）",
+   "zone": "C",
+   "district": "D6"
+  },
+  {
+   "kit": "p6_d7_florist",
+   "at": [
+    62,
+    70
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "屋上の庭の棟の下のバラの花の屋台",
+   "zone": "C",
+   "district": "D7"
+  },
+  {
+   "kit": "p6_d7_post",
+   "at": [
+    53,
+    70
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "家のあいだの小さな郵便局",
+   "zone": "C",
+   "district": "D7"
+  },
+  {
+   "kit": "p6_d7_rosealley",
+   "at": [
+    48,
+    66
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "バラの路地の壁ぞい",
+   "zone": "C",
+   "district": "D7"
+  },
+  {
+   "kit": "p6_d7_laundry",
+   "at": [
+    53,
+    65
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "ピーカンの中庭の物干し",
+   "zone": "C",
+   "district": "D7"
+  },
+  {
+   "kit": "p6_d8_pubfoot",
+   "at": [
+    53,
+    82
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "井戸の石段の下の西のパブの看板（PUB の看板・びんのケース・足もとのランタン）",
+   "zone": "C",
+   "district": "D8"
+  },
+  {
+   "kit": "p6_d8_barreltable",
+   "at": [
+    58,
+    82
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "井戸の石段の下の東のたるの立ち飲み（木のスツール・たるのテーブル・壁のあかり）",
+   "zone": "C",
+   "district": "D8"
+  },
+  {
+   "kit": "p6_d8_dray",
+   "at": [
+    47,
+    82
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "胸壁の倉庫の荷おろし口の荷馬車（倉庫の戸・ほろ馬車・木箱）",
+   "zone": "C",
+   "district": "D8"
+  },
+  {
+   "kit": "p6_d8_tailor",
+   "at": [
+    43,
+    79
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "エイブルの東の店先のつるしの服（白いマネキン・つるしの服の棚・スタンド看板）",
+   "zone": "C",
+   "district": "D8"
+  },
+  {
+   "kit": "p6_d8_newsstand",
+   "at": [
+    68,
+    77
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "レンガの橋の西のたもとの新聞売り（街灯・新聞のラック・見出しのポスタースタンド）",
+   "zone": "C",
+   "district": "D8"
+  },
+  {
+   "kit": "p6_d9_museum_phone",
+   "at": [
+    23,
+    79
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "博物館の西の電話ボックスとベンチ（白い電話ボックス・ガーデンベンチ・マンホール）",
+   "zone": "C",
+   "district": "D9"
+  },
+  {
+   "kit": "p6_d9_gate",
+   "at": [
+    29,
+    82
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "飛行場の出口の対の旗の街灯と道しるべ（案内所への道しるべ・ユニオンジャックの旗の街灯）",
+   "zone": "C",
+   "district": "D9"
+  },
+  {
+   "kit": "p6_d9_gate",
+   "at": [
+    39,
+    82
+   ],
+   "on_road": false,
+   "flip": true,
+   "name": "飛行場の出口の対の旗の街灯と道しるべ（案内所への道しるべ・ユニオンジャックの旗の街灯）",
+   "zone": "C",
+   "district": "D9"
+  },
+  {
+   "kit": "p6_d9_seaborder",
+   "at": [
+    23,
+    82
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "博物館の南の浜ぞいの彫刻の芝（花壇・考える人の像・花壇）",
+   "zone": "C",
+   "district": "D9"
+  }
+ ]
+}

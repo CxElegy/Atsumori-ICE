@@ -729,7 +729,536 @@
   }
  ],
  "manual_zones": "CPS",
- "kits": [],
+ "kits": [
+  {
+   "kit": "p6_d1_stair_fountain",
+   "at": [
+    21,
+    46
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "自宅の前の石段の上の水飲み場",
+   "zone": "C",
+   "district": "D1"
+  },
+  {
+   "kit": "p6_d1_lane_bike",
+   "at": [
+    23,
+    40
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "自宅とレイモンドの小路",
+   "zone": "C",
+   "district": "D1"
+  },
+  {
+   "kit": "p6_d1_home_flowercart",
+   "at": [
+    17,
+    43
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "自宅の西の庭",
+   "zone": "C",
+   "district": "D1"
+  },
+  {
+   "kit": "p6_d1_river_landing",
+   "at": [
+    14,
+    38
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "西の河口の船着き場",
+   "zone": "C",
+   "district": "D1"
+  },
+  {
+   "kit": "p6_d1_maelle_corner",
+   "at": [
+    50,
+    42
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "マエルの家の東の角",
+   "zone": "C",
+   "district": "D1"
+  },
+  {
+   "kit": "p6_d10_bakery",
+   "at": [
+    12,
+    68
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "コヴェント・ガーデンの市場のパン屋の屋台",
+   "zone": "C",
+   "district": "D10"
+  },
+  {
+   "kit": "p6_d10_nookyard",
+   "at": [
+    12,
+    71
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "タヌキ商店のわきの荷おろし",
+   "zone": "C",
+   "district": "D10"
+  },
+  {
+   "kit": "p6_d10_quaycafe",
+   "at": [
+    16,
+    82
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "タヌキ商店の向かいの岸のカフェ",
+   "zone": "C",
+   "district": "D10"
+  },
+  {
+   "kit": "p6_d11_farmgate",
+   "at": [
+    76,
+    46
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "橋のたもとの果樹園の無人販売",
+   "zone": "S",
+   "district": "D11"
+  },
+  {
+   "kit": "p6_d11_pump",
+   "at": [
+    76,
+    52
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "分かれ道の村のポンプと道しるべ",
+   "zone": "S",
+   "district": "D11"
+  },
+  {
+   "kit": "p6_d11_apiary",
+   "at": [
+    76,
+    56
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "ビーの家の南の花畑の巣箱",
+   "zone": "S",
+   "district": "D11"
+  },
+  {
+   "kit": "p6_d11_pumpkins",
+   "at": [
+    83,
+    46
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "スクートの家の南東の菜園",
+   "zone": "S",
+   "district": "D11"
+  },
+  {
+   "kit": "p6_d2_flourish",
+   "at": [
+    24,
+    58
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "ダイアゴン横丁のフローリシュ・アンド・ブロッツ",
+   "zone": "C",
+   "district": "D2"
+  },
+  {
+   "kit": "p6_d2_borgin",
+   "at": [
+    20,
+    54
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "ノクターン横丁のボージン・アンド・バークス",
+   "zone": "C",
+   "district": "D2"
+  },
+  {
+   "kit": "p6_d2_wellphone",
+   "at": [
+    23,
+    54
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "井戸の石段の下の電話ボックス",
+   "zone": "C",
+   "district": "D2"
+  },
+  {
+   "kit": "p6_d2_stair_lantern",
+   "at": [
+    23,
+    49
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "石段の下の木箱とランタン",
+   "zone": "C",
+   "district": "D2"
+  },
+  {
+   "kit": "p6_d2_stair_cart",
+   "at": [
+    26,
+    50
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "石段の下の花の荷車",
+   "zone": "C",
+   "district": "D2"
+  },
+  {
+   "kit": "p6_d3_stairhead",
+   "at": [
+    32,
+    55
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "大石段の頭の西",
+   "zone": "C",
+   "district": "D3"
+  },
+  {
+   "kit": "p6_d3_stairhead",
+   "at": [
+    36,
+    55
+   ],
+   "on_road": false,
+   "flip": true,
+   "name": "大石段の頭の東",
+   "zone": "C",
+   "district": "D3"
+  },
+  {
+   "kit": "p6_d3_towerfoot",
+   "at": [
+    30,
+    49
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "西の角の塔のすそ",
+   "zone": "C",
+   "district": "D3"
+  },
+  {
+   "kit": "p6_d3_towerfoot",
+   "at": [
+    39,
+    49
+   ],
+   "on_road": true,
+   "flip": true,
+   "name": "東の角の塔のすそ",
+   "zone": "C",
+   "district": "D3"
+  },
+  {
+   "kit": "p6_d4_falls_scooter",
+   "at": [
+    45,
+    48
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "貯水池の滝のわきのスクーター",
+   "zone": "C",
+   "district": "D4"
+  },
+  {
+   "kit": "p6_d4_stair_clock",
+   "at": [
+    50,
+    48
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "石段の下の案内板と時計",
+   "zone": "C",
+   "district": "D4"
+  },
+  {
+   "kit": "p6_d5_back_antiques",
+   "at": [
+    54,
+    36
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "裏の石段の下の古道具屋",
+   "zone": "C",
+   "district": "D5"
+  },
+  {
+   "kit": "p6_d5_roof_cafe",
+   "at": [
+    66,
+    39
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "屋上のテラスのパラソル",
+   "zone": "C",
+   "district": "D5"
+  },
+  {
+   "kit": "p6_d5_roof_garden",
+   "at": [
+    61,
+    41
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "西の棟の屋上の菜園",
+   "zone": "C",
+   "district": "D5"
+  },
+  {
+   "kit": "p6_d5_loading_bay",
+   "at": [
+    67,
+    44
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "荷あげの中庭",
+   "zone": "C",
+   "district": "D5"
+  },
+  {
+   "kit": "p6_d5_bridge_head",
+   "at": [
+    64,
+    55
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "鉄の橋の北のたもとの親柱と望遠鏡",
+   "zone": "C",
+   "district": "D5"
+  },
+  {
+   "kit": "p6_d6_mooring",
+   "at": [
+    51,
+    60
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "係留のくいのあいだのいかり",
+   "zone": "C",
+   "district": "D6"
+  },
+  {
+   "kit": "p6_d6_bridge_w",
+   "at": [
+    64,
+    61
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "鉄の橋のたもとの親柱（西）",
+   "zone": "C",
+   "district": "D6"
+  },
+  {
+   "kit": "p6_d6_bridge_e",
+   "at": [
+    67,
+    61
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "鉄の橋のたもとの親柱（東）",
+   "zone": "C",
+   "district": "D6"
+  },
+  {
+   "kit": "p6_d7_florist",
+   "at": [
+    62,
+    70
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "屋上の庭の棟の下のバラの花の屋台",
+   "zone": "C",
+   "district": "D7"
+  },
+  {
+   "kit": "p6_d7_post",
+   "at": [
+    53,
+    70
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "家のあいだの小さな郵便局",
+   "zone": "C",
+   "district": "D7"
+  },
+  {
+   "kit": "p6_d7_rosealley",
+   "at": [
+    48,
+    66
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "バラの路地の壁ぞい",
+   "zone": "C",
+   "district": "D7"
+  },
+  {
+   "kit": "p6_d7_laundry",
+   "at": [
+    53,
+    65
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "ピーカンの中庭の物干し",
+   "zone": "C",
+   "district": "D7"
+  },
+  {
+   "kit": "p6_d8_pubfoot",
+   "at": [
+    53,
+    82
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "井戸の石段の下の西のパブの看板（PUB の看板・びんのケース・足もとのランタン）",
+   "zone": "C",
+   "district": "D8"
+  },
+  {
+   "kit": "p6_d8_barreltable",
+   "at": [
+    58,
+    82
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "井戸の石段の下の東のたるの立ち飲み（木のスツール・たるのテーブル・壁のあかり）",
+   "zone": "C",
+   "district": "D8"
+  },
+  {
+   "kit": "p6_d8_dray",
+   "at": [
+    47,
+    82
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "胸壁の倉庫の荷おろし口の荷馬車（倉庫の戸・ほろ馬車・木箱）",
+   "zone": "C",
+   "district": "D8"
+  },
+  {
+   "kit": "p6_d8_tailor",
+   "at": [
+    43,
+    79
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "エイブルの東の店先のつるしの服（白いマネキン・つるしの服の棚・スタンド看板）",
+   "zone": "C",
+   "district": "D8"
+  },
+  {
+   "kit": "p6_d8_newsstand",
+   "at": [
+    68,
+    77
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "レンガの橋の西のたもとの新聞売り（街灯・新聞のラック・見出しのポスタースタンド）",
+   "zone": "C",
+   "district": "D8"
+  },
+  {
+   "kit": "p6_d9_museum_phone",
+   "at": [
+    23,
+    79
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "博物館の西の電話ボックスとベンチ（白い電話ボックス・ガーデンベンチ・マンホール）",
+   "zone": "C",
+   "district": "D9"
+  },
+  {
+   "kit": "p6_d9_gate",
+   "at": [
+    29,
+    82
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "飛行場の出口の対の旗の街灯と道しるべ（案内所への道しるべ・ユニオンジャックの旗の街灯）",
+   "zone": "C",
+   "district": "D9"
+  },
+  {
+   "kit": "p6_d9_gate",
+   "at": [
+    39,
+    82
+   ],
+   "on_road": false,
+   "flip": true,
+   "name": "飛行場の出口の対の旗の街灯と道しるべ（案内所への道しるべ・ユニオンジャックの旗の街灯）",
+   "zone": "C",
+   "district": "D9"
+  },
+  {
+   "kit": "p6_d9_seaborder",
+   "at": [
+    23,
+    82
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "博物館の南の浜ぞいの彫刻の芝（花壇・考える人の像・花壇）",
+   "zone": "C",
+   "district": "D9"
+  }
+ ],
  "groves": {
   "C": [
    0,
