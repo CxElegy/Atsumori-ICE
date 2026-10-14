@@ -502,9 +502,17 @@ def cand(x, y):
 cells = [(x, y) for y in range(1, H - 1) for x in range(1, W - 1) if cand(x, y) and any((x + dx, y + dy) in road for dx, dy in N4)]
 cells.sort(key=lambda p: (hash((p[0] * 31 + p[1] * 17) % 9973) % 1000))
 k1 = k2 = 0
+NAMED = {}   # 第60回：運河の岸や目じるしの物の名前（となりに同じ物を並べない）
+if CAMERA:
+    for gp in groups:
+        for it in gp.get('items', []):
+            if isinstance(it, list) and len(it) >= 3:
+                NAMED[(it[1], it[2])] = it[0]
 for x, y in cells:
     if not cand(x, y) or any((x + dx, y + dy) in props for dx in (-1, 0, 1) for dy in (-1, 0, 1)):
         continue
+    if CAMERA and any(NAMED.get((x + dx, y + dy)) == STREET1[k1 % len(STREET1)][0] for dx in (-1, 0, 1) for dy in (-1, 0, 1)):
+        k1 += 1   # となりに同じ物（運河の岸の街灯など）があれば、次の小物にする
     if STREET2 and cand(x + 1, y) and (x + 1, y) not in props and (x + y) % 3 == 0 and lv(x + 1, y) == lv(x, y) and any((x + 1 + dx, y + dy) in props for dx in (-1, 0, 1) for dy in (-1, 0, 1)) is False:
         it, var = STREET2[k2 % len(STREET2)]; k2 += 1
         street.append([it, x, y, 0, var]); props |= {(x, y), (x + 1, y)}; occ |= {(x, y), (x + 1, y)}
