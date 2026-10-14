@@ -266,6 +266,7 @@ DISTRICTS = {
     'D8': {'box': [43, 76, 74, 83], 'name': '醸造所の路地（屋上のビアガーデン・テラスの井戸の石段・2マスの路地・胸壁の屋根の川べりの倉庫）', 'zone': 'C'},
     'D9': {'box': [22, 62, 42, 83], 'name': '案内所の広場と噴水の前庭（並木の帯・博物館とエイブル・飛行場の出口）', 'zone': 'C'},
     'D10': {'box': [12, 62, 21, 83], 'name': 'コヴェント・ガーデン（屋上の庭のホール・時計の広場・タヌキ商店・浜の小道）', 'zone': 'C'},
+    'D11': {'box': [75, 38, 100, 83], 'name': '川の東の村（花畑と果樹・池と中島・林の尾根の風車・ビーとスクートの家）', 'zone': 'S'},
 }
 
 spec = {
@@ -291,7 +292,7 @@ spec = {
         {'zone': 'F', 'rect': [12, 28, 45, 35]},   # 旧市街のうしろの杉の林（道は土の色：主塔のうしろに白い筋を通さない）
         {'zone': 'F', 'blob': RIDGE},              # 川の東の村の背景：東の林の尾根（花畑は1段目の村 S だけに）
     ],
-    'manual_zones': 'CP',
+    'manual_zones': 'CPS',                     # 町と村の見せ場は地区ごとに手で（designs/kits_plan6.json）
     'kits': [{k: v for k, v in p.items() if k in ('kit', 'at', 'zone', 'on_road', 'flip', 'name', 'style', 'district')} for p in KP.get('placements', [])],   # 地区ごとの見せ場（designs/kits_plan6.json）
     'groves': {'C': [0, 0], 'P': [0, 0]},
     'camera_check': True,
