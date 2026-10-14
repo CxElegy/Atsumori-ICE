@@ -10,7 +10,7 @@
 4. 坂：上の1マス＋下の3マス、坂の上のマスの左右は上の段で崖がまっすぐ、坂の下の3マスの左右は下の段の平地（崖の壁にくっつかない）、
    上と下の出入口（2マス）は水・橋でない、まわり1マスに別の坂・橋・木がない
 5. 橋と坂：橋（と両岸の 4×1）と坂のあいだを1マスあける
-6. 物を置ける：物のとなりに同じ段で立てるマスがある（台をちょうどうめる塔は置けない）
+6. 物を置ける：物のとなりに同じ段で立てるマスがある（台をちょうどうめる塔は置けない。木・低木のマスには立てない）
 """
 import json, os, sys
 from collections import Counter
@@ -141,12 +141,13 @@ try:
     from acnh_build import expand
     LAY = json.load(open(os.path.join(ROOT, f'designs/plan{PLAN}_layout_out.json')))
     SZ = {'villager': (4, 4), 'player_house': (5, 4), 'museum': (7, 4), 'nook': (7, 4), 'able': (5, 4), 'campsite': (4, 4)}
+    GRD = T.get('ground', {})
     BLD = {(x, y) for b in LAY['buildings'] for x in range(b['at'][0], b['at'][0] + SZ[b['kind']][0]) for y in range(b['at'][1], b['at'][1] + SZ[b['kind']][1])}
     for q in expand():
         cells = {(x, y) for x in range(q['x'], q['x'] + q['w']) for y in range(q['y'], q['y'] + q['d'])}
         L = lv(q['x'], q['y'])
         ring = {(x + dx, y + dy) for x, y in cells for dx, dy, _ in N4} - cells
-        if not any(g(*c) in '13ptsb' and lv(*c) == L and c not in BLD and c not in SL for c in ring):
+        if not any(g(*c) in '13psb' and lv(*c) == L and c not in BLD and c not in SL and GRD.get('%d,%d' % c) != 'u' for c in ring):   # 第60回：木・低木のマスには立てない
             errs.append(f"物 {q['item']} ({q['x']},{q['y']}) {L}段：となりに同じ段の立てるマスがなく、置けない")
 except FileNotFoundError:
     pass

@@ -54,7 +54,7 @@ slope = {}
 for i, (x, y, d) in enumerate(T['inclines']):
     for c in ([(x + a, y + b) for a in range(2) for b in range(4)] if d in 'NS' else [(x + a, y + b) for a in range(4) for b in range(2)]):
         slope[c] = i
-TALL = {'castle tower', 'castle gate', 'lighthouse', 'windmill', 'plaza ferris wheel', 'tall lantern', 'castle wall'}
+TALL = {'castle tower', 'castle gate', 'lighthouse', 'windmill', 'plaza ferris wheel', 'tall lantern', 'castle wall', 'silo'}
 res, bad = {}, {}
 MOAT_R = int(os.environ.get('MOAT_R', 14))   # 護城河：4方向に何マスまで見るか
 
@@ -200,10 +200,11 @@ for p in ITEMS:
     if p['item'] in ('manhole cover',) or not town(p['x'], p['y']):
         continue
     L = lv(p['x'], p['y']); yb = p['y'] + p['d'] - 1
+    KS = (1, 2, 3) if SPEC.get('camera_check') else (1, 2)   # 第60回の最終審査：2段高い崖は3列先でも・家の屋根は3列うしろまでかくす
     for x in range(p['x'], p['x'] + p['w']):
-        if any(inside(x, yb + k) and g(x, yb + k) not in 'wSs' and lv(x, yb + k) - L >= k for k in (1, 2)):
+        if any(inside(x, yb + k) and g(x, yb + k) not in 'wSs' and lv(x, yb + k) - L >= min(k, 2) for k in KS):
             hid.append((p['item'], p['x'], p['y'], 'cliff')); break
-        if (x, yb + 1) in bld or (x, yb + 2) in bld:
+        if any((x, yb + k) in bld for k in KS):
             hid.append((p['item'], p['x'], p['y'], 'house')); break
         if p['item'] not in TALL and ((x, yb + 1) in tallc or (x, yb + 2) in tallc):
             hid.append((p['item'], p['x'], p['y'], 'tall')); break   # 第60回：城の塔・門・城壁の真うしろ

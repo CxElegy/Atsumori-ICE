@@ -112,9 +112,12 @@ if CAMERA:
             KEEP_CLEAR |= {(ix + a, b) for a in range(2) for b in (iy - 2, iy - 1, iy + 4, iy + 5)}
         else:
             KEEP_CLEAR |= {(a, iy + b) for b in range(2) for a in (ix - 2, ix - 1, ix + 4, ix + 5)}
-TALL = set()
+TALL, LMK = set(), set()
 for it in SPEC.get('landmarks', []):
-    if it[0] in ('castle tower', 'castle gate', 'castle wall', 'windmill', 'lighthouse'):
+    if CAMERA:   # 第60回：土台の目じるしの場所は、運河の岸の自動の物（柵など）にとらせない
+        w_, d_ = foot(CAT[it[0]]['size'], it[3])
+        LMK |= {(a, b) for a in range(it[1], it[1] + w_) for b in range(it[2], it[2] + d_)}
+    if it[0] in ('castle tower', 'castle gate', 'castle wall', 'windmill', 'lighthouse', 'silo'):
         w_, d_ = foot(CAT[it[0]]['size'], it[3])
         TALL |= {(a, b) for a in range(it[1], it[1] + w_) for b in range(it[2], it[2] + d_)}
 def cam_ok(x, y):
@@ -125,12 +128,23 @@ def cam_ok(x, y):
     if (x, y + 1) in globals().get('trees', ()):
         return False   # 木のかさの真うしろ（第60回）
     L = lv(x, y)
-    for k in (1, 2):
-        if inside(x, y + k) and g(x, y + k) not in 'wSsb' and lv(x, y + k) - L >= k:
+    for k in (1, 2, 3):   # 第60回の最終審査：2段高い崖は3列先でもかくす・家の屋根は3列うしろまでかくす
+        if inside(x, y + k) and g(x, y + k) not in 'wSsb' and lv(x, y + k) - L >= min(k, 2):
             return False   # 南の高い段（崖の裏）にかくれる
         if (x, y + k) in bld_cells:
             return False   # 家の真裏
     return True
+def stand_ok(x, y, cells=()):   # 第60回：物のとなり（たて横）に、同じ段で立てるマス（木・低木・建物・坂・ほかの物でない）がある
+    if not CAMERA:
+        return True
+    L = lv(x, y)
+    for dx, dy in N4:
+        c = (x + dx, y + dy)
+        if c in cells or not inside(*c):
+            continue
+        if g(*c) in '13p' and lv(*c) == L and c not in globals().get('bush', ()) and c not in globals().get('trees', ()) and c not in bld_cells and c not in slope and (c not in occ or c in kitring):
+            return True
+    return False
 def fits_designed(kid, ax, ay):   # 第57回：手で場所を決めた見せ場は通りの上にも置ける（歩ける幅は plan4_kitcheck.py で確かめる）
     k = KITS[kid]; KW, KD = k['size']; L = lv(ax, ay)
     return all(inside(x, y) and g(x, y) in '13p' and lv(x, y) == L and (x, y) not in bld_cells and (x, y) not in front and (x, y) not in slope and (x, y) not in occ
@@ -156,6 +170,8 @@ def place_kit(kid, tx, ty, r, z, style=None, flip=None, gid=None, name=None, on_
             inner = ax <= x < ax + KW and ay <= y < ay + KD
             if not inner and lv(x, y) != L:
                 continue   # 第57回：段のちがうまわりのマス（屋根の城壁・崖の上の柵・崖のすそのパネル）は見せ場がとらない
+            if not inner and (x, y) in LMK:
+                continue   # 第60回：土台の目じるし（塔など）の場所は見せ場のまわりの1マスにとらせない
             occ.add((x, y))
             if not inner:
                 kitring.add((x, y))
@@ -172,6 +188,7 @@ for kd in SPEC.get('kits', []):   # 設計の見せ場（ねらいの場所の�
 
 # 地区の見せ場も木より先に（道に面した平地を林にとられないように）
 n = 0
+PLAN_KITS.update(SPEC.get('auto_kits', {}))   # 第60回：案ごとに野山の自動の見せ場を変える（同じお茶会を4つ並べない）
 for z, kl in PLAN_KITS.items():
     if z in SPEC.get('manual_zones', ''):
         continue
@@ -186,6 +203,8 @@ for z, kl in PLAN_KITS.items():
         for ax, ay in anchors:
             flip = rng.random() < .5
             ok = fits(kid, ax, ay, flip) and not any((x, y) in KEEP_CLEAR for x in range(ax, ax + KW) for y in range(ay, ay + KD))   # 第60回：自動の見せ場も keep_clear をよける（軸の北に墓地が来ないように）
+            if ok and CAMERA and not all(cam_ok(x, y) for x in range(ax, ax + KW) for y in range(ay, ay + KD)):
+                ok = False   # 第60回の最終審査：自動の見せ場も家の真裏・崖の裏に置かない（源氏の茶席が家のうしろだった）
             if not ok and z in 'FJBHP':   # 野山の地区：道から11マスまでなら、小道（土の道）を1本引いてつなぐ
                 L = lv(ax, ay)
                 if all(free(x, y, L) for y in range(ay, ay + KD) for x in range(ax, ax + KW)):
@@ -225,7 +244,12 @@ def tree_ok(x, y):
         a, b = x + dx, y + dy
         if not inside(a, b) or g(a, b) in 'wbsSrKPp' or (a, b) in slope or lv(a, b) != lv(x, y) or (a, b) in occ_b:
             return False
+    if CAMERA and diag_block(x, y):
+        return False
     return True
+def diag_block(x, y):   # 第60回の最終審査：ななめに崖・水・浜が接する木は、ゲームで植えられるか確かめていない（植えない）
+    return any(not inside(x + dx, y + dy) or g(x + dx, y + dy) in 'wbsSrK' or (x + dx, y + dy) in bld_cells or (x + dx, y + dy) in slope or (g(x + dx, y + dy) != 'P' and lv(x + dx, y + dy) != lv(x, y))
+               for dx, dy in ((1, 1), (-1, 1), (1, -1), (-1, -1)))
 GROVES = {'F': (7, 9), 'J': (4, 7), 'H': (5, 6), 'B': (4, 6), 'S': (3, 5), 'C': (9, 2), 'P': (3, 3)}   # 林の数・1つの林の木の数
 GROVES.update({k: tuple(v) for k, v in SPEC.get('groves', {}).items()})   # 第60回：案ごとに林の数を変える（町 C は {"C": [0, 0]} で、木は street_trees だけ）
 trees = set()
@@ -250,19 +274,22 @@ for x, y in SPEC.get('street_trees', []):
         print('町の木を植えられない', x, y, g(x, y)); continue
     if any(g(x + dx, y + dy) in 'wbsSrK' or (x + dx, y + dy) in bld_cells or (x + dx, y + dy) in slope or (g(x + dx, y + dy) != 'P' and lv(x + dx, y + dy) != L) for dx, dy in N4):
         print('町の木を植えられない（となり）', x, y); continue
+    if CAMERA and diag_block(x, y):
+        print('町の木を植えられない（ななめ）', x, y); continue
     if (x, y) in road:
         G[y][x] = '3' if L >= 2 else '1'; road.discard((x, y))
     street.append((x, y)); occ.add((x, y))
 trees -= set(street)
 trees = set(sorted(trees, key=lambda p: (p[0] * 7 + p[1] * 13) % 97)[:185 - len(street)]) | set(street)   # 木は島ぜんたいで185本まで（森から町へ植えかえる）
 bush = set()
+NOBUSH = {(x, y) for x0, y0, x1, y1 in SPEC.get('bush_clear', []) for x in range(x0, x1 + 1) for y in range(y0, y1 + 1)}   # 第60回：低木を置かない四角（主塔の真うしろの芝）
 BUSH = {'F': .55, 'J': .35, 'H': .5, 'B': .3, 'S': .14, 'C': .02, 'P': .12}
 if SPEC.get('base') == 'authored':
     BUSH['P'] = .02   # 案4：港も町（低木はほとんどなし）
 for y in range(H):
     for x in range(W):
         z = Z[y][x]
-        if g(x, y) in '13' and (x, y) not in trees and (x, y) not in occ_b and (x, y) not in slope and (x, y) not in front and (x, y) not in road and (x, y) not in occ:
+        if g(x, y) in '13' and (x, y) not in trees and (x, y) not in occ_b and (x, y) not in slope and (x, y) not in front and (x, y) not in road and (x, y) not in occ and (x, y) not in NOBUSH:
             near = sum((x + dx, y + dy) in trees for dx in range(-2, 3) for dy in range(-2, 3))
             p = BUSH.get(z, 0) + .12 * near
             if lv(x, y) >= 1 and rng.random() < p * (.6 + .4 * (noise(x * 2, y * 2) + 1)):
@@ -307,13 +334,14 @@ for y in range(1, H - 1):
                 continue   # 第60回：東・西を向くパネルはカメラから横向き（ふちしか見えない）
             if (x, y) in road and not (rot != 2 and all((x - i * dx, y - i * dy) in road and (x - i * dx, y - i * dy) not in occ and (x - i * dx, y - i * dy) not in slope and lv(x - i * dx, y - i * dy) == lv(x, y) for i in (1, 2))):
                 continue   # 道の上には、通りが3マス幅以上で、反対がわの2マスがあいている所だけ貼る（第57回：2マス幅の路地の両がわに貼ってふさいでいた）。北を向くパネルはカメラから見えないので道には貼らない
-            if lv(a, b_) == lv(x, y) + 1 and g(a, b_) != 'w' and (a, b_) not in slope and cnt8.get((x // 8, y // 8), 0) < CAP[z] and cam_ok(x, y):
+            if lv(a, b_) == lv(x, y) + 1 and g(a, b_) != 'w' and (a, b_) not in slope and cnt8.get((x // 8, y // 8), 0) < CAP[z] and cam_ok(x, y) and stand_ok(x, y):
                 panel(x, y, rot, PIECES[k % len(PIECES)]); k += 1
                 break
             if ALT and rot == 0 and (x, y) not in road and lv(a, b_) == lv(x, y) + 1 and g(a, b_) != 'w' and (a, b_) not in slope and alt8.get((x // 8, y // 8), 0) < 6 and cam_ok(x, y):
                 x2 = x + 1   # 店先は2マス：となりも崖のすそ・同じ段・あいている
                 if g(x2, y) in '13' and lv(x2, y) == lv(x, y) and lv(x2, y - 1) == lv(x, y) + 1 and g(x2, y - 1) != 'w' and (x2, y - 1) not in slope and cam_ok(x2, y) \
-                        and (x2, y) not in occ and (x2, y) not in road and (x2, y) not in occ_b and (x2, y) not in slope and (x2, y) not in front and (x2, y) not in trees and (x2 // 8) == (x // 8):
+                        and (x2, y) not in occ and (x2, y) not in road and (x2, y) not in occ_b and (x2, y) not in slope and (x2, y) not in front and (x2, y) not in trees and (x2 // 8) == (x // 8) \
+                        and (stand_ok(x, y, {(x2, y)}) or stand_ok(x2, y, {(x, y)})):
                     panel_groups.append([ALT, x, y, 0, 'Brown', 'wall_brick_lamp']); occ |= {(x, y), (x2, y)}
                     alt8[(x // 8, y // 8)] = alt8.get((x // 8, y // 8), 0) + 1
                     break
@@ -327,7 +355,7 @@ bld = {(x, y) for b in LAY['buildings'] for x0, y0 in [b['at']] for x in range(x
 def near_bridge(x, y):
     return any(g(x + dx, y + dy) == 'b' for dx in range(-1, 2) for dy in range(-1, 2))
 def bank_ok(x, y):
-    return (x, y) not in KEEP_CLEAR and inside(x, y) and g(x, y) in '13p' and (x, y) not in slope and (x, y) not in bld and (x, y) not in front and ((x, y) not in occ or (x, y) in kitring) and (x, y) not in trees and not near_bridge(x, y) \
+    return (x, y) not in KEEP_CLEAR and (x, y) not in LMK and inside(x, y) and g(x, y) in '13p' and (x, y) not in slope and (x, y) not in bld and (x, y) not in front and ((x, y) not in occ or (x, y) in kitring) and (x, y) not in trees and not near_bridge(x, y) \
         and not any((x + dx, y + dy) in slope for dx, dy in N4)
 canal_items = []
 for op in SPEC.get('water', []):
@@ -366,10 +394,12 @@ for op in SPEC.get('water', []):
                 continue
             if not boat and i > 3:   # 岸壁に1そうのヨット（3×2）
                 fp = [(x + (k if horiz else j * dx), y + (j * dy if horiz else k)) for k in range(3) for j in range(2)]
-                if all(bank_ok(*c) and lv(*c) == lv(x, y) for c in fp):
+                if all(bank_ok(*c) and lv(*c) == lv(x, y) and not (CAMERA and c in road) for c in fp):   # 第60回：ヨットで運河通りをせばめない
                     ax, ay = min(c[0] for c in fp), min(c[1] for c in fp)
                     canal_items.append(['yacht', ax, ay, 0 if horiz else 1, 'White']); occ |= set(fp); boat = True; continue
             k = i % 6
+            if CAMERA and (k in (1, 5) or (k == 4 and i % 12 != 4)):
+                k = 2   # 第60回の最終審査：岸壁の柵は一続きに（街灯と自転車・花の荷車のほかは柵）
             if k == 0:
                 canal_items.append(['streetlamp', x, y, 0, 'Black']); occ.add((x, y))
             elif k in (2, 3):
@@ -577,6 +607,8 @@ for y in range(H):
     for x in range(W):
         if Z[y][x] == 'S' and free(x, y, lv(x, y)) and (x, y) not in trees and (x, y) not in bush and noise(x * .8 + 50, y * .8) > .18:
             t, cs = fields[(x // 9 + y // 7) % len(fields)]
+            if CAMERA:   # 第60回の最終審査：ゲームにない色（青・紫のユリなど）を植えない
+                cs = [c for c in cs if c in P2['rules'].get('plants', {}).get(t, {}).get('colors', cs)] or ['white']
             plants.append({'id': 'S-fields', 'type': t, 'rect': [x, y, x, y], 'colors': cs, 'fit': True}); occ.add((x, y))
 for x, y in list(bush):
     if (x, y) in occ:

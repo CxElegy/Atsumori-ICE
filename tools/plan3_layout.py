@@ -476,6 +476,8 @@ def run(seed):
         if 'at' in kd and not kd.get('district'):   # 第57回：地区ごとの見せ場は、できた地形に合わせて設計したもの（道を変えない）
             (ax, ay), (kw, kh) = kd['at'], KS[kd['kit']]['size']
             lay.reserved |= {(x, y) for x in range(ax, ax + kw) for y in range(ay, ay + kh)}
+    for x0, y0, x1, y1 in spec.get('no_route', []):   # 第60回：道を通さない四角（うめた溝を近道にして、道すじが変わらないように）
+        lay.reserved |= {(x, y) for x in range(x0, x1 + 1) for y in range(y0, y1 + 1)}
     lay.blocked |= lay.reserved
     for inc in spec.get('inclines', []):   # 設計の坂（場所と向きを手で決める）
         lay.slopecells = getattr(lay, 'slopecells', set())

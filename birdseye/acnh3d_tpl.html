@@ -266,7 +266,7 @@ const CDES = (D.paths && D.paths.C && D.paths.C.design) || 'road_chic_stone';   
 const isRoad = (x, y) => G(x, y) === 'p';
 function CROAD(x, y) {   // stone_old：まん中は灰色の丸い石畳、3マス幅以上の通りのふちは白っぽい板石（作者のセットの縁のパーツ）
   if (CDES !== 'stone_old') return 'cobble';
-  for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) if (!isRoad(x + dx, y + dy) && G(x + dx, y + dy) !== 'b' && isRoad(x - dx, y - dy) && isRoad(x - 2 * dx, y - 2 * dy) && L(x - dx, y - dy) === L(x, y) && L(x - 2 * dx, y - 2 * dy) === L(x, y)) return 'curb';
+  for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) if (!isRoad(x + dx, y + dy) && G(x + dx, y + dy) !== 'b' && (L(x + dx, y + dy) > L(x, y) || G(x + dx, y + dy) === 'w') && isRoad(x - dx, y - dy) && isRoad(x - 2 * dx, y - 2 * dy) && L(x - dx, y - dy) === L(x, y) && L(x - 2 * dx, y - 2 * dy) === L(x, y)) return 'curb';   // 第60回の最終審査：縁の板石は壁（崖）のすそと水ぎわだけに一続き（敷石とのさかいには置かない）
   return 'cobbleP';
 }
 const cols = [], tops = { grass: [], sand: [], cobble: [], cobbleP: [], curb: [], stone: [], dirt: [], zen: [], plaza: [], water: [] }, lips = [], foam = [], rocks = [];
@@ -410,6 +410,7 @@ D.inc.forEach(([x, y, d]) => {
 // ---- 木（ゲームの木：広葉樹（秋の色）・針葉樹・竹。木は縦横にとなり合わない）----
 const trunks = [], crowns = [], crowns2 = [], cones = [], stems = [], leafs = [], fruits = [];
 const TONES = { C: ['#c9a04a', '#c7773a', '#7d9152', '#b9893f', '#6b8a4a'], S: ['#c9a04a', '#c7773a', '#7d9152', '#b9893f', '#6b8a4a', '#d8a24a'], F: ['#5d8a48', '#6b8a4a', '#c9a04a', '#557f44', '#b9893f'], J: ['#c8503a', '#d8643a', '#c9a04a', '#6b8a4a'], H: ['#7a5a3a', '#8a5f3a', '#5a4a3a'], P: ['#7d9152', '#c9a04a', '#728f4f'] };
+if (D.townTones && D.townTones.length) TONES.C = D.townTones;   // 第60回の最終審査：町の木は1種類（spec の street_tree_kind）の同じ季節の色
 const hash = (x, y) => (((x * 73856093) ^ (y * 19349663)) >>> 0) % 1000 / 1000;
 const FRUIT = { apple: '#d8453a', peach: '#f2a0a8', orange: '#f08a2a', pear: '#d8c84a', cherry: '#b8303a' };   // 果物の木（build_plan2.json の orchards）
 const inCedar = (x, y) => (D.cedar || []).some(([a, b, c, d]) => x >= a && x <= c && y >= b && y <= d);   // 第60回：spec の cedar_belts（杉の帯）
@@ -509,13 +510,20 @@ fenceCells.forEach((en, key) => { const [x, y] = key.split(',').map(Number), [he
 inst(box, mat('#ffffff'), posts, true); inst(box, mat('#ffffff'), rails, true); inst(new THREE.BoxGeometry(1, 1, 1, 2, 2, 2), mat('#ffffff'), hedges, true);
 // シンプルなパネル：マイデザイン（レンガの壁と窓など）を貼った板。1×0.5 マス
 const PANEL = {};
-function panelTex(id, piece) { const key = id + '|' + (piece || ''); if (PANEL[key]) return PANEL[key];
+function panelTex(id, piece) { piece = piece || ({ signboard: 'sign', hanging_sign: 'hang', door_curtain: 'door', window_hp: 'window' })[id] || piece;   // 第60回の最終審査：見せ場のパネル（看板・吊り看板・ドア）を描く
+  const key = id + '|' + (piece || ''); if (PANEL[key]) return PANEL[key];
   const arch = (g, x0, x1, top, bot, fill) => { const cx = (x0 + x1) / 2, rr = (x1 - x0) / 2; g.fillStyle = fill; g.beginPath(); g.moveTo(x0, bot); g.lineTo(x0, top); g.arc(cx, top, rr, Math.PI, 0); g.lineTo(x1, bot); g.fill(); };
   const P = pbr(128, 192, (A, Hh, W, H) => { brickWall(A, Hh, W, H, (id || '').length * 7 + (piece || '').length * 3, 12, piece !== 'window');
     if (piece === 'arch') { arch(A, W * .06, W * .94, H * .42, H, '#c9b49a'); arch(Hh, W * .06, W * .94, H * .42, H, '#e0e0e0');   // 石のアーチの縁
       for (let i = 0; i < 9; i++) { const a0 = Math.PI + i * Math.PI / 9; A.strokeStyle = 'rgba(90,75,60,.6)'; A.lineWidth = 1.5; A.beginPath(); A.moveTo(W * .5 + Math.cos(a0) * W * .3, H * .42 + Math.sin(a0) * W * .3); A.lineTo(W * .5 + Math.cos(a0) * W * .44, H * .42 + Math.sin(a0) * W * .44); A.stroke(); }
       arch(A, W * .16, W * .84, H * .45, H, '#15110f'); arch(Hh, W * .16, W * .84, H * .45, H, '#000000');   // 奥の暗がり
       const gl = A.createLinearGradient(0, H * .55, 0, H); gl.addColorStop(0, 'rgba(255,200,120,0)'); gl.addColorStop(1, 'rgba(255,200,120,.35)'); A.fillStyle = gl; A.fillRect(W * .3, H * .55, W * .4, H * .45); }
+    else if (piece === 'sign') { A.fillStyle = '#c9a24a'; A.fillRect(W * .1, H * .22, W * .8, H * .36); A.fillStyle = '#1f3a2c'; A.fillRect(W * .14, H * .25, W * .72, H * .3); Hh.fillStyle = '#d0d0d0'; Hh.fillRect(W * .1, H * .22, W * .8, H * .36);   // 看板（PUB）：金の縁の深緑の板
+      A.fillStyle = '#e8c766'; A.font = `bold ${Math.round(H * .17)}px serif`; A.textAlign = 'center'; A.textBaseline = 'middle'; A.fillText('PUB', W * .5, H * .405);
+      arch(A, W * .3, W * .7, H * .7, H, '#3a2a20'); arch(Hh, W * .3, W * .7, H * .7, H, '#606060'); }
+    else if (piece === 'hang') { A.fillStyle = '#2a2a2a'; A.fillRect(W * .5, H * .2, W * .42, H * .03); A.fillRect(W * .62, H * .23, 2, H * .07); A.fillRect(W * .82, H * .23, 2, H * .07);   // 吊り看板：鉄の腕と花の札
+      blob(A, W * .72, H * .4, W * .17, H * .1, '#f3ead6'); blob(A, W * .72, H * .4, W * .07, H * .045, '#d8607a'); Hh.fillStyle = '#e0e0e0'; Hh.fillRect(W * .55, H * .3, W * .34, H * .2);
+      arch(A, W * .12, W * .48, H * .5, H * .82, '#ece2cc'); arch(A, W * .16, W * .44, H * .52, H * .8, '#3f5568'); }
     else if (piece === 'door') { A.fillStyle = '#e9e0cc'; A.fillRect(W * .18, H * .28, W * .64, H * .72); Hh.fillStyle = '#e8e8e8'; Hh.fillRect(W * .18, H * .28, W * .64, H * .72);
       arch(A, W * .27, W * .73, H * .46, H, '#2f4a5a'); arch(Hh, W * .27, W * .73, H * .46, H, '#707070'); for (let i = 0; i < 4; i++) { A.fillStyle = 'rgba(20,35,45,.5)'; A.fillRect(W * (.32 + i * .1), H * .55, 2, H * .4); }
       blob(A, W * .65, H * .75, 3, 3, '#d9b25a'); }

@@ -27,6 +27,8 @@ J = lambda p: json.load(open(os.path.join(ROOT, p), encoding='utf-8'))
 CAT = J('designs/acnh_catalog.json')
 ITEMS, CONS, VILL = CAT['items'], CAT['construction'], CAT['villagers']
 PLAN = os.environ.get('ICE_PLAN', '2')   # 第49回：ICE_PLAN=3 で案3（plan3-terrain.json・designs/build_plan3.json）
+_sp = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', f'designs/plan{PLAN}_spec.json')
+CAMSPEC = bool(json.load(open(_sp, encoding='utf-8')).get('camera_check')) if os.path.exists(_sp) else False   # 第60回：カメラと色の決まりを厳しく見る案
 T = J(f'plan{PLAN}-terrain.json')
 G, H = T['grid'], T['h']
 GR = T.get('ground', {})
@@ -247,6 +249,8 @@ def check():
     for q in plants:
         if q['type'] not in FLOWERS:
             bad(f"花 {q['id']}：{q['type']} はゲームにない"); continue
+        if q.get('color') and q['color'] not in FLOWERS[q['type']].get('colors', [q['color']]):   # 第60回の最終審査：青・紫のユリはゲームにない
+            (bad if CAMSPEC else warn.append)(f"花 {q['id']}：{q['color']} の{FLOWERS[q['type']].get('ja', q['type'])}はゲームにない ({q['x']},{q['y']})")
         x, y = q['x'], q['y']; c = g(x, y)
         if c not in '123' or (x, y) in occ or (x, y) in occ_b or (x, y) in slope or (x, y) in front or GR.get('%d,%d' % (x, y)) in ('u', 'm') or (x, y) in ground:
             bad(f"花 {q['id']}：({x},{y}) は草地ではない（{c}）{'・家具' if (x, y) in occ else ''}{'・建物' if (x, y) in occ_b else ''}")
