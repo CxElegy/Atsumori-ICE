@@ -1395,6 +1395,12 @@
    73,
    62,
    75
+  ],
+  [
+   23,
+   53,
+   23,
+   53
   ]
  ],
  "panels_face_south": true,
@@ -1828,7 +1834,12 @@
    69
   ]
  ],
- "street_tree_kind": "hardwood",
+ "street_tree_kind": {
+  "town": "hardwood",
+  "tier3": "cedar",
+  "cedar_belts": "cedar"
+ },
+ "season": "夏。広葉樹は緑（鳥瞰図は町も野山も同じ緑で描く。ハロウィンの家具は10月に集めておく）",
  "street_tree_tones": [
   "#7d9152",
   "#6f8c4c",
@@ -1946,13 +1957,6 @@
    0,
    "Brown",
    "wall_windows_bricks"
-  ],
-  [
-   "brick fence",
-   33,
-   42,
-   0,
-   null
   ],
   [
    "castle tower",
@@ -2169,7 +2173,7 @@
    "iron garden chair",
    43,
    67,
-   0,
+   2,
    "White"
   ],
   [

@@ -412,7 +412,8 @@ for op in SPEC.get('water', []):
             elif k == 4 and i % 12 == 4:
                 nx, ny = (x + 1, y) if horiz else (x, y + 1)
                 if (nx, ny) in cells and bank_ok(nx, ny):
-                    canal_items.append(['garden wagon' if i % 24 == 4 else 'cruiser bike', x, y, 0 if horiz else 1, 'Dark brown' if i % 24 == 4 else 'Green']); occ |= {(x, y), (nx, ny)}
+                    wagon = i % 24 == 4 and not CAMERA   # 第60回：花の荷車は地区の見せ場に（岸壁で同じ荷車をくりかえさない）。自動は自転車だけ
+                    canal_items.append(['garden wagon' if wagon else 'cruiser bike', x, y, 0 if horiz else 1, 'Dark brown' if wagon else 'Green']); occ |= {(x, y), (nx, ny)}
 if canal_items:
     groups.append({'id': 'C-canals', 'zone': 'C', 'name': '運河の岸：城壁と岸壁（街灯・柵・花の荷車・自転車・ヨット）', 'at': [0, 0], 'items': canal_items, 'lines': [],
                    'note': '主水路の片がわは城壁（castle wall にレンガのマイデザイン）、もう片がわは岸壁。副水路の岸は草と花'})
@@ -637,7 +638,7 @@ json.dump(T, open(os.path.join(ROOT, f'plan{PLAN}-terrain.json'), 'w'))
 INC = {'C': 'brick staircase', 'S': 'natural ramp', 'F': 'log staircase', 'J': 'stone staircase', 'B': 'stone staircase', 'H': 'log staircase', 'P': 'white-plank ramp'}
 BRI = {'C': 'brick bridge', 'S': 'stone bridge', 'F': 'log bridge', 'J': 'red zen bridge', 'B': 'zen bridge', 'H': 'log bridge', 'P': 'wooden bridge'}
 B3 = {'note': '案3（第49回）：乱れ（たね %d）で作りなおした島。地形 tools/plan3_gen.py・配置 tools/plan3_layout.py・中身 tools/plan3_fill.py' % T['seed'],
-      'season': P2['season'], 'rules': P2['rules'], 'buildings': B_ALL,
+      'season': SPEC.get('season', P2['season']), 'rules': P2['rules'], 'buildings': B_ALL,
       'inclines': {'%d,%d' % (x, y): SPEC.get('incline_kinds', {}).get('%d,%d' % (x, y), INC[Z[y][x]]) for x, y, d in T['inclines']},   # 第58回：場所ごとに種類を変えられる（石の階段など）
       'bridges': {'%d,%d' % (r[0], r[1]): SPEC.get('bridge_kinds', {}).get('%d,%d' % (r[0], r[1]), BRI[Z[r[1]][r[0]]]) for r in T.get('bridges', [])},
       'paths': dict(P2['paths'], **SPEC.get('paths', {})), 'groups': groups, 'ground': ground, 'plants': plants, 'orchards': [], 'ground_styles': dict(P2.get('ground_styles', {}), roof='屋根（灰色のレンガ）', roof_slate='屋根（濃い灰色の石畳）', roof_red='屋根（茶色のレンガ）', **({'stoneold': '石畳（old stone road：町の通りと同じ）'} if SPEC.get('paving') else {}))}

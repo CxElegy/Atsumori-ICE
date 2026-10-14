@@ -1,6 +1,6 @@
 {
  "note": "案3（第49回）：乱れ（たね 6）で作りなおした島。地形 tools/plan3_gen.py・配置 tools/plan3_layout.py・中身 tools/plan3_fill.py",
- "season": "秋（北半球の10月）。広葉樹は黄と橙、ハロウィンの家具がそろう時期",
+ "season": "夏。広葉樹は緑（鳥瞰図は町も野山も同じ緑で描く。ハロウィンの家具は10月に集めておく）",
  "rules": {
   "sources": {
    "建物の数（住民10人・自宅は8人まで）と、案内所・飛行場は動かせない": "https://nookipedia.com/wiki/Town",
@@ -1478,11 +1478,11 @@
      null
     ],
     [
-     "garden wagon",
+     "cruiser bike",
      51,
      60,
      0,
-     "Dark brown"
+     "Green"
     ],
     [
      "castle wall",
@@ -1675,13 +1675,6 @@
      0,
      "Brown",
      "wall_windows_bricks"
-    ],
-    [
-     "brick fence",
-     33,
-     42,
-     0,
-     null
     ],
     [
      "castle tower",
@@ -1898,7 +1891,7 @@
      "iron garden chair",
      43,
      67,
-     0,
+     2,
      "White"
     ],
     [
@@ -3190,22 +3183,22 @@
     ],
     [
      "pot",
-     23,
-     53,
+     20,
+     59,
      0,
      "Brown"
     ],
     [
      "streetlamp",
-     20,
-     59,
+     54,
+     56,
      0,
      "Black"
     ],
     [
      "potted starter plants",
-     54,
-     56,
+     24,
+     53,
      0,
      "Green"
     ],
@@ -7032,6 +7025,18 @@
     42
    ],
    "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "stoneold",
+   "rect": [
+    33,
+    42,
+    33,
+    42
+   ],
+   "design": "stone_old",
    "skip": []
   },
   {

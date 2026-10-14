@@ -236,7 +236,6 @@ LANDMARKS = [
     ['castle tower', 29, 41, 0, 'Brown'], ['castle tower', 39, 41, 0, 'Brown'],               # 城の正面の角の塔
     ['castle wall', 31, 42, 0, 'Brown', 'wall_windows_bricks'],
     ['castle gate', 34, 42, 0, 'Brown'], ['castle wall', 37, 42, 0, 'Brown', 'wall_windows_bricks'],
-    ['brick fence', 33, 42, 0, None],                                                          # 城門の西の幕壁と門のあいだの1マス（すき間をふさぐ）
     ['castle tower', 34, 37, 0, 'Dark gray'],                                                  # 主塔（天守・石）：城門の4列うしろ。島でただ1つの暗い塔
     ['castle wall', 31, 38, 0, 'Dark gray'], ['castle wall', 37, 38, 0, 'Dark gray'],         # 主塔の両わきの石の幕壁（暗い主塔と幕壁で、城門のうしろに幅10マスの輪郭）
     ['flower bed', 30, 44, 0, 'Dark brown'], ['flower bed', 38, 44, 0, 'Dark brown'],         # 城門の前の小さな広場の対の植えます（上の町の小路を切る）
@@ -254,7 +253,7 @@ LANDMARKS = [
     ['log stakes', 49, 60, 0, 'Dark wood'], ['log stakes', 53, 60, 0, 'Dark wood'], ['barrel', 56, 60, 0, None],
     ['log stakes', 62, 60, 0, 'Dark wood'], ['barrel', 57, 61, 0, None], ['wooden box', 69, 61, 0, 'Brown'],   # 岸壁の係留のくいとたる（鉄の橋のたもと x64〜67 はあける）
     ['yacht', 59, 60, 0, 'White'],                                                             # 東の2列の岸壁に係留したヨット（運河通りはせばめない：第60回の再審査）
-    ['iron garden table', 43, 66, 0, 'White'], ['iron garden chair', 43, 65, 0, 'White'], ['iron garden chair', 43, 67, 0, 'White'], ['streetlamp', 43, 64, 0, 'Black'],   # ギルドホールのテラス
+    ['iron garden table', 43, 66, 0, 'White'], ['iron garden chair', 43, 65, 0, 'White'], ['iron garden chair', 43, 67, 2, 'White'], ['streetlamp', 43, 64, 0, 'Black'],   # ギルドホールのテラス
     ['outdoor table', 53, 80, 0, 'Black'], ['barrel', 53, 78, 0, None], ['stacked bottle crates', 60, 78, 0, 'Green'], ['menu chalkboard', 60, 80, 0, 'Dark brown'],   # 醸造所のビアガーデン
     ['street lamp with banners', 55, 73, 0, 'Bronze'],                                          # バラの市場の広場
 ]
@@ -311,7 +310,8 @@ spec = {
                    [24, 62, 24, 72], [25, 72, 28, 72], [37, 62, 37, 71],     # 広場をかこむ並木の帯：木のあいだにかめを並べない（額縁は木だけで静かに）
                    [29, 72, 29, 82],                                         # 軸の帯の西のはし（飛行場まで）
                    [26, 12, 44, 35],                                         # 主塔の北の軸の線：野山の自動の見せ場や小物を置かない（杉の帯だけ）
-                   [48, 73, 62, 75]],                                        # バラの市場のまん中：自動の街灯の列を置かない（市場の屋台は地区の見せ場で）
+                   [48, 73, 62, 75],                                         # バラの市場のまん中：自動の街灯の列を置かない（市場の屋台は地区の見せ場で）
+                   [23, 53, 23, 53]],                                        # ノクターン横丁の電話ボックスの真上（2段目のふち）に鉢を置かない
     'panels_face_south': True,                                                # 東・西を向くパネル（カメラから横向き）は貼らない
     'street_props': [['streetlamp', 'Black'], ['round topiary', 'Green'], ['pot', 'Brown'], ['streetlamp', 'Black'], ['potted starter plants', 'Green']],   # 通りの小物は静かな物だけ（見せ場はあとで地区ごとに）
     'street_props2': [['iron garden bench', 'Black']],
@@ -334,7 +334,8 @@ spec = {
                      "wide_road_max": 12, "section_min": 3.5, "blocks_min": 10, "terrain_rules": True, "side_panels_max": 0},
     'axis': {'x0': 34, 'x1': 35, 'y0': 37, 'y1': 82, 'term_rows': 5},
     'street_trees': TREES,
-    'street_tree_kind': 'hardwood',                                   # 町の木はみな広葉樹（杉の帯だけ杉）。鳥瞰図は1種類の秋の色で描く
+    'street_tree_kind': {'town': 'hardwood', 'tier3': 'cedar', 'cedar_belts': 'cedar'},   # 町の木は広葉樹、3段目（城の丘）と杉の帯は杉（鳥瞰図もそう描く）
+    'season': '夏。広葉樹は緑（鳥瞰図は町も野山も同じ緑で描く。ハロウィンの家具は10月に集めておく）',
     'street_tree_tones': ['#7d9152', '#6f8c4c', '#86994f', '#768f4e'],   # 夏の緑（作例の町の木は緑。第60回の再審査）
     'landmarks': LANDMARKS,
     'incline_kinds': {'34,56': 'stone staircase', '34,47': 'stone staircase', '24,46': 'brick staircase', '48,47': 'brick staircase',
