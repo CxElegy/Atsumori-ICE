@@ -1435,42 +1435,6 @@
     ],
     [
      "simple panel",
-     15,
-     56,
-     0,
-     "Brown",
-     "wall_windows_bricks",
-     "window"
-    ],
-    [
-     "simple panel",
-     16,
-     56,
-     0,
-     "Brown",
-     "wall_brick_lamp",
-     "lamp"
-    ],
-    [
-     "simple panel",
-     17,
-     56,
-     0,
-     "Brown",
-     "wall_windows_bricks",
-     "window"
-    ],
-    [
-     "simple panel",
-     18,
-     56,
-     0,
-     "Brown",
-     "wall_brick_lamp",
-     "door"
-    ],
-    [
-     "simple panel",
      20,
      56,
      3,
@@ -1483,33 +1447,6 @@
      23,
      56,
      1,
-     "Brown",
-     "wall_brick_lamp",
-     "lamp"
-    ],
-    [
-     "simple panel",
-     25,
-     56,
-     0,
-     "Brown",
-     "wall_windows_bricks",
-     "window"
-    ],
-    [
-     "simple panel",
-     26,
-     56,
-     0,
-     "Brown",
-     "wall_windows_bricks",
-     "window"
-    ],
-    [
-     "simple panel",
-     27,
-     56,
-     0,
      "Brown",
      "wall_brick_lamp",
      "lamp"
@@ -1579,21 +1516,12 @@
     ],
     [
      "simple panel",
-     29,
+     23,
      57,
      1,
      "Brown",
      "wall_windows_bricks",
      "window"
-    ],
-    [
-     "simple panel",
-     32,
-     57,
-     3,
-     "Brown",
-     "wall_brick_lamp",
-     "door"
     ],
     [
      "simple panel",
@@ -1601,8 +1529,8 @@
      57,
      0,
      "Brown",
-     "wall_windows_bricks",
-     "window"
+     "wall_brick_lamp",
+     "door"
     ],
     [
      "simple panel",
@@ -1610,58 +1538,71 @@
      57,
      0,
      "Brown",
+     "wall_windows_bricks",
+     "window"
+    ],
+    [
+     "simple panel",
+     20,
+     58,
+     3,
+     "Brown",
      "wall_brick_lamp",
      "lamp"
     ],
     [
      "simple panel",
-     37,
-     57,
-     1,
+     24,
+     58,
+     0,
      "Brown",
      "wall_windows_bricks",
      "window"
     ],
     [
      "simple panel",
-     40,
-     57,
-     3,
+     25,
+     58,
+     0,
      "Brown",
      "wall_windows_bricks",
      "window"
     ],
     [
-     "storefront",
-     24,
-     58,
-     0,
-     "Brown",
-     "wall_brick_lamp"
-    ],
-    [
-     "storefront",
+     "simple panel",
      26,
      58,
      0,
      "Brown",
-     "wall_brick_lamp"
+     "wall_brick_lamp",
+     "lamp"
     ],
     [
-     "storefront",
-     30,
+     "simple panel",
+     27,
      58,
      0,
      "Brown",
-     "wall_brick_lamp"
+     "wall_windows_bricks",
+     "window"
     ],
     [
-     "storefront",
-     38,
+     "simple panel",
+     33,
      58,
-     0,
+     3,
      "Brown",
-     "wall_brick_lamp"
+     "wall_brick_lamp",
+     "door"
+    ],
+    [
+     "simple panel",
+     36,
+     58,
+     1,
+     "Brown",
+     "wall_windows_bricks",
+     "window"
     ],
     [
      "simple panel",
@@ -1682,16 +1623,17 @@
      "window"
     ],
     [
-     "storefront",
+     "simple panel",
      16,
      59,
      0,
      "Brown",
-     "wall_brick_lamp"
+     "wall_windows_bricks",
+     "window"
     ],
     [
      "storefront",
-     18,
+     17,
      59,
      0,
      "Brown",
@@ -1712,7 +1654,7 @@
      0,
      "Brown",
      "wall_brick_lamp",
-     "door"
+     "lamp"
     ],
     [
      "simple panel",
@@ -1730,7 +1672,7 @@
      3,
      "Brown",
      "wall_brick_lamp",
-     "lamp"
+     "door"
     ],
     [
      "simple panel",
@@ -1747,8 +1689,8 @@
      63,
      3,
      "Brown",
-     "wall_windows_bricks",
-     "window"
+     "wall_brick_lamp",
+     "lamp"
     ],
     [
      "simple panel",
@@ -1756,8 +1698,8 @@
      64,
      1,
      "Brown",
-     "wall_brick_lamp",
-     "lamp"
+     "wall_windows_bricks",
+     "window"
     ],
     [
      "simple panel",
@@ -1775,7 +1717,7 @@
      1,
      "Brown",
      "wall_brick_lamp",
-     "door"
+     "lamp"
     ],
     [
      "simple panel",
@@ -1793,7 +1735,7 @@
      0,
      "Brown",
      "wall_brick_lamp",
-     "lamp"
+     "door"
     ],
     [
      "simple panel",
@@ -1810,8 +1752,8 @@
      65,
      1,
      "Brown",
-     "wall_windows_bricks",
-     "window"
+     "wall_brick_lamp",
+     "lamp"
     ],
     [
      "simple panel",
@@ -1819,8 +1761,8 @@
      65,
      0,
      "Brown",
-     "wall_brick_lamp",
-     "lamp"
+     "wall_windows_bricks",
+     "window"
     ],
     [
      "simple panel",
@@ -1838,7 +1780,7 @@
      0,
      "Brown",
      "wall_brick_lamp",
-     "door"
+     "lamp"
     ],
     [
      "simple panel",
@@ -1856,7 +1798,7 @@
      0,
      "Brown",
      "wall_brick_lamp",
-     "lamp"
+     "door"
     ],
     [
      "simple panel",
@@ -1873,8 +1815,8 @@
      66,
      0,
      "Brown",
-     "wall_windows_bricks",
-     "window"
+     "wall_brick_lamp",
+     "lamp"
     ],
     [
      "simple panel",
@@ -1882,8 +1824,8 @@
      66,
      0,
      "Brown",
-     "wall_brick_lamp",
-     "lamp"
+     "wall_windows_bricks",
+     "window"
     ],
     [
      "simple panel",
@@ -1901,7 +1843,7 @@
      0,
      "Brown",
      "wall_brick_lamp",
-     "door"
+     "lamp"
     ],
     [
      "simple panel",
@@ -1919,7 +1861,7 @@
      3,
      "Brown",
      "wall_brick_lamp",
-     "lamp"
+     "door"
     ],
     [
      "simple panel",
@@ -1936,8 +1878,8 @@
      66,
      0,
      "Brown",
-     "wall_windows_bricks",
-     "window"
+     "wall_brick_lamp",
+     "lamp"
     ],
     [
      "simple panel",
@@ -1945,8 +1887,8 @@
      66,
      0,
      "Brown",
-     "wall_brick_lamp",
-     "lamp"
+     "wall_windows_bricks",
+     "window"
     ],
     [
      "simple panel",
@@ -1964,7 +1906,7 @@
      3,
      "Brown",
      "wall_brick_lamp",
-     "door"
+     "lamp"
     ],
     [
      "storefront",
@@ -1990,7 +1932,7 @@
      0,
      "Brown",
      "wall_brick_lamp",
-     "lamp"
+     "door"
     ],
     [
      "simple panel",
@@ -2007,8 +1949,8 @@
      70,
      0,
      "Brown",
-     "wall_windows_bricks",
-     "window"
+     "wall_brick_lamp",
+     "lamp"
     ],
     [
      "storefront",
@@ -2024,8 +1966,8 @@
      76,
      1,
      "Brown",
-     "wall_brick_lamp",
-     "lamp"
+     "wall_windows_bricks",
+     "window"
     ],
     [
      "simple panel",
@@ -2040,6 +1982,24 @@
      "simple panel",
      61,
      77,
+     1,
+     "Brown",
+     "wall_brick_lamp",
+     "lamp"
+    ],
+    [
+     "simple panel",
+     68,
+     77,
+     3,
+     "Brown",
+     "wall_windows_bricks",
+     "window"
+    ],
+    [
+     "simple panel",
+     46,
+     78,
      1,
      "Brown",
      "wall_brick_lamp",
@@ -2047,24 +2007,6 @@
     ],
     [
      "simple panel",
-     68,
-     77,
-     3,
-     "Brown",
-     "wall_windows_bricks",
-     "window"
-    ],
-    [
-     "simple panel",
-     46,
-     78,
-     1,
-     "Brown",
-     "wall_brick_lamp",
-     "lamp"
-    ],
-    [
-     "simple panel",
      61,
      78,
      1,
@@ -2078,8 +2020,8 @@
      78,
      3,
      "Brown",
-     "wall_windows_bricks",
-     "window"
+     "wall_brick_lamp",
+     "lamp"
     ],
     [
      "simple panel",
@@ -2087,8 +2029,8 @@
      79,
      1,
      "Brown",
-     "wall_brick_lamp",
-     "lamp"
+     "wall_windows_bricks",
+     "window"
     ],
     [
      "simple panel",
@@ -2106,7 +2048,7 @@
      0,
      "Brown",
      "wall_brick_lamp",
-     "door"
+     "lamp"
     ],
     [
      "simple panel",
@@ -2124,7 +2066,7 @@
      3,
      "Brown",
      "wall_brick_lamp",
-     "lamp"
+     "door"
     ],
     [
      "simple panel",
@@ -2141,8 +2083,8 @@
      80,
      3,
      "Brown",
-     "wall_windows_bricks",
-     "window"
+     "wall_brick_lamp",
+     "lamp"
     ],
     [
      "simple panel",
@@ -2150,8 +2092,8 @@
      80,
      1,
      "Brown",
-     "wall_brick_lamp",
-     "lamp"
+     "wall_windows_bricks",
+     "window"
     ],
     [
      "simple panel",
@@ -2169,7 +2111,7 @@
      3,
      "Brown",
      "wall_brick_lamp",
-     "door"
+     "lamp"
     ],
     [
      "simple panel",
@@ -2187,7 +2129,7 @@
      3,
      "Brown",
      "wall_brick_lamp",
-     "lamp"
+     "door"
     ],
     [
      "simple panel",
@@ -2204,8 +2146,8 @@
      81,
      3,
      "Brown",
-     "wall_windows_bricks",
-     "window"
+     "wall_brick_lamp",
+     "lamp"
     ],
     [
      "simple panel",
@@ -2213,8 +2155,8 @@
      82,
      0,
      "Brown",
-     "wall_brick_lamp",
-     "lamp"
+     "wall_windows_bricks",
+     "window"
     ],
     [
      "simple panel",
@@ -2232,7 +2174,7 @@
      0,
      "Brown",
      "wall_brick_lamp",
-     "door"
+     "lamp"
     ],
     [
      "simple panel",
@@ -2250,7 +2192,7 @@
      0,
      "Brown",
      "wall_brick_lamp",
-     "lamp"
+     "door"
     ],
     [
      "simple panel",
@@ -2267,8 +2209,8 @@
      82,
      0,
      "Brown",
-     "wall_windows_bricks",
-     "window"
+     "wall_brick_lamp",
+     "lamp"
     ]
    ],
    "lines": [],
@@ -2994,20 +2936,6 @@
     ],
     [
      "iron fence",
-     64,
-     39,
-     0,
-     null
-    ],
-    [
-     "iron fence",
-     65,
-     39,
-     0,
-     null
-    ],
-    [
-     "iron fence",
      66,
      39,
      0,
@@ -3399,13 +3327,6 @@
      null
     ],
     [
-     "iron fence",
-     24,
-     54,
-     0,
-     null
-    ],
-    [
      "iron-and-stone fence",
      74,
      54,
@@ -3420,37 +3341,9 @@
      null
     ],
     [
-     "iron fence",
-     24,
-     55,
-     0,
-     null
-    ],
-    [
      "iron-and-stone fence",
      74,
      55,
-     0,
-     null
-    ],
-    [
-     "iron fence",
-     14,
-     56,
-     0,
-     null
-    ],
-    [
-     "iron fence",
-     19,
-     56,
-     0,
-     null
-    ],
-    [
-     "iron fence",
-     24,
-     56,
      0,
      null
     ],
@@ -3465,20 +3358,6 @@
      "iron-and-stone fence",
      66,
      56,
-     0,
-     null
-    ],
-    [
-     "iron fence",
-     14,
-     57,
-     0,
-     null
-    ],
-    [
-     "iron fence",
-     19,
-     57,
      0,
      null
     ],
@@ -4669,6 +4548,13 @@
      "Green"
     ],
     [
+     "medium cardboard boxes",
+     19,
+     59,
+     0,
+     null
+    ],
+    [
      "plain wooden shop sign",
      13,
      71,
@@ -4697,20 +4583,6 @@
      "Brown"
     ],
     [
-     "park clock",
-     20,
-     59,
-     0,
-     "Black"
-    ],
-    [
-     "medium cardboard boxes",
-     25,
-     50,
-     0,
-     null
-    ],
-    [
      "garden wagon",
      29,
      43,
@@ -4718,9 +4590,16 @@
      "Dark brown"
     ],
     [
-     "streetlamp",
+     "park clock",
      16,
      68,
+     0,
+     "Black"
+    ],
+    [
+     "streetlamp",
+     26,
+     50,
      0,
      "Black"
     ],
@@ -4739,13 +4618,6 @@
      "Black"
     ],
     [
-     "pot",
-     29,
-     46,
-     0,
-     "Brown"
-    ],
-    [
      "cruiser bike",
      22,
      59,
@@ -4753,51 +4625,44 @@
      "Green"
     ],
     [
-     "garbage bin",
+     "pot",
      34,
      39,
      0,
-     "Black"
+     "Brown"
     ],
     [
-     "streetlamp",
+     "garbage bin",
      32,
      43,
      0,
      "Black"
     ],
     [
-     "barrel",
+     "streetlamp",
      48,
      73,
+     0,
+     "Black"
+    ],
+    [
+     "barrel",
+     59,
+     53,
      0,
      null
     ],
     [
      "round topiary",
-     59,
-     53,
+     68,
+     37,
      0,
      "Green"
     ],
     [
      "standing shop sign",
-     68,
-     37,
-     0,
-     "Black"
-    ],
-    [
-     "wooden box",
      66,
      41,
-     0,
-     "Brown"
-    ],
-    [
-     "round streetlight",
-     31,
-     46,
      0,
      "Black"
     ],
@@ -4809,39 +4674,25 @@
      "Dark brown"
     ],
     [
-     "pot",
+     "wooden box",
      13,
      79,
      0,
-     "White"
+     "Brown"
     ],
     [
-     "phone box",
-     64,
-     45,
-     0,
-     "Red"
-    ],
-    [
-     "monstera",
-     34,
-     41,
-     0,
-     "Black"
-    ],
-    [
-     "streetlamp",
+     "round streetlight",
      56,
      60,
      0,
      "Black"
     ],
     [
-     "tin bucket",
+     "pot",
      29,
      51,
      0,
-     null
+     "White"
     ],
     [
      "iron garden bench",
@@ -4858,60 +4709,53 @@
      "Red"
     ],
     [
-     "round topiary",
+     "phone box",
      50,
      73,
-     0,
-     "Green"
-    ],
-    [
-     "plain wooden shop sign",
-     33,
-     46,
-     0,
-     "Dark wood"
-    ],
-    [
-     "fire hydrant",
-     15,
-     79,
      0,
      "Red"
     ],
     [
-     "barrel",
-     36,
-     41,
-     0,
-     null
-    ],
-    [
-     "pot",
-     24,
-     63,
-     0,
-     "Brown"
-    ],
-    [
-     "park clock",
-     29,
-     54,
+     "monstera",
+     33,
+     46,
      0,
      "Black"
     ],
     [
      "streetlamp",
-     31,
-     51,
+     15,
+     79,
      0,
      "Black"
     ],
     [
+     "tin bucket",
+     24,
+     63,
+     0,
+     null
+    ],
+    [
      "round topiary",
+     29,
+     54,
+     0,
+     "Green"
+    ],
+    [
+     "plain wooden shop sign",
+     31,
+     51,
+     0,
+     "Dark wood"
+    ],
+    [
+     "fire hydrant",
      58,
      61,
      0,
-     "Green"
+     "Red"
     ],
     [
      "medium cardboard boxes",
@@ -4921,11 +4765,11 @@
      null
     ],
     [
-     "monstera",
+     "barrel",
      24,
      65,
      0,
-     "Black"
+     null
     ],
     [
      "pot",
@@ -4935,7 +4779,7 @@
      "Brown"
     ],
     [
-     "garbage bin",
+     "park clock",
      28,
      59,
      0,
@@ -4947,13 +4791,6 @@
      50,
      0,
      "Black"
-    ],
-    [
-     "barrel",
-     31,
-     54,
-     0,
-     null
     ],
     [
      "round topiary",
@@ -4970,100 +4807,86 @@
      "Dark brown"
     ],
     [
-     "standing shop sign",
+     "monstera",
      64,
      53,
      0,
      "Black"
     ],
     [
-     "wooden box",
+     "pot",
      16,
      82,
      0,
      "Brown"
     ],
     [
-     "round streetlight",
+     "garbage bin",
+     32,
+     53,
+     0,
+     "Black"
+    ],
+    [
+     "streetlamp",
      36,
      46,
      0,
      "Black"
     ],
     [
-     "pot",
-     40,
-     39,
-     0,
-     "White"
-    ],
-    [
-     "phone box",
+     "barrel",
      68,
      47,
      0,
-     "Red"
+     null
     ],
     [
-     "monstera",
+     "round topiary",
      24,
      69,
      0,
-     "Black"
+     "Green"
     ],
     [
-     "streetlamp",
+     "standing shop sign",
      53,
      75,
      0,
      "Black"
     ],
     [
-     "tin bucket",
-     33,
-     53,
-     0,
-     null
-    ],
-    [
-     "round topiary",
+     "wooden box",
      38,
      45,
-     0,
-     "Green"
-    ],
-    [
-     "plain wooden shop sign",
-     20,
-     78,
-     0,
-     "Dark wood"
-    ],
-    [
-     "fire hydrant",
-     66,
-     53,
-     0,
-     "Red"
-    ],
-    [
-     "barrel",
-     24,
-     71,
-     0,
-     null
-    ],
-    [
-     "pot",
-     18,
-     82,
      0,
      "Brown"
     ],
     [
-     "park clock",
-     68,
-     50,
+     "round streetlight",
+     20,
+     78,
+     0,
+     "Black"
+    ],
+    [
+     "pot",
+     66,
+     53,
+     0,
+     "White"
+    ],
+    [
+     "phone box",
+     24,
+     71,
+     0,
+     "Red"
+    ],
+    [
+     "monstera",
+     18,
+     82,
      0,
      "Black"
     ],
@@ -5075,18 +4898,18 @@
      "Black"
     ],
     [
-     "round topiary",
+     "tin bucket",
      62,
      61,
      0,
-     "Green"
+     null
     ],
     [
-     "monstera",
+     "round topiary",
      36,
      50,
      0,
-     "Black"
+     "Green"
     ]
    ],
    "lines": []
@@ -8436,6 +8259,30 @@
   },
   {
    "id": "C-paving",
+   "style": "cobble",
+   "rect": [
+    64,
+    39,
+    64,
+    39
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "cobble",
+   "rect": [
+    65,
+    39,
+    65,
+    39
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
    "style": "brick",
    "rect": [
     17,
@@ -10958,6 +10805,18 @@
    "id": "C-paving",
    "style": "cobble",
    "rect": [
+    24,
+    54,
+    24,
+    54
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "cobble",
+   "rect": [
     29,
     54,
     29,
@@ -11034,6 +10893,18 @@
     54,
     41,
     54
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "cobble",
+   "rect": [
+    24,
+    55,
+    24,
+    55
    ],
    "design": "road_chic_stone",
    "skip": []
@@ -11172,6 +11043,54 @@
   },
   {
    "id": "C-paving",
+   "style": "cobble",
+   "rect": [
+    24,
+    56,
+    24,
+    56
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "cobble",
+   "rect": [
+    25,
+    56,
+    25,
+    56
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "cobble",
+   "rect": [
+    26,
+    56,
+    26,
+    56
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "cobble",
+   "rect": [
+    27,
+    56,
+    27,
+    56
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
    "style": "herring",
    "rect": [
     33,
@@ -11246,30 +11165,6 @@
    "id": "C-paving",
    "style": "cobble",
    "rect": [
-    23,
-    57,
-    23,
-    57
-   ],
-   "design": "road_chic_stone",
-   "skip": []
-  },
-  {
-   "id": "C-paving",
-   "style": "cobble",
-   "rect": [
-    20,
-    58,
-    20,
-    58
-   ],
-   "design": "road_chic_stone",
-   "skip": []
-  },
-  {
-   "id": "C-paving",
-   "style": "cobble",
-   "rect": [
     21,
     58,
     21,
@@ -11316,26 +11211,14 @@
   },
   {
    "id": "C-paving",
-   "style": "herring",
+   "style": "cobble",
    "rect": [
-    33,
-    58,
-    33,
-    58
+    19,
+    59,
+    19,
+    59
    ],
-   "design": "brick_arch",
-   "skip": []
-  },
-  {
-   "id": "C-paving",
-   "style": "herring",
-   "rect": [
-    36,
-    58,
-    36,
-    58
-   ],
-   "design": "brick_arch",
+   "design": "road_chic_stone",
    "skip": []
   },
   {
