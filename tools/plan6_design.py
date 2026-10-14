@@ -29,6 +29,8 @@ import json, os, sys
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 PID = '6'
+_kp = os.path.join(ROOT, f'designs/kits_plan{PID}.json')
+KP = json.load(open(_kp, encoding='utf-8')) if os.path.exists(_kp) and not os.environ.get('NOKITS') else {}   # NOKITS=1 で見せ場なし（地形だけ）
 R = lambda x0, y0, x1, y1, h, why='': {'rect': [x0, y0, x1, y1], 'h': h, 'why': why}
 
 
@@ -274,7 +276,7 @@ spec = {
         {'zone': 'J', 'rect': [12, 28, 45, 35]},   # 旧市街のうしろの林（野山の見せ場が町の背景にかからないように）
     ],
     'manual_zones': 'CP',
-    'kits': [],
+    'kits': [{k: v for k, v in p.items() if k in ('kit', 'at', 'zone', 'on_road', 'flip', 'name', 'style', 'district')} for p in KP.get('placements', [])],   # 地区ごとの見せ場（designs/kits_plan6.json）
     'groves': {'C': [0, 0], 'P': [0, 0]},
     'camera_check': True,
     'paths': {'C': {'kind': 'custom', 'design': 'stone_old'}},
