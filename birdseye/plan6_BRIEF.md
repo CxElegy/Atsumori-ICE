@@ -82,3 +82,9 @@ R-1233・R-1148・R-0088（城壁の上の通り・運河の岸壁・石畳の�
 | R-0849・R-0862〜0871 | 本屋と路地の店先 | wooden bookshelf(2×0.5)・stack of books・display stand・stall(2×1)・flower display case(2×1)・flower stand(1.5×1.5)・window_hp のマイデザイン（パネル） |
 - 1つの場面は関係のある3つ（ベンチ＋新聞＋コーヒー）。高い物は奥（北）、低い物は手前（南）。同じ組み方（テーブル＋いす＋街灯）を地区ごとにくり返さない。
 - 傘（かさ）は手に持つ物で地面に置けない。パラソルは家具の Festivale parasol・mush parasol・beach chairs with parasol だけ。
+
+## 第60回の最終審査で足した決まりと道具
+- カメラの決まりを深く：2段高い崖は3列先・家の屋根は3列うしろまで物をかくす（plan3_fill の cam_ok・plan4_kitcheck・town_check でそろえる）。立てるマス（木・低木・建物・坂でない同じ段のマス）がとなりにない物は置かない（terrain_rules §6）。
+- 花はゲームにある色だけ（acnh_build で確かめる）。ななめに崖・水・浜が接する木は植えない（植えられるか確かめていない）。
+- spec の項目：`no_route`（道を通さない四角）・`auto_kits`（野山の自動の見せ場）・`bush_clear`（低木を置かない四角）・`street_tree_kind`/`street_tree_tones`（町の木の種類と鳥瞰の色）。
+- 鳥瞰図：縁の板石は壁のすそと水ぎわだけ・看板（PUB）・吊り看板・ドアのパネルを描く。
