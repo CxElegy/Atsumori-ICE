@@ -225,6 +225,15 @@ for c in up:
 edges = sum(1 for x, y in tw for dx, dy in ((1, 0), (0, 1)) if town(x + dx, y + dy) and g(x, y) not in 'w' and g(x + dx, y + dy) not in 'w' and lv(x, y) != lv(x + dx, y + dy))
 falls = sum(1 for x, y in tw if g(x, y) == 'w' and any(g(x + dx, y + dy) == 'w' and lv(x + dx, y + dy) < lv(x, y) for dx, dy in N4))
 res['upper_blocks'] = comps; res['cliff_edge_len'] = edges; res['town_waterfall_cells'] = falls
+# 第60回：複雑さ（「城镇越复杂越好」）：広すぎる道（3×3 がまるごと道）・南北の断面で段が変わる回数（層の重なり）
+road = {(x, y) for y in range(H) for x in range(W) if g(x, y) == 'p'}
+res['wide_road_cells'] = sum(1 for (x, y) in road if town(x, y) and all((x + dx, y + dy) in road for dx in (-1, 0, 1) for dy in (-1, 0, 1)))
+cols = [x for x in range(W) if sum(town(x, y) and g(x, y) not in 'Ssr' for y in range(H)) >= 20]
+ch = []
+for x in cols:
+    ys = [y for y in range(H) if town(x, y) and g(x, y) not in 'Ssrw']
+    ch.append(sum(1 for a, b in zip(ys, ys[1:]) if b == a + 1 and lv(x, a) != lv(x, b)))
+res['section_changes_avg'] = round(sum(ch) / max(1, len(ch)), 1)
 tc = Counter(lv(*c) for c in tw if g(*c) not in 'wb')
 res['town_tiers'] = {str(k): v for k, v in sorted(tc.items())}
 
@@ -247,6 +256,7 @@ else:
     print(' 7. 軸：spec に axis がない')
 print(f" 8. 町の木 {res['town_trees']}（島 {res['island_trees']}）・広場のまわりの木 {res['plaza_trees']}")
 print(f" 9. 見えない物 {res['hidden_items']}・北向きのパネル {res['north_panels']}")
+print(f" 11. 広すぎる道（3×3 がまるごと道）{res['wide_road_cells']} マス・南北の断面で段が変わる回数（平均）{res['section_changes_avg']}")
 print(f" 10. 2段目以上のかたまり {res['upper_blocks']}・崖のふち {res['cliff_edge_len']}・町の滝 {res['town_waterfall_cells']}・段の割合 {res['town_tiers']}")
 if '--detail' in sys.argv:
     print('見えない物', bad['hidden']); print('護城河', bad['moat']); print('上がれない段の道', bad['roads_on_unreachable_upper'])

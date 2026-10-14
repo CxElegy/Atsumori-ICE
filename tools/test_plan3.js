@@ -66,6 +66,7 @@ if (SPEC.town_targets) {
   ok('案6 軸：石段の両わきの双塔とつきあたりの主塔（おしろのとう3つ以上）', (AX.towers || []).length >= 3, JSON.stringify(AX.towers));
   ok(`案6 町：井戸の石段（上の段を切りこんだ所に下ろす坂）が${TT.well_stairs}つ以上`, K.well_stairs.length >= TT.well_stairs, JSON.stringify(K.well_stairs));
   ok(`案6 町：通りにそった運河（運河から2マス以内の通り）${TT.canal_street}マス以上`, K.canal_street_cells >= TT.canal_street, K.canal_street_cells);
+  if (TT.wide_road_max !== undefined) ok(`案6 町：複雑さ（広すぎる道${TT.wide_road_max}マスまで・南北の断面で段が${TT.section_min}回以上変わる・2段目以上のかたまり${TT.blocks_min}以上）`, K.wide_road_cells <= TT.wide_road_max && K.section_changes_avg >= TT.section_min && K.upper_blocks >= TT.blocks_min, K.wide_road_cells + '・' + K.section_changes_avg + '・' + K.upper_blocks);
   ok(`案6 町：町の木${TT.town_trees}本以上・広場のまわり${TT.plaza_trees}本以上`, K.town_trees >= TT.town_trees && K.plaza_trees >= TT.plaza_trees, K.town_trees + '・広場' + K.plaza_trees);
   ok(`案6 町：カメラから見えない物が${TT.hidden_items}個まで・北向きのパネル0`, K.hidden_items <= TT.hidden_items && K.north_panels === 0, K.hidden_items + '・' + K.north_panels);
 }
