@@ -355,11 +355,10 @@
   "78,20": "stone staircase"
  },
  "bridges": {
-  "41,49": "stone bridge",
-  "71,72": "brick bridge",
+  "42,49": "stone bridge",
   "65,57": "iron bridge",
-  "41,43": "brick bridge",
-  "71,60": "brick bridge"
+  "71,60": "brick bridge",
+  "71,72": "brick bridge"
  },
  "paths": {
   "C": {
@@ -397,8 +396,8 @@
    "zone": "S",
    "kit": "cot_garden",
    "at": [
-    60,
-    49
+    75,
+    48
    ],
    "flip": false,
    "items": [],
@@ -409,10 +408,10 @@
    "zone": "S",
    "kit": "cot_greenhouse",
    "at": [
-    75,
-    48
+    61,
+    72
    ],
-   "flip": true,
+   "flip": false,
    "items": [],
    "lines": []
   },
@@ -421,8 +420,8 @@
    "zone": "S",
    "kit": "bakery",
    "at": [
-    61,
-    72
+    75,
+    68
    ],
    "flip": true,
    "items": [],
@@ -433,8 +432,8 @@
    "zone": "S",
    "kit": "allotment",
    "at": [
-    75,
-    68
+    83,
+    62
    ],
    "flip": true,
    "items": [],
@@ -445,20 +444,20 @@
    "zone": "S",
    "kit": "cot_garden",
    "at": [
-    81,
-    62
+    75,
+    74
    ],
    "flip": true,
    "items": [],
    "lines": []
   },
   {
-   "id": "S-06",
-   "zone": "S",
+   "id": "F-06",
+   "zone": "F",
    "kit": "tea_picnic",
    "at": [
-    75,
-    74
+    49,
+    22
    ],
    "flip": false,
    "items": [],
@@ -469,8 +468,8 @@
    "zone": "F",
    "kit": "tea_picnic",
    "at": [
-    56,
-    21
+    62,
+    22
    ],
    "flip": false,
    "items": [],
@@ -481,44 +480,32 @@
    "zone": "F",
    "kit": "tea_picnic",
    "at": [
-    49,
-    22
-   ],
-   "flip": true,
-   "items": [],
-   "lines": []
-  },
-  {
-   "id": "F-09",
-   "zone": "F",
-   "kit": "tea_picnic",
-   "at": [
     42,
     27
-   ],
-   "flip": true,
-   "items": [],
-   "lines": []
-  },
-  {
-   "id": "J-10",
-   "zone": "J",
-   "kit": "jp_tea",
-   "at": [
-    92,
-    28
    ],
    "flip": false,
    "items": [],
    "lines": []
   },
   {
-   "id": "B-11",
+   "id": "J-09",
+   "zone": "J",
+   "kit": "jp_tea",
+   "at": [
+    87,
+    25
+   ],
+   "flip": false,
+   "items": [],
+   "lines": []
+  },
+  {
+   "id": "B-10",
    "zone": "B",
    "kit": "tea_picnic",
    "at": [
     35,
-    30
+    31
    ],
    "flip": true,
    "items": [],
@@ -967,7 +954,7 @@
     ],
     [
      "simple panel",
-     44,
+     41,
      48,
      0,
      "Brown",
@@ -1408,18 +1395,27 @@
     ],
     [
      "simple panel",
-     24,
+     25,
      56,
-     1,
+     0,
      "Brown",
      "wall_brick_lamp",
      "lamp"
     ],
     [
      "simple panel",
-     28,
+     26,
      56,
-     3,
+     0,
+     "Brown",
+     "wall_windows_bricks",
+     "window"
+    ],
+    [
+     "simple panel",
+     27,
+     56,
+     0,
      "Brown",
      "wall_windows_bricks",
      "window"
@@ -1430,8 +1426,8 @@
      56,
      1,
      "Brown",
-     "wall_windows_bricks",
-     "window"
+     "wall_brick_lamp",
+     "lamp"
     ],
     [
      "simple panel",
@@ -1439,8 +1435,8 @@
      56,
      3,
      "Brown",
-     "wall_brick_lamp",
-     "lamp"
+     "wall_windows_bricks",
+     "window"
     ],
     [
      "simple panel",
@@ -1448,8 +1444,8 @@
      56,
      1,
      "Brown",
-     "wall_windows_bricks",
-     "window"
+     "wall_brick_lamp",
+     "door"
     ],
     [
      "simple panel",
@@ -1457,8 +1453,8 @@
      56,
      3,
      "Brown",
-     "wall_brick_lamp",
-     "door"
+     "wall_windows_bricks",
+     "window"
     ],
     [
      "simple panel",
@@ -1466,8 +1462,8 @@
      56,
      0,
      "Brown",
-     "wall_windows_bricks",
-     "window"
+     "wall_brick_lamp",
+     "lamp"
     ],
     [
      "simple panel",
@@ -1475,8 +1471,8 @@
      56,
      0,
      "Brown",
-     "wall_brick_lamp",
-     "lamp"
+     "wall_windows_bricks",
+     "window"
     ],
     [
      "simple panel",
@@ -1493,8 +1489,8 @@
      56,
      0,
      "Brown",
-     "wall_windows_bricks",
-     "window"
+     "wall_brick_lamp",
+     "lamp"
     ],
     [
      "simple panel",
@@ -1502,8 +1498,8 @@
      56,
      0,
      "Brown",
-     "wall_brick_lamp",
-     "lamp"
+     "wall_windows_bricks",
+     "window"
     ],
     [
      "simple panel",
@@ -1511,8 +1507,8 @@
      57,
      1,
      "Brown",
-     "wall_windows_bricks",
-     "window"
+     "wall_brick_lamp",
+     "door"
     ],
     [
      "simple panel",
@@ -1520,8 +1516,8 @@
      57,
      0,
      "Brown",
-     "wall_brick_lamp",
-     "door"
+     "wall_windows_bricks",
+     "window"
     ],
     [
      "simple panel",
@@ -1529,8 +1525,8 @@
      57,
      0,
      "Brown",
-     "wall_windows_bricks",
-     "window"
+     "wall_brick_lamp",
+     "lamp"
     ],
     [
      "simple panel",
@@ -1538,8 +1534,8 @@
      57,
      0,
      "Brown",
-     "wall_brick_lamp",
-     "lamp"
+     "wall_windows_bricks",
+     "window"
     ],
     [
      "simple panel",
@@ -1556,35 +1552,8 @@
      57,
      1,
      "Brown",
-     "wall_windows_bricks",
-     "window"
-    ],
-    [
-     "simple panel",
-     25,
-     57,
-     0,
-     "Brown",
      "wall_brick_lamp",
      "lamp"
-    ],
-    [
-     "simple panel",
-     26,
-     57,
-     0,
-     "Brown",
-     "wall_windows_bricks",
-     "window"
-    ],
-    [
-     "simple panel",
-     27,
-     57,
-     0,
-     "Brown",
-     "wall_brick_lamp",
-     "door"
     ],
     [
      "simple panel",
@@ -1602,7 +1571,7 @@
      3,
      "Brown",
      "wall_brick_lamp",
-     "lamp"
+     "door"
     ],
     [
      "simple panel",
@@ -1619,8 +1588,8 @@
      57,
      0,
      "Brown",
-     "wall_windows_bricks",
-     "window"
+     "wall_brick_lamp",
+     "lamp"
     ],
     [
      "simple panel",
@@ -1628,8 +1597,8 @@
      57,
      1,
      "Brown",
-     "wall_brick_lamp",
-     "lamp"
+     "wall_windows_bricks",
+     "window"
     ],
     [
      "simple panel",
@@ -1647,7 +1616,7 @@
      1,
      "Brown",
      "wall_brick_lamp",
-     "door"
+     "lamp"
     ],
     [
      "simple panel",
@@ -1660,12 +1629,48 @@
     ],
     [
      "simple panel",
-     23,
+     24,
      58,
-     1,
+     0,
+     "Brown",
+     "wall_brick_lamp",
+     "door"
+    ],
+    [
+     "simple panel",
+     25,
+     58,
+     0,
+     "Brown",
+     "wall_windows_bricks",
+     "window"
+    ],
+    [
+     "simple panel",
+     26,
+     58,
+     0,
      "Brown",
      "wall_brick_lamp",
      "lamp"
+    ],
+    [
+     "simple panel",
+     27,
+     58,
+     0,
+     "Brown",
+     "wall_windows_bricks",
+     "window"
+    ],
+    [
+     "simple panel",
+     28,
+     58,
+     0,
+     "Brown",
+     "wall_windows_bricks",
+     "window"
     ],
     [
      "simple panel",
@@ -1673,8 +1678,8 @@
      58,
      0,
      "Brown",
-     "wall_windows_bricks",
-     "window"
+     "wall_brick_lamp",
+     "lamp"
     ],
     [
      "simple panel",
@@ -1692,7 +1697,7 @@
      3,
      "Brown",
      "wall_brick_lamp",
-     "lamp"
+     "door"
     ],
     [
      "simple panel",
@@ -1710,7 +1715,7 @@
      0,
      "Brown",
      "wall_brick_lamp",
-     "door"
+     "lamp"
     ],
     [
      "simple panel",
@@ -1727,8 +1732,8 @@
      59,
      0,
      "Brown",
-     "wall_brick_lamp",
-     "lamp"
+     "wall_windows_bricks",
+     "window"
     ],
     [
      "simple panel",
@@ -1736,8 +1741,8 @@
      59,
      0,
      "Brown",
-     "wall_windows_bricks",
-     "window"
+     "wall_brick_lamp",
+     "lamp"
     ],
     [
      "simple panel",
@@ -1755,7 +1760,7 @@
      0,
      "Brown",
      "wall_brick_lamp",
-     "lamp"
+     "door"
     ],
     [
      "simple panel",
@@ -1773,52 +1778,16 @@
      0,
      "Brown",
      "wall_brick_lamp",
-     "door"
-    ],
-    [
-     "simple panel",
-     24,
-     59,
-     0,
-     "Brown",
-     "wall_windows_bricks",
-     "window"
-    ],
-    [
-     "simple panel",
-     25,
-     59,
-     0,
-     "Brown",
-     "wall_brick_lamp",
      "lamp"
-    ],
-    [
-     "simple panel",
-     26,
-     59,
-     0,
-     "Brown",
-     "wall_windows_bricks",
-     "window"
-    ],
-    [
-     "simple panel",
-     27,
-     59,
-     0,
-     "Brown",
-     "wall_windows_bricks",
-     "window"
     ],
     [
      "simple panel",
      28,
      59,
-     0,
+     1,
      "Brown",
-     "wall_brick_lamp",
-     "lamp"
+     "wall_windows_bricks",
+     "window"
     ],
     [
      "simple panel",
@@ -1836,7 +1805,7 @@
      1,
      "Brown",
      "wall_brick_lamp",
-     "door"
+     "lamp"
     ],
     [
      "simple panel",
@@ -1854,7 +1823,7 @@
      0,
      "Brown",
      "wall_brick_lamp",
-     "lamp"
+     "door"
     ],
     [
      "simple panel",
@@ -1871,6 +1840,15 @@
      62,
      1,
      "Brown",
+     "wall_brick_lamp",
+     "lamp"
+    ],
+    [
+     "simple panel",
+     20,
+     62,
+     3,
+     "Brown",
      "wall_windows_bricks",
      "window"
     ],
@@ -1880,113 +1858,23 @@
      63,
      1,
      "Brown",
-     "wall_brick_lamp",
-     "lamp"
+     "wall_windows_bricks",
+     "window"
     ],
     [
      "simple panel",
-     69,
+     66,
      63,
      3,
      "Brown",
-     "wall_windows_bricks",
-     "window"
-    ],
-    [
-     "simple panel",
-     14,
-     64,
-     1,
-     "Brown",
-     "wall_brick_lamp",
-     "door"
-    ],
-    [
-     "simple panel",
-     21,
-     64,
-     3,
-     "Brown",
-     "wall_windows_bricks",
-     "window"
-    ],
-    [
-     "simple panel",
-     69,
-     64,
-     3,
-     "Brown",
      "wall_brick_lamp",
      "lamp"
     ],
     [
      "simple panel",
      14,
-     65,
+     64,
      1,
-     "Brown",
-     "wall_windows_bricks",
-     "window"
-    ],
-    [
-     "simple panel",
-     21,
-     65,
-     3,
-     "Brown",
-     "wall_windows_bricks",
-     "window"
-    ],
-    [
-     "simple panel",
-     69,
-     65,
-     3,
-     "Brown",
-     "wall_brick_lamp",
-     "lamp"
-    ],
-    [
-     "simple panel",
-     15,
-     66,
-     0,
-     "Brown",
-     "wall_windows_bricks",
-     "window"
-    ],
-    [
-     "simple panel",
-     16,
-     66,
-     0,
-     "Brown",
-     "wall_brick_lamp",
-     "door"
-    ],
-    [
-     "simple panel",
-     17,
-     66,
-     0,
-     "Brown",
-     "wall_windows_bricks",
-     "window"
-    ],
-    [
-     "simple panel",
-     18,
-     66,
-     0,
-     "Brown",
-     "wall_brick_lamp",
-     "lamp"
-    ],
-    [
-     "simple panel",
-     19,
-     66,
-     0,
      "Brown",
      "wall_windows_bricks",
      "window"
@@ -1994,6 +1882,60 @@
     [
      "simple panel",
      20,
+     64,
+     3,
+     "Brown",
+     "wall_brick_lamp",
+     "door"
+    ],
+    [
+     "simple panel",
+     66,
+     64,
+     3,
+     "Brown",
+     "wall_windows_bricks",
+     "window"
+    ],
+    [
+     "simple panel",
+     14,
+     65,
+     1,
+     "Brown",
+     "wall_brick_lamp",
+     "lamp"
+    ],
+    [
+     "simple panel",
+     20,
+     65,
+     3,
+     "Brown",
+     "wall_windows_bricks",
+     "window"
+    ],
+    [
+     "simple panel",
+     66,
+     65,
+     3,
+     "Brown",
+     "wall_windows_bricks",
+     "window"
+    ],
+    [
+     "simple panel",
+     15,
+     66,
+     0,
+     "Brown",
+     "wall_brick_lamp",
+     "lamp"
+    ],
+    [
+     "simple panel",
+     16,
      66,
      0,
      "Brown",
@@ -2002,16 +1944,43 @@
     ],
     [
      "simple panel",
-     69,
+     17,
      66,
-     3,
+     0,
+     "Brown",
+     "wall_brick_lamp",
+     "door"
+    ],
+    [
+     "simple panel",
+     18,
+     66,
+     0,
+     "Brown",
+     "wall_windows_bricks",
+     "window"
+    ],
+    [
+     "simple panel",
+     19,
+     66,
+     0,
      "Brown",
      "wall_brick_lamp",
      "lamp"
     ],
     [
      "simple panel",
-     69,
+     66,
+     66,
+     3,
+     "Brown",
+     "wall_windows_bricks",
+     "window"
+    ],
+    [
+     "simple panel",
+     66,
      67,
      3,
      "Brown",
@@ -2025,7 +1994,7 @@
      0,
      "Brown",
      "wall_brick_lamp",
-     "door"
+     "lamp"
     ],
     [
      "simple panel",
@@ -2043,7 +2012,7 @@
      0,
      "Brown",
      "wall_brick_lamp",
-     "lamp"
+     "door"
     ],
     [
      "simple panel",
@@ -2060,8 +2029,8 @@
      68,
      0,
      "Brown",
-     "wall_windows_bricks",
-     "window"
+     "wall_brick_lamp",
+     "lamp"
     ],
     [
      "simple panel",
@@ -2069,8 +2038,8 @@
      68,
      0,
      "Brown",
-     "wall_brick_lamp",
-     "lamp"
+     "wall_windows_bricks",
+     "window"
     ],
     [
      "simple panel",
@@ -2083,39 +2052,12 @@
     ],
     [
      "simple panel",
-     66,
-     68,
-     0,
-     "Brown",
-     "wall_brick_lamp",
-     "door"
-    ],
-    [
-     "simple panel",
-     67,
-     68,
-     0,
-     "Brown",
-     "wall_windows_bricks",
-     "window"
-    ],
-    [
-     "simple panel",
-     68,
-     68,
-     0,
-     "Brown",
-     "wall_brick_lamp",
-     "lamp"
-    ],
-    [
-     "simple panel",
      40,
      69,
      0,
      "Brown",
-     "wall_windows_bricks",
-     "window"
+     "wall_brick_lamp",
+     "lamp"
     ],
     [
      "simple panel",
@@ -2133,11 +2075,11 @@
      0,
      "Brown",
      "wall_brick_lamp",
-     "lamp"
+     "door"
     ],
     [
      "simple panel",
-     54,
+     53,
      75,
      3,
      "Brown",
@@ -2146,25 +2088,7 @@
     ],
     [
      "simple panel",
-     46,
-     76,
-     1,
-     "Brown",
-     "wall_brick_lamp",
-     "door"
-    ],
-    [
-     "simple panel",
      53,
-     76,
-     3,
-     "Brown",
-     "wall_windows_bricks",
-     "window"
-    ],
-    [
-     "simple panel",
-     54,
      76,
      3,
      "Brown",
@@ -2173,15 +2097,6 @@
     ],
     [
      "simple panel",
-     46,
-     77,
-     1,
-     "Brown",
-     "wall_windows_bricks",
-     "window"
-    ],
-    [
-     "simple panel",
      53,
      77,
      3,
@@ -2191,34 +2106,7 @@
     ],
     [
      "simple panel",
-     54,
-     77,
-     3,
-     "Brown",
-     "wall_brick_lamp",
-     "lamp"
-    ],
-    [
-     "simple panel",
-     46,
-     78,
-     1,
-     "Brown",
-     "wall_windows_bricks",
-     "window"
-    ],
-    [
-     "simple panel",
      53,
-     78,
-     3,
-     "Brown",
-     "wall_brick_lamp",
-     "door"
-    ],
-    [
-     "simple panel",
-     54,
      78,
      3,
      "Brown",
@@ -2236,30 +2124,12 @@
     ],
     [
      "simple panel",
-     46,
-     79,
-     1,
-     "Brown",
-     "wall_windows_bricks",
-     "window"
-    ],
-    [
-     "simple panel",
      53,
      79,
      3,
      "Brown",
      "wall_windows_bricks",
      "window"
-    ],
-    [
-     "simple panel",
-     54,
-     79,
-     3,
-     "Brown",
-     "wall_brick_lamp",
-     "lamp"
     ],
     [
      "simple panel",
@@ -2267,66 +2137,12 @@
      80,
      1,
      "Brown",
-     "wall_windows_bricks",
-     "window"
-    ],
-    [
-     "simple panel",
-     47,
-     80,
-     0,
-     "Brown",
      "wall_brick_lamp",
      "door"
     ],
     [
      "simple panel",
-     48,
-     80,
-     0,
-     "Brown",
-     "wall_windows_bricks",
-     "window"
-    ],
-    [
-     "simple panel",
-     49,
-     80,
-     0,
-     "Brown",
-     "wall_brick_lamp",
-     "lamp"
-    ],
-    [
-     "simple panel",
-     50,
-     80,
-     0,
-     "Brown",
-     "wall_windows_bricks",
-     "window"
-    ],
-    [
-     "simple panel",
-     51,
-     80,
-     0,
-     "Brown",
-     "wall_windows_bricks",
-     "window"
-    ],
-    [
-     "simple panel",
-     52,
-     80,
-     0,
-     "Brown",
-     "wall_brick_lamp",
-     "lamp"
-    ],
-    [
-     "simple panel",
-     54,
+     53,
      80,
      3,
      "Brown",
@@ -2340,7 +2156,7 @@
      0,
      "Brown",
      "wall_brick_lamp",
-     "door"
+     "lamp"
     ],
     [
      "simple panel",
@@ -2357,8 +2173,8 @@
      81,
      0,
      "Brown",
-     "wall_brick_lamp",
-     "lamp"
+     "wall_windows_bricks",
+     "window"
     ],
     [
      "simple panel",
@@ -2366,8 +2182,8 @@
      81,
      0,
      "Brown",
-     "wall_windows_bricks",
-     "window"
+     "wall_brick_lamp",
+     "lamp"
     ],
     [
      "simple panel",
@@ -2385,7 +2201,7 @@
      0,
      "Brown",
      "wall_brick_lamp",
-     "lamp"
+     "door"
     ],
     [
      "simple panel",
@@ -2395,15 +2211,6 @@
      "Brown",
      "wall_windows_bricks",
      "window"
-    ],
-    [
-     "simple panel",
-     53,
-     81,
-     0,
-     "Brown",
-     "wall_brick_lamp",
-     "door"
     ]
    ],
    "lines": [],
@@ -2420,7 +2227,7 @@
    "items": [
     [
      "castle wall",
-     44,
+     45,
      56,
      0,
      "Brown",
@@ -2428,7 +2235,7 @@
     ],
     [
      "castle wall",
-     46,
+     47,
      56,
      0,
      "Brown",
@@ -2436,7 +2243,7 @@
     ],
     [
      "castle wall",
-     48,
+     49,
      56,
      0,
      "Brown",
@@ -2444,7 +2251,7 @@
     ],
     [
      "castle wall",
-     50,
+     51,
      56,
      0,
      "Brown",
@@ -2452,7 +2259,7 @@
     ],
     [
      "castle wall",
-     52,
+     53,
      56,
      0,
      "Brown",
@@ -2460,7 +2267,7 @@
     ],
     [
      "castle wall",
-     54,
+     55,
      56,
      0,
      "Brown",
@@ -2642,7 +2449,7 @@
     ],
     [
      "brick fence",
-     44,
+     41,
      47,
      0,
      null
@@ -2791,7 +2598,7 @@
     [
      "castle wall",
      24,
-     58,
+     57,
      0,
      "Brown",
      "wall_windows_bricks"
@@ -2799,7 +2606,7 @@
     [
      "castle wall",
      26,
-     58,
+     57,
      0,
      "Brown",
      "wall_windows_bricks"
@@ -2817,9 +2624,123 @@
    ],
    "items": [
     [
+     "castle wall",
+     57,
+     55,
+     0,
+     "Brown",
+     "wall_windows_bricks"
+    ],
+    [
+     "castle wall",
+     59,
+     55,
+     0,
+     "Brown",
+     "wall_windows_bricks"
+    ],
+    [
      "brick fence",
-     17,
+     61,
+     55,
+     0,
+     null
+    ],
+    [
+     "hedge",
+     15,
+     62,
+     0,
+     null
+    ],
+    [
+     "hedge",
+     15,
      63,
+     0,
+     null
+    ],
+    [
+     "hedge",
+     15,
+     64,
+     0,
+     null
+    ],
+    [
+     "hedge",
+     15,
+     65,
+     0,
+     null
+    ],
+    [
+     "hedge",
+     16,
+     62,
+     0,
+     null
+    ],
+    [
+     "hedge",
+     16,
+     65,
+     0,
+     null
+    ],
+    [
+     "hedge",
+     17,
+     62,
+     0,
+     null
+    ],
+    [
+     "hedge",
+     17,
+     65,
+     0,
+     null
+    ],
+    [
+     "hedge",
+     18,
+     62,
+     0,
+     null
+    ],
+    [
+     "hedge",
+     18,
+     65,
+     0,
+     null
+    ],
+    [
+     "hedge",
+     19,
+     62,
+     0,
+     null
+    ],
+    [
+     "hedge",
+     19,
+     63,
+     0,
+     null
+    ],
+    [
+     "hedge",
+     19,
+     64,
+     0,
+     null
+    ],
+    [
+     "hedge",
+     19,
+     65,
      0,
      null
     ],
@@ -2832,8 +2753,15 @@
     ],
     [
      "brick fence",
+     47,
+     78,
+     0,
+     null
+    ],
+    [
+     "brick fence",
      49,
-     77,
+     79,
      0,
      null
     ]
@@ -3173,27 +3101,6 @@
     ],
     [
      "iron fence",
-     66,
-     63,
-     0,
-     null
-    ],
-    [
-     "iron fence",
-     67,
-     63,
-     0,
-     null
-    ],
-    [
-     "iron fence",
-     68,
-     63,
-     0,
-     null
-    ],
-    [
-     "iron fence",
      57,
      64,
      0,
@@ -3201,7 +3108,7 @@
     ],
     [
      "iron fence",
-     68,
+     65,
      64,
      0,
      null
@@ -3222,7 +3129,7 @@
     ],
     [
      "iron fence",
-     68,
+     65,
      65,
      0,
      null
@@ -3243,7 +3150,7 @@
     ],
     [
      "iron fence",
-     68,
+     65,
      66,
      0,
      null
@@ -3291,27 +3198,6 @@
      null
     ],
     [
-     "iron fence",
-     66,
-     67,
-     0,
-     null
-    ],
-    [
-     "iron fence",
-     67,
-     67,
-     0,
-     null
-    ],
-    [
-     "iron fence",
-     68,
-     67,
-     0,
-     null
-    ],
-    [
      "iron-and-stone fence",
      70,
      67,
@@ -3329,6 +3215,20 @@
      "iron-and-stone fence",
      70,
      69,
+     0,
+     null
+    ],
+    [
+     "iron-and-stone fence",
+     74,
+     79,
+     0,
+     null
+    ],
+    [
+     "iron-and-stone fence",
+     74,
+     80,
      0,
      null
     ],
@@ -3432,6 +3332,13 @@
      "hedge",
      61,
      42,
+     0,
+     null
+    ],
+    [
+     "hedge",
+     61,
+     43,
      0,
      null
     ],
@@ -3647,6 +3554,13 @@
     ],
     [
      "bamboo lattice fence",
+     87,
+     34,
+     0,
+     null
+    ],
+    [
+     "bamboo lattice fence",
      83,
      30,
      0,
@@ -3808,27 +3722,6 @@
     ],
     [
      "green bamboo fence",
-     59,
-     31,
-     0,
-     null
-    ],
-    [
-     "green bamboo fence",
-     59,
-     32,
-     0,
-     null
-    ],
-    [
-     "green bamboo fence",
-     64,
-     27,
-     0,
-     null
-    ],
-    [
-     "green bamboo fence",
      64,
      28,
      0,
@@ -3865,27 +3758,6 @@
     [
      "green bamboo fence",
      60,
-     27,
-     0,
-     null
-    ],
-    [
-     "green bamboo fence",
-     61,
-     27,
-     0,
-     null
-    ],
-    [
-     "green bamboo fence",
-     62,
-     27,
-     0,
-     null
-    ],
-    [
-     "green bamboo fence",
-     63,
      27,
      0,
      null
@@ -4121,17 +3993,24 @@
    "items": [
     [
      "streetlamp",
-     59,
-     69,
+     41,
+     43,
      0,
      "Black"
     ],
     [
      "round topiary",
+     59,
+     69,
+     0,
+     "Green"
+    ],
+    [
+     "monstera",
      22,
      78,
      0,
-     "Green"
+     "Black"
     ],
     [
      "garden wagon",
@@ -4141,21 +4020,21 @@
      "Dark brown"
     ],
     [
-     "monstera",
+     "pot",
      61,
      66,
-     0,
-     "Black"
-    ],
-    [
-     "pot",
-     36,
-     53,
      0,
      "Brown"
     ],
     [
      "garbage bin",
+     36,
+     53,
+     0,
+     "Black"
+    ],
+    [
+     "streetlamp",
      38,
      50,
      0,
@@ -4169,88 +4048,102 @@
      "Green"
     ],
     [
-     "streetlamp",
+     "barrel",
      26,
      72,
-     0,
-     "Black"
-    ],
-    [
-     "barrel",
-     36,
-     55,
      0,
      null
     ],
     [
      "round topiary",
-     61,
-     69,
+     41,
+     45,
      0,
      "Green"
     ],
     [
      "standing shop sign",
-     44,
-     42,
+     36,
+     55,
      0,
      "Black"
     ],
     [
      "wooden box",
-     28,
-     72,
+     61,
+     69,
      0,
      "Brown"
     ],
     [
-     "flower bed",
-     65,
-     64,
-     0,
-     "Dark brown"
-    ],
-    [
      "round streetlight",
-     64,
-     66,
-     0,
-     "Black"
-    ],
-    [
-     "iron garden bench",
-     24,
-     81,
+     40,
+     49,
      0,
      "Black"
     ],
     [
      "pot",
-     40,
-     53,
+     28,
+     72,
      0,
      "White"
     ],
     [
      "phone box",
-     30,
-     72,
+     64,
+     66,
      0,
      "Red"
     ],
     [
+     "flower bed",
+     24,
+     81,
+     0,
+     "Dark brown"
+    ],
+    [
+     "iron garden bench",
+     40,
+     53,
+     0,
+     "Black"
+    ],
+    [
      "monstera",
-     64,
-     69,
+     67,
+     63,
      0,
      "Black"
     ],
     [
      "streetlamp",
+     30,
+     72,
+     0,
+     "Black"
+    ],
+    [
+     "tin bucket",
+     64,
+     69,
+     0,
+     null
+    ],
+    [
+     "round topiary",
      69,
      60,
      0,
-     "Black"
+     "Green"
+    ],
+    [
+     "plain wooden shop sign",
+     69,
+     63,
+     0,
+     "Dark wood"
     ],
     [
      "cruiser bike",
@@ -4260,11 +4153,11 @@
      "Red"
     ],
     [
-     "tin bucket",
+     "fire hydrant",
      32,
      72,
      0,
-     null
+     "Red"
     ],
     [
      "medium cardboard boxes",
@@ -4274,200 +4167,186 @@
      null
     ],
     [
-     "round topiary",
+     "barrel",
      51,
      38,
-     0,
-     "Green"
-    ],
-    [
-     "plain wooden shop sign",
-     37,
-     64,
-     0,
-     "Dark wood"
-    ],
-    [
-     "fire hydrant",
-     32,
-     74,
-     0,
-     "Red"
-    ],
-    [
-     "barrel",
-     70,
-     64,
      0,
      null
     ],
     [
      "pot",
      37,
-     66,
+     64,
      0,
      "Brown"
     ],
     [
-     "garden wagon",
-     46,
-     50,
-     0,
-     "Dark brown"
-    ],
-    [
      "park clock",
+     32,
      74,
-     59,
      0,
      "Black"
     ],
     [
      "streetlamp",
+     37,
+     66,
+     0,
+     "Black"
+    ],
+    [
+     "round topiary",
+     74,
+     59,
+     0,
+     "Green"
+    ],
+    [
+     "monstera",
      37,
      68,
      0,
      "Black"
     ],
     [
-     "cruiser bike",
-     30,
-     81,
-     0,
-     "Green"
-    ],
-    [
-     "round topiary",
-     46,
-     52,
-     0,
-     "Green"
-    ],
-    [
-     "monstera",
-     69,
-     69,
-     0,
-     "Black"
-    ],
-    [
      "pot",
-     33,
-     76,
+     47,
+     50,
      0,
      "Brown"
     ],
     [
+     "garden wagon",
+     30,
+     81,
+     0,
+     "Dark brown"
+    ],
+    [
      "garbage bin",
-     42,
-     60,
+     69,
+     69,
      0,
      "Black"
     ],
     [
      "streetlamp",
-     16,
-     49,
+     33,
+     76,
      0,
      "Black"
     ],
     [
-     "flower bed",
-     36,
-     72,
-     0,
-     "Dark brown"
-    ],
-    [
      "barrel",
-     33,
-     78,
+     42,
+     60,
      0,
      null
     ],
     [
      "round topiary",
-     15,
-     53,
+     16,
+     49,
      0,
      "Green"
     ],
     [
-     "iron garden bench",
-     53,
-     43,
+     "cruiser bike",
+     36,
+     72,
      0,
-     "Black"
+     "Green"
     ],
     [
      "standing shop sign",
-     36,
-     74,
+     33,
+     78,
      0,
      "Black"
     ],
     [
      "wooden box",
-     19,
      47,
+     53,
      0,
      "Brown"
     ],
     [
      "round streetlight",
-     48,
+     15,
      53,
      0,
      "Black"
     ],
     [
+     "flower bed",
+     53,
+     43,
+     0,
+     "Dark brown"
+    ],
+    [
      "pot",
-     12,
-     60,
+     36,
+     74,
      0,
      "White"
     ],
     [
      "phone box",
-     51,
-     48,
+     19,
+     47,
      0,
      "Red"
     ],
     [
      "monstera",
-     50,
-     50,
+     12,
+     60,
      0,
      "Black"
     ],
     [
      "streetlamp",
-     33,
-     81,
+     51,
+     48,
      0,
      "Black"
     ],
     [
      "tin bucket",
-     53,
-     45,
+     33,
+     81,
      0,
      null
     ],
     [
      "round topiary",
-     18,
-     50,
+     53,
+     45,
      0,
      "Green"
     ],
     [
      "plain wooden shop sign",
+     18,
+     50,
+     0,
+     "Dark wood"
+    ],
+    [
+     "fire hydrant",
      36,
      76,
      0,
-     "Dark wood"
+     "Red"
+    ],
+    [
+     "iron garden bench",
+     49,
+     53,
+     0,
+     "Black"
     ],
     [
      "cruiser bike",
@@ -4477,23 +4356,16 @@
      "Red"
     ],
     [
-     "fire hydrant",
-     50,
-     53,
-     0,
-     "Red"
-    ],
-    [
      "barrel",
-     13,
-     62,
+     51,
+     51,
      0,
      null
     ],
     [
      "pot",
-     52,
-     50,
+     13,
+     62,
      0,
      "Brown"
     ],
@@ -4520,10 +4392,17 @@
     ],
     [
      "medium cardboard boxes",
+     54,
+     48,
+     0,
+     null
+    ],
+    [
+     "garden wagon",
      19,
      53,
      0,
-     null
+     "Dark brown"
     ],
     [
      "monstera",
@@ -4547,11 +4426,11 @@
      "Black"
     ],
     [
-     "garden wagon",
+     "cruiser bike",
      52,
      53,
      0,
-     "Dark brown"
+     "Green"
     ],
     [
      "streetlamp",
@@ -4561,11 +4440,18 @@
      "Black"
     ],
     [
-     "cruiser bike",
+     "flower bed",
      22,
      50,
      0,
-     "Green"
+     "Dark brown"
+    ],
+    [
+     "iron garden bench",
+     54,
+     51,
+     0,
+     "Black"
     ],
     [
      "barrel",
@@ -4575,18 +4461,18 @@
      null
     ],
     [
-     "flower bed",
+     "cruiser bike",
      25,
      47,
      0,
-     "Dark brown"
+     "Red"
     ],
     [
-     "iron garden bench",
+     "medium cardboard boxes",
      29,
      40,
      0,
-     "Black"
+     null
     ],
     [
      "round topiary",
@@ -4596,11 +4482,11 @@
      "Green"
     ],
     [
-     "cruiser bike",
+     "garden wagon",
      55,
      53,
      0,
-     "Red"
+     "Dark brown"
     ],
     [
      "standing shop sign",
@@ -4624,11 +4510,11 @@
      "Black"
     ],
     [
-     "medium cardboard boxes",
+     "cruiser bike",
      25,
      50,
      0,
-     null
+     "Green"
     ],
     [
      "pot",
@@ -4638,7 +4524,7 @@
      "White"
     ],
     [
-     "garden wagon",
+     "flower bed",
      16,
      68,
      0,
@@ -4652,11 +4538,11 @@
      "Red"
     ],
     [
-     "cruiser bike",
+     "iron garden bench",
      32,
      40,
      0,
-     "Green"
+     "Black"
     ],
     [
      "monstera",
@@ -4667,31 +4553,31 @@
     ],
     [
      "streetlamp",
-     21,
-     62,
+     23,
+     58,
      0,
      "Black"
     ],
     [
      "tin bucket",
-     43,
-     81,
+     21,
+     62,
      0,
      null
     ],
     [
-     "flower bed",
+     "round topiary",
+     43,
+     81,
+     0,
+     "Green"
+    ],
+    [
+     "cruiser bike",
      48,
      72,
      0,
-     "Dark brown"
-    ],
-    [
-     "round topiary",
-     23,
-     59,
-     0,
-     "Green"
+     "Red"
     ],
     [
      "plain wooden shop sign",
@@ -4701,163 +4587,170 @@
      "Dark wood"
     ],
     [
-     "iron garden bench",
-     19,
-     68,
-     0,
-     "Black"
-    ],
-    [
      "fire hydrant",
-     29,
-     50,
-     0,
-     "Red"
-    ],
-    [
-     "barrel",
-     51,
-     69,
-     0,
-     null
-    ],
-    [
-     "cruiser bike",
-     31,
-     47,
+     21,
+     64,
      0,
      "Red"
     ],
     [
      "medium cardboard boxes",
-     28,
-     53,
+     19,
+     68,
+     0,
+     null
+    ],
+    [
+     "barrel",
+     29,
+     50,
      0,
      null
     ],
     [
      "pot",
-     21,
-     66,
+     51,
+     69,
      0,
      "Brown"
     ],
     [
+     "garden wagon",
+     31,
+     47,
+     0,
+     "Dark brown"
+    ],
+    [
+     "cruiser bike",
+     28,
+     53,
+     0,
+     "Green"
+    ],
+    [
      "park clock",
+     21,
+     66,
+     0,
+     "Black"
+    ],
+    [
+     "flower bed",
+     25,
+     59,
+     0,
+     "Dark brown"
+    ],
+    [
+     "streetlamp",
      13,
      81,
      0,
      "Black"
     ],
     [
-     "garden wagon",
+     "iron garden bench",
      15,
      78,
      0,
-     "Dark brown"
+     "Black"
     ],
     [
-     "streetlamp",
+     "round topiary",
      36,
      40,
      0,
-     "Black"
+     "Green"
     ],
     [
      "cruiser bike",
      31,
      50,
      0,
-     "Green"
-    ],
-    [
-     "round topiary",
-     24,
-     63,
-     0,
-     "Green"
+     "Red"
     ],
     [
      "monstera",
-     46,
-     82,
+     24,
+     63,
      0,
      "Black"
     ],
     [
      "pot",
-     52,
-     72,
+     46,
+     82,
      0,
      "Brown"
     ],
     [
-     "flower bed",
+     "garbage bin",
+     52,
+     72,
+     0,
+     "Black"
+    ],
+    [
+     "medium cardboard boxes",
      15,
      81,
      0,
-     "Dark brown"
+     null
     ],
     [
-     "garbage bin",
+     "streetlamp",
      24,
      65,
      0,
      "Black"
     ],
     [
-     "iron garden bench",
+     "garden wagon",
      38,
      40,
      0,
-     "Black"
-    ],
-    [
-     "streetlamp",
-     60,
-     60,
-     0,
-     "Black"
+     "Dark brown"
     ],
     [
      "barrel",
-     24,
-     67,
+     60,
+     60,
      0,
      null
     ],
     [
      "round topiary",
-     32,
-     53,
+     24,
+     67,
      0,
      "Green"
     ],
     [
      "standing shop sign",
-     54,
-     72,
+     32,
+     53,
      0,
      "Black"
     ],
     [
      "wooden box",
-     56,
-     69,
+     54,
+     72,
      0,
      "Brown"
     ],
     [
      "round streetlight",
-     36,
-     47,
+     56,
+     69,
      0,
      "Black"
     ],
     [
      "pot",
-     41,
-     38,
+     36,
+     47,
      0,
      "White"
     ],
@@ -4866,7 +4759,7 @@
      59,
      64,
      0,
-     "Red"
+     "Green"
     ],
     [
      "phone box",
@@ -4876,51 +4769,51 @@
      "Red"
     ],
     [
-     "medium cardboard boxes",
+     "monstera",
+     41,
+     39,
+     0,
+     "Black"
+    ],
+    [
+     "flower bed",
      18,
      81,
      0,
-     null
+     "Dark brown"
     ],
     [
-     "monstera",
+     "streetlamp",
      20,
      78,
      0,
      "Black"
     ],
     [
-     "streetlamp",
+     "tin bucket",
      59,
      66,
-     0,
-     "Black"
-    ],
-    [
-     "tin bucket",
-     24,
-     71,
      0,
      null
     ],
     [
      "round topiary",
-     33,
-     55,
+     24,
+     71,
      0,
      "Green"
     ],
     [
      "plain wooden shop sign",
-     38,
-     47,
+     33,
+     55,
      0,
      "Dark wood"
     ],
     [
      "fire hydrant",
-     43,
      38,
+     47,
      0,
      "Red"
     ]
@@ -4933,70 +4826,13 @@
    "id": "S-01",
    "style": "flag",
    "rect": [
-    59,
-    48,
-    66,
-    53
-   ],
-   "design": "brick_greige",
-   "skip": [
-    [
-     66,
-     48
-    ],
-    [
-     66,
-     49
-    ],
-    [
-     66,
-     50
-    ],
-    [
-     66,
-     51
-    ],
-    [
-     66,
-     52
-    ],
-    [
-     59,
-     53
-    ],
-    [
-     60,
-     53
-    ],
-    [
-     61,
-     53
-    ],
-    [
-     62,
-     53
-    ],
-    [
-     66,
-     53
-    ]
-   ]
-  },
-  {
-   "id": "S-02",
-   "style": "garden",
-   "rect": [
     74,
     47,
     81,
     52
    ],
-   "design": "brick_city_old",
+   "design": "brick_greige",
    "skip": [
-    [
-     81,
-     51
-    ],
     [
      80,
      52
@@ -5008,15 +4844,15 @@
    ]
   },
   {
-   "id": "S-03",
-   "style": "flag",
+   "id": "S-02",
+   "style": "garden",
    "rect": [
     60,
     71,
     67,
     76
    ],
-   "design": "brick_greige",
+   "design": "brick_city_old",
    "skip": [
     [
      60,
@@ -5053,31 +4889,56 @@
    ]
   },
   {
-   "id": "S-04",
-   "style": "garden",
+   "id": "S-03",
+   "style": "flag",
    "rect": [
     74,
     67,
-    82,
-    73
+    81,
+    72
    ],
-   "design": "brick_city_old",
+   "design": "brick_greige",
    "skip": [
     [
      74,
      72
+    ]
+   ]
+  },
+  {
+   "id": "S-04",
+   "style": "garden",
+   "rect": [
+    82,
+    61,
+    90,
+    67
+   ],
+   "design": "brick_city_old",
+   "skip": [
+    [
+     82,
+     61
     ],
     [
      82,
-     72
-    ],
-    [
-     74,
-     73
+     66
     ],
     [
      82,
-     73
+     67
+    ],
+    [
+     83,
+     67
+    ],
+    [
+     84,
+     67
+    ],
+    [
+     90,
+     67
     ]
    ]
   },
@@ -5085,53 +4946,12 @@
    "id": "S-05",
    "style": "flag",
    "rect": [
-    80,
-    61,
-    87,
-    66
-   ],
-   "design": "brick_greige",
-   "skip": [
-    [
-     80,
-     61
-    ],
-    [
-     81,
-     61
-    ],
-    [
-     82,
-     61
-    ],
-    [
-     80,
-     65
-    ],
-    [
-     80,
-     66
-    ],
-    [
-     81,
-     66
-    ],
-    [
-     82,
-     66
-    ]
-   ]
-  },
-  {
-   "id": "S-06",
-   "style": "garden",
-   "rect": [
     74,
     73,
     81,
-    79
+    78
    ],
-   "design": "brick_city_old",
+   "design": "brick_greige",
    "skip": [
     [
      74,
@@ -5148,36 +4968,7 @@
    ]
   },
   {
-   "id": "F-07",
-   "style": "leaves",
-   "rect": [
-    55,
-    20,
-    62,
-    26
-   ],
-   "design": "brick_autumn",
-   "skip": [
-    [
-     55,
-     20
-    ],
-    [
-     56,
-     20
-    ],
-    [
-     57,
-     20
-    ],
-    [
-     55,
-     21
-    ]
-   ]
-  },
-  {
-   "id": "F-08",
+   "id": "F-06",
    "style": "leaves",
    "rect": [
     48,
@@ -5224,13 +5015,46 @@
      22
     ],
     [
-     49,
+     55,
+     26
+    ],
+    [
+     54,
+     27
+    ],
+    [
+     55,
      27
     ]
    ]
   },
   {
-   "id": "F-09",
+   "id": "F-07",
+   "style": "leaves",
+   "rect": [
+    61,
+    21,
+    68,
+    27
+   ],
+   "design": "brick_autumn",
+   "skip": [
+    [
+     61,
+     21
+    ],
+    [
+     62,
+     21
+    ],
+    [
+     61,
+     22
+    ]
+   ]
+  },
+  {
+   "id": "F-08",
    "style": "leaves",
    "rect": [
     41,
@@ -5259,76 +5083,104 @@
    ]
   },
   {
-   "id": "J-10",
+   "id": "J-09",
    "style": "moss",
    "rect": [
-    91,
-    27,
-    98,
-    31
+    86,
+    24,
+    93,
+    28
    ],
    "design": "stone_natural",
    "skip": [
     [
-     91,
+     86,
+     24
+    ],
+    [
+     87,
+     24
+    ],
+    [
+     88,
+     24
+    ],
+    [
+     89,
+     24
+    ],
+    [
+     93,
+     24
+    ],
+    [
+     86,
+     25
+    ],
+    [
+     93,
+     25
+    ],
+    [
+     86,
+     26
+    ],
+    [
+     93,
+     26
+    ],
+    [
+     93,
      27
     ],
     [
-     91,
+     93,
      28
-    ],
-    [
-     98,
-     28
-    ],
-    [
-     91,
-     29
-    ],
-    [
-     98,
-     29
-    ],
-    [
-     91,
-     30
-    ],
-    [
-     98,
-     30
-    ],
-    [
-     91,
-     31
-    ],
-    [
-     98,
-     31
     ]
    ]
   },
   {
-   "id": "B-11",
+   "id": "B-10",
    "style": "moss",
    "rect": [
     34,
-    29,
+    30,
     41,
-    35
+    36
    ],
    "design": "stone_natural",
    "skip": [
     [
      34,
-     29
+     36
     ],
     [
      35,
-     29
+     36
     ],
     [
-     35,
-     35
+     36,
+     36
+    ],
+    [
+     37,
+     36
+    ],
+    [
+     38,
+     36
+    ],
+    [
+     39,
+     36
+    ],
+    [
+     40,
+     36
+    ],
+    [
+     41,
+     36
     ]
    ]
   },
@@ -5468,18 +5320,6 @@
    "id": "C-roof",
    "style": "roof_red",
    "rect": [
-    25,
-    56,
-    25,
-    56
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
     26,
     54,
     26,
@@ -5504,18 +5344,6 @@
    "id": "C-roof",
    "style": "roof_red",
    "rect": [
-    26,
-    56,
-    26,
-    56
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
     27,
     54,
     27,
@@ -5532,18 +5360,6 @@
     55,
     27,
     55
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    27,
-    56,
-    27,
-    56
    ],
    "design": "brick_natural",
    "skip": []
@@ -5646,398 +5462,50 @@
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    57,
-    54,
-    57,
-    54
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    57,
-    55,
-    57,
-    55
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof",
    "rect": [
     58,
     54,
     58,
     54
    ],
-   "design": "brick_natural",
+   "design": "brick_grey",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    58,
-    55,
-    58,
-    55
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof",
    "rect": [
     59,
     54,
     59,
     54
    ],
-   "design": "brick_natural",
+   "design": "brick_grey",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    59,
-    55,
-    59,
-    55
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof",
    "rect": [
     60,
     54,
     60,
     54
    ],
-   "design": "brick_natural",
+   "design": "brick_grey",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    60,
-    55,
-    60,
-    55
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof",
    "rect": [
     61,
     54,
     61,
     54
    ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    61,
-    55,
-    61,
-    55
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    15,
-    62,
-    15,
-    62
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    15,
-    63,
-    15,
-    63
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    15,
-    64,
-    15,
-    64
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    15,
-    65,
-    15,
-    65
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    16,
-    62,
-    16,
-    62
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    16,
-    63,
-    16,
-    63
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    16,
-    64,
-    16,
-    64
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    16,
-    65,
-    16,
-    65
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    17,
-    62,
-    17,
-    62
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    17,
-    64,
-    17,
-    64
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    17,
-    65,
-    17,
-    65
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    18,
-    62,
-    18,
-    62
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    18,
-    63,
-    18,
-    63
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    18,
-    64,
-    18,
-    64
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    18,
-    65,
-    18,
-    65
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    19,
-    62,
-    19,
-    62
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    19,
-    63,
-    19,
-    63
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    19,
-    64,
-    19,
-    64
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    19,
-    65,
-    19,
-    65
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    20,
-    62,
-    20,
-    62
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    20,
-    63,
-    20,
-    63
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    20,
-    64,
-    20,
-    64
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    20,
-    65,
-    20,
-    65
-   ],
-   "design": "brick_natural",
+   "design": "brick_grey",
    "skip": []
   },
   {
@@ -6246,133 +5714,133 @@
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_red",
    "rect": [
     46,
     75,
     46,
     75
    ],
-   "design": "brick_grey",
+   "design": "brick_natural",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_red",
+   "rect": [
+    46,
+    76,
+    46,
+    76
+   ],
+   "design": "brick_natural",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_red",
+   "rect": [
+    46,
+    77,
+    46,
+    77
+   ],
+   "design": "brick_natural",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_red",
+   "rect": [
+    46,
+    78,
+    46,
+    78
+   ],
+   "design": "brick_natural",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_red",
+   "rect": [
+    46,
+    79,
+    46,
+    79
+   ],
+   "design": "brick_natural",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_red",
    "rect": [
     46,
     80,
     46,
     80
    ],
-   "design": "brick_grey",
+   "design": "brick_natural",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_red",
    "rect": [
     47,
     75,
     47,
     75
    ],
-   "design": "brick_grey",
+   "design": "brick_natural",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_red",
    "rect": [
-    48,
-    75,
-    48,
-    75
+    47,
+    76,
+    47,
+    76
    ],
-   "design": "brick_grey",
+   "design": "brick_natural",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_red",
    "rect": [
-    49,
-    75,
-    49,
-    75
+    47,
+    77,
+    47,
+    77
    ],
-   "design": "brick_grey",
+   "design": "brick_natural",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_red",
    "rect": [
-    50,
-    75,
-    50,
-    75
+    47,
+    79,
+    47,
+    79
    ],
-   "design": "brick_grey",
+   "design": "brick_natural",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_red",
    "rect": [
-    51,
-    75,
-    51,
-    75
-   ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof",
-   "rect": [
-    52,
-    75,
-    52,
-    75
-   ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof",
-   "rect": [
-    53,
-    75,
-    53,
-    75
-   ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof",
-   "rect": [
-    53,
+    47,
     80,
-    53,
+    47,
     80
    ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    47,
-    76,
-    47,
-    76
-   ],
    "design": "brick_natural",
    "skip": []
   },
@@ -6380,34 +5848,10 @@
    "id": "C-roof",
    "style": "roof_red",
    "rect": [
-    47,
-    77,
-    47,
-    77
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    47,
-    78,
-    47,
-    78
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    47,
-    79,
-    47,
-    79
+    48,
+    75,
+    48,
+    75
    ],
    "design": "brick_natural",
    "skip": []
@@ -6464,10 +5908,46 @@
    "id": "C-roof",
    "style": "roof_red",
    "rect": [
+    48,
+    80,
+    48,
+    80
+   ],
+   "design": "brick_natural",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_red",
+   "rect": [
+    49,
+    75,
+    49,
+    75
+   ],
+   "design": "brick_natural",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_red",
+   "rect": [
     49,
     76,
     49,
     76
+   ],
+   "design": "brick_natural",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_red",
+   "rect": [
+    49,
+    77,
+    49,
+    77
    ],
    "design": "brick_natural",
    "skip": []
@@ -6489,9 +5969,9 @@
    "style": "roof_red",
    "rect": [
     49,
-    79,
+    80,
     49,
-    79
+    80
    ],
    "design": "brick_natural",
    "skip": []
@@ -6501,9 +5981,9 @@
    "style": "roof_red",
    "rect": [
     50,
-    76,
+    75,
     50,
-    76
+    75
    ],
    "design": "brick_natural",
    "skip": []
@@ -6548,10 +6028,10 @@
    "id": "C-roof",
    "style": "roof_red",
    "rect": [
-    51,
-    76,
-    51,
-    76
+    50,
+    80,
+    50,
+    80
    ],
    "design": "brick_natural",
    "skip": []
@@ -6561,9 +6041,9 @@
    "style": "roof_red",
    "rect": [
     51,
-    77,
+    75,
     51,
-    77
+    75
    ],
    "design": "brick_natural",
    "skip": []
@@ -6596,6 +6076,30 @@
    "id": "C-roof",
    "style": "roof_red",
    "rect": [
+    51,
+    80,
+    51,
+    80
+   ],
+   "design": "brick_natural",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_red",
+   "rect": [
+    52,
+    75,
+    52,
+    75
+   ],
+   "design": "brick_natural",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_red",
+   "rect": [
     52,
     76,
     52,
@@ -6636,6 +6140,18 @@
     79,
     52,
     79
+   ],
+   "design": "brick_natural",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_red",
+   "rect": [
+    52,
+    80,
+    52,
+    80
    ],
    "design": "brick_natural",
    "skip": []
@@ -7148,46 +6664,10 @@
    "id": "C-paving",
    "style": "herring",
    "rect": [
-    53,
-    39,
-    53,
-    39
-   ],
-   "design": "brick_arch",
-   "skip": []
-  },
-  {
-   "id": "C-paving",
-   "style": "herring",
-   "rect": [
-    54,
-    39,
-    54,
-    39
-   ],
-   "design": "brick_arch",
-   "skip": []
-  },
-  {
-   "id": "C-paving",
-   "style": "herring",
-   "rect": [
     55,
     39,
     55,
     39
-   ],
-   "design": "brick_arch",
-   "skip": []
-  },
-  {
-   "id": "C-paving",
-   "style": "herring",
-   "rect": [
-    53,
-    40,
-    53,
-    40
    ],
    "design": "brick_arch",
    "skip": []
@@ -7208,30 +6688,6 @@
    "id": "C-paving",
    "style": "herring",
    "rect": [
-    53,
-    41,
-    53,
-    41
-   ],
-   "design": "brick_arch",
-   "skip": []
-  },
-  {
-   "id": "C-paving",
-   "style": "herring",
-   "rect": [
-    54,
-    41,
-    54,
-    41
-   ],
-   "design": "brick_arch",
-   "skip": []
-  },
-  {
-   "id": "C-paving",
-   "style": "herring",
-   "rect": [
     55,
     41,
     55,
@@ -7244,9 +6700,9 @@
    "id": "C-paving",
    "style": "herring",
    "rect": [
-    54,
+    53,
     42,
-    54,
+    53,
     42
    ],
    "design": "brick_arch",
@@ -7554,26 +7010,14 @@
   },
   {
    "id": "C-paving",
-   "style": "herring",
+   "style": "cobble",
    "rect": [
-    53,
+    40,
     49,
-    53,
+    40,
     49
    ],
-   "design": "brick_arch",
-   "skip": []
-  },
-  {
-   "id": "C-paving",
-   "style": "herring",
-   "rect": [
-    54,
-    49,
-    54,
-    49
-   ],
-   "design": "brick_arch",
+   "design": "road_chic_stone",
    "skip": []
   },
   {
@@ -7700,9 +7144,9 @@
    "id": "C-paving",
    "style": "cobble",
    "rect": [
-    46,
+    40,
     50,
-    46,
+    40,
     50
    ],
    "design": "road_chic_stone",
@@ -7724,10 +7168,10 @@
    "id": "C-paving",
    "style": "cobble",
    "rect": [
-    50,
-    50,
-    50,
-    50
+    51,
+    51,
+    51,
+    51
    ],
    "design": "road_chic_stone",
    "skip": []
@@ -7736,22 +7180,10 @@
    "id": "C-paving",
    "style": "cobble",
    "rect": [
+    53,
     51,
-    50,
-    51,
-    50
-   ],
-   "design": "road_chic_stone",
-   "skip": []
-  },
-  {
-   "id": "C-paving",
-   "style": "cobble",
-   "rect": [
-    52,
-    50,
-    52,
-    50
+    53,
+    51
    ],
    "design": "road_chic_stone",
    "skip": []
@@ -7761,80 +7193,8 @@
    "style": "cobble",
    "rect": [
     54,
-    50,
+    51,
     54,
-    50
-   ],
-   "design": "road_chic_stone",
-   "skip": []
-  },
-  {
-   "id": "C-paving",
-   "style": "cobble",
-   "rect": [
-    46,
-    51,
-    46,
-    51
-   ],
-   "design": "road_chic_stone",
-   "skip": []
-  },
-  {
-   "id": "C-paving",
-   "style": "cobble",
-   "rect": [
-    47,
-    51,
-    47,
-    51
-   ],
-   "design": "road_chic_stone",
-   "skip": []
-  },
-  {
-   "id": "C-paving",
-   "style": "cobble",
-   "rect": [
-    48,
-    51,
-    48,
-    51
-   ],
-   "design": "road_chic_stone",
-   "skip": []
-  },
-  {
-   "id": "C-paving",
-   "style": "cobble",
-   "rect": [
-    49,
-    51,
-    49,
-    51
-   ],
-   "design": "road_chic_stone",
-   "skip": []
-  },
-  {
-   "id": "C-paving",
-   "style": "cobble",
-   "rect": [
-    50,
-    51,
-    50,
-    51
-   ],
-   "design": "road_chic_stone",
-   "skip": []
-  },
-  {
-   "id": "C-paving",
-   "style": "cobble",
-   "rect": [
-    51,
-    51,
-    51,
     51
    ],
    "design": "road_chic_stone",
@@ -7848,54 +7208,6 @@
     51,
     55,
     51
-   ],
-   "design": "road_chic_stone",
-   "skip": []
-  },
-  {
-   "id": "C-paving",
-   "style": "cobble",
-   "rect": [
-    46,
-    52,
-    46,
-    52
-   ],
-   "design": "road_chic_stone",
-   "skip": []
-  },
-  {
-   "id": "C-paving",
-   "style": "cobble",
-   "rect": [
-    47,
-    52,
-    47,
-    52
-   ],
-   "design": "road_chic_stone",
-   "skip": []
-  },
-  {
-   "id": "C-paving",
-   "style": "cobble",
-   "rect": [
-    49,
-    52,
-    49,
-    52
-   ],
-   "design": "road_chic_stone",
-   "skip": []
-  },
-  {
-   "id": "C-paving",
-   "style": "cobble",
-   "rect": [
-    50,
-    52,
-    50,
-    52
    ],
    "design": "road_chic_stone",
    "skip": []
@@ -8228,9 +7540,9 @@
    "id": "C-paving",
    "style": "cobble",
    "rect": [
-    46,
+    41,
     53,
-    46,
+    41,
     53
    ],
    "design": "road_chic_stone",
@@ -8382,6 +7694,54 @@
   },
   {
    "id": "C-paving",
+   "style": "cobble",
+   "rect": [
+    59,
+    53,
+    59,
+    53
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "cobble",
+   "rect": [
+    60,
+    53,
+    60,
+    53
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "cobble",
+   "rect": [
+    61,
+    53,
+    61,
+    53
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "cobble",
+   "rect": [
+    62,
+    53,
+    62,
+    53
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
    "style": "herring",
    "rect": [
     33,
@@ -8402,6 +7762,18 @@
     54
    ],
    "design": "brick_arch",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "cobble",
+   "rect": [
+    41,
+    54,
+    41,
+    54
+   ],
+   "design": "road_chic_stone",
    "skip": []
   },
   {
@@ -8430,6 +7802,18 @@
   },
   {
    "id": "C-paving",
+   "style": "cobble",
+   "rect": [
+    41,
+    55,
+    41,
+    55
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
    "style": "herring",
    "rect": [
     33,
@@ -8450,6 +7834,30 @@
     56
    ],
    "design": "brick_arch",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "cobble",
+   "rect": [
+    41,
+    56,
+    41,
+    56
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "cobble",
+   "rect": [
+    23,
+    58,
+    23,
+    58
+   ],
+   "design": "road_chic_stone",
    "skip": []
   },
   {
@@ -8495,6 +7903,54 @@
     23,
     59,
     23,
+    59
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "cobble",
+   "rect": [
+    24,
+    59,
+    24,
+    59
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "cobble",
+   "rect": [
+    25,
+    59,
+    25,
+    59
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "cobble",
+   "rect": [
+    26,
+    59,
+    26,
+    59
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "cobble",
+   "rect": [
+    27,
+    59,
+    27,
     59
    ],
    "design": "road_chic_stone",
@@ -8636,6 +8092,18 @@
    "id": "C-paving",
    "style": "cobble",
    "rect": [
+    20,
+    63,
+    20,
+    63
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "cobble",
+   "rect": [
     21,
     63,
     21,
@@ -8802,11 +8270,59 @@
   },
   {
    "id": "C-paving",
+   "style": "herring",
+   "rect": [
+    67,
+    63,
+    67,
+    63
+   ],
+   "design": "brick_arch",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "herring",
+   "rect": [
+    68,
+    63,
+    68,
+    63
+   ],
+   "design": "brick_arch",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "herring",
+   "rect": [
+    69,
+    63,
+    69,
+    63
+   ],
+   "design": "brick_arch",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
    "style": "cobble",
    "rect": [
     13,
     64,
     13,
+    64
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "cobble",
+   "rect": [
+    21,
+    64,
+    21,
     64
    ],
    "design": "road_chic_stone",
@@ -8946,59 +8462,71 @@
   },
   {
    "id": "C-paving",
+   "style": "herring",
+   "rect": [
+    67,
+    64,
+    67,
+    64
+   ],
+   "design": "brick_arch",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "herring",
+   "rect": [
+    68,
+    64,
+    68,
+    64
+   ],
+   "design": "brick_arch",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "herring",
+   "rect": [
+    69,
+    64,
+    69,
+    64
+   ],
+   "design": "brick_arch",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "herring",
+   "rect": [
+    70,
+    64,
+    70,
+    64
+   ],
+   "design": "brick_arch",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
    "style": "cobble",
    "rect": [
-    64,
-    64,
-    64,
-    64
+    13,
+    65,
+    13,
+    65
    ],
    "design": "road_chic_stone",
    "skip": []
   },
   {
    "id": "C-paving",
-   "style": "herring",
-   "rect": [
-    65,
-    64,
-    65,
-    64
-   ],
-   "design": "brick_arch",
-   "skip": []
-  },
-  {
-   "id": "C-paving",
-   "style": "herring",
-   "rect": [
-    66,
-    64,
-    66,
-    64
-   ],
-   "design": "brick_arch",
-   "skip": []
-  },
-  {
-   "id": "C-paving",
-   "style": "herring",
-   "rect": [
-    70,
-    64,
-    70,
-    64
-   ],
-   "design": "brick_arch",
-   "skip": []
-  },
-  {
-   "id": "C-paving",
    "style": "cobble",
    "rect": [
-    13,
+    21,
     65,
-    13,
+    21,
     65
    ],
    "design": "road_chic_stone",
@@ -9068,12 +8596,60 @@
    "id": "C-paving",
    "style": "herring",
    "rect": [
+    67,
+    65,
+    67,
+    65
+   ],
+   "design": "brick_arch",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "herring",
+   "rect": [
+    68,
+    65,
+    68,
+    65
+   ],
+   "design": "brick_arch",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "herring",
+   "rect": [
+    69,
+    65,
+    69,
+    65
+   ],
+   "design": "brick_arch",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "herring",
+   "rect": [
     70,
     65,
     70,
     65
    ],
    "design": "brick_arch",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "cobble",
+   "rect": [
+    20,
+    66,
+    20,
+    66
+   ],
+   "design": "road_chic_stone",
    "skip": []
   },
   {
@@ -9212,9 +8788,9 @@
    "id": "C-paving",
    "style": "herring",
    "rect": [
-    65,
+    67,
     66,
-    65,
+    67,
     66
    ],
    "design": "brick_arch",
@@ -9224,9 +8800,21 @@
    "id": "C-paving",
    "style": "herring",
    "rect": [
+    68,
     66,
+    68,
+    66
+   ],
+   "design": "brick_arch",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "herring",
+   "rect": [
+    69,
     66,
-    66,
+    69,
     66
    ],
    "design": "brick_arch",
@@ -9314,6 +8902,42 @@
     67
    ],
    "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "herring",
+   "rect": [
+    67,
+    67,
+    67,
+    67
+   ],
+   "design": "brick_arch",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "herring",
+   "rect": [
+    68,
+    67,
+    68,
+    67
+   ],
+   "design": "brick_arch",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "herring",
+   "rect": [
+    69,
+    67,
+    69,
+    67
+   ],
+   "design": "brick_arch",
    "skip": []
   },
   {
@@ -9566,6 +9190,42 @@
     68
    ],
    "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "herring",
+   "rect": [
+    66,
+    68,
+    66,
+    68
+   ],
+   "design": "brick_arch",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "herring",
+   "rect": [
+    67,
+    68,
+    67,
+    68
+   ],
+   "design": "brick_arch",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "herring",
+   "rect": [
+    68,
+    68,
+    68,
+    68
+   ],
+   "design": "brick_arch",
    "skip": []
   },
   {
@@ -10352,54 +10012,6 @@
    "id": "C-paving",
    "style": "cobble",
    "rect": [
-    50,
-    73,
-    50,
-    73
-   ],
-   "design": "road_chic_stone",
-   "skip": []
-  },
-  {
-   "id": "C-paving",
-   "style": "cobble",
-   "rect": [
-    51,
-    73,
-    51,
-    73
-   ],
-   "design": "road_chic_stone",
-   "skip": []
-  },
-  {
-   "id": "C-paving",
-   "style": "cobble",
-   "rect": [
-    52,
-    73,
-    52,
-    73
-   ],
-   "design": "road_chic_stone",
-   "skip": []
-  },
-  {
-   "id": "C-paving",
-   "style": "cobble",
-   "rect": [
-    53,
-    73,
-    53,
-    73
-   ],
-   "design": "road_chic_stone",
-   "skip": []
-  },
-  {
-   "id": "C-paving",
-   "style": "cobble",
-   "rect": [
     54,
     73,
     54,
@@ -10770,14 +10382,110 @@
   },
   {
    "id": "C-paving",
-   "style": "cobble",
+   "style": "herring",
    "rect": [
-    53,
-    74,
-    53,
-    74
+    12,
+    75,
+    12,
+    75
    ],
-   "design": "road_chic_stone",
+   "design": "brick_arch",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "herring",
+   "rect": [
+    13,
+    75,
+    13,
+    75
+   ],
+   "design": "brick_arch",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "brick",
+   "rect": [
+    14,
+    75,
+    14,
+    75
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "brick",
+   "rect": [
+    22,
+    75,
+    22,
+    75
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "brick",
+   "rect": [
+    23,
+    75,
+    23,
+    75
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "brick",
+   "rect": [
+    31,
+    75,
+    31,
+    75
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "herring",
+   "rect": [
+    33,
+    75,
+    33,
+    75
+   ],
+   "design": "brick_arch",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "herring",
+   "rect": [
+    36,
+    75,
+    36,
+    75
+   ],
+   "design": "brick_arch",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "brick",
+   "rect": [
+    38,
+    75,
+    38,
+    75
+   ],
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
@@ -10785,9 +10493,9 @@
    "style": "cobble",
    "rect": [
     54,
-    74,
+    75,
     54,
-    74
+    75
    ],
    "design": "road_chic_stone",
    "skip": []
@@ -10797,114 +10505,6 @@
    "style": "herring",
    "rect": [
     12,
-    75,
-    12,
-    75
-   ],
-   "design": "brick_arch",
-   "skip": []
-  },
-  {
-   "id": "C-paving",
-   "style": "herring",
-   "rect": [
-    13,
-    75,
-    13,
-    75
-   ],
-   "design": "brick_arch",
-   "skip": []
-  },
-  {
-   "id": "C-paving",
-   "style": "brick",
-   "rect": [
-    14,
-    75,
-    14,
-    75
-   ],
-   "design": "brick_vintage_red",
-   "skip": []
-  },
-  {
-   "id": "C-paving",
-   "style": "brick",
-   "rect": [
-    22,
-    75,
-    22,
-    75
-   ],
-   "design": "brick_vintage_red",
-   "skip": []
-  },
-  {
-   "id": "C-paving",
-   "style": "brick",
-   "rect": [
-    23,
-    75,
-    23,
-    75
-   ],
-   "design": "brick_vintage_red",
-   "skip": []
-  },
-  {
-   "id": "C-paving",
-   "style": "brick",
-   "rect": [
-    31,
-    75,
-    31,
-    75
-   ],
-   "design": "brick_vintage_red",
-   "skip": []
-  },
-  {
-   "id": "C-paving",
-   "style": "herring",
-   "rect": [
-    33,
-    75,
-    33,
-    75
-   ],
-   "design": "brick_arch",
-   "skip": []
-  },
-  {
-   "id": "C-paving",
-   "style": "herring",
-   "rect": [
-    36,
-    75,
-    36,
-    75
-   ],
-   "design": "brick_arch",
-   "skip": []
-  },
-  {
-   "id": "C-paving",
-   "style": "brick",
-   "rect": [
-    38,
-    75,
-    38,
-    75
-   ],
-   "design": "brick_vintage_red",
-   "skip": []
-  },
-  {
-   "id": "C-paving",
-   "style": "herring",
-   "rect": [
-    12,
     76,
     12,
     76
@@ -11106,6 +10706,18 @@
   },
   {
    "id": "C-paving",
+   "style": "cobble",
+   "rect": [
+    54,
+    76,
+    54,
+    76
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
    "style": "herring",
    "rect": [
     12,
@@ -11270,6 +10882,18 @@
     77
    ],
    "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "cobble",
+   "rect": [
+    54,
+    77,
+    54,
+    77
+   ],
+   "design": "road_chic_stone",
    "skip": []
   },
   {
@@ -11450,6 +11074,18 @@
     78
    ],
    "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "cobble",
+   "rect": [
+    54,
+    78,
+    54,
+    78
+   ],
+   "design": "road_chic_stone",
    "skip": []
   },
   {
@@ -11562,6 +11198,18 @@
   },
   {
    "id": "C-paving",
+   "style": "cobble",
+   "rect": [
+    54,
+    79,
+    54,
+    79
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
    "style": "herring",
    "rect": [
     36,
@@ -11639,6 +11287,18 @@
     42,
     80,
     42,
+    80
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "cobble",
+   "rect": [
+    54,
+    80,
+    54,
     80
    ],
    "design": "road_chic_stone",
@@ -11924,9 +11584,21 @@
    "id": "C-paving",
    "style": "cobble",
    "rect": [
-    42,
+    40,
     81,
-    42,
+    40,
+    81
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "cobble",
+   "rect": [
+    41,
+    81,
+    41,
     81
    ],
    "design": "road_chic_stone",
@@ -11939,6 +11611,18 @@
     43,
     81,
     43,
+    81
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "cobble",
+   "rect": [
+    53,
+    81,
+    53,
     81
    ],
    "design": "road_chic_stone",
@@ -11999,6 +11683,30 @@
     19,
     82,
     19,
+    82
+   ],
+   "design": "brick_arch",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "herring",
+   "rect": [
+    20,
+    82,
+    20,
+    82
+   ],
+   "design": "brick_arch",
+   "skip": []
+  },
+  {
+   "id": "C-paving",
+   "style": "herring",
+   "rect": [
+    21,
+    82,
+    21,
     82
    ],
    "design": "brick_arch",
@@ -12451,6 +12159,86 @@
  ],
  "plants": [
   {
+   "id": "C-roofgarden",
+   "type": "tulips",
+   "rect": [
+    57,
+    54,
+    57,
+    54
+   ],
+   "colors": [
+    "red",
+    "white",
+    "pink"
+   ],
+   "fit": true
+  },
+  {
+   "id": "C-roofgarden",
+   "type": "lilies",
+   "rect": [
+    16,
+    63,
+    16,
+    63
+   ],
+   "colors": [
+    "red",
+    "white",
+    "pink"
+   ],
+   "fit": true
+  },
+  {
+   "id": "C-roofgarden",
+   "type": "roses",
+   "rect": [
+    16,
+    64,
+    16,
+    64
+   ],
+   "colors": [
+    "red",
+    "white",
+    "pink"
+   ],
+   "fit": true
+  },
+  {
+   "id": "C-roofgarden",
+   "type": "roses",
+   "rect": [
+    17,
+    63,
+    17,
+    63
+   ],
+   "colors": [
+    "red",
+    "white",
+    "pink"
+   ],
+   "fit": true
+  },
+  {
+   "id": "C-roofgarden",
+   "type": "tulips",
+   "rect": [
+    18,
+    63,
+    18,
+    63
+   ],
+   "colors": [
+    "red",
+    "white",
+    "pink"
+   ],
+   "fit": true
+  },
+  {
    "id": "C-roof",
    "type": "roses",
    "rect": [
@@ -12822,6 +12610,38 @@
    "id": "C-roof",
    "type": "roses",
    "rect": [
+    42,
+    39,
+    42,
+    39
+   ],
+   "colors": [
+    "red",
+    "white",
+    "pink"
+   ],
+   "fit": true
+  },
+  {
+   "id": "C-roof",
+   "type": "roses",
+   "rect": [
+    43,
+    39,
+    43,
+    39
+   ],
+   "colors": [
+    "red",
+    "white",
+    "pink"
+   ],
+   "fit": true
+  },
+  {
+   "id": "C-roof",
+   "type": "roses",
+   "rect": [
     44,
     39,
     44,
@@ -13190,22 +13010,6 @@
    "id": "C-roof",
    "type": "roses",
    "rect": [
-    44,
-    40,
-    44,
-    40
-   ],
-   "colors": [
-    "red",
-    "white",
-    "pink"
-   ],
-   "fit": true
-  },
-  {
-   "id": "C-roof",
-   "type": "roses",
-   "rect": [
     45,
     40,
     45,
@@ -13497,22 +13301,6 @@
     28,
     41,
     28,
-    41
-   ],
-   "colors": [
-    "red",
-    "white",
-    "pink"
-   ],
-   "fit": true
-  },
-  {
-   "id": "C-roof",
-   "type": "roses",
-   "rect": [
-    44,
-    41,
-    44,
     41
    ],
    "colors": [
@@ -14326,9 +14114,9 @@
    "id": "C-roof",
    "type": "roses",
    "rect": [
-    47,
+    41,
     44,
-    47,
+    41,
     44
    ],
    "colors": [
@@ -14342,9 +14130,25 @@
    "id": "C-roof",
    "type": "roses",
    "rect": [
-    48,
+    46,
     44,
-    48,
+    46,
+    44
+   ],
+   "colors": [
+    "red",
+    "white",
+    "pink"
+   ],
+   "fit": true
+  },
+  {
+   "id": "C-roof",
+   "type": "roses",
+   "rect": [
+    47,
+    44,
+    47,
     44
    ],
    "colors": [
@@ -14518,9 +14322,9 @@
    "id": "C-roof",
    "type": "roses",
    "rect": [
-    48,
+    49,
     45,
-    48,
+    49,
     45
    ],
    "colors": [
@@ -14534,10 +14338,10 @@
    "id": "C-roof",
    "type": "roses",
    "rect": [
-    49,
-    45,
-    49,
-    45
+    41,
+    46,
+    41,
+    46
    ],
    "colors": [
     "red",
@@ -15041,6 +14845,21 @@
    "fit": true
   },
   {
+   "id": "v7-garden",
+   "type": "mums",
+   "rect": [
+    88,
+    33,
+    88,
+    33
+   ],
+   "colors": [
+    "white",
+    "yellow"
+   ],
+   "fit": true
+  },
+  {
    "id": "v9-garden",
    "type": "roses",
    "rect": [
@@ -15430,7 +15249,7 @@
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "lilies",
    "rect": [
     11,
     36,
@@ -15438,14 +15257,111 @@
     36
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "purple",
+    "blue",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "lilies",
+   "type": "hyacinths",
+   "rect": [
+    61,
+    49,
+    61,
+    49
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    61,
+    50,
+    61,
+    50
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    63,
+    50,
+    63,
+    50
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    65,
+    50,
+    65,
+    50
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    68,
+    50,
+    68,
+    50
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    69,
+    50,
+    69,
+    50
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
    "rect": [
     70,
     50,
@@ -15453,14 +15369,15 @@
     50
    ],
    "colors": [
-    "pink",
+    "red",
+    "yellow",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "hyacinths",
    "rect": [
     56,
     51,
@@ -15468,14 +15385,15 @@
     51
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "red",
+    "yellow",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "hyacinths",
    "rect": [
     57,
     51,
@@ -15483,14 +15401,15 @@
     51
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "red",
+    "yellow",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "hyacinths",
    "rect": [
     58,
     51,
@@ -15498,14 +15417,111 @@
     51
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "red",
+    "yellow",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "lilies",
+   "type": "hyacinths",
+   "rect": [
+    59,
+    51,
+    59,
+    51
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    61,
+    51,
+    61,
+    51
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    62,
+    51,
+    62,
+    51
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    63,
+    51,
+    63,
+    51
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    64,
+    51,
+    64,
+    51
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    65,
+    51,
+    65,
+    51
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
    "rect": [
     68,
     51,
@@ -15513,14 +15529,15 @@
     51
    ],
    "colors": [
-    "pink",
+    "red",
+    "yellow",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "lilies",
+   "type": "hyacinths",
    "rect": [
     69,
     51,
@@ -15528,14 +15545,15 @@
     51
    ],
    "colors": [
-    "pink",
+    "red",
+    "yellow",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "lilies",
+   "type": "hyacinths",
    "rect": [
     70,
     51,
@@ -15543,14 +15561,15 @@
     51
    ],
    "colors": [
-    "pink",
+    "red",
+    "yellow",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "hyacinths",
    "rect": [
     56,
     52,
@@ -15558,14 +15577,15 @@
     52
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "red",
+    "yellow",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "hyacinths",
    "rect": [
     57,
     52,
@@ -15573,14 +15593,15 @@
     52
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "red",
+    "yellow",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "hyacinths",
    "rect": [
     58,
     52,
@@ -15588,14 +15609,111 @@
     52
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "red",
+    "yellow",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "lilies",
+   "type": "hyacinths",
+   "rect": [
+    59,
+    52,
+    59,
+    52
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    60,
+    52,
+    60,
+    52
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    61,
+    52,
+    61,
+    52
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    62,
+    52,
+    62,
+    52
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    64,
+    52,
+    64,
+    52
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    65,
+    52,
+    65,
+    52
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
    "rect": [
     68,
     52,
@@ -15603,14 +15721,15 @@
     52
    ],
    "colors": [
-    "pink",
+    "red",
+    "yellow",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "lilies",
+   "type": "hyacinths",
    "rect": [
     69,
     52,
@@ -15618,14 +15737,15 @@
     52
    ],
    "colors": [
-    "pink",
+    "red",
+    "yellow",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "lilies",
+   "type": "hyacinths",
    "rect": [
     70,
     52,
@@ -15633,14 +15753,47 @@
     52
    ],
    "colors": [
-    "pink",
+    "red",
+    "yellow",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "lilies",
+   "type": "hyacinths",
+   "rect": [
+    63,
+    53,
+    63,
+    53
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    64,
+    53,
+    64,
+    53
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
    "rect": [
     68,
     53,
@@ -15648,14 +15801,31 @@
     53
    ],
    "colors": [
-    "pink",
+    "red",
+    "yellow",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "lilies",
+   "type": "hyacinths",
+   "rect": [
+    69,
+    53,
+    69,
+    53
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
    "rect": [
     70,
     53,
@@ -15663,14 +15833,15 @@
     53
    ],
    "colors": [
-    "pink",
+    "red",
+    "yellow",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "lilies",
+   "type": "hyacinths",
    "rect": [
     63,
     54,
@@ -15678,14 +15849,15 @@
     54
    ],
    "colors": [
-    "pink",
+    "red",
+    "yellow",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "lilies",
+   "type": "hyacinths",
    "rect": [
     64,
     54,
@@ -15693,14 +15865,31 @@
     54
    ],
    "colors": [
-    "pink",
+    "red",
+    "yellow",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "lilies",
+   "type": "hyacinths",
+   "rect": [
+    65,
+    54,
+    65,
+    54
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
    "rect": [
     68,
     54,
@@ -15708,14 +15897,15 @@
     54
    ],
    "colors": [
-    "pink",
+    "red",
+    "yellow",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "lilies",
+   "type": "hyacinths",
    "rect": [
     69,
     54,
@@ -15723,14 +15913,15 @@
     54
    ],
    "colors": [
-    "pink",
+    "red",
+    "yellow",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "lilies",
+   "type": "hyacinths",
    "rect": [
     70,
     54,
@@ -15738,14 +15929,15 @@
     54
    ],
    "colors": [
-    "pink",
+    "red",
+    "yellow",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "lilies",
+   "type": "hyacinths",
    "rect": [
     63,
     55,
@@ -15753,14 +15945,15 @@
     55
    ],
    "colors": [
-    "pink",
+    "red",
+    "yellow",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "lilies",
+   "type": "hyacinths",
    "rect": [
     64,
     55,
@@ -15768,14 +15961,15 @@
     55
    ],
    "colors": [
-    "pink",
+    "red",
+    "yellow",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "lilies",
+   "type": "hyacinths",
    "rect": [
     65,
     55,
@@ -15783,14 +15977,15 @@
     55
    ],
    "colors": [
-    "pink",
+    "red",
+    "yellow",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "lilies",
+   "type": "hyacinths",
    "rect": [
     68,
     55,
@@ -15798,14 +15993,31 @@
     55
    ],
    "colors": [
-    "pink",
+    "red",
+    "yellow",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "lilies",
+   "type": "hyacinths",
+   "rect": [
+    69,
+    55,
+    69,
+    55
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
    "rect": [
     70,
     55,
@@ -15813,29 +16025,15 @@
     55
    ],
    "colors": [
-    "pink",
+    "red",
+    "yellow",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    63,
-    56,
-    63,
-    56
-   ],
-   "colors": [
-    "pink",
-    "white"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
+   "type": "windflowers",
    "rect": [
     64,
     56,
@@ -15843,14 +16041,15 @@
     56
    ],
    "colors": [
-    "pink",
+    "purple",
+    "blue",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "windflowers",
    "rect": [
     69,
     56,
@@ -15858,14 +16057,15 @@
     56
    ],
    "colors": [
-    "pink",
+    "purple",
+    "blue",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "windflowers",
    "rect": [
     70,
     56,
@@ -15873,7 +16073,8 @@
     56
    ],
    "colors": [
-    "pink",
+    "purple",
+    "blue",
     "white"
    ],
    "fit": true
@@ -15992,31 +16193,17 @@
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "tulips",
    "rect": [
-    95,
-    61,
-    95,
-    61
+    80,
+    59,
+    80,
+    59
    ],
    "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    96,
-    61,
-    96,
-    61
-   ],
-   "colors": [
-    "orange",
-    "yellow"
+    "purple",
+    "blue",
+    "white"
    ],
    "fit": true
   },
@@ -16027,6 +16214,22 @@
     76,
     62,
     76,
+    62
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "tulips",
+   "rect": [
+    77,
+    62,
+    77,
     62
    ],
    "colors": [
@@ -16056,21 +16259,20 @@
    "id": "S-fields",
    "type": "tulips",
    "rect": [
-    79,
+    81,
     62,
-    79,
+    81,
     62
    ],
    "colors": [
-    "purple",
-    "blue",
+    "pink",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "hyacinths",
+   "type": "tulips",
    "rect": [
     75,
     63,
@@ -16078,15 +16280,14 @@
     63
    ],
    "colors": [
-    "red",
-    "yellow",
+    "pink",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "hyacinths",
+   "type": "tulips",
    "rect": [
     76,
     63,
@@ -16094,15 +16295,14 @@
     63
    ],
    "colors": [
-    "red",
-    "yellow",
+    "pink",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "hyacinths",
+   "type": "tulips",
    "rect": [
     77,
     63,
@@ -16110,15 +16310,14 @@
     63
    ],
    "colors": [
-    "red",
-    "yellow",
+    "pink",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "hyacinths",
+   "type": "tulips",
    "rect": [
     78,
     63,
@@ -16126,822 +16325,23 @@
     63
    ],
    "colors": [
-    "red",
-    "yellow",
+    "pink",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "hyacinths",
+   "type": "tulips",
    "rect": [
-    79,
+    80,
     63,
-    79,
+    80,
     63
    ],
    "colors": [
-    "red",
-    "yellow",
-    "white"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "hyacinths",
-   "rect": [
-    75,
-    64,
-    75,
-    64
-   ],
-   "colors": [
-    "red",
-    "yellow",
-    "white"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "hyacinths",
-   "rect": [
-    76,
-    64,
-    76,
-    64
-   ],
-   "colors": [
-    "red",
-    "yellow",
-    "white"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "hyacinths",
-   "rect": [
-    77,
-    64,
-    77,
-    64
-   ],
-   "colors": [
-    "red",
-    "yellow",
-    "white"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "hyacinths",
-   "rect": [
-    78,
-    64,
-    78,
-    64
-   ],
-   "colors": [
-    "red",
-    "yellow",
-    "white"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "hyacinths",
-   "rect": [
-    79,
-    64,
-    79,
-    64
-   ],
-   "colors": [
-    "red",
-    "yellow",
-    "white"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "hyacinths",
-   "rect": [
-    75,
-    65,
-    75,
-    65
-   ],
-   "colors": [
-    "red",
-    "yellow",
-    "white"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "hyacinths",
-   "rect": [
-    76,
-    65,
-    76,
-    65
-   ],
-   "colors": [
-    "red",
-    "yellow",
-    "white"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "hyacinths",
-   "rect": [
-    77,
-    65,
-    77,
-    65
-   ],
-   "colors": [
-    "red",
-    "yellow",
-    "white"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "hyacinths",
-   "rect": [
-    78,
-    65,
-    78,
-    65
-   ],
-   "colors": [
-    "red",
-    "yellow",
-    "white"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "hyacinths",
-   "rect": [
-    79,
-    65,
-    79,
-    65
-   ],
-   "colors": [
-    "red",
-    "yellow",
-    "white"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    88,
-    65,
-    88,
-    65
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    88,
-    66,
-    88,
-    66
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    89,
-    66,
-    89,
-    66
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    83,
-    67,
-    83,
-    67
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    84,
-    67,
-    84,
-    67
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    85,
-    67,
-    85,
-    67
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    87,
-    67,
-    87,
-    67
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    88,
-    67,
-    88,
-    67
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "windflowers",
-   "rect": [
-    90,
-    67,
-    90,
-    67
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    5,
-    68,
-    5,
-    68
-   ],
-   "colors": [
     "pink",
     "white"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    6,
-    68,
-    6,
-    68
-   ],
-   "colors": [
-    "pink",
-    "white"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    7,
-    68,
-    7,
-    68
-   ],
-   "colors": [
-    "pink",
-    "white"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "tulips",
-   "rect": [
-    11,
-    68,
-    11,
-    68
-   ],
-   "colors": [
-    "purple",
-    "blue",
-    "white"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    83,
-    68,
-    83,
-    68
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    84,
-    68,
-    84,
-    68
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    85,
-    68,
-    85,
-    68
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    86,
-    68,
-    86,
-    68
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    87,
-    68,
-    87,
-    68
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    88,
-    68,
-    88,
-    68
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    89,
-    68,
-    89,
-    68
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "windflowers",
-   "rect": [
-    90,
-    68,
-    90,
-    68
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    5,
-    69,
-    5,
-    69
-   ],
-   "colors": [
-    "pink",
-    "white"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    6,
-    69,
-    6,
-    69
-   ],
-   "colors": [
-    "pink",
-    "white"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    7,
-    69,
-    7,
-    69
-   ],
-   "colors": [
-    "pink",
-    "white"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "tulips",
-   "rect": [
-    11,
-    69,
-    11,
-    69
-   ],
-   "colors": [
-    "purple",
-    "blue",
-    "white"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    83,
-    69,
-    83,
-    69
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    84,
-    69,
-    84,
-    69
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    85,
-    69,
-    85,
-    69
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    86,
-    69,
-    86,
-    69
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    87,
-    69,
-    87,
-    69
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    89,
-    69,
-    89,
-    69
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "windflowers",
-   "rect": [
-    90,
-    69,
-    90,
-    69
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "tulips",
-   "rect": [
-    4,
-    70,
-    4,
-    70
-   ],
-   "colors": [
-    "purple",
-    "blue",
-    "white"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "tulips",
-   "rect": [
-    5,
-    70,
-    5,
-    70
-   ],
-   "colors": [
-    "purple",
-    "blue",
-    "white"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "tulips",
-   "rect": [
-    6,
-    70,
-    6,
-    70
-   ],
-   "colors": [
-    "purple",
-    "blue",
-    "white"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "tulips",
-   "rect": [
-    7,
-    70,
-    7,
-    70
-   ],
-   "colors": [
-    "purple",
-    "blue",
-    "white"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "hyacinths",
-   "rect": [
-    11,
-    70,
-    11,
-    70
-   ],
-   "colors": [
-    "red",
-    "yellow",
-    "white"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "windflowers",
-   "rect": [
-    83,
-    70,
-    83,
-    70
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "windflowers",
-   "rect": [
-    84,
-    70,
-    84,
-    70
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "windflowers",
-   "rect": [
-    85,
-    70,
-    85,
-    70
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "windflowers",
-   "rect": [
-    88,
-    70,
-    88,
-    70
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "windflowers",
-   "rect": [
-    89,
-    70,
-    89,
-    70
-   ],
-   "colors": [
-    "orange",
-    "yellow"
    ],
    "fit": true
   },
@@ -16949,9 +16349,303 @@
    "id": "S-fields",
    "type": "lilies",
    "rect": [
-    90,
+    81,
+    63,
+    81,
+    63
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "tulips",
+   "rect": [
+    75,
+    64,
+    75,
+    64
+   ],
+   "colors": [
+    "pink",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "tulips",
+   "rect": [
+    76,
+    64,
+    76,
+    64
+   ],
+   "colors": [
+    "pink",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "tulips",
+   "rect": [
+    77,
+    64,
+    77,
+    64
+   ],
+   "colors": [
+    "pink",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "tulips",
+   "rect": [
+    78,
+    64,
+    78,
+    64
+   ],
+   "colors": [
+    "pink",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "tulips",
+   "rect": [
+    80,
+    64,
+    80,
+    64
+   ],
+   "colors": [
+    "pink",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "lilies",
+   "rect": [
+    81,
+    64,
+    81,
+    64
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "tulips",
+   "rect": [
+    75,
+    65,
+    75,
+    65
+   ],
+   "colors": [
+    "pink",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "tulips",
+   "rect": [
+    76,
+    65,
+    76,
+    65
+   ],
+   "colors": [
+    "pink",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "tulips",
+   "rect": [
+    77,
+    65,
+    77,
+    65
+   ],
+   "colors": [
+    "pink",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "tulips",
+   "rect": [
+    78,
+    65,
+    78,
+    65
+   ],
+   "colors": [
+    "pink",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "tulips",
+   "rect": [
+    80,
+    65,
+    80,
+    65
+   ],
+   "colors": [
+    "pink",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    5,
+    68,
+    5,
+    68
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    6,
+    68,
+    6,
+    68
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    7,
+    68,
+    7,
+    68
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    6,
+    69,
+    6,
+    69
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    7,
+    69,
+    7,
+    69
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "tulips",
+   "rect": [
+    11,
+    69,
+    11,
+    69
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "tulips",
+   "rect": [
+    4,
     70,
-    90,
+    4,
+    70
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "tulips",
+   "rect": [
+    11,
+    70,
+    11,
     70
    ],
    "colors": [
@@ -16980,6 +16674,22 @@
    "id": "S-fields",
    "type": "tulips",
    "rect": [
+    5,
+    71,
+    5,
+    71
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "tulips",
+   "rect": [
     6,
     71,
     6,
@@ -16996,71 +16706,9 @@
    "id": "S-fields",
    "type": "tulips",
    "rect": [
-    7,
-    71,
-    7,
-    71
-   ],
-   "colors": [
-    "purple",
-    "blue",
-    "white"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "hyacinths",
-   "rect": [
     11,
     71,
     11,
-    71
-   ],
-   "colors": [
-    "red",
-    "yellow",
-    "white"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "windflowers",
-   "rect": [
-    88,
-    71,
-    88,
-    71
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "windflowers",
-   "rect": [
-    89,
-    71,
-    89,
-    71
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "lilies",
-   "rect": [
-    90,
-    71,
-    90,
     71
    ],
    "colors": [
@@ -17071,22 +16719,7 @@
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
-   "rect": [
-    89,
-    72,
-    89,
-    72
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "hyacinths",
+   "type": "tulips",
    "rect": [
     11,
     73,
@@ -17094,6 +16727,36 @@
     73
    ],
    "colors": [
+    "pink",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "tulips",
+   "rect": [
+    11,
+    74,
+    11,
+    74
+   ],
+   "colors": [
+    "pink",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    91,
+    74,
+    91,
+    74
+   ],
+   "colors": [
     "red",
     "yellow",
     "white"
@@ -17103,6 +16766,310 @@
   {
    "id": "S-fields",
    "type": "hyacinths",
+   "rect": [
+    92,
+    74,
+    92,
+    74
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    93,
+    74,
+    93,
+    74
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    94,
+    74,
+    94,
+    74
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    95,
+    74,
+    95,
+    74
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    96,
+    74,
+    96,
+    74
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    91,
+    75,
+    91,
+    75
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    92,
+    75,
+    92,
+    75
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    94,
+    75,
+    94,
+    75
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    95,
+    75,
+    95,
+    75
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    96,
+    75,
+    96,
+    75
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    97,
+    75,
+    97,
+    75
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "tulips",
+   "rect": [
+    55,
+    76,
+    55,
+    76
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    90,
+    76,
+    90,
+    76
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    91,
+    76,
+    91,
+    76
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    92,
+    76,
+    92,
+    76
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    93,
+    76,
+    93,
+    76
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    94,
+    76,
+    94,
+    76
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    95,
+    76,
+    95,
+    76
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    97,
+    76,
+    97,
+    76
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "tulips",
    "rect": [
     55,
     77,
@@ -17110,15 +17077,141 @@
     77
    ],
    "colors": [
-    "red",
-    "yellow",
+    "pink",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "hyacinths",
+   "type": "windflowers",
+   "rect": [
+    90,
+    77,
+    90,
+    77
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    91,
+    77,
+    91,
+    77
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    92,
+    77,
+    92,
+    77
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    93,
+    77,
+    93,
+    77
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    94,
+    77,
+    94,
+    77
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    96,
+    77,
+    96,
+    77
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    97,
+    77,
+    97,
+    77
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "tulips",
+   "rect": [
+    55,
+    78,
+    55,
+    78
+   ],
+   "colors": [
+    "pink",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "tulips",
    "rect": [
     56,
     78,
@@ -17126,15 +17219,142 @@
     78
    ],
    "colors": [
-    "red",
-    "yellow",
+    "pink",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "hyacinths",
+   "type": "windflowers",
+   "rect": [
+    90,
+    78,
+    90,
+    78
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    91,
+    78,
+    91,
+    78
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    92,
+    78,
+    92,
+    78
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    93,
+    78,
+    93,
+    78
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    94,
+    78,
+    94,
+    78
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    96,
+    78,
+    96,
+    78
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    97,
+    78,
+    97,
+    78
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    98,
+    78,
+    98,
+    78
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "tulips",
    "rect": [
     55,
     79,
@@ -17142,15 +17362,14 @@
     79
    ],
    "colors": [
-    "red",
-    "yellow",
+    "pink",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "hyacinths",
+   "type": "tulips",
    "rect": [
     56,
     79,
@@ -17158,15 +17377,110 @@
     79
    ],
    "colors": [
-    "red",
-    "yellow",
+    "pink",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "hyacinths",
+   "type": "windflowers",
+   "rect": [
+    90,
+    79,
+    90,
+    79
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    92,
+    79,
+    92,
+    79
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    93,
+    79,
+    93,
+    79
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    94,
+    79,
+    94,
+    79
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    96,
+    79,
+    96,
+    79
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    97,
+    79,
+    97,
+    79
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "tulips",
    "rect": [
     55,
     80,
@@ -17174,15 +17488,14 @@
     80
    ],
    "colors": [
-    "red",
-    "yellow",
+    "pink",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "hyacinths",
+   "type": "tulips",
    "rect": [
     56,
     80,
@@ -17190,15 +17503,126 @@
     80
    ],
    "colors": [
-    "red",
-    "yellow",
+    "pink",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "hyacinths",
+   "type": "windflowers",
+   "rect": [
+    92,
+    80,
+    92,
+    80
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    93,
+    80,
+    93,
+    80
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    94,
+    80,
+    94,
+    80
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    95,
+    80,
+    95,
+    80
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    96,
+    80,
+    96,
+    80
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    97,
+    80,
+    97,
+    80
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    98,
+    80,
+    98,
+    80
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "tulips",
    "rect": [
     55,
     81,
@@ -17206,15 +17630,110 @@
     81
    ],
    "colors": [
-    "red",
-    "yellow",
+    "pink",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "hyacinths",
+   "type": "windflowers",
+   "rect": [
+    90,
+    81,
+    90,
+    81
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    91,
+    81,
+    91,
+    81
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    94,
+    81,
+    94,
+    81
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    95,
+    81,
+    95,
+    81
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    96,
+    81,
+    96,
+    81
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    98,
+    81,
+    98,
+    81
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "tulips",
    "rect": [
     55,
     82,
@@ -17222,8 +17741,183 @@
     82
    ],
    "colors": [
-    "red",
-    "yellow",
+    "pink",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    91,
+    82,
+    91,
+    82
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    92,
+    82,
+    92,
+    82
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    93,
+    82,
+    93,
+    82
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    94,
+    82,
+    94,
+    82
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    95,
+    82,
+    95,
+    82
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    96,
+    82,
+    96,
+    82
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    97,
+    82,
+    97,
+    82
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    90,
+    83,
+    90,
+    83
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    91,
+    83,
+    91,
+    83
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    92,
+    83,
+    92,
+    83
+   ],
+   "colors": [
+    "purple",
+    "blue",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "windflowers",
+   "rect": [
+    94,
+    83,
+    94,
+    83
+   ],
+   "colors": [
+    "purple",
+    "blue",
     "white"
    ],
    "fit": true

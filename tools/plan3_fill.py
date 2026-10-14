@@ -357,7 +357,8 @@ for it in SPEC.get('landmarks', []):
     name, x, y, rot = it[0], it[1], it[2], it[3]
     w, d = foot(CAT[name]['size'], rot); L = lv(x, y)
     cells = [(a, b) for a in range(x, x + w) for b in range(y, y + d)]
-    if all(g(a, b) in '13' and lv(a, b) == L and (a, b) not in occ and (a, b) not in slope and (a, b) not in occ_b and (a, b) not in front and (a, b) not in trees for a, b in cells):
+    okc = '13p' if name == 'castle gate' else '13'   # 第60回：城門（まん中のアーチをくぐれる）は道の上にも置ける
+    if all(g(a, b) in okc and lv(a, b) == L and (a, b) not in occ and (a, b) not in slope and (a, b) not in occ_b and (a, b) not in front and (a, b) not in trees for a, b in cells):
         marks.append(list(it)); occ |= set(cells)
     else:
         print('目じるしを置けない', it)
@@ -477,13 +478,24 @@ if street:
     groups.append({'id': 'C-street', 'zone': 'C', 'name': 'ロンドンの通りの小物（街灯・電話ボックス・花の荷車・自転車・植木ばち）', 'at': [0, 0], 'items': street, 'lines': []})
 
 # ---- 3段目のかたまりの屋上の庭（バラ）----
+PAVE3 = bool(SPEC.get('pave_tier3'))   # 第60回：歩いて上がる3段目（城の前庭・上の町）は石畳を敷き、バラは上がれない3段目の屋根だけ
+walk3 = set()
+if PAVE3:
+    q = [(x, y) for (x, y) in road if lv(x, y) == 3]
+    walk3 = set(q)
+    while q:
+        x, y = q.pop()
+        for dx, dy in N4:
+            p_ = (x + dx, y + dy)
+            if p_ not in walk3 and inside(*p_) and lv(*p_) == 3 and g(*p_) in '13p':
+                walk3.add(p_); q.append(p_)
 for y in range(H):
     for x in range(W):
-        if Z[y][x] == 'C' and lv(x, y) == 3 and g(x, y) in '13' and (x, y) not in occ and (x, y) not in trees:
+        if Z[y][x] == 'C' and lv(x, y) == 3 and g(x, y) in '13' and (x, y) not in occ and (x, y) not in trees and (x, y) not in walk3:
             plants.append({'id': 'C-roof', 'type': 'roses', 'rect': [x, y, x, y], 'colors': ['red', 'white', 'pink'], 'fit': True}); occ.add((x, y))
 
 # ---- ロンドンの地面はすべてマイデザインで敷く（家のまわりはレンガ、ほかは石畳。物の下も敷く）----
-pave = {(x, y) for y in range(H) for x in range(W) if Z[y][x] in URBAN and g(x, y) in '13' and lv(x, y) <= 2 and (x, y) not in slope and (x, y) not in trees and ((x, y) not in occ or (x, y) in props) and (x, y) not in road}
+pave = {(x, y) for y in range(H) for x in range(W) if Z[y][x] in URBAN and g(x, y) in '13' and lv(x, y) <= (3 if PAVE3 else 2) and (x, y) not in slope and (x, y) not in trees and ((x, y) not in occ or (x, y) in props) and (x, y) not in road}
 q = [p for p in pave if any((p[0] + dx, p[1] + dy) in road and lv(p[0] + dx, p[1] + dy) == lv(*p) for dx, dy in N4)]
 reach = set(q)
 while q:   # 道から歩いて行ける所だけ敷く
