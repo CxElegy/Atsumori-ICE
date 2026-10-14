@@ -67,6 +67,10 @@ if (SPEC.town_targets) {
   ok(`案6 町：井戸の石段（上の段を切りこんだ所に下ろす坂）が${TT.well_stairs}つ以上`, K.well_stairs.length >= TT.well_stairs, JSON.stringify(K.well_stairs));
   ok(`案6 町：通りにそった運河（運河から2マス以内の通り）${TT.canal_street}マス以上`, K.canal_street_cells >= TT.canal_street, K.canal_street_cells);
   if (TT.wide_road_max !== undefined) ok(`案6 町：複雑さ（広すぎる道${TT.wide_road_max}マスまで・南北の断面で段が${TT.section_min}回以上変わる・2段目以上のかたまり${TT.blocks_min}以上）`, K.wide_road_cells <= TT.wide_road_max && K.section_changes_avg >= TT.section_min && K.upper_blocks >= TT.blocks_min, K.wide_road_cells + '・' + K.section_changes_avg + '・' + K.upper_blocks);
+  if (TT.terrain_rules) {   // 第60回：滝（角の滝・わきの崖・幅）・水がこぼれない・河口・坂のわきと出入口・坂と橋のあいだ（tools/terrain_rules.py）
+    const TR = JSON.parse(execFileSync('python3', [path.join(ROOT, 'tools/terrain_rules.py'), '--json'], { encoding: 'utf8', env }));
+    ok('案6 地形：滝・水・河口・坂の決まりの NG が0（島ぜんたい）', TR.errors.length === 0, TR.errors.length + '件 ' + TR.errors.slice(0, 3).join(' / '));
+  }
   ok(`案6 町：町の木${TT.town_trees}本以上・広場のまわり${TT.plaza_trees}本以上`, K.town_trees >= TT.town_trees && K.plaza_trees >= TT.plaza_trees, K.town_trees + '・広場' + K.plaza_trees);
   ok(`案6 町：カメラから見えない物が${TT.hidden_items}個まで・北向きのパネル0`, K.hidden_items <= TT.hidden_items && K.north_panels === 0, K.hidden_items + '・' + K.north_panels);
 }
