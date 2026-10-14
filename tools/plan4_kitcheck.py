@@ -261,6 +261,12 @@ def check(props):
             for y in range(ay - 1, ay + KD + 1):
                 for x in range(ax - 1, ax + KW + 1):
                     taken.setdefault((x, y), f'{dname} #{i} {kid}')
+            # 第60回：キットの四角とまわり1マス（同じ段）は plan3_fill で先にとられ、土台の目じるし・町の木がそこに置けなくなる
+            lost_marks = [f"{m[0]} ({m[1]},{m[2]})" for m in SPEC.get('landmarks', []) for mx_ in range(m[1], m[1] + foot(ITEMS[m[0]]['size'], m[3])[0]) for my_ in range(m[2], m[2] + foot(ITEMS[m[0]]['size'], m[3])[1])
+                          if ax - 1 <= mx_ <= ax + KW and ay - 1 <= my_ <= ay + KD and lv(mx_, my_) == L]
+            lost_trees = [f"木 ({t[0]},{t[1]})" for t in SPEC.get('street_trees', []) if ax - 1 <= t[0] <= ax + KW and ay - 1 <= t[1] <= ay + KD and lv(t[0], t[1]) == L]
+            if lost_marks or lost_trees:
+                (errs if SPEC.get('camera_check') else warns).append(f"{tag}：キットの四角かまわり1マスに土台の目じるし・町の木があり、置けなくなる：{'・'.join(sorted(set(lost_marks)) + lost_trees)}")
             out, plants = kit_cells(k, ax, ay, flip)
             for p in out:   # 第60回：ゲームのカメラ（南から北を見る）から見えない物（南の1〜2列に高い段・家の真裏）
                 if p['item'] == 'manhole cover':

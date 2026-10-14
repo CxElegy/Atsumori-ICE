@@ -165,7 +165,7 @@ def place_kit(kid, tx, ty, r, z, style=None, flip=None, gid=None, name=None, on_
     ground.append({'id': gid, 'style': st, 'rect': [ax - 1, ay - 1, ax + KW, ay + KD], 'design': GDES[st], 'skip': ring_skip(ax, ay, KW, KD)})
     return True
 GSTYLE = {'C': ['herring', 'brick', 'flag', 'cobble'], 'S': ['garden', 'flag'], 'P': ['plank', 'flag'], 'J': ['moss'], 'B': ['moss'], 'H': ['leaves'], 'F': ['leaves']}
-GDES = {'herring': 'brick_arch', 'brick': 'brick_vintage_red', 'flag': 'brick_greige', 'cobble': 'road_chic_stone', 'garden': 'brick_city_old', 'plank': 'plank', 'moss': 'stone_natural', 'leaves': 'brick_autumn'}
+GDES = {'herring': 'brick_arch', 'brick': 'brick_vintage_red', 'flag': 'brick_greige', 'cobble': 'road_chic_stone', 'garden': 'brick_city_old', 'plank': 'plank', 'moss': 'stone_natural', 'leaves': 'brick_autumn', 'stoneold': 'stone_old'}
 for kd in SPEC.get('kits', []):   # 設計の見せ場（ねらいの場所のまわりに）。木より先に場所をとる
     tx, ty = kd.get('at') or kd['near']
     place_kit(kd['kit'], tx, ty, 0 if 'at' in kd else kd.get('r', 6), kd['zone'], kd.get('style'), kd.get('flip'), name=kd.get('name'), on_road=kd.get('on_road', False))
