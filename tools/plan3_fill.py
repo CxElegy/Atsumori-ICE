@@ -158,6 +158,8 @@ def place_kit(kid, tx, ty, r, z, style=None, flip=None, gid=None, name=None, on_
             if not inner:
                 kitring.add((x, y))
     st = style or GSTYLE[z][len(groups) % len(GSTYLE[z])]
+    if SPEC.get('paving') and z in 'CP' and not style:
+        st = SPEC['paving'][0]   # 第60回：見せ場のまわりの地面も町の敷石にそろえる
     ground.append({'id': gid, 'style': st, 'rect': [ax - 1, ay - 1, ax + KW, ay + KD], 'design': GDES[st], 'skip': ring_skip(ax, ay, KW, KD)})
     return True
 GSTYLE = {'C': ['herring', 'brick', 'flag', 'cobble'], 'S': ['garden', 'flag'], 'P': ['plank', 'flag'], 'J': ['moss'], 'B': ['moss'], 'H': ['leaves'], 'F': ['leaves']}
@@ -323,7 +325,7 @@ bld = {(x, y) for b in LAY['buildings'] for x0, y0 in [b['at']] for x in range(x
 def near_bridge(x, y):
     return any(g(x + dx, y + dy) == 'b' for dx in range(-1, 2) for dy in range(-1, 2))
 def bank_ok(x, y):
-    return inside(x, y) and g(x, y) in '13p' and (x, y) not in slope and (x, y) not in bld and (x, y) not in front and ((x, y) not in occ or (x, y) in kitring) and (x, y) not in trees and not near_bridge(x, y) \
+    return (x, y) not in KEEP_CLEAR and inside(x, y) and g(x, y) in '13p' and (x, y) not in slope and (x, y) not in bld and (x, y) not in front and ((x, y) not in occ or (x, y) in kitring) and (x, y) not in trees and not near_bridge(x, y) \
         and not any((x + dx, y + dy) in slope for dx, dy in N4)
 canal_items = []
 for op in SPEC.get('water', []):
@@ -440,7 +442,7 @@ if SPEC.get('base') == 'authored':
                         roofs.append(['brick fence', x, y, 0, None]); occ.add((x, y))
                 elif low and rk == 'garden':
                     roofs.append(['hedge', x, y, 0, None]); occ.add((x, y))
-                elif rk == 'garden' or rk == 'fort' and noise(x * .5 + 3, y * .5) <= -.1:   # 屋上の庭
+                elif rk == 'garden' or rk == 'fort' and (SPEC.get('fort_garden') or noise(x * .5 + 3, y * .5) <= -.1):   # 屋上の庭（第60回：fort_garden で城壁の屋根の中はぜんぶ庭）
                     roofp.append({'id': 'C-roofgarden', 'type': ['roses', 'tulips', 'roses', 'lilies'][(x * 3 + y) % 4], 'rect': [x, y, x, y], 'colors': ['red', 'white', 'pink'] if (mx + my) % 2 else ['white', 'yellow', 'orange'], 'fit': True}); occ.add((x, y))
                 elif (x, y) in stacks:
                     roofs.append(['brick fence', x, y, 0, None]); occ.add((x, y))
@@ -546,6 +548,8 @@ for y in range(H):
                 continue
             else:
                 st, des = ('herring', 'brick_arch') if noise(x * .35 + 9, y * .35) > .25 else ('cobble', 'road_chic_stone')
+                if SPEC.get('paving'):   # 第60回：通りの外の地面を1種類に（作例はひとつの敷石。4種類の市松はうるさい）
+                    st, des = SPEC['paving']
             ground.append({'id': 'C-paving', 'style': st, 'rect': [x, y, x, y], 'design': des, 'skip': []}); occ.add((x, y))
 
 # ---- 花（村の家の庭・郊外の花畑・森のふち）----

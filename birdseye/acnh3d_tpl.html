@@ -414,7 +414,7 @@ const hash = (x, y) => (((x * 73856093) ^ (y * 19349663)) >>> 0) % 1000 / 1000;
 const FRUIT = { apple: '#d8453a', peach: '#f2a0a8', orange: '#f08a2a', pear: '#d8c84a', cherry: '#b8303a' };   // 果物の木（build_plan2.json の orchards）
 const inCedar = (x, y) => (D.cedar || []).some(([a, b, c, d]) => x >= a && x <= c && y >= b && y <= d);   // 第60回：spec の cedar_belts（杉の帯）
 function plant(x, y) {
-  const t = topY(x, y), z = ZONE(x, y), wx = WX(x) + (r1() - .5) * .2, wz = WZ(y) + (r1() - .5) * .2, k = hash(x + 3, y + 7);
+  const t = topY(x, y), z = ZONE(x, y), wx = WX(x) + (r1() - .5) * .2, wz = WZ(y) + (r1() - .5) * .2, k = (z === 'C' && D.axisSum) ? hash(Math.min(x, D.axisSum - x) + 3, y + 7) : hash(x + 3, y + 7);   // 第60回：軸をはさむ対の木は同じ色
   aoBlobs.push({ p: [wx, t + .024, wz], s: [1.6, 1, 1.6] });
   if (z === 'B') { for (let i = 0; i < 5; i++) { const a = i * 1.256 + r1(), r = .12 + r1() * .22, hh = 2.2 + r1() * .9, sx = wx + Math.cos(a) * r, sz = wz + Math.sin(a) * r;
       stems.push({ p: [sx, t + hh / 2, sz], s: [.07, hh, .07], c: col(i % 2 ? '#7aa04a' : '#6a9440') }); leafs.push({ p: [sx, t + hh - .15, sz], s: [.42, .3, .42], c: col(i % 2 ? '#a8c860' : '#93b852') }); } return; }
