@@ -1,4 +1,5 @@
 <title>アイス島の作れる鳥瞰図</title>
+<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap">
@@ -14,7 +15,7 @@
 html { color-scheme: light }
 body { margin: 0; background-color: var(--sea); color: var(--ink); font-family: var(--round); font-weight: 500; -webkit-font-smoothing: antialiased;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='64'%3E%3Cg fill='none' stroke='%236cc9b5' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M8 20l6-6 6 6 6-6 6 6'/%3E%3Cpath d='M68 52l6-6 6 6 6-6 6 6'/%3E%3C/g%3E%3C/svg%3E") }
-.page { max-width: 1320px; margin: 0 auto; overflow-x: clip; padding-inline: 16px; padding-block: 22px 56px; display: grid; gap: 18px }
+.page { max-width: 1320px; margin: 0 auto; overflow-x: clip; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 22px 56px; display: grid; gap: 18px }
 .ribbon { justify-self: center; position: relative; background: var(--ribbon); color: var(--ink); font-weight: 900; font-size: clamp(21px, 3.3vw, 33px); letter-spacing: .05em; padding: 10px 46px 12px; border-radius: 4px; text-align: center; box-shadow: 0 4px 0 #0000001a; z-index: 0 }
 .ribbon::before, .ribbon::after { content: ''; position: absolute; top: 12px; width: 34px; height: 100%; background: var(--ribbon-fold); z-index: -1 }
 .ribbon::before { left: -22px; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 34% 50%) }
@@ -244,6 +245,9 @@ PB.roofSlate = pbr(128, 128, (a, h, W, H) => { const r = rnd(43); a.fillStyle = 
 PB.roofRed = pbr(128, 128, (a, h, W, H) => { const r = rnd(47); a.fillStyle = '#5e4436'; a.fillRect(0, 0, W, H); h.fillStyle = '#404040'; h.fillRect(0, 0, W, H);   // 屋根：くすんだ茶色のレンガ（brick_natural）
   for (let j = 0; j < 8; j++) for (let i = -1; i < 5; i++) { const x = i * W / 4 + (j % 2) * W / 8 + 1, y = j * H / 8 + 1; const c = ['#9a6a52', '#8c5e48', '#a4745a', '#866050'][Math.floor(r() * 4)]; a.fillStyle = c; a.fillRect(x, y, W / 4 - 2, H / 8 - 2); h.fillStyle = '#d0d0d0'; h.fillRect(x, y, W / 4 - 2, H / 8 - 2); }
   for (let i = 0; i < 30; i++) blob(a, r() * W, r() * H, 1 + r() * 3, 1 + r() * 2, 'rgba(90,110,60,.28)'); }, 3);
+PB.curb = pbr(128, 128, (a, h, W, H) => { const r = rnd(61); a.fillStyle = '#8f877a'; a.fillRect(0, 0, W, H); h.fillStyle = '#404040'; h.fillRect(0, 0, W, H);   // 第60回：old stone road（stone_old）の縁の板石（白っぽい切り石）
+  for (let j = 0; j < 4; j++) for (let i = -1; i < 3; i++) { const x = i * W / 2 + (j % 2) * W / 4 + 1.5, y = j * H / 4 + 1.5; const v = 196 + Math.floor(r() * 26); a.fillStyle = `rgb(${v},${v - 6},${v - 16})`; a.fillRect(x, y, W / 2 - 3, H / 4 - 3); h.fillStyle = '#d6d6d6'; h.fillRect(x, y, W / 2 - 3, H / 4 - 3); }
+  for (let i = 0; i < 14; i++) blob(a, r() * W, r() * H, 1 + r() * 2, 1 + r() * 2, 'rgba(110,120,80,.22)'); }, 3);
 Object.values(PB).forEach(p => { p.map.wrapS = p.map.wrapT = p.normalMap.wrapS = p.normalMap.wrapT = THREE.RepeatWrapping; });
 function std(o) { return bend(new THREE.MeshStandardMaterial(Object.assign({ roughness: .86, metalness: 0 }, o))); }
 
@@ -258,7 +262,14 @@ function inst(geo, m, list, shadow) {
 }
 const box = new THREE.BoxGeometry(1, 1, 1);
 const plane = new THREE.PlaneGeometry(1, 1).rotateX(-Math.PI / 2);
-const cols = [], tops = { grass: [], sand: [], cobble: [], cobbleP: [], stone: [], dirt: [], zen: [], plaza: [], water: [] }, lips = [], foam = [], rocks = [];
+const CDES = (D.paths && D.paths.C && D.paths.C.design) || 'road_chic_stone';   // 第60回：町の通りのマイデザイン（spec の paths で案ごとに）
+const isRoad = (x, y) => G(x, y) === 'p';
+function CROAD(x, y) {   // stone_old：まん中は灰色の丸い石畳、3マス幅以上の通りのふちは白っぽい板石（作者のセットの縁のパーツ）
+  if (CDES !== 'stone_old') return 'cobble';
+  for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) if (!isRoad(x + dx, y + dy) && G(x + dx, y + dy) !== 'b' && isRoad(x - dx, y - dy) && isRoad(x - 2 * dx, y - 2 * dy) && L(x - dx, y - dy) === L(x, y) && L(x - 2 * dx, y - 2 * dy) === L(x, y)) return 'curb';
+  return 'cobbleP';
+}
+const cols = [], tops = { grass: [], sand: [], cobble: [], cobbleP: [], curb: [], stone: [], dirt: [], zen: [], plaza: [], water: [] }, lips = [], foam = [], rocks = [];
 const aoEdges = [], aoBlobs = [], falls = [];
 const r1 = rnd(42);
 const isWaterish = (x, y) => { const c = G(x, y); return c === 'w' || c === 'b'; };
@@ -313,9 +324,9 @@ for (let y = 0; y < MH; y++) for (let x = 0; x < MW; x++) {
     else { fillCols[ck].push({ p: [wx, (low + bottom) / 2, wz], s: [1, low - bottom, 1], c: sideCol }); fillTops[ck].push({ p: [wx, low + .002, wz], s: [1, 1, 1], c: col(ZGRASS[ZONE(x + dx, y + dy)] || '#97ae60') }); }
   } else cols.push({ p: [wx, (t + bottom) / 2, wz], s: [1, t - bottom, 1], c: sideCol });
   let kind = (c === 's' || l === 0) ? 'sand' : c === 'P' ? 'plaza' : c === 'K' ? 'plaza' : 'grass';
-  if (c === 'p') kind = z === 'C' ? 'cobble' : z === 'P' ? 'cobbleP' : (z === 'B' || z === 'J') ? 'stone' : 'dirt';
+  if (c === 'p') kind = z === 'C' ? CROAD(x, y) : z === 'P' ? 'cobbleP' : (z === 'B' || z === 'J') ? 'stone' : 'dirt';
   if (gk === 'm') kind = 'zen';
-  const tc = kind === 'grass' ? col(ZGRASS[z] || '#97ae60').offsetHSL(0, 0, (r1() - .5) * .03 + (l - 1) * .015) : kind === 'cobble' || kind === 'cobbleP' ? col('#ffffff') : kind === 'stone' || kind === 'dirt' ? col(PATHC[z]).offsetHSL(0, 0, (r1() - .5) * .03) : null;
+  const tc = kind === 'grass' ? col(ZGRASS[z] || '#97ae60').offsetHSL(0, 0, (r1() - .5) * .03 + (l - 1) * .015) : kind === 'cobble' || kind === 'cobbleP' || kind === 'curb' ? col('#ffffff') : kind === 'stone' || kind === 'dirt' ? col(PATHC[z]).offsetHSL(0, 0, (r1() - .5) * .03) : null;
   if (ck >= 0) (cutTops[kind + ck] = cutTops[kind + ck] || []).push({ p: [wx, t + .002, wz], s: [1, 1, 1], c: tc }); else (tops[kind] = tops[kind] || []).push({ p: [wx, t + .002, wz], s: [1, 1, 1], c: tc });
   [[1, 0, -Math.PI / 2], [-1, 0, Math.PI / 2], [0, 1, Math.PI], [0, -1, 0]].forEach(([dx, dy, ry]) => { if (topY(x + dx, y + dy) > t + .25 && G(x + dx, y + dy) !== 'S') aoEdges.push({ p: [wx + dx * .2, t + .022, wz + dy * .2], s: [1, 1, .62], r: [0, ry, 0] }); });
   if (kind !== 'sand') [[1, 0], [-1, 0], [0, 1], [0, -1]].forEach(([dx, dy]) => { const nt = topY(x + dx, y + dy); if (nt < t - 0.25 && !cutToward(x, y, dx, dy)) { const hz = dx !== 0; lips.push({ p: [wx + dx * .47, t - 0.05, wz + dy * .47], s: [hz ? .12 : 1.02, .16, hz ? 1.02 : .12], c: kind === 'grass' ? col('#869e52') : col('#c9b994') }); } });
@@ -326,7 +337,8 @@ inst(plane, bend(new THREE.MeshLambertMaterial({ map: grassTex })), tops.grass);
 inst(plane, mat('#f3e3a7', { map: sandTex }), tops.sand);
 cobbleTex.wrapS = cobbleTex.wrapT = THREE.RepeatWrapping;
 inst(plane, std({ map: PB.sett.map, normalMap: PB.sett.normalMap, roughness: .78 }), tops.cobble);   // 町（C）の通り：road_chic_stone
-inst(plane, std({ map: PB.cobble.map, normalMap: PB.cobble.normalMap, roughness: .8 }), tops.cobbleP || []);   // 港（P）の通り：stone_old（灰色の丸い石畳）
+inst(plane, std({ map: PB.cobble.map, normalMap: PB.cobble.normalMap, roughness: .8 }), tops.cobbleP || []);
+inst(plane, std({ map: PB.curb.map, normalMap: PB.curb.normalMap, roughness: .84 }), tops.curb || []);   // 第60回：stone_old の縁の板石   // 港（P）の通り：stone_old（灰色の丸い石畳）
 inst(plane, mat('#ffffff', { map: stoneTex }), tops.stone);
 inst(plane, mat('#ffffff', { map: dirtTex }), tops.dirt);
 inst(plane, mat('#ffffff', { map: zenTex }), tops.zen);
@@ -335,7 +347,7 @@ const waterMat = std({ color: col('#3e8f98'), map: PB.water.map, normalMap: PB.w
 inst(plane, waterMat, tops.water);
 inst(box, mat('#ffffff'), lips, true);
 { const cliffM = std({ map: PB.cliff.map, normalMap: PB.cliff.normalMap, normalScale: new THREE.Vector2(.8, .8), roughness: .95 }), grassM = bend(new THREE.MeshLambertMaterial({ map: grassTex })), cobM = std({ map: PB.sett.map, normalMap: PB.sett.normalMap, roughness: .78 }), cobPM = std({ map: PB.cobble.map, normalMap: PB.cobble.normalMap, roughness: .8 });
-  const KM = { grass: grassM, cobble: cobM, cobbleP: cobPM, stone: mat('#ffffff', { map: stoneTex }), dirt: mat('#ffffff', { map: dirtTex }), zen: mat('#ffffff', { map: zenTex }), plaza: mat('#d9c9a8', { map: stoneTex }), sand: mat('#f3e3a7', { map: sandTex }) };
+  const KM = { grass: grassM, cobble: cobM, cobbleP: cobPM, curb: std({ map: PB.curb.map, normalMap: PB.curb.normalMap, roughness: .84 }), stone: mat('#ffffff', { map: stoneTex }), dirt: mat('#ffffff', { map: dirtTex }), zen: mat('#ffffff', { map: zenTex }), plaza: mat('#d9c9a8', { map: stoneTex }), sand: mat('#f3e3a7', { map: sandTex }) };
   for (let k = 0; k < 4; k++) { inst(PRISM[k], cliffM, cutCols[k], true); inst(PRISMC[k], cliffM, fillCols[k], true); inst(TRIC[k], waterMat, fillWater[k]); inst(TRIC[k], grassM, fillTops[k]);
     Object.keys(KM).forEach(kind => { if (cutTops[kind + k]) inst(TRI[k], KM[kind], cutTops[kind + k]); }); } }
 { const ft = tex2((g, W, H) => { g.fillStyle = '#cfeaf0'; g.fillRect(0, 0, W, H); for (let i = 0; i < 26; i++) { g.fillStyle = i % 3 ? 'rgba(255,255,255,.75)' : 'rgba(120,180,200,.5)'; g.fillRect((i * 37) % W, 0, 2 + (i % 4), H); } g.fillStyle = 'rgba(255,255,255,.9)'; g.fillRect(0, H * .86, W, H * .14); }, 64, 64);

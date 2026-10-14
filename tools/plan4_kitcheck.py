@@ -254,6 +254,12 @@ def check(props):
                 for x in range(ax - 1, ax + KW + 1):
                     taken.setdefault((x, y), f'{dname} #{i} {kid}')
             out, plants = kit_cells(k, ax, ay, flip)
+            for p in out:   # 第60回：ゲームのカメラ（南から北を見る）から見えない物（南の1〜2列に高い段・家の真裏）
+                if p['item'] == 'manhole cover':
+                    continue
+                L0, yb = lv(p['x'], p['y']), p['y'] + p['d'] - 1
+                if any(inside(x, yb + kk) and g(x, yb + kk) not in 'wSsb' and lv(x, yb + kk) - L0 >= kk or (x, yb + kk) in bld for x in range(p['x'], p['x'] + p['w']) for kk in (1, 2)):
+                    (errs if SPEC.get('camera_check') else warns).append(f"{tag}：{p['item']} ({p['x']},{p['y']}) はカメラから見えない（南の1〜2列に高い段か家の真裏）")
             mine = set()
             for p in out:
                 for y in range(p['y'], p['y'] + p['d']):

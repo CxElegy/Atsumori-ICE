@@ -30,7 +30,7 @@ PLAN = os.environ.get('ICE_PLAN', '2')   # 第49回：ICE_PLAN=3 で案3（plan3
 T = J(f'plan{PLAN}-terrain.json')
 G, H = T['grid'], T['h']
 GR = T.get('ground', {})
-B = J(f'designs/build_plan{PLAN}.json')
+B = J(f'designs/build_plan{PLAN}.json') if os.path.exists(os.path.join(ROOT, f'designs/build_plan{PLAN}.json')) else {'rules': J('designs/build_plan2.json')['rules'], 'buildings': [], 'groups': []}   # 第60回：新しい案の1回目（まだ組み立てていない）でも plan3_fill.py が foot を読めるように
 KITS = J('designs/kits.json')['kits'] if os.path.exists(os.path.join(ROOT, 'designs/kits.json')) else {}
 if os.path.exists(os.path.join(ROOT, f'designs/kits_plan{PLAN}.json')):   # 第57回：地区ごとに設計した見せ場（案ごと）
     KITS.update(J(f'designs/kits_plan{PLAN}.json')['kits'])   # 第48回：見せ場のキット（いいねの作例をゲームの家具で組んだもの）

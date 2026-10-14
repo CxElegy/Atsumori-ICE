@@ -103,6 +103,17 @@ def ring_skip(ax, ay, KW, KD):   # 囲みの1マスのうち、ちがう段・�
     return [[x, y] for y in range(ay - 1, ay + KD + 1) for x in range(ax - 1, ax + KW + 1)
             if not (inside(x, y) and g(x, y) in '13' and lv(x, y) == L)]
 bld_cells = {(x, y) for b in LAY['buildings'] for x0, y0 in [b['at']] for x in range(x0, x0 + SIZE[b['kind']][0]) for y in range(y0, y0 + SIZE[b['kind']][1])}
+CAMERA = bool(SPEC.get('camera_check'))   # 第60回：ゲームのカメラ（南から北を見る）から見えない所には自動の物を置かない
+def cam_ok(x, y):
+    if not CAMERA:
+        return True
+    L = lv(x, y)
+    for k in (1, 2):
+        if inside(x, y + k) and g(x, y + k) not in 'wSsb' and lv(x, y + k) - L >= k:
+            return False   # 南の高い段（崖の裏）にかくれる
+        if (x, y + k) in bld_cells:
+            return False   # 家の真裏
+    return True
 def fits_designed(kid, ax, ay):   # 第57回：手で場所を決めた見せ場は通りの上にも置ける（歩ける幅は plan4_kitcheck.py で確かめる）
     k = KITS[kid]; KW, KD = k['size']; L = lv(ax, ay)
     return all(inside(x, y) and g(x, y) in '13p' and lv(x, y) == L and (x, y) not in bld_cells and (x, y) not in front and (x, y) not in slope and (x, y) not in occ
@@ -270,7 +281,7 @@ for y in range(1, H - 1):
                 continue   # 第58回：北を向くパネル（崖が南）はゲームのカメラ（南から北を見る）から見えない
             if (x, y) in road and not (rot != 2 and all((x - i * dx, y - i * dy) in road and (x - i * dx, y - i * dy) not in occ and (x - i * dx, y - i * dy) not in slope and lv(x - i * dx, y - i * dy) == lv(x, y) for i in (1, 2))):
                 continue   # 道の上には、通りが3マス幅以上で、反対がわの2マスがあいている所だけ貼る（第57回：2マス幅の路地の両がわに貼ってふさいでいた）。北を向くパネルはカメラから見えないので道には貼らない
-            if lv(a, b_) == lv(x, y) + 1 and g(a, b_) != 'w' and (a, b_) not in slope and cnt8.get((x // 8, y // 8), 0) < CAP[z]:
+            if lv(a, b_) == lv(x, y) + 1 and g(a, b_) != 'w' and (a, b_) not in slope and cnt8.get((x // 8, y // 8), 0) < CAP[z] and cam_ok(x, y):
                 panel(x, y, rot, PIECES[k % len(PIECES)]); k += 1
                 break
 if panel_groups:
@@ -374,7 +385,8 @@ if SPEC.get('base') == 'authored':
             #   fort＝ふちに城壁（3段目の塔・大きな建物だけ）／slate・slate_dark・red＝屋根のマイデザイン（目録の本物：灰色のレンガ・濃い灰色の石畳・くすんだ茶色のレンガ）に、
             #   煙突の代わりのレンガのカベ1本と、室外機・給水タンク／garden＝ふちは生け垣、中は花の屋上庭園
             n_ = len(comp); mx, my = min(comp)
-            kinds = ['slate', 'garden', 'slate', 'garden', 'slate'] if lv(x0, y0) == 2 else ['fort', 'red', 'fort', 'red']   # 茶色のレンガの屋根は2段目だと通りのレンガとまぎれるので3段目だけ。第58回：通りの石畳（road_chic_stone）は屋根に使わない（屋根と通りが同じ柄になる）
+            kinds = ['slate', 'garden', 'slate', 'garden', 'slate'] if lv(x0, y0) == 2 else ['fort', 'red', 'fort', 'red']
+            kinds = SPEC.get('roof_kinds', {}).get(str(lv(x0, y0)), kinds)   # 第60回：案ごとに屋根の種類のまぜ方を変える（灰色の平らな屋根ばかりにしない）   # 茶色のレンガの屋根は2段目だと通りのレンガとまぎれるので3段目だけ。第58回：通りの石畳（road_chic_stone）は屋根に使わない（屋根と通りが同じ柄になる）
             rk = 'fort' if n_ >= 40 and lv(x0, y0) == 2 and (mx * 7 + my) % 3 == 0 else kinds[(mx * 7 + my * 13) % len(kinds)]
             if n_ <= 3:
                 rk = 'slate' if rk == 'garden' else rk
@@ -413,6 +425,8 @@ for y in range(1, H - 1):
         if Z[y][x] not in URBAN or g(x, y) not in '13' or (x, y) in occ or (x, y) in occ_b or (x, y) in road or (x, y) in slope or (x, y) in front or (x, y) in trees:
             continue
         near_slope = any((x + dx, y + dy) in slope for dx in (-1, 0, 1) for dy in (-1, 0, 1))
+        if not cam_ok(x, y):
+            continue
         if lv(x, y) == 2 and not near_slope and any(lv(x + dx, y + dy) < lv(x, y) and g(x + dx, y + dy) not in 'w' for dx, dy in DIRS):
             edge.append(['iron fence', x, y, 0, None]); occ.add((x, y))   # 上の町の崖のふち：鉄の柵（高架の手すりに見せる）
         elif lv(x, y) == 1 and not near_slope and sum(g(x + dx, y + dy) == 'w' and lv(x + dx, y + dy) == 1 for dx, dy in DIRS) == 1 and sum(g(x + dx, y + dy) == 'w' for dx in (-1, 0, 1) for dy in (-1, 0, 1)) <= 3 and (x + y) % 5 != 0:
@@ -445,7 +459,7 @@ STREET1 = [('streetlamp', 'Black'), ('round topiary', 'Green'), ('monstera', 'Bl
 STREET2 = [('garden wagon', 'Dark brown'), ('cruiser bike', 'Green'), ('flower bed', 'Dark brown'), ('iron garden bench', 'Black'), ('cruiser bike', 'Red'), ('medium cardboard boxes', None)]
 props, street = set(), []
 def cand(x, y):
-    return Z[y][x] in URBAN and g(x, y) in '13' and (x, y) not in occ and (x, y) not in occ_b and (x, y) not in road and (x, y) not in slope and (x, y) not in front and (x, y) not in trees
+    return Z[y][x] in URBAN and g(x, y) in '13' and (x, y) not in occ and (x, y) not in occ_b and (x, y) not in road and (x, y) not in slope and (x, y) not in front and (x, y) not in trees and cam_ok(x, y)
 cells = [(x, y) for y in range(1, H - 1) for x in range(1, W - 1) if cand(x, y) and any((x + dx, y + dy) in road for dx, dy in N4)]
 cells.sort(key=lambda p: (hash((p[0] * 31 + p[1] * 17) % 9973) % 1000))
 k1 = k2 = 0
@@ -528,6 +542,6 @@ B3 = {'note': '案3（第49回）：乱れ（たね %d）で作りなおした�
       'season': P2['season'], 'rules': P2['rules'], 'buildings': B_ALL,
       'inclines': {'%d,%d' % (x, y): SPEC.get('incline_kinds', {}).get('%d,%d' % (x, y), INC[Z[y][x]]) for x, y, d in T['inclines']},   # 第58回：場所ごとに種類を変えられる（石の階段など）
       'bridges': {'%d,%d' % (r[0], r[1]): SPEC.get('bridge_kinds', {}).get('%d,%d' % (r[0], r[1]), BRI[Z[r[1]][r[0]]]) for r in T.get('bridges', [])},
-      'paths': P2['paths'], 'groups': groups, 'ground': ground, 'plants': plants, 'orchards': [], 'ground_styles': dict(P2.get('ground_styles', {}), roof='屋根（灰色のレンガ）', roof_slate='屋根（濃い灰色の石畳）', roof_red='屋根（茶色のレンガ）')}
+      'paths': dict(P2['paths'], **SPEC.get('paths', {})), 'groups': groups, 'ground': ground, 'plants': plants, 'orchards': [], 'ground_styles': dict(P2.get('ground_styles', {}), roof='屋根（灰色のレンガ）', roof_slate='屋根（濃い灰色の石畳）', roof_red='屋根（茶色のレンガ）')}
 json.dump(B3, open(os.path.join(ROOT, f'designs/build_plan{PLAN}.json'), 'w'), ensure_ascii=False, indent=1)
 print('木', len(trees), '低木', len(bush), 'キット', len([g_ for g_ in groups if g_.get('kit')]), 'パネル', len(panel_groups), '地面', len(ground), '花', len(plants))

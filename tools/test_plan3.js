@@ -49,6 +49,26 @@ if (SPEC.base === 'authored') {
   ok('案4 歩ける：物でふさがれて行けなくなる道・入口・坂・橋が0', W_.lost.length === 0 && W_.unreachable.length === 0, W_.lost.length + 'マス・' + W_.unreachable.join('・'));
   ok('案4 歩ける：通りが物で切れていない（草地を回らずに通りだけで行ける）', W_.street_cut.length === 0, W_.street_cut.length + 'マス ' + JSON.stringify(W_.street_cut.slice(0, 5)));
 }
+// 第60回：案5（5c）で言われた土台の弱い所を数で（spec の town_targets があるときだけ。tools/town_check.py）
+if (SPEC.town_targets) {
+  const TT = SPEC.town_targets, K = JSON.parse(execFileSync('python3', [path.join(ROOT, 'tools/town_check.py'), '--json'], { encoding: 'utf8', maxBuffer: 1 << 26, env }));
+  ok('案6 町：南の高い段や高い物に入口がかくれる建物が0（門脸が見える）', K.facade_blocked.length === 0, K.facade_blocked.map(f => f.b + JSON.stringify(f.at)).join('・'));
+  ok(`案6 町：坂が${TT.inclines}本以上・町に${TT.inclines_town}本以上（二層に上がれる）`, K.inclines >= TT.inclines && K.inclines_town >= TT.inclines_town, K.inclines + '・町' + K.inclines_town);
+  ok(`案6 町：2段目以上の${TT.upper_walkable_pct}%以上に歩いて上がれる・3段目にも${TT.tier3_walkable}マス以上`, K.upper_walkable_pct >= TT.upper_walkable_pct && K.upper_tier3_walkable >= TT.tier3_walkable, K.upper_walkable_pct + '%・3段目' + K.upper_tier3_walkable);
+  ok('案6 町：上がれない段の上に道がない（屋根に通りの柄を敷かない）', K.roads_on_unreachable_upper === 0, K.roads_on_unreachable_upper);
+  ok(`案6 町：三方を水にかこまれた陸（護城河）が${TT.moat_pct}%まで`, K.moat_pct <= TT.moat_pct, K.moat_pct + '%');
+  ok(`案6 町：水は町の陸の約1割（${TT.water_pct[0]}〜${TT.water_pct[1]}%）`, K.town_water_pct_test >= TT.water_pct[0] && K.town_water_pct_test <= TT.water_pct[1], K.town_water_pct_test + '%');
+  ok('案6 町：上の町から落ちる滝がある', K.town_waterfall_cells >= 1, K.town_waterfall_cells);
+  ok(`案6 町：灰色の平らな屋根は屋根の${TT.roof_grey_pct}%まで`, K.roof_grey_pct <= TT.roof_grey_pct, K.roof_grey_pct + '%');
+  const AX = K.axis || {}, TI = (AX.terminus || []).map(t => t[0]);
+  ok('案6 軸：飛行場 → 広場 → 石段（2つ以上）→ 1・2・3段 → つきあたりに城門と塔（おしろのもん・おしろのとう）', AX.stairs >= 2 && [1, 2, 3].every(l => (AX.tiers || []).includes(l)) && TI.includes('castle gate') && TI.includes('castle tower'), JSON.stringify(AX).slice(0, 300));
+  ok('案6 軸：軸の帯の中に視線をさえぎる高い物・木・建物がない', AX.blocking_tall && AX.blocking_tall.length === 0 && AX.trees_in_band.length === 0 && AX.buildings_in_band.length === 0, JSON.stringify([AX.blocking_tall, AX.trees_in_band, AX.buildings_in_band]));
+  ok('案6 軸：石段の両わきの双塔とつきあたりの主塔（おしろのとう3つ以上）', (AX.towers || []).length >= 3, JSON.stringify(AX.towers));
+  ok(`案6 町：井戸の石段（上の段を切りこんだ所に下ろす坂）が${TT.well_stairs}つ以上`, K.well_stairs.length >= TT.well_stairs, JSON.stringify(K.well_stairs));
+  ok(`案6 町：通りにそった運河（運河から2マス以内の通り）${TT.canal_street}マス以上`, K.canal_street_cells >= TT.canal_street, K.canal_street_cells);
+  ok(`案6 町：町の木${TT.town_trees}本以上・広場のまわり${TT.plaza_trees}本以上`, K.town_trees >= TT.town_trees && K.plaza_trees >= TT.plaza_trees, K.town_trees + '・広場' + K.plaza_trees);
+  ok(`案6 町：カメラから見えない物が${TT.hidden_items}個まで・北向きのパネル0`, K.hidden_items <= TT.hidden_items && K.north_panels === 0, K.hidden_items + '・' + K.north_panels);
+}
 const BP = J(`designs/build_plan${PL}.json`), kinds = BP.buildings.map(b => b.kind);
 ok('案3 あつ森：住民の家は10軒・博物館・タヌキ商店・エイブル・キャンプ場は1つずつ', kinds.filter(k => k === 'villager').length === 10 && ['museum', 'nook', 'able', 'campsite'].every(k => kinds.filter(x => x === k).length === 1));
 ok('案3 あつ森：置く家具は250個以上', A.items >= 250, A.items);
