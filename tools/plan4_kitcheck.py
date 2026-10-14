@@ -273,7 +273,8 @@ def check(props):
                     continue
                 L0, yb = lv(p['x'], p['y']), p['y'] + p['d'] - 1
                 KS = (1, 2, 3) if SPEC.get('camera_check') else (1, 2)   # 2段高い崖は3列先でも・家の屋根は3列うしろまでかくす
-                if any(inside(x, yb + kk) and g(x, yb + kk) not in 'wSsb' and lv(x, yb + kk) - L0 >= min(kk, 2) or (x, yb + kk) in bld for x in range(p['x'], p['x'] + p['w']) for kk in KS):
+                CR = {(a, b) for a0, b0, a1, b1 in SPEC.get('camera_roofs', []) for a in range(a0, a1 + 1) for b in range(b0, b1 + 1)}   # 案内所・飛行場の屋根
+                if any(inside(x, yb + kk) and g(x, yb + kk) not in 'wSsb' and lv(x, yb + kk) - L0 >= min(kk, 2) or ((x, yb + kk) in bld or (x, yb + kk) in CR) and (kk < 3 or lv(x, yb + kk) >= L0) for x in range(p['x'], p['x'] + p['w']) for kk in KS):
                     (errs if SPEC.get('camera_check') else warns).append(f"{tag}：{p['item']} ({p['x']},{p['y']}) はカメラから見えない（南の1〜3列に高い段か家の真裏）")
             mine = set()
             for p in out:

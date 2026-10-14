@@ -195,6 +195,7 @@ res['plaza_box'] = [px0, py0, px1, py1]
 
 # 9. 見えない物
 hid = []
+CAM_ROOF = {(x, y) for x0, y0, x1, y1 in SPEC.get('camera_roofs', []) for x in range(x0, x1 + 1) for y in range(y0, y1 + 1)}   # 案内所・飛行場の屋根
 tallc = {(x, y) for q in ITEMS if q['item'] in TALL for x in range(q['x'], q['x'] + q['w']) for y in range(q['y'], q['y'] + q['d'])}
 for p in ITEMS:
     if p['item'] in ('manhole cover',) or not town(p['x'], p['y']):
@@ -204,7 +205,7 @@ for p in ITEMS:
     for x in range(p['x'], p['x'] + p['w']):
         if any(inside(x, yb + k) and g(x, yb + k) not in 'wSs' and lv(x, yb + k) - L >= min(k, 2) for k in KS):
             hid.append((p['item'], p['x'], p['y'], 'cliff')); break
-        if any((x, yb + k) in bld for k in KS):
+        if any(((x, yb + k) in bld or (x, yb + k) in CAM_ROOF) and (k < 3 or lv(x, yb + k) >= L) for k in KS):   # 3列先の屋根は同じ段の物だけかくす
             hid.append((p['item'], p['x'], p['y'], 'house')); break
         if p['item'] not in TALL and ((x, yb + 1) in tallc or (x, yb + 2) in tallc):
             hid.append((p['item'], p['x'], p['y'], 'tall')); break   # 第60回：城の塔・門・城壁の真うしろ

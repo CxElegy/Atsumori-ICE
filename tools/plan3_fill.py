@@ -112,6 +112,7 @@ if CAMERA:
             KEEP_CLEAR |= {(ix + a, b) for a in range(2) for b in (iy - 2, iy - 1, iy + 4, iy + 5)}
         else:
             KEEP_CLEAR |= {(a, iy + b) for b in range(2) for a in (ix - 2, ix - 1, ix + 4, ix + 5)}
+CAM_ROOF = {(x, y) for x0, y0, x1, y1 in SPEC.get('camera_roofs', []) for x in range(x0, x1 + 1) for y in range(y0, y1 + 1)}   # 第60回：動かせない建物（案内所・飛行場）の屋根も物をかくす
 TALL, LMK = set(), set()
 for it in SPEC.get('landmarks', []):
     if CAMERA:   # 第60回：土台の目じるしの場所は、運河の岸の自動の物（柵など）にとらせない
@@ -131,8 +132,8 @@ def cam_ok(x, y):
     for k in (1, 2, 3):   # 第60回の最終審査：2段高い崖は3列先でもかくす・家の屋根は3列うしろまでかくす
         if inside(x, y + k) and g(x, y + k) not in 'wSsb' and lv(x, y + k) - L >= min(k, 2):
             return False   # 南の高い段（崖の裏）にかくれる
-        if (x, y + k) in bld_cells:
-            return False   # 家の真裏
+        if ((x, y + k) in bld_cells or (x, y + k) in CAM_ROOF) and (k < 3 or lv(x, y + k) >= L):
+            return False   # 家の真裏（案内所・飛行場の屋根も）。3列先の屋根がかくすのは同じ段の物だけ
     return True
 def stand_ok(x, y, cells=()):   # 第60回：物のとなり（たて横）に、同じ段で立てるマス（木・低木・建物・坂・ほかの物でない）がある
     if not CAMERA:
@@ -186,6 +187,10 @@ for kd in SPEC.get('kits', []):   # 設計の見せ場（ねらいの場所の�
     tx, ty = kd.get('at') or kd['near']
     place_kit(kd['kit'], tx, ty, 0 if 'at' in kd else kd.get('r', 6), kd['zone'], kd.get('style'), kd.get('flip'), name=kd.get('name'), on_road=kd.get('on_road', False))
 
+if SPEC.get('axis_paving'):   # 第60回：軸の背骨（軸の通りだけ別のマイデザイン）
+    ap = SPEC['axis_paving']
+    for r_ in ap['rects']:
+        ground.append({'id': 'C-axis', 'style': ap['style'], 'rect': r_, 'design': GDES[ap['style']], 'skip': []})
 # 地区の見せ場も木より先に（道に面した平地を林にとられないように）
 n = 0
 PLAN_KITS.update(SPEC.get('auto_kits', {}))   # 第60回：案ごとに野山の自動の見せ場を変える（同じお茶会を4つ並べない）
@@ -466,7 +471,7 @@ if SPEC.get('base') == 'authored':
                 if (x, y) in occ or (x, y) in trees or (x, y) in slope:
                     continue
                 low = [(dx, dy) for dx, dy in DIRS if lv(x + dx, y + dy) < lv(x, y)]
-                if rk == 'fort' and (0, 1) in low:   # 第58回：城壁はカメラに向く南のふちだけ（背中あわせの2列にしない）
+                if rk == 'fort' and (0, 1) in low and not (CAMERA and any((a, y + k) in bld_cells for a in (x, x + 1) for k in (1, 2))):   # 第58回：城壁はカメラに向く南のふちだけ（背中あわせの2列にしない）。第60回：家の真うしろ（見えない）は庭に
                     x2, y2 = x + 1, y
                     if (x2, y2) in cs and (x2, y2) not in occ and (x2, y2) not in trees and lv(x2, y2 + 1) < lv(x2, y2):
                         roofs.append(['castle wall', x, y, 0, 'Brown', 'wall_windows_bricks']); occ |= {(x, y), (x2, y2)}
@@ -514,7 +519,8 @@ for b in LAY['buildings']:
         continue
     ring = [(x0 - 1, y) for y in range(y0 - 1, y0 + d + 1)] + [(x0 + w, y) for y in range(y0 - 1, y0 + d + 1)] + [(x, y0 - 1) for x in range(x0, x0 + w)]
     for x, y in ring:
-        if inside(x, y) and g(x, y) in '13' and (x, y) not in road and (x, y) not in slope and (x, y) not in front and (x, y) not in occ and (x, y) not in trees and lv(x, y) == lv(x0, y0):
+        if inside(x, y) and g(x, y) in '13' and (x, y) not in road and (x, y) not in slope and (x, y) not in front and (x, y) not in occ and (x, y) not in trees and lv(x, y) == lv(x0, y0) \
+                and (not CAMERA or cam_ok(x, y)):   # 第60回：家の真うしろ（カメラから見えない）には柵・生け垣を立てない
             fences.append([FENCE[z], x, y, 0, 'White' if FENCE[z] == 'lattice fence' else None]); occ.add((x, y))
 if fences:
     groups.append({'id': 'S-fences', 'zone': 'S', 'name': '家のまわりの柵と生け垣（地区ごとの柵）', 'at': [0, 0], 'items': fences, 'lines': []})
