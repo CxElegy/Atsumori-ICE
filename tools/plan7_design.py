@@ -266,7 +266,7 @@ TREES = [list(p) for p in _cand[:178]]
 _tset = {tuple(p) for p in TREES}
 BUSHES = [[x, y] for (x, y) in FOREST if (x, y) not in _tset and C.get((x, y)) in ('1', '2', '3')]
 ZONE_META = {
-    'E': {'name': 'エジプト', 'col': '#c79a2e', 'grass': '#b4b06a', 'pathc': '#e3cf98', 'road': 'dirt', 'inc': 'stone staircase', 'bri': 'stone bridge', 'fence': 'stone fence', 'bush': .03, 'gstyle': ['flag']},
+    'E': {'name': 'エジプト', 'col': '#c79a2e', 'grass': '#b4b06a', 'pathc': '#e3cf98', 'road': 'dirt', 'inc': 'stone staircase', 'bri': 'stone bridge', 'fence': 'stone fence', 'bush': .03, 'gstyle': ['garden']},
     'J': {'name': '日本', 'col': '#c2406f', 'bush': .04},
     'A': {'name': 'アメリカの都市', 'col': '#3f7a2a', 'grass': '#9db463', 'pathc': '#8a8986', 'road': 'stone', 'inc': 'red steel staircase', 'bri': 'iron bridge', 'fence': 'country fence', 'bush': .03, 'gstyle': ['flag']},
     'H': {'name': 'ハロウィン', 'col': '#6b3fa0', 'bush': .08},

@@ -183,6 +183,8 @@ def place_kit(kid, tx, ty, r, z, style=None, flip=None, gid=None, name=None, on_
             occ.add((x, y))
             if not inner:
                 kitring.add((x, y))
+    if k.get('noground') or not (style or GSTYLE[z]):
+        return True   # 第62回（案7）：地面のマイデザインを敷かない見せ場（歩いて上がらない丘の上・砂漠）
     st = style or GSTYLE[z][len(groups) % len(GSTYLE[z])]
     if SPEC.get('paving') and z in 'CP' and not style:
         st = SPEC['paving'][0]   # 第60回：見せ場のまわりの地面も町の敷石にそろえる
