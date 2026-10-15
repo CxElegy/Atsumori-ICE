@@ -131,6 +131,9 @@ const ZORDER = ['C', 'S', 'J', 'B', 'F', 'H', 'P'];
 // 道の地面：地区ごとの道（build_plan2.json の paths）。ロンドンと港はマイデザインの石畳、ほかはゲームの道
 const PATHC = { C: '#a49d92', S: '#c6a47a', F: '#9a7a58', B: '#d6d0c3', J: '#d6d0c3', H: '#86705a', P: '#cdbfa9' };
 const ZGRASS = { C: '#97ae60', S: '#a5b86c', F: '#86a050', B: '#a3ba5e', J: '#a2b46a', H: '#7e8a5f', P: '#b0b97a' };
+if (D.zoneMeta) Object.entries(D.zoneMeta).forEach(([k, m]) => {   // 第62回（案7）：spec の zone_meta で地区を足す・名前と色を変える
+  if (m.name) ZNAME[k] = m.name; if (m.col) ZCOL[k] = m.col; if (m.grass) ZGRASS[k] = m.grass; if (m.pathc) PATHC[k] = m.pathc; if (!ZORDER.includes(k)) ZORDER.push(k); });
+const ZROAD = k => D.zoneMeta && D.zoneMeta[k] && D.zoneMeta[k].road;   // 道の見た目：stone・dirt・cobbleP・cobble
 const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 const UNTREE = new Set(D.untree.map(([x, y]) => x + ',' + y));
 
@@ -325,6 +328,7 @@ for (let y = 0; y < MH; y++) for (let x = 0; x < MW; x++) {
   } else cols.push({ p: [wx, (t + bottom) / 2, wz], s: [1, t - bottom, 1], c: sideCol });
   let kind = (c === 's' || l === 0) ? 'sand' : c === 'P' ? 'plaza' : c === 'K' ? 'plaza' : 'grass';
   if (c === 'p') kind = z === 'C' ? CROAD(x, y) : z === 'P' ? 'cobbleP' : (z === 'B' || z === 'J') ? 'stone' : 'dirt';
+  if (c === 'p' && ZROAD(z)) kind = ZROAD(z) === 'cobble' ? CROAD(x, y) : ZROAD(z);
   if (gk === 'm') kind = 'zen';
   const tc = kind === 'grass' ? col(ZGRASS[z] || '#97ae60').offsetHSL(0, 0, (r1() - .5) * .03 + (l - 1) * .015) : kind === 'cobble' || kind === 'cobbleP' || kind === 'curb' ? col('#ffffff') : kind === 'stone' || kind === 'dirt' ? col(PATHC[z]).offsetHSL(0, 0, (r1() - .5) * .03) : null;
   if (ck >= 0) (cutTops[kind + ck] = cutTops[kind + ck] || []).push({ p: [wx, t + .002, wz], s: [1, 1, 1], c: tc }); else (tops[kind] = tops[kind] || []).push({ p: [wx, t + .002, wz], s: [1, 1, 1], c: tc });

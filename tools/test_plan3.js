@@ -31,7 +31,9 @@ ok('案3 地形：同じ種（seed）から作り直せる', T.seed === SPEC.see
 // 第56回：町の水は1割まで（「水路有点太多了 像被淹了一样」）。手で描いた案だけ（町の範囲は spec の zones の C と P）
 if (SPEC.base === 'authored') {
   const zr = SPEC.zones.filter(z => 'CP'.includes(z.zone) && z.rect).map(z => z.rect);
-  let land = 0, wat = 0; for (let y = 0; y < 96; y++) for (let x = 0; x < 112; x++) { if ('Ssr'.includes(G[y][x]) || !zr.some(([a, b, c, d]) => x >= a && x <= c && y >= b && y <= d)) continue; land++; if ('wb'.includes(G[y][x])) wat++; }
+  const ZL = J(`designs/plan${PL}_layout_out.json`).zones, poly = SPEC.zones.some(z => z.poly);   // 第62回：多角形の地区（案7）は塗った地区で数える
+  const inTown = (x, y) => poly ? 'CP'.includes(ZL[y][x]) : zr.some(([a, b, c, d]) => x >= a && x <= c && y >= b && y <= d);
+  let land = 0, wat = 0; for (let y = 0; y < 96; y++) for (let x = 0; x < 112; x++) { if ('Ssr'.includes(G[y][x]) || !inTown(x, y)) continue; land++; if ('wb'.includes(G[y][x])) wat++; }
   ok('案4 町：水は町の陸の15%まで', wat / land <= .15, Math.round(100 * wat / land) + '%');
 }
 // island-planning の点検（tools/island_check.py）

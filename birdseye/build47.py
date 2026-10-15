@@ -115,7 +115,8 @@ data = {'g': T['grid'], 'audit': audit, 'zlab': zlab, 'warnings': chk['warnings'
         'cannot': B['rules']['cannot'], 'sources': B['rules']['sources'], 'facilities': T['facilities']}
 _sp = json.load(open(R + f'designs/plan{PLAN}_spec.json')) if os.path.exists(R + f'designs/plan{PLAN}_spec.json') else {}
 data['cedar'] = _sp.get('cedar_belts', [])
-data['townTones'] = _sp.get('street_tree_tones', [])   # 第60回の最終審査：町の木の色（1種類の木）
+data['townTones'] = _sp.get('street_tree_tones', [])
+if _sp.get('zone_meta'): data['zoneMeta'] = _sp['zone_meta']   # 第62回：地区の名前・色・道（案7）   # 第60回の最終審査：町の木の色（1種類の木）
 data['axisSum'] = (_sp['axis']['x0'] + _sp['axis']['x1']) if _sp.get('axis') else None   # 第60回：軸をはさむ町の木の対は同じ色に   # 第60回：杉（針葉樹）と濃い緑の低木の帯（主塔のうしろの静かな背景）
 t = open('acnh3d_tpl.html').read()
 js = lambda o: json.dumps(o, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/')

@@ -547,6 +547,36 @@ def run(seed):
         else:
             targets = [tuple(t) for t in tgt]
         lay.connect(targets, r.get('w', 2), r.get('name', str(tgt)))
+    if spec.get('prune_streets'):   # 第62回（案7）：飛行場から歩いてつながらない図の通り（水や崖で切れた v4 の道の切れはし）を消す
+        for (x, y) in sorted(lay.roads):   # ななめにだけつながる道（v4 の階段のような道・A* のななめの一歩）は、角のマスを道にしてたて横につなぐ
+            for dx, dy in ((1, 1), (1, -1)):
+                a, b = (x + dx, y), (x, y + dy)
+                if (x + dx, y + dy) in lay.roads and a not in lay.roads and b not in lay.roads and lay.lv(x, y) == lay.lv(x + dx, y + dy):
+                    for c in (a, b):
+                        if inside(*c) and lay.g[c[1]][c[0]] in '13t' and c not in lay.blocked and lay.lv(*c) == lay.lv(x, y):
+                            lay.roads.add(c); break
+        slope_ = {c for inc in lay.inclines for c, _ in gen_slope(*inc)}
+        bridge_ = {c for b in lay.bridges for c in b['span']}
+        walk_ = lambda p: inside(*p) and (p in lay.roads or isl.g[p[1]][p[0]] == 's' or p in slope_ or p in bridge_)
+        seen_, q_ = {start}, [start]
+        while q_:
+            x, y = q_.pop()
+            for dx, dy in N4:
+                p = (x + dx, y + dy)
+                if p not in seen_ and walk_(p) and (lay.lv(*p) == lay.lv(x, y) or p in slope_ or (x, y) in slope_ or p in bridge_ or (x, y) in bridge_):
+                    seen_.add(p); q_.append(p)
+        keep_ = seen_ | bridge_ | set(getattr(lay, 'net', ()))
+        rest_ = lay.roads - keep_
+        while rest_:   # つながらない道のかたまりのうち、10マスまでの切れはしだけ消す（大きいかたまりは草地を歩いてつながる）
+            s_ = rest_.pop(); part_, q_ = [s_], [s_]
+            while q_:
+                x, y = q_.pop()
+                for dx, dy in N4:
+                    p = (x + dx, y + dy)
+                    if p in rest_:
+                        rest_.discard(p); part_.append(p); q_.append(p)
+            if len(part_) <= 10:
+                lay.roads -= set(part_)
     lay.paint_roads()
     return isl, lay
 
@@ -567,6 +597,18 @@ if __name__ == '__main__':
         for zd in spec['zones']:
             if 'rect' in zd:
                 x0, y0, x1, y1 = zd['rect']; cells = [(x, y) for y in range(y0, y1 + 1) for x in range(x0, x1 + 1)]
+            elif 'poly' in zd:   # 第62回：多角形の地区（v4 の地区のさかい。マスの中心で内外を決める）
+                P_ = zd['poly']; cells = []
+                for y in range(gen.H):
+                    for x in range(gen.W):
+                        ins_ = False; j = len(P_) - 1
+                        for i in range(len(P_)):
+                            (xi, yi), (xj, yj) = P_[i], P_[j]
+                            if (yi > y + .5) != (yj > y + .5) and x + .5 < (xj - xi) * (y + .5 - yi) / (yj - yi) + xi:
+                                ins_ = not ins_
+                            j = i
+                        if ins_:
+                            cells.append((x, y))
             else:
                 cx, cy, rx, ry = zd['blob']; cells = isl.blob(cx, cy, rx, ry, .15)
             for x, y in cells:

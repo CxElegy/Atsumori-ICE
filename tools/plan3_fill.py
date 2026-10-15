@@ -54,6 +54,11 @@ for y in range(H):
     for x in range(W):
         if lv(x, y) >= 2 and x < 42 and y < 36: Z[y][x] = 'J'
         if lv(x, y) >= 2 and x > 74 and y < 40: Z[y][x] = 'H'
+ZM = SPEC.get('zone_meta', {})   # 第62回（案7・世界旅行の島）：spec で地区を足す（エジプト・アメリカ・ヨーロッパ など）。名前・坂・橋・柵・低木・見せ場の地面
+for k_, m_ in ZM.items():
+    CENT.setdefault(k_, [tuple(m_.get('center', (56, 48)))])
+    if m_.get('name'):
+        NAMES[k_] = m_['name']
 if LAY.get('zones'):   # 案4：地区は手で塗ったもの（見せ場を置く芯は地区の重心）
     Z = [list(r) for r in LAY['zones']]
     for k in list(CENT):
@@ -97,6 +102,8 @@ def fits(kid, ax, ay, flip=False):
 PLAN_KITS = {'C': ['lon_square', 'lon_cafe', 'lon_market', 'lon_books', 'lon_pub', 'lon_records', 'lon_crossing', 'lon_benches', 'lon_quay', 'lon_garden', 'lon_station', 'lon_dock', 'lon_cafe', 'lon_market'],
              'S': ['cot_garden', 'cot_greenhouse', 'bakery', 'allotment', 'formal_garden', 'cot_garden', 'tea_picnic', 'allotment', 'cot_greenhouse', 'bakery', 'cot_garden', 'tea_picnic'],
              'F': ['tea_picnic', 'tea_picnic', 'tea_picnic'], 'J': ['jp_tea'], 'B': ['tea_picnic'], 'H': ['spooky_yard'], 'P': ['harbor_quay', 'lon_dock', 'bakery']}
+for k_ in ZM:
+    PLAN_KITS.setdefault(k_, [])
 groups, ground, plants = [], [], []
 def ring_skip(ax, ay, KW, KD):   # 囲みの1マスのうち、ちがう段・水・道などには地面を貼らない
     L = lv(ax, ay)
@@ -183,6 +190,8 @@ def place_kit(kid, tx, ty, r, z, style=None, flip=None, gid=None, name=None, on_
     return True
 GSTYLE = {'C': ['herring', 'brick', 'flag', 'cobble'], 'S': ['garden', 'flag'], 'P': ['plank', 'flag'], 'J': ['moss'], 'B': ['moss'], 'H': ['leaves'], 'F': ['leaves']}
 GDES = {'herring': 'brick_arch', 'brick': 'brick_vintage_red', 'flag': 'brick_greige', 'cobble': 'road_chic_stone', 'garden': 'brick_city_old', 'plank': 'plank', 'moss': 'stone_natural', 'leaves': 'brick_autumn', 'stoneold': 'stone_old'}
+for k_, m_ in ZM.items():
+    GSTYLE.setdefault(k_, m_.get('gstyle', ['flag']))
 for kd in SPEC.get('kits', []):   # 設計の見せ場（ねらいの場所のまわりに）。木より先に場所をとる
     tx, ty = kd.get('at') or kd['near']
     place_kit(kd['kit'], tx, ty, 0 if 'at' in kd else kd.get('r', 6), kd['zone'], kd.get('style'), kd.get('flip'), name=kd.get('name'), on_road=kd.get('on_road', False))
@@ -281,6 +290,8 @@ for x, y in SPEC.get('street_trees', []):
         print('町の木を植えられない（となり）', x, y); continue
     if CAMERA and diag_block(x, y):
         print('町の木を植えられない（ななめ）', x, y); continue
+    if (x, y) in road and SPEC.get('trees_off_roads'):
+        continue   # 第62回（案7）：v4 の林のマスに道が通ったら、その木は植えない（道を切らない）
     if (x, y) in road:
         G[y][x] = '3' if L >= 2 else '1'; road.discard((x, y))
     street.append((x, y)); occ.add((x, y))
@@ -289,6 +300,7 @@ trees = set(sorted(trees, key=lambda p: (p[0] * 7 + p[1] * 13) % 97)[:185 - len(
 bush = set()
 NOBUSH = {(x, y) for x0, y0, x1, y1 in SPEC.get('bush_clear', []) for x in range(x0, x1 + 1) for y in range(y0, y1 + 1)}   # 第60回：低木を置かない四角（主塔の真うしろの芝）
 BUSH = {'F': .55, 'J': .35, 'H': .5, 'B': .3, 'S': .14, 'C': .02, 'P': .12}
+BUSH.update({k_: m_['bush'] for k_, m_ in ZM.items() if 'bush' in m_})
 if SPEC.get('base') == 'authored':
     BUSH['P'] = .02   # 案4：港も町（低木はほとんどなし）
 for y in range(H):
@@ -299,6 +311,9 @@ for y in range(H):
             p = BUSH.get(z, 0) + .12 * near
             if lv(x, y) >= 1 and rng.random() < p * (.6 + .4 * (noise(x * 2, y * 2) + 1)):
                 bush.add((x, y))
+for x, y in SPEC.get('bushes', []):   # 第62回：低木を置くマスを手で（v4 の林のうち木にしないマス）
+    if g(x, y) in '13' and (x, y) not in trees and (x, y) not in occ_b and (x, y) not in slope and (x, y) not in front and (x, y) not in road and (x, y) not in occ:
+        bush.add((x, y))
 for x, y in trees:
     G[y][x] = 't'
 
@@ -325,6 +340,7 @@ if SPEC.get('panel_cap'):   # 第60回：同じ物は 8×8 に6個まで（島�
 ALT = SPEC.get('panel_alt')
 alt8 = {}
 URBAN = 'CP' if SPEC.get('base') == 'authored' else 'C'   # 案4：港（ドックランズ）も町
+URBAN = SPEC.get('urban', URBAN)   # 第62回：町としてあつかう地区を spec で（案7 はロンドンだけ）
 k = 0
 for y in range(1, H - 1):
     for x in range(1, W - 1):
@@ -513,10 +529,11 @@ if edge:
 
 # ---- 家のまわりの柵・生け垣（入口の前と道はあける。地区ごとの柵）----
 FENCE = {'S': 'hedge', 'J': 'bamboo lattice fence', 'H': 'spooky fence', 'P': 'lattice fence', 'F': 'log fence', 'B': 'green bamboo fence', 'C': 'iron fence'}
+FENCE.update({k_: m_['fence'] for k_, m_ in ZM.items() if m_.get('fence')})
 fences = []
 for b in LAY['buildings']:
     x0, y0 = b['at']; w, d = SIZE[b['kind']]; z = Z[y0][x0]
-    if z == 'C':
+    if z == 'C' or z not in FENCE:
         continue
     ring = [(x0 - 1, y) for y in range(y0 - 1, y0 + d + 1)] + [(x0 + w, y) for y in range(y0 - 1, y0 + d + 1)] + [(x, y0 - 1) for x in range(x0, x0 + w)]
     for x, y in ring:
@@ -608,11 +625,12 @@ for b in LAY['buildings']:
             for y in range(y0 - 1, y0 + d + 1):
                 if (x in (x0 - 2, x0 - 1, x0 + w, x0 + w + 1)) and free(x, y, lv(x0, y0)) and (x, y) not in trees:
                     plants.append({'id': b['id'] + '-garden', 'type': 'roses' if z == 'S' else 'mums', 'rect': [x, y, x, y], 'colors': ['red', 'white', 'pink', 'yellow'] if z == 'S' else ['white', 'yellow'], 'fit': True}); occ.add((x, y))
+FIELDZ = 'S' + ''.join(k_ for k_, m_ in ZM.items() if m_.get('fields'))   # 第62回：花畑の地区（ヨーロッパの村など）
 fields = [(rng.choice(['cosmos', 'tulips', 'lilies', 'hyacinths', 'windflowers']), rng.choice([['red', 'yellow', 'white'], ['pink', 'white'], ['purple', 'blue', 'white'], ['orange', 'yellow']])) for _ in range(6)]
 k = 0
 for y in range(H):
     for x in range(W):
-        if Z[y][x] == 'S' and free(x, y, lv(x, y)) and (x, y) not in trees and (x, y) not in bush and noise(x * .8 + 50, y * .8) > .18:
+        if Z[y][x] in FIELDZ and free(x, y, lv(x, y)) and (x, y) not in trees and (x, y) not in bush and noise(x * .8 + 50, y * .8) > .18:
             t, cs = fields[(x // 9 + y // 7) % len(fields)]
             if CAMERA:   # 第60回の最終審査：ゲームにない色（青・紫のユリなど）を植えない
                 cs = [c for c in cs if c in P2['rules'].get('plants', {}).get(t, {}).get('colors', cs)] or ['white']
@@ -637,6 +655,7 @@ T['facilities'] = []
 json.dump(T, open(os.path.join(ROOT, f'plan{PLAN}-terrain.json'), 'w'))
 INC = {'C': 'brick staircase', 'S': 'natural ramp', 'F': 'log staircase', 'J': 'stone staircase', 'B': 'stone staircase', 'H': 'log staircase', 'P': 'white-plank ramp'}
 BRI = {'C': 'brick bridge', 'S': 'stone bridge', 'F': 'log bridge', 'J': 'red zen bridge', 'B': 'zen bridge', 'H': 'log bridge', 'P': 'wooden bridge'}
+INC.update({k_: m_['inc'] for k_, m_ in ZM.items() if m_.get('inc')}); BRI.update({k_: m_['bri'] for k_, m_ in ZM.items() if m_.get('bri')})
 B3 = {'note': '案3（第49回）：乱れ（たね %d）で作りなおした島。地形 tools/plan3_gen.py・配置 tools/plan3_layout.py・中身 tools/plan3_fill.py' % T['seed'],
       'season': SPEC.get('season', P2['season']), 'rules': P2['rules'], 'buildings': B_ALL,
       'inclines': {'%d,%d' % (x, y): SPEC.get('incline_kinds', {}).get('%d,%d' % (x, y), INC[Z[y][x]]) for x, y, d in T['inclines']},   # 第58回：場所ごとに種類を変えられる（石の階段など）
