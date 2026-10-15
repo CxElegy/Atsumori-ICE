@@ -27,13 +27,13 @@ def rotate(rows, rot):
     return [''.join(s) for s in r]
 
 def main():
-    ap = argparse.ArgumentParser(); ap.add_argument('--cache', required=True, nargs='+'); ap.add_argument('--out', required=True); ap.add_argument('--board'); ap.add_argument('--views'); ap.add_argument('--pages', action='store_true', help='GitHub Pages 用：作者の画像は埋めこまず Pinterest の URL を直接使う（リポジトリに画像を入れない）。評価は見るだけ'); ap.add_argument('--votes', help='Pages に出す評価の写し（Artifact の votes/all）'); ap.add_argument('--xhs', help='小红书の画像の置き場（xhs/img/… がある所。claude/intelligent-bohr-avhvea ブランチを git archive したもの）'); ap.add_argument('--big', help='作例の大きな画像（big/c000.jpg…）を書き出す置き場。Artifact に files として一緒に載せる'); a = ap.parse_args()
+    ap = argparse.ArgumentParser(); ap.add_argument('--cache', required=True, nargs='+'); ap.add_argument('--out', required=True); ap.add_argument('--board'); ap.add_argument('--views'); ap.add_argument('--pages', action='store_true', help='GitHub Pages 用：作者の画像は埋めこまず Pinterest の URL を直接使う（リポジトリに画像を入れない）。評価は見るだけ'); ap.add_argument('--votes', help='Pages に出す評価の写し（Artifact の votes/all）'); ap.add_argument('--xhs', help='小红书の画像の置き場（xhs/img/… がある所。リポジトリの最上位＝. でよい。第61回に main へ統合）'); ap.add_argument('--big', help='作例の大きな画像（big/c000.jpg…）を書き出す置き場。Artifact に files として一緒に載せる'); a = ap.parse_args()
     files = {}
     for c in a.cache:
         idx = json.load(open(os.path.join(c, 'index.json')))
         for k, u in (enumerate(idx) if isinstance(idx[0], str) else ((t[0], t[1]) for t in idx)):
             files[u] = os.path.join(c, '%03d.jpg' % k)
-    # 小红书のノート（designs/xhs_refs.json）：画像はブランチ claude/intelligent-bohr-avhvea の xhs/img/。Pages はその raw を直接読む
+    # 小红书のノート（designs/xhs_refs.json）：画像は main の xhs/img/（第61回にブランチ claude/intelligent-bohr-avhvea から統合）。Pages はその raw を直接読む
     XR = json.load(open(os.path.join(ROOT, 'designs', 'xhs_refs.json'), encoding='utf8')) if os.path.exists(os.path.join(ROOT, 'designs', 'xhs_refs.json')) else {'refs': []}
     RAW = 'https://raw.githubusercontent.com/CxElegy/Atsumori-ICE/%s/' % XR.get('branch', '')
     if a.xhs:

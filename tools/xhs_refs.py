@@ -1,7 +1,7 @@
-"""小红书のノート（xhs/notes.json、ブランチ claude/intelligent-bohr-avhvea）を、集めた作例に入れる形 designs/xhs_refs.json にする（第40回）。
+"""小红书のノート（xhs/notes.json。第61回にブランチ claude/intelligent-bohr-avhvea から main へ統合）を、集めた作例に入れる形 designs/xhs_refs.json にする（第40回）。
 
   python3 tools/xhs_refs.py <notes.json>
-  例：git show origin/claude/intelligent-bohr-avhvea:xhs/notes.json > /tmp/notes.json && python3 tools/xhs_refs.py /tmp/notes.json
+  例：python3 tools/xhs_refs.py xhs/notes.json
 
 1ノート＝1作例（番号 X-0001…）。ノートの画像は全部まとめて1つの作例のグループとして見せ、評価は1つ。
 画像そのもの（xhs/img/）は作者の画像なので main には入れない。ビルドガイドは --xhs で画像の置き場を渡す（Pages はそのブランチの raw を直接読む）。
@@ -38,7 +38,7 @@ def main():
                      'th': TH.get(n['theme'], 'all'), 'cat': cat_of(n), 'kind': 'scene', 'q': '小红书：' + n.get('keyword', ''),
                      'title': n.get('title', ''), 'author': n.get('author', ''), 'likes': n.get('likes', 0)})
     refs.sort(key=lambda r: r['no'])
-    json.dump({'note': '小红书のノート（tools/xhs_refs.py が xhs/notes.json から作る）。画像は claude/intelligent-bohr-avhvea ブランチの xhs/img/', 'branch': 'claude/intelligent-bohr-avhvea', 'refs': refs},
+    json.dump({'note': '小红书のノート（tools/xhs_refs.py が xhs/notes.json から作る）。画像は main の xhs/img/（第61回にブランチ claude/intelligent-bohr-avhvea から統合）', 'branch': 'main', 'refs': refs},
               open(OUT, 'w', encoding='utf8'), ensure_ascii=False, indent=1)
     from collections import Counter
     print(len(refs), '件', Counter(r['th'] for r in refs), Counter(r['cat'] for r in refs), sum(len(r['imgs']) for r in refs), '枚')
