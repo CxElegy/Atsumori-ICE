@@ -1,6 +1,6 @@
 {
- "note": "小红书のノート（tools/xhs_refs.py が xhs/notes.json から作る）。画像は claude/intelligent-bohr-avhvea ブランチの xhs/img/",
- "branch": "claude/intelligent-bohr-avhvea",
+ "note": "小红书のノート（tools/xhs_refs.py が xhs/notes.json から作る）。画像は main の xhs/img/（第61回にブランチ claude/intelligent-bohr-avhvea から統合）",
+ "branch": "main",
  "refs": [
   {
    "no": "X-0001",

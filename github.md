@@ -42,6 +42,7 @@ date: 2026-10-11
 
 ## 小红书のノート（第40回）
 - ノートを集めるのはブランチ claude/intelligent-bohr-avhvea（ローカルで xiaohongshu-mcp にログインして tools/xhs_fetch.py。画像もそのブランチの xhs/img/）
+- 第61回：Pages のビルドガイド（docs/index.html）・london-redesign.json・designs/xhs_refs.json の小红书の画像のリンクを、ブランチの raw から main の raw（xhs/img/）に切りかえた（ブランチを消しても画像は出る）
 - 第61回：ブランチ claude/intelligent-bohr-avhvea を main に統合した（xhs/notes.json・xhs/modules.json・xhs/img/・tools/xhs_fetch.py・tools/xhs_login.py）。そのブランチの組み立て台（小红书のノートを見ながらマス目に描いてモジュールにする版）は記号の意味が main の組み立て台とちがう（I＝本棚・U＝ソファ など）ので、別のファイル `Module Builder 小红书.dc.html` に残した
 - ノートの追加（xiaohongshu-mcp をローカルで起動・ログインしておく）：`go build` した xiaohongshu-mcp を `COOKIES_PATH=…/cookies.json ./xiaohongshu-mcp` で起動 → `python3 tools/xhs_login.py --cookies …/cookies.json`（QR を読み取り「确认登录」、SMS が来たら6桁）→ `python3 tools/xhs_fetch.py themes`（6地区まとめて）／`search 动森岛建 xxx --theme 日本`／`url <共有リンク> --theme 地中海`。cookies.json はログイン情報なのでコミットしない（.gitignore 済み）
 - 小红书の組み立て台で作ったモジュールはブラウザに保存。「書き出し」の modules.json を `xhs/modules.json` に置いてコミットすると全員の組み立て台に出る
