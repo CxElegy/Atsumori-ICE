@@ -111,7 +111,7 @@ def main():
         return True
     optonly = {c for o in LON.get('options', []) for c in o['choices']} - {'lon_d_platform'}   # 案としてだけ使うモジュールは、ほかの所に置かない
     for m in sorted(LON['modules'], key=lambda m: not m.get('at')):   # 場所を決めたモジュールを先に
-        if any(p['id'] == m['id'] for p in places) or m['id'] in optonly: continue
+        if any(p['id'] == m['id'] for p in places) or m['id'] in optonly or m.get('retired'): continue   # retired：地形が変わって作り直し待ち
         if m.get('at'):   # 場所を決めたモジュール：そこに置き、重なるほかのモジュール（細部以外）は外す
             x, y = m['at']; cs = {(x + dx, y + dy) for dy, row in enumerate(m['r']) for dx, ch in enumerate(row) if ch != '.'}
             places[:] = [p for p in places if mods[p['id']].get('detail') or not any((p['x'] + dx, p['y'] + dy) in cs for dy, row in enumerate(p['rows']) for dx, ch in enumerate(row) if ch != '.')]

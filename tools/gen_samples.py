@@ -49,7 +49,7 @@ KEEP_TREES = [[82, 25, 112, 46], [16, 66, 32, 82]]
 
 # 主役の表：(モジュールの id か 'LM:地区:k'=その地区の採用した主役のk番目 / 'SUP:地区:k'、目標 x, y、探す半径)
 SPEC = {
-    'lon': [('lon_lounge', 38, 77, 0), ('lon_934', 29, 84, 3), ('lon_park', 22, 74, 3), ('LM:lon:0', 41, 62, 3),
+    'lon': [('lon_lounge', 38, 77, 0), ('lon_934', 29, 84, 3), ('lon_park', 22, 74, 3),
             ('lon_corner', 36, 70, 6), ('lon_bus', 52, 71, 6), ('SUP:lon:0', 33, 78, 6), ('SUP:lon:1', 54, 66, 6),
             # 郊外：川の西岸の村の緑地、南西の浜の屋敷の並木道・市民農園・コテージガーデン
             ('sub_lon_green', 20, 60, 4), ('sub_lon_manor', 14, 86, 6), ('sub_lon_allot', 22, 88, 6), ('sub_lon_cottage', 6, 89, 6), ('sub_lon_tea', 20, 67, 6)],
@@ -153,6 +153,8 @@ class World:
     # -- 置けるか ------------------------------------------------------------
     def ok(self, mask, cells, x, y, m, ignore_margin=False):
         lv = set()
+        if m.id != 'lon_park' and 0 <= x < W and 0 <= y < H and self.lsub[y][x] and any(c in 'BTKLE' for _, _, c in cells):
+            return False   # 第44回：置く点が郊外なら、町の物（レンガ・電話・バス停・ガス灯・時計）をふくむ見本は置かない
         for dx, dy, c in cells:
             cx, cy = x + dx, y + dy
             if not (0 <= cx < W and 0 <= cy < H) or not mask[cy][cx]:
@@ -448,6 +450,8 @@ def build():
             w.fac_pos.append([f['name'], f['kind'], pos[0], pos[1]])
         # 1c 枯れ流れ（白砂の砂紋）
         for k, v in w.ground_plan.items():
+            if v == 'u':
+                continue   # 低木（第44回の林）は塗らない（植えるもの）
             x, y = map(int, k.split(','))
             if mask[y][x] and not w.cov[y][x]:
                 w.paint[k] = v; w.cov[y][x] = True
