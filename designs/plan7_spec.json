@@ -787,6 +787,7 @@
  "urban": "C",
  "prune_streets": true,
  "trees_off_roads": true,
+ "beach_walk": true,
  "axis_paving": {
   "style": "brick",
   "rects": [

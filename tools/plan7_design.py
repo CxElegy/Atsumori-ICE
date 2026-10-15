@@ -336,7 +336,7 @@ spec = {
     'zones': [{'zone': z, 'poly': p} for z, p in ZPOLY],
     'zone_meta': ZONE_META,
     'urban': 'C',
-    'prune_streets': True, 'trees_off_roads': True,
+    'prune_streets': True, 'trees_off_roads': True, 'beach_walk': True,
     'axis_paving': {'style': 'brick', 'rects': [[34, 76, 35, 82]]},   # ロンドン街道はレンガの道（v4：レンガ道・街灯・電話ボックス）
     'manual_zones': '',
     'kits': [{k: v for k, v in p.items() if k in ('kit', 'at', 'zone', 'on_road', 'flip', 'name', 'style', 'district')} for p in KP.get('placements', [])],

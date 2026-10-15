@@ -132,6 +132,8 @@ def arch_open(p):
 
 def walk_set(blocked, extra):
     base = road | bridge | set(slope) | plaza | front
+    if SPEC.get('beach_walk'):   # 第62回（案7）：浜も歩ける（v4 の地区どうしは浜でつながる所がある。道の A* も浜を歩く）
+        base |= {(x, y) for y in range(H) for x in range(W) if g(x, y) == 's'}
     return (base | extra) - blocked
 
 
