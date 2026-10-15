@@ -747,6 +747,19 @@
    "gstyle": [
     "garden"
    ],
+   "roofs": {
+    "2": [
+     "sand",
+     "sand",
+     "fort",
+     "sand"
+    ],
+    "3": [
+     "sand",
+     "fort"
+    ]
+   },
+   "fort_roof": "roof_sand",
    "panel": {
     "window": "wall_stone_window",
     "lamp": "wall_stone_window"
@@ -811,6 +824,18 @@
    "gstyle": [
     "flag"
    ],
+   "roofs": {
+    "2": [
+     "slate",
+     "slate_dark",
+     "slate",
+     "red"
+    ],
+    "3": [
+     "slate_dark",
+     "slate"
+    ]
+   },
    "paving": [
     "flag",
     "brick_greige"
@@ -885,6 +910,20 @@
     "flag"
    ],
    "fields": true,
+   "roofs": {
+    "2": [
+     "terra",
+     "terra",
+     "garden",
+     "terra",
+     "fort"
+    ],
+    "3": [
+     "terra",
+     "fort"
+    ]
+   },
+   "fort_roof": "roof_terra",
    "panel": {
     "window": "wall_stone_window",
     "lamp": "wall_brick_lamp"
@@ -941,6 +980,19 @@
    "pathc": "#d7c7ae",
    "road": "stone",
    "bush": 0.02,
+   "roofs": {
+    "2": [
+     "white",
+     "white",
+     "white",
+     "garden"
+    ],
+    "3": [
+     "white",
+     "fort"
+    ]
+   },
+   "fort_roof": "roof_white",
    "panel": {
     "window": "wall_stone_window",
     "lamp": "wall_stone_window"
@@ -995,6 +1047,18 @@
    "name": "ロンドン",
    "col": "#a8402a",
    "bush": 0,
+   "roofs": {
+    "2": [
+     "slate_dark",
+     "red",
+     "slate_dark",
+     "fort"
+    ],
+    "3": [
+     "fort",
+     "slate_dark"
+    ]
+   },
    "paving": [
     "stoneold",
     "stone_old"
@@ -4320,8 +4384,8 @@
  "page": {
   "title": "アイス島 案7",
   "ribbon": "アイス島　案7",
-  "small": "世界旅行の島：改造プラン v4 の島を 3D に",
-  "who": "アイス島　全島（案7・第62回）",
-  "intro": "改造プラン v4 の「世界旅行ができる島」を、あつ森で作れる 3D の島に起こした。"
+  "small": "世界旅行の島（v2）：改造プラン v4 の地区・水系・家の場所のまま、彫った町に",
+  "who": "アイス島　全島（案7 v2・第62回）",
+  "intro": "改造プラン v4 の「世界旅行ができる島」を、あつ森で作れる 3D の島に起こした（v2）。地区（エジプト・日本・アメリカの都市・ハロウィン・森林・ヨーロッパ・地中海の港・ロンドン）、西の河口から南の河口への水系、施設と住民10軒の場所は v4 のまま。v4 の道を1段目の通りにし、町の地区は通りのあいだを2・3段目の建物のかたまり（崖のすその壁のパネル・茶色のレンガや灰色の屋根・胸壁）にした（v1 は平らすぎて4点）。目じるしは、エジプトの台地のピラミッド（3段目・南の大石段・スフィンクス）、日本の山の上の五重塔と千本鳥居、ロンドンの時計台の高台、ヨーロッパの風車の丘、港の灯台。橋は v4 のナイルの橋・朱の太鼓橋と、テムズ川の鉄の橋・南の運河の橋。坂10本。見せ場130、置く物は約850（目録の本物の家具とマイデザインだけ）。"
  }
 }

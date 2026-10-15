@@ -481,7 +481,8 @@ if SPEC.get('base') == 'authored':
             #   煙突の代わりのレンガのカベ1本と、室外機・給水タンク／garden＝ふちは生け垣、中は花の屋上庭園
             n_ = len(comp); mx, my = min(comp)
             kinds = ['slate', 'garden', 'slate', 'garden', 'slate'] if lv(x0, y0) == 2 else ['fort', 'red', 'fort', 'red']
-            kinds = SPEC.get('roof_kinds', {}).get(str(lv(x0, y0)), kinds)   # 第60回：案ごとに屋根の種類のまぜ方を変える（灰色の平らな屋根ばかりにしない）   # 茶色のレンガの屋根は2段目だと通りのレンガとまぎれるので3段目だけ。第58回：通りの石畳（road_chic_stone）は屋根に使わない（屋根と通りが同じ柄になる）
+            kinds = SPEC.get('roof_kinds', {}).get(str(lv(x0, y0)), kinds)
+            kinds = ZM.get(Z[y0][x0], {}).get('roofs', {}).get(str(lv(x0, y0)), kinds)   # 第62回（案7）：地区ごとの屋根（エジプト＝砂岩の平屋根・港＝白・ヨーロッパ＝テラコッタ）   # 第60回：案ごとに屋根の種類のまぜ方を変える（灰色の平らな屋根ばかりにしない）   # 茶色のレンガの屋根は2段目だと通りのレンガとまぎれるので3段目だけ。第58回：通りの石畳（road_chic_stone）は屋根に使わない（屋根と通りが同じ柄になる）
             rk = 'fort' if n_ >= 40 and lv(x0, y0) == 2 and (mx * 7 + my) % 3 == 0 else kinds[(mx * 7 + my * 13) % len(kinds)]
             if n_ <= 3:
                 rk = 'slate' if rk == 'garden' else rk
@@ -512,8 +513,8 @@ if SPEC.get('base') == 'authored':
                 elif (x, y) in units:
                     roofs.append(['outdoor air conditioner', x, y, 0, None]); occ.add((x, y))
                 else:   # 屋根のマイデザイン（はしごで上がって敷く）
-                    st = {'fort': 'roof', 'slate': 'roof', 'slate_dark': 'roof_slate', 'red': 'roof_red'}[rk]
-                    ground.append({'id': 'C-roof', 'style': st, 'rect': [x, y, x, y], 'design': {'roof': 'brick_grey', 'roof_slate': 'road_chic_stone', 'roof_red': 'brick_natural'}[st], 'skip': []}); occ.add((x, y))
+                    st = {'fort': ZM.get(Z[y0][x0], {}).get('fort_roof', 'roof'), 'slate': 'roof', 'slate_dark': 'roof_slate', 'red': 'roof_red', 'sand': 'roof_sand', 'white': 'roof_white', 'terra': 'roof_terra'}[rk]
+                    ground.append({'id': 'C-roof', 'style': st, 'rect': [x, y, x, y], 'design': {'roof': 'brick_grey', 'roof_slate': 'road_chic_stone', 'roof_red': 'brick_natural', 'roof_sand': 'brick_city_old', 'roof_white': 'brick_greige', 'roof_terra': 'brick_vintage_red'}[st], 'skip': []}); occ.add((x, y))
     if roofs:
         groups.append({'id': 'C-roofs', 'zone': 'C', 'name': 'レンガのかたまりの上：ふちの城壁（castle wall）と屋上の庭', 'at': [0, 0], 'items': roofs, 'lines': []})
     plants.extend(roofp)
@@ -673,6 +674,6 @@ B3 = {'note': '案3（第49回）：乱れ（たね %d）で作りなおした�
       'season': SPEC.get('season', P2['season']), 'rules': P2['rules'], 'buildings': B_ALL,
       'inclines': {'%d,%d' % (x, y): SPEC.get('incline_kinds', {}).get('%d,%d' % (x, y), INC[Z[y][x]]) for x, y, d in T['inclines']},   # 第58回：場所ごとに種類を変えられる（石の階段など）
       'bridges': {'%d,%d' % (r[0], r[1]): SPEC.get('bridge_kinds', {}).get('%d,%d' % (r[0], r[1]), BRI[Z[r[1]][r[0]]]) for r in T.get('bridges', [])},
-      'paths': dict(P2['paths'], **SPEC.get('paths', {})), 'groups': groups, 'ground': ground, 'plants': plants, 'orchards': [], 'ground_styles': dict(P2.get('ground_styles', {}), roof='屋根（灰色のレンガ）', roof_slate='屋根（濃い灰色の石畳）', roof_red='屋根（茶色のレンガ）', **({'stoneold': '石畳（old stone road：町の通りと同じ）'} if SPEC.get('paving') or any('paving' in m for m in ZM.values()) else {}))}
+      'paths': dict(P2['paths'], **SPEC.get('paths', {})), 'groups': groups, 'ground': ground, 'plants': plants, 'orchards': [], 'ground_styles': dict(P2.get('ground_styles', {}), roof='屋根（灰色のレンガ）', roof_slate='屋根（濃い灰色の石畳）', roof_red='屋根（茶色のレンガ）', roof_sand='屋根（砂岩色の明るい石畳：エジプトの平屋根）', roof_white='屋根（グレージュのレンガ：港の白い家）', roof_terra='屋根（赤いレンガ：ヨーロッパのテラコッタ）', **({'stoneold': '石畳（old stone road：町の通りと同じ）'} if SPEC.get('paving') or any('paving' in m for m in ZM.values()) else {}))}
 json.dump(B3, open(os.path.join(ROOT, f'designs/build_plan{PLAN}.json'), 'w'), ensure_ascii=False, indent=1)
 print('木', len(trees), '低木', len(bush), 'キット', len([g_ for g_ in groups if g_.get('kit')]), 'パネル', len(panel_groups), '地面', len(ground), '花', len(plants))

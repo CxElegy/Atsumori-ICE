@@ -368,19 +368,19 @@ _tset = {tuple(p) for p in TREES}
 BUSHES = [[x, y] for (x, y) in FOREST if (x, y) not in _tset and C.get((x, y)) in ('1', '2', '3') and (x * 3 + y) % 2 == 0]   # 第62回の審査：低木は半分に（島じゅう同じ点々にしない）
 STONE_P = {'window': 'wall_stone_window', 'lamp': 'wall_stone_window'}
 URBAN_META = {   # 第62回の2回目：町の地区ごとの壁（崖のすそのパネル）・敷石・通りの小物・崖のふちの柵
-    'E': {'panel': STONE_P, 'paving': ['garden', 'brick_city_old'], 'edge': 'stone fence',
+    'E': {'roofs': {'2': ['sand', 'sand', 'fort', 'sand'], '3': ['sand', 'fort']}, 'fort_roof': 'roof_sand', 'panel': STONE_P, 'paving': ['garden', 'brick_city_old'], 'edge': 'stone fence',
           'street_props': [['pot', 'Beige'], ['fan palm', 'Brown'], ['lantern', 'Red'], ['cactus', 'Blooming'], ['wooden box', 'Natural'], ['yucca', 'Brown'], ['barrel', None]],
           'street_props2': [['clay furnace', None]]},
-    'A': {'paving': ['flag', 'brick_greige'], 'edge': 'iron fence',
+    'A': {'roofs': {'2': ['slate', 'slate_dark', 'slate', 'red'], '3': ['slate_dark', 'slate']}, 'paving': ['flag', 'brick_greige'], 'edge': 'iron fence',
           'street_props': [['round streetlight', 'Black'], ['fire hydrant', 'Red'], ['garbage bin', 'Green'], ['crosswalk signal', 'Black'], ['standing shop sign', 'Silver'], ['monstera', 'Black'], ['round streetlight', 'Black'], ['potted starter plants', 'Green']],
           'street_props2': [['scooter', 'Red'], ['cruiser bike', 'Light blue']]},
-    'U': {'panel': {'window': 'wall_stone_window', 'lamp': 'wall_brick_lamp'}, 'paving': ['garden', 'brick_city_old'], 'edge': 'iron fence',
+    'U': {'roofs': {'2': ['terra', 'terra', 'garden', 'terra', 'fort'], '3': ['terra', 'fort']}, 'fort_roof': 'roof_terra', 'panel': {'window': 'wall_stone_window', 'lamp': 'wall_brick_lamp'}, 'paving': ['garden', 'brick_city_old'], 'edge': 'iron fence',
           'street_props': [['streetlamp', 'Green'], ['potted starter plants', 'Pink'], ['round topiary', 'Green'], ['menu chalkboard', 'Natural'], ['pot', 'White'], ['streetlamp', 'Green'], ['monstera', 'White']],
           'street_props2': [['iron garden bench', 'Green'], ['cruiser bike', 'Green']]},
-    'P': {'panel': STONE_P, 'paving': ['flag', 'brick_greige'], 'edge': 'iron fence',
+    'P': {'roofs': {'2': ['white', 'white', 'white', 'garden'], '3': ['white', 'fort']}, 'fort_roof': 'roof_white', 'panel': STONE_P, 'paving': ['flag', 'brick_greige'], 'edge': 'iron fence',
           'street_props': [['pot', 'White'], ['lantern', 'Blue'], ['cypress plant', 'White'], ['wooden box', 'White'], ['life ring', 'Blue'], ['barrel', None], ['pot', 'Gray']],
           'street_props2': [['scooter', 'Blue'], ['iron garden bench', 'White']]},
-    'C': {'paving': ['stoneold', 'stone_old']},
+    'C': {'roofs': {'2': ['slate_dark', 'red', 'slate_dark', 'fort'], '3': ['fort', 'slate_dark']}, 'paving': ['stoneold', 'stone_old']},
 }
 ZONE_META = {
     'E': {'name': 'エジプト', 'col': '#c79a2e', 'grass': '#b4b06a', 'pathc': '#e3cf98', 'road': 'dirt', 'inc': 'stone staircase', 'bri': 'stone bridge', 'fence': 'stone fence', 'bush': .03, 'gstyle': ['garden']},

@@ -2759,36 +2759,6 @@
    ],
    "items": [
     [
-     "castle wall",
-     31,
-     20,
-     0,
-     "Brown",
-     "wall_windows_bricks"
-    ],
-    [
-     "brick fence",
-     33,
-     19,
-     0,
-     null
-    ],
-    [
-     "brick fence",
-     34,
-     18,
-     0,
-     null
-    ],
-    [
-     "castle wall",
-     79,
-     26,
-     0,
-     "Brown",
-     "wall_windows_bricks"
-    ],
-    [
      "brick fence",
      73,
      31,
@@ -2796,97 +2766,24 @@
      null
     ],
     [
-     "brick fence",
-     15,
-     32,
-     0,
-     null
-    ],
-    [
-     "castle wall",
-     16,
-     33,
-     0,
-     "Brown",
-     "wall_windows_bricks"
-    ],
-    [
-     "castle wall",
-     18,
-     33,
-     0,
-     "Brown",
-     "wall_windows_bricks"
-    ],
-    [
-     "castle wall",
-     20,
-     33,
-     0,
-     "Brown",
-     "wall_windows_bricks"
-    ],
-    [
-     "brick fence",
-     22,
-     33,
-     0,
-     null
-    ],
-    [
-     "brick fence",
-     31,
-     46,
-     0,
-     null
-    ],
-    [
      "outdoor air conditioner",
-     32,
-     46,
+     74,
+     30,
      0,
      null
+    ],
+    [
+     "castle wall",
+     32,
+     35,
+     0,
+     "Brown",
+     "wall_windows_bricks"
     ],
     [
      "brick fence",
      74,
      45,
-     0,
-     null
-    ],
-    [
-     "castle wall",
-     65,
-     46,
-     0,
-     "Brown",
-     "wall_windows_bricks"
-    ],
-    [
-     "brick fence",
-     67,
-     46,
-     0,
-     null
-    ],
-    [
-     "brick fence",
-     93,
-     50,
-     0,
-     null
-    ],
-    [
-     "outdoor air conditioner",
-     94,
-     50,
-     0,
-     null
-    ],
-    [
-     "brick fence",
-     96,
-     47,
      0,
      null
     ],
@@ -2914,95 +2811,82 @@
      "wall_windows_bricks"
     ],
     [
-     "brick fence",
-     21,
-     52,
-     0,
-     null
-    ],
-    [
-     "brick fence",
-     78,
-     52,
-     0,
-     null
-    ],
-    [
-     "brick fence",
-     72,
-     59,
-     0,
-     null
-    ],
-    [
-     "outdoor air conditioner",
-     74,
-     58,
-     0,
-     null
-    ],
-    [
-     "brick fence",
-     77,
-     57,
-     0,
-     null
-    ],
-    [
-     "brick fence",
-     95,
-     60,
-     0,
-     null
-    ],
-    [
-     "brick fence",
-     57,
+     "castle wall",
      66,
+     53,
      0,
-     null
+     "Brown",
+     "wall_windows_bricks"
     ],
     [
-     "outdoor air conditioner",
-     57,
-     70,
-     0,
-     null
-    ],
-    [
-     "brick fence",
-     58,
-     67,
-     0,
-     null
-    ],
-    [
-     "outdoor air conditioner",
-     59,
-     67,
-     0,
-     null
-    ],
-    [
-     "brick fence",
-     59,
+     "castle wall",
      68,
+     52,
      0,
-     null
+     "Brown",
+     "wall_windows_bricks"
     ],
     [
      "brick fence",
-     60,
-     69,
+     70,
+     52,
      0,
      null
     ],
     [
-     "outdoor air conditioner",
-     61,
-     64,
+     "castle wall",
+     74,
+     53,
+     0,
+     "Brown",
+     "wall_windows_bricks"
+    ],
+    [
+     "castle wall",
+     76,
+     53,
+     0,
+     "Brown",
+     "wall_windows_bricks"
+    ],
+    [
+     "castle wall",
+     78,
+     53,
+     0,
+     "Brown",
+     "wall_windows_bricks"
+    ],
+    [
+     "castle wall",
+     94,
+     53,
+     0,
+     "Brown",
+     "wall_windows_bricks"
+    ],
+    [
+     "brick fence",
+     96,
+     53,
      0,
      null
+    ],
+    [
+     "castle wall",
+     88,
+     63,
+     0,
+     "Brown",
+     "wall_windows_bricks"
+    ],
+    [
+     "castle wall",
+     90,
+     63,
+     0,
+     "Brown",
+     "wall_windows_bricks"
     ],
     [
      "castle wall",
@@ -3013,42 +2897,152 @@
      "wall_windows_bricks"
     ],
     [
-     "brick fence",
+     "hedge",
+     86,
+     70,
+     0,
+     null
+    ],
+    [
+     "hedge",
+     86,
+     71,
+     0,
+     null
+    ],
+    [
+     "hedge",
+     87,
+     69,
+     0,
+     null
+    ],
+    [
+     "hedge",
+     87,
+     71,
+     0,
+     null
+    ],
+    [
+     "hedge",
      88,
+     66,
+     0,
+     null
+    ],
+    [
+     "hedge",
+     88,
+     67,
+     0,
+     null
+    ],
+    [
+     "hedge",
+     88,
+     68,
+     0,
+     null
+    ],
+    [
+     "hedge",
+     88,
+     71,
+     0,
+     null
+    ],
+    [
+     "hedge",
+     89,
+     66,
+     0,
+     null
+    ],
+    [
+     "hedge",
+     89,
+     71,
+     0,
+     null
+    ],
+    [
+     "hedge",
+     90,
+     66,
+     0,
+     null
+    ],
+    [
+     "hedge",
+     90,
+     71,
+     0,
+     null
+    ],
+    [
+     "hedge",
+     91,
+     66,
+     0,
+     null
+    ],
+    [
+     "hedge",
+     91,
+     67,
+     0,
+     null
+    ],
+    [
+     "hedge",
+     91,
+     68,
+     0,
+     null
+    ],
+    [
+     "hedge",
+     91,
+     71,
+     0,
+     null
+    ],
+    [
+     "hedge",
+     92,
+     69,
+     0,
+     null
+    ],
+    [
+     "hedge",
+     92,
      70,
      0,
      null
+    ],
+    [
+     "hedge",
+     92,
+     71,
+     0,
+     null
+    ],
+    [
+     "castle wall",
+     67,
+     72,
+     0,
+     "Brown",
+     "wall_windows_bricks"
     ],
     [
      "brick fence",
-     91,
-     70,
+     69,
+     71,
      0,
      null
-    ],
-    [
-     "castle wall",
-     17,
-     71,
-     0,
-     "Brown",
-     "wall_windows_bricks"
-    ],
-    [
-     "castle wall",
-     19,
-     71,
-     0,
-     "Brown",
-     "wall_windows_bricks"
-    ],
-    [
-     "castle wall",
-     21,
-     71,
-     0,
-     "Brown",
-     "wall_windows_bricks"
     ],
     [
      "castle wall",
@@ -3057,13 +3051,6 @@
      0,
      "Brown",
      "wall_windows_bricks"
-    ],
-    [
-     "brick fence",
-     71,
-     75,
-     0,
-     null
     ],
     [
      "brick fence",
@@ -3087,305 +3074,64 @@
      null
     ],
     [
-     "hedge",
+     "brick fence",
      42,
-     77,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     42,
-     78,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     42,
-     79,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     42,
-     80,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     42,
-     81,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     43,
-     76,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     44,
-     76,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     45,
-     76,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     46,
-     74,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     46,
-     75,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     47,
-     74,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     47,
-     75,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     47,
-     81,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     48,
-     76,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     48,
-     81,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     49,
-     76,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     49,
-     81,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     50,
-     75,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     50,
-     81,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     51,
-     75,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     51,
-     77,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     51,
-     78,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     51,
-     79,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     51,
-     81,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     52,
-     75,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     52,
-     76,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     52,
-     80,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     52,
-     81,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     53,
-     75,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     53,
-     76,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     53,
-     80,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     53,
-     81,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     54,
-     80,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     54,
-     81,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     55,
-     80,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     55,
-     81,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     56,
-     80,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     56,
-     81,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     57,
-     80,
-     0,
-     null
-    ],
-    [
-     "hedge",
-     57,
      81,
      0,
      null
     ],
     [
      "castle wall",
-     72,
-     75,
+     47,
+     81,
      0,
      "Brown",
      "wall_windows_bricks"
     ],
     [
      "castle wall",
-     91,
-     80,
+     49,
+     81,
+     0,
+     "Brown",
+     "wall_windows_bricks"
+    ],
+    [
+     "castle wall",
+     51,
+     81,
+     0,
+     "Brown",
+     "wall_windows_bricks"
+    ],
+    [
+     "castle wall",
+     52,
+     76,
+     0,
+     "Brown",
+     "wall_windows_bricks"
+    ],
+    [
+     "castle wall",
+     53,
+     81,
+     0,
+     "Brown",
+     "wall_windows_bricks"
+    ],
+    [
+     "castle wall",
+     55,
+     81,
      0,
      "Brown",
      "wall_windows_bricks"
     ],
     [
      "brick fence",
-     93,
-     79,
+     57,
+     81,
      0,
      null
     ]
@@ -12446,169 +12192,253 @@
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     31,
     15,
     31,
     15
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     31,
     16,
     31,
     16
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     31,
     17,
     31,
     17
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     31,
     18,
     31,
     18
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     31,
     19,
     31,
     19
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
+   "rect": [
+    31,
+    20,
+    31,
+    20
+   ],
+   "design": "brick_city_old",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_sand",
    "rect": [
     32,
     15,
     32,
     15
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     32,
     16,
     32,
     16
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     32,
     17,
     32,
     17
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     32,
     18,
     32,
     18
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     32,
     19,
     32,
     19
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
+   "rect": [
+    32,
+    20,
+    32,
+    20
+   ],
+   "design": "brick_city_old",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_sand",
    "rect": [
     33,
     15,
     33,
     15
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     33,
     16,
     33,
     16
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     33,
     17,
     33,
     17
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     33,
     18,
     33,
     18
    ],
+   "design": "brick_city_old",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_sand",
+   "rect": [
+    33,
+    19,
+    33,
+    19
+   ],
+   "design": "brick_city_old",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_sand",
+   "rect": [
+    34,
+    16,
+    34,
+    16
+   ],
+   "design": "brick_city_old",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_sand",
+   "rect": [
+    34,
+    17,
+    34,
+    17
+   ],
+   "design": "brick_city_old",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_sand",
+   "rect": [
+    34,
+    18,
+    34,
+    18
+   ],
+   "design": "brick_city_old",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    67,
+    16,
+    67,
+    16
+   ],
    "design": "brick_grey",
    "skip": []
   },
@@ -12616,9 +12446,21 @@
    "id": "C-roof",
    "style": "roof",
    "rect": [
-    34,
+    67,
+    17,
+    67,
+    17
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    68,
     16,
-    34,
+    68,
     16
    ],
    "design": "brick_grey",
@@ -12628,9 +12470,9 @@
    "id": "C-roof",
    "style": "roof",
    "rect": [
-    34,
+    68,
     17,
-    34,
+    68,
     17
    ],
    "design": "brick_grey",
@@ -12638,98 +12480,50 @@
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    67,
-    16,
-    67,
-    16
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    67,
-    17,
-    67,
-    17
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    68,
-    16,
-    68,
-    16
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    68,
-    17,
-    68,
-    17
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_slate",
+   "style": "roof",
    "rect": [
     84,
     16,
     84,
     16
    ],
-   "design": "road_chic_stone",
+   "design": "brick_grey",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_slate",
+   "style": "roof",
    "rect": [
     84,
     17,
     84,
     17
    ],
-   "design": "road_chic_stone",
+   "design": "brick_grey",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_slate",
+   "style": "roof",
    "rect": [
     85,
     16,
     85,
     16
    ],
-   "design": "road_chic_stone",
+   "design": "brick_grey",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_slate",
+   "style": "roof",
    "rect": [
     85,
     17,
     85,
     17
    ],
-   "design": "road_chic_stone",
+   "design": "brick_grey",
    "skip": []
   },
   {
@@ -12902,635 +12696,827 @@
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_slate",
    "rect": [
-    69,
+    79,
+    25,
+    79,
+    25
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_slate",
+   "rect": [
+    79,
     26,
-    69,
+    79,
     26
    ],
-   "design": "brick_natural",
+   "design": "road_chic_stone",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_slate",
    "rect": [
-    69,
-    27,
-    69,
-    27
+    80,
+    25,
+    80,
+    25
    ],
-   "design": "brick_natural",
+   "design": "road_chic_stone",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_slate",
    "rect": [
-    70,
+    80,
     26,
-    70,
+    80,
     26
    ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    70,
-    27,
-    70,
-    27
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    71,
-    26,
-    71,
-    26
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    71,
-    27,
-    71,
-    27
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    71,
-    32,
-    71,
-    32
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    71,
-    33,
-    71,
-    33
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    72,
-    31,
-    72,
-    31
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    72,
-    32,
-    72,
-    32
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    72,
-    33,
-    72,
-    33
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    72,
-    34,
-    72,
-    34
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    73,
-    27,
-    73,
-    27
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    73,
-    28,
-    73,
-    28
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    73,
-    29,
-    73,
-    29
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    73,
-    30,
-    73,
-    30
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    73,
-    32,
-    73,
-    32
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    73,
-    34,
-    73,
-    34
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    74,
-    27,
-    74,
-    27
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    74,
-    28,
-    74,
-    28
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    74,
-    29,
-    74,
-    29
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    74,
-    30,
-    74,
-    30
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    74,
-    31,
-    74,
-    31
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    74,
-    32,
-    74,
-    32
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    74,
-    33,
-    74,
-    33
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    74,
-    34,
-    74,
-    34
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    75,
-    27,
-    75,
-    27
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    75,
-    28,
-    75,
-    28
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    75,
-    29,
-    75,
-    29
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    75,
-    30,
-    75,
-    30
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    75,
-    31,
-    75,
-    31
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    75,
-    32,
-    75,
-    32
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    75,
-    33,
-    75,
-    33
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    75,
-    34,
-    75,
-    34
-   ],
-   "design": "brick_natural",
+   "design": "road_chic_stone",
    "skip": []
   },
   {
    "id": "C-roof",
    "style": "roof",
+   "rect": [
+    69,
+    26,
+    69,
+    26
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    69,
+    27,
+    69,
+    27
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    70,
+    26,
+    70,
+    26
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    70,
+    27,
+    70,
+    27
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    71,
+    26,
+    71,
+    26
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    71,
+    27,
+    71,
+    27
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    71,
+    32,
+    71,
+    32
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    71,
+    33,
+    71,
+    33
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    72,
+    31,
+    72,
+    31
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    72,
+    32,
+    72,
+    32
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    72,
+    33,
+    72,
+    33
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    72,
+    34,
+    72,
+    34
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    73,
+    27,
+    73,
+    27
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    73,
+    28,
+    73,
+    28
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    73,
+    29,
+    73,
+    29
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    73,
+    30,
+    73,
+    30
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    73,
+    32,
+    73,
+    32
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    73,
+    34,
+    73,
+    34
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    74,
+    27,
+    74,
+    27
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    74,
+    28,
+    74,
+    28
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    74,
+    29,
+    74,
+    29
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    74,
+    31,
+    74,
+    31
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    74,
+    32,
+    74,
+    32
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    74,
+    33,
+    74,
+    33
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    74,
+    34,
+    74,
+    34
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    75,
+    27,
+    75,
+    27
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    75,
+    28,
+    75,
+    28
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    75,
+    29,
+    75,
+    29
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    75,
+    30,
+    75,
+    30
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    75,
+    31,
+    75,
+    31
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    75,
+    32,
+    75,
+    32
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    75,
+    33,
+    75,
+    33
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    75,
+    34,
+    75,
+    34
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_sand",
    "rect": [
     15,
     31,
     15,
     31
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
+   "rect": [
+    15,
+    32,
+    15,
+    32
+   ],
+   "design": "brick_city_old",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_sand",
    "rect": [
     16,
     31,
     16,
     31
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     16,
     32,
     16,
     32
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
+   "rect": [
+    16,
+    33,
+    16,
+    33
+   ],
+   "design": "brick_city_old",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_sand",
    "rect": [
     17,
     31,
     17,
     31
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     17,
     32,
     17,
     32
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
+   "rect": [
+    17,
+    33,
+    17,
+    33
+   ],
+   "design": "brick_city_old",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_sand",
    "rect": [
     18,
     31,
     18,
     31
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     18,
     32,
     18,
     32
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
+   "rect": [
+    18,
+    33,
+    18,
+    33
+   ],
+   "design": "brick_city_old",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_sand",
    "rect": [
     19,
     31,
     19,
     31
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     19,
     32,
     19,
     32
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_sand",
+   "rect": [
+    19,
+    33,
+    19,
+    33
+   ],
+   "design": "brick_city_old",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_sand",
+   "rect": [
+    20,
+    31,
+    20,
+    31
+   ],
+   "design": "brick_city_old",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_sand",
+   "rect": [
+    20,
+    32,
+    20,
+    32
+   ],
+   "design": "brick_city_old",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_sand",
+   "rect": [
+    20,
+    33,
+    20,
+    33
+   ],
+   "design": "brick_city_old",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_sand",
+   "rect": [
+    21,
+    31,
+    21,
+    31
+   ],
+   "design": "brick_city_old",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_sand",
+   "rect": [
+    21,
+    32,
+    21,
+    32
+   ],
+   "design": "brick_city_old",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_sand",
+   "rect": [
+    21,
+    33,
+    21,
+    33
+   ],
+   "design": "brick_city_old",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_sand",
+   "rect": [
+    22,
+    31,
+    22,
+    31
+   ],
+   "design": "brick_city_old",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_sand",
+   "rect": [
+    22,
+    32,
+    22,
+    32
+   ],
+   "design": "brick_city_old",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_sand",
+   "rect": [
+    22,
+    33,
+    22,
+    33
+   ],
+   "design": "brick_city_old",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_sand",
    "rect": [
     32,
     34,
     32,
     34
    ],
-   "design": "brick_natural",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    32,
-    35,
-    32,
-    35
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_sand",
    "rect": [
     33,
     34,
     33,
     34
    ],
-   "design": "brick_natural",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
    "style": "roof_red",
-   "rect": [
-    33,
-    35,
-    33,
-    35
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof",
    "rect": [
     66,
     37,
     66,
     37
    ],
-   "design": "brick_grey",
+   "design": "brick_natural",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_red",
    "rect": [
     66,
     38,
     66,
     38
    ],
-   "design": "brick_grey",
+   "design": "brick_natural",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_red",
    "rect": [
     66,
     39,
     66,
     39
    ],
-   "design": "brick_grey",
+   "design": "brick_natural",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_red",
    "rect": [
     67,
     37,
     67,
     37
    ],
-   "design": "brick_grey",
+   "design": "brick_natural",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_red",
    "rect": [
     67,
     38,
     67,
     38
    ],
-   "design": "brick_grey",
+   "design": "brick_natural",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_red",
+   "rect": [
+    67,
+    39,
+    67,
+    39
+   ],
+   "design": "brick_natural",
    "skip": []
   },
   {
    "id": "C-roof",
    "style": "roof",
    "rect": [
-    67,
+    73,
     39,
-    67,
+    73,
     39
    ],
    "design": "brick_grey",
@@ -13538,107 +13524,83 @@
   },
   {
    "id": "C-roof",
-   "style": "roof_slate",
-   "rect": [
-    73,
-    39,
-    73,
-    39
-   ],
-   "design": "road_chic_stone",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_slate",
+   "style": "roof",
    "rect": [
     73,
     40,
     73,
     40
    ],
-   "design": "road_chic_stone",
+   "design": "brick_grey",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_slate",
+   "style": "roof",
    "rect": [
     73,
     41,
     73,
     41
    ],
-   "design": "road_chic_stone",
+   "design": "brick_grey",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_slate",
+   "style": "roof",
    "rect": [
     74,
     39,
     74,
     39
    ],
-   "design": "road_chic_stone",
+   "design": "brick_grey",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_slate",
+   "style": "roof",
    "rect": [
     74,
     41,
     74,
     41
    ],
-   "design": "road_chic_stone",
+   "design": "brick_grey",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_slate",
+   "style": "roof",
    "rect": [
     75,
     39,
     75,
     39
    ],
-   "design": "road_chic_stone",
+   "design": "brick_grey",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_slate",
+   "style": "roof",
    "rect": [
     75,
     40,
     75,
     40
    ],
-   "design": "road_chic_stone",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_slate",
-   "rect": [
-    75,
-    41,
-    75,
-    41
-   ],
-   "design": "road_chic_stone",
+   "design": "brick_grey",
    "skip": []
   },
   {
    "id": "C-roof",
    "style": "roof",
    "rect": [
-    14,
+    75,
     41,
-    14,
+    75,
     41
    ],
    "design": "brick_grey",
@@ -13646,2063 +13608,1883 @@
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
+   "rect": [
+    14,
+    41,
+    14,
+    41
+   ],
+   "design": "brick_city_old",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_sand",
    "rect": [
     14,
     42,
     14,
     42
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     14,
     43,
     14,
     43
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     14,
     44,
     14,
     44
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     14,
     45,
     14,
     45
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     14,
     46,
     14,
     46
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     14,
     47,
     14,
     47
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     14,
     48,
     14,
     48
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     15,
     41,
     15,
     41
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     15,
     42,
     15,
     42
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     15,
     43,
     15,
     43
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     15,
     44,
     15,
     44
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     15,
     45,
     15,
     45
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     15,
     46,
     15,
     46
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     15,
     47,
     15,
     47
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     15,
     48,
     15,
     48
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     30,
     43,
     30,
     43
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     30,
     44,
     30,
     44
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     30,
     45,
     30,
     45
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     30,
     46,
     30,
     46
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     30,
     47,
     30,
     47
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     30,
     48,
     30,
     48
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     31,
     43,
     31,
     43
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     31,
     44,
     31,
     44
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     31,
     45,
     31,
     45
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
+   "rect": [
+    31,
+    46,
+    31,
+    46
+   ],
+   "design": "brick_city_old",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_sand",
    "rect": [
     31,
     47,
     31,
     47
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     31,
     48,
     31,
     48
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     32,
     43,
     32,
     43
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     32,
     44,
     32,
     44
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     32,
     45,
     32,
     45
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
+   "rect": [
+    32,
+    46,
+    32,
+    46
+   ],
+   "design": "brick_city_old",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_sand",
    "rect": [
     32,
     47,
     32,
     47
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     32,
     48,
     32,
     48
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     33,
     43,
     33,
     43
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     33,
     44,
     33,
     44
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     33,
     45,
     33,
     45
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     33,
     46,
     33,
     46
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     33,
     47,
     33,
     47
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_slate",
    "rect": [
     72,
     45,
     72,
     45
    ],
-   "design": "brick_natural",
+   "design": "road_chic_stone",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_slate",
    "rect": [
     72,
     46,
     72,
     46
    ],
-   "design": "brick_natural",
+   "design": "road_chic_stone",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_slate",
    "rect": [
     73,
     44,
     73,
     44
    ],
-   "design": "brick_natural",
+   "design": "road_chic_stone",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_slate",
    "rect": [
     73,
     45,
     73,
     45
    ],
-   "design": "brick_natural",
+   "design": "road_chic_stone",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_slate",
    "rect": [
     73,
     46,
     73,
     46
    ],
-   "design": "brick_natural",
+   "design": "road_chic_stone",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_slate",
    "rect": [
     73,
     47,
     73,
     47
    ],
-   "design": "brick_natural",
+   "design": "road_chic_stone",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_slate",
    "rect": [
     74,
     44,
     74,
     44
    ],
-   "design": "brick_natural",
+   "design": "road_chic_stone",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_slate",
    "rect": [
     74,
     46,
     74,
     46
    ],
-   "design": "brick_natural",
+   "design": "road_chic_stone",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_slate",
    "rect": [
     74,
     47,
     74,
     47
    ],
-   "design": "brick_natural",
+   "design": "road_chic_stone",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_slate",
    "rect": [
     75,
     45,
     75,
     45
    ],
-   "design": "brick_natural",
+   "design": "road_chic_stone",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_slate",
    "rect": [
     75,
     46,
     75,
     46
    ],
-   "design": "brick_natural",
+   "design": "road_chic_stone",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     65,
     45,
     65,
     45
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
+   "rect": [
+    65,
+    46,
+    65,
+    46
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
    "rect": [
     66,
     45,
     66,
     45
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
+   "rect": [
+    66,
+    46,
+    66,
+    46
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
    "rect": [
     67,
     45,
     67,
     45
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
+   "rect": [
+    67,
+    46,
+    67,
+    46
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
    "rect": [
     92,
     47,
     92,
     47
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     92,
     48,
     92,
     48
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     92,
     49,
     92,
     49
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     92,
     50,
     92,
     50
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     93,
     47,
     93,
     47
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     93,
     48,
     93,
     48
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     93,
     49,
     93,
     49
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
+   "rect": [
+    93,
+    50,
+    93,
+    50
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
    "rect": [
     93,
     51,
     93,
     51
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     93,
     52,
     93,
     52
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     93,
     53,
     93,
     53
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     93,
     54,
     93,
     54
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     94,
     46,
     94,
     46
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     94,
     47,
     94,
     47
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     94,
     48,
     94,
     48
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     94,
     49,
     94,
     49
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
+   "rect": [
+    94,
+    50,
+    94,
+    50
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
    "rect": [
     95,
     46,
     95,
     46
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     95,
     47,
     95,
     47
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     95,
     48,
     95,
     48
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     95,
     49,
     95,
     49
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     95,
     50,
     95,
     50
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     96,
     46,
     96,
     46
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
+   "rect": [
+    96,
+    47,
+    96,
+    47
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
    "rect": [
     96,
     48,
     96,
     48
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     96,
     49,
     96,
     49
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     96,
     50,
     96,
     50
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     97,
     46,
     97,
     46
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     97,
     47,
     97,
     47
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     97,
     48,
     97,
     48
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     97,
     49,
     97,
     49
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     97,
     50,
     97,
     50
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     97,
     51,
     97,
     51
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     97,
     52,
     97,
     52
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     97,
     53,
     97,
     53
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     97,
     54,
     97,
     54
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     29,
     51,
     29,
     51
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     30,
     51,
     30,
     51
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     31,
     51,
     31,
     51
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     32,
     50,
     32,
     50
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     32,
     51,
     32,
     51
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     32,
     52,
     32,
     52
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     32,
     53,
     32,
     53
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     32,
     54,
     32,
     54
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     33,
     50,
     33,
     50
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     33,
     51,
     33,
     51
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     33,
     52,
     33,
     52
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     33,
     53,
     33,
     53
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     33,
     54,
     33,
     54
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_slate",
+   "style": "roof_sand",
    "rect": [
     19,
     51,
     19,
     51
    ],
-   "design": "road_chic_stone",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_slate",
+   "style": "roof_sand",
    "rect": [
     19,
     52,
     19,
     52
    ],
-   "design": "road_chic_stone",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_slate",
+   "style": "roof_sand",
    "rect": [
     19,
     53,
     19,
     53
    ],
-   "design": "road_chic_stone",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_slate",
+   "style": "roof_sand",
    "rect": [
     20,
     51,
     20,
     51
    ],
-   "design": "road_chic_stone",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_slate",
+   "style": "roof_sand",
    "rect": [
     20,
     52,
     20,
     52
    ],
-   "design": "road_chic_stone",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_slate",
+   "style": "roof_sand",
    "rect": [
     20,
     53,
     20,
     53
    ],
-   "design": "road_chic_stone",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_slate",
+   "style": "roof_sand",
    "rect": [
     20,
     54,
     20,
     54
    ],
-   "design": "road_chic_stone",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_slate",
+   "style": "roof_sand",
    "rect": [
     21,
     51,
     21,
     51
    ],
-   "design": "road_chic_stone",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_slate",
+   "style": "roof_sand",
+   "rect": [
+    21,
+    52,
+    21,
+    52
+   ],
+   "design": "brick_city_old",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_sand",
    "rect": [
     21,
     53,
     21,
     53
    ],
-   "design": "road_chic_stone",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_slate",
+   "style": "roof_sand",
    "rect": [
     21,
     54,
     21,
     54
    ],
-   "design": "road_chic_stone",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_slate",
+   "style": "roof_sand",
    "rect": [
     22,
     51,
     22,
     51
    ],
-   "design": "road_chic_stone",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_slate",
+   "style": "roof_sand",
    "rect": [
     22,
     52,
     22,
     52
    ],
-   "design": "road_chic_stone",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_slate",
+   "style": "roof_sand",
    "rect": [
     22,
     53,
     22,
     53
    ],
-   "design": "road_chic_stone",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_slate",
+   "style": "roof_sand",
    "rect": [
     22,
     54,
     22,
     54
    ],
-   "design": "road_chic_stone",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_slate",
+   "style": "roof_sand",
    "rect": [
     23,
     51,
     23,
     51
    ],
-   "design": "road_chic_stone",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_slate",
+   "style": "roof_sand",
    "rect": [
     23,
     52,
     23,
     52
    ],
-   "design": "road_chic_stone",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_slate",
+   "style": "roof_sand",
    "rect": [
     24,
     51,
     24,
     51
    ],
-   "design": "road_chic_stone",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_slate",
+   "style": "roof_sand",
    "rect": [
     24,
     52,
     24,
     52
    ],
-   "design": "road_chic_stone",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_slate",
+   "style": "roof_sand",
    "rect": [
     25,
     51,
     25,
     51
    ],
-   "design": "road_chic_stone",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_slate",
+   "style": "roof_sand",
    "rect": [
     25,
     52,
     25,
     52
    ],
-   "design": "road_chic_stone",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     66,
     51,
     66,
     51
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     66,
     52,
     66,
     52
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    66,
-    53,
-    66,
-    53
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     67,
     51,
     67,
     51
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     67,
     52,
     67,
     52
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    67,
-    53,
-    67,
-    53
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     68,
     51,
     68,
     51
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    68,
-    52,
-    68,
-    52
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     69,
     51,
     69,
     51
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    69,
-    52,
-    69,
-    52
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     70,
     51,
     70,
     51
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    70,
-    52,
-    70,
-    52
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     74,
     52,
     74,
     52
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    74,
-    53,
-    74,
-    53
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     75,
     52,
     75,
     52
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    75,
-    53,
-    75,
-    53
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     76,
     51,
     76,
     51
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     76,
     52,
     76,
     52
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    76,
-    53,
-    76,
-    53
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     77,
     51,
     77,
     51
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     77,
     52,
     77,
     52
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    77,
-    53,
-    77,
-    53
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     78,
     51,
     78,
     51
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     78,
-    53,
+    52,
     78,
-    53
+    52
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     79,
     51,
     79,
     51
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     79,
     52,
     79,
     52
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    79,
-    53,
-    79,
-    53
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     81,
     51,
     81,
     51
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     81,
     52,
     81,
     52
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     82,
     51,
     82,
     51
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     82,
     52,
     82,
     52
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     83,
     51,
     83,
     51
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     83,
     52,
     83,
     52
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     94,
     51,
     94,
     51
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     94,
     52,
     94,
     52
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    94,
-    53,
-    94,
-    53
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     95,
     51,
     95,
     51
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     95,
     52,
     95,
     52
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    95,
-    53,
-    95,
-    53
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     96,
     51,
     96,
     51
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     96,
     52,
     96,
     52
    ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    96,
-    53,
-    96,
-    53
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_slate",
-   "rect": [
-    81,
-    55,
-    81,
-    55
-   ],
-   "design": "road_chic_stone",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_slate",
-   "rect": [
-    81,
-    56,
-    81,
-    56
-   ],
-   "design": "road_chic_stone",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_slate",
-   "rect": [
-    82,
-    55,
-    82,
-    55
-   ],
-   "design": "road_chic_stone",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_slate",
-   "rect": [
-    82,
-    56,
-    82,
-    56
-   ],
-   "design": "road_chic_stone",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_slate",
-   "rect": [
-    83,
-    55,
-    83,
-    55
-   ],
-   "design": "road_chic_stone",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_slate",
-   "rect": [
-    83,
-    56,
-    83,
-    56
-   ],
-   "design": "road_chic_stone",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_slate",
-   "rect": [
-    83,
-    57,
-    83,
-    57
-   ],
-   "design": "road_chic_stone",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_slate",
-   "rect": [
-    84,
-    55,
-    84,
-    55
-   ],
-   "design": "road_chic_stone",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_slate",
-   "rect": [
-    84,
-    56,
-    84,
-    56
-   ],
-   "design": "road_chic_stone",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_slate",
-   "rect": [
-    84,
-    57,
-    84,
-    57
-   ],
-   "design": "road_chic_stone",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_slate",
-   "rect": [
-    85,
-    55,
-    85,
-    55
-   ],
-   "design": "road_chic_stone",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_slate",
-   "rect": [
-    85,
-    56,
-    85,
-    56
-   ],
-   "design": "road_chic_stone",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_slate",
-   "rect": [
-    85,
-    57,
-    85,
-    57
-   ],
-   "design": "road_chic_stone",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
    "style": "roof",
    "rect": [
-    71,
+    81,
+    55,
+    81,
+    55
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    81,
     56,
-    71,
+    81,
     56
    ],
    "design": "brick_grey",
@@ -15712,9 +15494,57 @@
    "id": "C-roof",
    "style": "roof",
    "rect": [
-    71,
+    82,
+    55,
+    82,
+    55
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    82,
+    56,
+    82,
+    56
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    83,
+    55,
+    83,
+    55
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    83,
+    56,
+    83,
+    56
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    83,
     57,
-    71,
+    83,
     57
    ],
    "design": "brick_grey",
@@ -15723,949 +15553,1045 @@
   {
    "id": "C-roof",
    "style": "roof",
+   "rect": [
+    84,
+    55,
+    84,
+    55
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    84,
+    56,
+    84,
+    56
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    84,
+    57,
+    84,
+    57
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    85,
+    55,
+    85,
+    55
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    85,
+    56,
+    85,
+    56
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    85,
+    57,
+    85,
+    57
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
+   "rect": [
+    71,
+    56,
+    71,
+    56
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
+   "rect": [
+    71,
+    57,
+    71,
+    57
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
    "rect": [
     71,
     58,
     71,
     58
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     71,
     59,
     71,
     59
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     71,
     60,
     71,
     60
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     71,
     61,
     71,
     61
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     71,
     62,
     71,
     62
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     72,
     56,
     72,
     56
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     72,
     57,
     72,
     57
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     72,
     58,
     72,
     58
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
+   "rect": [
+    72,
+    59,
+    72,
+    59
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
    "rect": [
     72,
     60,
     72,
     60
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     72,
     61,
     72,
     61
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     72,
     62,
     72,
     62
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     73,
     56,
     73,
     56
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     73,
     57,
     73,
     57
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     73,
     58,
     73,
     58
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     73,
     59,
     73,
     59
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     74,
     56,
     74,
     56
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     74,
     57,
     74,
     57
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
+   "rect": [
+    74,
+    58,
+    74,
+    58
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
    "rect": [
     74,
     59,
     74,
     59
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     75,
     56,
     75,
     56
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     75,
     57,
     75,
     57
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     75,
     58,
     75,
     58
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     75,
     59,
     75,
     59
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     76,
     56,
     76,
     56
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     76,
     57,
     76,
     57
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     76,
     58,
     76,
     58
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     76,
     59,
     76,
     59
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     77,
     56,
     77,
     56
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
+   "rect": [
+    77,
+    57,
+    77,
+    57
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
    "rect": [
     77,
     58,
     77,
     58
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     77,
     59,
     77,
     59
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     78,
     57,
     78,
     57
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     78,
     58,
     78,
     58
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     78,
     59,
     78,
     59
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     65,
     61,
     65,
     61
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     65,
     62,
     65,
     62
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     93,
     58,
     93,
     58
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     93,
     59,
     93,
     59
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     94,
     58,
     94,
     58
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     94,
     59,
     94,
     59
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     94,
     60,
     94,
     60
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     94,
     61,
     94,
     61
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     94,
     62,
     94,
     62
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     95,
     58,
     95,
     58
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     95,
     59,
     95,
     59
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
+   "rect": [
+    95,
+    60,
+    95,
+    60
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
    "rect": [
     95,
     61,
     95,
     61
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     95,
     62,
     95,
     62
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     96,
     58,
     96,
     58
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     96,
     59,
     96,
     59
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     96,
     60,
     96,
     60
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     97,
     58,
     97,
     58
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     97,
     59,
     97,
     59
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     97,
     60,
     97,
     60
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     98,
     58,
     98,
     58
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     98,
     59,
     98,
     59
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     98,
     60,
     98,
     60
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     99,
     58,
     99,
     58
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     99,
     59,
     99,
     59
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_red",
    "rect": [
     55,
     60,
     55,
     60
    ],
-   "design": "brick_grey",
+   "design": "brick_natural",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_red",
    "rect": [
     55,
     61,
     55,
     61
    ],
-   "design": "brick_grey",
+   "design": "brick_natural",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_red",
    "rect": [
     56,
     60,
     56,
     60
    ],
-   "design": "brick_grey",
+   "design": "brick_natural",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_red",
    "rect": [
     56,
     61,
     56,
     61
    ],
-   "design": "brick_grey",
+   "design": "brick_natural",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_red",
    "rect": [
     56,
     62,
     56,
     62
    ],
-   "design": "brick_grey",
+   "design": "brick_natural",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_red",
    "rect": [
     57,
     60,
     57,
     60
    ],
-   "design": "brick_grey",
+   "design": "brick_natural",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_red",
    "rect": [
     57,
     61,
     57,
     61
    ],
-   "design": "brick_grey",
+   "design": "brick_natural",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_red",
    "rect": [
     57,
     62,
     57,
     62
    ],
-   "design": "brick_grey",
+   "design": "brick_natural",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_red",
    "rect": [
     58,
     60,
     58,
     60
    ],
-   "design": "brick_grey",
+   "design": "brick_natural",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_red",
    "rect": [
     58,
     61,
     58,
     61
    ],
-   "design": "brick_grey",
+   "design": "brick_natural",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_red",
    "rect": [
     58,
     62,
     58,
     62
    ],
-   "design": "brick_grey",
+   "design": "brick_natural",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     88,
     61,
     88,
     61
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     88,
     62,
     88,
     62
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
-   "rect": [
-    88,
-    63,
-    88,
-    63
-   ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     89,
     61,
     89,
     61
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     89,
     62,
     89,
     62
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
-   "rect": [
-    89,
-    63,
-    89,
-    63
-   ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     90,
     61,
     90,
     61
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     90,
     62,
     90,
     62
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
-   "rect": [
-    90,
-    63,
-    90,
-    63
-   ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     91,
     61,
     91,
     61
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     91,
     62,
     91,
     62
    ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof",
-   "rect": [
-    91,
-    63,
-    91,
-    63
-   ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
@@ -16790,1055 +16716,971 @@
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     55,
     72,
     55,
     72
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     55,
     73,
     55,
     73
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     56,
     64,
     56,
     64
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     56,
     65,
     56,
     65
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     56,
     66,
     56,
     66
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     56,
     67,
     56,
     67
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     56,
     68,
     56,
     68
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     56,
     69,
     56,
     69
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     56,
     70,
     56,
     70
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     56,
     71,
     56,
     71
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     56,
     72,
     56,
     72
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     56,
     73,
     56,
     73
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     57,
     64,
     57,
     64
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     57,
     65,
     57,
     65
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
+   "rect": [
+    57,
+    66,
+    57,
+    66
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
    "rect": [
     57,
     67,
     57,
     67
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     57,
     68,
     57,
     68
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     57,
     69,
     57,
     69
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
+   "rect": [
+    57,
+    70,
+    57,
+    70
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
    "rect": [
     57,
     71,
     57,
     71
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     57,
     72,
     57,
     72
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     57,
     73,
     57,
     73
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     58,
     64,
     58,
     64
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     58,
     65,
     58,
     65
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     58,
     66,
     58,
     66
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
+   "rect": [
+    58,
+    67,
+    58,
+    67
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
    "rect": [
     58,
     68,
     58,
     68
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     58,
     69,
     58,
     69
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     58,
     70,
     58,
     70
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     58,
     71,
     58,
     71
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     58,
     72,
     58,
     72
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     58,
     73,
     58,
     73
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     59,
     64,
     59,
     64
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     59,
     65,
     59,
     65
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     59,
     66,
     59,
     66
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
+   "rect": [
+    59,
+    67,
+    59,
+    67
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
+   "rect": [
+    59,
+    68,
+    59,
+    68
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
    "rect": [
     59,
     69,
     59,
     69
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     59,
     70,
     59,
     70
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     59,
     71,
     59,
     71
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     59,
     72,
     59,
     72
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     59,
     73,
     59,
     73
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     60,
     62,
     60,
     62
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     60,
     63,
     60,
     63
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     60,
     64,
     60,
     64
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     60,
     65,
     60,
     65
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     60,
     66,
     60,
     66
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     60,
     67,
     60,
     67
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     60,
     68,
     60,
     68
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
+   "rect": [
+    60,
+    69,
+    60,
+    69
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
    "rect": [
     60,
     70,
     60,
     70
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     60,
     71,
     60,
     71
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     61,
     62,
     61,
     62
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     61,
     63,
     61,
     63
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
+   "rect": [
+    61,
+    64,
+    61,
+    64
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
    "rect": [
     61,
     65,
     61,
     65
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     61,
     66,
     61,
     66
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     61,
     67,
     61,
     67
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     61,
     68,
     61,
     68
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     61,
     69,
     61,
     69
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     61,
     70,
     61,
     70
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     61,
     71,
     61,
     71
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     62,
     62,
     62,
     62
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     62,
     63,
     62,
     63
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     62,
     64,
     62,
     64
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     62,
     65,
     62,
     65
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     62,
     66,
     62,
     66
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     62,
     67,
     62,
     67
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     62,
     68,
     62,
     68
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_terra",
    "rect": [
     62,
     69,
     62,
     69
    ],
-   "design": "brick_grey",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     17,
     63,
     17,
     63
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     17,
     64,
     17,
     64
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     18,
     63,
     18,
     63
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     18,
     64,
     18,
     64
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_red",
    "rect": [
     49,
     66,
     49,
     66
    ],
-   "design": "brick_grey",
+   "design": "brick_natural",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_red",
    "rect": [
     49,
     67,
     49,
     67
    ],
-   "design": "brick_grey",
+   "design": "brick_natural",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_red",
    "rect": [
     49,
     68,
     49,
     68
    ],
-   "design": "brick_grey",
+   "design": "brick_natural",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_red",
    "rect": [
     49,
     69,
     49,
     69
    ],
-   "design": "brick_grey",
+   "design": "brick_natural",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_red",
    "rect": [
     49,
     70,
     49,
     70
    ],
-   "design": "brick_grey",
+   "design": "brick_natural",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_red",
    "rect": [
     49,
     71,
     49,
     71
    ],
-   "design": "brick_grey",
+   "design": "brick_natural",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_red",
    "rect": [
     50,
     66,
     50,
-    66
-   ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof",
-   "rect": [
-    51,
-    66,
-    51,
-    66
-   ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof",
-   "rect": [
-    52,
-    66,
-    52,
-    66
-   ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof",
-   "rect": [
-    53,
-    66,
-    53,
-    66
-   ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof",
-   "rect": [
-    53,
-    67,
-    53,
-    67
-   ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof",
-   "rect": [
-    53,
-    68,
-    53,
-    68
-   ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof",
-   "rect": [
-    53,
-    69,
-    53,
-    69
-   ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof",
-   "rect": [
-    53,
-    70,
-    53,
-    70
-   ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof",
-   "rect": [
-    53,
-    71,
-    53,
-    71
-   ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    86,
-    70,
-    86,
-    70
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    86,
-    71,
-    86,
-    71
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    87,
-    69,
-    87,
-    69
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    87,
-    70,
-    87,
-    70
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    87,
-    71,
-    87,
-    71
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    88,
-    66,
-    88,
     66
    ],
    "design": "brick_natural",
@@ -17848,57 +17690,9 @@
    "id": "C-roof",
    "style": "roof_red",
    "rect": [
-    88,
-    67,
-    88,
-    67
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    88,
-    68,
-    88,
-    68
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    88,
-    69,
-    88,
-    69
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    88,
-    71,
-    88,
-    71
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    89,
+    51,
     66,
-    89,
+    51,
     66
    ],
    "design": "brick_natural",
@@ -17908,69 +17702,9 @@
    "id": "C-roof",
    "style": "roof_red",
    "rect": [
-    89,
-    67,
-    89,
-    67
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    89,
-    68,
-    89,
-    68
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    89,
-    69,
-    89,
-    69
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    89,
-    70,
-    89,
-    70
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    89,
-    71,
-    89,
-    71
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    90,
+    52,
     66,
-    90,
+    52,
     66
    ],
    "design": "brick_natural",
@@ -17980,57 +17714,9 @@
    "id": "C-roof",
    "style": "roof_red",
    "rect": [
-    90,
-    67,
-    90,
-    67
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    90,
-    68,
-    90,
-    68
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    90,
-    69,
-    90,
-    69
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    90,
-    71,
-    90,
-    71
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    91,
+    53,
     66,
-    91,
+    53,
     66
    ],
    "design": "brick_natural",
@@ -18040,9 +17726,9 @@
    "id": "C-roof",
    "style": "roof_red",
    "rect": [
-    91,
+    53,
     67,
-    91,
+    53,
     67
    ],
    "design": "brick_natural",
@@ -18052,9 +17738,9 @@
    "id": "C-roof",
    "style": "roof_red",
    "rect": [
-    91,
+    53,
     68,
-    91,
+    53,
     68
    ],
    "design": "brick_natural",
@@ -18064,9 +17750,9 @@
    "id": "C-roof",
    "style": "roof_red",
    "rect": [
-    91,
+    53,
     69,
-    91,
+    53,
     69
    ],
    "design": "brick_natural",
@@ -18076,9 +17762,21 @@
    "id": "C-roof",
    "style": "roof_red",
    "rect": [
-    91,
+    53,
+    70,
+    53,
+    70
+   ],
+   "design": "brick_natural",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_red",
+   "rect": [
+    53,
     71,
-    91,
+    53,
     71
    ],
    "design": "brick_natural",
@@ -18086,793 +17784,961 @@
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    92,
-    69,
-    92,
-    69
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    92,
-    70,
-    92,
-    70
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    92,
-    71,
-    92,
-    71
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_slate",
    "rect": [
     50,
     67,
     50,
     67
    ],
-   "design": "brick_natural",
+   "design": "road_chic_stone",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_slate",
    "rect": [
     50,
     68,
     50,
     68
    ],
-   "design": "brick_natural",
+   "design": "road_chic_stone",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_slate",
    "rect": [
     50,
     69,
     50,
     69
    ],
-   "design": "brick_natural",
+   "design": "road_chic_stone",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_slate",
    "rect": [
     50,
     70,
     50,
     70
    ],
-   "design": "brick_natural",
+   "design": "road_chic_stone",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_slate",
    "rect": [
     51,
     67,
     51,
     67
    ],
-   "design": "brick_natural",
+   "design": "road_chic_stone",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_slate",
    "rect": [
     51,
     68,
     51,
     68
    ],
-   "design": "brick_natural",
+   "design": "road_chic_stone",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_slate",
    "rect": [
     51,
     69,
     51,
     69
    ],
-   "design": "brick_natural",
+   "design": "road_chic_stone",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_slate",
    "rect": [
     51,
     70,
     51,
     70
    ],
-   "design": "brick_natural",
+   "design": "road_chic_stone",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_slate",
    "rect": [
     52,
     67,
     52,
     67
    ],
-   "design": "brick_natural",
+   "design": "road_chic_stone",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_slate",
    "rect": [
     52,
     68,
     52,
     68
    ],
-   "design": "brick_natural",
+   "design": "road_chic_stone",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_slate",
    "rect": [
     52,
     69,
     52,
     69
    ],
-   "design": "brick_natural",
+   "design": "road_chic_stone",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_slate",
    "rect": [
     52,
     70,
     52,
     70
    ],
-   "design": "brick_natural",
+   "design": "road_chic_stone",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_sand",
    "rect": [
     12,
     69,
     12,
     69
    ],
-   "design": "brick_natural",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_sand",
    "rect": [
     12,
     70,
     12,
     70
    ],
-   "design": "brick_natural",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_sand",
    "rect": [
     13,
     69,
     13,
     69
    ],
-   "design": "brick_natural",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_sand",
    "rect": [
     13,
     70,
     13,
     70
    ],
-   "design": "brick_natural",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_sand",
    "rect": [
     14,
     69,
     14,
     69
    ],
-   "design": "brick_natural",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_sand",
    "rect": [
     14,
     70,
     14,
     70
    ],
-   "design": "brick_natural",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     17,
     69,
     17,
     69
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     17,
     70,
     17,
     70
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
+   "rect": [
+    17,
+    71,
+    17,
+    71
+   ],
+   "design": "brick_city_old",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_sand",
    "rect": [
     18,
     69,
     18,
     69
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     18,
     70,
     18,
     70
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
+   "rect": [
+    18,
+    71,
+    18,
+    71
+   ],
+   "design": "brick_city_old",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_sand",
    "rect": [
     19,
     69,
     19,
     69
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     19,
     70,
     19,
     70
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
+   "rect": [
+    19,
+    71,
+    19,
+    71
+   ],
+   "design": "brick_city_old",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_sand",
    "rect": [
     20,
     69,
     20,
     69
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     20,
     70,
     20,
     70
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
+   "rect": [
+    20,
+    71,
+    20,
+    71
+   ],
+   "design": "brick_city_old",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_sand",
    "rect": [
     21,
     69,
     21,
     69
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     21,
     70,
     21,
     70
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
+   "rect": [
+    21,
+    71,
+    21,
+    71
+   ],
+   "design": "brick_city_old",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_sand",
    "rect": [
     22,
     69,
     22,
     69
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_sand",
    "rect": [
     22,
     70,
     22,
     70
    ],
-   "design": "brick_grey",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_sand",
+   "rect": [
+    22,
+    71,
+    22,
+    71
+   ],
+   "design": "brick_city_old",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
    "rect": [
     62,
     73,
     62,
     73
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     62,
     74,
     62,
     74
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     63,
     71,
     63,
     71
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     63,
     72,
     63,
     72
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     63,
     73,
     63,
     73
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     63,
     74,
     63,
     74
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     64,
     70,
     64,
     70
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     64,
     71,
     64,
     71
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     64,
     72,
     64,
     72
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     65,
     70,
     65,
     70
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     65,
     71,
     65,
     71
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_terra",
    "rect": [
     65,
     72,
     65,
     72
    ],
-   "design": "brick_natural",
+   "design": "brick_vintage_red",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
-   "rect": [
-    67,
-    70,
-    67,
-    70
-   ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof",
-   "rect": [
-    67,
-    71,
-    67,
-    71
-   ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof",
-   "rect": [
-    67,
-    72,
-    67,
-    72
-   ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof",
-   "rect": [
-    68,
-    70,
-    68,
-    70
-   ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof",
-   "rect": [
-    68,
-    71,
-    68,
-    71
-   ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof",
-   "rect": [
-    68,
-    72,
-    68,
-    72
-   ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof",
-   "rect": [
-    69,
-    70,
-    69,
-    70
-   ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof",
-   "rect": [
-    69,
-    71,
-    69,
-    71
-   ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_sand",
    "rect": [
     13,
     74,
     13,
     74
    ],
-   "design": "brick_natural",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_sand",
    "rect": [
     13,
     75,
     13,
     75
    ],
-   "design": "brick_natural",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_sand",
    "rect": [
     13,
     76,
     13,
     76
    ],
-   "design": "brick_natural",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_sand",
    "rect": [
     14,
     73,
     14,
     73
    ],
-   "design": "brick_natural",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_sand",
    "rect": [
     14,
     74,
     14,
     74
    ],
-   "design": "brick_natural",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_sand",
    "rect": [
     14,
     75,
     14,
     75
    ],
-   "design": "brick_natural",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_sand",
    "rect": [
     14,
     76,
     14,
     76
    ],
-   "design": "brick_natural",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_sand",
    "rect": [
     15,
     73,
     15,
     73
    ],
-   "design": "brick_natural",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_sand",
    "rect": [
     15,
     74,
     15,
     74
    ],
-   "design": "brick_natural",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_sand",
    "rect": [
     15,
     75,
     15,
     75
    ],
-   "design": "brick_natural",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof_sand",
    "rect": [
     15,
     76,
     15,
     76
    ],
-   "design": "brick_natural",
+   "design": "brick_city_old",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_red",
    "rect": [
     40,
     73,
     40,
     73
    ],
-   "design": "brick_grey",
+   "design": "brick_natural",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof",
+   "style": "roof_red",
    "rect": [
     40,
     74,
     40,
     74
    ],
+   "design": "brick_natural",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_red",
+   "rect": [
+    41,
+    73,
+    41,
+    73
+   ],
+   "design": "brick_natural",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_red",
+   "rect": [
+    41,
+    74,
+    41,
+    74
+   ],
+   "design": "brick_natural",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
+   "rect": [
+    69,
+    75,
+    69,
+    75
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
+   "rect": [
+    69,
+    76,
+    69,
+    76
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
+   "rect": [
+    70,
+    74,
+    70,
+    74
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
+   "rect": [
+    70,
+    75,
+    70,
+    75
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
+   "rect": [
+    70,
+    76,
+    70,
+    76
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
+   "rect": [
+    71,
+    73,
+    71,
+    73
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
+   "rect": [
+    71,
+    74,
+    71,
+    74
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
+   "rect": [
+    71,
+    75,
+    71,
+    75
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
+   "rect": [
+    71,
+    76,
+    71,
+    76
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
+   "rect": [
+    72,
+    73,
+    72,
+    73
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
+   "rect": [
+    73,
+    73,
+    73,
+    73
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
+   "rect": [
+    73,
+    76,
+    73,
+    76
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
+   "rect": [
+    74,
+    73,
+    74,
+    73
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
+   "rect": [
+    74,
+    74,
+    74,
+    74
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
+   "rect": [
+    74,
+    75,
+    74,
+    75
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
+   "rect": [
+    74,
+    76,
+    74,
+    76
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    86,
+    73,
+    86,
+    73
+   ],
    "design": "brick_grey",
    "skip": []
   },
@@ -18880,9 +18746,45 @@
    "id": "C-roof",
    "style": "roof",
    "rect": [
-    41,
+    86,
+    74,
+    86,
+    74
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    86,
+    75,
+    86,
+    75
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    86,
+    76,
+    86,
+    76
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    87,
     73,
-    41,
+    87,
     73
    ],
    "design": "brick_grey",
@@ -18892,9 +18794,9 @@
    "id": "C-roof",
    "style": "roof",
    "rect": [
-    41,
+    87,
     74,
-    41,
+    87,
     74
    ],
    "design": "brick_grey",
@@ -18902,326 +18804,74 @@
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    69,
-    75,
-    69,
-    75
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    69,
-    76,
-    69,
-    76
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    70,
-    74,
-    70,
-    74
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    70,
-    75,
-    70,
-    75
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    70,
-    76,
-    70,
-    76
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    71,
-    73,
-    71,
-    73
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    71,
-    74,
-    71,
-    74
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    71,
-    76,
-    71,
-    76
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    72,
-    73,
-    72,
-    73
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    73,
-    73,
-    73,
-    73
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    73,
-    76,
-    73,
-    76
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    74,
-    73,
-    74,
-    73
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    74,
-    74,
-    74,
-    74
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    74,
-    75,
-    74,
-    75
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    74,
-    76,
-    74,
-    76
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    86,
-    73,
-    86,
-    73
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    86,
-    74,
-    86,
-    74
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    86,
-    75,
-    86,
-    75
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    86,
-    76,
-    86,
-    76
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    87,
-    73,
-    87,
-    73
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    87,
-    74,
-    87,
-    74
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof",
    "rect": [
     87,
     75,
     87,
     75
    ],
-   "design": "brick_natural",
+   "design": "brick_grey",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof",
    "rect": [
     87,
     76,
     87,
     76
    ],
-   "design": "brick_natural",
+   "design": "brick_grey",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof",
    "rect": [
     88,
     74,
     88,
     74
    ],
-   "design": "brick_natural",
+   "design": "brick_grey",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof",
    "rect": [
     88,
     76,
     88,
     76
    ],
-   "design": "brick_natural",
+   "design": "brick_grey",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof",
    "rect": [
     89,
     74,
     89,
     74
    ],
-   "design": "brick_natural",
+   "design": "brick_grey",
    "skip": []
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof",
    "rect": [
     89,
     75,
     89,
     75
    ],
-   "design": "brick_natural",
+   "design": "brick_grey",
    "skip": []
   },
   {
@@ -19528,10 +19178,10 @@
    "id": "C-roof",
    "style": "roof",
    "rect": [
-    93,
-    74,
-    93,
-    74
+    42,
+    77,
+    42,
+    77
    ],
    "design": "brick_grey",
    "skip": []
@@ -19540,45 +19190,9 @@
    "id": "C-roof",
    "style": "roof",
    "rect": [
-    93,
-    75,
-    93,
-    75
-   ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof",
-   "rect": [
-    94,
-    74,
-    94,
-    74
-   ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof",
-   "rect": [
-    94,
-    75,
-    94,
-    75
-   ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof",
-   "rect": [
-    21,
+    43,
     76,
-    21,
+    43,
     76
    ],
    "design": "brick_grey",
@@ -19586,83 +19200,179 @@
   },
   {
    "id": "C-roof",
-   "style": "roof_red",
+   "style": "roof",
    "rect": [
-    48,
+    43,
     77,
-    48,
+    43,
     77
    ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    48,
-    78,
-    48,
-    78
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    49,
-    77,
-    49,
-    77
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    49,
-    78,
-    49,
-    78
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    50,
-    77,
-    50,
-    77
-   ],
-   "design": "brick_natural",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof_red",
-   "rect": [
-    50,
-    78,
-    50,
-    78
-   ],
-   "design": "brick_natural",
+   "design": "brick_grey",
    "skip": []
   },
   {
    "id": "C-roof",
    "style": "roof",
    "rect": [
-    91,
+    44,
+    76,
+    44,
+    76
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    44,
+    77,
+    44,
+    77
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    45,
+    76,
+    45,
+    76
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    45,
+    77,
+    45,
+    77
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    46,
+    74,
+    46,
+    74
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    46,
+    75,
+    46,
+    75
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    46,
+    76,
+    46,
+    76
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    46,
+    77,
+    46,
+    77
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    47,
+    74,
+    47,
+    74
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    47,
+    75,
+    47,
+    75
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    47,
+    76,
+    47,
+    76
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    47,
+    77,
+    47,
+    77
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    47,
+    78,
+    47,
+    78
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    47,
     79,
-    91,
+    47,
     79
    ],
    "design": "brick_grey",
@@ -19672,93 +19382,9 @@
    "id": "C-roof",
    "style": "roof",
    "rect": [
-    92,
-    77,
-    92,
-    77
-   ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof",
-   "rect": [
-    92,
-    78,
-    92,
-    78
-   ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof",
-   "rect": [
-    92,
-    79,
-    92,
-    79
-   ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof",
-   "rect": [
-    93,
-    77,
-    93,
-    77
-   ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof",
-   "rect": [
-    93,
-    78,
-    93,
-    78
-   ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof",
-   "rect": [
-    43,
-    78,
-    43,
-    78
-   ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof",
-   "rect": [
-    43,
-    79,
-    43,
-    79
-   ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof",
-   "rect": [
-    43,
+    47,
     80,
-    43,
+    47,
     80
    ],
    "design": "brick_grey",
@@ -19768,10 +19394,10 @@
    "id": "C-roof",
    "style": "roof",
    "rect": [
-    44,
-    78,
-    44,
-    78
+    48,
+    76,
+    48,
+    76
    ],
    "design": "brick_grey",
    "skip": []
@@ -19780,21 +19406,9 @@
    "id": "C-roof",
    "style": "roof",
    "rect": [
-    44,
-    79,
-    44,
-    79
-   ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof",
-   "rect": [
-    44,
+    48,
     80,
-    44,
+    48,
     80
    ],
    "design": "brick_grey",
@@ -19804,10 +19418,10 @@
    "id": "C-roof",
    "style": "roof",
    "rect": [
-    45,
-    78,
-    45,
-    78
+    49,
+    76,
+    49,
+    76
    ],
    "design": "brick_grey",
    "skip": []
@@ -19816,21 +19430,9 @@
    "id": "C-roof",
    "style": "roof",
    "rect": [
-    45,
-    79,
-    45,
-    79
-   ],
-   "design": "brick_grey",
-   "skip": []
-  },
-  {
-   "id": "C-roof",
-   "style": "roof",
-   "rect": [
-    45,
+    49,
     80,
-    45,
+    49,
     80
    ],
    "design": "brick_grey",
@@ -19840,9 +19442,81 @@
    "id": "C-roof",
    "style": "roof",
    "rect": [
-    46,
+    50,
+    75,
+    50,
+    75
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    50,
+    76,
+    50,
+    76
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    50,
+    80,
+    50,
+    80
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    51,
+    75,
+    51,
+    75
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    51,
+    76,
+    51,
+    76
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    51,
+    77,
+    51,
+    77
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    51,
     78,
-    46,
+    51,
     78
    ],
    "design": "brick_grey",
@@ -19852,9 +19526,9 @@
    "id": "C-roof",
    "style": "roof",
    "rect": [
-    46,
+    51,
     79,
-    46,
+    51,
     79
    ],
    "design": "brick_grey",
@@ -19864,12 +19538,540 @@
    "id": "C-roof",
    "style": "roof",
    "rect": [
+    51,
+    80,
+    51,
+    80
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    52,
+    75,
+    52,
+    75
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    52,
+    80,
+    52,
+    80
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    53,
+    75,
+    53,
+    75
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    53,
+    80,
+    53,
+    80
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    54,
+    80,
+    54,
+    80
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    55,
+    80,
+    55,
+    80
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    56,
+    80,
+    56,
+    80
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    57,
+    80,
+    57,
+    80
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
+   "rect": [
+    72,
+    74,
+    72,
+    74
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
+   "rect": [
+    72,
+    75,
+    72,
+    75
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
+   "rect": [
+    73,
+    74,
+    73,
+    74
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_terra",
+   "rect": [
+    73,
+    75,
+    73,
+    75
+   ],
+   "design": "brick_vintage_red",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_white",
+   "rect": [
+    93,
+    74,
+    93,
+    74
+   ],
+   "design": "brick_greige",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_white",
+   "rect": [
+    93,
+    75,
+    93,
+    75
+   ],
+   "design": "brick_greige",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_white",
+   "rect": [
+    94,
+    74,
+    94,
+    74
+   ],
+   "design": "brick_greige",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_white",
+   "rect": [
+    94,
+    75,
+    94,
+    75
+   ],
+   "design": "brick_greige",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof",
+   "rect": [
+    21,
+    76,
+    21,
+    76
+   ],
+   "design": "brick_grey",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_slate",
+   "rect": [
+    48,
+    77,
+    48,
+    77
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_slate",
+   "rect": [
+    48,
+    78,
+    48,
+    78
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_slate",
+   "rect": [
+    49,
+    77,
+    49,
+    77
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_slate",
+   "rect": [
+    49,
+    78,
+    49,
+    78
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_slate",
+   "rect": [
+    50,
+    77,
+    50,
+    77
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_slate",
+   "rect": [
+    50,
+    78,
+    50,
+    78
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_white",
+   "rect": [
+    91,
+    79,
+    91,
+    79
+   ],
+   "design": "brick_greige",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_white",
+   "rect": [
+    91,
+    80,
+    91,
+    80
+   ],
+   "design": "brick_greige",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_white",
+   "rect": [
+    92,
+    77,
+    92,
+    77
+   ],
+   "design": "brick_greige",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_white",
+   "rect": [
+    92,
+    78,
+    92,
+    78
+   ],
+   "design": "brick_greige",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_white",
+   "rect": [
+    92,
+    79,
+    92,
+    79
+   ],
+   "design": "brick_greige",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_white",
+   "rect": [
+    92,
+    80,
+    92,
+    80
+   ],
+   "design": "brick_greige",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_white",
+   "rect": [
+    93,
+    77,
+    93,
+    77
+   ],
+   "design": "brick_greige",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_white",
+   "rect": [
+    93,
+    78,
+    93,
+    78
+   ],
+   "design": "brick_greige",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_white",
+   "rect": [
+    93,
+    79,
+    93,
+    79
+   ],
+   "design": "brick_greige",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_slate",
+   "rect": [
+    43,
+    78,
+    43,
+    78
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_slate",
+   "rect": [
+    43,
+    79,
+    43,
+    79
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_slate",
+   "rect": [
+    43,
+    80,
+    43,
+    80
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_slate",
+   "rect": [
+    44,
+    78,
+    44,
+    78
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_slate",
+   "rect": [
+    44,
+    79,
+    44,
+    79
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_slate",
+   "rect": [
+    44,
+    80,
+    44,
+    80
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_slate",
+   "rect": [
+    45,
+    78,
+    45,
+    78
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_slate",
+   "rect": [
+    45,
+    79,
+    45,
+    79
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_slate",
+   "rect": [
+    45,
+    80,
+    45,
+    80
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_slate",
+   "rect": [
+    46,
+    78,
+    46,
+    78
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_slate",
+   "rect": [
+    46,
+    79,
+    46,
+    79
+   ],
+   "design": "road_chic_stone",
+   "skip": []
+  },
+  {
+   "id": "C-roof",
+   "style": "roof_slate",
+   "rect": [
     46,
     80,
     46,
     80
    ],
-   "design": "brick_grey",
+   "design": "road_chic_stone",
    "skip": []
   },
   {
@@ -23860,12 +24062,12 @@
  "plants": [
   {
    "id": "C-roofgarden",
-   "type": "roses",
+   "type": "lilies",
    "rect": [
-    79,
-    25,
-    79,
-    25
+    87,
+    70,
+    87,
+    70
    ],
    "colors": [
     "white",
@@ -23878,26 +24080,10 @@
    "id": "C-roofgarden",
    "type": "tulips",
    "rect": [
-    80,
-    25,
-    80,
-    25
-   ],
-   "colors": [
-    "white",
-    "yellow",
-    "orange"
-   ],
-   "fit": true
-  },
-  {
-   "id": "C-roofgarden",
-   "type": "lilies",
-   "rect": [
-    20,
-    31,
-    20,
-    31
+    88,
+    69,
+    88,
+    69
    ],
    "colors": [
     "white",
@@ -23910,10 +24096,10 @@
    "id": "C-roofgarden",
    "type": "roses",
    "rect": [
-    20,
-    32,
-    20,
-    32
+    88,
+    70,
+    88,
+    70
    ],
    "colors": [
     "white",
@@ -23926,10 +24112,10 @@
    "id": "C-roofgarden",
    "type": "roses",
    "rect": [
-    21,
-    31,
-    21,
-    31
+    89,
+    67,
+    89,
+    67
    ],
    "colors": [
     "white",
@@ -23942,10 +24128,26 @@
    "id": "C-roofgarden",
    "type": "lilies",
    "rect": [
-    21,
-    32,
-    21,
-    32
+    89,
+    68,
+    89,
+    68
+   ],
+   "colors": [
+    "white",
+    "yellow",
+    "orange"
+   ],
+   "fit": true
+  },
+  {
+   "id": "C-roofgarden",
+   "type": "roses",
+   "rect": [
+    89,
+    69,
+    89,
+    69
    ],
    "colors": [
     "white",
@@ -23958,10 +24160,26 @@
    "id": "C-roofgarden",
    "type": "tulips",
    "rect": [
-    22,
-    31,
-    22,
-    31
+    89,
+    70,
+    89,
+    70
+   ],
+   "colors": [
+    "white",
+    "yellow",
+    "orange"
+   ],
+   "fit": true
+  },
+  {
+   "id": "C-roofgarden",
+   "type": "tulips",
+   "rect": [
+    90,
+    67,
+    90,
+    67
    ],
    "colors": [
     "white",
@@ -23974,15 +24192,143 @@
    "id": "C-roofgarden",
    "type": "roses",
    "rect": [
-    22,
-    32,
-    22,
-    32
+    90,
+    68,
+    90,
+    68
    ],
    "colors": [
     "white",
     "yellow",
     "orange"
+   ],
+   "fit": true
+  },
+  {
+   "id": "C-roofgarden",
+   "type": "lilies",
+   "rect": [
+    90,
+    69,
+    90,
+    69
+   ],
+   "colors": [
+    "white",
+    "yellow",
+    "orange"
+   ],
+   "fit": true
+  },
+  {
+   "id": "C-roofgarden",
+   "type": "roses",
+   "rect": [
+    91,
+    69,
+    91,
+    69
+   ],
+   "colors": [
+    "white",
+    "yellow",
+    "orange"
+   ],
+   "fit": true
+  },
+  {
+   "id": "C-roofgarden",
+   "type": "lilies",
+   "rect": [
+    91,
+    70,
+    91,
+    70
+   ],
+   "colors": [
+    "white",
+    "yellow",
+    "orange"
+   ],
+   "fit": true
+  },
+  {
+   "id": "C-roofgarden",
+   "type": "lilies",
+   "rect": [
+    67,
+    70,
+    67,
+    70
+   ],
+   "colors": [
+    "red",
+    "white",
+    "pink"
+   ],
+   "fit": true
+  },
+  {
+   "id": "C-roofgarden",
+   "type": "roses",
+   "rect": [
+    67,
+    71,
+    67,
+    71
+   ],
+   "colors": [
+    "red",
+    "white",
+    "pink"
+   ],
+   "fit": true
+  },
+  {
+   "id": "C-roofgarden",
+   "type": "roses",
+   "rect": [
+    68,
+    70,
+    68,
+    70
+   ],
+   "colors": [
+    "red",
+    "white",
+    "pink"
+   ],
+   "fit": true
+  },
+  {
+   "id": "C-roofgarden",
+   "type": "lilies",
+   "rect": [
+    68,
+    71,
+    68,
+    71
+   ],
+   "colors": [
+    "red",
+    "white",
+    "pink"
+   ],
+   "fit": true
+  },
+  {
+   "id": "C-roofgarden",
+   "type": "tulips",
+   "rect": [
+    69,
+    70,
+    69,
+    70
+   ],
+   "colors": [
+    "red",
+    "white",
+    "pink"
    ],
    "fit": true
   },
@@ -24022,121 +24368,9 @@
    "id": "C-roofgarden",
    "type": "roses",
    "rect": [
-    43,
-    77,
-    43,
-    77
-   ],
-   "colors": [
-    "red",
-    "white",
-    "pink"
-   ],
-   "fit": true
-  },
-  {
-   "id": "C-roofgarden",
-   "type": "tulips",
-   "rect": [
-    44,
-    77,
-    44,
-    77
-   ],
-   "colors": [
-    "red",
-    "white",
-    "pink"
-   ],
-   "fit": true
-  },
-  {
-   "id": "C-roofgarden",
-   "type": "roses",
-   "rect": [
-    45,
-    77,
-    45,
-    77
-   ],
-   "colors": [
-    "red",
-    "white",
-    "pink"
-   ],
-   "fit": true
-  },
-  {
-   "id": "C-roofgarden",
-   "type": "roses",
-   "rect": [
-    46,
-    76,
-    46,
-    76
-   ],
-   "colors": [
-    "red",
-    "white",
-    "pink"
-   ],
-   "fit": true
-  },
-  {
-   "id": "C-roofgarden",
-   "type": "lilies",
-   "rect": [
-    46,
-    77,
-    46,
-    77
-   ],
-   "colors": [
-    "red",
-    "white",
-    "pink"
-   ],
-   "fit": true
-  },
-  {
-   "id": "C-roofgarden",
-   "type": "tulips",
-   "rect": [
-    47,
-    76,
-    47,
-    76
-   ],
-   "colors": [
-    "red",
-    "white",
-    "pink"
-   ],
-   "fit": true
-  },
-  {
-   "id": "C-roofgarden",
-   "type": "roses",
-   "rect": [
-    47,
-    77,
-    47,
-    77
-   ],
-   "colors": [
-    "red",
-    "white",
-    "pink"
-   ],
-   "fit": true
-  },
-  {
-   "id": "C-roofgarden",
-   "type": "lilies",
-   "rect": [
-    47,
+    42,
     78,
-    47,
+    42,
     78
    ],
    "colors": [
@@ -24148,11 +24382,11 @@
   },
   {
    "id": "C-roofgarden",
-   "type": "roses",
+   "type": "tulips",
    "rect": [
-    47,
+    42,
     79,
-    47,
+    42,
     79
    ],
    "colors": [
@@ -24164,145 +24398,17 @@
   },
   {
    "id": "C-roofgarden",
-   "type": "tulips",
-   "rect": [
-    47,
-    80,
-    47,
-    80
-   ],
-   "colors": [
-    "red",
-    "white",
-    "pink"
-   ],
-   "fit": true
-  },
-  {
-   "id": "C-roofgarden",
    "type": "roses",
    "rect": [
-    48,
+    42,
     80,
-    48,
+    42,
     80
    ],
    "colors": [
     "red",
     "white",
     "pink"
-   ],
-   "fit": true
-  },
-  {
-   "id": "C-roofgarden",
-   "type": "lilies",
-   "rect": [
-    49,
-    80,
-    49,
-    80
-   ],
-   "colors": [
-    "red",
-    "white",
-    "pink"
-   ],
-   "fit": true
-  },
-  {
-   "id": "C-roofgarden",
-   "type": "roses",
-   "rect": [
-    50,
-    76,
-    50,
-    76
-   ],
-   "colors": [
-    "red",
-    "white",
-    "pink"
-   ],
-   "fit": true
-  },
-  {
-   "id": "C-roofgarden",
-   "type": "roses",
-   "rect": [
-    50,
-    80,
-    50,
-    80
-   ],
-   "colors": [
-    "red",
-    "white",
-    "pink"
-   ],
-   "fit": true
-  },
-  {
-   "id": "C-roofgarden",
-   "type": "tulips",
-   "rect": [
-    51,
-    76,
-    51,
-    76
-   ],
-   "colors": [
-    "red",
-    "white",
-    "pink"
-   ],
-   "fit": true
-  },
-  {
-   "id": "C-roofgarden",
-   "type": "tulips",
-   "rect": [
-    51,
-    80,
-    51,
-    80
-   ],
-   "colors": [
-    "red",
-    "white",
-    "pink"
-   ],
-   "fit": true
-  },
-  {
-   "id": "C-roofgarden",
-   "type": "roses",
-   "rect": [
-    72,
-    74,
-    72,
-    74
-   ],
-   "colors": [
-    "white",
-    "yellow",
-    "orange"
-   ],
-   "fit": true
-  },
-  {
-   "id": "C-roofgarden",
-   "type": "tulips",
-   "rect": [
-    73,
-    74,
-    73,
-    74
-   ],
-   "colors": [
-    "white",
-    "yellow",
-    "orange"
    ],
    "fit": true
   },
@@ -24530,6 +24636,9 @@
   "roof": "屋根（灰色のレンガ）",
   "roof_slate": "屋根（濃い灰色の石畳）",
   "roof_red": "屋根（茶色のレンガ）",
+  "roof_sand": "屋根（砂岩色の明るい石畳：エジプトの平屋根）",
+  "roof_white": "屋根（グレージュのレンガ：港の白い家）",
+  "roof_terra": "屋根（赤いレンガ：ヨーロッパのテラコッタ）",
   "stoneold": "石畳（old stone road：町の通りと同じ）"
  }
 }
