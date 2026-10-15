@@ -172,6 +172,22 @@ for y in range(74, 83):                       # 南の運河（ロンドンと�
             C[(x, y)] = '1'
 F(52, 77, 76, 79, '~'); F(70, 80, 73, 82, '~')
 
+# 第62回の2回目：水を陸の約1割に（v1 は16%で「あふれた川の群島」に見えた）。西の河口から南の河口への本流と、池泉・中島の堀・運河は残し、
+# 入り組んだ池のはしと、くさび形に広がった水をうめる
+def fill_water(x0, y0, x1, y1):
+    for y in range(y0, y1 + 1):
+        for x in range(x0, x1 + 1):
+            if C.get((x, y)) == '~':
+                C[(x, y)] = land_of(x, y) if land_of(x, y) in '123' else '1'
+
+
+fill_water(60, 44, 81, 53)        # ヨーロッパ北のくさび形の水（運河は y54〜56 の1本に）
+fill_water(34, 22, 46, 34)        # 日本の池の西のはし（池泉は x46〜61 に）
+fill_water(46, 29, 61, 31)        # 日本の池の南のはし
+fill_water(23, 26, 31, 31)        # 博物館の東の池
+fill_water(41, 57, 58, 62)        # 中島の南の堀（ロンドンの北の岸）
+fill_water(41, 44, 50, 50)        # 中島の西の池
+
 # ---------------- 3D にするための段 ----------------
 # v4 の上の段はふちがぎざぎざで、坂（まっすぐな崖が要る）をかけられない。v4 の形にそって、まっすぐな崖のかたまりに描きなおす。
 for (x, y), ch in list(C.items()):
@@ -243,14 +259,81 @@ def zone_at(x, y):
     return z
 
 
-rows = None
+# ---------------- v2（第62回の2回目）：彫った町 ----------------
+# ユーザー：「一般般…复杂程度不够，很减分。只能给到四分」。v1 は島の84%が1段目の草地と、陸の16%の水で、町らしい高さがなかった。
+# v4 の道（たくさんある）を1段目の通りにし、道から5マスまでの陸を2段目のかたまり（崖のすそはパネルの壁、上は屋根・屋上の庭・胸壁）に、
+# 大きなかたまりの芯を3段目にする。町の地区（ロンドン・アメリカ・ヨーロッパ・地中海の港・エジプトの南）だけ。日本・森林・ハロウィンは静かな野山のまま。
+V1 = json.load(open(os.path.join(ROOT, 'designs/plan7v1_terrain.json')))
+V1ROAD = {(x, y) for y in range(H) for x in range(W) if V1['grid'][y][x] in 'pb'}
+SIZE_ = {'villager': (4, 4), 'player_house': (5, 4), 'museum': (7, 4), 'nook': (7, 4), 'able': (5, 4), 'campsite': (4, 4)}
+LOTS = {'museum': ('museum', [30, 23]), 'nook': ('nook', [19, 36]), 'camp': ('campsite', [88, 39]), 'able': ('able', [74, 62]), 'home': ('player_house', [78, 43]),
+        'v1': ('villager', [25, 15]), 'v2': ('villager', [24, 43]), 'v3': ('villager', [40, 34]), 'v4': ('villager', [47, 47]), 'v5': ('villager', [54, 44]),
+        'v6': ('villager', [72, 15]), 'v7': ('villager', [86, 47]), 'v8': ('villager', [81, 60]), 'v9': ('villager', [78, 74]), 'v10': ('villager', [41, 65])}
+
+
+def carve(zones, maxd=5, base='1', top='2', roads='-+#', cores=True):
+    keep = set(V1ROAD)
+    for kind, (x0, y0) in LOTS.values():
+        w, d = SIZE_[kind]
+        keep |= {(x, y) for x in range(x0 - 2, x0 + w + 2) for y in range(y0 - 2, y0 + d + 4)}
+    keep |= {(x, y) for x in range(23, 39) for y in range(60, 74)}        # 案内所の広場のまわり
+    keep |= {(x, y) for x in range(27, 42) for y in range(76, 84)}        # 飛行場の出口と鉄の橋の南
+    for x0, y0, x1, y1 in BRIDGES:
+        keep |= {(x, y) for x in range(x0 - 2, x1 + 2) for y in range(y0 - 2, y1 + 2)}
+    for ix, iy, d in INCL:
+        keep |= {(x, y) for x in range(ix - 2, ix + 6) for y in range(iy - 2, iy + 6)}
+    road = [p for p, ch in C.items() if ch in roads] + (list(V1ROAD) if base == '1' else [])
+    dist = {p: 0 for p in road}; q = deque(road)
+    while q:
+        x, y = q.popleft()
+        for dx, dy in N4:
+            n = (x + dx, y + dy)
+            if n in C and n not in dist and C[n] not in '~=^':
+                dist[n] = dist[(x, y)] + 1; q.append(n)
+    up = set()
+    for (x, y), ch in C.items():
+        if ch == base and (x, y) not in keep and 1 <= dist.get((x, y), 99) <= maxd and zone_at(x, y) in zones:
+            up.add((x, y))
+    # 大きなかたまりは2マスの路地で家ほどの大きさ（7×6 くらい）に切る（1つの大きな屋根の倉庫にしない）
+    def run(p, dx, dy):
+        n = 1; x, y = p
+        while (x + dx * n, y + dy * n) in up: n += 1
+        m = 1
+        while (x - dx * m, y - dy * m) in up: m += 1
+        return n + m - 1
+    lanes = {p for p in up if (p[0] % 9 in (0, 1) and run(p, 1, 0) >= 12) or (p[1] % 8 in (0, 1) and run(p, 0, 1) >= 11)}
+    up -= lanes
+    for p in up:
+        C[p] = top
+    if not cores:
+        return len(up), 0
+    # 3段目の芯：2段目のかたまりで、まわり2マスがみな2段目のマス（かたまりの番号が偶数のものだけ：高さをそろえない）
+    seen, comps = set(), []
+    for p in up:
+        if p in seen:
+            continue
+        comp, st = [], [p]; seen.add(p)
+        while st:
+            c = st.pop(); comp.append(c)
+            for dx, dy in N4:
+                n = (c[0] + dx, c[1] + dy)
+                if n in up and n not in seen:
+                    seen.add(n); st.append(n)
+        comps.append(comp)
+    n3 = 0
+    for i, comp in enumerate(sorted(comps, key=lambda c: min(c))):
+        cs = set(comp)
+        if len(comp) < 24 or i % 4 == 3:
+            continue
+        for (x, y) in comp:
+            if all((x + dx, y + dy) in cs for dx in range(-1, 2) for dy in range(-1, 2)):
+                C[(x, y)] = '3'; n3 += 1
+    return len(up), n3
 
 
 def dump():
     return [''.join(C.get((x, y), ' ') for x in range(W)) for y in range(H)]
 
-
-rows = dump()
 
 ZPOLY = [   # v4 の地区のさかい（ふちの地区は島のふちまでのばす）
     ('C', [[0, 52], [30, 56], [34, 52], [34, 60], [58, 60], [58, 84], [54, 84], [54, 96], [0, 96]]),
@@ -283,6 +366,22 @@ HILL = plateau_spots(80, 30, 98, 37)
 TREES = HILL + TREES
 _tset = {tuple(p) for p in TREES}
 BUSHES = [[x, y] for (x, y) in FOREST if (x, y) not in _tset and C.get((x, y)) in ('1', '2', '3') and (x * 3 + y) % 2 == 0]   # 第62回の審査：低木は半分に（島じゅう同じ点々にしない）
+STONE_P = {'window': 'wall_stone_window', 'lamp': 'wall_stone_window'}
+URBAN_META = {   # 第62回の2回目：町の地区ごとの壁（崖のすそのパネル）・敷石・通りの小物・崖のふちの柵
+    'E': {'panel': STONE_P, 'paving': ['garden', 'brick_city_old'], 'edge': 'stone fence',
+          'street_props': [['pot', 'Beige'], ['fan palm', 'Brown'], ['lantern', 'Red'], ['cactus', 'Blooming'], ['wooden box', 'Natural'], ['yucca', 'Brown'], ['barrel', None]],
+          'street_props2': [['clay furnace', None]]},
+    'A': {'paving': ['flag', 'brick_greige'], 'edge': 'iron fence',
+          'street_props': [['round streetlight', 'Black'], ['fire hydrant', 'Red'], ['garbage bin', 'Green'], ['crosswalk signal', 'Black'], ['standing shop sign', 'Silver'], ['monstera', 'Black'], ['round streetlight', 'Black'], ['potted starter plants', 'Green']],
+          'street_props2': [['scooter', 'Red'], ['cruiser bike', 'Light blue']]},
+    'U': {'panel': {'window': 'wall_stone_window', 'lamp': 'wall_brick_lamp'}, 'paving': ['garden', 'brick_city_old'], 'edge': 'iron fence',
+          'street_props': [['streetlamp', 'Green'], ['potted starter plants', 'Pink'], ['round topiary', 'Green'], ['menu chalkboard', 'Natural'], ['pot', 'White'], ['streetlamp', 'Green'], ['monstera', 'White']],
+          'street_props2': [['iron garden bench', 'Green'], ['cruiser bike', 'Green']]},
+    'P': {'panel': STONE_P, 'paving': ['flag', 'brick_greige'], 'edge': 'iron fence',
+          'street_props': [['pot', 'White'], ['lantern', 'Blue'], ['cypress plant', 'White'], ['wooden box', 'White'], ['life ring', 'Blue'], ['barrel', None], ['pot', 'Gray']],
+          'street_props2': [['scooter', 'Blue'], ['iron garden bench', 'White']]},
+    'C': {'paving': ['stoneold', 'stone_old']},
+}
 ZONE_META = {
     'E': {'name': 'エジプト', 'col': '#c79a2e', 'grass': '#b4b06a', 'pathc': '#e3cf98', 'road': 'dirt', 'inc': 'stone staircase', 'bri': 'stone bridge', 'fence': 'stone fence', 'bush': .03, 'gstyle': ['garden']},
     'J': {'name': '日本', 'col': '#c2406f', 'bush': .04},
@@ -296,21 +395,21 @@ ZONE_META = {
 }
 
 BUILD = [   # v4 の家と施設の場所（アイコンの中心 → 4×4 の家の左上）
-    {'id': 'museum', 'kind': 'museum', 'near': [31, 25], 'r': 6, 'name': 'エジプト考古学博物館（台地の南東のふもと）'},
-    {'id': 'nook', 'kind': 'nook', 'near': [17, 33], 'r': 6, 'name': 'タヌキ商店（エジプトのバザール）'},
-    {'id': 'camp', 'kind': 'campsite', 'near': [88, 39], 'r': 6, 'name': '国立公園キャンプ場（森林の南の入口）'},
-    {'id': 'able', 'kind': 'able', 'near': [73, 62], 'r': 6, 'name': 'エイブルシスターズ（ヨーロッパの運河ぞい）'},
-    {'id': 'home', 'kind': 'player_house', 'near': [78, 40], 'r': 6, 'name': '自宅（森の手前）'},
-    {'id': 'v1', 'kind': 'villager', 'villager': 'Ed', 'near': [22, 14], 'r': 5, 'zone': 'E'},
-    {'id': 'v2', 'kind': 'villager', 'villager': 'Pecan', 'near': [24, 43], 'r': 5, 'zone': 'E'},
-    {'id': 'v3', 'kind': 'villager', 'villager': 'Genji', 'near': [39, 34], 'r': 5, 'zone': 'J'},
-    {'id': 'v4', 'kind': 'villager', 'villager': 'Truffles', 'near': [47, 46], 'r': 5, 'zone': 'J'},
-    {'id': 'v5', 'kind': 'villager', 'villager': 'Maelle', 'near': [54, 44], 'r': 5, 'zone': 'J'},
-    {'id': 'v6', 'kind': 'villager', 'villager': 'Muffy', 'near': [72, 15], 'r': 5, 'zone': 'A'},
-    {'id': 'v7', 'kind': 'villager', 'villager': 'Raymond', 'near': [86, 50], 'r': 5, 'zone': 'U'},
-    {'id': 'v8', 'kind': 'villager', 'villager': 'Bea', 'near': [81, 60], 'r': 5, 'zone': 'U'},
-    {'id': 'v9', 'kind': 'villager', 'villager': 'Scoot', 'near': [78, 74], 'r': 5, 'zone': 'P'},
-    {'id': 'v10', 'kind': 'villager', 'villager': 'Deena', 'near': [38, 64], 'r': 5, 'zone': 'C'},
+    {'id': 'museum', 'kind': 'museum', 'near': [30, 23], 'r': 1, 'name': 'エジプト考古学博物館（台地の南東のふもと）'},
+    {'id': 'nook', 'kind': 'nook', 'near': [19, 36], 'r': 1, 'name': 'タヌキ商店（エジプトのバザール）'},
+    {'id': 'camp', 'kind': 'campsite', 'near': [88, 39], 'r': 1, 'name': '国立公園キャンプ場（森林の南の入口）'},
+    {'id': 'able', 'kind': 'able', 'near': [74, 62], 'r': 1, 'name': 'エイブルシスターズ（ヨーロッパの運河ぞい）'},
+    {'id': 'home', 'kind': 'player_house', 'near': [78, 43], 'r': 1, 'name': '自宅（森の手前）'},
+    {'id': 'v1', 'kind': 'villager', 'villager': 'Ed', 'near': [25, 15], 'r': 1, 'zone': 'E'},
+    {'id': 'v2', 'kind': 'villager', 'villager': 'Pecan', 'near': [24, 43], 'r': 1, 'zone': 'E'},
+    {'id': 'v3', 'kind': 'villager', 'villager': 'Genji', 'near': [40, 34], 'r': 1, 'zone': 'J'},
+    {'id': 'v4', 'kind': 'villager', 'villager': 'Truffles', 'near': [47, 47], 'r': 1, 'zone': 'J'},
+    {'id': 'v5', 'kind': 'villager', 'villager': 'Maelle', 'near': [54, 44], 'r': 1, 'zone': 'J'},
+    {'id': 'v6', 'kind': 'villager', 'villager': 'Muffy', 'near': [72, 15], 'r': 1, 'zone': 'A'},
+    {'id': 'v7', 'kind': 'villager', 'villager': 'Raymond', 'near': [86, 47], 'r': 1, 'zone': 'U'},
+    {'id': 'v8', 'kind': 'villager', 'villager': 'Bea', 'near': [81, 60], 'r': 1, 'zone': 'U'},
+    {'id': 'v9', 'kind': 'villager', 'villager': 'Scoot', 'near': [78, 74], 'r': 1, 'zone': 'P'},
+    {'id': 'v10', 'kind': 'villager', 'villager': 'Deena', 'near': [41, 65], 'r': 1, 'zone': 'C'},
 ]
 INCL = [
     [25, 30, 'E'],    # エジプトの台地の東の石段（博物館の通り → イッテツの家・ピラミッド）
@@ -326,6 +425,11 @@ BRIDGES = [[33, 73, 37, 76],   # テムズ川の鉄の橋（ロンドン街道�
            [60, 77, 64, 80],   # 南の運河の橋（ロンドン → 地中海の港）
            [60, 39, 64, 42]]   # 太鼓橋（日本庭園の中島の北 → 神社の側。朱色の和風の橋）
 LANDMARKS = []
+F(39, 23, 45, 29, '2', only='1'); F(40, 24, 44, 27, '3', only='2')   # 日本：池の西の築山（2段目と3段目。道はそのまま1段目）
+F(51, 30, 59, 33, '2', only='1')                                    # 日本：池の南の庭の段
+CARVE = (carve('CAUPE', 7),
+         carve('EAJ', 4, base='2', top='3', roads='+', cores=False))   # 町は道から7マスまで。2段目の台地（エジプト・アメリカの住宅地・日本の北）は2段目の道ぞいに3段目の家並み・お堂
+rows = dump()
 
 DISTRICTS = {   # 見せ場を設計する地区（v4 の地区の見どころの番号どおり）。tools/plan4_kitcheck.py --map D1 で文字の地図
     'D1': {'box': [10, 13, 37, 35], 'name': 'エジプト北：ピラミッド（3段目・南の大石段）・台地・遺跡の小道・エジプト考古学博物館の前庭', 'zone': 'E'},
@@ -344,6 +448,9 @@ DISTRICTS = {   # 見せ場を設計する地区（v4 の地区の見どころ�
     'D14': {'box': [14, 82, 28, 92], 'name': '9¾番線（飛行場の左の浜）：城壁・城門・汽車', 'zone': 'C'},
 }
 
+for _k, _m in URBAN_META.items():
+    ZONE_META[_k].update(_m)
+
 spec = {
     'note': '案7（第62回）：世界旅行の島（改造プラン v4 の島を 3D に）。tools/plan7_design.py が書く',
     'base': 'authored', 'seed': 6, 'start': [34, 82],
@@ -354,7 +461,9 @@ spec = {
     'bridges': BRIDGES,
     'zones': [{'zone': z, 'poly': p} for z, p in ZPOLY],
     'zone_meta': ZONE_META,
-    'urban': 'C',
+    'urban': 'CAUPE',
+    'panel_cap': 6, 'panel_alt': 'storefront', 'panels_face_south': True, 'panels_off_road': True,
+    'roof_kinds': {'2': ['red', 'slate', 'fort', 'red', 'slate_dark', 'garden'], '3': ['fort', 'red', 'fort', 'slate']},
     'prune_streets': True, 'trees_off_roads': True, 'beach_walk': True,
     'axis_paving': {'style': 'brick', 'rects': [[34, 76, 35, 82]]},   # ロンドン街道はレンガの道（v4：レンガ道・街灯・電話ボックス）
     'manual_zones': '',
@@ -362,6 +471,7 @@ spec = {
     'groves': {k: [0, 0] for k in 'CEJAHFUPBS'},
     'auto_kits': {k: [] for k in 'CEJAHFUPBS'},
     'camera_check': True,
+    'keep_clear': [[13, 14, 26, 29]],   # ピラミッドとまわりの砂の段：自動の壁のパネル・柵・小物を置かない（建物に見せない）
     'camera_roofs': [[28, 62, 33, 65], [29, 84, 39, 89]],
     'street_trees': TREES, 'bushes': BUSHES,
     'cedar_belts': [[80, 30, 98, 37]],   # 森林の高台は杉（針葉樹）

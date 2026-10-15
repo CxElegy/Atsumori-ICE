@@ -329,6 +329,9 @@ panel_groups = []
 cnt8 = {}
 def panel(x, y, rot, piece):
     des = 'wall_brick_lamp' if piece in ('lamp', 'door', 'arch') else 'wall_windows_bricks'
+    zp = ZM.get(Z[y][x], {}).get('panel')   # 第62回（案7）：地区ごとの壁のマイデザイン（{"window": ..., "lamp": ...}）
+    if zp:
+        des = zp['lamp'] if piece in ('lamp', 'door', 'arch') else zp['window']
     panel_groups.append(['simple panel', x, y, rot, 'Brown', des, piece]); occ.add((x, y))
     cnt8[(x // 8, y // 8)] = cnt8.get((x // 8, y // 8), 0) + 1
 for x, y, rot, piece in SPEC.get('panels', {}).get('items', []):
@@ -337,6 +340,8 @@ for x, y, rot, piece in SPEC.get('panels', {}).get('items', []):
     elif (x, y) in road and g(x, y) in '13' and (x, y) not in slope:   # 道のつきあたり：道の最後の1マスにアーチ
         panel(x, y, rot, piece)
 CAP = {'C': 14, 'P': 6 if SPEC.get('base') != 'authored' else 12}
+if SPEC.get('urban'):   # 第62回（案7）：町としてあつかう地区すべてに崖のすそのパネル
+    CAP = {k: CAP.get(k, 12) for k in SPEC['urban']}
 if SPEC.get('panel_cap'):   # 第60回：同じ物は 8×8 に6個まで（島の評価）。パネルを減らし、のこりの崖のすそは店先（storefront 2×1・マイデザイン）で
     CAP = {k: SPEC['panel_cap'] for k in CAP}
 ALT = SPEC.get('panel_alt')
@@ -355,6 +360,8 @@ for y in range(1, H - 1):
                 continue   # 第58回：北を向くパネル（崖が南）はゲームのカメラ（南から北を見る）から見えない
             if rot in (1, 3) and SPEC.get('panels_face_south'):
                 continue   # 第60回：東・西を向くパネルはカメラから横向き（ふちしか見えない）
+            if (x, y) in road and SPEC.get('panels_off_road'):
+                continue   # 第62回（案7）：通りの上にはパネルを貼らない（細い通りを切らない）
             if (x, y) in road and not (rot != 2 and all((x - i * dx, y - i * dy) in road and (x - i * dx, y - i * dy) not in occ and (x - i * dx, y - i * dy) not in slope and lv(x - i * dx, y - i * dy) == lv(x, y) for i in (1, 2))):
                 continue   # 道の上には、通りが3マス幅以上で、反対がわの2マスがあいている所だけ貼る（第57回：2マス幅の路地の両がわに貼ってふさいでいた）。北を向くパネルはカメラから見えないので道には貼らない
             if lv(a, b_) == lv(x, y) + 1 and g(a, b_) != 'w' and (a, b_) not in slope and cnt8.get((x // 8, y // 8), 0) < CAP[z] and cam_ok(x, y) and stand_ok(x, y):
@@ -519,7 +526,7 @@ for y in range(1, H - 1):
         if not cam_ok(x, y):
             continue
         if lv(x, y) == 2 and not near_slope and any(lv(x + dx, y + dy) < lv(x, y) and g(x + dx, y + dy) not in 'w' for dx, dy in DIRS):
-            edge.append(['iron fence', x, y, 0, None]); occ.add((x, y))   # 上の町の崖のふち：鉄の柵（高架の手すりに見せる）
+            edge.append([ZM.get(Z[y][x], {}).get('edge', 'iron fence'), x, y, 0, None]); occ.add((x, y))   # 上の町の崖のふち：鉄の柵（高架の手すりに見せる）。第62回：地区ごとの柵
         elif lv(x, y) == 1 and not near_slope and sum(g(x + dx, y + dy) == 'w' and lv(x + dx, y + dy) == 1 for dx, dy in DIRS) == 1 and sum(g(x + dx, y + dy) == 'w' for dx in (-1, 0, 1) for dy in (-1, 0, 1)) <= 3 and (x + y) % 5 != 0:
             edge.append(['iron-and-stone fence', x, y, 0, None]); occ.add((x, y))   # 運河の岸：石と鉄の柵（5マスに1つあけて岸に下りられる）
 ec = {(e[1], e[2]): e[0] for e in edge}
@@ -567,13 +574,15 @@ if CAMERA:
 for x, y in cells:
     if not cand(x, y) or any((x + dx, y + dy) in props for dx in (-1, 0, 1) for dy in (-1, 0, 1)):
         continue
-    if CAMERA and any(NAMED.get((x + dx, y + dy)) == STREET1[k1 % len(STREET1)][0] for dx in (-1, 0, 1) for dy in (-1, 0, 1)):
+    S1 = [tuple(v) for v in ZM.get(Z[y][x], {}).get('street_props', [])] or STREET1   # 第62回（案7）：地区ごとの通りの小物
+    S2 = [tuple(v) for v in ZM.get(Z[y][x], {}).get('street_props2', [])] or STREET2
+    if CAMERA and any(NAMED.get((x + dx, y + dy)) == S1[k1 % len(S1)][0] for dx in (-1, 0, 1) for dy in (-1, 0, 1)):
         k1 += 1   # となりに同じ物（運河の岸の街灯など）があれば、次の小物にする
-    if STREET2 and cand(x + 1, y) and (x + 1, y) not in props and (x + y) % 3 == 0 and lv(x + 1, y) == lv(x, y) and any((x + 1 + dx, y + dy) in props for dx in (-1, 0, 1) for dy in (-1, 0, 1)) is False:
-        it, var = STREET2[k2 % len(STREET2)]; k2 += 1
+    if S2 and cand(x + 1, y) and (x + 1, y) not in props and (x + y) % 3 == 0 and lv(x + 1, y) == lv(x, y) and any((x + 1 + dx, y + dy) in props for dx in (-1, 0, 1) for dy in (-1, 0, 1)) is False:
+        it, var = S2[k2 % len(S2)]; k2 += 1
         street.append([it, x, y, 0, var]); props |= {(x, y), (x + 1, y)}; occ |= {(x, y), (x + 1, y)}
     else:
-        it, var = STREET1[k1 % len(STREET1)]; k1 += 1
+        it, var = S1[k1 % len(S1)]; k1 += 1
         street.append([it, x, y, 0, var]); props.add((x, y)); occ.add((x, y))
 if street:
     groups.append({'id': 'C-street', 'zone': 'C', 'name': 'ロンドンの通りの小物（街灯・電話ボックス・花の荷車・自転車・植木ばち）', 'at': [0, 0], 'items': street, 'lines': []})
@@ -616,6 +625,8 @@ for y in range(H):
                 st, des = ('herring', 'brick_arch') if noise(x * .35 + 9, y * .35) > .25 else ('cobble', 'road_chic_stone')
                 if SPEC.get('paving'):   # 第60回：通りの外の地面を1種類に（作例はひとつの敷石。4種類の市松はうるさい）
                     st, des = SPEC['paving']
+                if ZM.get(Z[y][x], {}).get('paving'):   # 第62回（案7）：地区ごとの敷石
+                    st, des = ZM[Z[y][x]]['paving']
             ground.append({'id': 'C-paving', 'style': st, 'rect': [x, y, x, y], 'design': des, 'skip': []}); occ.add((x, y))
 
 # ---- 花（村の家の庭・郊外の花畑・森のふち）----
@@ -662,6 +673,6 @@ B3 = {'note': '案3（第49回）：乱れ（たね %d）で作りなおした�
       'season': SPEC.get('season', P2['season']), 'rules': P2['rules'], 'buildings': B_ALL,
       'inclines': {'%d,%d' % (x, y): SPEC.get('incline_kinds', {}).get('%d,%d' % (x, y), INC[Z[y][x]]) for x, y, d in T['inclines']},   # 第58回：場所ごとに種類を変えられる（石の階段など）
       'bridges': {'%d,%d' % (r[0], r[1]): SPEC.get('bridge_kinds', {}).get('%d,%d' % (r[0], r[1]), BRI[Z[r[1]][r[0]]]) for r in T.get('bridges', [])},
-      'paths': dict(P2['paths'], **SPEC.get('paths', {})), 'groups': groups, 'ground': ground, 'plants': plants, 'orchards': [], 'ground_styles': dict(P2.get('ground_styles', {}), roof='屋根（灰色のレンガ）', roof_slate='屋根（濃い灰色の石畳）', roof_red='屋根（茶色のレンガ）', **({'stoneold': '石畳（old stone road：町の通りと同じ）'} if SPEC.get('paving') else {}))}
+      'paths': dict(P2['paths'], **SPEC.get('paths', {})), 'groups': groups, 'ground': ground, 'plants': plants, 'orchards': [], 'ground_styles': dict(P2.get('ground_styles', {}), roof='屋根（灰色のレンガ）', roof_slate='屋根（濃い灰色の石畳）', roof_red='屋根（茶色のレンガ）', **({'stoneold': '石畳（old stone road：町の通りと同じ）'} if SPEC.get('paving') or any('paving' in m for m in ZM.values()) else {}))}
 json.dump(B3, open(os.path.join(ROOT, f'designs/build_plan{PLAN}.json'), 'w'), ensure_ascii=False, indent=1)
 print('木', len(trees), '低木', len(bush), 'キット', len([g_ for g_ in groups if g_.get('kit')]), 'パネル', len(panel_groups), '地面', len(ground), '花', len(plants))

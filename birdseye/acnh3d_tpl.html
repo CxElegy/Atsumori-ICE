@@ -201,10 +201,10 @@ function pbr(W, H, draw, k) { const a = document.createElement('canvas'), hc = d
 function speck(g, r, x, y, w, h, n, cols, s) { for (let i = 0; i < n; i++) { g.fillStyle = cols[Math.floor(r() * cols.length)]; g.fillRect(x + r() * w, y + r() * h, s || 1.5, s || 1.5); } }
 function blob(g, x, y, rx, ry, c) { g.fillStyle = c; g.beginPath(); g.ellipse(x, y, rx, ry, 0, 0, 7); g.fill(); }
 // レンガの壁（パネル・城壁のマイデザイン）：目地はうすい灰色、レンガは1枚ずつ色と欠けがちがう、足もとに苔と雨の汚れ
-function brickWall(gA, gH, W, H, seed, rows, moss) { const r = rnd(seed || 7), bw = W / 4, bh = H / (rows || 12);
+function brickWall(gA, gH, W, H, seed, rows, moss, pal) { const r = rnd(seed || 7), bw = W / (pal ? 3 : 4), bh = H / (rows || 12);   // 第62回：pal（石の色）があれば大きな切り石の壁
   gA.fillStyle = '#b8ab97'; gA.fillRect(0, 0, W, H); gH.fillStyle = '#3c3c3c'; gH.fillRect(0, 0, W, H);
   for (let j = 0; j < (rows || 12); j++) for (let i = -1; i < 5; i++) { const x = i * bw + (j % 2) * bw / 2 + 1.5, y = j * bh + 1.5, w = bw - 3, h = bh - 3;
-    const base = ['#a65a42', '#94503b', '#b4664b', '#8a4a37', '#a9603f', '#9d5e4a', '#b87458'][Math.floor(r() * 7)]; gA.fillStyle = base; gA.fillRect(x, y, w, h);
+    const base = (pal || ['#a65a42', '#94503b', '#b4664b', '#8a4a37', '#a9603f', '#9d5e4a', '#b87458'])[Math.floor(r() * (pal ? pal.length : 7))]; gA.fillStyle = base; gA.fillRect(x, y, w, h);
     const gr = gA.createLinearGradient(0, y, 0, y + h); gr.addColorStop(0, 'rgba(255,230,200,.16)'); gr.addColorStop(1, 'rgba(40,15,5,.18)'); gA.fillStyle = gr; gA.fillRect(x, y, w, h);
     speck(gA, r, x, y, w, h, 14, ['rgba(60,25,15,.35)', 'rgba(230,190,160,.3)', 'rgba(120,60,40,.4)'], 1.6);
     const hv = 190 + Math.floor(r() * 40); gH.fillStyle = `rgb(${hv},${hv},${hv})`; gH.fillRect(x, y, w, h); gH.fillStyle = `rgb(${hv + 18},${hv + 18},${hv + 18})`; gH.fillRect(x + 2, y + 2, w - 4, h - 4);
@@ -517,7 +517,8 @@ const PANEL = {};
 function panelTex(id, piece) { piece = piece || ({ signboard: 'sign', hanging_sign: 'hang', door_curtain: 'door', window_hp: 'window' })[id] || piece;   // 第60回の最終審査：見せ場のパネル（看板・吊り看板・ドア）を描く
   const key = id + '|' + (piece || ''); if (PANEL[key]) return PANEL[key];
   const arch = (g, x0, x1, top, bot, fill) => { const cx = (x0 + x1) / 2, rr = (x1 - x0) / 2; g.fillStyle = fill; g.beginPath(); g.moveTo(x0, bot); g.lineTo(x0, top); g.arc(cx, top, rr, Math.PI, 0); g.lineTo(x1, bot); g.fill(); };
-  const P = pbr(128, 192, (A, Hh, W, H) => { brickWall(A, Hh, W, H, (id || '').length * 7 + (piece || '').length * 3, 12, piece !== 'window');
+  const STONE = /stone/.test(id || '') ? ['#d9cdb2', '#cfc2a4', '#e2d7bf', '#c8b996', '#d4c6a8'] : null;   // 第62回：石造りの街並み（wall_stone_window）は明るい切り石
+  const P = pbr(128, 192, (A, Hh, W, H) => { brickWall(A, Hh, W, H, (id || '').length * 7 + (piece || '').length * 3, STONE ? 7 : 12, piece !== 'window' && !STONE, STONE);
     if (piece === 'arch') { arch(A, W * .06, W * .94, H * .42, H, '#c9b49a'); arch(Hh, W * .06, W * .94, H * .42, H, '#e0e0e0');   // 石のアーチの縁
       for (let i = 0; i < 9; i++) { const a0 = Math.PI + i * Math.PI / 9; A.strokeStyle = 'rgba(90,75,60,.6)'; A.lineWidth = 1.5; A.beginPath(); A.moveTo(W * .5 + Math.cos(a0) * W * .3, H * .42 + Math.sin(a0) * W * .3); A.lineTo(W * .5 + Math.cos(a0) * W * .44, H * .42 + Math.sin(a0) * W * .44); A.stroke(); }
       arch(A, W * .16, W * .84, H * .45, H, '#15110f'); arch(Hh, W * .16, W * .84, H * .45, H, '#000000');   // 奥の暗がり
