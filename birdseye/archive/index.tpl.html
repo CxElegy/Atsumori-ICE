@@ -1,0 +1,366 @@
+<title>アイス島 アーカイブ</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap">
+<style>
+/* あつ森の地図画面（鳥瞰図・英国の島のページと同じ）：青緑の波もようの地、黄色いリボン、クリーム色の板。主役は同じカメラで撮った島の写真と、ならべて見る枠 */
+:root {
+  --sea: #7fd6c3; --wave: #6cc9b5; --ribbon: #f8e36b; --ribbon-fold: #d9bd3f;
+  --cream: #fbf6e6; --cream-2: #f3ead0; --paper: #fffdf6; --line: #e7dbb8;
+  --ink: #6b5434; --ink-soft: #94805e; --pin: #4a3b30; --pick: #ffe24d;
+  --best: #2f8a5b; --best-bg: #dff1e2; --warn: #b9653c;
+  --r2: #e0577b; --r1: #f0a43a; --r0: #9aa6a0; --rm: #6f7d9c;
+  --round: 'Zen Maru Gothic', 'Hiragino Maru Gothic ProN', 'Rounded Mplus 1c', 'Yu Gothic', sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box }
+body { margin: 0; background-color: var(--sea); color: var(--ink); font-family: var(--round); font-weight: 500; -webkit-font-smoothing: antialiased;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='64'%3E%3Cg fill='none' stroke='%236cc9b5' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M8 20l6-6 6 6 6-6 6 6'/%3E%3Cpath d='M68 52l6-6 6 6 6-6 6 6'/%3E%3C/g%3E%3C/svg%3E"); }
+.page { max-width: 1280px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 22px 64px; display: grid; gap: 18px; overflow-x: clip }
+.ribbon { justify-self: center; position: relative; background: var(--ribbon); color: var(--ink); font-weight: 900; font-size: clamp(22px, 3.4vw, 34px); letter-spacing: .06em; padding: 10px 46px 12px; border-radius: 4px; box-shadow: 0 4px 0 #0000001a; text-align: center; line-height: 1.15; max-width: calc(100% - 50px) }
+.ribbon::before, .ribbon::after { content: ''; position: absolute; top: 12px; width: 34px; height: 100%; background: var(--ribbon-fold); z-index: -1 }
+.ribbon::before { left: -22px; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 34% 50%) }
+.ribbon::after { right: -22px; clip-path: polygon(0 0, 100% 0, 66% 50%, 100% 100%, 0 100%) }
+@media (max-width: 520px) { .ribbon { padding: 9px 18px 10px; font-size: 22px } }
+.ribbon small { display: block; font-size: 13px; font-weight: 700; letter-spacing: .02em; margin-top: 2px }
+.jump { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px }
+.jump a { background: var(--cream); color: var(--ink); text-decoration: none; font-weight: 900; font-size: 14px; padding: 7px 16px; border-radius: 99px; box-shadow: 0 3px 0 #0000001a }
+.jump a:hover { background: var(--pick) }
+.board { background: var(--cream); border-radius: 26px; padding: 20px 20px 22px; box-shadow: 0 6px 0 #0000001a; display: grid; gap: 16px; min-width: 0; scroll-margin-top: 12px }
+.board > header { display: grid; gap: 6px }
+.board h2 { margin: 0; font-size: 21px; font-weight: 900; text-wrap: balance }
+.board h3 { margin: 0; font-size: 16px; font-weight: 900; text-wrap: balance }
+.board p { margin: 0; font-size: 14px; line-height: 1.8; max-width: 70ch }
+.sub { color: var(--ink-soft); font-size: 13px }
+a { color: #2f6f8f }
+:focus-visible { outline: 3px solid var(--pin); outline-offset: 2px; border-radius: 6px }
+button { font: inherit; color: inherit; cursor: pointer }
+
+/* 操作の列 */
+.controls { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center }
+.controls > div { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; min-width: 0; max-width: 100% }
+.seg { display: flex; flex-wrap: wrap; max-width: 100%; gap: 4px; background: var(--cream-2); padding: 4px; border-radius: 20px }
+.seg button { border: 0; background: transparent; padding: 6px 13px; border-radius: 99px; font-weight: 700; font-size: 13.5px }
+.seg button[aria-pressed="true"] { background: var(--pin); color: #fff }
+.lbl { font-size: 12.5px; color: var(--ink-soft); font-weight: 700; margin-right: 2px }
+
+/* ならべて見る枠 */
+.cmp { background: var(--paper); border: 2px solid var(--line); border-radius: 22px; padding: 14px; display: grid; gap: 12px; min-width: 0 }
+.cmp-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; justify-content: space-between }
+.cmp-top h3 { font-size: 16px }
+.cmp-top .acts { display: flex; flex-wrap: wrap; gap: 6px }
+.btn { border: 2px solid var(--line); background: var(--cream); border-radius: 99px; padding: 5px 13px; font-weight: 700; font-size: 13px; color: var(--ink); text-decoration: none; display: inline-flex; align-items: center; gap: 6px }
+.btn:hover { background: var(--pick); border-color: var(--pick) }
+.btn[aria-pressed="true"] { background: var(--pin); color: #fff; border-color: var(--pin) }
+.btn.primary { background: var(--pin); border-color: var(--pin); color: #fff }
+.btn.primary:hover { background: #2f251d }
+.cols { display: grid; gap: 12px; grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)) }
+@media (max-width: 760px) { .cols { grid-template-columns: minmax(0, 1fr) } }
+.col { display: grid; gap: 6px; align-content: start; min-width: 0 }
+.col .nm { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; font-weight: 900 }
+.col .nm span { font-size: 12.5px; color: var(--ink-soft); font-weight: 700 }
+.shot { display: block; border: 0; padding: 0; background: #a9d8d0; border-radius: 14px; overflow: hidden; width: 100%; aspect-ratio: 960 / 630; max-width: 100% }
+.shot img { width: 100%; height: 100%; object-fit: cover; display: block }
+.overlay { position: relative; border-radius: 16px; overflow: hidden; aspect-ratio: 960 / 630; max-width: 100%; background: #a9d8d0; touch-action: pan-y }
+.overlay img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover }
+.overlay .top { clip-path: inset(0 calc(100% - var(--cut, 50%)) 0 0) }
+.overlay .bar { position: absolute; top: 0; bottom: 0; left: var(--cut, 50%); width: 3px; margin-left: -1.5px; background: #fff; box-shadow: 0 0 0 1px #0003; pointer-events: none }
+.overlay .tg { position: absolute; top: 10px; padding: 3px 10px; border-radius: 99px; background: #fffdf6e6; font-weight: 900; font-size: 13px }
+.overlay .tg.l { left: 10px } .overlay .tg.r { right: 10px }
+.slider { width: 100%; accent-color: var(--pin) }
+.tablewrap { overflow-x: auto; border-radius: 14px }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; font-variant-numeric: tabular-nums; min-width: 520px }
+th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: middle }
+thead th { font-size: 13px; font-weight: 900; color: var(--ink) }
+tbody th { font-weight: 700; color: var(--ink-soft); font-size: 12.5px; white-space: nowrap }
+td.best { background: var(--best-bg); color: var(--best); font-weight: 900 }
+td.best::after { content: ' ◎'; font-size: 11px }
+.note { font-size: 12.5px; color: var(--ink-soft); line-height: 1.7 }
+
+/* 島のカード */
+.grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr)) }
+.plan { background: #fff; border-radius: 20px; padding: 10px 10px 12px; display: grid; gap: 8px; align-content: start; min-width: 0; border: 3px solid transparent }
+.plan.on { border-color: var(--pin) }
+.plan .hd { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; padding: 0 4px }
+.tag { display: inline-block; font-weight: 900; font-size: 12.5px; padding: 2px 10px; border-radius: 99px; background: var(--cream-2) }
+.tag.keep { background: #fde3ea; color: #a8334f }
+.tag.new { background: var(--pick) }
+.plan h3 { font-size: 16px }
+.plan .rd { font-size: 12px; color: var(--ink-soft); font-weight: 700 }
+.plan .ds { font-size: 13px; line-height: 1.7; padding: 0 4px; margin: 0 }
+.score { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 4px; font-size: 12.5px }
+.score .s { background: var(--cream-2); border-radius: 10px; padding: 3px 8px; font-variant-numeric: tabular-nums }
+.score .s b { font-size: 14px }
+.score .u { background: #fde3ea; color: #a8334f }
+.ng { font-size: 12px; color: var(--warn); padding: 0 4px }
+.rate { display: flex; flex-wrap: wrap; gap: 5px; padding: 0 4px }
+.rate button { border: 2px solid var(--line); background: var(--cream); border-radius: 99px; padding: 3px 10px; font-size: 12.5px; font-weight: 700 }
+.rate button[aria-pressed="true"][data-v="2"] { background: var(--r2); border-color: var(--r2); color: #fff }
+.rate button[aria-pressed="true"][data-v="1"] { background: var(--r1); border-color: var(--r1); color: #fff }
+.rate button[aria-pressed="true"][data-v="0"] { background: var(--r0); border-color: var(--r0); color: #fff }
+.rate button[aria-pressed="true"][data-v="-1"] { background: var(--rm); border-color: var(--rm); color: #fff }
+.rate select { border: 2px solid var(--line); background: var(--cream); border-radius: 99px; padding: 3px 8px; font: inherit; font-size: 12.5px; color: var(--ink) }
+.memo { margin: 0 4px; border: 2px solid var(--line); background: var(--paper); border-radius: 12px; padding: 6px 10px; font: inherit; font-size: 13px; color: var(--ink); resize: vertical; min-height: 36px; width: calc(100% - 8px) }
+.row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 0 4px }
+.pick { display: inline-flex; align-items: center; gap: 6px; font-weight: 900; font-size: 13px; border: 2px solid var(--line); border-radius: 99px; padding: 4px 12px; background: var(--cream); cursor: pointer }
+.pick input { accent-color: var(--pin); width: 16px; height: 16px; margin: 0 }
+.pick:has(input:checked) { background: var(--pin); color: #fff; border-color: var(--pin) }
+.saved { font-size: 12.5px; color: var(--ink-soft) }
+
+/* 作例・ページ */
+.tally { display: flex; flex-wrap: wrap; gap: 8px }
+.tally span { border-radius: 99px; padding: 4px 12px; font-weight: 900; font-size: 13.5px; color: #fff; font-variant-numeric: tabular-nums }
+.refs { display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr)) }
+.ref { border: 0; padding: 0; background: #fff; border-radius: 14px; overflow: hidden; display: grid; text-align: left }
+.ref img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; max-width: 100% }
+.ref span { font-size: 11.5px; padding: 5px 8px 7px; line-height: 1.45; color: var(--ink) }
+.ref b { font-size: 12px }
+.cards { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)) }
+.card { background: #fff; border-radius: 18px; overflow: hidden; display: grid; grid-template-rows: auto 1fr; text-decoration: none; color: var(--ink); min-width: 0 }
+.card img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; display: block; border-bottom: 1px solid var(--line); max-width: 100% }
+.card .bd { padding: 10px 12px 12px; display: grid; gap: 4px; align-content: start }
+.card .bd b { font-size: 15px; font-weight: 900 }
+.card .bd .w { font-size: 12px; color: var(--ink-soft); font-weight: 700 }
+.card .bd p { font-size: 13px; line-height: 1.65 }
+.card .bd .nt { font-size: 12px; color: var(--warn) }
+.card .go { justify-self: start; margin-top: 4px; font-size: 12.5px; font-weight: 900; color: #2f6f8f }
+.card:hover .go { text-decoration: underline }
+.card.star { outline: 3px solid var(--pick) }
+.figs { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr)) }
+.fig { border: 0; padding: 0; background: #fff; border-radius: 14px; overflow: hidden; display: grid; text-align: left }
+.fig img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; max-width: 100% }
+.fig span { font-size: 12px; padding: 6px 9px 8px; font-weight: 700 }
+
+/* 大きく見る */
+dialog { border: 0; padding: 0; background: transparent; max-width: min(1200px, 96vw); width: 100%; color: var(--ink) }
+dialog::backdrop { background: #1d3a37d9 }
+.lb { background: var(--cream); border-radius: 22px; padding: 12px; display: grid; gap: 10px; max-height: calc(100vh - 32px); overflow: auto }
+.lb img { width: 100%; height: auto; max-height: calc(100vh - 170px); object-fit: contain; border-radius: 12px; background: #a9d8d0; display: block }
+.lb .bar2 { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between }
+.lb .cap { font-weight: 900; font-size: 15px }
+.lb .cap span { font-weight: 700; color: var(--ink-soft); font-size: 13px; margin-left: 6px }
+@media (prefers-reduced-motion: no-preference) { .plan, .btn, .seg button, .pick { transition: background-color .15s, border-color .15s, color .15s } }
+</style>
+
+<div class="page">
+  <div class="ribbon">アイス島 アーカイブ<small>案2から案6まで、10の島と、これまでのページ</small></div>
+  <nav class="jump" aria-label="ページの中の場所">
+    <a href="#compare">案をくらべる</a><a href="#refs">作例の審査</a><a href="#pages">これまでのページ</a>
+  </nav>
+
+  <section class="board" id="compare" aria-labelledby="h-compare">
+    <header>
+      <h2 id="h-compare">案をくらべる</h2>
+      <p>10の島を、同じカメラ・同じ時間で撮りなおしました。カードの「くらべる」を2つか3つ選ぶと、上の枠にならびます。2つのときは「重ねる」で1枚に重ねて、境目を動かして見くらべられます。島ごとに3Dのページも開けます。</p>
+    </header>
+    <div class="controls">
+      <div><span class="lbl">見る所</span> <div class="seg" id="views" role="group" aria-label="見る所"></div></div>
+      <div><span class="lbl">島</span> <div class="seg" id="fams" role="group" aria-label="どの島を出すか"></div></div>
+    </div>
+    <div class="cmp" id="cmp" aria-live="polite"></div>
+    <div class="grid" id="grid"></div>
+    <p class="note">審査：その回の3人（参考図にどれだけ近いか・ゲームの決まり・構図）。案5c を6.5点にそろえた同じ物差しです。数字の列は今日の点検の道具（tools/town_check.py）で全部の島を測りなおしたもの。案6 の系統は「見えない物」をより深いカメラの決まりで数えています。案2 は町の点検の形式より前の島なので数字がありません。</p>
+  </section>
+
+  <section class="board" id="refs" aria-labelledby="h-refs">
+    <header>
+      <h2 id="h-refs">作例の審査：あなたの「めっちゃいい」</h2>
+      <p>作例の審査は今までどおり、ビルドガイドのページで続けられます。評価はそのページのデータベースに保存されていて、ここには最後に保存した時点の数を出しています。</p>
+    </header>
+    <div class="row" style="padding:0;gap:10px">
+      <div class="tally" id="tally"></div>
+      <a class="btn primary" href="https://claude.ai/artifact/JeGyrb8mzyNQkLxQNVBXts" target="_blank" rel="noopener">ビルドガイドで審査をつづける ↗</a>
+    </div>
+    <div class="refs" id="refgrid"></div>
+  </section>
+
+  <section class="board" id="pages" aria-labelledby="h-pages">
+    <header>
+      <h2 id="h-pages">これまでのページ</h2>
+      <p>Claude で公開したページは新しいタブで開きます。島の計画と道具のページは、このアーカイブの中に写しを入れたので、ここから開けます（写しのページは外部の画像を読めないので、作例の写真は出ません）。</p>
+    </header>
+    <h3>Claude で公開したページ</h3>
+    <div class="cards" id="arts"></div>
+    <h3>島の計画と道具</h3>
+    <div class="cards" id="legacy"></div>
+    <h3>図</h3>
+    <div class="figs" id="figs"></div>
+  </section>
+</div>
+
+<dialog id="lb" aria-label="大きく見る">
+  <div class="lb">
+    <div class="bar2">
+      <div class="cap" id="lbcap"></div>
+      <div class="row" style="padding:0">
+        <button class="btn" id="lbprev" type="button">← 前</button>
+        <button class="btn" id="lbnext" type="button">次 →</button>
+        <button class="btn primary" id="lbclose" type="button">閉じる</button>
+      </div>
+    </div>
+    <img id="lbimg" alt="">
+  </div>
+</dialog>
+
+<script>
+(function () {
+const D = /*DATA*/null;
+const VIEWS = [['bird', '鳥瞰（昼）'], ['dusk', '鳥瞰（夕方）'], ['game', 'ゲームの目線'], ['town', '町に寄る']];
+const FAMS = [['all', '全部'], ['p6', '案6の候補'], ['p5', '案5の候補'], ['old', 'はじめの案']];
+const RATE = [[2, 'めっちゃいい'], [1, 'いいね'], [0, 'ふつう'], [-1, 'イマイチ']];
+const MET = [ // [key, ラベル, よい向き: 1 大きいほど / -1 小さいほど / 'ten' 10% に近いほど, 単位]
+  ['facade', '入口がかくれる家', -1, '軒'], ['inc', '町の坂', 1, '本'], ['walk', '上の段に歩いて上がれる', 1, '%'], ['moat', '三方が水の陸（堀）', -1, '%'],
+  ['water', '町の水（1割がよい）', 'ten', '%'], ['grey', '灰色の平らな屋根', -1, '%'], ['trees', '町の木', 1, '本'], ['hidden', 'カメラから見えない物', -1, '個'], ['section', '南北の断面で段が変わる回数', 1, '回']];
+const store = { get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} } };
+const P = D.plans, byId = Object.fromEntries(P.map(p => [p.id, p]));
+const S = { view: store.get('hub-view', 'bird'), fam: store.get('hub-fam', 'all'), sel: store.get('hub-sel', ['6a', '6b', '6c']).filter(id => byId[id]), mode: 'side', cut: 50,
+  R: store.get('hub-ratings', { r: {}, s: {}, n: {}, t: 0 }) };
+let DB = null, dbState = 'local', saveTimer = null;
+const el = (tag, attrs = {}, ...kids) => { const e = document.createElement(tag); for (const [k, v] of Object.entries(attrs)) { if (v == null || v === false) continue; if (k === 'class') e.className = v; else if (k === 'text') e.textContent = v; else if (k.startsWith('on')) e.addEventListener(k.slice(2), v); else e.setAttribute(k, v === true ? '' : v); } kids.flat().forEach(c => c != null && e.append(c)); return e; };
+const img = (id, v) => `img/plans/${id}_${v}.jpg`;
+const avg = j => j ? (j.avg != null ? j.avg : (j.ref + j.rules + j.comp) / 3) : null;
+const lastUser = p => p.user && p.user.length ? p.user[p.user.length - 1] : null;
+const viewName = v => VIEWS.find(x => x[0] === v)[1];
+
+/* ---- 見る所・島のボタン ---- */
+function segs() {
+  const vs = document.getElementById('views'); vs.replaceChildren(...VIEWS.map(([k, t]) => el('button', { type: 'button', 'aria-pressed': String(S.view === k), onclick: () => { S.view = k; store.set('hub-view', k); render(); } }, t)));
+  const fs = document.getElementById('fams'); fs.replaceChildren(...FAMS.map(([k, t]) => el('button', { type: 'button', 'aria-pressed': String(S.fam === k), onclick: () => { S.fam = k; store.set('hub-fam', k); render(); } }, t)));
+}
+
+/* ---- 評価（このページのデータベース。使えないときはこのブラウザ） ---- */
+function setRating(id, patch) {
+  for (const [k, v] of Object.entries(patch)) { if (v === null || v === '') delete S.R[k][id]; else S.R[k][id] = v; }
+  S.R.t = Date.now(); store.set('hub-ratings', S.R); queueSave(); renderCompare(); renderSaved();
+}
+function queueSave() { if (!DB) return; clearTimeout(saveTimer); dbState = 'saving'; renderSaved(); saveTimer = setTimeout(saveDb, 900); }
+async function saveDb() {
+  try { await DB.doc('ratings/designs').set({ r: S.R.r, s: S.R.s, n: S.R.n, t: S.R.t }); dbState = 'saved'; }
+  catch (e) { dbState = (e && e.code === 'invalid_argument') ? 'readonly' : 'error'; }
+  renderSaved();
+}
+function renderSaved() {
+  document.querySelectorAll('.saved').forEach(s => {
+    s.textContent = !DB ? '評価はこのブラウザに保存しています' : dbState === 'saving' ? '保存しています…' : dbState === 'saved' ? '評価をこのページに保存しました（Claude も読めます）' : dbState === 'readonly' ? 'このページの評価を書きかえる権限がありません' : dbState === 'error' ? '保存できませんでした。もう一度えらび直してください' : '評価はこのページに保存されます（Claude も読めます）';
+  });
+}
+
+/* ---- 島のカード ---- */
+function card(p) {
+  const on = S.sel.includes(p.id), j = p.judge, u = lastUser(p), r = S.R.r[p.id];
+  const tags = [el('span', { class: 'tag' }, p.label)];
+  if (p.keep) tags.push(el('span', { class: 'tag keep' }, '保留中（8分）'));
+  if (p.latest) tags.push(el('span', { class: 'tag new' }, 'いちばん新しい'));
+  const sc = el('div', { class: 'score' });
+  if (j) sc.append(el('span', { class: 's', title: j.when }, j.avg != null ? ['審査の平均 ', el('b', {}, j.avg.toFixed(2))] : ['審査 参考図 ', el('b', {}, j.ref.toFixed(1)), '・決まり ', el('b', {}, j.rules.toFixed(1)), '・構図 ', el('b', {}, j.comp.toFixed(1))]));
+  if (u) sc.append(el('span', { class: 's u', title: u[2] }, ['あなたの点 ', el('b', {}, String(u[0])), `（${u[1]}）`]));
+  const rate = el('div', { class: 'rate', role: 'group', 'aria-label': p.label + 'の評価' },
+    RATE.map(([v, t]) => el('button', { type: 'button', 'data-v': String(v), 'aria-pressed': String(r === v), onclick: () => setRating(p.id, { r: r === v ? null : v }) }, t)),
+    el('select', { 'aria-label': p.label + 'の点（10点まで）', onchange: e => setRating(p.id, { s: e.target.value === '' ? null : +e.target.value }) },
+      el('option', { value: '' }, '点'), ...Array.from({ length: 10 }, (_, i) => el('option', { value: String(10 - i), selected: S.R.s[p.id] === 10 - i }, `${10 - i}点`))));
+  const memo = el('textarea', { class: 'memo', rows: '1', id: 'memo-' + p.id, 'aria-label': p.label + 'のひとこと', placeholder: 'ひとこと（どこがいい・どこが足りない）', onchange: e => setRating(p.id, { n: e.target.value.trim() || null }) });
+  memo.value = S.R.n[p.id] || '';
+  return el('article', { class: 'plan' + (on ? ' on' : ''), 'data-id': p.id },
+    el('button', { class: 'shot', type: 'button', 'aria-label': `${p.label} ${p.title}を大きく見る`, onclick: () => openPlan(p.id) }, el('img', { src: img(p.id, S.view), alt: `${p.label}の${viewName(S.view)}`, loading: 'lazy', width: '960', height: '630' })),
+    el('div', { class: 'hd' }, tags, el('h3', {}, p.title), el('span', { class: 'rd' }, p.round)),
+    el('p', { class: 'ds' }, p.desc), sc,
+    p.ng ? el('div', { class: 'ng' }, '候補のときの記録のまま（ゲームにない花の色が少しある）') : null,
+    rate, memo,
+    el('div', { class: 'row' },
+      el('label', { class: 'pick' }, el('input', { type: 'checkbox', checked: on, onchange: e => toggle(p.id, e.target.checked) }), 'くらべる'),
+      el('a', { class: 'btn', href: `plans/plan${p.id}.html`, target: '_blank', rel: 'noopener' }, '3Dで開く ↗'),
+      p.art ? el('a', { class: 'btn', href: p.art, target: '_blank', rel: 'noopener' }, '公開したページ ↗') : null));
+}
+function toggle(id, on) {
+  S.sel = S.sel.filter(x => x !== id); if (on) { S.sel.push(id); if (S.sel.length > 3) S.sel.shift(); }
+  if (S.sel.length !== 2) S.mode = 'side';
+  store.set('hub-sel', S.sel); render();
+}
+
+/* ---- ならべて見る枠 ---- */
+function renderCompare() {
+  const box = document.getElementById('cmp'), sel = S.sel.map(id => byId[id]);
+  if (sel.length < 2) {
+    box.replaceChildren(el('div', { class: 'cmp-top' }, el('h3', {}, 'くらべる島をえらんでください'), el('span', { class: 'saved' })),
+      el('p', { class: 'note' }, 'カードの「くらべる」を2つか3つ選ぶと、ここにならびます。' + (sel.length ? `いま：${sel[0].label}` : '')));
+    renderSaved(); return;
+  }
+  const acts = el('div', { class: 'acts' },
+    el('button', { type: 'button', class: 'btn', 'aria-pressed': String(S.mode === 'side'), onclick: () => { S.mode = 'side'; renderCompare(); } }, 'ならべる'),
+    sel.length === 2 ? el('button', { type: 'button', class: 'btn', 'aria-pressed': String(S.mode === 'over'), onclick: () => { S.mode = 'over'; renderCompare(); } }, '重ねる') : null,
+    el('button', { type: 'button', class: 'btn', onclick: () => { S.sel = []; store.set('hub-sel', []); render(); } }, '選びなおす'));
+  let view;
+  if (S.mode === 'over' && sel.length === 2) {
+    const [a, b] = sel;
+    const ov = el('div', { class: 'overlay', style: `--cut:${S.cut}%` },
+      el('img', { src: img(b.id, S.view), alt: `${b.label}の${viewName(S.view)}` }), el('img', { class: 'top', src: img(a.id, S.view), alt: `${a.label}の${viewName(S.view)}` }),
+      el('div', { class: 'bar' }), el('span', { class: 'tg l' }, `← ${a.label} ${a.title}`), el('span', { class: 'tg r' }, `${b.label} ${b.title} →`));
+    const sl = el('input', { type: 'range', class: 'slider', min: '0', max: '100', value: String(S.cut), 'aria-label': '境目の位置', oninput: e => { S.cut = +e.target.value; ov.style.setProperty('--cut', S.cut + '%'); } });
+    const drag = e => { const r = ov.getBoundingClientRect(); S.cut = Math.max(0, Math.min(100, (e.clientX - r.left) / r.width * 100)); ov.style.setProperty('--cut', S.cut + '%'); sl.value = String(Math.round(S.cut)); };
+    ov.addEventListener('pointerdown', e => { ov.setPointerCapture(e.pointerId); drag(e); }); ov.addEventListener('pointermove', e => { if (e.buttons) drag(e); });
+    view = el('div', { style: 'display:grid;gap:6px' }, ov, sl, el('p', { class: 'note' }, '写真の上をドラッグするか、つまみを動かすと境目が動きます。'));
+  } else {
+    view = el('div', { class: 'cols', style: `--n:${sel.length}` }, sel.map(p => el('div', { class: 'col' },
+      el('div', { class: 'nm' }, `${p.label} ${p.title}`, el('span', {}, p.round)),
+      el('button', { class: 'shot', type: 'button', 'aria-label': `${p.label}を大きく見る`, onclick: () => openPlan(p.id) }, el('img', { src: img(p.id, S.view), alt: `${p.label}の${viewName(S.view)}` })))));
+  }
+  // 数字の表：行ごとにいちばんよい島に ◎
+  const rows = [];
+  const best = (vals, dir) => { const ok = vals.filter(v => v != null); if (ok.length < 2) return null; const f = dir === 'ten' ? (v => -Math.abs(v - 10)) : (v => dir * v); const m = Math.max(...ok.map(f)); return ok.filter(v => f(v) === m).length === ok.length ? null : m === null ? null : v => v != null && f(v) === m; };
+  const addRow = (label, vals, fmt, dir) => { const isBest = dir ? best(vals, dir) : null; rows.push(el('tr', {}, el('th', { scope: 'row' }, label), vals.map(v => el('td', { class: isBest && isBest(v) ? 'best' : null }, v == null ? '—' : fmt(v))))); };
+  addRow('審査（平均）', sel.map(p => avg(p.judge)), v => v.toFixed(2), 1);
+  addRow('あなたの点（当時）', sel.map(p => lastUser(p) ? lastUser(p)[0] : null), v => v + '点', 1);
+  addRow('あなたの評価（ここで）', sel.map(p => S.R.r[p.id] ?? null), v => RATE.find(x => x[0] === v)[1], 1);
+  addRow('あなたの点（ここで）', sel.map(p => S.R.s[p.id] ?? null), v => v + '点', 1);
+  MET.forEach(([k, label, dir, unit]) => addRow(label, sel.map(p => p.m ? p.m[k] : null), v => (Number.isInteger(v) ? v : v.toFixed(1)) + unit, dir));
+  const table = el('div', { class: 'tablewrap' }, el('table', {}, el('thead', {}, el('tr', {}, el('th', {}, ''), sel.map(p => el('th', { scope: 'col' }, `${p.label} ${p.title}`)))), el('tbody', {}, rows)));
+  box.replaceChildren(el('div', { class: 'cmp-top' }, el('h3', {}, `くらべる：${sel.map(p => p.label).join('・')}（${viewName(S.view)}）`), acts), view, table,
+    el('div', { class: 'row', style: 'padding:0;justify-content:space-between' }, el('span', { class: 'note' }, '◎＝その行でいちばんよい島。'), el('span', { class: 'saved' })));
+  renderSaved();
+}
+function renderGrid() {
+  const g = document.getElementById('grid');
+  g.replaceChildren(...P.filter(p => S.fam === 'all' || p.fam === S.fam).slice().reverse().map(card));
+}
+function render() { segs(); renderCompare(); renderGrid(); renderSaved(); }
+
+/* ---- 大きく見る ---- */
+const lb = document.getElementById('lb'), lbimg = document.getElementById('lbimg'), lbcap = document.getElementById('lbcap');
+let LB = { list: [], i: 0 };
+function showLB() { const it = LB.list[LB.i]; lbimg.src = it.src; lbimg.alt = it.alt; lbcap.replaceChildren(it.cap, el('span', {}, it.sub || '')); }
+function openLB(list, i) { LB = { list, i }; showLB(); if (!lb.open) lb.showModal(); }
+function openPlan(id) { const list = P.filter(p => S.fam === 'all' || p.fam === S.fam || S.sel.includes(p.id)).slice().reverse(); openLB(list.map(p => ({ src: img(p.id, S.view), alt: `${p.label}の${viewName(S.view)}`, cap: `${p.label} ${p.title}`, sub: viewName(S.view) })), Math.max(0, list.findIndex(p => p.id === id))); }
+document.getElementById('lbprev').onclick = () => { LB.i = (LB.i - 1 + LB.list.length) % LB.list.length; showLB(); };
+document.getElementById('lbnext').onclick = () => { LB.i = (LB.i + 1) % LB.list.length; showLB(); };
+document.getElementById('lbclose').onclick = () => lb.close();
+lb.addEventListener('click', e => { if (e.target === lb) lb.close(); });
+lb.addEventListener('keydown', e => { if (e.key === 'ArrowLeft') document.getElementById('lbprev').click(); if (e.key === 'ArrowRight') document.getElementById('lbnext').click(); });
+
+/* ---- 作例・ページ・図 ---- */
+const T = D.tally;
+document.getElementById('tally').replaceChildren(...RATE.map(([v, t]) => el('span', { style: `background:var(--${v === 2 ? 'r2' : v === 1 ? 'r1' : v === 0 ? 'r0' : 'rm'})` }, `${t} ${T[String(v)]}`)), el('span', { style: 'background:transparent;color:var(--ink-soft);font-weight:700;padding-left:2px' }, `ロンドン ${T['2'] + T['1'] + T['0'] + T['-1']}件・${T.saved}に保存`));
+const refList = D.refs.map(r => ({ src: `img/refs/${r.no}.jpg`, alt: `作例 ${r.no}`, cap: r.no, sub: r.note || 'めっちゃいい' }));
+document.getElementById('refgrid').replaceChildren(...D.refs.map((r, i) => el('button', { class: 'ref', type: 'button', 'aria-label': `作例 ${r.no} を大きく見る`, onclick: () => openLB(refList, i) },
+  el('img', { src: `img/refs/${r.no}.jpg`, alt: `作例 ${r.no}`, loading: 'lazy' }), el('span', {}, el('b', {}, r.no), r.note ? ' ' + r.note : ''))));
+const pageCard = (x, href, ext) => el('a', { class: 'card' + (x.star ? ' star' : ''), href, target: '_blank', rel: 'noopener' },
+  el('img', { src: `img/legacy/${x.thumb}.jpg`, alt: '', loading: 'lazy' }),
+  el('div', { class: 'bd' }, el('b', {}, x.title), el('span', { class: 'w' }, x.when), el('p', {}, x.desc), x.note ? el('span', { class: 'nt' }, x.note) : null, el('span', { class: 'go' }, ext ? '開く ↗' : 'このアーカイブで開く ↗')));
+document.getElementById('arts').replaceChildren(...D.art.map(x => pageCard(x, x.href, true)));
+document.getElementById('legacy').replaceChildren(...D.legacy.map(x => pageCard(x, x.file, false)));
+const figList = D.figs.map(([f, t]) => ({ src: `img/figs/${f}.jpg`, alt: t, cap: t, sub: f.replace('fig', '図') }));
+document.getElementById('figs').replaceChildren(...D.figs.map(([f, t], i) => el('button', { class: 'fig', type: 'button', 'aria-label': `${t}を大きく見る`, onclick: () => openLB(figList, i) }, el('img', { src: `img/figs/${f}.jpg`, alt: t, loading: 'lazy' }), el('span', {}, `${f.replace('fig', '図')} ${t}`))));
+
+render();
+if (window.claude && window.claude.use) window.claude.use('db').then(async db => {
+  if (!db) return;
+  DB = db; dbState = 'idle';
+  try {
+    const snap = await db.doc('ratings/designs').get();
+    if (snap.exists) { const d = snap.data() || {}; if ((d.t || 0) >= (S.R.t || 0)) { S.R = { r: d.r || {}, s: d.s || {}, n: d.n || {}, t: d.t || 0 }; store.set('hub-ratings', S.R); } else queueSave(); }
+    else if (S.R.t) queueSave();
+  } catch (e) { DB = null; }
+  render();
+}, () => {});
+})();
+</script>

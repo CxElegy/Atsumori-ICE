@@ -18,7 +18,10 @@ Z = json.load(open(R + 'designs/zones_plan2.json'))
 from zones import zone_cells
 chk = json.loads(subprocess.run(['python3', R + 'tools/acnh_build.py', '--json'], capture_output=True, text=True).stdout)
 if chk['errors']:
-    print('\n'.join(chk['errors'][:20])); sys.exit('acnh_build.py が NG')
+    print('\n'.join(chk['errors'][:20]))
+    if not os.environ.get('ALLOW_NG'):   # 第61回：昔の候補の記録を見るためのページだけは ALLOW_NG=1 で作れる（NG はそのまま）
+        sys.exit('acnh_build.py が NG')
+    print(f"ALLOW_NG：NG {len(chk['errors'])} 件のまま作る")
 P = chk['placements']
 os.makedirs('icons/ftr', exist_ok=True); os.makedirs('icons/houses', exist_ok=True)
 
