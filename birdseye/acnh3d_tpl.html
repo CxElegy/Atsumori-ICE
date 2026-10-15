@@ -562,13 +562,16 @@ D.P.forEach(p => { if (D.used[p.k].en !== 'storefront') return; const t = topY(p
 // そのほかの家具：ゲームの絵（アイコン）を足もとに合わせて立てる。大きさは家具のマス数から
 const iconTex = {};
 // 城壁（castle wall・2×1）：レンガのマイデザインの壁と、上の凸凹（銃眼）
-{ const cw = [], merl = [], capr = [];
+{ const cw = [], merl = [], capr = [], cwW = [], capW = [];
   D.P.forEach(p => { if (D.used[p.k].en !== 'castle wall') return; const t = topY(p.x, p.y), h = 1.15, cx = WX(p.x) + (p.w - 1) / 2, cz = WZ(p.y) + (p.d - 1) / 2, along = p.w >= p.d;
     const grey = D.used[p.k].var === 'Dark gray';   // 第60回の最終審査：石の幕壁（Dark gray）は灰色に
+    const wv = /white/i.test(D.used[p.k].var || '');   // 第62回：白い壁（Blue & white など。地中海の港の白い家並み）は白い漆喰の壁と青い縁
+    if (wv) { const blue = /blue/i.test(D.used[p.k].var); cwW.push({ p: [cx, t + h / 2, cz], s: [along ? p.w : .7, h, along ? .7 : p.d] }); capW.push({ p: [cx, t + h + .05, cz], s: [along ? p.w + .04 : .8, .1, along ? .8 : p.d + .04], c: col(blue ? '#3f6fb4' : '#e9e4d8') }); return; }
     cw.push({ p: [cx, t + h / 2, cz], s: [along ? p.w : .7, h, along ? .7 : p.d], c: grey ? col('#8c8f96') : undefined }); capr.push({ p: [cx, t + h + .04, cz], s: [along ? p.w + .04 : .8, .08, along ? .8 : p.d + .04], c: col(grey ? '#5f6168' : '#7a6a5c') });
     for (let i = 0; i < 5; i++) { const f = -.5 + (i + .5) / 5 * 2; merl.push({ p: [cx + (along ? f * p.w / 2 : 0), t + h + .19, cz + (along ? 0 : f * p.d / 2)], s: [along ? .22 : .62, .22, along ? .62 : .22], c: col(grey ? '#6e7178' : '#6a5a4e') }); } });
   const cwm = panelTex('brick_castle', null).clone(); cwm.map = cwm.map.clone(); cwm.map.needsUpdate = true; cwm.map.repeat.set(2, 1); cwm.map.wrapS = THREE.RepeatWrapping; cwm.normalMap = cwm.normalMap.clone(); cwm.normalMap.needsUpdate = true; cwm.normalMap.repeat.set(2, 1); cwm.normalMap.wrapS = THREE.RepeatWrapping; bend(cwm);
-  inst(box, cwm, cw, true); inst(box, std({ map: PB.brick.map, normalMap: PB.brick.normalMap }), merl, true); inst(box, mat('#ffffff'), capr, true); }
+  inst(box, cwm, cw, true); inst(box, std({ map: PB.brick.map, normalMap: PB.brick.normalMap }), merl, true); inst(box, mat('#ffffff'), capr, true);
+  inst(box, mat('#f3efe6'), cwW, true); inst(box, mat('#ffffff'), capW, true); }
 D.P.forEach(p => { const u = D.used[p.k]; if (FENCE[u.en] || /simple panel/.test(u.en) || u.en === 'castle wall' || u.en === 'storefront') return; const uri = ICONS[p.k]; if (!uri) return;
   if (!iconTex[p.k]) { const t = loader.load(uri, () => { dirty = true; }); t.encoding = THREE.sRGBEncoding; t.anisotropy = 4; iconTex[p.k] = bendSprite(new THREE.SpriteMaterial({ map: t, alphaTest: .45 })); }
   const [iw, ih] = ISZ[p.k] || [100, 100], fw = Math.max(p.w, p.d), cap = fw <= 1 ? 2.3 : 4.6;
