@@ -1042,7 +1042,1568 @@
   ]
  },
  "manual_zones": "",
- "kits": [],
+ "kits": [
+  {
+   "kit": "p7v2_d1_giza",
+   "at": [
+    16,
+    17
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "ピラミッドの頂",
+   "zone": "E",
+   "district": "D1"
+  },
+  {
+   "kit": "p7v2_d1_northpalms",
+   "at": [
+    17,
+    14
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "台地の北のふち",
+   "zone": "E",
+   "district": "D1"
+  },
+  {
+   "kit": "p7v2_d1_ed",
+   "at": [
+    29,
+    19
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "住民 Ed",
+   "zone": "E",
+   "district": "D1"
+  },
+  {
+   "kit": "p7v2_d1_ruinpath",
+   "at": [
+    26,
+    21
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "遺跡の小道",
+   "zone": "E",
+   "district": "D1"
+  },
+  {
+   "kit": "p7v2_d1_stairs_w",
+   "at": [
+    14,
+    26
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "大石段の西",
+   "zone": "E",
+   "district": "D1"
+  },
+  {
+   "kit": "p7v2_d1_cargo",
+   "at": [
+    20,
+    26
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "大石段の東の崖のすそ",
+   "zone": "E",
+   "district": "D1"
+  },
+  {
+   "kit": "p7v2_d1_gate_e",
+   "at": [
+    20,
+    29
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "大石段の東の門",
+   "zone": "E",
+   "district": "D1"
+  },
+  {
+   "kit": "p7v2_d1_museum",
+   "at": [
+    26,
+    28
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "エジプト考古学博物館の前庭",
+   "zone": "E",
+   "district": "D1"
+  },
+  {
+   "kit": "p7v2_d1_exhibit",
+   "at": [
+    32,
+    30
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "博物館の前の野外展示",
+   "zone": "E",
+   "district": "D1"
+  },
+  {
+   "kit": "p7v2_d1_slopefoot",
+   "at": [
+    26,
+    32
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "坂の下の道ばたとバザール通りの北の口",
+   "zone": "E",
+   "district": "D1"
+  },
+  {
+   "kit": "p7v2_d1_eastside",
+   "at": [
+    37,
+    30
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "博物館の東の道ばた",
+   "zone": "E",
+   "district": "D1"
+  },
+  {
+   "kit": "p7v2_d2_nookwall",
+   "at": [
+    26,
+    38
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "タヌキ商店の東の壁ぎわの屋台",
+   "zone": "E",
+   "district": "D2"
+  },
+  {
+   "kit": "p7v2_d2_bazaar_e",
+   "at": [
+    31,
+    37
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "バザール通りの東の店先",
+   "zone": "E",
+   "district": "D2"
+  },
+  {
+   "kit": "p7v2_d2_tea",
+   "at": [
+    31,
+    40
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "バザールの南の水辺のお茶の席",
+   "zone": "E",
+   "district": "D2"
+  },
+  {
+   "kit": "p7v2_d2_bridge_e",
+   "at": [
+    21,
+    43
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "ナイルの橋の東のたもと",
+   "zone": "E",
+   "district": "D2"
+  },
+  {
+   "kit": "p7v2_d2_bridge_w",
+   "at": [
+    16,
+    43
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "ナイルの橋の西のたもと",
+   "zone": "E",
+   "district": "D2"
+  },
+  {
+   "kit": "p7v2_d2_reeds",
+   "at": [
+    16,
+    46
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "ナイルの西岸",
+   "zone": "E",
+   "district": "D2"
+  },
+  {
+   "kit": "p7v2_d2_oasis_tea",
+   "at": [
+    25,
+    49
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "オアシスの岸のお茶の席",
+   "zone": "E",
+   "district": "D2"
+  },
+  {
+   "kit": "p7v2_d2_fishers",
+   "at": [
+    12,
+    42
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "西の河口の漁師の岸",
+   "zone": "E",
+   "district": "D2"
+  },
+  {
+   "kit": "p7v2_d2_cacti",
+   "at": [
+    13,
+    46
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "浜ぞいのユッカとサボテン",
+   "zone": "E",
+   "district": "D2"
+  },
+  {
+   "kit": "p7v2_d2_felucca",
+   "at": [
+    12,
+    50
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "入り江の船だまり",
+   "zone": "E",
+   "district": "D2"
+  },
+  {
+   "kit": "p7v2_d2_oasis_w",
+   "at": [
+    12,
+    53
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "池の西の岸のヤシとサボテン・水草の鉢",
+   "zone": "E",
+   "district": "D2"
+  },
+  {
+   "kit": "p7v2_d3_honden",
+   "at": [
+    55,
+    16
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "山の上の本殿",
+   "zone": "J",
+   "district": "D3"
+  },
+  {
+   "kit": "p7v2_d3_okunoin",
+   "at": [
+    49,
+    16
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "奥の院の石碑",
+   "zone": "J",
+   "district": "D3"
+  },
+  {
+   "kit": "p7v2_d3_temizu",
+   "at": [
+    44,
+    15
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "石段の上の授与所と手水",
+   "zone": "J",
+   "district": "D3"
+  },
+  {
+   "kit": "p7v2_d3_senbon",
+   "at": [
+    44,
+    19
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "千本鳥居",
+   "zone": "J",
+   "district": "D3"
+  },
+  {
+   "kit": "p7v2_d3_ninotorii",
+   "at": [
+    39,
+    19
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "石段の下の二の鳥居",
+   "zone": "J",
+   "district": "D3"
+  },
+  {
+   "kit": "p7v2_d3_otsuka",
+   "at": [
+    39,
+    28
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "築山のお塚",
+   "zone": "J",
+   "district": "D3"
+  },
+  {
+   "kit": "p7v2_d3_chaya",
+   "at": [
+    55,
+    20
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "池を見下ろす茶屋",
+   "zone": "J",
+   "district": "D3"
+  },
+  {
+   "kit": "p7v2_d3_sandotoro",
+   "at": [
+    51,
+    19
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "参道の献灯",
+   "zone": "J",
+   "district": "D3"
+  },
+  {
+   "kit": "p7v2_d3_ikebata",
+   "at": [
+    52,
+    23
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "池の北の岸の滝見",
+   "zone": "J",
+   "district": "D3"
+  },
+  {
+   "kit": "p7v2_d3_chisen",
+   "at": [
+    46,
+    27
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "池泉の南の岸",
+   "zone": "J",
+   "district": "D3"
+  },
+  {
+   "kit": "p7v2_d3_ootorii",
+   "at": [
+    41,
+    13
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "海の一の鳥居",
+   "zone": "J",
+   "district": "D3"
+  },
+  {
+   "kit": "p7v2_d4_azumaya",
+   "at": [
+    59,
+    43
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "中島の東屋",
+   "zone": "J",
+   "district": "D4"
+  },
+  {
+   "kit": "p7v2_d4_hashimoto",
+   "at": [
+    60,
+    36
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "太鼓橋の北のたもと",
+   "zone": "J",
+   "district": "D4"
+  },
+  {
+   "kit": "p7v2_d4_ikekishi",
+   "at": [
+    54,
+    37
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "池の北の岸の腰掛け",
+   "zone": "J",
+   "district": "D4"
+  },
+  {
+   "kit": "p7v2_d4_fujidana",
+   "at": [
+    46,
+    39
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "池の西の藤棚",
+   "zone": "J",
+   "district": "D4"
+  },
+  {
+   "kit": "p7v2_d4_soumen",
+   "at": [
+    43,
+    43
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "竹林の口の流しそうめん",
+   "zone": "J",
+   "district": "D4"
+  },
+  {
+   "kit": "p7v2_d4_mizube",
+   "at": [
+    36,
+    43
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "西の池の釣り床几",
+   "zone": "J",
+   "district": "D4"
+  },
+  {
+   "kit": "p7v2_d4_bonsai",
+   "at": [
+    45,
+    34
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "Genji の家の東の盆栽棚",
+   "zone": "J",
+   "district": "D4"
+  },
+  {
+   "kit": "p7v2_d4_karesansui",
+   "at": [
+    56,
+    33
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "築山のふもとの石庭",
+   "zone": "J",
+   "district": "D4"
+  },
+  {
+   "kit": "p7v2_d4_matsu",
+   "at": [
+    51,
+    31
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "築山の上の松",
+   "zone": "J",
+   "district": "D4"
+  },
+  {
+   "kit": "p7v2_d4_roji",
+   "at": [
+    59,
+    51
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "Maelle の家の南の露地",
+   "zone": "J",
+   "district": "D4"
+  },
+  {
+   "kit": "p7v2_d4_irie",
+   "at": [
+    55,
+    52
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "中島の入り江の雪見灯籠",
+   "zone": "J",
+   "district": "D4"
+  },
+  {
+   "kit": "p7v2_d4_takegaki",
+   "at": [
+    52,
+    44
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "2軒のあいだの竹垣",
+   "zone": "J",
+   "district": "D4"
+  },
+  {
+   "kit": "p7v2_d4_hanamichi",
+   "at": [
+    49,
+    36
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "散策路の花だまり",
+   "zone": "J",
+   "district": "D4"
+  },
+  {
+   "kit": "p7v2_d5_diner",
+   "at": [
+    80,
+    15
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "ダウンタウンのダイナー",
+   "zone": "A",
+   "district": "D5"
+  },
+  {
+   "kit": "p7v2_d5_liberty",
+   "at": [
+    76,
+    13
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "自由の女神のみやげの屋台",
+   "zone": "A",
+   "district": "D5"
+  },
+  {
+   "kit": "p7v2_d5_busstop",
+   "at": [
+    81,
+    13
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "大通りのバス停",
+   "zone": "A",
+   "district": "D5"
+  },
+  {
+   "kit": "p7v2_d5_sidebox",
+   "at": [
+    76,
+    15
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "ダイナー横の自販機コーナー",
+   "zone": "A",
+   "district": "D5"
+  },
+  {
+   "kit": "p7v2_d5_alley_bins",
+   "at": [
+    70,
+    13
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "路地のごみ置き場",
+   "zone": "A",
+   "district": "D5"
+  },
+  {
+   "kit": "p7v2_d5_alley_taxi",
+   "at": [
+    70,
+    16
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "路地のタクシー",
+   "zone": "A",
+   "district": "D5"
+  },
+  {
+   "kit": "p7v2_d5_muffy_front",
+   "at": [
+    76,
+    18
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "Muffy の家の前の歩道",
+   "zone": "A",
+   "district": "D5"
+  },
+  {
+   "kit": "p7v2_d5_corner",
+   "at": [
+    80,
+    19
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "坂の下の角の信号",
+   "zone": "A",
+   "district": "D5"
+  },
+  {
+   "kit": "p7v2_d6_yard",
+   "at": [
+    76,
+    25
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "白い柵の前庭",
+   "zone": "A",
+   "district": "D6"
+  },
+  {
+   "kit": "p7v2_d6_bbq",
+   "at": [
+    76,
+    28
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "崖のふちのバーベキュー",
+   "zone": "A",
+   "district": "D6"
+  },
+  {
+   "kit": "p7v2_d6_play",
+   "at": [
+    80,
+    22
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "坂の上の遊び場",
+   "zone": "A",
+   "district": "D6"
+  },
+  {
+   "kit": "p7v2_d6_edge",
+   "at": [
+    73,
+    22
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "台地の北のふちの歩道",
+   "zone": "A",
+   "district": "D6"
+  },
+  {
+   "kit": "p7v2_d6_deck",
+   "at": [
+    83,
+    28
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "川を見おろすポーチ",
+   "zone": "A",
+   "district": "D6"
+  },
+  {
+   "kit": "p7v2_d6_driveway",
+   "at": [
+    71,
+    28
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "家の横の車寄せ",
+   "zone": "A",
+   "district": "D6"
+  },
+  {
+   "kit": "p7v2_d6_shed",
+   "at": [
+    66,
+    25
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "家の西の物置",
+   "zone": "A",
+   "district": "D6"
+  },
+  {
+   "kit": "p7v2_d7_crypt_gate",
+   "at": [
+    91,
+    13
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "岩壁の納骨堂の門",
+   "zone": "H",
+   "district": "D7"
+  },
+  {
+   "kit": "p7v2_d7_graves_e",
+   "at": [
+    96,
+    13
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "岩壁の下の墓地（東）",
+   "zone": "H",
+   "district": "D7"
+  },
+  {
+   "kit": "p7v2_d7_fork_tower",
+   "at": [
+    96,
+    16
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "森の分かれ道の見張り塔",
+   "zone": "H",
+   "district": "D7"
+  },
+  {
+   "kit": "p7v2_d7_lantern_gate",
+   "at": [
+    87,
+    16
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "ランタンの道の入口",
+   "zone": "H",
+   "district": "D7"
+  },
+  {
+   "kit": "p7v2_d7_lantern_path",
+   "at": [
+    87,
+    19
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "ランタンの道・かぼちゃ畑・魔女の池",
+   "zone": "H",
+   "district": "D7"
+  },
+  {
+   "kit": "p7v2_d8_woodpile",
+   "at": [
+    97,
+    30
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "崖下の薪割り場",
+   "zone": "F",
+   "district": "D8"
+  },
+  {
+   "kit": "p7v2_d8_lookout",
+   "at": [
+    97,
+    33
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "崖下の海の見晴らし",
+   "zone": "F",
+   "district": "D8"
+  },
+  {
+   "kit": "p7v2_d8_parksign",
+   "at": [
+    97,
+    36
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "国立公園の入口の案内",
+   "zone": "F",
+   "district": "D8"
+  },
+  {
+   "kit": "p7v2_d8_campfire",
+   "at": [
+    94,
+    38
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "国立公園キャンプ場のたき火とテント",
+   "zone": "F",
+   "district": "D8"
+  },
+  {
+   "kit": "p7v2_d8_homegarden",
+   "at": [
+    84,
+    43
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "自宅の東わきの前庭",
+   "zone": "F",
+   "district": "D8"
+  },
+  {
+   "kit": "p7v2_d9_cafe",
+   "at": [
+    92,
+    41
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "パリの広場のカフェテラス",
+   "zone": "U",
+   "district": "D9"
+  },
+  {
+   "kit": "p7v2_d9_organ",
+   "at": [
+    98,
+    46
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "浜ぎわの辻音楽",
+   "zone": "U",
+   "district": "D9"
+  },
+  {
+   "kit": "p7v2_d9_prom",
+   "at": [
+    98,
+    50
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "浜を見る散歩道",
+   "zone": "U",
+   "district": "D9"
+  },
+  {
+   "kit": "p7v2_d9_raymond",
+   "at": [
+    84,
+    52
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "Raymond の家の玄関わき",
+   "zone": "U",
+   "district": "D9"
+  },
+  {
+   "kit": "p7v2_d9_alley",
+   "at": [
+    80,
+    49
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "自宅の南の路地の運河の席",
+   "zone": "U",
+   "district": "D9"
+  },
+  {
+   "kit": "p7v2_d9_street",
+   "at": [
+    92,
+    51
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "通りの街灯と公衆電話",
+   "zone": "U",
+   "district": "D9"
+  },
+  {
+   "kit": "p7v2_d9_mooring",
+   "at": [
+    92,
+    55
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "ヴェネツィアの船着き場",
+   "zone": "U",
+   "district": "D9"
+  },
+  {
+   "kit": "p7v2_d9_dairy",
+   "at": [
+    65,
+    55
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "風車の丘のふもとの酪農の道具",
+   "zone": "U",
+   "district": "D9"
+  },
+  {
+   "kit": "p7v2_d9_belvedere",
+   "at": [
+    65,
+    47
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "運河を見おろすテラスの席",
+   "zone": "U",
+   "district": "D9"
+  },
+  {
+   "kit": "p7v2_d9_atelier",
+   "at": [
+    72,
+    51
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "坂の下の画家の中庭",
+   "zone": "U",
+   "district": "D9"
+  },
+  {
+   "kit": "p7v2_d9_books",
+   "at": [
+    72,
+    48
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "坂の下の古本売り",
+   "zone": "U",
+   "district": "D9"
+  },
+  {
+   "kit": "p7v2_d10_windmill",
+   "at": [
+    67,
+    57
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "風車の丘",
+   "zone": "U",
+   "district": "D10"
+  },
+  {
+   "kit": "p7v2_d10_able",
+   "at": [
+    78,
+    66
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "エイブルの店先",
+   "zone": "U",
+   "district": "D10"
+  },
+  {
+   "kit": "p7v2_d10_bea",
+   "at": [
+    81,
+    66
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "Bea の家の前庭",
+   "zone": "U",
+   "district": "D10"
+  },
+  {
+   "kit": "p7v2_d10_square",
+   "at": [
+    77,
+    70
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "店の南の小さな広場",
+   "zone": "U",
+   "district": "D10"
+  },
+  {
+   "kit": "p7v2_d10_pond",
+   "at": [
+    65,
+    65
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "池の岸の散歩道",
+   "zone": "U",
+   "district": "D10"
+  },
+  {
+   "kit": "p7v2_d10_quay",
+   "at": [
+    70,
+    70
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "池の南の荷揚げ場",
+   "zone": "U",
+   "district": "D10"
+  },
+  {
+   "kit": "p7v2_d10_fish",
+   "at": [
+    88,
+    64
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "東の運河の係留所",
+   "zone": "U",
+   "district": "D10"
+  },
+  {
+   "kit": "p7v2_d10_beaside",
+   "at": [
+    86,
+    62
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "Bea の家の東の路地",
+   "zone": "U",
+   "district": "D10"
+  },
+  {
+   "kit": "p7v2_d10_walk",
+   "at": [
+    64,
+    74
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "南の運河の散歩道の釣り場",
+   "zone": "U",
+   "district": "D10"
+  },
+  {
+   "kit": "p7v2_d10_tailor",
+   "at": [
+    73,
+    67
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "エイブルの横の路地",
+   "zone": "U",
+   "district": "D10"
+  },
+  {
+   "kit": "p7v2_d11_rivermarket",
+   "at": [
+    74,
+    80
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "河口の魚市場",
+   "zone": "P",
+   "district": "D11"
+  },
+  {
+   "kit": "p7v2_d11_whiterow",
+   "at": [
+    77,
+    80
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "白い家並み（青い塔の礼拝堂）",
+   "zone": "P",
+   "district": "D11"
+  },
+  {
+   "kit": "p7v2_d11_terrace",
+   "at": [
+    83,
+    78
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "白い家のテラス",
+   "zone": "P",
+   "district": "D11"
+  },
+  {
+   "kit": "p7v2_d11_scooter",
+   "at": [
+    83,
+    80
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "路地のスクーター",
+   "zone": "P",
+   "district": "D11"
+  },
+  {
+   "kit": "p7v2_d11_netshed",
+   "at": [
+    84,
+    82
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "運河の口の船着き場",
+   "zone": "P",
+   "district": "D11"
+  },
+  {
+   "kit": "p7v2_d11_lifeguard",
+   "at": [
+    88,
+    84
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "浜の監視台",
+   "zone": "P",
+   "district": "D11"
+  },
+  {
+   "kit": "p7v2_d11_canalfish",
+   "at": [
+    90,
+    80
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "運河の釣り場",
+   "zone": "P",
+   "district": "D11"
+  },
+  {
+   "kit": "p7v2_d11_surf",
+   "at": [
+    92,
+    83
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "浜の出口のサーフボード",
+   "zone": "P",
+   "district": "D11"
+  },
+  {
+   "kit": "p7v2_d11_planters",
+   "at": [
+    96,
+    72
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "東の通りの白い植えこみ",
+   "zone": "P",
+   "district": "D11"
+  },
+  {
+   "kit": "p7v2_d11_drinkstand",
+   "at": [
+    95,
+    77
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "ビーチクラブのドリンクスタンド",
+   "zone": "P",
+   "district": "D11"
+  },
+  {
+   "kit": "p7v2_d11_parasol",
+   "at": [
+    98,
+    75
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "パラソルのデッキ",
+   "zone": "P",
+   "district": "D11"
+  },
+  {
+   "kit": "p7v2_d11_lighthouse",
+   "at": [
+    97,
+    79
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "桟橋への道の先の灯台",
+   "zone": "P",
+   "district": "D11"
+  },
+  {
+   "kit": "p7v2_d12_westminster",
+   "at": [
+    19,
+    56
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "ウェストミンスター宮殿の高台（ビッグ・ベン）",
+   "zone": "C",
+   "district": "D12"
+  },
+  {
+   "kit": "p7v2_d12_tube",
+   "at": [
+    23,
+    61
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "石段の下のウェストミンスター駅",
+   "zone": "C",
+   "district": "D12"
+  },
+  {
+   "kit": "p7v2_d12_stair_cart",
+   "at": [
+    19,
+    61
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "石段のわきの花の荷車",
+   "zone": "C",
+   "district": "D12"
+  },
+  {
+   "kit": "p7v2_d12_trafalgar",
+   "at": [
+    19,
+    65
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "トラファルガー広場の勝利の像",
+   "zone": "C",
+   "district": "D12"
+  },
+  {
+   "kit": "p7v2_d12_mall",
+   "at": [
+    14,
+    66
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "ザ・マルの旗の角",
+   "zone": "C",
+   "district": "D12"
+  },
+  {
+   "kit": "p7v2_d12_corner_fountain",
+   "at": [
+    13,
+    62
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "ハイドパーク・コーナーの噴水",
+   "zone": "C",
+   "district": "D12"
+  },
+  {
+   "kit": "p7v2_d12_pillarbox",
+   "at": [
+    23,
+    68
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "広場の西の口の円柱ポスト",
+   "zone": "C",
+   "district": "D12"
+  },
+  {
+   "kit": "p7v2_d12_embankment",
+   "at": [
+    29,
+    72
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "テムズの岸のエンバンクメント",
+   "zone": "C",
+   "district": "D12"
+  },
+  {
+   "kit": "p7v2_d12_east_walk",
+   "at": [
+    37,
+    64
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "広場の東の散歩道",
+   "zone": "C",
+   "district": "D12"
+  },
+  {
+   "kit": "p7v2_d12_backalley",
+   "at": [
+    15,
+    68
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "レンガの建物のあいだの裏路地",
+   "zone": "C",
+   "district": "D12"
+  },
+  {
+   "kit": "p7v2_d12_park_bench",
+   "at": [
+    14,
+    78
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "ハイドパークのベンチ",
+   "zone": "C",
+   "district": "D12"
+  },
+  {
+   "kit": "p7v2_d12_birdbath",
+   "at": [
+    14,
+    80
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "ハイドパークの小鳥の水場",
+   "zone": "C",
+   "district": "D12"
+  },
+  {
+   "kit": "p7v2_d13_redcorner",
+   "at": [
+    38,
+    76
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "ロンドン街道の橋のたもとの赤い角",
+   "zone": "C",
+   "district": "D13"
+  },
+  {
+   "kit": "p7v2_d13_bus",
+   "at": [
+    38,
+    79
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "赤い2階建てバス",
+   "zone": "C",
+   "district": "D13"
+  },
+  {
+   "kit": "p7v2_d13_canalcafe",
+   "at": [
+    54,
+    75
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "運河の岸のカフェテラス",
+   "zone": "C",
+   "district": "D13"
+  },
+  {
+   "kit": "p7v2_d13_pub",
+   "at": [
+    49,
+    72
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "レンガの建物のすそのパブ",
+   "zone": "C",
+   "district": "D13"
+  },
+  {
+   "kit": "p7v2_d13_alley_market",
+   "at": [
+    54,
+    64
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "レンガの路地の市",
+   "zone": "C",
+   "district": "D13"
+  },
+  {
+   "kit": "p7v2_d13_deena_garden",
+   "at": [
+    42,
+    71
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "ディーナの家の前庭",
+   "zone": "C",
+   "district": "D13"
+  },
+  {
+   "kit": "p7v2_d13_deena_yard",
+   "at": [
+    46,
+    67
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "ディーナの家のわきの裏庭",
+   "zone": "C",
+   "district": "D13"
+  },
+  {
+   "kit": "p7v2_d13_arrival",
+   "at": [
+    40,
+    81
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "ロンドン街道の入口のバス停",
+   "zone": "C",
+   "district": "D13"
+  },
+  {
+   "kit": "p7v2_d13_fishchips",
+   "at": [
+    52,
+    82
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "浜ぞいのフィッシュ＆チップスの屋台",
+   "zone": "C",
+   "district": "D13"
+  },
+  {
+   "kit": "p7v2_d13_bridgefoot",
+   "at": [
+    58,
+    80
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "東の橋のたもと",
+   "zone": "C",
+   "district": "D13"
+  },
+  {
+   "kit": "p7v2_d14_wall_w",
+   "at": [
+    16,
+    82
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "9¾番線の駅舎の西の城壁",
+   "zone": "C",
+   "district": "D14"
+  },
+  {
+   "kit": "p7v2_d14_gate",
+   "at": [
+    19,
+    82
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "9¾番線の城門とホグワーツ特急",
+   "zone": "C",
+   "district": "D14"
+  },
+  {
+   "kit": "p7v2_d14_clock",
+   "at": [
+    25,
+    82
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "9¾番線の駅の時計",
+   "zone": "C",
+   "district": "D14"
+  },
+  {
+   "kit": "p7v2_d14_wall_e",
+   "at": [
+    27,
+    82
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "9¾番線の駅舎の東の城壁",
+   "zone": "C",
+   "district": "D14"
+  }
+ ],
  "groves": {
   "C": [
    0,
