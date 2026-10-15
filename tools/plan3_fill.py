@@ -354,6 +354,8 @@ for y in range(1, H - 1):
         z = Z[y][x]
         if z not in CAP or g(x, y) not in '13p' or (x, y) in occ_b or (x, y) in slope or (x, y) in front or (x, y) in occ or (x, y) in trees:
             continue
+        if SPEC.get('roof_visible') and (lv(x, y + 1) > lv(x, y) or lv(x, y + 2) > lv(x, y) and lv(x, y + 1) == lv(x, y) and (x, y + 1) not in road):
+            continue   # 第62回（案7・規則の審査）：すぐ南が高い段のマス（崖にかこまれた穴など）のパネルはカメラから見えない
         for rot, (dx, dy) in enumerate(DIRS):
             a, b_ = x + dx, y + dy
             if rot == 2:
@@ -458,6 +460,8 @@ for it in SPEC.get('landmarks', []):
 if marks:
     groups.append({'id': 'C-landmarks', 'zone': 'C', 'name': '町の目じるし（段の上の塔）', 'at': [0, 0], 'items': marks, 'lines': []})
 roofs, roofp = [], []
+rground = set()
+RV = SPEC.get('roof_visible')   # 第62回（案7）：屋根の上はカメラから見える物だけ・一本だけの柵なし・はしごで下りるマス
 if SPEC.get('base') == 'authored':
     seen = set()
     for y0 in range(H):
@@ -494,27 +498,61 @@ if SPEC.get('base') == 'authored':
                 rk = 'slate'   # 第58回：中のない細いかたまりを生け垣でふちどると、緑の箱になる
             stacks = set(interior[2::9]) if rk in ('slate', 'slate_dark', 'red') else set()   # 煙突（レンガのカベ1本）
             units = set(interior[6::13]) - stacks if rk in ('slate', 'slate_dark') else set()   # 室外機
+            plain = set()
+            if RV:   # 第62回（案7・規則の審査）：屋根のかたまりごとに、はしごで上り下りできるふちのマスを1つ残す（下のマスも空ける）
+                cx_ = sum(x for x, _ in comp) / n_
+                for x, y in sorted(comp, key=lambda p: (-p[1], abs(p[0] - cx_))):
+                    nb = [(x + dx, y + dy) for dx, dy in DIRS if lv(x + dx, y + dy) == lv(x, y) - 1 and g(x + dx, y + dy) in '13p' and ((x + dx, y + dy) not in occ or (x + dx, y + dy) in rground) and (x + dx, y + dy) not in trees and (x + dx, y + dy) not in slope]
+                    if nb and (x, y) not in occ and (x, y) not in trees:
+                        plain.add((x, y)); occ.add(nb[0]); break
+                else:   # 下のマスがみなうまっているときは、崖のすその1マスのパネルを1枚はずす
+                    pan = {(it[1], it[2]): it for it in panel_groups if it[0] == 'simple panel'}
+                    for x, y in sorted(comp, key=lambda p: (-p[1], abs(p[0] - cx_))):
+                        nb = [(x + dx, y + dy) for dx, dy in DIRS if lv(x + dx, y + dy) == lv(x, y) - 1 and (x + dx, y + dy) in pan]
+                        if nb and (x, y) not in occ and (x, y) not in trees:
+                            panel_groups.remove(pan[nb[0]]); plain.add((x, y)); break
+                    else:
+                        print('屋根から下りるマスがない（このかたまりは草のまま）', min(comp))
+                        continue
+                walls_ = set()   # 城壁を先に決めて、そのすぐ北（2列）に花を植えない
+                for x, y in sorted(comp):
+                    if rk == 'fort' and (x, y) not in plain and (x, y) not in occ and lv(x, y + 1) < lv(x, y) and (x + 1, y) in cs and (x + 1, y) not in occ and lv(x + 1, y + 1) < lv(x + 1, y) and (x, y) not in walls_:
+                        walls_ |= {(x, y), (x + 1, y)}
             for x, y in sorted(comp):
                 if (x, y) in occ or (x, y) in trees or (x, y) in slope:
                     continue
                 low = [(dx, dy) for dx, dy in DIRS if lv(x + dx, y + dy) < lv(x, y)]
-                if rk == 'fort' and (0, 1) in low and not (CAMERA and any((a, y + k) in bld_cells for a in (x, x + 1) for k in (1, 2))):   # 第58回：城壁はカメラに向く南のふちだけ（背中あわせの2列にしない）。第60回：家の真うしろ（見えない）は庭に
+                hid = RV and (any(lv(x, y + k) > lv(x, y) for k in (1, 2)) or any((x, y + k) in walls_ for k in (1, 2)))   # カメラから見えないマス
+                if (x, y) in plain or RV and hid and (x, y) not in walls_:
+                    pass
+                elif rk == 'fort' and (0, 1) in low and not (CAMERA and any((a, y + k) in bld_cells for a in (x, x + 1) for k in (1, 2))):   # 第58回：城壁はカメラに向く南のふちだけ（背中あわせの2列にしない）。第60回：家の真うしろ（見えない）は庭に
                     x2, y2 = x + 1, y
                     if (x2, y2) in cs and (x2, y2) not in occ and (x2, y2) not in trees and lv(x2, y2 + 1) < lv(x2, y2):
                         roofs.append(['castle wall', x, y, 0, 'Brown', 'wall_windows_bricks']); occ |= {(x, y), (x2, y2)}
-                    else:
+                        continue
+                    elif not RV:   # 案7：一本だけの柵は置かない（屋根のマイデザインに）
                         roofs.append(['brick fence', x, y, 0, None]); occ.add((x, y))
+                        continue
                 elif low and rk == 'garden':
                     roofs.append(['hedge', x, y, 0, None]); occ.add((x, y))
+                    continue
                 elif rk == 'garden' or rk == 'fort' and (SPEC.get('fort_garden') or noise(x * .5 + 3, y * .5) <= -.1):   # 屋上の庭（第60回：fort_garden で城壁の屋根の中はぜんぶ庭）
                     roofp.append({'id': 'C-roofgarden', 'type': ['roses', 'tulips', 'roses', 'lilies'][(x * 3 + y) % 4], 'rect': [x, y, x, y], 'colors': ['red', 'white', 'pink'] if (mx + my) % 2 else ['white', 'yellow', 'orange'], 'fit': True}); occ.add((x, y))
-                elif (x, y) in stacks:
+                    continue
+                elif (x, y) in stacks and not RV:
                     roofs.append(['brick fence', x, y, 0, None]); occ.add((x, y))
+                    continue
                 elif (x, y) in units:
                     roofs.append(['outdoor air conditioner', x, y, 0, None]); occ.add((x, y))
-                else:   # 屋根のマイデザイン（はしごで上がって敷く）
-                    st = {'fort': ZM.get(Z[y0][x0], {}).get('fort_roof', 'roof'), 'slate': 'roof', 'slate_dark': 'roof_slate', 'red': 'roof_red', 'sand': 'roof_sand', 'white': 'roof_white', 'terra': 'roof_terra'}[rk]
-                    ground.append({'id': 'C-roof', 'style': st, 'rect': [x, y, x, y], 'design': {'roof': 'brick_grey', 'roof_slate': 'road_chic_stone', 'roof_red': 'brick_natural', 'roof_sand': 'brick_city_old', 'roof_white': 'brick_greige', 'roof_terra': 'brick_vintage_red'}[st], 'skip': []}); occ.add((x, y))
+                    continue
+                if True:   # 屋根のマイデザイン（はしごで上がって敷く）
+                    rk_ = 'fort' if rk == 'garden' else rk
+                    st = {'fort': ZM.get(Z[y0][x0], {}).get('fort_roof', 'roof'), 'slate': 'roof', 'slate_dark': 'roof_slate', 'red': 'roof_red', 'sand': 'roof_sand', 'white': 'roof_white', 'terra': 'roof_terra'}[rk_]
+                    ground.append({'id': 'C-roof', 'style': st, 'rect': [x, y, x, y], 'design': {'roof': 'brick_grey', 'roof_slate': 'road_chic_stone', 'roof_red': 'brick_natural', 'roof_sand': 'brick_city_old', 'roof_white': 'brick_greige', 'roof_terra': 'brick_vintage_red'}[st], 'skip': []}); occ.add((x, y)); rground.add((x, y))
+    if RV:   # 案7：屋根の上の一本だけの生け垣もやめる（屋根のマイデザインのまま）
+        hc_ = {(r[1], r[2]) for r in roofs if r[0] == 'hedge'}
+        for r in [r for r in roofs if r[0] == 'hedge' and not any((r[1] + dx, r[2] + dy) in hc_ for dx, dy in DIRS)]:
+            roofs.remove(r)
     if roofs:
         groups.append({'id': 'C-roofs', 'zone': 'C', 'name': 'レンガのかたまりの上：ふちの城壁（castle wall）と屋上の庭', 'at': [0, 0], 'items': roofs, 'lines': []})
     plants.extend(roofp)
@@ -550,6 +588,10 @@ for b in LAY['buildings']:
         if inside(x, y) and g(x, y) in '13' and (x, y) not in road and (x, y) not in slope and (x, y) not in front and (x, y) not in occ and (x, y) not in trees and lv(x, y) == lv(x0, y0) \
                 and (not CAMERA or cam_ok(x, y)):   # 第60回：家の真うしろ（カメラから見えない）には柵・生け垣を立てない
             fences.append([FENCE[z], x, y, 0, 'White' if FENCE[z] == 'lattice fence' else None]); occ.add((x, y))
+if RV:   # 案7：家のまわりの柵も、一本だけのものはやめる
+    fc_ = {(f[1], f[2]) for f in fences}
+    for f in [f for f in fences if not any((f[1] + dx, f[2] + dy) in fc_ for dx, dy in DIRS)]:
+        fences.remove(f); occ.discard((f[1], f[2]))
 if fences:
     groups.append({'id': 'S-fences', 'zone': 'S', 'name': '家のまわりの柵と生け垣（地区ごとの柵）', 'at': [0, 0], 'items': fences, 'lines': []})
 
@@ -562,7 +604,8 @@ STREET2 = [('garden wagon', 'Dark brown'), ('cruiser bike', 'Green'), ('flower b
 STREET2 = [tuple(v) for v in SPEC['street_props2']] if 'street_props2' in SPEC else STREET2
 props, street = set(), []
 def cand(x, y):
-    return Z[y][x] in URBAN and g(x, y) in '13' and (x, y) not in occ and (x, y) not in occ_b and (x, y) not in road and (x, y) not in slope and (x, y) not in front and (x, y) not in trees and cam_ok(x, y)
+    return Z[y][x] in URBAN and g(x, y) in '13' and (x, y) not in occ and (x, y) not in occ_b and (x, y) not in road and (x, y) not in slope and (x, y) not in front and (x, y) not in trees and cam_ok(x, y) \
+        and not (RV and (lv(x, y + 1) > lv(x, y) or lv(x, y + 2) > lv(x, y) and lv(x, y + 1) == lv(x, y) and (x, y + 1) not in road))   # 案7：崖のすぐ北（見えない）には通りの小物を置かない
 cells = [(x, y) for y in range(1, H - 1) for x in range(1, W - 1) if cand(x, y) and any((x + dx, y + dy) in road for dx, dy in N4)]
 cells.sort(key=lambda p: (hash((p[0] * 31 + p[1] * 17) % 9973) % 1000))
 k1 = k2 = 0
@@ -644,7 +687,7 @@ fields = [(rng.choice(['cosmos', 'tulips', 'lilies', 'hyacinths', 'windflowers']
 k = 0
 for y in range(H):
     for x in range(W):
-        if Z[y][x] in FIELDZ and free(x, y, lv(x, y)) and (x, y) not in trees and (x, y) not in bush and noise(x * .8 + 50, y * .8) > .18:
+        if Z[y][x] in FIELDZ and free(x, y, lv(x, y)) and (x, y) not in trees and (x, y) not in bush and noise(x * .8 + 50, y * .8) > .18 and not (RV and any(lv(x, y + k_) > lv(x, y) for k_ in (1, 2))):   # 案7：高いかたまりのすぐ北の畑は見えない
             t, cs = fields[(x // 9 + y // 7) % len(fields)]
             if CAMERA:   # 第60回の最終審査：ゲームにない色（青・紫のユリなど）を植えない
                 cs = [c for c in cs if c in P2['rules'].get('plants', {}).get(t, {}).get('colors', cs)] or ['white']

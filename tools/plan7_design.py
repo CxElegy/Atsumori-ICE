@@ -468,7 +468,7 @@ spec = {
     'urban': 'CAUPE',
     'panel_cap': 6, 'panel_alt': 'storefront', 'panels_face_south': True, 'panels_off_road': True,
     'roof_kinds': {'2': ['red', 'slate', 'fort', 'red', 'slate_dark', 'garden'], '3': ['fort', 'red', 'fort', 'slate']},
-    'prune_streets': True, 'trees_off_roads': True, 'beach_walk': True,
+    'prune_streets': True, 'trees_off_roads': True, 'beach_walk': True, 'roof_visible': True,
     'axis_paving': {'style': 'brick', 'rects': [[34, 76, 35, 82]]},   # ロンドン街道はレンガの道（v4：レンガ道・街灯・電話ボックス）
     'manual_zones': '',
     'kits': [{k: v for k, v in p.items() if k in ('kit', 'at', 'zone', 'on_road', 'flip', 'name', 'style', 'district')} for p in KP.get('placements', [])],
@@ -496,7 +496,7 @@ spec = {
                       '地区（エジプト・日本・アメリカの都市・ハロウィン・森林・ヨーロッパ・地中海の港・ロンドン）、西の河口から南の河口への水系、施設と住民10軒の場所は v4 のまま。'
                       'v4 の道を1段目の通りにし、町の地区は通りのあいだを2・3段目の建物のかたまり（崖のすその壁のパネル・茶色のレンガや灰色の屋根・胸壁）にした（v1 は平らすぎて4点）。'
                       '目じるしは、エジプトの台地のピラミッド（3段目・南の大石段・スフィンクス）、日本の山の上の五重塔と千本鳥居、ロンドンの時計台の高台、ヨーロッパの風車の丘、港の灯台。'
-                      '橋は v4 のナイルの橋・朱の太鼓橋と、テムズ川の鉄の橋・南の運河の橋。坂10本。見せ場130、置く物は約850（目録の本物の家具とマイデザインだけ）。'},
+                      '橋は v4 のナイルの橋・朱の太鼓橋と、テムズ川の鉄の橋・南の運河の橋。坂10本。見せ場130、置く物は約800（目録の本物の家具とマイデザインだけ）。'},
 }
 json.dump(spec, open(os.path.join(ROOT, f'designs/plan{PID}_spec.json'), 'w'), ensure_ascii=False, indent=1)
 _bp = os.path.join(ROOT, f'designs/build_plan{PID}.json')
