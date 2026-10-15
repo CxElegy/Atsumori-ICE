@@ -1583,11 +1583,29 @@
     [
      "simple panel",
      18,
-     57,
+     56,
      1,
      "Brown",
      "wall_windows_bricks",
      "window"
+    ],
+    [
+     "simple panel",
+     30,
+     56,
+     3,
+     "Brown",
+     "wall_windows_bricks",
+     "window"
+    ],
+    [
+     "simple panel",
+     18,
+     57,
+     1,
+     "Brown",
+     "wall_brick_lamp",
+     "lamp"
     ],
     [
      "simple panel",
@@ -1605,7 +1623,7 @@
      1,
      "Brown",
      "wall_brick_lamp",
-     "lamp"
+     "door"
     ],
     [
      "simple panel",
@@ -1623,7 +1641,7 @@
      0,
      "Brown",
      "wall_brick_lamp",
-     "door"
+     "lamp"
     ],
     [
      "simple panel",
@@ -1640,8 +1658,8 @@
      61,
      0,
      "Brown",
-     "wall_brick_lamp",
-     "lamp"
+     "wall_windows_bricks",
+     "window"
     ]
    ],
    "lines": [],
@@ -2076,41 +2094,6 @@
     ],
     [
      "stone fence",
-     24,
-     15,
-     0,
-     null
-    ],
-    [
-     "stone fence",
-     24,
-     16,
-     0,
-     null
-    ],
-    [
-     "stone fence",
-     24,
-     17,
-     0,
-     null
-    ],
-    [
-     "stone fence",
-     24,
-     18,
-     0,
-     null
-    ],
-    [
-     "stone fence",
-     24,
-     19,
-     0,
-     null
-    ],
-    [
-     "stone fence",
      29,
      14,
      0,
@@ -2274,6 +2257,13 @@
      "country fence",
      76,
      18,
+     0,
+     null
+    ],
+    [
+     "iron-and-stone fence",
+     85,
+     48,
      0,
      null
     ],
@@ -2998,6 +2988,34 @@
    "design": "brick_city_old",
    "skip": [
     [
+     15,
+     28
+    ],
+    [
+     16,
+     28
+    ],
+    [
+     17,
+     28
+    ],
+    [
+     20,
+     28
+    ],
+    [
+     21,
+     28
+    ],
+    [
+     22,
+     28
+    ],
+    [
+     23,
+     28
+    ],
+    [
      24,
      28
     ],
@@ -3027,47 +3045,47 @@
    "design": "brick_city_old",
    "skip": [
     [
-     25,
+     24,
      20
     ],
     [
-     25,
-     21
-    ],
-    [
-     26,
+     24,
      21
     ],
     [
      25,
+     21
+    ],
+    [
+     24,
      22
     ],
     [
-     26,
+     25,
      22
     ],
     [
      28,
      22
+    ],
+    [
+     24,
+     23
     ],
     [
      25,
      23
     ],
     [
-     26,
-     23
-    ],
-    [
      28,
      23
     ],
     [
-     25,
+     24,
      24
     ],
     [
-     26,
+     25,
      24
     ],
     [
@@ -3075,11 +3093,11 @@
      24
     ],
     [
-     25,
+     24,
      25
     ],
     [
-     26,
+     25,
      25
     ],
     [
@@ -3087,11 +3105,11 @@
      25
     ],
     [
-     25,
+     24,
      26
     ],
     [
-     26,
+     25,
      26
     ],
     [
@@ -3099,11 +3117,11 @@
      26
     ],
     [
-     25,
+     24,
      27
     ],
     [
-     26,
+     25,
      27
     ],
     [
@@ -5783,6 +5801,10 @@
     [
      86,
      45
+    ],
+    [
+     84,
+     46
     ],
     [
      85,
@@ -10110,7 +10132,7 @@
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
    "rect": [
     65,
     50,
@@ -10118,14 +10140,15 @@
     50
    ],
    "colors": [
-    "pink",
+    "red",
+    "yellow",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
    "rect": [
     65,
     51,
@@ -10133,29 +10156,15 @@
     51
    ],
    "colors": [
-    "pink",
+    "red",
+    "yellow",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    67,
-    52,
-    67,
-    52
-   ],
-   "colors": [
-    "pink",
-    "white"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
    "rect": [
     66,
     53,
@@ -10163,14 +10172,31 @@
     53
    ],
    "colors": [
-    "pink",
+    "red",
+    "yellow",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
+   "rect": [
+    68,
+    53,
+    68,
+    53
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
    "rect": [
     89,
     53,
@@ -10178,14 +10204,63 @@
     53
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "red",
+    "yellow",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
+   "rect": [
+    65,
+    54,
+    65,
+    54
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    67,
+    54,
+    67,
+    54
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    69,
+    54,
+    69,
+    54
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
    "rect": [
     64,
     55,
@@ -10193,14 +10268,15 @@
     55
    ],
    "colors": [
-    "pink",
+    "red",
+    "yellow",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
    "rect": [
     65,
     55,
@@ -10208,14 +10284,31 @@
     55
    ],
    "colors": [
-    "pink",
+    "red",
+    "yellow",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
+   "rect": [
+    66,
+    55,
+    66,
+    55
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
    "rect": [
     68,
     55,
@@ -10223,14 +10316,15 @@
     55
    ],
    "colors": [
-    "pink",
+    "red",
+    "yellow",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
    "rect": [
     69,
     55,
@@ -10238,14 +10332,15 @@
     55
    ],
    "colors": [
-    "pink",
+    "red",
+    "yellow",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
    "rect": [
     71,
     55,
@@ -10253,6 +10348,22 @@
     55
    ],
    "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "lilies",
+   "rect": [
+    72,
+    55,
+    72,
+    55
+   ],
+   "colors": [
     "pink",
     "white"
    ],
@@ -10260,7 +10371,7 @@
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
    "rect": [
     83,
     55,
@@ -10268,14 +10379,15 @@
     55
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "red",
+    "yellow",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
    "rect": [
     84,
     55,
@@ -10283,29 +10395,15 @@
     55
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "red",
+    "yellow",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    85,
-    55,
-    85,
-    55
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "windflowers",
+   "type": "hyacinths",
    "rect": [
     99,
     55,
@@ -10313,28 +10411,29 @@
     55
    ],
    "colors": [
-    "orange"
+    "orange",
+    "yellow"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "tulips",
+   "type": "lilies",
    "rect": [
-    66,
+    65,
     56,
-    66,
+    65,
     56
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "pink",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "tulips",
+   "type": "lilies",
    "rect": [
     67,
     56,
@@ -10342,14 +10441,14 @@
     56
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "pink",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "tulips",
+   "type": "lilies",
    "rect": [
     68,
     56,
@@ -10357,14 +10456,14 @@
     56
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "pink",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "tulips",
+   "type": "lilies",
    "rect": [
     69,
     56,
@@ -10372,104 +10471,167 @@
     56
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "pink",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "lilies",
+   "rect": [
+    71,
+    56,
+    71,
+    56
+   ],
+   "colors": [
+    "pink",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
    "rect": [
     72,
     56,
     72,
-    56
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "tulips",
-   "rect": [
-    82,
-    56,
-    82,
-    56
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "tulips",
-   "rect": [
-    83,
-    56,
-    83,
-    56
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "tulips",
-   "rect": [
-    84,
-    56,
-    84,
-    56
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "tulips",
-   "rect": [
-    85,
-    56,
-    85,
-    56
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "windflowers",
-   "rect": [
-    99,
-    56,
-    99,
     56
    ],
    "colors": [
     "red",
+    "yellow",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "tulips",
+   "type": "hyacinths",
+   "rect": [
+    73,
+    56,
+    73,
+    56
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    82,
+    56,
+    82,
+    56
+   ],
+   "colors": [
+    "pink",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    83,
+    56,
+    83,
+    56
+   ],
+   "colors": [
+    "pink",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    84,
+    56,
+    84,
+    56
+   ],
+   "colors": [
+    "pink",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    85,
+    56,
+    85,
+    56
+   ],
+   "colors": [
+    "pink",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "lilies",
+   "rect": [
+    99,
+    56,
+    99,
+    56
+   ],
+   "colors": [
+    "orange",
+    "yellow"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    62,
+    57,
+    62,
+    57
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "lilies",
+   "rect": [
+    66,
+    57,
+    66,
+    57
+   ],
+   "colors": [
+    "pink",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "lilies",
    "rect": [
     71,
     57,
@@ -10477,14 +10639,14 @@
     57
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "pink",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
    "rect": [
     72,
     57,
@@ -10492,14 +10654,15 @@
     57
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "red",
+    "yellow",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
    "rect": [
     73,
     57,
@@ -10507,14 +10670,15 @@
     57
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "red",
+    "yellow",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
    "rect": [
     74,
     57,
@@ -10522,14 +10686,15 @@
     57
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "red",
+    "yellow",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "tulips",
+   "type": "hyacinths",
    "rect": [
     83,
     57,
@@ -10537,14 +10702,14 @@
     57
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "pink",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "tulips",
+   "type": "hyacinths",
    "rect": [
     84,
     57,
@@ -10552,14 +10717,14 @@
     57
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "pink",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "tulips",
+   "type": "hyacinths",
    "rect": [
     85,
     57,
@@ -10567,6 +10732,21 @@
     57
    ],
    "colors": [
+    "pink",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    93,
+    57,
+    93,
+    57
+   ],
+   "colors": [
     "orange",
     "yellow"
    ],
@@ -10574,7 +10754,7 @@
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "hyacinths",
    "rect": [
     94,
     57,
@@ -10582,13 +10762,14 @@
     57
    ],
    "colors": [
-    "orange"
+    "orange",
+    "yellow"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "hyacinths",
    "rect": [
     95,
     57,
@@ -10596,13 +10777,14 @@
     57
    ],
    "colors": [
-    "orange"
+    "orange",
+    "yellow"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "hyacinths",
    "rect": [
     97,
     57,
@@ -10610,13 +10792,14 @@
     57
    ],
    "colors": [
-    "orange"
+    "orange",
+    "yellow"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "hyacinths",
    "rect": [
     98,
     57,
@@ -10624,13 +10807,14 @@
     57
    ],
    "colors": [
-    "orange"
+    "orange",
+    "yellow"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "tulips",
+   "type": "lilies",
    "rect": [
     65,
     58,
@@ -10638,14 +10822,14 @@
     58
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "pink",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "tulips",
+   "type": "lilies",
    "rect": [
     71,
     58,
@@ -10653,14 +10837,14 @@
     58
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "pink",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
    "rect": [
     72,
     58,
@@ -10668,14 +10852,15 @@
     58
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "red",
+    "yellow",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
    "rect": [
     73,
     58,
@@ -10683,14 +10868,15 @@
     58
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "red",
+    "yellow",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
    "rect": [
     74,
     58,
@@ -10698,14 +10884,15 @@
     58
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "red",
+    "yellow",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
    "rect": [
     75,
     58,
@@ -10713,14 +10900,47 @@
     58
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "red",
+    "yellow",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
+   "rect": [
+    76,
+    58,
+    76,
+    58
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    77,
+    58,
+    77,
+    58
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
    "rect": [
     78,
     58,
@@ -10728,14 +10948,46 @@
     58
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "red",
+    "yellow",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "tulips",
+   "type": "hyacinths",
+   "rect": [
+    79,
+    58,
+    79,
+    58
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    81,
+    58,
+    81,
+    58
+   ],
+   "colors": [
+    "pink",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
    "rect": [
     82,
     58,
@@ -10743,14 +10995,14 @@
     58
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "pink",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "tulips",
+   "type": "hyacinths",
    "rect": [
     83,
     58,
@@ -10758,14 +11010,14 @@
     58
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "pink",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "tulips",
+   "type": "hyacinths",
    "rect": [
     84,
     58,
@@ -10773,14 +11025,14 @@
     58
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "pink",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "tulips",
+   "type": "hyacinths",
    "rect": [
     85,
     58,
@@ -10788,14 +11040,29 @@
     58
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "pink",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "hyacinths",
+   "rect": [
+    86,
+    58,
+    86,
+    58
+   ],
+   "colors": [
+    "pink",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
    "rect": [
     93,
     58,
@@ -10803,13 +11070,14 @@
     58
    ],
    "colors": [
-    "orange"
+    "orange",
+    "yellow"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "hyacinths",
    "rect": [
     94,
     58,
@@ -10817,13 +11085,14 @@
     58
    ],
    "colors": [
-    "orange"
+    "orange",
+    "yellow"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "hyacinths",
    "rect": [
     95,
     58,
@@ -10831,13 +11100,14 @@
     58
    ],
    "colors": [
-    "orange"
+    "orange",
+    "yellow"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "hyacinths",
    "rect": [
     96,
     58,
@@ -10845,13 +11115,14 @@
     58
    ],
    "colors": [
-    "orange"
+    "orange",
+    "yellow"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "hyacinths",
    "rect": [
     97,
     58,
@@ -10859,13 +11130,14 @@
     58
    ],
    "colors": [
-    "orange"
+    "orange",
+    "yellow"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "hyacinths",
    "rect": [
     98,
     58,
@@ -10873,20 +11145,6 @@
     58
    ],
    "colors": [
-    "orange"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "tulips",
-   "rect": [
-    63,
-    59,
-    63,
-    59
-   ],
-   "colors": [
     "orange",
     "yellow"
    ],
@@ -10894,7 +11152,7 @@
   },
   {
    "id": "S-fields",
-   "type": "tulips",
+   "type": "lilies",
    "rect": [
     71,
     59,
@@ -10902,14 +11160,14 @@
     59
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "pink",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
    "rect": [
     72,
     59,
@@ -10917,29 +11175,15 @@
     59
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "red",
+    "yellow",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    73,
-    59,
-    73,
-    59
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
    "rect": [
     74,
     59,
@@ -10947,14 +11191,31 @@
     59
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "red",
+    "yellow",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
+   "rect": [
+    75,
+    59,
+    75,
+    59
+   ],
+   "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
    "rect": [
     76,
     59,
@@ -10962,14 +11223,15 @@
     59
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "red",
+    "yellow",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
    "rect": [
     77,
     59,
@@ -10977,14 +11239,15 @@
     59
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "red",
+    "yellow",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
    "rect": [
     78,
     59,
@@ -10992,14 +11255,15 @@
     59
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "red",
+    "yellow",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
    "rect": [
     79,
     59,
@@ -11007,14 +11271,15 @@
     59
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "red",
+    "yellow",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "tulips",
+   "type": "hyacinths",
    "rect": [
     86,
     59,
@@ -11022,14 +11287,14 @@
     59
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "pink",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "tulips",
+   "type": "hyacinths",
    "rect": [
     87,
     59,
@@ -11037,14 +11302,14 @@
     59
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "pink",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "hyacinths",
    "rect": [
     93,
     59,
@@ -11052,13 +11317,14 @@
     59
    ],
    "colors": [
-    "orange"
+    "orange",
+    "yellow"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "hyacinths",
    "rect": [
     94,
     59,
@@ -11066,13 +11332,14 @@
     59
    ],
    "colors": [
-    "orange"
+    "orange",
+    "yellow"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "hyacinths",
    "rect": [
     95,
     59,
@@ -11080,13 +11347,29 @@
     59
    ],
    "colors": [
-    "orange"
+    "orange",
+    "yellow"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "hyacinths",
+   "rect": [
+    96,
+    59,
+    96,
+    59
+   ],
+   "colors": [
+    "orange",
+    "yellow"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
    "rect": [
     97,
     59,
@@ -11094,13 +11377,14 @@
     59
    ],
    "colors": [
-    "orange"
+    "orange",
+    "yellow"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "tulips",
+   "type": "lilies",
    "rect": [
     66,
     60,
@@ -11108,44 +11392,14 @@
     60
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "pink",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "tulips",
-   "rect": [
-    71,
-    60,
-    71,
-    60
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    72,
-    60,
-    72,
-    60
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
    "rect": [
     73,
     60,
@@ -11153,14 +11407,15 @@
     60
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "red",
+    "yellow",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
    "rect": [
     74,
     60,
@@ -11168,14 +11423,15 @@
     60
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "red",
+    "yellow",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
    "rect": [
     75,
     60,
@@ -11183,14 +11439,15 @@
     60
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "red",
+    "yellow",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
    "rect": [
     77,
     60,
@@ -11198,14 +11455,15 @@
     60
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "red",
+    "yellow",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
    "rect": [
     78,
     60,
@@ -11213,29 +11471,15 @@
     60
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "red",
+    "yellow",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    79,
-    60,
-    79,
-    60
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "tulips",
+   "type": "hyacinths",
    "rect": [
     87,
     60,
@@ -11243,29 +11487,14 @@
     60
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "pink",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "tulips",
-   "rect": [
-    88,
-    60,
-    88,
-    60
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "windflowers",
+   "type": "hyacinths",
    "rect": [
     94,
     60,
@@ -11273,13 +11502,14 @@
     60
    ],
    "colors": [
-    "orange"
+    "orange",
+    "yellow"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "hyacinths",
    "rect": [
     95,
     60,
@@ -11287,13 +11517,14 @@
     60
    ],
    "colors": [
-    "orange"
+    "orange",
+    "yellow"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "hyacinths",
    "rect": [
     96,
     60,
@@ -11301,13 +11532,14 @@
     60
    ],
    "colors": [
-    "orange"
+    "orange",
+    "yellow"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "hyacinths",
    "rect": [
     97,
     60,
@@ -11315,20 +11547,6 @@
     60
    ],
    "colors": [
-    "orange"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "tulips",
-   "rect": [
-    66,
-    61,
-    66,
-    61
-   ],
-   "colors": [
     "orange",
     "yellow"
    ],
@@ -11336,7 +11554,22 @@
   },
   {
    "id": "S-fields",
-   "type": "tulips",
+   "type": "lilies",
+   "rect": [
+    66,
+    61,
+    66,
+    61
+   ],
+   "colors": [
+    "pink",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "lilies",
    "rect": [
     71,
     61,
@@ -11344,29 +11577,14 @@
     61
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "pink",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    72,
-    61,
-    72,
-    61
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "tulips",
+   "type": "hyacinths",
    "rect": [
     88,
     61,
@@ -11374,14 +11592,14 @@
     61
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "pink",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "tulips",
+   "type": "hyacinths",
    "rect": [
     89,
     61,
@@ -11389,6 +11607,21 @@
     61
    ],
    "colors": [
+    "pink",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    90,
+    61,
+    90,
+    61
+   ],
+   "colors": [
     "orange",
     "yellow"
    ],
@@ -11396,21 +11629,7 @@
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
-   "rect": [
-    90,
-    61,
-    90,
-    61
-   ],
-   "colors": [
-    "orange"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "windflowers",
+   "type": "hyacinths",
    "rect": [
     91,
     61,
@@ -11418,13 +11637,14 @@
     61
    ],
    "colors": [
-    "orange"
+    "orange",
+    "yellow"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "hyacinths",
    "rect": [
     94,
     61,
@@ -11432,13 +11652,14 @@
     61
    ],
    "colors": [
-    "orange"
+    "orange",
+    "yellow"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "hyacinths",
    "rect": [
     95,
     61,
@@ -11446,13 +11667,14 @@
     61
    ],
    "colors": [
-    "orange"
+    "orange",
+    "yellow"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
    "rect": [
     60,
     62,
@@ -11460,14 +11682,15 @@
     62
    ],
    "colors": [
-    "pink",
+    "red",
+    "yellow",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
    "rect": [
     61,
     62,
@@ -11475,18 +11698,19 @@
     62
    ],
    "colors": [
-    "pink",
+    "red",
+    "yellow",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "lilies",
    "rect": [
+    65,
     62,
-    62,
-    62,
+    65,
     62
    ],
    "colors": [
@@ -11497,22 +11721,22 @@
   },
   {
    "id": "S-fields",
-   "type": "tulips",
+   "type": "lilies",
    "rect": [
-    66,
+    71,
     62,
-    66,
+    71,
     62
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "pink",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
    "rect": [
     72,
     62,
@@ -11520,14 +11744,15 @@
     62
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "red",
+    "yellow",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "tulips",
+   "type": "hyacinths",
    "rect": [
     86,
     62,
@@ -11535,14 +11760,14 @@
     62
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "pink",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "tulips",
+   "type": "hyacinths",
    "rect": [
     88,
     62,
@@ -11550,14 +11775,14 @@
     62
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "pink",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "tulips",
+   "type": "hyacinths",
    "rect": [
     89,
     62,
@@ -11565,6 +11790,21 @@
     62
    ],
    "colors": [
+    "pink",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    90,
+    62,
+    90,
+    62
+   ],
+   "colors": [
     "orange",
     "yellow"
    ],
@@ -11572,21 +11812,7 @@
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
-   "rect": [
-    90,
-    62,
-    90,
-    62
-   ],
-   "colors": [
-    "orange"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "windflowers",
+   "type": "hyacinths",
    "rect": [
     91,
     62,
@@ -11594,13 +11820,29 @@
     62
    ],
    "colors": [
-    "orange"
+    "orange",
+    "yellow"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
+   "rect": [
+    95,
+    62,
+    95,
+    62
+   ],
+   "colors": [
+    "orange",
+    "yellow"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
    "rect": [
     65,
     63,
@@ -11608,14 +11850,15 @@
     63
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "red",
+    "yellow",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "tulips",
+   "type": "hyacinths",
    "rect": [
     72,
     63,
@@ -11623,14 +11866,14 @@
     63
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "pink",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "hyacinths",
    "rect": [
     89,
     63,
@@ -11638,13 +11881,29 @@
     63
    ],
    "colors": [
-    "orange"
+    "orange",
+    "yellow"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "lilies",
+   "rect": [
+    90,
+    63,
+    90,
+    63
+   ],
+   "colors": [
+    "orange",
+    "yellow"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "lilies",
    "rect": [
     91,
     63,
@@ -11652,14 +11911,14 @@
     63
    ],
    "colors": [
-    "red",
-    "white"
+    "orange",
+    "yellow"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "lilies",
    "rect": [
     93,
     63,
@@ -11667,21 +11926,6 @@
     63
    ],
    "colors": [
-    "red",
-    "white"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    65,
-    64,
-    65,
-    64
-   ],
-   "colors": [
     "orange",
     "yellow"
    ],
@@ -11689,7 +11933,7 @@
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "lilies",
    "rect": [
     90,
     64,
@@ -11697,14 +11941,14 @@
     64
    ],
    "colors": [
-    "red",
-    "white"
+    "orange",
+    "yellow"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "lilies",
    "rect": [
     91,
     64,
@@ -11712,14 +11956,14 @@
     64
    ],
    "colors": [
-    "red",
-    "white"
+    "orange",
+    "yellow"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "lilies",
    "rect": [
     93,
     64,
@@ -11727,14 +11971,14 @@
     64
    ],
    "colors": [
-    "red",
-    "white"
+    "orange",
+    "yellow"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "lilies",
    "rect": [
     97,
     64,
@@ -11742,29 +11986,30 @@
     64
    ],
    "colors": [
+    "orange",
+    "yellow"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    65,
+    65,
+    65,
+    65
+   ],
+   "colors": [
     "red",
+    "yellow",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    65,
-    65,
-    65,
-    65
-   ],
-   "colors": [
-    "orange",
-    "yellow"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
    "rect": [
     66,
     65,
@@ -11772,14 +12017,15 @@
     65
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "red",
+    "yellow",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
    "rect": [
     67,
     65,
@@ -11787,14 +12033,15 @@
     65
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "red",
+    "yellow",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
    "rect": [
     68,
     65,
@@ -11802,14 +12049,15 @@
     65
    ],
    "colors": [
-    "orange",
-    "yellow"
+    "red",
+    "yellow",
+    "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
    "rect": [
     69,
     65,
@@ -11817,6 +12065,22 @@
     65
    ],
    "colors": [
+    "red",
+    "yellow",
+    "white"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "lilies",
+   "rect": [
+    94,
+    65,
+    94,
+    65
+   ],
+   "colors": [
     "orange",
     "yellow"
    ],
@@ -11824,37 +12088,7 @@
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
-   "rect": [
-    91,
-    65,
-    91,
-    65
-   ],
-   "colors": [
-    "red",
-    "white"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "windflowers",
-   "rect": [
-    94,
-    65,
-    94,
-    65
-   ],
-   "colors": [
-    "red",
-    "white"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "windflowers",
+   "type": "lilies",
    "rect": [
     97,
     65,
@@ -11862,14 +12096,14 @@
     65
    ],
    "colors": [
-    "red",
-    "white"
+    "orange",
+    "yellow"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "lilies",
    "rect": [
     98,
     65,
@@ -11877,29 +12111,74 @@
     65
    ],
    "colors": [
-    "red",
-    "white"
+    "orange",
+    "yellow"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "lilies",
    "rect": [
-    98,
+    91,
     66,
-    98,
+    91,
     66
    ],
    "colors": [
-    "red",
-    "white"
+    "orange",
+    "yellow"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "lilies",
+   "rect": [
+    93,
+    66,
+    93,
+    66
+   ],
+   "colors": [
+    "orange",
+    "yellow"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "lilies",
+   "rect": [
+    91,
+    67,
+    91,
+    67
+   ],
+   "colors": [
+    "orange",
+    "yellow"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "lilies",
+   "rect": [
+    94,
+    67,
+    94,
+    67
+   ],
+   "colors": [
+    "orange",
+    "yellow"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "lilies",
    "rect": [
     97,
     67,
@@ -11907,14 +12186,60 @@
     67
    ],
    "colors": [
+    "orange",
+    "yellow"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "lilies",
+   "rect": [
+    98,
+    67,
+    98,
+    67
+   ],
+   "colors": [
+    "orange",
+    "yellow"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "lilies",
+   "rect": [
+    91,
+    68,
+    91,
+    68
+   ],
+   "colors": [
+    "orange",
+    "yellow"
+   ],
+   "fit": true
+  },
+  {
+   "id": "S-fields",
+   "type": "hyacinths",
+   "rect": [
+    99,
+    68,
+    99,
+    68
+   ],
+   "colors": [
     "red",
+    "yellow",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "lilies",
    "rect": [
     92,
     69,
@@ -11922,14 +12247,14 @@
     69
    ],
    "colors": [
-    "red",
-    "white"
+    "orange",
+    "yellow"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "windflowers",
+   "type": "lilies",
    "rect": [
     96,
     69,
@@ -11937,14 +12262,14 @@
     69
    ],
    "colors": [
-    "red",
-    "white"
+    "orange",
+    "yellow"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
    "rect": [
     99,
     69,
@@ -11952,14 +12277,15 @@
     69
    ],
    "colors": [
-    "pink",
+    "red",
+    "yellow",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
    "rect": [
     92,
     70,
@@ -11967,29 +12293,15 @@
     70
    ],
    "colors": [
-    "pink",
+    "red",
+    "yellow",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    96,
-    70,
-    96,
-    70
-   ],
-   "colors": [
-    "pink",
-    "white"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
    "rect": [
     92,
     71,
@@ -11997,29 +12309,15 @@
     71
    ],
    "colors": [
-    "pink",
+    "red",
+    "yellow",
     "white"
    ],
    "fit": true
   },
   {
    "id": "S-fields",
-   "type": "cosmos",
-   "rect": [
-    96,
-    71,
-    96,
-    71
-   ],
-   "colors": [
-    "pink",
-    "white"
-   ],
-   "fit": true
-  },
-  {
-   "id": "S-fields",
-   "type": "cosmos",
+   "type": "hyacinths",
    "rect": [
     97,
     71,
@@ -12027,7 +12325,8 @@
     71
    ],
    "colors": [
-    "pink",
+    "red",
+    "yellow",
     "white"
    ],
    "fit": true

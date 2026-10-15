@@ -182,6 +182,7 @@ for (x, y), ch in list(C.items()):
 # エジプト：北西の台地（2段目）と、その西のピラミッド（3段目・崖を3段重ねる）
 lift(13, 14, 34, 21, 2); lift(13, 22, 27, 27, 2); lift(13, 28, 25, 34, 2)
 F(15, 17, 23, 25, '#')                        # 頂は砂の道（砂漠の石の台）。南の面に大きな石段
+F(13, 15, 24, 28, '+', only='2')              # 第62回の審査：ピラミッドのまわりの2段目も砂の道（段々の砂のかたまりに見せる。台地のほかは乾いた草）
 # 日本：北の上の段（2段目）と神社の山（3段目）。神社の下の池（2段目）から南向きの滝で1段目の川へ
 for y in range(13, 26):
     for x in range(60, 71):
@@ -198,6 +199,7 @@ lift(79, 30, 96, 37, 2)
 F(88, 31, 94, 35, '3')
 # ヨーロッパ：運河の南の風車の丘（2段目）
 lift(67, 57, 72, 65, 2)
+
 # ロンドン：広場の北の時計台の高台（2段目）
 lift(19, 56, 29, 60, 2)
 F(82, 29, 82, 29, '~')
@@ -280,7 +282,7 @@ def plateau_spots(x0, y0, x1, y1):
 HILL = plateau_spots(80, 30, 98, 37)
 TREES = HILL + TREES
 _tset = {tuple(p) for p in TREES}
-BUSHES = [[x, y] for (x, y) in FOREST if (x, y) not in _tset and C.get((x, y)) in ('1', '2', '3')]
+BUSHES = [[x, y] for (x, y) in FOREST if (x, y) not in _tset and C.get((x, y)) in ('1', '2', '3') and (x * 3 + y) % 2 == 0]   # 第62回の審査：低木は半分に（島じゅう同じ点々にしない）
 ZONE_META = {
     'E': {'name': 'エジプト', 'col': '#c79a2e', 'grass': '#b4b06a', 'pathc': '#e3cf98', 'road': 'dirt', 'inc': 'stone staircase', 'bri': 'stone bridge', 'fence': 'stone fence', 'bush': .03, 'gstyle': ['garden']},
     'J': {'name': '日本', 'col': '#c2406f', 'bush': .04},
