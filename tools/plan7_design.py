@@ -259,10 +259,26 @@ ZPOLY = [   # v4 の地区のさかい（ふちの地区は島のふちまでの
     ('F', [[82, 25], [112, 25], [112, 46], [82, 46]]),
     ('U', [[66, 40], [76, 46], [112, 46], [112, 72], [76, 72], [76, 84], [58, 84], [58, 60], [62, 60], [62, 48]]),
     ('P', [[76, 72], [112, 72], [112, 96], [54, 96], [54, 84], [76, 84]]),
+    ('B', [[36, 47], [45, 47], [45, 59], [36, 59]]),   # 日本庭園の竹林（中島の西の林を竹に：v4 日本 6）
     ('C', [[18, 56], [30, 56], [34, 52], [34, 60], [58, 60], [58, 84], [54, 84], [54, 96], [18, 96], [18, 84]]),
 ]
 _cand = sorted((p for p in SPOTS if (p[0] + p[1]) % 2 == 0), key=lambda p: (PRI.get(zone_at(*p), 6), (p[0] * 7 + p[1] * 13) % 11))
 TREES = [list(p) for p in _cand[:178]]
+# 第62回の審査（参考図還原度）：v4 の「森林の高台（針葉樹を密に）」。高台の2段目と3段目の芯に杉を（spec の cedar_belts で鳥瞰も杉に）
+def plateau_spots(x0, y0, x1, y1):
+    out = []
+    for y in range(y0, y1 + 1):
+        for x in range(x0, x1 + 1):
+            ch = C.get((x, y))
+            if ch not in ('2', '3') or (x + y) % 2:
+                continue
+            if all(C.get((x + dx, y + dy)) == ch for dx in (-1, 0, 1) for dy in (-1, 0, 1)):
+                out.append([x, y])
+    return out
+
+
+HILL = plateau_spots(80, 30, 98, 37)
+TREES = HILL + TREES
 _tset = {tuple(p) for p in TREES}
 BUSHES = [[x, y] for (x, y) in FOREST if (x, y) not in _tset and C.get((x, y)) in ('1', '2', '3')]
 ZONE_META = {
@@ -274,6 +290,7 @@ ZONE_META = {
     'U': {'name': 'ヨーロッパ', 'col': '#2f66b3', 'grass': '#a3b968', 'pathc': '#c98f6a', 'road': 'stone', 'inc': 'stone staircase', 'bri': 'stone bridge', 'fence': 'iron-and-stone fence', 'bush': .04, 'gstyle': ['flag'], 'fields': True},
     'P': {'name': '地中海の港', 'col': '#1f86a8', 'pathc': '#d7c7ae', 'road': 'stone', 'bush': .02},
     'C': {'name': 'ロンドン', 'col': '#a8402a', 'bush': 0},
+    'B': {'name': '竹林', 'col': '#7aa04a', 'bush': .05},
 }
 
 BUILD = [   # v4 の家と施設の場所（アイコンの中心 → 4×4 の家の左上）
@@ -345,6 +362,7 @@ spec = {
     'camera_check': True,
     'camera_roofs': [[28, 62, 33, 65], [29, 84, 39, 89]],
     'street_trees': TREES, 'bushes': BUSHES,
+    'cedar_belts': [[80, 30, 98, 37]],   # 森林の高台は杉（針葉樹）
     'landmarks': LANDMARKS,
     'districts': DISTRICTS,
     'bridge_kinds': {'33,73': 'iron bridge', '18,45': 'stone bridge', '60,77': 'brick bridge', '60,39': 'red zen bridge', '33,38': 'zen bridge'},
