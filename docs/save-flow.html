@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>アイス島 保存の仕組み</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;800&family=Noto+Sans+SC:wght@400;600&family=JetBrains+Mono:wght@400&display=swap">
+<style>
+/* 布局：一张大的流向图在上，下面是“保存在哪里”的表、评价的数据形状、合并规则。沿用建造指南的动森配色 */
+:root {
+  --bg: #f7f1dc; --paper: #fffbec; --ink: #4a3b2a; --muted: #8a7a62; --line: #d9ccaa;
+  --sel: #f6d34a; --leaf: #5aa469; --sky: #4f9ac9; --top: #8a5cc4; --warn: #c9653c;
+  --f-display: "M PLUS Rounded 1c", "Noto Sans SC", system-ui, sans-serif;
+  --f-body: "Noto Sans SC", "M PLUS Rounded 1c", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #1b2236; --paper: #242d45; --ink: #efe6cf; --muted: #a9a28e; --line: #3d4866;
+  --sel: #e8c53e; --leaf: #6cbf7c; --sky: #6fb3e0; --top: #ad86e3; --warn: #e48a5f; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #1b2236; --paper: #242d45; --ink: #efe6cf; --muted: #a9a28e; --line: #3d4866;
+  --sel: #e8c53e; --leaf: #6cbf7c; --sky: #6fb3e0; --top: #ad86e3; --warn: #e48a5f; color-scheme: dark }
+body { background: var(--bg); color: var(--ink); font: 15px/1.75 var(--f-body); }
+.wrap { max-width: 1080px; margin: 0 auto; padding-inline: 16px; padding-block: 28px 56px; display: flex; flex-direction: column; gap: 28px; }
+h1, h2 { font-family: var(--f-display); font-weight: 800; margin: 0; text-wrap: balance; }
+h1 { font-size: 30px; line-height: 1.3; }
+h2 { font-size: 20px; }
+.eyebrow { font: 500 12px var(--f-display); letter-spacing: .12em; color: var(--muted); }
+.lead { margin: 6px 0 0; max-width: 62ch; color: var(--muted); }
+.panel { background: var(--paper); border: 2px solid var(--line); border-radius: 22px; padding: 18px; }
+.scroll { overflow-x: auto; }
+svg { display: block; min-width: 960px; width: 100%; height: auto; }
+svg text { fill: var(--ink); font-family: var(--f-body); font-size: 13px; }
+svg .t { font: 800 15px var(--f-display); fill: var(--ink); }
+svg .s { fill: var(--muted); font-size: 12px; }
+svg .lab { fill: var(--muted); font-size: 12px; paint-order: stroke; stroke: var(--paper); stroke-width: 5px; stroke-linejoin: round; }
+svg .lab.c { text-anchor: middle; }
+svg .box { fill: var(--paper); stroke: var(--line); stroke-width: 2; }
+svg .src { fill: var(--bg); stroke: var(--warn); stroke-width: 2; }
+svg .tmp { fill: var(--bg); stroke: var(--muted); stroke-width: 2; stroke-dasharray: 5 4; }
+svg .repo { fill: var(--bg); stroke: var(--ink); stroke-width: 2; }
+svg .out { fill: var(--paper); stroke: var(--sel); stroke-width: 3; }
+svg .db { fill: var(--paper); stroke: var(--top); stroke-width: 2; }
+svg .ls { fill: var(--paper); stroke: var(--sky); stroke-width: 2; }
+svg .file { fill: var(--paper); stroke: var(--leaf); stroke-width: 2; }
+svg .me { fill: var(--paper); stroke: var(--leaf); stroke-width: 3; }
+svg .a { fill: none; stroke: var(--ink); stroke-width: 1.8; marker-end: url(#ah); }
+svg .a.d { stroke: var(--warn); stroke-dasharray: 6 5; marker-end: url(#ahw); }
+svg .a.g { stroke: var(--leaf); marker-end: url(#ahg); }
+svg .a.p { stroke: var(--top); marker-end: url(#ahp); }
+svg .a.b { stroke: var(--sky); marker-end: url(#ahb); marker-start: url(#ahbs); }
+svg .bar { fill: var(--sel); }
+.legend { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 12px; font-size: 13px; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 22px; height: 0; border-top: 2px solid var(--ink); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+.grid2 > * { min-width: 0; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font: 800 13px var(--f-display); color: var(--muted); letter-spacing: .04em; }
+td b { font-family: var(--f-display); }
+.pill { display: inline-block; padding: 1px 9px; border-radius: 99px; font: 800 12px var(--f-display); white-space: nowrap; }
+.forever { background: color-mix(in srgb, var(--leaf) 22%, transparent); color: var(--leaf); }
+.risk { background: color-mix(in srgb, var(--warn) 20%, transparent); color: var(--warn); }
+pre { margin: 0; font: 13px/1.65 var(--f-mono); background: var(--bg); border-radius: 14px; padding: 14px; overflow-x: auto; }
+code { font-family: var(--f-mono); font-size: .92em; }
+ol, ul { margin: 0; padding-left: 1.3em; display: flex; flex-direction: column; gap: 8px; }
+.note { border-left: 4px solid var(--sel); padding: 2px 0 2px 12px; margin: 0; }
+</style>
+</head><body>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">ICE ISLAND · 作例与评价的保存</div>
+    <h1>アイス島 保存的架构</h1>
+    <p class="lead">作者的图片一直留在 Pinterest，仓库里只存清单和网页。评价有两个入口（Claude 页面和 GitHub Pages），各自先存在你的浏览器里，再交给 Claude。</p>
+  </header>
+
+  <section class="panel">
+    <div class="scroll">
+    <svg viewBox="0 0 1090 660" role="img" aria-labelledby="dgT">
+      <title id="dgT">作例图片、清单、两个网页和评价的流向</title>
+      <defs>
+        <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--ink)"/></marker>
+        <marker id="ahw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--warn)"/></marker>
+        <marker id="ahg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--leaf)"/></marker>
+        <marker id="ahp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--top)"/></marker>
+        <marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--sky)"/></marker>
+        <marker id="ahbs" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--sky)"/></marker>
+      </defs>
+
+      <!-- 来源 -->
+      <rect class="src" x="20" y="40" width="170" height="100" rx="16"/>
+      <text class="t" x="36" y="68">Pinterest</text>
+      <text x="36" y="92">作者的图片</text>
+      <text class="s" x="36" y="114">i.pinimg.com</text>
+
+      <!-- 工作区 -->
+      <rect class="tmp" x="260" y="30" width="230" height="170" rx="16"/>
+      <text class="t" x="276" y="58">Claude 的工作区</text>
+      <text class="s" x="276" y="78">临时，会话结束就清掉</text>
+      <text x="276" y="104">· 下载的图片（不进仓库）</text>
+      <text x="276" y="128">· 去重・OCR・分类</text>
+      <text x="276" y="152">· build_site.py 生成网页</text>
+      <text x="276" y="176">· 读取你的评价</text>
+
+      <!-- 仓库 -->
+      <rect class="repo" x="260" y="270" width="230" height="180" rx="16"/>
+      <text class="t" x="276" y="298">GitHub 仓库 main</text>
+      <text class="s" x="276" y="318">公开・永久</text>
+      <text x="276" y="344"><tspan font-family="var(--f-mono)">refs.json</tspan> 作例清单</text>
+      <text x="276" y="368"><tspan font-family="var(--f-mono)">ref_kinds/angles</tspan> 手动修正</text>
+      <text x="276" y="392"><tspan font-family="var(--f-mono)">docs/</tspan> Pages 的网页</text>
+      <text x="276" y="416"><tspan font-family="var(--f-mono)">db/votes/</tspan> 评价文件</text>
+      <text class="s" x="276" y="438">只有 URL・编号・地区・分类</text>
+
+      <!-- 两个网页 -->
+      <rect class="out" x="580" y="40" width="210" height="130" rx="16"/>
+      <text class="t" x="596" y="68">Claude 页面</text>
+      <text x="596" y="92">评价・查看都可以</text>
+      <text class="s" x="596" y="114">缩略图内嵌在网页里</text>
+      <text class="s" x="596" y="134">大图打包为 big/c000.jpg…</text>
+      <text class="s" x="596" y="154">只有你能打开</text>
+
+      <rect class="out" x="580" y="260" width="210" height="140" rx="16"/>
+      <text class="t" x="596" y="288">GitHub Pages</text>
+      <text x="596" y="312">评价・查看都可以</text>
+      <text class="s" x="596" y="334">图片浏览时直接读 Pinterest</text>
+      <text class="s" x="596" y="356">初始评价＝构建时的</text>
+      <text class="s" x="596" y="376">Claude 页面数据库快照</text>
+
+      <!-- 保存位置 -->
+      <rect class="db" x="890" y="30" width="170" height="64" rx="14"/>
+      <text class="t" x="904" y="56">数据库 votes/all</text>
+      <text class="s" x="904" y="78">改完 1.2 秒后自动存</text>
+
+      <rect class="ls" x="890" y="114" width="170" height="64" rx="14"/>
+      <text class="t" x="904" y="140">浏览器保存</text>
+      <text class="s" x="904" y="162">Claude 页面用</text>
+
+      <rect class="ls" x="890" y="250" width="170" height="64" rx="14"/>
+      <text class="t" x="904" y="276">浏览器保存</text>
+      <text class="s" x="904" y="298">github.io 用</text>
+
+      <rect class="file" x="890" y="336" width="170" height="72" rx="14"/>
+      <text class="t" x="904" y="364">评价文件</text>
+      <text class="s" x="904" y="388" font-family="var(--f-mono)">votes-日期.json</text>
+
+      <!-- Claude 我 -->
+      <rect class="me" x="300" y="550" width="440" height="92" rx="18"/>
+      <text class="t" x="320" y="580">Claude 读你的评价</text>
+      <text x="320" y="604">めっちゃいい・いいね 多的类型 → 再去 Pinterest 找类似的</text>
+      <text class="s" x="320" y="626">新作例写进 refs.json → 重新生成两个网页</text>
+
+      <!-- 箭头：每个标签放在两框之间空白的正中，不压在线上 -->
+      <path class="a" d="M190 90 H256"/>
+      <text class="lab c" x="225" y="80">下载</text>
+
+      <path class="a" d="M345 200 V266"/>
+      <path class="a" d="M405 270 V204"/>
+      <text class="lab c" x="375" y="224">写入</text>
+      <text class="lab c" x="375" y="252">push</text>
+
+      <path class="a" d="M490 100 H576"/>
+      <text class="lab c" x="535" y="90">发布</text>
+
+      <path class="a" d="M490 330 H576"/>
+      <text class="lab c" x="535" y="320">生成 docs/</text>
+
+      <path class="a d" d="M105 140 V500 H685 V404"/>
+      <text class="lab" x="120" y="490" style="fill:var(--warn)">浏览 Pages 时直接读图片（热链接，不复制）</text>
+
+      <path class="a p" d="M794 62 H886" style="marker-start:url(#ahp)"/>
+      <text class="lab c" x="840" y="52" style="fill:var(--top)">读・写</text>
+      <path class="a b" d="M794 146 H886"/>
+      <path class="a b" d="M794 282 H886"/>
+
+      <path class="a g" d="M790 356 H886"/>
+      <text class="lab c" x="840" y="346" style="fill:var(--leaf)">保存为文件 →</text>
+      <path class="a g" d="M890 392 H794"/>
+      <text class="lab c" x="840" y="384" style="fill:var(--leaf)">← 读入</text>
+
+      <path class="a p" d="M1060 62 H1078 V610 H744"/>
+      <text class="lab" x="1070" y="470" text-anchor="end" style="fill:var(--top)">直接读取</text>
+      <path class="a g" d="M975 408 V580 H744"/>
+      <text class="lab c" x="860" y="570" style="fill:var(--leaf)">发到聊天 / 放进 db/votes/</text>
+
+      <path class="a g" d="M300 596 H226 V120 H256"/>
+      <text class="lab c" x="226" y="530" style="fill:var(--leaf)">下一轮</text>
+    </svg>
+    </div>
+    <div class="legend">
+      <span><i class="sw"></i>数据・网页的流向</span>
+      <span><i class="sw" style="border-color:var(--warn);border-top-style:dashed"></i>只在浏览时读图片，不复制</span>
+      <span><i class="sw" style="border-color:var(--sky)"></i>评价存进浏览器（双向）</span>
+      <span><i class="sw" style="border-color:var(--top)"></i>Claude 页面的数据库</span>
+      <span><i class="sw" style="border-color:var(--leaf)"></i>评价文件・交给 Claude</span>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>东西保存在哪里</h2>
+    <div class="scroll" style="margin-top:10px">
+    <table>
+      <thead><tr><th>位置</th><th>保存什么</th><th>谁能看到</th><th>会不会丢</th></tr></thead>
+      <tbody>
+        <tr><td><b>GitHub 仓库</b></td><td>作例清单（URL・编号・地区・用途・种类）、手动修正、两个网页的源码、Pages 网页、评价文件</td><td>所有人</td><td><span class="pill forever">永久</span></td></tr>
+        <tr><td><b>小红书的图</b></td><td>91 篇笔记的图片（523 张），在 main 的 <code>xhs/img/</code>（第61回从分支 <code>claude/intelligent-bohr-avhvea</code> 合并进来）</td><td>所有人（仓库公开）</td><td><span class="pill">已在 main</span></td></tr>
+        <tr><td><b>Pinterest</b></td><td>作者的图片本身</td><td>所有人</td><td><span class="pill risk">作者删掉就看不到</span></td></tr>
+        <tr><td><b>Claude 页面的数据库</b></td><td>在 Claude 页面打的评价（<code>votes/all</code>）</td><td>你和 Claude</td><td><span class="pill forever">永久</span></td></tr>
+        <tr><td><b>浏览器保存</b></td><td>在这台设备、这个浏览器打的评价</td><td>只有这个浏览器</td><td><span class="pill risk">清除浏览数据就没</span></td></tr>
+        <tr><td><b>评价文件</b></td><td>从 Pages 保存出来的评价</td><td>你发给谁谁就能看</td><td><span class="pill forever">放进仓库就永久</span></td></tr>
+        <tr><td><b>Claude 的工作区</b></td><td>下载的图片、OCR 结果</td><td>只有 Claude</td><td><span class="pill risk">会话结束就清掉</span></td></tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <div class="grid2">
+    <section class="panel">
+      <h2>评价的数据形状</h2>
+      <p class="lead" style="margin-bottom:12px">数据库、浏览器、评价文件都用同一个形状，所以可以互相读入。</p>
+<pre>{
+  "r": { "lon": { "R-0033": 1 } },   // 地区 → 编号 → 评价
+  "a": { "lon": { "R-0033": "eur" } }, // いいね（别的地区）→ 去哪
+  "k": { "R-0237": "scene" },        // 手动改过的种类
+  "t": 1791769493025                 // 保存时间
+}</pre>
+      <p class="note" style="margin-top:12px">评价值：<code>2</code> めっちゃいい（一定放进岛）・<code>1</code> いいね・<code>0</code> ふつう・<code>-1</code> イマイチ</p>
+    </section>
+
+    <section class="panel">
+      <h2>合并的规则</h2>
+      <ol style="margin-top:10px">
+        <li><b>打开 Claude 页面</b>：读数据库，再叠上这个浏览器里的评价。同一张图两边都有时，浏览器里的优先。然后整份写回数据库。</li>
+        <li><b>打开 Pages</b>：从构建时的数据库快照开始，再叠上 github.io 浏览器里的评价，浏览器里的优先。</li>
+        <li><b>读入评价文件</b>：文件里的优先，覆盖同一张图的评价。</li>
+        <li><b>重复・角度不同的图</b>：评价转到保留的那张，整组只算一个评价。</li>
+        <li><b>“共通”的图</b>（不属于任何地区）：以前在各地区打的评价移到“共通”。</li>
+      </ol>
+      <p class="note" style="margin-top:12px">两个网页的评价不会自动同步。最好只在一个地方评价；在 Pages 评价时，记得保存成文件交给 Claude。</p>
+    </section>
+  </div>
+</div>
+</body></html>

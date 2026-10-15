@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>body{margin:0;background:oklch(0.975 0.01 85);color:oklch(0.27 0.02 60);font-family:'Zen Maru Gothic',sans-serif;-webkit-font-smoothing:antialiased}a{color:oklch(0.45 0.1 235)}a:hover{color:oklch(0.35 0.12 235)}*{box-sizing:border-box}</style>
+</helmet>
+<div style="max-width:1280px;margin:0 auto;padding:40px 24px 80px;display:flex;flex-direction:column;gap:36px">
+
+<header style="display:flex;flex-direction:column;gap:10px">
+<div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:oklch(0.5 0.02 60)">アイス島 改造プラン ／ ロンドン地区 地形と川の再設計</div>
+<h1 style="margin:0;font-size:clamp(28px,4vw,42px);font-weight:700;line-height:1.2">審査の結果から作るロンドン</h1>
+<p style="margin:0;max-width:880px;font-size:15px;line-height:1.8;text-wrap:pretty">ロンドンの作例の審査で「めっちゃいい」30件と「いいね」285件を1件ずつ見て、入れるもの・まとめるもの・別の地区へ回すものを判断しました。めっちゃいいは24件、いいねは25件を20か所に置きます。いいねのうち10件は、道ばたの小物と地面として使います。これが収まるように、北の高台に運河を引きこみ、テムズ川の西半分をまっすぐにし、南岸に船だまりを掘りました。橋は7/8・坂は8/8で、あつ森の仕様の範囲です。</p>
+</header>
+
+<section style="background:white;border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:10px">
+<b style="color:oklch(0.42 0.1 30)">入れるかどうかの判断のしかた</b>
+<ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.8;max-width:920px">
+<li><b>めっちゃいいを先に</b>置き、いいねは同じ場所を強めるものか、まだない種類のもの（市場・森のお茶会・線路とホーム・ハグリッドの小屋）だけを足す</li>
+<li><b>ロンドンらしいか</b>。ほかの国の名所や、別の地区の色が強いものは、合う地区に回す</li>
+<li><b>同じ型を重ねない</b>。カフェ席・ボート・待合が3つも4つも並ぶと単調になるので、似たものは1か所にまとめる</li>
+<li><b>島の決まりに合うか</b>。滝は3か所まで、坂は8本まで、8×8マスに同じ物は7個まで</li>
+<li><b>外に置いて映えるか</b>。暗い室内の場面や、まとめ記事の表紙は入れない</li>
+</ul>
+</section>
+
+<div style="display:flex;flex-wrap:wrap;gap:8px 16px;font-size:13px;align-items:center">
+<span style="display:flex;gap:6px;align-items:center"><span style="width:14px;height:14px;background:#4c9f48"></span>1段目</span>
+<span style="display:flex;gap:6px;align-items:center"><span style="width:14px;height:14px;background:#72c752"></span>2段目</span>
+<span style="display:flex;gap:6px;align-items:center"><span style="width:14px;height:14px;background:#9bd96e"></span>3段目</span>
+<span style="display:flex;gap:6px;align-items:center"><span style="width:14px;height:14px;background:#3c843a"></span>林</span>
+<span style="display:flex;gap:6px;align-items:center"><span style="width:14px;height:14px;background:#8ee0d0"></span>川・運河</span>
+<span style="display:flex;gap:6px;align-items:center"><span style="width:14px;height:14px;background:#c8b487"></span>道・河岸</span>
+<span style="display:flex;gap:6px;align-items:center"><span style="width:14px;height:14px;background:#8d8a92"></span>橋</span>
+<span style="display:flex;gap:6px;align-items:center"><span style="width:14px;height:14px;background:#d9c48f;outline:2px solid white"></span>坂</span>
+<span style="display:flex;gap:6px;align-items:center"><span style="width:14px;height:14px;background:#b8694b"></span>レンガ（9¾）</span>
+<span style="display:flex;gap:6px;align-items:center"><span style="width:14px;height:14px;border:2px dashed #a8402a"></span>作例を置く場所（S1〜S20）</span>
+<span style="display:flex;gap:6px;align-items:center"><span style="width:14px;height:14px;border:2px solid #ffd84a"></span>地形を変えた所</span>
+</div>
+
+<section style="background:white;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:14px">
+<h2 style="margin:0;font-size:22px">新しい地形と、作例を置く場所</h2>
+<div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start">
+<canvas ref="{{ cvPlanTop }}" style="flex:1 1 420px;max-width:580px;width:100%;display:block;border-radius:10px"></canvas>
+<canvas ref="{{ cvPlanIso }}" style="flex:1 1 420px;max-width:580px;width:100%;display:block;border-radius:10px;background:#7fd6c3"></canvas>
+</div>
+<ol style="margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:8px 24px;font-size:14px;line-height:1.6">
+<sc-for list="{{ changes }}" as="c" hint-placeholder-count="7"><li style="display:grid;grid-template-columns:26px 1fr;gap:8px"><span style="font-weight:700;color:#b08a00">{{ c.n }}</span><span><b>{{ c.t }}</b>　{{ c.d }}</span></li></sc-for>
+</ol>
+</section>
+
+<section style="background:white;border-radius:16px;padding:20px;display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start">
+<div style="flex:1 1 380px;max-width:560px;display:flex;flex-direction:column;gap:10px"><h3 style="margin:0;font-size:18px;color:oklch(0.45 0.02 60)">比べる用：いまの計画（main）</h3><canvas ref="{{ cvBaseTop }}" style="width:100%;display:block;border-radius:10px"></canvas></div>
+<div style="flex:1 1 300px;font-size:14px;line-height:1.75;display:flex;flex-direction:column;gap:10px">
+<p style="margin:0">いまは、高台（2段目）のすぐ南をテムズ川が東西に流れ、西半分は案内所の南からななめに南の河口へ下りています。坂は高台の中の切りこみ（地下鉄の入口）です。</p>
+<div style="display:grid;grid-template-columns:auto 1fr 1fr;gap:6px 16px;font-size:13px">
+<span></span><b>いま</b><b>新しい地形</b>
+<span>橋</span><span>{{ bBridges }}/8</span><span>{{ pBridges }}/8</span>
+<span>坂</span><span>{{ bInclines }}/8</span><span>{{ pInclines }}/8</span>
+<span>水のマス</span><span>{{ bWater }}</span><span>{{ pWater }}</span>
+<span>南の河口と港の河口</span><span>{{ bMouth }}</span><span>{{ pMouth }}</span>
+<span>2段目が砂浜のとなり</span><span>{{ bHigh }}</span><span>{{ pHigh }}</span>
+</div>
+</div>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:14px">
+<h2 style="margin:0;font-size:24px">置く場所（20か所）</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:14px">
+<sc-for list="{{ spots }}" as="s" hint-placeholder-count="20">
+<div style="background:white;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;gap:10px;align-items:baseline"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;background:#a8402a;color:white;border-radius:6px;padding:2px 8px">{{ s.id }}</span><b style="font-size:16px">{{ s.name }}</b></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<sc-for list="{{ s.refs }}" as="r" hint-placeholder-count="3"><a href="{{ r.img }}" target="_blank" style="display:flex;flex-direction:column;gap:3px;text-decoration:none;color:inherit;flex:1 1 100px;max-width:180px"><img src="{{ r.img }}" alt="{{ r.no }}" loading="lazy" referrerpolicy="no-referrer" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;background:oklch(0.93 0.01 85);outline:{{ r.ring }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:{{ r.fg }}">{{ r.no }}　{{ r.kind }}</span></a></sc-for>
+</div>
+<p style="margin:0;font-size:13.5px;line-height:1.7">{{ s.note }}</p>
+<span style="font-size:12px;color:oklch(0.5 0.02 60)">{{ s.where }}</span>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:14px">
+<h2 style="margin:0;font-size:24px">いいねを場所以外に使うもの</h2>
+<sc-for list="{{ likeUse }}" as="g" hint-placeholder-count="2">
+<div style="background:white;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px">
+<b style="font-size:15px">{{ g.title }}</b>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><sc-for list="{{ g.refs }}" as="r" hint-placeholder-count="6"><a href="{{ r.img }}" target="_blank" style="display:flex;flex-direction:column;gap:3px;text-decoration:none;color:inherit;width:120px"><img src="{{ r.img }}" alt="{{ r.no }}" loading="lazy" referrerpolicy="no-referrer" style="width:120px;aspect-ratio:1;object-fit:cover;border-radius:8px;background:oklch(0.93 0.01 85)"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:oklch(0.5 0.02 60)">{{ r.no }}</span></a></sc-for></div>
+<span style="font-size:13.5px;line-height:1.7">{{ g.note }}</span>
+</div>
+</sc-for>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:14px">
+<h2 style="margin:0;font-size:24px">入れない作例</h2>
+<h3 style="margin:0;font-size:17px;color:oklch(0.45 0.02 60)">めっちゃいいのうち 6件</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px">
+<sc-for list="{{ skip }}" as="k" hint-placeholder-count="6">
+<div style="background:white;border-radius:14px;padding:14px;display:grid;grid-template-columns:110px 1fr;gap:12px;align-items:start">
+<a href="{{ k.img }}" target="_blank"><img src="{{ k.img }}" alt="{{ k.no }}" loading="lazy" referrerpolicy="no-referrer" style="width:110px;aspect-ratio:1;object-fit:cover;border-radius:8px;background:oklch(0.93 0.01 85)"></a>
+<div style="display:flex;flex-direction:column;gap:4px"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:oklch(0.5 0.02 60)">{{ k.no }}</span><b style="font-size:14px">{{ k.name }}</b><span style="font-size:13px;line-height:1.65">{{ k.why }}</span></div>
+</div>
+</sc-for>
+</div>
+<h3 style="margin:8px 0 0;font-size:17px;color:oklch(0.45 0.02 60)">いいねのうち、入れない種類（例）</h3>
+<sc-for list="{{ likeSkip }}" as="g" hint-placeholder-count="4">
+<div style="background:white;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px">
+<b style="font-size:15px">{{ g.title }}</b>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><sc-for list="{{ g.refs }}" as="r" hint-placeholder-count="6"><a href="{{ r.img }}" target="_blank" style="display:flex;flex-direction:column;gap:3px;text-decoration:none;color:inherit;width:96px"><img src="{{ r.img }}" alt="{{ r.no }}" loading="lazy" referrerpolicy="no-referrer" style="width:96px;aspect-ratio:1;object-fit:cover;border-radius:8px;background:oklch(0.93 0.01 85)"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:oklch(0.5 0.02 60)">{{ r.no }}</span></a></sc-for></div>
+<span style="font-size:13.5px;line-height:1.7">{{ g.note }}</span>
+</div>
+</sc-for>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:12px">
+<h2 style="margin:0;font-size:24px">反映ずみ（第41回）と、次に決めること</h2>
+<ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.9;max-width:880px">
+<li>この地形は plan-design.json に反映し、plan-terrain.json・見本の配置を作り直した（確認 225項目すべてOK）。テムズ川の釣り場は (38,70) へ移した</li>
+<li>2段の河岸のモジュール（R-0088：lon_d_canal・lon_d_quay_up）は、11マス幅で置ける所がなくなったので場所を外し、作り直し待ちにした。地下鉄の入口は切り通しの坂の西どなり (42,62) へ</li>
+</ul>
+<ol style="margin:0;padding-left:20px;font-size:14px;line-height:1.9;max-width:880px">
+<li>S1〜S20 の細部モジュールを作る順番（R-0088 の役目を引きつぐ S9 岸壁通りと S5 切り通しから、でよいか）</li>
+<li>ほかの地区の坂を1本ロンドンへ回して、時計台の前庭から岸壁通りへ下りる大階段（R-0214・R-0215）を足すか</li>
+<li>入れない作例のうち、R-1150 をアメリカ、R-0867 と R-1351 をハロウィンに回してよいか</li>
+</ol>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showSpots&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;表示&quot;},&quot;showChanges&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;表示&quot;}}">
+class Component extends DCLogic {
+  cvs = { planTop: React.createRef(), planIso: React.createRef(), baseTop: React.createRef() };
+  state = { d: null };
+  B = [14, 50, 62, 94];
+  BI = [16, 53, 61, 90];
+  componentDidMount() {
+    fetch('london-redesign.json').then(r => r.json()).then(d => this.setState({ d }));
+    if (document.fonts) document.fonts.ready.then(() => this.drawAll());
+  }
+  componentDidUpdate() { this.drawAll(); }
+  renderVals() {
+    const d = this.state.d, c = this.cvs;
+    const ck = k => (o => o ? o.check[k] : '');
+    const yes = b => b === '' ? '' : b ? 'つながる' : 'つながらない';
+    const v = { cvPlanTop: c.planTop, cvPlanIso: c.planIso, cvBaseTop: c.baseTop, changes: [], spots: [], skip: [], likeUse: [], likeSkip: [],
+      bBridges: ck('bridges')(d && d.base), pBridges: ck('bridges')(d && d.plan), bInclines: ck('inclines')(d && d.base), pInclines: ck('inclines')(d && d.plan),
+      bWater: ck('water')(d && d.base), pWater: ck('water')(d && d.plan), bMouth: yes(ck('london_south_mouth_to_port_mouth')(d && d.base)), pMouth: yes(ck('london_south_mouth_to_port_mouth')(d && d.plan)),
+      bHigh: ck('high_next_to_sand')(d && d.base), pHigh: ck('high_next_to_sand')(d && d.plan) };
+    if (!d) return v;
+    const ref = (no, kind) => ({ no, kind, img: d.imgs[no], ring: kind === 'めっちゃいい' ? '3px solid #e0a400' : 'none', fg: kind === 'めっちゃいい' ? '#a87800' : 'oklch(0.5 0.02 60)' });
+    v.changes = d.changes.map(([n, t, dd]) => ({ n, t, d: dd }));
+    v.spots = d.spots.map(([id, name, r, mega, like, note]) => ({ id, name, note, where: `x${r[0]}〜${r[2]}・y${r[1]}〜${r[3]}（${r[2] - r[0] + 1}×${r[3] - r[1] + 1}マス）`, refs: mega.map(no => ref(no, 'めっちゃいい')).concat(like.map(no => ref(no, 'いいね'))) }));
+    v.skip = d.skip.map(([no, name, why]) => ({ no, name, why, img: d.imgs[no] }));
+    v.likeUse = d.like_use.map(([title, refs, note]) => ({ title, note, refs: refs.map(no => ({ no, img: d.imgs[no] })) }));
+    v.likeSkip = d.like_skip.map(([title, refs, note]) => ({ title, note, refs: refs.map(no => ({ no, img: d.imgs[no] })) }));
+    return v;
+  }
+  drawAll() {
+    const d = this.state.d; if (!d) return;
+    const opt = { spots: this.props.showSpots ?? true, diff: this.props.showChanges ?? true };
+    if (this.cvs.planTop.current) this.drawTop(this.cvs.planTop.current, d.plan, true, opt);
+    if (this.cvs.baseTop.current) this.drawTop(this.cvs.baseTop.current, d.base, false, opt);
+    if (this.cvs.planIso.current) this.drawIso(this.cvs.planIso.current, d.plan, opt);
+  }
+  lv(o, x, y) { const r = o.h[y]; return r ? +r[x] : 0; }
+  ch(o, x, y) { const r = o.grid[y]; return r ? r[x] : 'S'; }
+  changed(o, x, y) { const b = this.state.d.base; return o !== b && (this.ch(o, x, y) !== this.ch(b, x, y) || this.lv(o, x, y) !== this.lv(b, x, y)); }
+  incl(o) { return o.inclines.map(([x, y, d]) => d === 'S' ? [x, y, 2, 4] : d === 'N' ? [x, y - 3, 2, 4] : d === 'W' ? [x - 3, y, 4, 2] : [x, y, 4, 2]); }
+  colorOf(o, x, y) {
+    const v = this.ch(o, x, y), l = this.lv(o, x, y);
+    const C = { S: '#7fd6c3', s: '#f0e4a4', r: '#7c7f94', w: '#8ee0d0', p: '#c8b487', b: '#8d8a92', P: '#cdb88c', K: '#b8694b' };
+    if (C[v]) return C[v];
+    return l >= 3 ? '#9bd96e' : l === 2 ? '#72c752' : '#4c9f48';
+  }
+  icon(ctx, cx, cy, t, R, bg) { ctx.fillStyle = 'rgba(0,0,0,.2)'; ctx.beginPath(); ctx.arc(cx, cy + 2, R + 1, 0, 7); ctx.fill(); ctx.fillStyle = bg || '#4a3b30'; ctx.beginPath(); ctx.arc(cx, cy, R, 0, 7); ctx.fill(); ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke(); ctx.fillStyle = '#fff'; ctx.font = `700 ${Math.round(R)}px 'Zen Maru Gothic', sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(t, cx, cy + 1); ctx.textAlign = 'left'; }
+  tag(ctx, cx, cy, t, fs) { ctx.font = `700 ${fs}px 'IBM Plex Mono', monospace`; const w = ctx.measureText(t).width + fs * .8, h = fs * 1.5; ctx.fillStyle = '#a8402a'; ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.beginPath(); ctx.roundRect(cx - w / 2, cy - h / 2, w, h, h / 2); ctx.fill(); ctx.stroke(); ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(t, cx, cy + 1); ctx.textAlign = 'left'; }
+  drawTop(c, o, isPlan, opt) {
+    const [x0, y0, x1, y1] = this.B, S = 20, d = this.state.d;
+    c.width = (x1 - x0) * S; c.height = (y1 - y0) * S;
+    const ctx = c.getContext('2d');
+    ctx.setTransform(1, 0, 0, 1, -x0 * S, -y0 * S);
+    for (let y = y0; y < y1; y++) for (let x = x0; x < x1; x++) {
+      const v = this.ch(o, x, y), l = this.lv(o, x, y);
+      ctx.fillStyle = this.colorOf(o, x, y); ctx.fillRect(x * S, y * S, S, S);
+      if (v === 't') { ctx.fillStyle = l >= 2 ? '#3f8a3a' : '#2f6d2f'; ctx.beginPath(); ctx.arc(x * S + ((x + y) % 2 ? 8 : 12), y * S + 10, 6, 0, 7); ctx.fill(); }
+      if (v === 'b') { ctx.fillStyle = '#6f6c75'; ctx.fillRect(x * S, y * S + 2, S, 3); ctx.fillRect(x * S, y * S + S - 5, S, 3); }
+      if (v === 'K') { ctx.fillStyle = 'rgba(110,50,30,.45)'; ctx.fillRect(x * S, y * S + 9, S, 2); ctx.fillRect(x * S + (y % 2 ? 5 : 14), y * S, 2, 9); }
+      if (v === 'w' && (x * 7 + y * 3) % 5 === 0) { ctx.fillStyle = 'rgba(255,255,255,.45)'; ctx.fillRect(x * S + 4, y * S + 9, 10, 2); }
+    }
+    ctx.fillStyle = 'rgba(25,55,20,.8)';
+    const edge = (a, b) => !'Ssr'.includes(a) && !'Ssr'.includes(b);
+    for (let y = y0; y < y1; y++) for (let x = x0; x < x1; x++) {
+      const l = this.lv(o, x, y);
+      if (edge(this.ch(o, x, y), this.ch(o, x + 1, y)) && this.lv(o, x + 1, y) !== l) ctx.fillRect((x + 1) * S - 2, y * S, 4, S);
+      if (edge(this.ch(o, x, y), this.ch(o, x, y + 1)) && this.lv(o, x, y + 1) !== l) ctx.fillRect(x * S, (y + 1) * S - 2, S, 4);
+    }
+    this.incl(o).forEach(([x, y, w, h]) => { ctx.fillStyle = '#d9c48f'; ctx.fillRect(x * S, y * S, w * S, h * S); ctx.fillStyle = 'rgba(120,90,40,.4)'; for (let i = 0; i < Math.max(w, h) * 4; i++) { if (w > h) ctx.fillRect(x * S + i * S / 4, y * S, 2, h * S); else ctx.fillRect(x * S, y * S + i * S / 4, w * S, 2); } ctx.strokeStyle = '#fff'; ctx.lineWidth = 3; ctx.strokeRect(x * S + 1.5, y * S + 1.5, w * S - 3, h * S - 3); });
+    if (opt.diff && isPlan) {
+      ctx.strokeStyle = '#ffd84a'; ctx.lineWidth = 2.5;
+      for (let y = y0; y < y1; y++) for (let x = x0; x < x1; x++) if (this.changed(o, x, y)) ctx.strokeRect(x * S + 3, y * S + 3, S - 6, S - 6);
+    }
+    ctx.strokeStyle = 'rgba(255,255,255,.6)'; ctx.lineWidth = 2; ctx.setLineDash([8, 8]);
+    for (let i = 1; i < 7; i++) { ctx.beginPath(); ctx.moveTo(i * 16 * S, 0); ctx.lineTo(i * 16 * S, 96 * S); ctx.stroke(); }
+    for (let i = 1; i < 6; i++) { ctx.beginPath(); ctx.moveTo(0, i * 16 * S); ctx.lineTo(112 * S, i * 16 * S); ctx.stroke(); }
+    ctx.setLineDash([]);
+    d.common.forEach(([x, y, t]) => this.icon(ctx, x * S, y * S, t, 15));
+    if (isPlan && opt.spots) {
+      ctx.strokeStyle = '#a8402a'; ctx.lineWidth = 3; ctx.setLineDash([7, 5]);
+      d.spots.forEach(([, , r]) => ctx.strokeRect(r[0] * S + 2, r[1] * S + 2, (r[2] - r[0] + 1) * S - 4, (r[3] - r[1] + 1) * S - 4));
+      ctx.setLineDash([]);
+      d.spots.forEach(([id, , r]) => this.tag(ctx, (r[0] + r[2] + 1) / 2 * S, (r[1] + r[3] + 1) / 2 * S, id, 12));
+    }
+  }
+  drawIso(c, o, opt) {
+    const [x0, y0, x1, y1] = this.BI, nx = x1 - x0, ny = y1 - y0, TW = 11, TH = 5.5, HZ = 11, d = this.state.d;
+    c.width = Math.round((nx + ny) * TW + 40); c.height = Math.round((nx + ny) * TH + 6 * HZ + 60);
+    const ctx = c.getContext('2d'), ox = ny * TW + 20, oy = 4 * HZ + 30;
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, c.width, c.height);
+    const P = (x, y, z) => [ox + (x - x0 - (y - y0)) * TW, oy + (x - x0 + y - y0) * TH - z * HZ];
+    const shade = (col, f) => { const n = parseInt(col.slice(1), 16); return `rgb(${Math.min(255, ((n >> 16) & 255) * f) | 0},${Math.min(255, ((n >> 8) & 255) * f) | 0},${Math.min(255, (n & 255) * f) | 0})`; };
+    const poly = (pts, fill) => { ctx.beginPath(); pts.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])); ctx.closePath(); ctx.fillStyle = fill; ctx.fill(); };
+    const prism = (x, y, w, dd, z0, z1, col) => {
+      poly([P(x, y + dd, z1), P(x + w, y + dd, z1), P(x + w, y + dd, z0), P(x, y + dd, z0)], shade(col, .78));
+      poly([P(x + w, y, z1), P(x + w, y + dd, z1), P(x + w, y + dd, z0), P(x + w, y, z0)], shade(col, .62));
+      poly([P(x, y, z1), P(x + w, y, z1), P(x + w, y + dd, z1), P(x, y + dd, z1)], col);
+    };
+    const inc = this.incl(o);
+    const inInc = (x, y) => inc.find(([ix, iy, w, h]) => x >= ix && x < ix + w && y >= iy && y < iy + h);
+    const zOf = (x, y) => { const v = this.ch(o, x, y), l = this.lv(o, x, y); if (v === 'S') return 0; if (v === 'w') return l - .35; if (v === 'r') return 1.1; if (v === 's' || l === 0) return .5; return l; };
+    for (let s = 0; s < nx + ny; s++) for (let x = x0; x < x1; x++) {
+      const y = y0 + s - (x - x0); if (y < y0 || y >= y1) continue;
+      const v = this.ch(o, x, y), z = zOf(x, y);
+      prism(x, y, 1, 1, 0, z, inInc(x, y) ? '#d9c48f' : this.colorOf(o, x, y));
+      if (v === 'b') prism(x, y, 1, 1, z, z + .15, '#8d8a92');
+      if (opt.diff && this.changed(o, x, y)) { const a = P(x + .5, y + .5, z); ctx.fillStyle = 'rgba(255,216,74,.9)'; ctx.beginPath(); ctx.arc(a[0], a[1], 1.8, 0, 7); ctx.fill(); }
+      if (v === 't') { const b = P(x + .5, y + .5, z), t = P(x + .5, y + .5, z + 2.2); ctx.fillStyle = '#6b4a2f'; ctx.fillRect(b[0] - 1, t[1], 2, b[1] - t[1]); ctx.fillStyle = '#2f7a34'; ctx.beginPath(); ctx.arc(t[0], t[1] - 2, 6, 0, 7); ctx.fill(); }
+    }
+    d.common.forEach(([x, y, t]) => { const p = P(x, y, zOf(Math.floor(x), Math.floor(y)) + 2.5); this.icon(ctx, p[0], p[1], t, 11); });
+    if (opt.spots) d.spots.forEach(([id, , r]) => {
+      const cx = (r[0] + r[2] + 1) / 2, cy = (r[1] + r[3] + 1) / 2;
+      if (cx < x0 || cx > x1 || cy < y0 || cy > y1) return;
+      const p = P(cx, cy, zOf(Math.floor(cx), Math.floor(cy)) + 1.6); this.tag(ctx, p[0], p[1], id, 10);
+    });
+  }
+}
+</script>
+</body>
+</html>

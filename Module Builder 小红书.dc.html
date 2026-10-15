@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>body{margin:0;background:oklch(0.975 0.01 85);color:oklch(0.27 0.02 60);font-family:'Zen Maru Gothic',sans-serif;-webkit-font-smoothing:antialiased}a{color:oklch(0.45 0.1 235)}a:hover{color:oklch(0.35 0.12 235)}*{box-sizing:border-box}</style>
+</helmet>
+<div style="max-width:1320px;margin:0 auto;padding:36px 24px 80px;display:flex;flex-direction:column;gap:28px">
+
+<header style="display:flex;flex-direction:column;gap:8px">
+<div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:oklch(0.5 0.02 60)">アイス島 改造プラン ／ モジュールで組む</div>
+<h1 style="margin:0;font-size:clamp(26px,3.6vw,38px);font-weight:700;line-height:1.2">街道とモジュールの組み立て台</h1>
+<p style="margin:0;max-width:800px;font-size:14px;line-height:1.8;text-wrap:pretty">まずロンドンから。右のモジュール（家具セットの置き方の見本）を選んで、左の地区マップにクリックで置きます。道はペンで塗れます。1マス＝ゲームの1マス。配置は自動で保存されます。建物・橋・坂のマス数は攻略サイトの数値、家具セットは目安です。</p>
+</header>
+
+<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+<span style="font-size:12px;color:oklch(0.5 0.02 60);margin-right:4px">地区</span>
+<sc-for list="{{ dists }}" as="d" hint-placeholder-count="7">
+<button onClick="{{ d.pick }}" style="font:inherit;font-size:13px;border:0;border-radius:999px;padding:7px 14px;cursor:pointer;background:{{ d.bg }};color:{{ d.fg }}">{{ d.name }}</button>
+</sc-for>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+<span style="font-size:12px;color:oklch(0.5 0.02 60);margin-right:4px">道具</span>
+<sc-for list="{{ tools }}" as="t" hint-placeholder-count="7">
+<button onClick="{{ t.pick }}" style="font:inherit;font-size:13px;border:1px solid oklch(0.85 0.02 85);border-radius:10px;padding:7px 12px;cursor:pointer;display:flex;gap:6px;align-items:center;background:{{ t.bg }};color:{{ t.fg }}"><span style="width:12px;height:12px;border-radius:3px;background:{{ t.sw }}"></span>{{ t.name }}</button>
+</sc-for>
+<span style="width:1px;height:24px;background:oklch(0.85 0.02 85);margin:0 4px"></span>
+<button onClick="{{ rotate }}" style="font:inherit;font-size:13px;border:1px solid oklch(0.85 0.02 85);border-radius:10px;padding:7px 12px;cursor:pointer;background:white">回転（R）</button>
+<button onClick="{{ delSel }}" style="font:inherit;font-size:13px;border:1px solid oklch(0.85 0.02 85);border-radius:10px;padding:7px 12px;cursor:pointer;background:white">選択を削除（Del）</button>
+<button onClick="{{ loadSample }}" style="font:inherit;font-size:13px;border:0;border-radius:10px;padding:7px 12px;cursor:pointer;background:#a8402a;color:white">ロンドンの見本を置く</button>
+<button onClick="{{ clearDist }}" style="font:inherit;font-size:13px;border:1px solid oklch(0.85 0.02 85);border-radius:10px;padding:7px 12px;cursor:pointer;background:white;color:oklch(0.5 0.15 25)">この地区を全消去</button>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center">
+<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><span style="font-size:12px;color:oklch(0.5 0.02 60)">道の幅</span>
+<sc-for list="{{ widths }}" as="w" hint-placeholder-count="4"><button onClick="{{ w.pick }}" style="font:inherit;font-size:13px;border:1px solid oklch(0.85 0.02 85);border-radius:8px;padding:5px 10px;cursor:pointer;background:{{ w.bg }};color:{{ w.fg }}">{{ w.name }}</button></sc-for></div>
+<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><span style="font-size:12px;color:oklch(0.5 0.02 60)">描き方</span>
+<sc-for list="{{ modes }}" as="w" hint-placeholder-count="2"><button onClick="{{ w.pick }}" style="font:inherit;font-size:13px;border:1px solid oklch(0.85 0.02 85);border-radius:8px;padding:5px 10px;cursor:pointer;background:{{ w.bg }};color:{{ w.fg }}">{{ w.name }}</button></sc-for></div>
+<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><span style="font-size:12px;color:oklch(0.5 0.02 60)">下の地形</span>
+<sc-for list="{{ terrains }}" as="w" hint-placeholder-count="3"><button onClick="{{ w.pick }}" style="font:inherit;font-size:13px;border:1px solid oklch(0.85 0.02 85);border-radius:8px;padding:5px 10px;cursor:pointer;background:{{ w.bg }};color:{{ w.fg }}">{{ w.name }}</button></sc-for></div>
+</div>
+
+<section style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start">
+<div style="flex:1 1 620px;min-width:0;display:flex;flex-direction:column;gap:10px">
+<canvas ref="{{ cvRef }}" onMouseDown="{{ onDown }}" onMouseMove="{{ onMove }}" onMouseUp="{{ onUp }}" onMouseLeave="{{ onLeave }}" style="width:100%;display:block;border-radius:12px;background:#7fd6c3;cursor:crosshair;touch-action:none"></canvas>
+<div style="font-size:13px;color:oklch(0.45 0.02 60);line-height:1.7">{{ status }}</div>
+<div style="display:flex;flex-wrap:wrap;gap:6px">
+<sc-for list="{{ counts }}" as="c" hint-placeholder-count="0">
+<span style="font-size:12px;background:white;border-radius:999px;padding:4px 10px">{{ c.name }} ×{{ c.n }}</span>
+</sc-for>
+</div>
+</div>
+
+<div style="flex:1 1 340px;min-width:0;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;flex-wrap:wrap;gap:6px">
+<sc-for list="{{ themes }}" as="th" hint-placeholder-count="8">
+<button onClick="{{ th.pick }}" style="font:inherit;font-size:12px;border:0;border-radius:999px;padding:5px 11px;cursor:pointer;background:{{ th.bg }};color:{{ th.fg }}">{{ th.name }}</button>
+</sc-for>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center">
+<sc-for list="{{ matChips }}" as="mc" hint-placeholder-count="4"><button onClick="{{ mc.pick }}" style="font:inherit;font-size:12px;border:1px solid oklch(0.85 0.02 85);border-radius:999px;padding:4px 10px;cursor:pointer;background:{{ mc.bg }};color:{{ mc.fg }}">{{ mc.name }}</button></sc-for>
+</div>
+<div style="display:flex;gap:10px;align-items:center">
+<input value="{{ q }}" onInput="{{ onQ }}" placeholder="検索（例：街灯、ベンチ、幅3）" style="flex:1;font:inherit;font-size:13px;padding:8px 12px;border:1px solid oklch(0.85 0.02 85);border-radius:10px;background:white;min-width:0">
+<span style="font-size:12px;color:oklch(0.5 0.02 60);white-space:nowrap">{{ shown }} / 全{{ total }}種</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;max-height:820px;overflow:auto;padding-right:4px">
+<sc-for list="{{ mods }}" as="m" hint-placeholder-count="6">
+<div onClick="{{ m.pick }}" style="background:white;border-radius:12px;padding:12px;display:flex;gap:12px;align-items:flex-start;cursor:pointer;outline:{{ m.outline }}">
+<div style="display:grid;grid-template-columns:{{ m.gtc }};gap:1px;flex:none;background:oklch(0.93 0.01 85);padding:1px;border-radius:4px">
+<sc-for list="{{ m.cells }}" as="c" hint-placeholder-count="12">
+<span style="width:13px;height:13px;background:{{ c.bg }};color:#3a2e25;font-size:8px;line-height:13px;text-align:center;font-weight:700">{{ c.g }}</span>
+</sc-for>
+</div>
+<div style="display:flex;flex-direction:column;gap:3px;min-width:0">
+<div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap"><b style="font-size:14px">{{ m.name }}</b><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:oklch(0.5 0.02 60)">{{ m.size }}</span></div>
+<span style="font-size:12px;line-height:1.6;color:oklch(0.42 0.02 60)">{{ m.note }}</span>
+</div>
+</div>
+</sc-for>
+<sc-if value="{{ hasMore }}" hint-placeholder-val="{{ false }}"><button onClick="{{ more }}" style="font:inherit;font-size:13px;border:1px solid oklch(0.85 0.02 85);border-radius:10px;padding:10px;cursor:pointer;background:white">もっと見る（+40）</button></sc-if>
+</div>
+</div>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:14px;background:white;border-radius:16px;padding:20px">
+<div style="display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;justify-content:space-between">
+<div style="display:flex;flex-direction:column;gap:4px">
+<h2 style="margin:0;font-size:20px"><span style="color:#ff2442">小红书</span>から作る</h2>
+<p style="margin:0;font-size:13px;line-height:1.7;color:oklch(0.45 0.02 60);max-width:760px">地区ごとに人気（いいね順）の島づくりノートを集めました。写真を見ながら右のマス目に置き方を描いて保存すると、上のモジュール一覧の「小红书」に入り、地図に置けます。ノートの追加は <code>tools/xhs_fetch.py</code>。</p>
+</div>
+<span style="font-size:12px;color:oklch(0.5 0.02 60)">{{ xhsInfo }}</span>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:6px">
+<sc-for list="{{ xhsDists }}" as="d" hint-placeholder-count="7"><button onClick="{{ d.pick }}" style="font:inherit;font-size:12px;border:0;border-radius:999px;padding:5px 12px;cursor:pointer;background:{{ d.bg }};color:{{ d.fg }}">{{ d.name }}</button></sc-for>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start">
+
+<div style="flex:1 1 260px;min-width:0;max-width:360px;display:flex;flex-direction:column;gap:8px;max-height:900px;overflow:auto;padding-right:4px">
+<sc-for list="{{ xhsNotes }}" as="n" hint-placeholder-count="6">
+<div onClick="{{ n.pick }}" style="display:flex;gap:10px;align-items:center;border-radius:12px;padding:8px;cursor:pointer;background:{{ n.bg }}">
+<img src="{{ n.cover }}" alt="" loading="lazy" style="width:64px;height:64px;object-fit:cover;border-radius:8px;flex:none;background:oklch(0.93 0.01 85)">
+<div style="display:flex;flex-direction:column;gap:3px;min-width:0">
+<b style="font-size:13px;line-height:1.4;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">{{ n.title }}</b>
+<span style="font-size:11px;color:oklch(0.5 0.02 60)">{{ n.meta }}</span>
+</div>
+</div>
+</sc-for>
+<sc-if value="{{ xhsEmpty }}" hint-placeholder-val="{{ false }}"><div style="font-size:13px;color:oklch(0.5 0.02 60);padding:8px">この地区のノートはまだありません。</div></sc-if>
+</div>
+
+<div style="flex:2 1 420px;min-width:0;display:flex;flex-direction:column;gap:10px">
+<sc-if value="{{ hasNote }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="position:relative;background:oklch(0.2 0.01 60);border-radius:12px;overflow:hidden;display:grid;place-items:center">
+<img src="{{ note.img }}" alt="" style="max-width:100%;max-height:560px;display:block">
+<button onClick="{{ note.prev }}" style="position:absolute;left:8px;top:50%;transform:translateY(-50%);font:inherit;font-size:18px;border:0;border-radius:999px;width:36px;height:36px;cursor:pointer;background:rgba(255,255,255,.85)">‹</button>
+<button onClick="{{ note.next }}" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);font:inherit;font-size:18px;border:0;border-radius:999px;width:36px;height:36px;cursor:pointer;background:rgba(255,255,255,.85)">›</button>
+<span style="position:absolute;right:10px;top:10px;font-size:12px;background:rgba(0,0,0,.55);color:white;border-radius:999px;padding:3px 9px">{{ note.pos }}</span>
+</div>
+<div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:4px">
+<sc-for list="{{ note.thumbs }}" as="t" hint-placeholder-count="6"><img onClick="{{ t.pick }}" src="{{ t.src }}" alt="" loading="lazy" style="width:56px;height:56px;object-fit:cover;border-radius:6px;cursor:pointer;flex:none;outline:{{ t.outline }};outline-offset:-2px"></sc-for>
+</div>
+<div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><b style="font-size:16px">{{ note.title }}</b><a href="{{ note.url }}" target="_blank" style="font-size:12px">小红书で開く ↗</a></div>
+<span style="font-size:12px;color:oklch(0.5 0.02 60)">{{ note.meta }}</span>
+<div style="font-size:13px;line-height:1.8;white-space:pre-wrap;max-height:220px;overflow:auto;background:oklch(0.975 0.01 85);border-radius:10px;padding:10px 12px">{{ note.desc }}</div>
+</div>
+</sc-if>
+</div>
+
+<div style="flex:1 1 340px;min-width:0;display:flex;flex-direction:column;gap:10px">
+<b style="font-size:15px">マス目に描く</b>
+<div style="display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;font-size:12px">
+<span style="display:flex;gap:4px;align-items:center">横 <button onClick="{{ ed.wDec }}" style="font:inherit;border:1px solid oklch(0.85 0.02 85);border-radius:6px;width:26px;height:26px;cursor:pointer;background:white">−</button><b style="min-width:20px;text-align:center">{{ ed.w }}</b><button onClick="{{ ed.wInc }}" style="font:inherit;border:1px solid oklch(0.85 0.02 85);border-radius:6px;width:26px;height:26px;cursor:pointer;background:white">＋</button></span>
+<span style="display:flex;gap:4px;align-items:center">縦 <button onClick="{{ ed.hDec }}" style="font:inherit;border:1px solid oklch(0.85 0.02 85);border-radius:6px;width:26px;height:26px;cursor:pointer;background:white">−</button><b style="min-width:20px;text-align:center">{{ ed.h }}</b><button onClick="{{ ed.hInc }}" style="font:inherit;border:1px solid oklch(0.85 0.02 85);border-radius:6px;width:26px;height:26px;cursor:pointer;background:white">＋</button></span>
+<button onClick="{{ ed.fill }}" style="font:inherit;font-size:12px;border:1px solid oklch(0.85 0.02 85);border-radius:8px;padding:4px 10px;cursor:pointer;background:white">選んだ記号で全部塗る</button>
+<button onClick="{{ ed.clear }}" style="font:inherit;font-size:12px;border:1px solid oklch(0.85 0.02 85);border-radius:8px;padding:4px 10px;cursor:pointer;background:white">空にする</button>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:4px">
+<sc-for list="{{ ed.palette }}" as="p" hint-placeholder-count="20"><button onClick="{{ p.pick }}" title="{{ p.name }}" style="font:inherit;font-size:11px;border:0;border-radius:6px;padding:3px 6px;cursor:pointer;display:flex;gap:4px;align-items:center;background:{{ p.bg }};color:{{ p.fg }}"><span style="width:14px;height:14px;border-radius:3px;background:{{ p.sw }};color:#3a2e25;font-size:8px;font-weight:700;display:grid;place-items:center">{{ p.g }}</span>{{ p.name }}</button></sc-for>
+</div>
+<div onMouseLeave="{{ ed.up }}" onMouseUp="{{ ed.up }}" style="display:grid;grid-template-columns:{{ ed.gtc }};gap:1px;background:oklch(0.88 0.01 85);padding:1px;border-radius:6px;width:max-content;max-width:100%;user-select:none;touch-action:none">
+<sc-for list="{{ ed.cells }}" as="c" hint-placeholder-count="48"><span onMouseDown="{{ c.down }}" onMouseEnter="{{ c.enter }}" style="width:{{ ed.cs }};height:{{ ed.cs }};background:{{ c.bg }};color:#3a2e25;font-size:10px;font-weight:700;display:grid;place-items:center;cursor:pointer">{{ c.g }}</span></sc-for>
+</div>
+<input value="{{ ed.name }}" onInput="{{ ed.onName }}" placeholder="モジュール名（例：英国パブのテラス）" style="font:inherit;font-size:13px;padding:8px 12px;border:1px solid oklch(0.85 0.02 85);border-radius:10px;background:white">
+<textarea value="{{ ed.memo }}" onInput="{{ ed.onMemo }}" placeholder="メモ（置く場所、使う家具など）" rows="3" style="font:inherit;font-size:13px;padding:8px 12px;border:1px solid oklch(0.85 0.02 85);border-radius:10px;background:white;resize:vertical"></textarea>
+<span style="font-size:12px;color:oklch(0.5 0.02 60)">{{ ed.src }}</span>
+<div style="display:flex;flex-wrap:wrap;gap:8px">
+<button onClick="{{ ed.save }}" style="font:inherit;font-size:13px;border:0;border-radius:10px;padding:8px 14px;cursor:pointer;background:#ff2442;color:white">{{ ed.saveLabel }}</button>
+<button onClick="{{ ed.reset }}" style="font:inherit;font-size:13px;border:1px solid oklch(0.85 0.02 85);border-radius:10px;padding:8px 14px;cursor:pointer;background:white">新しく描く</button>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;border-top:1px solid oklch(0.92 0.01 85);padding-top:10px">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap"><b style="font-size:13px">作ったモジュール（{{ myCount }}）</b>
+<span style="display:flex;gap:6px"><button onClick="{{ exportMods }}" style="font:inherit;font-size:12px;border:1px solid oklch(0.85 0.02 85);border-radius:8px;padding:4px 10px;cursor:pointer;background:white">書き出し</button>
+<label style="font-size:12px;border:1px solid oklch(0.85 0.02 85);border-radius:8px;padding:4px 10px;cursor:pointer;background:white">読み込み<input type="file" accept="application/json,.json" onChange="{{ importMods }}" style="display:none"></label></span></div>
+<sc-for list="{{ myMods }}" as="m" hint-placeholder-count="2">
+<div style="display:flex;gap:8px;align-items:center;font-size:12px;background:oklch(0.975 0.01 85);border-radius:8px;padding:6px 8px">
+<span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><b>{{ m.name }}</b>　{{ m.size }}</span>
+<button onClick="{{ m.place }}" style="font:inherit;font-size:11px;border:0;border-radius:6px;padding:3px 8px;cursor:pointer;background:#4a3b30;color:white">置く</button>
+<button onClick="{{ m.edit }}" style="font:inherit;font-size:11px;border:1px solid oklch(0.85 0.02 85);border-radius:6px;padding:3px 8px;cursor:pointer;background:white">編集</button>
+<button onClick="{{ m.del }}" style="font:inherit;font-size:11px;border:1px solid oklch(0.85 0.02 85);border-radius:6px;padding:3px 8px;cursor:pointer;background:white;color:oklch(0.5 0.15 25)">削除</button>
+</div>
+</sc-for>
+</div>
+</div>
+
+</div>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:10px">
+<h2 style="margin:0;font-size:18px">記号</h2>
+<div style="display:flex;flex-wrap:wrap;gap:8px 14px;font-size:12px">
+<sc-for list="{{ legend }}" as="l" hint-placeholder-count="20">
+<span style="display:flex;gap:6px;align-items:center"><span style="width:16px;height:16px;border-radius:3px;background:{{ l.bg }};color:#3a2e25;font-size:9px;font-weight:700;display:grid;place-items:center">{{ l.g }}</span>{{ l.name }}</span>
+</sc-for>
+</div>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:10px;font-size:13px;line-height:1.8">
+<h2 style="margin:0;font-size:18px">参考にしたページ</h2>
+<div style="display:flex;flex-direction:column;gap:2px">
+<a href="https://altema.jp/atsumori/osyarenashima" target="_blank">島のレイアウト一覧：ヨーロッパ風（城の門・中世の街並み家具）（アルテマ）</a>
+<a href="https://madfandom.com/acnh-citycore/" target="_blank">街づくりのコツ：街灯・電柱の間隔、横断歩道（ACNH Citycore）</a>
+<a href="https://ameblo.jp/ponine/entry-12711845049.html" target="_blank">お城シリーズでロンドンの教会風を作った例</a>
+<a href="https://gamepedia.jp/ac-switch/archives/59161" target="_blank">建物・階段・橋のマス目一覧（ゲームペディア）</a>
+<a href="https://www.thegamer.com/animal-crossing-new-horizons-building-plot-size-guide/" target="_blank">建物・橋・坂のサイズ（TheGamer）</a>
+<a href="https://altema.jp/atsumori/jutakugai" target="_blank">住宅街の作り方とレイアウト例（アルテマ）</a>
+<a href="https://hibinomatome.com/entry/atumori-small-restaurant-layout" target="_blank">小さな料理屋さんのレイアウト（屋台の並べ方）</a>
+<a href="https://m1kako.com/atumori-5-7805" target="_blank">狭いスペースの活用レイアウト</a>
+<a href="https://www.youtube.com/watch?v=nTUmPGRXt5M" target="_blank">余ったスペースのレイアウト9選（動画）</a>
+</div>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  cv = React.createRef();
+  grid = null;
+  painting = false;
+  LEG = {
+    H: ['建物', '#9d7b57', ''], D: ['玄関前（家具不可）', '#ead9ae', ''], p: ['道', '#c8b487', ''], B: ['レンガ道', '#b8694b', ''], S: ['砂の道', '#ead39b', ''],
+    w: ['水', '#8ee0d0', ''], '=': ['橋', '#8d8a92', ''], Z: ['坂', '#dccfae', '坂'],
+    L: ['街灯', '#f4ecd2', '灯'], T: ['電話ボックス', '#f2c9c2', '電'], b: ['ベンチ', '#f4ecd2', 'ベ'], K: ['公園の時計', '#f4ecd2', '時'],
+    W: ['城壁', '#c98a70', '壁'], A: ['城門', '#c98a70', '門'], C: ['汽車・カート', '#e7d3f0', '車'], x: ['樽・木箱', '#efdcc0', '樽'],
+    Y: ['屋台・カウンター', '#f7e0b5', '屋'], R: ['絨毯', '#f1c6a8', '絨'], P: ['ヤシの木', '#cfe8b8', '椰'], O: ['石柱・遺跡', '#e8e2d2', '柱'],
+    f: ['柵', '#efe8dc', '柵'], G: ['鳥居', '#f5b8a8', '鳥'], n: ['灯籠', '#e8e2d2', '籠'], c: ['テーブル', '#f4ecd2', '卓'], h: ['椅子', '#f4ecd2', '椅'],
+    u: ['パラソル', '#d6ecf6', '傘'], F: ['花', '#f6d3e2', '花'], X: ['焚き火', '#f8d2b0', '火'], t: ['木', '#9fcf8a', '木'], k: ['かぼちゃ', '#f6c48f', 'か'],
+    J: ['ランタン', '#efd6f2', 'ラ'], M: ['風車', '#dfe7f5', '風'], Q: ['城塔', '#c98a70', '塔'], N: ['道しるべ', '#f4ecd2', '標'], E: ['出発案内板', '#d8dde6', '案'], V: ['スーツケース', '#cfe3f3', '荷'],
+    d: ['木の床', '#c9926a', ''], I: ['本棚・本の山', '#e9d9c4', '本'], U: ['ソファ', '#f0cfc4', 'ソ'], g: ['生垣', '#8fc77a', '垣'], e: ['鉢植え', '#cfe8b8', '鉢'], s: ['看板・黒板', '#e4e0d6', '看'], a: ['マイデザインの床', '#e9c9d6', '']
+  };
+  genAll(hand) {
+    const out = [], seen = new Set(), MN = { B: 'レンガ', p: '石畳', S: '砂' };
+    const add = (th, name, rows, note, mat) => { const k = rows.join('|'); if (seen.has(k)) return; seen.add(k); out.push({ id: 'g' + out.length, th, name, r: rows, note, mat }); };
+    const grid = (w, hh, ch) => Array.from({ length: hh }, () => Array(w).fill(ch));
+    const J = g => g.map(r => r.join(''));
+    const mats = ['B', 'p', 'S'];
+    // 街道
+    const edges = [['なし', () => '.'], ['柵', () => 'f'], ['花', () => 'F'], ['並木', y => y % 3 === 1 ? 't' : '.'], ['ベンチ', y => y % 4 === 2 ? 'b' : '.']];
+    [1, 2, 3, 4, 5].forEach(W => [0, 3, 4, 5, 6].forEach(iv => edges.forEach(([en, ef]) => mats.forEach(m => {
+      const side = iv || en !== 'なし', rows = [];
+      for (let y = 0; y < 8; y++) { const e = iv && y % iv === 0 ? 'L' : ef(y); rows.push((side ? e : '') + m.repeat(W) + (side ? e : '')); }
+      add('街道', `街道 幅${W}・${MN[m]}`, rows, `${iv ? '街灯' + iv + 'マスおき' : '街灯なし'}・両脇：${en}。縦につなげて伸ばす`, m); }))));
+    // 交差点
+    [['十字', [1, 1, 1, 1]], ['T字', [1, 1, 0, 1]], ['L字', [0, 1, 0, 1]]].forEach(([tn, arms]) => [2, 3, 4, 5].forEach(W => [['なし', ''], ['道しるべ', 'N'], ['時計', 'K'], ['花', 'F'], ['街灯', 'L']].forEach(([cn, cc]) => mats.forEach(m => {
+      const N = W + 4, g = grid(N, N, '.'), a = 2, b = a + W;
+      for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) { const inH = y >= a && y < b, inV = x >= a && x < b, cen = inH && inV;
+        if (cen || (inH && ((x < a && arms[0]) || (x >= b && arms[1]))) || (inV && ((y < a && arms[2]) || (y >= b && arms[3])))) g[y][x] = m; }
+      [[a - 1, a - 1], [b, a - 1], [a - 1, b], [b, b]].forEach(([x, y]) => { if (g[y][x] === '.') g[y][x] = 'L'; });
+      if (cc) g[a + Math.floor((W - 1) / 2)][a + Math.floor((W - 1) / 2)] = cc;
+      add('交差点', `${tn}路 幅${W}・${MN[m]}`, J(g), `中央：${cn}。角に街灯`, m); }))));
+    // 広場
+    [5, 7, 9].forEach(n => [['時計', 'K'], ['道しるべ', 'N'], ['花壇', 'F'], ['カフェ席', 'C'], ['風車', 'M']].forEach(([cn, cc]) => [['街灯', 'L'], ['花', 'F'], ['木', 't'], ['ベンチ', 'b']].forEach(([kn, kc]) => ['B', 'p'].forEach(m => {
+      const g = grid(n, n, m), c = Math.floor(n / 2);
+      if (cc === 'C') { g[c][c] = 'c'; g[c][c - 1] = 'h'; g[c][c + 1] = 'h'; g[c - 1][c] = 'u'; } else if (cc === 'M') { for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) g[c + dy][c + dx] = 'M'; } else g[c][c] = cc;
+      [[0, 0], [n - 1, 0], [0, n - 1], [n - 1, n - 1]].forEach(([x, y]) => g[y][x] = kc);
+      if (n >= 7) [[c, 0], [0, c], [n - 1, c], [c, n - 1]].forEach(([x, y]) => g[y][x] = 'b');
+      add('広場', `広場 ${n}×${n}・${MN[m]}`, J(g), `中央：${cn}・四隅：${kn}`, m); }))));
+    // 屋台
+    [1, 2, 3, 4].forEach(n => [['横並び', 0], ['向かい合わせ', 1]].forEach(([an, face]) => [['樽', 'x'], ['花', 'F'], ['街灯', 'L'], ['絨毯', 'R']].forEach(([dn, dc]) => mats.forEach(m => {
+      const w = n * 3 - 1, st = () => { const r1 = Array(w).fill('.'), r2 = Array(w).fill('.'); for (let i = 0; i < n; i++) { r1[i * 3] = r1[i * 3 + 1] = 'Y'; r2[i * 3] = r2[i * 3 + 1] = 'Y'; if (i < n - 1) { r1[i * 3 + 2] = dc; } } return [r1, r2]; };
+      const path = () => Array(w).fill(m), top = st(); let g = [...top, path()];
+      if (face) { g = [...top, path(), path(), path(), ...st().reverse()]; } else g.push(path());
+      add('屋台', `屋台${n}軒・${an}・${MN[m]}`, J(g), `屋台のあいだ：${dn}`, m); }))));
+    // 休憩
+    [['ベンチ2', ['bb']], ['ベンチ4', ['bb.bb']], ['テーブル1', ['hch']], ['テーブル2', ['hch.hch']]].forEach(([kn, it]) => [['なし', ''], ['パラソル', 'u'], ['木陰', 't']].forEach(([sn, sc]) => [['花', 'F'], ['街灯', 'L'], ['時計', 'K'], ['樽', 'x']].forEach(([dn, dc]) => ['B', 'p'].forEach(m => {
+      const iw = it[0].length, w = iw + 2, top = Array(w).fill('.');
+      if (sc === 'u') top[Math.floor(w / 2)] = 'u'; if (sc === 't') { top[0] = 't'; top[w - 1] = 't'; }
+      const g = [top, [dc, ...it[0].split(''), dc], Array(w).fill(m)];
+      add('休憩', `休憩 ${kn}・${MN[m]}`, J(g), `日よけ：${sn}・両端：${dn}`, m); }))));
+    // 花壇
+    [3, 4, 5, 6, 7].forEach(n => [['全面', () => true], ['縁だけ', (x, y) => x === 0 || y === 0 || x === n - 1 || y === n - 1], ['市松', (x, y) => (x + y) % 2 === 0]].forEach(([pn, pf]) => [['なし', ''], ['木', 't'], ['街灯', 'L'], ['時計', 'K']].forEach(([cn, cc]) => {
+      const g = grid(n, n, '.'); for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) if (pf(x, y)) g[y][x] = 'F';
+      if (cc) g[Math.floor(n / 2)][Math.floor(n / 2)] = cc;
+      add('花壇', `花壇 ${n}×${n}・${pn}`, J(g), `中央：${cn}`, ''); })));
+    // 柵・壁
+    [['柵', 'f', 'p'], ['城壁', 'W', 'A']].forEach(([tn, tc, gc]) => [4, 6, 8].forEach(L => [['なし', -1], ['中央に門', 1], ['端に門', 0]].forEach(([gn, gp]) => [['街灯', 'L'], ['城塔', 'Q']].forEach(([en, ec]) => {
+      const r = Array(L).fill(tc); r[0] = ec; r[L - 1] = ec; if (gp === 1) { r[Math.floor(L / 2) - 1] = gc; r[Math.floor(L / 2)] = gc; } if (gp === 0) r[1] = gc;
+      add('柵・壁', `${tn} 長さ${L}`, [r.join('')], `門：${gn}・両端：${en}`, ''); }))));
+    return hand.concat(out);
+  }
+  MODS = this.genAll([
+    { id: 'house', th: '建物', name: '住民の家', r: ['HHHH', 'HHHH', 'HHHH', 'HHHH', '.D..'], note: '4×4。家の前1マスは家具不可（道は敷ける）' },
+    { id: 'home', th: '建物', name: '自宅', r: ['HHHHH', 'HHHHH', 'HHHHH', 'HHHHH', '..D..'], note: '5×4' },
+    { id: 'museum', th: '建物', name: '博物館', r: ['HHHHHHH', 'HHHHHHH', 'HHHHHHH', 'HHHHHHH', '...D...'], note: '7×4' },
+    { id: 'nook', th: '建物', name: 'たぬき商店', r: ['HHHHHHH', 'HHHHHHH', 'HHHHHHH', 'HHHHHHH', '...D...'], note: '7×4' },
+    { id: 'able', th: '建物', name: 'エイブル', r: ['HHHHH', 'HHHHH', 'HHHHH', 'HHHHH', '..D..'], note: '5×4' },
+    { id: 'camp', th: '建物', name: 'キャンプサイト', r: ['HHHH', 'HHHH', 'HHHH', 'HHHH', '.D..'], note: '4×4' },
+    { id: 'bridge', th: '建物', name: '橋（水3マス）', r: ['pp', '==', '==', '==', 'pp'], note: '水3〜5マスをまたぐ。両端に2×1の足場。最大8本' },
+    { id: 'slope', th: '建物', name: '坂', r: ['ZZ', 'ZZ', 'ZZ', 'ZZ'], note: '2×4（上1・下3）。最大8本' },
+    { id: 'lon_st', th: 'ロンドン', name: '街道ユニット（幅3）', r: ['LBBBL', '.BBB.', '.BBB.', '.BBB.', 'LBBBL', '.BBB.', '.BBB.', '.BBB.'], note: '地面はレンガのマイデザイン。街灯は4マスおき。縦につなげて伸ばす' },
+    { id: 'lon_wide', th: 'ロンドン', name: '大通りユニット（幅5）', r: ['LBBBBBL', 'fBBBBBf', 'fBBBBBf', 'LBBBBBL', 'fBBBBBf', 'fBBBBBf'], note: '両脇に鉄の柵、3マスおきに街灯。飛行場前〜博物館の太い道に' },
+    { id: 'lon_cross', th: 'ロンドン', name: '交差点', r: ['.LBBBL.', 'LBBBBBL', 'BBBBBBB', 'BBBNBBB', 'BBBBBBB', 'LBBBBBL', '.LBBBL.'], note: '中央に道しるべ。幅3の街道どうしをつなぐ' },
+    { id: 'lon_corner', th: 'ロンドン', name: '電話ボックスの角', r: ['TbbL', 'BBBB', 'BBBB'], note: '電話ボックス＋ベンチ2＋街灯。角や建物の脇に' },
+    { id: 'lon_bus', th: 'ロンドン', name: 'バス停風', r: ['NbbL', 'BBBB'], note: '道しるべを停留所の標識に見立てる' },
+    { id: 'lon_front', th: 'ロンドン', name: '博物館前広場', r: ['LbbB.BbbL', 'BBBBBBBBB', 'FBBBKBBBF', 'BBBBBBBBB'], note: '博物館の玄関前に。中央に公園の時計' },
+    { id: 'lon_934', th: 'ロンドン', name: '9¾番線（参考写真の再現）', r: ['QWWAWAWAWQ', 'BBBYBBBBLB', 'bBBCCCBBxB', 'bBBBBBBBBB', 'LBBBBBBBTB'], note: '城壁・城門×3・城塔×2を奥に、旗付き街灯、本の山とワゴン、汽車、樽、ベンチ、電話ボックス。浜の上に置く（元ネタ：小红书「极致利用沙滩！我在动森造了个「9¾站台」」）' },
+    { id: 'lon_park', th: 'ロンドン', name: 'ハイドパークの小道', r: ['F.B.F', '.bBb.', 'BBKBB', '.bBb.', 'F.B.F'], note: '公園の時計を中心に十字の小道とベンチ' },
+    { id: 'lon_tea', th: 'ロンドン', name: 'アフタヌーンティー', r: ['FhchF', '..u..', 'BBBBB'], note: '博物館前や公園の脇に1卓' },
+    { id: 'lon_lounge', th: 'ロンドン', name: '飛行機ラウンジ', r: ['FEEEFppppFEEEF', 'hhhhpppppphhhh', 'hhhhpppppphhhh', 'VVppppppppppVV', 'LppppppppppppL'], note: '飛行場のすぐ北（E3–F4）。出発案内板・ソファ列・スーツケース。中央の通路から街道へ' },
+    { id: 'lon_guard', th: 'ロンドン', name: '衛兵の詰め所', r: ['QBQ', '.B.', 'LBL'], note: '城塔2つを門番の小屋に見立てて道の入口に' },
+    { id: 'egy_stall', th: 'エジプト', name: '屋台1軒', r: ['YYR', 'YYR', 'SSS'], note: '屋台＋絨毯。1マス空けて並べる' },
+    { id: 'egy_mkt', th: 'エジプト', name: 'バザール通りユニット', r: ['YYSSSYY', 'YYSSSYY', 'xRSSSRx', '.LSSSL.', 'YYSSSYY', 'YYSSSYY', 'xRSSSRx', '.LSSSL.'], note: '幅3の砂の道の両側に屋台。縦につなげる' },
+    { id: 'egy_oasis', th: 'エジプト', name: 'オアシス', r: ['P.S.P', '.www.', 'SwwwS', '.www.', 'P.S.P'], note: '3×3の池をヤシで囲む' },
+    { id: 'egy_dig', th: 'エジプト', name: '発掘現場', r: ['ffff', 'fOOf', 'fOOf', 'ffxf'], note: '柵で囲って石柱と木箱' },
+    { id: 'jpn_torii', th: '日本', name: '千本鳥居の参道', r: ['GGG', '.p.', 'GGG', '.p.', 'GGG', '.p.', 'GGG', '.p.'], note: '1マスおきに鳥居。坂の前後に' },
+    { id: 'jpn_tea', th: '日本', name: '茶屋', r: ['nYYYn', '.YYY.', 'h.p.h', '..p..'], note: '屋台を茶屋に見立てて縁台（椅子）を左右に' },
+    { id: 'jpn_garden', th: '日本', name: '飛び石の池', r: ['n...n', '.p.ww', '..pww', '.p.ww', 'n...F'], note: '池の縁に飛び石と灯籠' },
+    { id: 'usa_diner', th: 'アメリカ', name: 'ダイナー前', r: ['LYYYYL', '.chch.', 'pppppp'], note: 'カウンターと外の席' },
+    { id: 'usa_yard', th: 'アメリカ', name: '白い柵の前庭', r: ['ffffff', 'fHHHHf', 'fHHHHf', 'fHHHHf', 'fHHHHf', 'fFDpFf'], note: '住民の家を柵で囲む。6×6' },
+    { id: 'usa_camp', th: 'アメリカ', name: '国立公園キャンプ', r: ['tHHHHt', '.HHHH.', '.HHHH.', '.HHHH.', 'h.DX.h', 'ttpptt'], note: 'キャンプサイトの前に焚き火と丸太椅子' },
+    { id: 'usa_pump', th: 'ハロウィン', name: 'かぼちゃ畑', r: ['kkkk', 'kkkk', 'kpkk', 'kpkk'], note: '畑の中に1本細い道' },
+    { id: 'usa_lantern', th: 'ハロウィン', name: 'ランタンの小道', r: ['JpJ', '.p.', '.p.', 'JpJ', '.p.', '.p.'], note: '3マスおきにランタン' },
+    { id: 'eur_cafe', th: 'ヨーロッパ', name: 'カフェテラス', r: ['xYYYYL', 'pppppp', 'hchhch', 'pppppp'], note: 'カウンターの前に2卓' },
+    { id: 'eur_mill', th: 'ヨーロッパ', name: '風車とチューリップ', r: ['FFFFF', 'FMMMF', 'FMMMF', 'FMMMF', 'FFpFF'], note: '風車の周りを花で一周' },
+    { id: 'eur_canal', th: 'ヨーロッパ', name: '運河の橋', r: ['.www.', '.www.', 'p===p', '.www.', '.www.'], note: '幅3の運河に石の橋' },
+    { id: 'port_beach', th: '地中海', name: 'ビーチクラブ', r: ['.u.u.', 'hxhxh'], note: '浜の上に。パラソルとデッキチェア' },
+    { id: 'port_fish', th: '地中海', name: '魚市場', r: ['YYxYY', 'YYxYY', 'ppppp'], note: '河口や桟橋の近くに' }
+  ]);
+  DISTS = { egy: ['エジプト', [8, 12, 40, 62]], jpn: ['日本', [32, 12, 67, 61]], usa: ['アメリカ', [65, 12, 101, 47]], eur: ['ヨーロッパ', [57, 39, 101, 85]], port: ['地中海の港', [64, 70, 112, 94]], lon: ['ロンドン', [16, 52, 65, 94]], all: ['全体', [0, 0, 112, 96]] };
+  TOOLS = [['place', 'モジュールを置く', '#4a3b30'], ['select', '選ぶ', '#ffffff'], ['B', 'レンガ道', '#b8694b'], ['p', '石畳の道', '#c8b487'], ['S', '砂の道', '#ead39b'], ['F', '花', '#f6d3e2'], ['erase', '消しゴム', '#eeeeee']];
+  state = { dist: 'lon', tool: 'B', mod: 'lon_st', rot: 0, placed: [], paint: {}, sel: null, hover: null, theme: 'ロンドン', mat: 'all', q: '', limit: 40, width: 3, mode: 'line', terrain: 'faint', lineA: null,
+    notes: [], fileMods: [], custom: [], hidden: [], xd: 'ロンドン', noteId: null, imgIdx: 0, ed: this.blankEd() };
+  XDISTS = ['すべて', 'ロンドン', 'エジプト', '日本', 'アメリカ', 'ヨーロッパ', '地中海', 'その他'];
+  blankEd(w = 6, h = 5) { return { w, h, g: Array.from({ length: h }, () => Array(w).fill('.')), sym: 'B', name: '', memo: '', editId: null }; }
+  // 小红书から作ったモジュール：xhs/modules.json（リポジトリ）＋このブラウザで作ったもの
+  allCustom() { const s = this.state, out = {}; s.fileMods.forEach(m => out[m.id] = m); s.custom.forEach(m => out[m.id] = m); return Object.values(out).filter(m => !s.hidden.includes(m.id)); }
+  allMods() { return this.MODS.concat(this.allCustom()); }
+  noteById(id) { return this.state.notes.find(n => n.id === id); }
+  setEd(patch) { this.setState(s => ({ ed: { ...s.ed, ...(typeof patch === 'function' ? patch(s.ed) : patch) } })); }
+  resizeEd(w, h) { w = Math.max(1, Math.min(20, w)); h = Math.max(1, Math.min(20, h)); this.setEd(e => ({ w, h, g: Array.from({ length: h }, (_, y) => Array.from({ length: w }, (_, x) => (e.g[y] && e.g[y][x]) || '.')) })); }
+  paintEd(x, y) { this.setEd(e => { if (e.g[y][x] === e.sym) return {}; const g = e.g.map(r => r.slice()); g[y][x] = e.sym; return { g }; }); }
+  saveEd() {
+    const e = this.state.ed, n = this.noteById(this.state.noteId);
+    const rows = e.g.map(r => r.join(''));
+    if (!rows.join('').replace(/\./g, '')) { alert('マス目に何か描いてください'); return; }
+    const old = e.editId && this.allCustom().find(m => m.id === e.editId);
+    const src = old && old.src ? old.src : (n ? { id: n.id, title: n.title, url: n.url, dist: n.theme } : null);
+    const name = e.name.trim() || (src ? src.title.slice(0, 18) : '小红书モジュール');
+    const m = { id: e.editId || 'xhs_' + Date.now().toString(36), th: '小红书', name: (src && src.dist ? `【${src.dist}】` : '') + name.replace(/^【[^】]*】/, ''), r: rows, note: e.memo.trim() + (src ? `（出典：${src.title}）` : ''), memo: e.memo.trim(), src, mat: '' };
+    this.setState(s => ({ custom: [...s.custom.filter(c => c.id !== m.id), m], hidden: s.hidden.filter(h => h !== m.id), ed: { ...s.ed, editId: m.id } }));
+  }
+  editMod(m) { const r = m.r.map(x => x.split('')); this.setState(s => ({ ed: { ...s.ed, w: r[0].length, h: r.length, g: r, name: m.name.replace(/^【[^】]*】/, ''), memo: m.memo != null ? m.memo : m.note, editId: m.id }, noteId: m.src && this.noteById(m.src.id) ? m.src.id : s.noteId, imgIdx: 0 })); }
+  stamp(x, y, w) { const o = Math.floor((w - 1) / 2), out = []; for (let j = 0; j < w; j++) for (let i = 0; i < w; i++) out.push([x - o + i, y - o + j]); return out; }
+  lineCells(a, b, w) { let dx = b[0] - a[0], dy = b[1] - a[1]; const ax = Math.abs(dx), ay = Math.abs(dy);
+    if (ax > 2 * ay) dy = 0; else if (ay > 2 * ax) dx = 0; else { const m = Math.max(ax, ay); dx = Math.sign(dx) * m; dy = Math.sign(dy) * m; }
+    const n = Math.max(Math.abs(dx), Math.abs(dy)), set = {};
+    for (let s = 0; s <= n; s++) { const x = a[0] + (n ? Math.round(dx * s / n) : 0), y = a[1] + (n ? Math.round(dy * s / n) : 0); this.stamp(x, y, w).forEach(([cx, cy]) => set[cx + ',' + cy] = [cx, cy]); }
+    return Object.values(set); }
+  applyCells(cells) { const tool = this.state.tool;
+    if (tool === 'erase') { const ids = new Set(cells.map(([x, y]) => this.hit(x, y)).filter(Boolean)); this.setState(s => { const pa = { ...s.paint }; cells.forEach(([x, y]) => delete pa[x + ',' + y]); return { paint: pa, placed: s.placed.filter(p => !ids.has(p.id)) }; }); }
+    else this.setState(s => { const pa = { ...s.paint }; cells.forEach(([x, y]) => pa[x + ',' + y] = tool); return { paint: pa }; }); }
+  SAMPLE = [['lon_934', 29, 84, 0], ['lon_wide', 45, 72, 0], ['lon_cross', 45, 65, 0], ['museum', 47, 59, 0], ['lon_front', 52, 64, 0], ['lon_corner', 41, 72, 0], ['lon_park', 30, 76, 0], ['lon_bus', 53, 72, 0], ['lon_tea', 38, 66, 0], ['lon_guard', 38, 79, 0], ['lon_lounge', 42, 79, 0]];
+  componentDidMount() {
+    try { const s = JSON.parse(localStorage.getItem('wti-module-board') || 'null'); if (s) this.setState({ placed: s.placed || [], paint: s.paint || {}, dist: s.dist || 'lon' }); } catch (e) {}
+    try { const x = JSON.parse(localStorage.getItem('wti-xhs-mods') || 'null'); if (x) this.setState({ custom: x.custom || [], hidden: x.hidden || [] }); } catch (e) {}
+    fetch('island-grid-v4.json').then(r => r.json()).then(g => { this.grid = g; this.draw(); });
+    fetch('xhs/notes.json').then(r => r.json()).then(d => { const notes = d.notes || []; this.setState(s => ({ notes, noteId: s.noteId || (notes.find(n => n.theme === s.xd) || notes[0] || {}).id || null })); }).catch(() => {});
+    fetch('xhs/modules.json').then(r => r.json()).then(d => this.setState({ fileMods: d.modules || [] })).catch(() => {});
+    this.onKey = e => {
+      if (e.target && /INPUT|TEXTAREA/.test(e.target.tagName)) return;
+      if (e.key === 'r' || e.key === 'R') this.setState(s => ({ rot: (s.rot + 1) % 4 }));
+      if (e.key === 'Delete' || e.key === 'Backspace') this.removeSel();
+      if (e.key === 'Escape') this.setState({ tool: 'select' });
+    };
+    window.addEventListener('keydown', this.onKey);
+    if (document.fonts) document.fonts.ready.then(() => this.draw());
+  }
+  componentWillUnmount() { window.removeEventListener('keydown', this.onKey); }
+  componentDidUpdate() {
+    this.draw();
+    // dc ランタイムは prevState を渡さないので、前回保存したものと比べる
+    const s = this.state, b = this.savedBoard || {}, x = this.savedXhs || {};
+    if (b.placed !== s.placed || b.paint !== s.paint || b.dist !== s.dist) {
+      this.savedBoard = { placed: s.placed, paint: s.paint, dist: s.dist };
+      try { localStorage.setItem('wti-module-board', JSON.stringify(this.savedBoard)); } catch (e) {}
+    }
+    if (x.custom !== s.custom || x.hidden !== s.hidden) {
+      this.savedXhs = { custom: s.custom, hidden: s.hidden };
+      try { localStorage.setItem('wti-xhs-mods', JSON.stringify(this.savedXhs)); } catch (e) {}
+    }
+  }
+  rows(m, rot) { let r = m.r.map(s => s.split('')); for (let i = 0; i < rot; i++) { const h = r.length, w = r[0].length, n = []; for (let y = 0; y < w; y++) { n.push([]); for (let x = 0; x < h; x++) n[y].push(r[h - 1 - x][y]); } r = n; } return r; }
+  modById(id) { return this.MODS.find(m => m.id === id) || this.allCustom().find(m => m.id === id); }
+  tileAt(e) { const c = this.cv.current; if (!c) return null; const b = this.DISTS[this.state.dist][1], rc = c.getBoundingClientRect(); const x = Math.floor((e.clientX - rc.left) / rc.width * (b[2] - b[0])) + b[0], y = Math.floor((e.clientY - rc.top) / rc.height * (b[3] - b[1])) + b[1]; return [x, y]; }
+  hit(x, y) { const P = this.state.placed; for (let i = P.length - 1; i >= 0; i--) { const p = P[i], pm = this.modById(p.m); if (!pm) continue; const r = this.rows(pm, p.rot); const dx = x - p.x, dy = y - p.y; if (dy >= 0 && dy < r.length && dx >= 0 && dx < r[0].length && r[dy][dx] !== '.') return p.id; } return null; }
+  applyPaint(t) { return this.applyCells(this.stamp(t[0], t[1], this.state.width)); }
+  applyPaintOld(t) {
+    const [x, y] = t, k = x + ',' + y, tool = this.state.tool;
+    if (tool === 'erase') { const id = this.hit(x, y); this.setState(s => { const pa = { ...s.paint }; delete pa[k]; return { paint: pa, placed: id ? s.placed.filter(p => p.id !== id) : s.placed }; }); }
+    else if (this.state.paint[k] !== tool) this.setState(s => ({ paint: { ...s.paint, [k]: tool } }));
+  }
+  removeSel() { const id = this.state.sel; if (id) this.setState(s => ({ placed: s.placed.filter(p => p.id !== id), sel: null })); }
+  renderVals() {
+    const s = this.state, L = this.LEG;
+    const dists = Object.entries(this.DISTS).map(([k, v]) => ({ name: v[0], pick: () => this.setState({ dist: k }), bg: s.dist === k ? '#4a3b30' : 'white', fg: s.dist === k ? 'white' : '#4a3b30' }));
+    const tools = this.TOOLS.map(([k, n, sw]) => ({ name: n, sw, pick: () => this.setState({ tool: k, sel: null }), bg: s.tool === k ? '#4a3b30' : 'white', fg: s.tool === k ? 'white' : '#4a3b30' }));
+    const ALL = this.allMods();
+    const ths = ['すべて', ...Array.from(new Set([...this.MODS.map(m => m.th), '小红书']))];
+    const themes = ths.map(t => ({ name: t, pick: () => this.setState({ theme: t, limit: 40 }), bg: s.theme === t ? (t === '小红书' ? '#ff2442' : '#4a3b30') : 'white', fg: s.theme === t ? 'white' : (t === '小红书' ? '#ff2442' : '#4a3b30') }));
+    const q = s.q.trim();
+    const filtered = ALL.filter(m => (s.theme === 'すべて' || m.th === s.theme) && (s.mat === 'all' || m.mat === s.mat) && (!q || (m.name + m.note).includes(q)));
+    const mods = filtered.slice(0, s.limit).map(m => {
+      const r = m.r, w = r[0].length;
+      const cells = []; r.forEach(row => row.split('').forEach(ch => { const l = L[ch]; cells.push({ bg: l ? l[1] : 'white', g: l ? l[2] : '' }); }));
+      return { name: m.name, note: m.note, size: `${w}×${r.length}マス`, gtc: `repeat(${w}, 13px)`, cells, outline: s.tool === 'place' && s.mod === m.id ? '2px solid #4a3b30' : 'none', pick: () => this.setState({ mod: m.id, tool: 'place', rot: 0 }) };
+    });
+    const cnt = {}; s.placed.forEach(p => { const m = this.modById(p.m); if (m) cnt[m.name] = (cnt[m.name] || 0) + 1; });
+    const counts = Object.entries(cnt).map(([name, n]) => ({ name, n }));
+    const m = this.modById(s.mod);
+    const status = s.tool === 'place' ? `置くもの：${m ? m.name : ''}（回転 ${s.rot * 90}°）　クリックで左上を合わせて配置` : s.tool === 'select' ? (s.sel ? '選択中。Delで削除' : 'モジュールをクリックして選択') : (s.mode === 'line' ? '始点から終点までドラッグすると、まっすぐ（縦・横・斜め45°）に' : 'なぞった所に') + `幅${s.width}マスで` + (s.tool === 'erase' ? '消します' : '道を敷きます') + '。地形・川・崖の上にも置けます';
+    // 小红书
+    const fmt = n => n >= 10000 ? (n / 10000).toFixed(1).replace(/\.0$/, '') + '万' : String(n);
+    const notesIn = s.notes.filter(n => s.xd === 'すべて' || n.theme === s.xd);
+    const cnt2 = {}; s.notes.forEach(n => cnt2[n.theme] = (cnt2[n.theme] || 0) + 1);
+    const xhsDists = this.XDISTS.map(d => ({ name: d + (d === 'すべて' ? `（${s.notes.length}）` : cnt2[d] ? `（${cnt2[d]}）` : ''), pick: () => this.setState(st => { const first = st.notes.find(n => d === 'すべて' || n.theme === d); return { xd: d, noteId: first ? first.id : st.noteId, imgIdx: 0 }; }), bg: s.xd === d ? '#ff2442' : 'oklch(0.96 0.01 85)', fg: s.xd === d ? 'white' : '#4a3b30' }));
+    const xhsNotes = notesIn.map(n => ({ title: n.title, cover: n.images[0] || '', meta: `${s.xd === 'すべて' ? n.theme + '・' : ''}♥${fmt(n.likes)}・★${fmt(n.collects)}・${n.images.length}枚・${n.author}`, bg: n.id === s.noteId ? 'oklch(0.95 0.03 15)' : 'transparent', pick: () => this.setState({ noteId: n.id, imgIdx: 0 }) }));
+    const nn = this.noteById(s.noteId), nImg = nn ? nn.images.length : 0, ii = nImg ? Math.min(s.imgIdx, nImg - 1) : 0;
+    const note = nn ? {
+      title: nn.title, url: nn.url, desc: nn.desc, img: nn.images[ii] || '', pos: `${ii + 1} / ${nImg}`,
+      meta: `${nn.theme}・${nn.author}・♥${fmt(nn.likes)}・★${fmt(nn.collects)}・💬${fmt(nn.comments)}${nn.ip ? '・' + nn.ip : ''}${nn.tags.length ? '・#' + nn.tags.slice(0, 5).join(' #') : ''}`,
+      prev: () => this.setState(st => ({ imgIdx: (ii - 1 + nImg) % nImg })), next: () => this.setState(st => ({ imgIdx: (ii + 1) % nImg })),
+      thumbs: nn.images.map((src, i) => ({ src, outline: i === ii ? '2px solid #ff2442' : 'none', pick: () => this.setState({ imgIdx: i }) }))
+    } : { title: '', url: '', desc: '', img: '', pos: '', meta: '', prev: () => {}, next: () => {}, thumbs: [] };
+    const e = s.ed, cs = e.w > 14 ? 18 : 24, PAL = ['.', 'B', 'p', 'S', 'd', 'a', 'w', 'H', 'D', 'L', 'b', 'c', 'h', 'U', 'I', 'Y', 'x', 'F', 'g', 't', 'e', 'f', 'W', 'A', 'Q', 'C', 'T', 'K', 'N', 's', 'u', 'R', 'n', 'G', 'P', 'O', 'J', 'k', 'X', 'M', 'E', 'V', '=', 'Z'];
+    const ed = {
+      w: e.w, h: e.h, gtc: `repeat(${e.w}, ${cs}px)`, cs: cs + 'px', name: e.name, memo: e.memo,
+      wDec: () => this.resizeEd(e.w - 1, e.h), wInc: () => this.resizeEd(e.w + 1, e.h), hDec: () => this.resizeEd(e.w, e.h - 1), hInc: () => this.resizeEd(e.w, e.h + 1),
+      fill: () => this.setEd(x => ({ g: x.g.map(r => r.map(() => x.sym)) })), clear: () => this.setEd(x => ({ g: x.g.map(r => r.map(() => '.')) })),
+      palette: PAL.map(k => { const l = L[k] || ['消す', '#ffffff', '']; return { name: l[0], sw: l[1], g: l[2], bg: e.sym === k ? '#4a3b30' : 'oklch(0.96 0.01 85)', fg: e.sym === k ? 'white' : '#4a3b30', pick: () => this.setEd({ sym: k }) }; }),
+      cells: e.g.flatMap((row, y) => row.map((ch, x) => { const l = L[ch]; return { bg: l ? l[1] : 'white', g: l ? l[2] : '', down: ev => { ev.preventDefault(); this.edPaint = true; this.paintEd(x, y); }, enter: () => { if (this.edPaint) this.paintEd(x, y); } }; })),
+      up: () => { this.edPaint = false; },
+      onName: ev => this.setEd({ name: ev.target.value }), onMemo: ev => this.setEd({ memo: ev.target.value }),
+      src: e.editId ? '編集中：' + ((this.allCustom().find(m => m.id === e.editId) || {}).name || '') : nn ? `出典：${nn.title}` : '出典なし（左でノートを選ぶと出典が付きます）',
+      saveLabel: e.editId ? '上書き保存' : '保存してモジュールにする',
+      save: () => this.saveEd(), reset: () => this.setState({ ed: this.blankEd(e.w, e.h) })
+    };
+    const mine = this.allCustom();
+    const myMods = mine.map(m => ({ name: m.name, size: `${m.r[0].length}×${m.r.length}`,
+      place: () => { this.setState({ mod: m.id, tool: 'place', rot: 0, theme: '小红书' }); const c = this.cv.current; if (c && c.scrollIntoView) c.scrollIntoView({ behavior: 'smooth', block: 'center' }); },
+      edit: () => this.editMod(m),
+      del: () => { if (!confirm(`「${m.name}」を削除します`)) return; this.setState(st => ({ custom: st.custom.filter(c => c.id !== m.id), hidden: st.fileMods.some(f => f.id === m.id) ? [...st.hidden, m.id] : st.hidden, placed: st.placed.filter(p => p.m !== m.id), ed: st.ed.editId === m.id ? { ...st.ed, editId: null } : st.ed })); } }));
+    return {
+      xhsInfo: s.notes.length ? `ノート${s.notes.length}件・画像${s.notes.reduce((a, n) => a + n.images.length, 0)}枚` : 'xhs/notes.json がまだありません',
+      xhsDists, xhsNotes, xhsEmpty: !xhsNotes.length, hasNote: !!nn, note, ed, myMods, myCount: mine.length,
+      exportMods: () => { const blob = new Blob([JSON.stringify({ version: 1, modules: mine }, null, 1)], { type: 'application/json' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'modules.json'; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000); },
+      importMods: ev => { const f = ev.target.files && ev.target.files[0]; if (!f) return; f.text().then(t => { const d = JSON.parse(t), list = (d.modules || d).filter(m => m && m.id && Array.isArray(m.r)); this.setState(st => ({ custom: [...st.custom.filter(c => !list.some(m => m.id === c.id)), ...list], hidden: st.hidden.filter(h => !list.some(m => m.id === h)) })); alert(`${list.length}件読み込みました`); }).catch(() => alert('読み込めませんでした')); ev.target.value = ''; },
+      total: ALL.length, shown: filtered.length, hasMore: filtered.length > s.limit,
+      more: () => this.setState(st => ({ limit: st.limit + 40 })),
+      onQ: e => this.setState({ q: e.target.value, limit: 40 }), q: s.q,
+      matChips: [['all', 'すべての素材'], ['B', 'レンガ'], ['p', '石畳'], ['S', '砂']].map(([k, n]) => ({ name: n, pick: () => this.setState({ mat: k, limit: 40 }), bg: s.mat === k ? '#4a3b30' : 'white', fg: s.mat === k ? 'white' : '#4a3b30' })),
+      cvRef: this.cv, dists, tools, themes, mods, counts, status,
+      legend: Object.values(L).map(([name, bg, g]) => ({ name, bg, g })),
+      rotate: () => this.setState(st => ({ rot: (st.rot + 1) % 4 })),
+      delSel: () => this.removeSel(),
+      loadSample: () => { const b = this.DISTS.lon[1], inB = (x, y) => x >= b[0] && x < b[2] && y >= b[1] && y < b[3]; this.setState(st => ({ dist: 'lon', placed: [...st.placed.filter(p => !inB(p.x, p.y)), ...this.SAMPLE.map(([m, x, y, rot], i) => ({ id: Date.now() + i, m, x, y, rot }))], sel: null })); },
+      clearDist: () => { const b = this.DISTS[s.dist][1], inB = (x, y) => x >= b[0] && x < b[2] && y >= b[1] && y < b[3]; if (!confirm('この地区の配置と道を消します')) return; this.setState(st => { const pa = {}; Object.entries(st.paint).forEach(([k, v]) => { const [x, y] = k.split(',').map(Number); if (!inB(x, y)) pa[k] = v; }); return { paint: pa, placed: st.placed.filter(p => !inB(p.x, p.y)), sel: null }; }); },
+      onDown: e => { const t = this.tileAt(e); if (!t) return; const tool = this.state.tool;
+        if (tool === 'place') { const id = Date.now() + Math.random(); this.setState(st => ({ placed: [...st.placed, { id, m: st.mod, x: t[0], y: t[1], rot: st.rot }] })); }
+        else if (tool === 'select') this.setState({ sel: this.hit(t[0], t[1]) });
+        else if (this.state.mode === 'line') this.setState({ lineA: t });
+        else { this.painting = true; this.applyPaint(t); } },
+      onMove: e => { const t = this.tileAt(e); if (!t) return; if (!this.state.hover || this.state.hover[0] !== t[0] || this.state.hover[1] !== t[1]) this.setState({ hover: t }); if (this.painting) this.applyPaint(t); },
+      onUp: e => { this.painting = false; const a = this.state.lineA; if (a) { const t = this.tileAt(e) || this.state.hover || a; this.applyCells(this.lineCells(a, t, this.state.width)); this.setState({ lineA: null }); } },
+      onLeave: () => { this.painting = false; this.setState({ hover: null, lineA: null }); },
+      widths: [1, 2, 3, 5].map(w => ({ name: w + 'マス', pick: () => this.setState({ width: w }), bg: s.width === w ? '#4a3b30' : 'white', fg: s.width === w ? 'white' : '#4a3b30' })),
+      modes: [['line', '直線（ドラッグ）'], ['pen', 'ペン（自由）']].map(([k, n]) => ({ name: n, pick: () => this.setState({ mode: k }), bg: s.mode === k ? '#4a3b30' : 'white', fg: s.mode === k ? 'white' : '#4a3b30' })),
+      terrains: [['show', '地形を表示'], ['faint', '薄く'], ['none', '平地として表示']].map(([k, n]) => ({ name: n, pick: () => this.setState({ terrain: k }), bg: s.terrain === k ? '#4a3b30' : 'white', fg: s.terrain === k ? 'white' : '#4a3b30' }))
+    };
+  }
+  draw() {
+    const c = this.cv.current, G = this.grid; if (!c || !G) return;
+    const s = this.state, b = this.DISTS[s.dist][1], [x0, y0, x1, y1] = b;
+    const S = s.dist === 'all' ? 16 : 40, k = S / 16;
+    if (c.width !== (x1 - x0) * S) c.width = (x1 - x0) * S;
+    if (c.height !== (y1 - y0) * S) c.height = (y1 - y0) * S;
+    const ctx = c.getContext('2d'), at = (x, y) => (G[y] || '')[x];
+    const C = { S: '#7fd6c3', s: '#f0e4a4', r: '#7c7f94', w: '#8ee0d0', '1': '#4c9f48', '3': '#72c752', t: '#3c843a', p: '#c8b487', b: '#8d8a92', P: '#cdb88c', K: '#b8694b' };
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, c.width, c.height); ctx.translate(-x0 * S, -y0 * S);
+    for (let y = y0; y < y1; y++) for (let x = x0; x < x1; x++) {
+      let v = at(x, y); if (s.terrain === 'none' && '13tpPbw'.includes(v)) v = '1'; ctx.fillStyle = C[v] || '#4c9f48'; ctx.fillRect(x * S, y * S, S, S);
+      if (v === 't') { ctx.fillStyle = '#2f6d2f'; ctx.beginPath(); ctx.arc(x * S + ((x + y) % 2 ? 5 : 11) * k, y * S + 8 * k, 4 * k, 0, 7); ctx.fill(); }
+      if (v === 'b') { ctx.fillStyle = '#6f6c75'; ctx.fillRect(x * S, y * S + 2 * k, S, 2 * k); ctx.fillRect(x * S, y * S + 12 * k, S, 2 * k); }
+    }
+    const hi = v => v === '3', land = v => '13tpPb'.includes(v);
+    if (s.terrain !== 'none') { ctx.fillStyle = 'rgba(30,60,25,.55)';
+    for (let y = y0; y < y1; y++) for (let x = x0; x < x1; x++) {
+      const v = at(x, y), r = at(x + 1, y), d = at(x, y + 1);
+      if (land(v) && r && land(r) && hi(v) !== hi(r) && v !== 'p' && r !== 'p') ctx.fillRect((x + 1) * S - 2 * k, y * S, 3 * k, S);
+      if (land(v) && d && land(d) && hi(v) !== hi(d) && v !== 'p' && d !== 'p') ctx.fillRect(x * S, (y + 1) * S - 2 * k, S, 3 * k);
+    } }
+    if (s.terrain === 'faint') { ctx.fillStyle = 'rgba(255,255,255,.45)'; ctx.fillRect(x0 * S, y0 * S, (x1 - x0) * S, (y1 - y0) * S); }
+    if (S >= 30) { ctx.strokeStyle = 'rgba(255,255,255,.18)'; ctx.lineWidth = 1; for (let x = x0; x <= x1; x++) { ctx.beginPath(); ctx.moveTo(x * S + .5, y0 * S); ctx.lineTo(x * S + .5, y1 * S); ctx.stroke(); } for (let y = y0; y <= y1; y++) { ctx.beginPath(); ctx.moveTo(x0 * S, y * S + .5); ctx.lineTo(x1 * S, y * S + .5); ctx.stroke(); } }
+    ctx.strokeStyle = 'rgba(255,255,255,.8)'; ctx.lineWidth = 2 * k; ctx.setLineDash([8 * k, 8 * k]);
+    for (let i = 1; i < 7; i++) { ctx.beginPath(); ctx.moveTo(i * 16 * S, 0); ctx.lineTo(i * 16 * S, 96 * S); ctx.stroke(); }
+    for (let i = 1; i < 6; i++) { ctx.beginPath(); ctx.moveTo(0, i * 16 * S); ctx.lineTo(112 * S, i * 16 * S); ctx.stroke(); }
+    ctx.setLineDash([]);
+    const L = this.LEG;
+    const cell = (x, y, ch, a) => { const l = L[ch]; if (!l) return; ctx.globalAlpha = a; ctx.fillStyle = l[1]; ctx.fillRect(x * S + k, y * S + k, S - 2 * k, S - 2 * k); if (l[2] && S >= 30) { ctx.fillStyle = '#3a2e25'; ctx.font = `700 ${Math.round(S * .5)}px 'Zen Maru Gothic', sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(l[2], x * S + S / 2, y * S + S / 2 + 1); ctx.textAlign = 'left'; } ctx.globalAlpha = 1; };
+    Object.entries(s.paint).forEach(([key, v]) => { const [x, y] = key.split(',').map(Number); cell(x, y, v, 1); });
+    s.placed.forEach(p => { const m = this.modById(p.m); if (!m) return; const r = this.rows(m, p.rot); r.forEach((row, dy) => row.forEach((ch, dx) => { if (ch !== '.') cell(p.x + dx, p.y + dy, ch, 1); }));
+      if (p.id === s.sel) { ctx.strokeStyle = '#d9483b'; ctx.lineWidth = 3 * k; ctx.strokeRect(p.x * S, p.y * S, r[0].length * S, r.length * S); } });
+    if (s.tool === 'place' && s.hover) { const m = this.modById(s.mod); if (m) { const r = this.rows(m, s.rot); r.forEach((row, dy) => row.forEach((ch, dx) => { if (ch !== '.') cell(s.hover[0] + dx, s.hover[1] + dy, ch, .6); })); ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 2 * k; ctx.setLineDash([6 * k, 4 * k]); ctx.strokeRect(s.hover[0] * S, s.hover[1] * S, r[0].length * S, r.length * S); ctx.setLineDash([]); } }
+    else if (s.hover && s.tool !== 'select') { const pv = s.lineA ? this.lineCells(s.lineA, s.hover, s.width) : this.stamp(s.hover[0], s.hover[1], s.width); pv.forEach(([x, y]) => { if (s.tool === 'erase') { ctx.fillStyle = 'rgba(255,255,255,.55)'; ctx.fillRect(x * S, y * S, S, S); } else cell(x, y, s.tool, .6); }); }
+    else if (s.hover) { ctx.strokeStyle = '#fff'; ctx.lineWidth = 2 * k; ctx.strokeRect(s.hover[0] * S, s.hover[1] * S, S, S); }
+    const icon = (x, y, t, bg) => { const cx = x * S, cy = y * S, R = 14 * k; ctx.fillStyle = bg || '#4a3b30'; ctx.beginPath(); ctx.arc(cx, cy, R, 0, 7); ctx.fill(); ctx.strokeStyle = '#fff'; ctx.lineWidth = 2 * k; ctx.stroke(); ctx.fillStyle = '#fff'; ctx.font = `700 ${Math.round(14 * k)}px 'Zen Maru Gothic', sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(t, cx, cy + 1); ctx.textAlign = 'left'; };
+    ctx.strokeStyle = '#a8402a'; ctx.lineWidth = 3 * k; ctx.setLineDash([10 * k, 6 * k]); ctx.strokeRect(42 * S, 79 * S, 14 * S, 6 * S); ctx.setLineDash([]);
+    if (S >= 16) { ctx.font = `700 ${Math.round(13 * k)}px 'Zen Maru Gothic', sans-serif`; const t = '飛行機ラウンジ', w = ctx.measureText(t).width + 12 * k; ctx.fillStyle = 'rgba(255,255,255,.92)'; ctx.fillRect(42 * S, 79 * S - 18 * k, w, 18 * k); ctx.fillStyle = '#a8402a'; ctx.textBaseline = 'middle'; ctx.fillText(t, 42 * S + 6 * k, 79 * S - 9 * k); }
+    icon(31, 66, '役'); icon(47, 88, '空'); icon(107, 88, '港');
+  }
+}
+</script>
+</body>
+</html>

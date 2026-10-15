@@ -1,0 +1,1203 @@
+{
+ "note": "案5b（第59回）の地区の見せ場。tools/plan5b_design.py が書く",
+ "manual_zones": "CPS",
+ "kits": {
+  "p5b_citadel": {
+   "name": "城門と天守の塔（軸のつきあたり：レンガの城門・天守の塔・左右の城壁）",
+   "size": [
+    6,
+    3
+   ],
+   "ref": [
+    "R-1266",
+    "R-1231",
+    "X-0010_1"
+   ],
+   "items": [
+    [
+     "castle wall",
+     0,
+     1,
+     0,
+     "Brown",
+     "wall_windows_bricks"
+    ],
+    [
+     "castle tower",
+     2,
+     0,
+     0,
+     "Brown"
+    ],
+    [
+     "castle wall",
+     4,
+     1,
+     0,
+     "Brown",
+     "wall_windows_bricks"
+    ],
+    [
+     "castle gate",
+     1,
+     2,
+     0,
+     "Brown"
+    ]
+   ],
+   "note": "飛行場 → 広場 → 大石段 → 軸のテラス → 城への石段 → 城門 → 天守の塔。軸のつきあたりの目じるし。城門の前（y33）が軸の道のおわり"
+  },
+  "p5b_gatecourt": {
+   "name": "城門の前の石畳の前庭（城のマンホール）",
+   "size": [
+    5,
+    2
+   ],
+   "ref": [
+    "R-1233",
+    "R-1231"
+   ],
+   "items": [
+    [
+     "manhole cover",
+     2,
+     1,
+     0,
+     "Castle"
+    ]
+   ],
+   "note": "城への石段を上がった所から城門までの前庭。レンガのヘリンボーンのマイデザインを敷く（灰色の道の十字にしない）"
+  },
+  "p5b_windmill": {
+   "name": "村の風車（風車・ベンチ・チューリップの畑）",
+   "size": [
+    5,
+    3
+   ],
+   "ref": [
+    "X-0006_1"
+   ],
+   "items": [
+    [
+     "windmill",
+     1,
+     0,
+     0,
+     "White"
+    ],
+    [
+     "garden bench",
+     3,
+     2,
+     0,
+     "White"
+    ]
+   ],
+   "plants": [
+    {
+     "type": "tulips",
+     "rect": [
+      0,
+      0,
+      0,
+      2
+     ],
+     "colors": [
+      "red",
+      "yellow",
+      "white"
+     ]
+    },
+    {
+     "type": "tulips",
+     "rect": [
+      3,
+      0,
+      4,
+      1
+     ],
+     "colors": [
+      "red",
+      "yellow",
+      "white"
+     ]
+    }
+   ],
+   "note": "村の目じるし。村の通りの東、池と市民農園のあいだ"
+  },
+  "p5b_closegate": {
+   "name": "路地 C2 のつきあたりの城の門（テラスの下をくぐるレンガのアーチ）",
+   "size": [
+    3,
+    1
+   ],
+   "ref": [
+    "R-1233",
+    "R-1148",
+    "X-0010_1"
+   ],
+   "items": [
+    [
+     "castle gate",
+     0,
+     0,
+     0,
+     "Brown"
+    ]
+   ],
+   "note": "上のテラスの崖のすそ。路地 C2 が城の門をくぐってテラスの下へ入っていくように見せる（見た目の立体交差）"
+  },
+  "p5b_bastion": {
+   "name": "貯水池の東の稜堡の塔（濃い灰色の石）",
+   "size": [
+    2,
+    2
+   ],
+   "ref": [
+    "R-1231"
+   ],
+   "items": [
+    [
+     "castle tower",
+     0,
+     0,
+     0,
+     "Dark gray"
+    ]
+   ],
+   "note": "堀（貯水池）の東の3段目の稜堡。滝の上の見張りの塔"
+  },
+  "p5b_castlefront_w": {
+   "name": "城の正面・西（角の塔と銃眼のある城壁）",
+   "size": [
+    8,
+    2
+   ],
+   "ref": [
+    "R-1231",
+    "X-0003_1"
+   ],
+   "items": [
+    [
+     "castle tower",
+     0,
+     0,
+     0,
+     "Brown"
+    ],
+    [
+     "castle wall",
+     2,
+     1,
+     0,
+     "Brown",
+     "wall_windows_bricks"
+    ],
+    [
+     "castle wall",
+     4,
+     1,
+     0,
+     "Brown",
+     "wall_windows_bricks"
+    ],
+    [
+     "castle wall",
+     6,
+     1,
+     0,
+     "Brown",
+     "wall_windows_bricks"
+    ]
+   ],
+   "note": "城の丘（3段目）の南のふち。上のテラスと広場から見上げる城の正面"
+  },
+  "p5b_castlefront_e": {
+   "name": "城の正面・東（銃眼のある城壁と角の塔）",
+   "size": [
+    6,
+    2
+   ],
+   "ref": [
+    "R-1231",
+    "X-0003_1"
+   ],
+   "items": [
+    [
+     "castle wall",
+     0,
+     1,
+     0,
+     "Brown",
+     "wall_windows_bricks"
+    ],
+    [
+     "castle wall",
+     2,
+     1,
+     0,
+     "Brown",
+     "wall_windows_bricks"
+    ],
+    [
+     "castle tower",
+     4,
+     0,
+     0,
+     "Brown"
+    ]
+   ],
+   "note": "城への石段の東。貯水池の西の角の塔"
+  },
+  "p5b_castlegarden": {
+   "name": "天守の庭のあずまや（白いガゼボ・ガーデンライト・鉄のベンチ・バラ）",
+   "size": [
+    4,
+    4
+   ],
+   "ref": [
+    "R-1231",
+    "R-1217"
+   ],
+   "items": [
+    [
+     "gazebo",
+     0,
+     0,
+     0,
+     "White"
+    ],
+    [
+     "garden lantern",
+     3,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "iron garden bench",
+     2,
+     3,
+     0,
+     "Black"
+    ]
+   ],
+   "plants": [
+    {
+     "type": "roses",
+     "rect": [
+      3,
+      1,
+      3,
+      2
+     ],
+     "colors": [
+      "red",
+      "white"
+     ]
+    },
+    {
+     "type": "roses",
+     "rect": [
+      0,
+      3,
+      1,
+      3
+     ],
+     "colors": [
+      "red",
+      "white"
+     ]
+    }
+   ],
+   "note": "城の丘（3段目）の天守の東。丘の小道（西）から入る"
+  },
+  "p5b_belvedere_w": {
+   "name": "大石段の上の見晴らし台・西（観光ぼうえんきょう・鉄のベンチ）",
+   "size": [
+    3,
+    1
+   ],
+   "ref": [
+    "X-0003_1"
+   ],
+   "items": [
+    [
+     "tourist telescope",
+     0,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "iron garden bench",
+     1,
+     0,
+     0,
+     "Black"
+    ]
+   ],
+   "note": "軸のテラスの南のふち（2段目）。広場と案内所と飛行場の軸を見下ろす"
+  },
+  "p5b_belvedere_e": {
+   "name": "大石段の上の見晴らし台・東（鉄のベンチ・ガーデンライト）",
+   "size": [
+    3,
+    1
+   ],
+   "ref": [
+    "X-0003_1"
+   ],
+   "items": [
+    [
+     "iron garden bench",
+     0,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "garden lantern",
+     2,
+     0,
+     0,
+     "Black"
+    ]
+   ],
+   "note": "軸のテラスの南のふち（2段目）"
+  },
+  "p5b_stairfoot": {
+   "name": "大石段の足もとのアーケードのカフェ（緑の屋台・黒板・鉄のテーブル）",
+   "size": [
+    4,
+    2
+   ],
+   "ref": [
+    "X-0003_1",
+    "X-0011_1",
+    "R-1233"
+   ],
+   "items": [
+    [
+     "menu chalkboard",
+     0,
+     0,
+     0,
+     "Dark brown"
+    ],
+    [
+     "stall",
+     1,
+     0,
+     0,
+     "Green"
+    ],
+    [
+     "streetlamp",
+     3,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "iron garden chair",
+     0,
+     1,
+     0,
+     "Black"
+    ],
+    [
+     "iron garden table",
+     1,
+     1,
+     0,
+     "Black"
+    ],
+    [
+     "iron garden chair",
+     2,
+     1,
+     0,
+     "Black"
+    ]
+   ],
+   "note": "軸のテラスの崖（アーチと戸のパネル）の足もと。大石段の西。南の通りに面する"
+  },
+  "p5b_flowerstall": {
+   "name": "大石段の足もとの花屋（花のショーケース・花の荷車・街灯）",
+   "size": [
+    3,
+    2
+   ],
+   "ref": [
+    "X-0011_1",
+    "R-1233"
+   ],
+   "items": [
+    [
+     "streetlamp",
+     0,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "flower display case",
+     1,
+     0,
+     0,
+     "Green"
+    ],
+    [
+     "garden wagon",
+     1,
+     1,
+     0,
+     "Dark brown"
+    ]
+   ],
+   "note": "軸のテラスの崖の足もと。大石段の東"
+  },
+  "p5b_pub": {
+   "name": "パブの小広場（パブの軒先：たる・木箱・鉄のテーブル・黒板）",
+   "size": [
+    4,
+    2
+   ],
+   "ref": [
+    "R-0877",
+    "R-0878",
+    "X-0011_1"
+   ],
+   "items": [
+    [
+     "barrel",
+     0,
+     0
+    ],
+    [
+     "standing shop sign",
+     1,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "iron garden table",
+     2,
+     0,
+     0,
+     "Brown"
+    ],
+    [
+     "iron garden chair",
+     3,
+     0,
+     0,
+     "Brown"
+    ],
+    [
+     "wooden box",
+     0,
+     1,
+     0,
+     "Dark brown"
+    ],
+    [
+     "iron garden chair",
+     2,
+     1,
+     0,
+     "Brown"
+    ]
+   ],
+   "note": "かたまり W2 の南の崖（窓と戸のパネル）の足もと。路地 C1 と C2 のあいだの小広場"
+  },
+  "p5b_arrivals": {
+   "name": "飛行場の前庭・西（広場の時計・待合いのベンチ・赤い電話ボックス）",
+   "size": [
+    4,
+    1
+   ],
+   "ref": [
+    "R-1103",
+    "R-1150",
+    "R-1130"
+   ],
+   "items": [
+    [
+     "park clock",
+     0,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "public bench",
+     1,
+     0,
+     0,
+     "Monotone"
+    ],
+    [
+     "phone box",
+     3,
+     0,
+     0,
+     "Red"
+    ]
+   ],
+   "note": "飛行場を出てすぐ左。時計の下で待ち合わせ。南の1列（y82）は海岸の小道のためにあける"
+  },
+  "p5b_departures": {
+   "name": "飛行場の前庭・東（到着と出発の掲示板・青い運航表・街灯）",
+   "size": [
+    3,
+    1
+   ],
+   "ref": [
+    "R-1134",
+    "R-1118"
+   ],
+   "items": [
+    [
+     "simple panel",
+     0,
+     0,
+     0,
+     "Brown",
+     "arrive_depart"
+    ],
+    [
+     "simple panel",
+     1,
+     0,
+     0,
+     "Brown",
+     "flight_board_blue"
+    ],
+    [
+     "streetlamp",
+     2,
+     0,
+     0,
+     "Black"
+    ]
+   ],
+   "note": "飛行場を出てすぐ右。エイブルの入口の前（x38〜40）と南の1列（y82）はあける"
+  },
+  "p5b_plazabench": {
+   "name": "広場の南の並木のベンチ",
+   "size": [
+    2,
+    1
+   ],
+   "ref": [
+    "R-1231"
+   ],
+   "items": [
+    [
+     "iron garden bench",
+     0,
+     0,
+     0,
+     "Black"
+    ]
+   ],
+   "note": "広場の南のふち。並木のあいだから広場と案内所を向く"
+  },
+  "p5b_nookstalls": {
+   "name": "タヌキ商店の西の八百屋の軒先（屋台・野菜かご）",
+   "size": [
+    3,
+    1
+   ],
+   "ref": [
+    "R-1241",
+    "X-0011_1"
+   ],
+   "items": [
+    [
+     "stall",
+     0,
+     0,
+     0,
+     "Natural"
+    ],
+    [
+     "veggie basket",
+     2,
+     0
+    ]
+   ],
+   "note": "海岸ぞい。タヌキ商店の入口（x16〜18）はあける"
+  },
+  "p5b_museumyard": {
+   "name": "博物館の前庭（白い大理石の柱・いだいなちょうこく・展示台）",
+   "size": [
+    5,
+    2
+   ],
+   "ref": [
+    "R-1231"
+   ],
+   "items": [
+    [
+     "decorative pillar",
+     0,
+     0,
+     0,
+     "Whitestone marble"
+    ],
+    [
+     "great statue",
+     1,
+     0
+    ],
+    [
+     "decorative pillar",
+     3,
+     0,
+     0,
+     "Whitestone marble"
+    ],
+    [
+     "display stand",
+     4,
+     0,
+     0,
+     "White"
+    ],
+    [
+     "garden lantern",
+     0,
+     1,
+     0,
+     "White"
+    ],
+    [
+     "garden lantern",
+     3,
+     1,
+     0,
+     "White"
+    ],
+    [
+     "stack of books",
+     4,
+     1,
+     0,
+     "Old"
+    ]
+   ],
+   "note": "博物館の入口の真向かい、通りの南。うしろは倉庫のテラスの崖"
+  },
+  "p5b_bookmarket": {
+   "name": "倉庫のテラスの足もとの古本市（こげ茶の屋台・本の山・鉄のベンチ）",
+   "size": [
+    5,
+    2
+   ],
+   "ref": [
+    "X-0006_1",
+    "X-0011_1"
+   ],
+   "items": [
+    [
+     "stall",
+     0,
+     0,
+     0,
+     "Dark brown"
+    ],
+    [
+     "stack of books",
+     2,
+     0,
+     0,
+     "Literature"
+    ],
+    [
+     "strapped books",
+     3,
+     0,
+     0,
+     "Red"
+    ],
+    [
+     "streetlamp",
+     4,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "menu chalkboard",
+     0,
+     1,
+     0,
+     "Dark brown"
+    ],
+    [
+     "stack of books",
+     1,
+     1,
+     0,
+     "Old"
+    ],
+    [
+     "iron garden bench",
+     3,
+     1,
+     0,
+     "Black"
+    ]
+   ],
+   "note": "倉庫のテラスの南の崖（アーチのパネル）の足もと。石段の東"
+  },
+  "p5b_bandstand": {
+   "name": "東の公園の音楽堂（緑のガゼボ・ふめんだい・鉄のベンチ）",
+   "size": [
+    5,
+    5
+   ],
+   "ref": [
+    "R-1217"
+   ],
+   "items": [
+    [
+     "garden lantern",
+     0,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "gazebo",
+     1,
+     1,
+     0,
+     "Green"
+    ],
+    [
+     "garden lantern",
+     4,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "music stand",
+     4,
+     2,
+     0,
+     "Black"
+    ],
+    [
+     "iron garden bench",
+     0,
+     4,
+     0,
+     "Green"
+    ],
+    [
+     "iron garden bench",
+     3,
+     4,
+     0,
+     "Green"
+    ]
+   ],
+   "note": "城の東の公園（1段目）の木立の中。北に貯水池と稜堡、南に博物館"
+  },
+  "p5b_slipway": {
+   "name": "運河の曲がり角の船台（白いヨット）",
+   "size": [
+    3,
+    2
+   ],
+   "ref": [
+    "R-1148",
+    "R-1235"
+   ],
+   "items": [
+    [
+     "yacht",
+     0,
+     0,
+     0,
+     "White"
+    ]
+   ],
+   "note": "運河の東への曲がり角と船だまりのあいだの岸。ヨットを陸にあげて手入れする船台"
+  },
+  "p5b_fishmarket": {
+   "name": "港の魚市場（白い屋台・魚の干物・クーラーボックス・うきわ・いかり）",
+   "size": [
+    5,
+    2
+   ],
+   "ref": [
+    "R-1235"
+   ],
+   "items": [
+    [
+     "stall",
+     0,
+     0,
+     0,
+     "White"
+    ],
+    [
+     "fish-drying rack",
+     2,
+     0,
+     0,
+     "Fish"
+    ],
+    [
+     "barrel",
+     4,
+     0
+    ],
+    [
+     "cooler box",
+     0,
+     1,
+     0,
+     "Blue"
+    ],
+    [
+     "wooden box",
+     1,
+     1,
+     0,
+     "Natural"
+    ],
+    [
+     "life ring",
+     2,
+     1,
+     0,
+     "Red"
+    ],
+    [
+     "anchor statue",
+     3,
+     1,
+     0,
+     "Black"
+    ],
+    [
+     "menu chalkboard",
+     4,
+     1,
+     0,
+     "White"
+    ]
+   ],
+   "note": "運河の南の岸の通りの南。ディーナの家の北"
+  }
+ },
+ "placements": [
+  {
+   "kit": "p5b_citadel",
+   "at": [
+    28,
+    30
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "城門と天守の塔",
+   "zone": "C",
+   "district": "D1",
+   "style": "herring"
+  },
+  {
+   "kit": "p5b_gatecourt",
+   "at": [
+    29,
+    34
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "城門の前の前庭",
+   "zone": "C",
+   "district": "D1",
+   "style": "herring"
+  },
+  {
+   "kit": "p5b_bastion",
+   "at": [
+    42,
+    30
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "稜堡の塔",
+   "zone": "C",
+   "district": "D1",
+   "style": "flag"
+  },
+  {
+   "kit": "p5b_closegate",
+   "at": [
+    22,
+    46
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "路地 C2 の城の門",
+   "zone": "C",
+   "district": "D3",
+   "style": "brick"
+  },
+  {
+   "kit": "p5b_castlefront_w",
+   "at": [
+    21,
+    37
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "城の正面・西",
+   "zone": "C",
+   "district": "D1",
+   "style": "herring"
+  },
+  {
+   "kit": "p5b_castlefront_e",
+   "at": [
+    33,
+    37
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "城の正面・東",
+   "zone": "C",
+   "district": "D1",
+   "style": "herring"
+  },
+  {
+   "kit": "p5b_castlegarden",
+   "at": [
+    35,
+    30
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "天守の庭のあずまや",
+   "zone": "C",
+   "district": "D1",
+   "style": "flag"
+  },
+  {
+   "kit": "p5b_belvedere_w",
+   "at": [
+    25,
+    57
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "大石段の上の見晴らし台・西",
+   "zone": "C",
+   "district": "D3",
+   "style": "herring"
+  },
+  {
+   "kit": "p5b_belvedere_e",
+   "at": [
+    34,
+    57
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "大石段の上の見晴らし台・東",
+   "zone": "C",
+   "district": "D3",
+   "style": "herring"
+  },
+  {
+   "kit": "p5b_stairfoot",
+   "at": [
+    23,
+    58
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "大石段の足もとのカフェ",
+   "zone": "C",
+   "district": "D3",
+   "style": "herring"
+  },
+  {
+   "kit": "p5b_flowerstall",
+   "at": [
+    34,
+    58
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "大石段の足もとの花屋",
+   "zone": "C",
+   "district": "D3",
+   "style": "herring"
+  },
+  {
+   "kit": "p5b_pub",
+   "at": [
+    20,
+    54
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "パブの小広場",
+   "zone": "C",
+   "district": "D3",
+   "style": "brick"
+  },
+  {
+   "kit": "p5b_plazabench",
+   "at": [
+    28,
+    72
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "広場の南のベンチ・西",
+   "zone": "C",
+   "district": "D4",
+   "style": "herring"
+  },
+  {
+   "kit": "p5b_plazabench",
+   "at": [
+    32,
+    72
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "広場の南のベンチ・東",
+   "zone": "C",
+   "district": "D4",
+   "style": "herring"
+  },
+  {
+   "kit": "p5b_arrivals",
+   "at": [
+    26,
+    81
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "飛行場の前庭・西",
+   "zone": "C",
+   "district": "D4",
+   "style": "flag"
+  },
+  {
+   "kit": "p5b_departures",
+   "at": [
+    35,
+    81
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "飛行場の前庭・東",
+   "zone": "C",
+   "district": "D4",
+   "style": "flag"
+  },
+  {
+   "kit": "p5b_nookstalls",
+   "at": [
+    13,
+    81
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "タヌキ商店の八百屋の軒先",
+   "zone": "C",
+   "district": "D4",
+   "style": "brick"
+  },
+  {
+   "kit": "p5b_museumyard",
+   "at": [
+    49,
+    46
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "博物館の前庭",
+   "zone": "C",
+   "district": "D5",
+   "style": "flag"
+  },
+  {
+   "kit": "p5b_bookmarket",
+   "at": [
+    50,
+    57
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "倉庫のテラスの足もとの古本市",
+   "zone": "C",
+   "district": "D5",
+   "style": "herring"
+  },
+  {
+   "kit": "p5b_bandstand",
+   "at": [
+    52,
+    31
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "東の公園の音楽堂",
+   "zone": "C",
+   "district": "D6",
+   "style": "herring"
+  },
+  {
+   "kit": "p5b_fishmarket",
+   "at": [
+    49,
+    69
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "港の魚市場",
+   "zone": "P",
+   "district": "D7",
+   "style": "plank"
+  },
+  {
+   "kit": "p5b_slipway",
+   "at": [
+    52,
+    62
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "運河の船台",
+   "zone": "P",
+   "district": "D7",
+   "style": "plank"
+  },
+  {
+   "kit": "p5b_windmill",
+   "at": [
+    87,
+    57
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "村の風車",
+   "zone": "S",
+   "district": "D8",
+   "style": "leaves"
+  }
+ ]
+}

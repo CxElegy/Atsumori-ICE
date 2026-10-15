@@ -1,0 +1,3667 @@
+{
+ "note": "第57回：地区ごとに設計した町の見せ場（キットと置き場所）。tools/plan4_kitcheck.py --merge で書く",
+ "manual_zones": "CP",
+ "kits": {
+  "p4_d1_stairfoot": {
+   "name": "坂の下の角（赤い電話ボックス・消火栓・ベーカー街の店先）",
+   "size": [
+    6,
+    2
+   ],
+   "ref": [
+    "X-0003_2",
+    "X-0003_1",
+    "R-1233"
+   ],
+   "items": [
+    [
+     "simple panel",
+     0,
+     0,
+     0,
+     "Brown",
+     "wall_windows_bricks"
+    ],
+    [
+     "simple panel",
+     1,
+     0,
+     0,
+     "Brown",
+     "wall_brick_lamp"
+    ],
+    [
+     "simple panel",
+     2,
+     0,
+     0,
+     "Brown",
+     "door_curtain"
+    ],
+    [
+     "simple panel",
+     3,
+     0,
+     0,
+     "Brown",
+     "wall_brick_lamp"
+    ],
+    [
+     "simple panel",
+     4,
+     0,
+     0,
+     "Brown",
+     "wall_windows_bricks"
+    ],
+    [
+     "phone box",
+     5,
+     0,
+     0,
+     "Red"
+    ],
+    [
+     "standing shop sign",
+     4,
+     1,
+     0,
+     "Black",
+     "signboard"
+    ],
+    [
+     "fire hydrant",
+     5,
+     1,
+     0,
+     "Red"
+    ]
+   ],
+   "lines": [],
+   "plants": [],
+   "note": "レイモンドの家の下の崖のすそ（x19〜24）を、窓・あかり・木の戸（spec のドアの位置 x21）のレンガの店先にする。坂（25,55,S）の壁ぎわに赤い電話ボックス、その前に消火栓と BAKER STREET の立て看板（X-0003_2 の坂の下の角）。戸の前と西の4マスはあけて店に入れる"
+  },
+  "p4_d1_platform": {
+   "name": "アーチの下の9¾番線とダイアゴン横丁の店先",
+   "size": [
+    6,
+    3
+   ],
+   "ref": [
+    "R-0871",
+    "R-0870",
+    "X-0003_1",
+    "R-1241"
+   ],
+   "items": [
+    [
+     "simple panel",
+     0,
+     0,
+     0,
+     "Brown",
+     "wall_brick_lamp"
+    ],
+    [
+     "simple panel",
+     1,
+     0,
+     0,
+     "Brown",
+     "window_hp"
+    ],
+    [
+     "simple panel",
+     2,
+     0,
+     0,
+     "Brown",
+     "sign_934"
+    ],
+    [
+     "simple panel",
+     3,
+     0,
+     0,
+     "Brown",
+     "wall_stone_window"
+    ],
+    [
+     "simple panel",
+     4,
+     0,
+     0,
+     "Brown",
+     "window_hp"
+    ],
+    [
+     "simple panel",
+     5,
+     0,
+     0,
+     "Brown",
+     "wall_brick_lamp"
+    ],
+    [
+     "suspicious cauldron",
+     0,
+     1,
+     0,
+     "Green"
+    ],
+    [
+     "birdcage",
+     1,
+     1,
+     0,
+     "Black"
+    ],
+    [
+     "rolling cart",
+     2,
+     1,
+     0,
+     "Black"
+    ],
+    [
+     "sample case",
+     3,
+     1,
+     0,
+     "Light brown"
+    ],
+    [
+     "stall",
+     4,
+     1,
+     0,
+     "Black"
+    ],
+    [
+     "stack of books",
+     4,
+     2,
+     0,
+     "Old"
+    ],
+    [
+     "globe",
+     5,
+     2,
+     0,
+     "Sepia"
+    ]
+   ],
+   "lines": [],
+   "plants": [],
+   "note": "2つの坂のあいだ、マエルの家の下の崖のすそ（広場から見上げる正面）。spec のアーチ2枚の位置に 9¾ の看板と石のアーチのパネル、両がわに魔法の店の窓（オリバンダー・ハニーデュークス）とレンガのあかり。9¾ の壁の前に荷車とトランクとふくろうのかご（キングス・クロス）、西は大鍋の店、東は黒い屋台の本屋（古い本と地球儀）。前の列の中ほど3マスはあけて店先に入れる"
+  },
+  "p4_d1_clockworks": {
+   "name": "運河の角の時計職人の工房（歯車の塔・時計・ポンプ）",
+   "size": [
+    7,
+    2
+   ],
+   "ref": [
+    "R-1267",
+    "R-1266",
+    "X-0003_1"
+   ],
+   "items": [
+    [
+     "simple panel",
+     0,
+     0,
+     0,
+     "Brown",
+     "wall_windows_bricks"
+    ],
+    [
+     "simple panel",
+     1,
+     0,
+     0,
+     "Brown",
+     "wall_brick_lamp"
+    ],
+    [
+     "simple panel",
+     2,
+     0,
+     0,
+     "Brown",
+     "door_curtain"
+    ],
+    [
+     "simple panel",
+     3,
+     0,
+     0,
+     "Brown",
+     "wall_stone_window"
+    ],
+    [
+     "gear tower",
+     4,
+     0,
+     0,
+     "Copper"
+    ],
+    [
+     "simple panel",
+     6,
+     0,
+     0,
+     "Brown",
+     "wall_windows_bricks"
+    ],
+    [
+     "park clock",
+     3,
+     1,
+     0,
+     "Black"
+    ],
+    [
+     "water pump",
+     6,
+     1,
+     0,
+     "Rust"
+    ]
+   ],
+   "lines": [],
+   "plants": [],
+   "note": "トリュフの家の下の崖のすそから運河の角まで（x35〜41）。窓・あかり・木の戸（spec のドア x37）と石のアーチ（spec のアーチ x38）の工房の店先に、銅の歯車の塔を壁に重ね、アーチの前に黒い柱の時計（ビッグ・ベンの町の時計屋）、運河ぎわに鉄のポンプ（R-1267 のスチームパンクの工房）。戸の前の3マスはあける"
+  },
+  "p4_d1_upperwalk": {
+   "name": "上の水路のプロムナードと滝のそばの城壁のカフェ",
+   "size": [
+    20,
+    3
+   ],
+   "ref": [
+    "R-1271",
+    "R-1274",
+    "R-1239",
+    "R-1233"
+   ],
+   "items": [
+    [
+     "streetlamp",
+     0,
+     0,
+     0,
+     "Green"
+    ],
+    [
+     "iron garden bench",
+     1,
+     0,
+     0,
+     "Green"
+    ],
+    [
+     "hedge",
+     3,
+     0
+    ],
+    [
+     "flower bed",
+     4,
+     0,
+     0,
+     "Dark brown"
+    ],
+    [
+     "hedge",
+     6,
+     0
+    ],
+    [
+     "iron garden bench",
+     7,
+     0,
+     0,
+     "Green"
+    ],
+    [
+     "streetlamp",
+     9,
+     0,
+     0,
+     "Green"
+    ],
+    [
+     "street organ",
+     10,
+     0,
+     0,
+     "Dark brown"
+    ],
+    [
+     "round topiary",
+     11,
+     0,
+     0,
+     "Green"
+    ],
+    [
+     "garden wagon",
+     12,
+     0,
+     0,
+     "Dark brown"
+    ],
+    [
+     "streetlamp",
+     14,
+     0,
+     0,
+     "Green"
+    ],
+    [
+     "coffee beans",
+     15,
+     0,
+     0,
+     "Original blend"
+    ],
+    [
+     "veggie basket",
+     16,
+     0
+    ],
+    [
+     "round topiary",
+     17,
+     0,
+     0,
+     "Green"
+    ],
+    [
+     "iron garden chair",
+     19,
+     0,
+     0,
+     "Green"
+    ],
+    [
+     "iron garden table",
+     19,
+     1,
+     0,
+     "Green"
+    ],
+    [
+     "iron garden chair",
+     19,
+     2,
+     2,
+     "Green"
+    ],
+    [
+     "manhole cover",
+     5,
+     2,
+     0,
+     "Bronze"
+    ],
+    [
+     "manhole cover",
+     13,
+     1,
+     0,
+     "Bronze"
+    ]
+   ],
+   "lines": [],
+   "plants": [],
+   "note": "2段目の水路のへり（1列目）に、水を背にした緑の鉄のベンチ・生け垣・花の台・緑の街灯をすきまなく並べる（R-1271・R-1239 の水ぎわの遊歩道）。なかほどに手回しオルガンの大道芸。東のつきあたりは滝のとなりの城壁の上のカフェ（R-1274）：花の荷車・コーヒー豆の袋・野菜のかご・トピアリー、1マスあけて、角の草地に緑の鉄のテーブルといす2つ（滝と運河を見る席）。2・3列目はあけた歩道（ブロンズのマンホール2つ）"
+  },
+  "p4_d1_busstop": {
+   "name": "北の坂の下の角（赤いバス停・新聞スタンド・地下鉄の看板）",
+   "size": [
+    8,
+    2
+   ],
+   "ref": [
+    "R-0849",
+    "R-1241",
+    "R-1233"
+   ],
+   "items": [
+    [
+     "streetlamp",
+     0,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "retro transportation stop",
+     1,
+     0,
+     0,
+     "Red"
+    ],
+    [
+     "stall",
+     3,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "standing shop sign",
+     5,
+     0,
+     0,
+     "Black",
+     "underground"
+    ],
+    [
+     "hedge",
+     6,
+     0
+    ],
+    [
+     "hedge",
+     7,
+     0
+    ],
+    [
+     "fire hydrant",
+     0,
+     1,
+     0,
+     "Red"
+    ],
+    [
+     "recycled-paper bundle",
+     3,
+     1,
+     0,
+     "Newspapers"
+    ],
+    [
+     "magazine rack",
+     4,
+     1,
+     0,
+     "Black"
+    ],
+    [
+     "steel trash can",
+     5,
+     1,
+     0,
+     "Black"
+    ]
+   ],
+   "lines": [],
+   "plants": [
+    {
+     "type": "tulips",
+     "rect": [
+      6,
+      1,
+      7,
+      1
+     ],
+     "colors": [
+      "red",
+      "white"
+     ]
+    }
+   ],
+   "note": "北の坂（27,33,S）を下りた角。赤いバス停（待つ人が立つ前の2マスはあける）・黒い屋台の新聞スタンド（新聞の束と雑誌ラック）・地下鉄（UNDERGROUND）のマイデザインの立て看板・黒いごみ箱・消火栓・街灯、東は生け垣と赤白のチューリップ"
+  },
+  "p4_d1_fishbar": {
+   "name": "西の岸のフィッシュ＆チップスと海を見るベンチ",
+   "size": [
+    2,
+    9
+   ],
+   "ref": [
+    "R-1235",
+    "R-0187",
+    "R-1239"
+   ],
+   "items": [
+    [
+     "barrel",
+     0,
+     0
+    ],
+    [
+     "streetlamp",
+     1,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "stacked fish containers",
+     0,
+     1,
+     0,
+     "Blue"
+    ],
+    [
+     "fish container",
+     1,
+     1,
+     0,
+     "Light blue"
+    ],
+    [
+     "fresh cooler",
+     0,
+     2,
+     3
+    ],
+    [
+     "stall",
+     1,
+     2,
+     3,
+     "White"
+    ],
+    [
+     "life ring",
+     0,
+     4,
+     0,
+     "Red"
+    ],
+    [
+     "menu chalkboard",
+     1,
+     4,
+     3,
+     "Dark brown"
+    ],
+    [
+     "tourist telescope",
+     0,
+     6,
+     1,
+     "Blue"
+    ],
+    [
+     "wooden box",
+     1,
+     6,
+     0,
+     "Natural"
+    ],
+    [
+     "iron garden bench",
+     0,
+     7,
+     1,
+     "Blue"
+    ]
+   ],
+   "lines": [],
+   "plants": [
+    {
+     "type": "windflowers",
+     "rect": [
+      0,
+      5,
+      1,
+      5
+     ],
+     "colors": [
+      "blue",
+      "white"
+     ]
+    }
+   ],
+   "note": "西の坂の下（坂の下は (15,46)・(15,47)）の浜ぞいの草地。北は白い屋台を東の道に向けたフィッシュ＆チップス（保冷箱・魚のコンテナ・たる、黒板と浮き輪）。アネモネを1列はさみ、南は海に向いた観光望遠鏡と青い鉄のベンチ。南の岸の角（y54〜58）は街の小物のためにあける"
+  },
+  "p4_d2_portobello": {
+   "name": "北通りのレコードと骨董の市（ポートベロー風）と、ユニオンジャックの街灯・円柱ポスト・バス停の角",
+   "size": [
+    7,
+    2
+   ],
+   "ref": [
+    "R-1130",
+    "R-1241",
+    "R-1231"
+   ],
+   "items": [
+    [
+     "stall",
+     0,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "jukebox",
+     2,
+     0,
+     0
+    ],
+    [
+     "covered counter",
+     3,
+     0,
+     0,
+     "Dark wood"
+    ],
+    [
+     "street lamp with banners",
+     5,
+     0,
+     0,
+     "Black",
+     "union_jack"
+    ],
+    [
+     "record box",
+     0,
+     1,
+     0,
+     "Black"
+    ],
+    [
+     "portable record player",
+     1,
+     1,
+     0,
+     "Red"
+    ],
+    [
+     "stack of books",
+     2,
+     1,
+     0,
+     "Old"
+    ],
+    [
+     "phonograph",
+     3,
+     1,
+     0
+    ],
+    [
+     "wooden box",
+     4,
+     1,
+     0,
+     "Dark brown"
+    ],
+    [
+     "record box",
+     5,
+     1,
+     0,
+     "Red",
+     "pillar_box"
+    ],
+    [
+     "poster stand",
+     6,
+     1,
+     0,
+     "Black",
+     "flight_board_michi"
+    ]
+   ],
+   "lines": [],
+   "plants": [],
+   "note": "6マス幅の北通りの南がわ2列（W1 の北のかべの前）。奥の列（高い）：黒いレコードの屋台（R-1130）・ジュークボックス・天がいの骨董カウンター・ユニオンジャックの旗の街灯。手前の列（低い）：レコードの箱・赤いポータブルプレーヤー・古い本・蓄音機・木箱・円柱ポスト（レコードボックス＋pillar_box）・バスの時刻表。東のはし（W1 の北東の角）は、通りの向かいの D1 の坂の下の赤い電話ボックスと対になるポストとバス停の角で、広場への小道の入口に面する。北の4列（y56〜59）は歩ける"
+  },
+  "p4_d2_tailoryard": {
+   "name": "仕立て屋の横庭（エイブルの西：服のレール・ミシン・マネキン・道しるべ）",
+   "size": [
+    2,
+    5
+   ],
+   "ref": [
+    "R-1241",
+    "R-1231"
+   ],
+   "items": [
+    [
+     "hanging clothing rack",
+     0,
+     0,
+     0,
+     "Dark wood"
+    ],
+    [
+     "iron hanger stand",
+     0,
+     1,
+     0,
+     "Black"
+    ],
+    [
+     "dress mannequin",
+     1,
+     1,
+     0,
+     "Black"
+    ],
+    [
+     "old sewing machine",
+     0,
+     2,
+     0,
+     "Black"
+    ],
+    [
+     "dress mannequin",
+     1,
+     3,
+     0,
+     "White"
+    ],
+    [
+     "signpost",
+     0,
+     4,
+     0,
+     "Tailors"
+    ],
+    [
+     "triangular topiary",
+     1,
+     4,
+     0,
+     "Green"
+    ]
+   ],
+   "lines": [],
+   "plants": [
+    {
+     "type": "pansies",
+     "rect": [
+      0,
+      3,
+      0,
+      3
+     ],
+     "colors": [
+      "purple",
+      "white"
+     ]
+    }
+   ],
+   "note": "エイブルの西のかべと浜のあいだの草地。サヴィル・ロウの仕立て屋の外の仕事場：奥に服のレール、まんなかにコート掛けと黒いマネキン、足ふみミシン、手前に白いマネキンと「仕立て屋」の道しるべ、戸口がわに三角のトピアリー。家の中の物（試着室・アイロン台・姿見）はやめた"
+  },
+  "p4_d2_puballey": {
+   "name": "路地裏のパブ（マンホール・ガス灯・たる・PUB の看板）",
+   "size": [
+    1,
+    5
+   ],
+   "ref": [
+    "R-1241",
+    "R-1233"
+   ],
+   "items": [
+    [
+     "manhole cover",
+     0,
+     1,
+     0,
+     "Bronze"
+    ],
+    [
+     "streetlamp",
+     0,
+     2,
+     0,
+     "Black"
+    ],
+    [
+     "barrel",
+     0,
+     3
+    ],
+    [
+     "standing shop sign",
+     0,
+     4,
+     0,
+     "Black",
+     "signboard"
+    ]
+   ],
+   "lines": [],
+   "plants": [],
+   "note": "W3a と W3b のあいだの2マス幅の路地（R-1241 の下の写真・R-1233 のマンホール）。W3a のかべぞいの1列：まんなかにマンホール、南の口に黒いガス灯・たる・大通りへ向けた PUB の看板。北の口と東の1列はあけて、路地から北を見るとエイブルの戸口が正面に見える。1列のキットなので W3b の屋根のふちの城壁は残る"
+  },
+  "p4_d2_lookout": {
+   "name": "浜ぎわの錨の碑と緑のベンチ（海辺の遊歩道）",
+   "size": [
+    1,
+    5
+   ],
+   "ref": [
+    "R-1231",
+    "X-0010_2"
+   ],
+   "items": [
+    [
+     "streetlamp",
+     0,
+     0,
+     0,
+     "Green"
+    ],
+    [
+     "iron garden bench",
+     0,
+     1,
+     1,
+     "Green"
+    ],
+    [
+     "anchor statue",
+     0,
+     3,
+     0,
+     "Black"
+    ]
+   ],
+   "lines": [],
+   "plants": [
+    {
+     "type": "roses",
+     "rect": [
+      0,
+      4,
+      0,
+      4
+     ],
+     "colors": [
+      "red",
+      "white"
+     ]
+    }
+   ],
+   "note": "W3a の西の浜ぎわ、エイブルの通りから南の大通りへおりる道のわき。緑にぬった鉄の街灯とベンチ（イギリスの海辺の遊歩道の色）、黒い錨の碑、赤白のバラ。ベンチは西の海を向く。望遠鏡は D1 の西の岸と重なるのでやめた。床は板張り"
+  },
+  "p4_d2_doorframe": {
+   "name": "エイブルの戸口の東のトピアリーと石だたみ",
+   "size": [
+    2,
+    1
+   ],
+   "ref": [
+    "R-1231"
+   ],
+   "items": [
+    [
+     "triangular topiary",
+     0,
+     0,
+     0,
+     "Green"
+    ]
+   ],
+   "lines": [],
+   "plants": [],
+   "note": "エイブルの戸口のすぐ東に三角のトピアリー（R-1231 の店の戸口の両わきの植木。西は横庭のトピアリー）。東の1マスはあけて石だたみ。囲みで x20〜21 の通りの両がわをふさいでいた自動のパネルを消す（x22 の W2 のかべのあかりのパネルは残る）"
+  },
+  "p4_d2_flowercorner": {
+   "name": "小道の角の花売り（緑の花の荷車と花）",
+   "size": [
+    2,
+    2
+   ],
+   "ref": [
+    "R-1233",
+    "R-1148"
+   ],
+   "items": [
+    [
+     "garden wagon",
+     0,
+     0,
+     0,
+     "Green"
+    ]
+   ],
+   "lines": [],
+   "plants": [
+    {
+     "type": "hyacinths",
+     "rect": [
+      0,
+      1,
+      0,
+      1
+     ],
+     "colors": [
+      "blue",
+      "white"
+     ]
+    },
+    {
+     "type": "tulips",
+     "rect": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "colors": [
+      "red",
+      "yellow"
+     ]
+    }
+   ],
+   "note": "広場からおりてくる小道（x23〜24）がエイブルの通りにつきあたる角、W3b とタヌキ商店のあいだの草地。南（カメラ）を向いた緑の花の荷車、その前に青・白のヒヤシンスと赤・黄のチューリップ（R-1233 の花の荷車）。囲みで x22 の通りをふさいでいた自動のパネルを消す"
+  },
+  "p4_d2_beachhalt": {
+   "name": "浜辺の小さな汽車の駅（ひろばの時計・曲がった街灯・汽車・鉄のベンチ）",
+   "size": [
+    2,
+    3
+   ],
+   "ref": [
+    "X-0010_1",
+    "X-0010_2",
+    "X-0010_3"
+   ],
+   "items": [
+    [
+     "plaza clock",
+     0,
+     0,
+     0,
+     "Classic"
+    ],
+    [
+     "curved streetlight",
+     1,
+     0,
+     0,
+     "Brown"
+    ],
+    [
+     "plaza train",
+     0,
+     1,
+     0,
+     "Classic"
+    ],
+    [
+     "iron garden bench",
+     0,
+     2,
+     0,
+     "Black"
+    ]
+   ],
+   "lines": [],
+   "plants": [],
+   "note": "北通りの西のはし、W1 の西の浜ぎわ（X-0010「浜を使いきる」：時計・銅色の曲がった街灯・汽車・ベンチ）。奥に高い時計と街灯、まんなかにホームに止まった小さな汽車、手前（カメラがわ）に待合の鉄のベンチ。低い物が手前、高い物が奥。床は赤いレンガのホーム。9¾番線は D1 の坂の東のアーチの下にあるので、ここは看板なしの浜の駅にして重ねない"
+  },
+  "p4_d3_arrivals": {
+   "name": "到着口の待合（時計の下の待ち合わせ・待合いす・到着の掲示板・赤い電話ボックス・荷物の台車）",
+   "size": [
+    5,
+    2
+   ],
+   "ref": [
+    "R-1134",
+    "R-0184",
+    "R-1118",
+    "R-1150"
+   ],
+   "items": [
+    [
+     "simple panel",
+     0,
+     0,
+     0,
+     "Brown",
+     "arrive_depart"
+    ],
+    [
+     "transit seat",
+     1,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "simple panel",
+     3,
+     0,
+     0,
+     "Brown",
+     "terminal5"
+    ],
+    [
+     "phone box",
+     4,
+     0,
+     0,
+     "Red"
+    ],
+    [
+     "park clock",
+     0,
+     1,
+     0,
+     "Black"
+    ],
+    [
+     "Rover's briefcase",
+     1,
+     1,
+     0,
+     null
+    ],
+    [
+     "caged cart",
+     3,
+     1,
+     0,
+     "Silver"
+    ]
+   ],
+   "lines": [],
+   "plants": [],
+   "note": "飛行場を出てすぐ右、税関の南の崖のすその草地（5×2）を到着ホールの正面に。壁ぞいに到着・出発の掲示板のパネル、黒い待合いす、TERMINAL 5 の看板のパネル、赤い電話ボックス。大通りの角には黒い公園の時計を1本だけ立てて「時計の下で待ち合わせ」（ウォータールー駅）。いすの前に旅行かばん、荷物のカゴ台車。前の列は1マスおきにあけ（電話ボックスの戸の前もあける）、高い物（時計・電話ボックス）を両はし、低い物をまん中に"
+  },
+  "p4_d3_avenue": {
+   "name": "飛行場通りのバス停と地下鉄の入口（ユニオンジャックの旗の街灯）",
+   "size": [
+    1,
+    6
+   ],
+   "ref": [
+    "R-1233",
+    "R-1148",
+    "R-1150"
+   ],
+   "items": [
+    [
+     "street lamp with banners",
+     0,
+     0,
+     1,
+     "Black",
+     "union_jack"
+    ],
+    [
+     "retro transportation stop",
+     0,
+     2,
+     1,
+     "Red",
+     "flight_board_michi"
+    ],
+    [
+     "simple panel",
+     0,
+     4,
+     1,
+     "Brown",
+     "underground"
+    ],
+    [
+     "simple panel",
+     0,
+     5,
+     1,
+     "Brown",
+     "wall_brick_lamp"
+    ]
+   ],
+   "lines": [],
+   "plants": [],
+   "note": "飛行場から北へ上がる大通り（4マス）の東のふち、税関の崖のすそ。広場の口にユニオンジャックの旗の街灯（向かいのタヌキ商店の角の旗と対で「旗の門」）、まん中に赤いバス停（時刻表のマイデザイン・大通りに向ける）、南の端の壁に地下鉄の丸い標識とレンガのあかりのパネル。大通りは3マスのこす"
+  },
+  "p4_d3_mall": {
+   "name": "タヌキ商店の東の角の旗と絵はがき（ユニオンジャックの街灯・絵はがきの棚・赤白のチューリップ）",
+   "size": [
+    1,
+    4
+   ],
+   "ref": [
+    "R-1241",
+    "R-1233"
+   ],
+   "items": [
+    [
+     "street lamp with banners",
+     0,
+     0,
+     3,
+     "Black",
+     "union_jack"
+    ],
+    [
+     "magazine rack",
+     0,
+     2,
+     3,
+     "Red"
+    ]
+   ],
+   "lines": [],
+   "plants": [
+    {
+     "type": "tulips",
+     "rect": [
+      0,
+      3,
+      0,
+      3
+     ],
+     "colors": [
+      "red",
+      "white"
+     ]
+    }
+   ],
+   "note": "タヌキ商店の東の壁ぞいの草地（建物のまわり1マス。道の上と同じあつかい）。バス停の向かいにもう1本ユニオンジャックの旗の街灯を立て、大通りの北の口を旗の門（ザ・マル）にする。赤い雑誌の棚を絵はがきの回転棚に見立て、足もとに赤と白のチューリップ。足もとはレンガの歩道"
+  },
+  "p4_d3_greengrocer": {
+   "name": "タヌキ商店の八百屋の軒先（緑の屋台・トマトとリンゴの箱・かごの山・値段の黒板）",
+   "size": [
+    3,
+    2
+   ],
+   "ref": [
+    "X-0011_1",
+    "R-1241",
+    "R-1130"
+   ],
+   "items": [
+    [
+     "stall",
+     0,
+     0,
+     0,
+     "Green"
+    ],
+    [
+     "menu chalkboard",
+     2,
+     0,
+     0,
+     "Dark brown"
+    ],
+    [
+     "pile of cardboard boxes",
+     0,
+     1,
+     0,
+     "Tomatoes"
+    ],
+    [
+     "cardboard box",
+     1,
+     1,
+     0,
+     "Apples"
+    ],
+    [
+     "stacked shopping baskets",
+     2,
+     1,
+     0,
+     "Green"
+    ]
+   ],
+   "lines": [],
+   "plants": [],
+   "note": "タヌキ商店の入口の東どなり。店の壁を背に緑の屋台（奥・高い）、手前にトマトとリンゴの箱と緑の買い物かごの山（手前・低い）、角に値段の黒板を大通りに向ける。X-0011_1 の店先の屋台と黒板の重ね方"
+  },
+  "p4_d3_cabrank": {
+   "name": "タクシー乗り場（黒いタクシー・街灯・客のかばん）",
+   "size": [
+    4,
+    2
+   ],
+   "ref": [
+    "R-1150",
+    "R-0849"
+   ],
+   "items": [
+    [
+     "minicar",
+     0,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "streetlamp",
+     3,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "sample case",
+     3,
+     1,
+     0,
+     "Black"
+    ]
+   ],
+   "lines": [],
+   "plants": [],
+   "note": "タヌキ商店の入口の西どなり、浜の通りの北のふち。黒い車をロンドンのタクシーに見立て、街灯の下に客の黒いかばん。南の浜の通り（2マス）はあける"
+  },
+  "p4_d3_tearoom": {
+   "name": "行き止まりのティールーム（ドアと窓・白いクロスのテーブル・白い鉄のいす・黒板）",
+   "size": [
+    2,
+    3
+   ],
+   "ref": [
+    "R-1274",
+    "R-1103",
+    "X-0011_1"
+   ],
+   "items": [
+    [
+     "simple panel",
+     0,
+     0,
+     0,
+     "Brown",
+     "door_curtain"
+    ],
+    [
+     "simple panel",
+     1,
+     0,
+     0,
+     "Brown",
+     "window_hp"
+    ],
+    [
+     "small covered round table",
+     0,
+     1,
+     0,
+     "White"
+    ],
+    [
+     "iron garden chair",
+     1,
+     1,
+     1,
+     "White"
+    ],
+    [
+     "iron garden chair",
+     0,
+     2,
+     2,
+     "White"
+    ],
+    [
+     "menu chalkboard",
+     1,
+     2,
+     0,
+     "White"
+    ]
+   ],
+   "lines": [],
+   "plants": [],
+   "note": "市場通りの東の行き止まり。銀行のかたまりの南の崖のすそにドアと菓子屋の窓のパネルを貼ってティールームの店先にし、白いクロスのテーブルと白い鉄のいす2脚、白い黒板。西の1列は中庭への入口としてあける"
+  },
+  "p4_d3_bank": {
+   "name": "広場の東の銀行の柱廊（白い大理石の柱・石の窓・黒い扉）",
+   "size": [
+    1,
+    9
+   ],
+   "ref": [
+    "R-0849",
+    "R-1103",
+    "R-1217"
+   ],
+   "items": [
+    [
+     "decorative pillar",
+     0,
+     0,
+     0,
+     "Whitestone marble"
+    ],
+    [
+     "simple panel",
+     0,
+     1,
+     1,
+     "White",
+     "wall_stone_window"
+    ],
+    [
+     "simple panel",
+     0,
+     2,
+     1,
+     "White",
+     "wall_stone_window"
+    ],
+    [
+     "decorative pillar",
+     0,
+     3,
+     0,
+     "Whitestone marble"
+    ],
+    [
+     "simple panel",
+     0,
+     4,
+     1,
+     "White",
+     "door_curtain"
+    ],
+    [
+     "decorative pillar",
+     0,
+     5,
+     0,
+     "Whitestone marble"
+    ],
+    [
+     "simple panel",
+     0,
+     6,
+     1,
+     "White",
+     "wall_stone_window"
+    ],
+    [
+     "simple panel",
+     0,
+     7,
+     1,
+     "White",
+     "wall_stone_window"
+    ],
+    [
+     "decorative pillar",
+     0,
+     8,
+     0,
+     "Whitestone marble"
+    ]
+   ],
+   "lines": [],
+   "plants": [],
+   "note": "広場の東の路地の東がわ、2段目の「銀行のかたまり」の崖のすそ（9マス）。白い大理石の柱と石の窓のパネルを交互に並べ、まん中（もとのアーチの所）を黒い扉にして、柱2本ではさむ。広場から見るイングランド銀行・王立取引所のような白い石の正面。路地の西の1列と広場はあける"
+  },
+  "p4_d4_flowers": {
+   "name": "テムズ橋のたもとの花屋（屋台・花のショーケース・花の荷車・切り花・街の時計）",
+   "size": [
+    6,
+    2
+   ],
+   "ref": [
+    "R-1241",
+    "R-1233",
+    "X-0003"
+   ],
+   "items": [
+    [
+     "stall",
+     0,
+     0,
+     0,
+     "Green"
+    ],
+    [
+     "flower display case",
+     2,
+     0,
+     0,
+     "Green"
+    ],
+    [
+     "park clock",
+     5,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "Casablanca lilies",
+     0,
+     1,
+     0,
+     "White"
+    ],
+    [
+     "garden wagon",
+     1,
+     1,
+     0,
+     "Green"
+    ],
+    [
+     "menu chalkboard",
+     3,
+     1,
+     0,
+     "Dark brown"
+    ],
+    [
+     "potted starter plants",
+     5,
+     1,
+     0,
+     "Green"
+    ]
+   ],
+   "lines": [],
+   "plants": [
+    {
+     "type": "tulips",
+     "rect": [
+      4,
+      0,
+      4,
+      0
+     ],
+     "colors": [
+      "red",
+      "yellow",
+      "white"
+     ]
+    },
+    {
+     "type": "hyacinths",
+     "rect": [
+      4,
+      1,
+      4,
+      1
+     ],
+     "colors": [
+      "blue",
+      "purple",
+      "white"
+     ]
+    }
+   ],
+   "note": "北の大通りからテムズの橋へ曲がる角。奥に深緑の屋台と花のショーケース、手前に白いカサブランカの切り花・花の荷車・値札の黒板・ポットなえ。あいた2マスにチューリップとヒヤシンス。橋がわの角に黒い街の時計（コロンビア・ロードの花屋の見立て）"
+  },
+  "p4_d4_bookmarket": {
+   "name": "博物館の壁ぞいの古本市（本棚の壁・本の台・大時計・ロッキングチェア）",
+   "size": [
+    2,
+    5
+   ],
+   "ref": [
+    "X-0006",
+    "R-0870"
+   ],
+   "items": [
+    [
+     "streetlamp",
+     0,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "wooden bookshelf",
+     1,
+     0,
+     1,
+     "Dark brown"
+    ],
+    [
+     "merchandise table",
+     0,
+     1,
+     1,
+     "Wooden"
+    ],
+    [
+     "wooden bookshelf",
+     1,
+     2,
+     1,
+     "Brown"
+    ],
+    [
+     "stack of books",
+     0,
+     3,
+     0,
+     "Old"
+    ],
+    [
+     "rocking chair",
+     0,
+     4,
+     1,
+     "Dark wood"
+    ],
+    [
+     "antique clock",
+     1,
+     4,
+     0,
+     "Brown"
+    ]
+   ],
+   "lines": [],
+   "plants": [],
+   "note": "曳舟道の東がわ（博物館の丘の崖）に本棚を背中あわせに並べて壁にし、手前に本の台。運河がわの2マスは歩く道としてあける。南のはしは坂の下：大時計と店番のロッキングチェア"
+  },
+  "p4_d4_museumwest": {
+   "name": "博物館の前庭・西（ロゼッタストーンと旗の街灯）",
+   "size": [
+    3,
+    1
+   ],
+   "ref": [
+    "R-1231",
+    "R-1271"
+   ],
+   "items": [
+    [
+     "informative statue",
+     0,
+     0,
+     0,
+     null
+    ],
+    [
+     "street lamp with banners",
+     1,
+     0,
+     0,
+     "Black",
+     "union_jack"
+    ]
+   ],
+   "lines": [],
+   "plants": [],
+   "note": "西の石段を上がりきった所。石段の上にロゼッタストーン（てがかりのちょうこく）、入口の左にユニオンジャックの旗の街灯。東のカフェの旗の街灯・望遠鏡と、入口（x54）をはさんで左右対称（像と望遠鏡が4マス、旗の街灯が2マスはなれる）。入口の前と石段の上はあけて広く見せる"
+  },
+  "p4_d4_terracecafe": {
+   "name": "博物館テラスのカフェ（パラソルの席・テムズを見る望遠鏡）",
+   "size": [
+    3,
+    3
+   ],
+   "ref": [
+    "X-0003",
+    "R-1274",
+    "R-1271"
+   ],
+   "items": [
+    [
+     "street lamp with banners",
+     0,
+     0,
+     0,
+     "Black",
+     "union_jack"
+    ],
+    [
+     "tourist telescope",
+     2,
+     0,
+     3,
+     "Black"
+    ],
+    [
+     "iron garden chair",
+     0,
+     1,
+     3,
+     "Black"
+    ],
+    [
+     "iron garden chair",
+     0,
+     2,
+     3,
+     "Black"
+    ],
+    [
+     "bistro table",
+     1,
+     1,
+     0,
+     "White"
+    ]
+   ],
+   "lines": [],
+   "plants": [],
+   "note": "博物館の入口の右、テラスの東の角（すぐ東がテムズ）。白いパラソルの席に、川を向いた黒い鉄のイス2つ。角にテムズを見る観光の望遠鏡。旗の街灯は西と左右対称"
+  },
+  "p4_d4_waterbus": {
+   "name": "運河の水上バスの乗り場（天がいつきの切符売り場・路線図・浮き輪）",
+   "size": [
+    5,
+    1
+   ],
+   "ref": [
+    "R-1235",
+    "R-0187",
+    "R-1271"
+   ],
+   "items": [
+    [
+     "life ring",
+     0,
+     0,
+     0,
+     "Red"
+    ],
+    [
+     "covered counter",
+     1,
+     0,
+     0,
+     "Dark wood"
+    ],
+    [
+     "poster stand",
+     3,
+     0,
+     0,
+     "Black",
+     "underground"
+    ],
+    [
+     "streetlamp",
+     4,
+     0,
+     0,
+     "Black"
+    ]
+   ],
+   "lines": [],
+   "plants": [],
+   "note": "運河の南岸、西の橋の手前の板の桟橋。2つの運河が出あう角に赤い浮き輪、天がいつきのカウンターを切符売り場に、路線図の看板と街灯。リトル・ヴェニスの水上バスの見立て。南の2マスは川ぞいの散歩道としてあける"
+  },
+  "p4_d4_riverpub": {
+   "name": "テムズ河畔のパブ（レンガの店構え・たるの立ち飲み・PUB の看板・花かごの街灯・ベンチ）",
+   "size": [
+    7,
+    2
+   ],
+   "ref": [
+    "R-0877",
+    "X-0003",
+    "R-1241",
+    "R-1231"
+   ],
+   "items": [
+    [
+     "simple panel",
+     0,
+     0,
+     0,
+     "Brown",
+     "wall_brick_lamp"
+    ],
+    [
+     "simple panel",
+     1,
+     0,
+     0,
+     "Brown",
+     "wall_windows_bricks"
+    ],
+    [
+     "simple panel",
+     2,
+     0,
+     0,
+     "Brown",
+     "door_curtain"
+    ],
+    [
+     "simple panel",
+     3,
+     0,
+     0,
+     "Brown",
+     "wall_windows_bricks"
+    ],
+    [
+     "simple panel",
+     4,
+     0,
+     0,
+     "Brown",
+     "wall_brick_lamp"
+    ],
+    [
+     "street lamp with banners",
+     5,
+     0,
+     0,
+     "Black",
+     "hanging_basket"
+    ],
+    [
+     "stacked bottle crates",
+     0,
+     1,
+     0,
+     "Green"
+    ],
+    [
+     "barrel",
+     1,
+     1,
+     0,
+     null
+    ],
+    [
+     "plain wooden shop sign",
+     3,
+     1,
+     0,
+     "Dark wood",
+     "signboard"
+    ],
+    [
+     "barrel",
+     4,
+     1,
+     0,
+     null
+    ],
+    [
+     "garden bench",
+     5,
+     1,
+     0,
+     "Black"
+    ]
+   ],
+   "lines": [],
+   "plants": [],
+   "note": "倉庫のかたまりの南の崖にパネルを並べて店構え（あかり・窓・まん中に黒いドア）。ドアの前（2,1）はあける。たるのテーブルで立ち飲み、ボトルのケース、PUB の立て看板、花かごの街灯、テムズがわのはしに黒いベンチ"
+  },
+  "p4_d4_k6corner": {
+   "name": "赤い電話ボックスの並ぶ角（K6 の3つならび・新聞のラック・円柱のポスト）",
+   "size": [
+    3,
+    2
+   ],
+   "ref": [
+    "R-1241",
+    "R-1231",
+    "X-0003"
+   ],
+   "items": [
+    [
+     "phone box",
+     0,
+     0,
+     0,
+     "Red"
+    ],
+    [
+     "phone box",
+     1,
+     0,
+     0,
+     "Red"
+    ],
+    [
+     "phone box",
+     2,
+     0,
+     0,
+     "Red"
+    ],
+    [
+     "large magazine rack",
+     0,
+     1,
+     0,
+     "Light green"
+    ],
+    [
+     "record box",
+     2,
+     1,
+     0,
+     "Red",
+     "post_box"
+    ]
+   ],
+   "lines": [],
+   "plants": [],
+   "note": "北の大通りと曳舟道の入口の角。コヴェント・ガーデンのブロード・コートのように赤い電話ボックスを3つならべ、手前に薄緑の新聞のラックと円柱のポスト（レコードボックスに POST）。背の高い物を奥、低い物を手前に置いて重ねる"
+  },
+  "p4_d5_anchorgarden": {
+   "name": "錨亭のビアガーデン（レンガのバーカウンター・アップライトピアノ・たるの立ち飲み・PUB の立て看板）",
+   "size": [
+    7,
+    3
+   ],
+   "ref": [
+    "R-0877",
+    "R-0878",
+    "X-0011"
+   ],
+   "items": [
+    [
+     "sideways pirate barrel",
+     0,
+     0,
+     0,
+     null
+    ],
+    [
+     "counter table",
+     1,
+     0,
+     0,
+     "Brick & natural wood"
+    ],
+    [
+     "upright piano",
+     4,
+     0,
+     0,
+     "Walnut"
+    ],
+    [
+     "streetlamp",
+     6,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "counter chair",
+     1,
+     1,
+     2,
+     "Dark wood"
+    ],
+    [
+     "counter chair",
+     2,
+     1,
+     2,
+     "Dark wood"
+    ],
+    [
+     "piano bench",
+     4,
+     1,
+     2,
+     "Black"
+    ],
+    [
+     "barrel",
+     5,
+     1,
+     0,
+     null
+    ],
+    [
+     "wooden stool",
+     6,
+     1,
+     1,
+     "Dark wood"
+    ],
+    [
+     "garden lantern",
+     0,
+     2,
+     0,
+     "Black"
+    ],
+    [
+     "menu chalkboard",
+     1,
+     2,
+     0,
+     "Dark brown"
+    ],
+    [
+     "standing shop sign",
+     2,
+     2,
+     0,
+     "Black",
+     "signboard"
+    ],
+    [
+     "flower bed",
+     4,
+     2,
+     0,
+     "Dark brown"
+    ],
+    [
+     "garden lantern",
+     6,
+     2,
+     0,
+     "Black"
+    ]
+   ],
+   "lines": [],
+   "plants": [],
+   "note": "店の正面は小道（y77）の向こうの崖のすそのレンガのパネル（窓・あかり・ドア）。テラスは小道をはさんで向かいがわ（本物のバンクサイドの錨亭と同じつくり）。奥の列（小道ぞい）に背の高い物（たる・レンガのカウンター・ピアノ・街灯）、まん中にスツールとピアノのいすとたるの立ち飲み、手前の列（波止場の道ぞい）に低い物（ランタン・黒板・PUB の立て看板・花壇）を置き、南から見て奥ほど高い。まん中の列（dx3）はあけて、小道から波止場の道へぬける通り道。R-0877 の「お酒にピアノの音」をそのまま外に出した"
+  },
+  "p4_d5_pillarbox": {
+   "name": "自宅の戸口の赤い円柱ポストとガス灯",
+   "size": [
+    2,
+    1
+   ],
+   "ref": [
+    "R-1231"
+   ],
+   "items": [
+    [
+     "streetlamp",
+     0,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "record box",
+     1,
+     0,
+     0,
+     "Red",
+     "pillar_box"
+    ]
+   ],
+   "lines": [],
+   "plants": [],
+   "note": "崖のふち。下の通りと波止場から、家の左に赤いポストとガス灯が見える。南の1マスはあけて、下の通りの崖のパネルを残す"
+  },
+  "p4_d5_rivercorner": {
+   "name": "テムズの曲がり角の欄干（花の荷車・緑のガス灯・緑の鉄のベンチ・苗のトレー）",
+   "size": [
+    3,
+    2
+   ],
+   "ref": [
+    "R-1274",
+    "R-1271"
+   ],
+   "items": [
+    [
+     "garden wagon",
+     0,
+     0,
+     0,
+     "Brown"
+    ],
+    [
+     "streetlamp",
+     2,
+     0,
+     0,
+     "Green"
+    ],
+    [
+     "iron garden bench",
+     0,
+     1,
+     0,
+     "Green"
+    ],
+    [
+     "potted starter plants",
+     2,
+     1,
+     0,
+     "Black"
+    ]
+   ],
+   "lines": [],
+   "plants": [],
+   "note": "ビーの家の戸口の東、2段目の町の南東の角。東は川（テムズ）の曲がり角、北は2段目の池から川へ落ちる滝、南は崖の下の船だまり。R-1274 の城壁の橋の上と同じく、奥に花の荷車と緑のガス灯、手前に南（船だまりと海）を向く緑の鉄のベンチと苗のトレー。南の1マス（y75）はあけて、下の通りの崖のパネルを残す"
+  },
+  "p4_d5_northhead": {
+   "name": "北の坂の上の水飲み場とガス灯",
+   "size": [
+    2,
+    2
+   ],
+   "ref": [
+    "R-1271",
+    "R-1231"
+   ],
+   "items": [
+    [
+     "streetlamp",
+     1,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "drinking fountain",
+     1,
+     1,
+     0,
+     "Black"
+    ]
+   ],
+   "lines": [],
+   "plants": [
+    {
+     "type": "hyacinths",
+     "rect": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "colors": [
+      "purple",
+      "white"
+     ],
+     "pattern": "fill"
+    }
+   ],
+   "note": "北の坂（下の北通りから2段目の町へ）を上がりきった左に、黒いガス灯と黒い水飲み場。2つの家のあいだの路地の正面なので、南の坂の上からも路地の奥に見える。家のうしろ（かげになる所）は花壇でうめず、柵と木にまかせる"
+  },
+  "p4_d5_phonealley": {
+   "name": "坂の上の路地の口（赤い電話ボックス・黒い自転車）",
+   "size": [
+    1,
+    3
+   ],
+   "ref": [
+    "R-1231",
+    "X-0011"
+   ],
+   "items": [
+    [
+     "cruiser bike",
+     0,
+     0,
+     1,
+     "Black"
+    ],
+    [
+     "phone box",
+     0,
+     2,
+     0,
+     "Red"
+    ]
+   ],
+   "lines": [],
+   "plants": [],
+   "note": "下の通りから南の坂を見上げると、2つの家のすきまの正面に赤い電話ボックス。自転車はビーの家の壁ぞい。路地（2マス）はあけたまま"
+  },
+  "p4_d5_quay": {
+   "name": "船だまりの東の岸（木のくい・赤いうきわ）",
+   "size": [
+    1,
+    3
+   ],
+   "ref": [
+    "R-0187",
+    "R-1235"
+   ],
+   "items": [
+    [
+     "log stakes",
+     0,
+     0,
+     0,
+     "Dark wood"
+    ],
+    [
+     "life ring",
+     0,
+     1,
+     0,
+     "Red"
+    ],
+    [
+     "log stakes",
+     0,
+     2,
+     0,
+     "Dark wood"
+    ]
+   ],
+   "lines": [],
+   "plants": [],
+   "note": "船だまりの東の岸の板の桟橋。両はしに船をつなぐ木のくい、あいだに赤いうきわ（R-0187 の木の桟橋のくいの列）。石と鉄の柵のかわりに岸のふちになる。岸から波止場の道へは東どなりの草地（x59〜60）を通る"
+  },
+  "p4_d6_borough": {
+   "name": "バラ・マーケットの屋台の路地（八百屋とチーズ屋の屋台・レンガの店先・野菜の箱・ミルク缶）",
+   "size": [
+    6,
+    4
+   ],
+   "ref": [
+    "R-1241",
+    "X-0011_1",
+    "R-1130"
+   ],
+   "items": [
+    [
+     "simple panel",
+     0,
+     0,
+     0,
+     "Brown",
+     "wall_windows_bricks"
+    ],
+    [
+     "simple panel",
+     1,
+     0,
+     0,
+     "Brown",
+     "wall_brick_lamp"
+    ],
+    [
+     "stall",
+     0,
+     1,
+     0,
+     "Green"
+    ],
+    [
+     "veggie basket",
+     0,
+     3,
+     0,
+     null
+    ],
+    [
+     "pile of cardboard boxes",
+     1,
+     3,
+     0,
+     "Tomatoes"
+    ],
+    [
+     "manhole cover",
+     2,
+     2,
+     0,
+     "Bronze"
+    ],
+    [
+     "simple panel",
+     4,
+     0,
+     0,
+     "Brown",
+     "wall_brick_lamp"
+    ],
+    [
+     "simple panel",
+     5,
+     0,
+     0,
+     "Brown",
+     "wall_windows_bricks"
+    ],
+    [
+     "stall",
+     4,
+     1,
+     0,
+     "White"
+    ],
+    [
+     "milk can",
+     4,
+     3,
+     0,
+     "Silver"
+    ],
+    [
+     "wooden box",
+     5,
+     3,
+     0,
+     "Natural"
+    ]
+   ],
+   "lines": [],
+   "plants": [],
+   "note": "市場の広場（x66〜75・y66〜69）のうち、ボロー通り（x70〜71）の両がわの2つのくぼみ（x68〜69・x72〜73）。どちらも北の崖のすそにレンガの店先（窓・あかりのパネル）、その前に屋台（西は緑の八百屋、東は白いチーズとミルクの屋台）、まん中の1列（y68）は東西にぬける客の通り道、南のふち（y69）に低い野菜かご・トマトの箱・ミルク缶・チーズの木箱（低い物を手前、高い物を奥にしてカメラから屋台が見える）。ボロー通りと客の通り道の交わる所に銅のマンホール。魚屋はドックランズ（D7）の魚市場とかぶるのでやめた"
+  },
+  "p4_d6_ovencoffee": {
+   "name": "公園口のパンがまとコーヒーの屋台（レンガのパンがま・こげ茶の屋台・豆の袋・黒板）",
+   "size": [
+    6,
+    2
+   ],
+   "ref": [
+    "R-1241",
+    "R-1130",
+    "X-0011_1"
+   ],
+   "items": [
+    [
+     "stall",
+     0,
+     0,
+     0,
+     "Dark brown"
+    ],
+    [
+     "stacked bags",
+     0,
+     1,
+     0,
+     null
+    ],
+    [
+     "menu chalkboard",
+     1,
+     1,
+     0,
+     "Natural"
+    ],
+    [
+     "brick oven",
+     4,
+     0,
+     0,
+     "Red"
+    ]
+   ],
+   "lines": [],
+   "plants": [],
+   "note": "ボロー通りの北のつきあたり（郊外の庭へ出る門）の2つのくぼみ。西にこげ茶のコーヒーの屋台と豆の袋・黒板（R-1130 の屋台＋手前の箱の重ね方）、東のくぼみいっぱいに赤レンガのパンがま（R-1241 のかま）。まん中の2マス（x70〜71）はあける。南の市場から通りを見上げると、つきあたりにかまの煙突が見える"
+  },
+  "p4_d6_pubyard": {
+   "name": "市場ホールの奥のパブの中庭（びんの戸だな・レンガのカウンター・丸いす・たるの立ち飲み台・PUB の看板）",
+   "size": [
+    2,
+    7
+   ],
+   "ref": [
+    "R-0877",
+    "R-1241"
+   ],
+   "items": [
+    [
+     "ironwood cupboard",
+     0,
+     0,
+     0,
+     "Old"
+    ],
+    [
+     "counter table",
+     0,
+     1,
+     0,
+     "Brick & natural wood"
+    ],
+    [
+     "vintage stool",
+     0,
+     2,
+     2,
+     "Green"
+    ],
+    [
+     "vintage stool",
+     1,
+     2,
+     2,
+     "Green"
+    ],
+    [
+     "vintage stool",
+     0,
+     3,
+     0,
+     "Brown"
+    ],
+    [
+     "barrel",
+     0,
+     4
+    ],
+    [
+     "menu chalkboard",
+     0,
+     5,
+     0,
+     "Dark brown"
+    ],
+    [
+     "standing shop sign",
+     0,
+     6,
+     0,
+     "Black",
+     "signboard"
+    ]
+   ],
+   "lines": [],
+   "plants": [],
+   "note": "市場ホールの中庭（三方を2段目・3段目の壁にかこまれた細い奥庭）を、ハイストリートからのぞくパブの中庭に（ジョージ・インのような宿屋の中庭）。いちばん奥に古いびんの戸だな、その前にレンガのカウンターと緑の丸いす2つ（カウンターに向く）、西の列にたるの立ち飲み台と丸いす・黒板・入口の PUB の看板（R-0877）。東の1列（x78）は入口から奥までの通路。自動の崖のパネルで入口がふさがるのを、まわり1マスでひらく"
+  },
+  "p4_d6_hinde": {
+   "name": "ゴールデン・ハインド号の船着き場（川岸の木の船）",
+   "size": [
+    3,
+    2
+   ],
+   "ref": [
+    "R-1235",
+    "R-0849"
+   ],
+   "items": [
+    [
+     "yacht",
+     0,
+     0,
+     0,
+     "Brown"
+    ]
+   ],
+   "lines": [],
+   "plants": [],
+   "note": "西の路地（x66〜67）を南へ出たつきあたり、テムズの曲がり角の岸の芝に、木の色のヨットを1そう（サザークの川岸に泊まる帆船ゴールデン・ハインド号に見立てる）。西と南は川、まわり1マスは板の地面（船着き場）。路地からまっすぐ船が見える"
+  },
+  "p4_d6_ruins": {
+   "name": "ウィンチェスター宮殿の遺跡の庭（石の窓の壁・こけむしたアーチと柱・バラ・ベンチ）",
+   "size": [
+    4,
+    4
+   ],
+   "ref": [
+    "R-0849",
+    "R-1235",
+    "X-0011_2"
+   ],
+   "items": [
+    [
+     "simple panel",
+     1,
+     0,
+     0,
+     "Light gray",
+     "wall_stone_window"
+    ],
+    [
+     "simple panel",
+     2,
+     0,
+     0,
+     "Light gray",
+     "wall_stone_window"
+    ],
+    [
+     "simple panel",
+     3,
+     0,
+     0,
+     "Light gray",
+     "wall_stone_window"
+    ],
+    [
+     "ruined decorated pillar",
+     0,
+     1,
+     0,
+     "Mossy"
+    ],
+    [
+     "ruined arch",
+     1,
+     1,
+     0,
+     "Mossy"
+    ],
+    [
+     "ruined broken pillar",
+     3,
+     2,
+     0,
+     "Mossy"
+    ],
+    [
+     "garden lantern",
+     0,
+     3,
+     0,
+     "Black"
+    ],
+    [
+     "iron garden bench",
+     1,
+     3,
+     0,
+     "Black"
+    ],
+    [
+     "ruined seat",
+     3,
+     3,
+     0,
+     "Mossy"
+    ]
+   ],
+   "lines": [],
+   "plants": [
+    {
+     "type": "roses",
+     "rect": [
+      1,
+      2,
+      2,
+      2
+     ],
+     "colors": [
+      "red",
+      "white"
+     ]
+    },
+    {
+     "type": "lilies",
+     "rect": [
+      0,
+      2,
+      0,
+      2
+     ],
+     "colors": [
+      "white"
+     ]
+    }
+   ],
+   "note": "まん中の路地（x70〜71）を南へ出た正面（ボロー通りの軸のつきあたり）の川べりの芝。北の崖のすそに石の窓の壁を3枚（宮殿の西の壁とバラ窓に見立てる）、その前にこけむしたアーチ、左に飾り柱・右に折れた柱。アーチの前に赤と白のバラと白いユリ、手前に黒い鉄のベンチとガーデンライトと遺跡の石のいす。路地の出口（x71・y73）は通り道。西どなりの木は残す"
+  },
+  "p4_d6_mews": {
+   "name": "エドのうまや横丁（ミューズ：手押しポンプ・ほろ馬車・ほし草・たる・えさの袋・つり看板）",
+   "size": [
+    7,
+    3
+   ],
+   "ref": [
+    "R-1241",
+    "R-1235",
+    "X-0011_2"
+   ],
+   "items": [
+    [
+     "water pump",
+     0,
+     0,
+     0,
+     "Green"
+    ],
+    [
+     "wooden bucket",
+     1,
+     0
+    ],
+    [
+     "hay bed",
+     3,
+     0,
+     0,
+     "Brown"
+    ],
+    [
+     "streetlamp",
+     6,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "covered wagon",
+     0,
+     1,
+     0,
+     "Brown"
+    ],
+    [
+     "barrel",
+     3,
+     1
+    ],
+    [
+     "handcart",
+     4,
+     1,
+     0,
+     "Brown"
+    ],
+    [
+     "stacked bags",
+     6,
+     1,
+     0,
+     null
+    ],
+    [
+     "plain wooden shop sign",
+     6,
+     2,
+     0,
+     "Dark wood",
+     "hanging_sign"
+    ]
+   ],
+   "lines": [],
+   "plants": [
+    {
+     "type": "pansies",
+     "rect": [
+      0,
+      2,
+      1,
+      2
+     ],
+     "colors": [
+      "purple",
+      "white"
+     ]
+    },
+    {
+     "type": "cosmos",
+     "rect": [
+      3,
+      2,
+      4,
+      2
+     ],
+     "colors": [
+      "white",
+      "red"
+     ]
+    }
+   ],
+   "note": "エド（ウマ）の家の入口の南の芝を、石だたみのうまや横丁に。西に緑の手押しポンプと木のバケツ、その前にほろ馬車（辻馬車に見立てる）、まん中にほし草とたると手押し車、東に黒い街灯とえさの袋・鉄のつり看板（東の道から見える角）。x75 と x78（エドの戸口の前）は通り道としてあけ、手前のふちにパンジーとコスモス"
+  },
+  "p4_d6_postbench": {
+   "name": "橋のたもとの赤いポストと川を見るベンチ（花かごの街灯・鉄のベンチ・円柱ポスト）",
+   "size": [
+    1,
+    5
+   ],
+   "ref": [
+    "R-0849",
+    "X-0011_2",
+    "R-1241"
+   ],
+   "items": [
+    [
+     "street lamp with banners",
+     0,
+     0,
+     1,
+     "Black",
+     "hanging_basket"
+    ],
+    [
+     "iron garden bench",
+     0,
+     2,
+     1,
+     "Black"
+    ],
+    [
+     "record box",
+     0,
+     4,
+     0,
+     "Red",
+     "pillar_box"
+    ]
+   ],
+   "lines": [],
+   "plants": [],
+   "note": "西の橋（テムズ）をわたって岸壁に下りた正面、ペカンの家の西の1列。北に花かごをつるした黒い街灯、まん中にテムズを向いた黒い鉄のベンチ、ハイストリートとの角（橋のたもと）に赤い円柱ポスト（レコードボックスにポストのマイデザイン）を通りに向けて。岸壁の道（x62〜63）と橋のたもとの道（x64・y61〜63）はあける"
+  },
+  "p4_d7_lighthouse": {
+   "name": "トリニティ・ブイ埠頭の灯台（赤白の灯台・灯台守の戸口・望遠鏡・いかりの碑・緑のベンチ・青い花）",
+   "size": [
+    3,
+    6
+   ],
+   "ref": [
+    "R-1274",
+    "R-1271",
+    "X-0010_2"
+   ],
+   "items": [
+    [
+     "simple panel",
+     0,
+     0,
+     0,
+     "Brown",
+     "wall_brick_lamp"
+    ],
+    [
+     "simple panel",
+     1,
+     0,
+     0,
+     "Brown",
+     "wall_windows_bricks"
+    ],
+    [
+     "tourist telescope",
+     2,
+     0,
+     3,
+     "Black"
+    ],
+    [
+     "iron garden bench",
+     1,
+     1,
+     3,
+     "Green"
+    ],
+    [
+     "lighthouse",
+     1,
+     3,
+     0,
+     "Red"
+    ],
+    [
+     "anchor statue",
+     1,
+     5,
+     0,
+     "Black"
+    ]
+   ],
+   "lines": [
+    {
+     "item": "iron fence",
+     "from": [
+      2,
+      2
+     ],
+     "to": [
+      2,
+      2
+     ],
+     "var": "Black"
+    }
+   ],
+   "plants": [
+    {
+     "type": "hyacinths",
+     "rect": [
+      2,
+      1,
+      2,
+      1
+     ],
+     "colors": [
+      "blue",
+      "white"
+     ],
+     "pattern": "fill"
+    },
+    {
+     "type": "windflowers",
+     "rect": [
+      2,
+      5,
+      2,
+      5
+     ],
+     "colors": [
+      "white",
+      "blue"
+     ],
+     "pattern": "fill"
+    }
+   ],
+   "note": "港の丘の東のふち（海の見えるがけの上）。ドックランズのトリニティ・ブイ埠頭の灯台の見立てで、本物の『灯台（Red・赤白）』を丘の東のふち（x91〜92・y58〜59）に立て、港の池と港通りから見上げる目じるしにする。3段目のかたまり（灯台守の家）のすそに戸口（あかり）と窓のパネル。西の1列（dx0）は坂の上から戸口までの小道としてあける。坂をのぼりきった正面に黒いいかりの碑、北の角に東の海を向いた黒い観光望遠鏡と、海を向いた緑の鉄のベンチ、ふちに黒い鉄の柵と青白のヒヤシンス・アネモネ"
+  },
+  "p4_d7_shadthames": {
+   "name": "シャド・テムズの倉庫の路地（鉄のやぐら・紅茶の箱・スパイスの袋・コーヒー豆・たる・手押し車・通りの名の札）",
+   "size": [
+    3,
+    6
+   ],
+   "ref": [
+    "R-1241",
+    "R-0187",
+    "R-1148"
+   ],
+   "items": [
+    [
+     "simple panel",
+     0,
+     0,
+     3,
+     "Brown",
+     "wall_brick_lamp"
+    ],
+    [
+     "simple panel",
+     2,
+     0,
+     1,
+     "Brown",
+     "wall_windows_bricks"
+    ],
+    [
+     "iron frame",
+     0,
+     1,
+     1,
+     "Black"
+    ],
+    [
+     "stacked bags",
+     2,
+     1,
+     0,
+     null
+    ],
+    [
+     "wooden box",
+     2,
+     2,
+     0,
+     "Dark brown"
+    ],
+    [
+     "barrel",
+     0,
+     3,
+     0,
+     null
+    ],
+    [
+     "coffee beans",
+     2,
+     3,
+     0,
+     "Original blend"
+    ],
+    [
+     "wooden box",
+     0,
+     4,
+     0,
+     "Natural"
+    ],
+    [
+     "handcart",
+     2,
+     4,
+     0,
+     "Brown"
+    ],
+    [
+     "streetlamp",
+     0,
+     5,
+     0,
+     "Black"
+    ],
+    [
+     "plain wooden shop sign",
+     2,
+     5,
+     0,
+     "White",
+     "hanging_sign"
+    ]
+   ],
+   "lines": [],
+   "plants": [],
+   "note": "サザークの東の倉庫（2段目）と灯台の丘（2段目）のあいだの1段目の細い谷間（x81〜83）。両がわの崖はレンガの倉庫の壁（パネル）なので、テムズ南岸の倉庫街シャド・テムズ（バトラーズ・ワーフの紅茶とスパイスの倉庫）の石だたみの路地に見立てる。まん中（dx1）は石だたみの小道としてあけ、両がわの壁ぎわに荷：西は倉庫の戸口（あかり）・荷を上げる黒い鉄のやぐら・たる・紅茶の箱、東は窓・スパイスの袋・紅茶の箱・コーヒー豆の袋・手押し車。港通りに面した口に黒い街灯と白い通りの名の札（SHAD THAMES）。サザークから港に入ってすぐ左に見える路地"
+  },
+  "p4_d7_fishmarket": {
+   "name": "ビリングズゲートの魚市場（白と緑の屋台・魚のコンテナ・氷のショーケース・運び屋の手押し車・値段の黒板）",
+   "size": [
+    5,
+    2
+   ],
+   "ref": [
+    "R-1235",
+    "R-1241",
+    "X-0011_1"
+   ],
+   "items": [
+    [
+     "stall",
+     0,
+     0,
+     0,
+     "White"
+    ],
+    [
+     "stall",
+     2,
+     0,
+     0,
+     "Green"
+    ],
+    [
+     "stacked fish containers",
+     4,
+     0,
+     0,
+     "White"
+    ],
+    [
+     "stacked fish containers",
+     0,
+     1,
+     0,
+     "Light blue"
+    ],
+    [
+     "fresh cooler",
+     1,
+     1,
+     0,
+     null
+    ],
+    [
+     "handcart",
+     3,
+     1,
+     0,
+     "Silver"
+    ],
+    [
+     "menu chalkboard",
+     4,
+     1,
+     0,
+     "White"
+    ]
+   ],
+   "lines": [],
+   "plants": [],
+   "note": "港通りの北がわ、スクートの家の前庭の崖のすそ（x85〜89・y63〜64）。崖を市場の建物の壁に見せて、奥に白（魚屋の日よけ）と緑の屋台、角に白い魚のコンテナの山。手前に水色のコンテナ・氷の上に魚をならべたショーケース・運び屋（ポーター）の銀の手押し車・値段の黒板。2列にとどめ、前の y65〜66 の2列を港通りとしてあける。坂の下（x90〜91）にはかからない"
+  },
+  "p4_d7_embankment": {
+   "name": "港の池の南の岸（池を向いた白い鉄のベンチ・黒い街灯）",
+   "size": [
+    9,
+    1
+   ],
+   "ref": [
+    "R-1271",
+    "R-1235",
+    "R-1274"
+   ],
+   "items": [
+    [
+     "iron garden bench",
+     0,
+     0,
+     2,
+     "White"
+    ],
+    [
+     "streetlamp",
+     2,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "streetlamp",
+     6,
+     0,
+     0,
+     "Black"
+    ],
+    [
+     "iron garden bench",
+     7,
+     0,
+     2,
+     "White"
+    ]
+   ],
+   "lines": [],
+   "plants": [],
+   "note": "第58回：港の池の南の岸（x83〜91・y75）。池を向いた白い鉄のベンチ2つと黒い街灯2本で、突堤の根もと（x86〜88）をはさむ。突堤への入口はあける"
+  },
+  "p4_d7_cyclehire": {
+   "name": "坂の下の貸し自転車のスタンド（赤い自転車2台・電光の受付・地図の看板）",
+   "size": [
+    2,
+    3
+   ],
+   "ref": [
+    "R-1148",
+    "X-0011_1",
+    "R-1231"
+   ],
+   "items": [
+    [
+     "cruiser bike",
+     0,
+     0,
+     0,
+     "Red"
+    ],
+    [
+     "cruiser bike",
+     0,
+     1,
+     0,
+     "Red"
+    ],
+    [
+     "standing electric sign",
+     0,
+     2,
+     0,
+     "Black"
+    ],
+    [
+     "poster stand",
+     1,
+     2,
+     0,
+     "Red",
+     "underground"
+    ]
+   ],
+   "lines": [],
+   "plants": [],
+   "note": "灯台の坂の下（x90〜91）の東どなり、東の倉庫の壁ぎわのくぼみ（x92〜93・y63〜65）。ロンドンの貸し自転車（サンタンデール・サイクル）のスタンドの見立てで、赤い自転車を2台ならべ、手前に黒い電光の受付と赤い地図の看板。坂をおりると右（西）に魚市場、左（東）にこの赤い角が見える"
+  },
+  "p4_d7_pierhead": {
+   "name": "突堤の先のヨット（白いヨット・街灯・浮き輪）",
+   "size": [
+    3,
+    3
+   ],
+   "ref": [
+    "R-1235",
+    "R-0187",
+    "R-1148"
+   ],
+   "items": [
+    [
+     "yacht",
+     0,
+     0,
+     0,
+     "White"
+    ],
+    [
+     "streetlamp",
+     0,
+     2,
+     0,
+     "Black"
+    ],
+    [
+     "life ring",
+     2,
+     2,
+     0,
+     "Red"
+    ]
+   ],
+   "lines": [],
+   "plants": [],
+   "note": "港の池のまん中の突堤（x86〜88・y70〜74）の先。3マス幅の先端に白いヨットをつけ、三方が水。その手前の両角に黒い街灯と赤い浮き輪、まん中（dx1）はヨットへの乗り口としてあける。北の岸の街灯（x87）と一直線にならぶ池の目じるし"
+  },
+  "p4_d7_moorings": {
+   "name": "北の岸壁の係留（紺のヨット）",
+   "size": [
+    3,
+    2
+   ],
+   "ref": [
+    "R-0187",
+    "R-1235",
+    "R-1148"
+   ],
+   "items": [
+    [
+     "yacht",
+     0,
+     0,
+     0,
+     "Blue"
+    ]
+   ],
+   "lines": [],
+   "plants": [],
+   "note": "第58回：港の池の北の岸（x83〜85・y66〜67）。カメラの手前に池の水、向こうの岸に紺のヨット（R-1235・R-0187）。港通りは3マスのこし、坂の下（x90〜91・y66）もあける"
+  }
+ },
+ "placements": [
+  {
+   "kit": "p4_d1_stairfoot",
+   "at": [
+    19,
+    56
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "坂の下の電話ボックスの角",
+   "style": "brick",
+   "zone": "C",
+   "district": "D1"
+  },
+  {
+   "kit": "p4_d1_platform",
+   "at": [
+    27,
+    56
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "アーチの下の9¾番線とダイアゴン横丁",
+   "style": "cobble",
+   "zone": "C",
+   "district": "D1"
+  },
+  {
+   "kit": "p4_d1_clockworks",
+   "at": [
+    35,
+    56
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "運河の角の時計職人の工房",
+   "style": "flag",
+   "zone": "C",
+   "district": "D1"
+  },
+  {
+   "kit": "p4_d1_upperwalk",
+   "at": [
+    22,
+    47
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "上の水路のプロムナードと城壁のカフェ",
+   "style": "herring",
+   "zone": "C",
+   "district": "D1"
+  },
+  {
+   "kit": "p4_d1_busstop",
+   "at": [
+    29,
+    38
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "北の通りのバス停と新聞スタンド",
+   "style": "flag",
+   "zone": "C",
+   "district": "D1"
+  },
+  {
+   "kit": "p4_d1_fishbar",
+   "at": [
+    13,
+    45
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "西の岸のフィッシュ＆チップス",
+   "style": "plank",
+   "zone": "C",
+   "district": "D1"
+  },
+  {
+   "kit": "p4_d2_beachhalt",
+   "at": [
+    13,
+    62
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "浜辺の小さな汽車の駅",
+   "style": "brick",
+   "zone": "C",
+   "district": "D2"
+  },
+  {
+   "kit": "p4_d2_portobello",
+   "at": [
+    16,
+    60
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "北通りのレコードと骨董の市・ポストとバス停の角",
+   "zone": "C",
+   "district": "D2"
+  },
+  {
+   "kit": "p4_d2_tailoryard",
+   "at": [
+    13,
+    69
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "仕立て屋の横庭",
+   "style": "herring",
+   "zone": "C",
+   "district": "D2"
+  },
+  {
+   "kit": "p4_d2_doorframe",
+   "at": [
+    19,
+    74
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "エイブルの戸口のトピアリー",
+   "zone": "C",
+   "district": "D2"
+  },
+  {
+   "kit": "p4_d2_puballey",
+   "at": [
+    18,
+    76
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "路地裏のパブ",
+   "zone": "C",
+   "district": "D2"
+  },
+  {
+   "kit": "p4_d2_lookout",
+   "at": [
+    13,
+    76
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "浜ぎわの錨の碑と緑のベンチ",
+   "style": "plank",
+   "zone": "C",
+   "district": "D2"
+  },
+  {
+   "kit": "p4_d2_flowercorner",
+   "at": [
+    23,
+    76
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "小道の角の花売り",
+   "style": "cobble",
+   "zone": "C",
+   "district": "D2"
+  },
+  {
+   "kit": "p4_d3_arrivals",
+   "at": [
+    37,
+    81
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "到着口の待合と駅の時計",
+   "style": "flag",
+   "zone": "C",
+   "district": "D3"
+  },
+  {
+   "kit": "p4_d3_avenue",
+   "at": [
+    36,
+    74
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "飛行場通りのバス停と地下鉄の入口",
+   "zone": "C",
+   "district": "D3"
+  },
+  {
+   "kit": "p4_d3_mall",
+   "at": [
+    32,
+    74
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "タヌキ商店の角の旗と絵はがき",
+   "style": "brick",
+   "zone": "C",
+   "district": "D3"
+  },
+  {
+   "kit": "p4_d3_greengrocer",
+   "at": [
+    30,
+    79
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "タヌキ商店の八百屋",
+   "style": "brick",
+   "zone": "C",
+   "district": "D3"
+  },
+  {
+   "kit": "p4_d3_cabrank",
+   "at": [
+    23,
+    79
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "タクシー乗り場",
+   "zone": "C",
+   "district": "D3"
+  },
+  {
+   "kit": "p4_d3_tearoom",
+   "at": [
+    40,
+    71
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "行き止まりのティールーム",
+   "style": "herring",
+   "zone": "C",
+   "district": "D3"
+  },
+  {
+   "kit": "p4_d3_bank",
+   "at": [
+    38,
+    62
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "広場の東の銀行の柱廊",
+   "zone": "C",
+   "district": "D3"
+  },
+  {
+   "kit": "p4_d4_flowers",
+   "at": [
+    51,
+    38
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "テムズ橋のたもとの花屋",
+   "style": "cobble",
+   "zone": "C",
+   "district": "D4"
+  },
+  {
+   "kit": "p4_d4_k6corner",
+   "at": [
+    42,
+    38
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "赤い電話ボックスの並ぶ角",
+   "style": "cobble",
+   "zone": "C",
+   "district": "D4"
+  },
+  {
+   "kit": "p4_d4_bookmarket",
+   "at": [
+    47,
+    45
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "博物館の壁ぞいの古本市",
+   "style": "brick",
+   "zone": "C",
+   "district": "D4"
+  },
+  {
+   "kit": "p4_d4_museumwest",
+   "at": [
+    50,
+    49
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "博物館の前庭・西",
+   "style": "flag",
+   "zone": "C",
+   "district": "D4"
+  },
+  {
+   "kit": "p4_d4_terracecafe",
+   "at": [
+    56,
+    49
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "博物館テラスのカフェ",
+   "style": "flag",
+   "zone": "C",
+   "district": "D4"
+  },
+  {
+   "kit": "p4_d4_waterbus",
+   "at": [
+    43,
+    58
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "運河の水上バスの乗り場",
+   "style": "plank",
+   "zone": "C",
+   "district": "D4"
+  },
+  {
+   "kit": "p4_d4_riverpub",
+   "at": [
+    52,
+    64
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "テムズ河畔のパブ",
+   "style": "herring",
+   "zone": "C",
+   "district": "D4"
+  },
+  {
+   "kit": "p4_d5_anchorgarden",
+   "at": [
+    43,
+    78
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "錨亭のビアガーデン",
+   "style": "brick",
+   "zone": "C",
+   "district": "D5"
+  },
+  {
+   "kit": "p4_d5_pillarbox",
+   "at": [
+    43,
+    74
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "自宅の戸口の赤いポスト",
+   "style": "flag",
+   "zone": "C",
+   "district": "D5"
+  },
+  {
+   "kit": "p4_d5_rivercorner",
+   "at": [
+    56,
+    73
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "テムズの曲がり角の欄干",
+   "style": "flag",
+   "zone": "C",
+   "district": "D5"
+  },
+  {
+   "kit": "p4_d5_northhead",
+   "at": [
+    48,
+    68
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "北の坂の上の水飲み場",
+   "style": "cobble",
+   "zone": "C",
+   "district": "D5"
+  },
+  {
+   "kit": "p4_d5_phonealley",
+   "at": [
+    51,
+    71
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "坂の上の路地の電話ボックス",
+   "style": "cobble",
+   "zone": "C",
+   "district": "D5"
+  },
+  {
+   "kit": "p4_d5_quay",
+   "at": [
+    58,
+    78
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "船だまりの東の岸",
+   "style": "plank",
+   "zone": "C",
+   "district": "D5"
+  },
+  {
+   "kit": "p4_d6_borough",
+   "at": [
+    68,
+    66
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "バラ・マーケットの屋台の路地",
+   "style": "cobble",
+   "zone": "C",
+   "district": "D6"
+  },
+  {
+   "kit": "p4_d6_ovencoffee",
+   "at": [
+    68,
+    50
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "公園口のパンがまとコーヒーの屋台",
+   "style": "brick",
+   "zone": "C",
+   "district": "D6"
+  },
+  {
+   "kit": "p4_d6_pubyard",
+   "at": [
+    77,
+    55
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "市場ホールの奥のパブの中庭",
+   "style": "herring",
+   "zone": "C",
+   "district": "D6"
+  },
+  {
+   "kit": "p4_d6_hinde",
+   "at": [
+    67,
+    73
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "ゴールデン・ハインド号の船着き場",
+   "style": "plank",
+   "zone": "C",
+   "district": "D6"
+  },
+  {
+   "kit": "p4_d6_ruins",
+   "at": [
+    71,
+    73
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "ウィンチェスター宮殿の遺跡の庭",
+   "style": "garden",
+   "zone": "C",
+   "district": "D6"
+  },
+  {
+   "kit": "p4_d6_mews",
+   "at": [
+    73,
+    80
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "エドのうまや横丁",
+   "style": "cobble",
+   "zone": "C",
+   "district": "D6"
+  },
+  {
+   "kit": "p4_d6_postbench",
+   "at": [
+    64,
+    56
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "橋のたもとの赤いポストと川を見るベンチ",
+   "style": "brick",
+   "zone": "C",
+   "district": "D6"
+  },
+  {
+   "kit": "p4_d7_lighthouse",
+   "at": [
+    90,
+    55
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "トリニティ・ブイ埠頭の灯台",
+   "style": "cobble",
+   "zone": "P",
+   "district": "D7"
+  },
+  {
+   "kit": "p4_d7_shadthames",
+   "at": [
+    81,
+    57
+   ],
+   "on_road": false,
+   "flip": false,
+   "name": "シャド・テムズの倉庫の路地",
+   "style": "cobble",
+   "zone": "P",
+   "district": "D7"
+  },
+  {
+   "kit": "p4_d7_fishmarket",
+   "at": [
+    85,
+    63
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "ビリングズゲートの魚市場",
+   "zone": "P",
+   "district": "D7"
+  },
+  {
+   "kit": "p4_d7_embankment",
+   "at": [
+    83,
+    75
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "港の池の南の岸のベンチ",
+   "zone": "P",
+   "district": "D7"
+  },
+  {
+   "kit": "p4_d7_cyclehire",
+   "at": [
+    92,
+    63
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "坂の下の貸し自転車",
+   "zone": "P",
+   "district": "D7"
+  },
+  {
+   "kit": "p4_d7_pierhead",
+   "at": [
+    86,
+    70
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "突堤の先のヨット",
+   "zone": "P",
+   "district": "D7"
+  },
+  {
+   "kit": "p4_d7_moorings",
+   "at": [
+    83,
+    66
+   ],
+   "on_road": true,
+   "flip": false,
+   "name": "北の岸壁の係留",
+   "zone": "P",
+   "district": "D7"
+  }
+ ]
+}

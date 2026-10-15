@@ -1,0 +1,767 @@
+<title>アイス島の作れる鳥瞰図</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap">
+<style>
+/* あつ森の「地図」画面：青緑の地、黄色いリボン、クリーム色の板。主役は3Dの島。第47回：島にあるものはすべてゲームの本物（建物・家具の絵はゲームの絵） */
+:root {
+  --sea: #7fd6c3; --wave: #6cc9b5; --ribbon: #f8e36b; --ribbon-fold: #d9bd3f;
+  --cream: #fbf6e6; --cream-line: #e7dbb8; --ink: #6b5434; --ink-soft: #8a7656; --pin: #4a3b30; --pick: #ffe24d;
+  --ok: #4f8a3a; --ng: #b5523f;
+  --round: 'Zen Maru Gothic', 'Hiragino Maru Gothic ProN', 'Rounded Mplus 1c', 'Yu Gothic', sans-serif;
+}
+* { box-sizing: border-box }
+html { color-scheme: light }
+body { margin: 0; background-color: var(--sea); color: var(--ink); font-family: var(--round); font-weight: 500; -webkit-font-smoothing: antialiased;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='64'%3E%3Cg fill='none' stroke='%236cc9b5' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M8 20l6-6 6 6 6-6 6 6'/%3E%3Cpath d='M68 52l6-6 6 6 6-6 6 6'/%3E%3C/g%3E%3C/svg%3E") }
+.page { max-width: 1320px; margin: 0 auto; overflow-x: clip; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 22px 56px; display: grid; gap: 18px }
+.ribbon { justify-self: center; position: relative; background: var(--ribbon); color: var(--ink); font-weight: 900; font-size: clamp(21px, 3.3vw, 33px); letter-spacing: .05em; padding: 10px 46px 12px; border-radius: 4px; text-align: center; box-shadow: 0 4px 0 #0000001a; z-index: 0 }
+.ribbon::before, .ribbon::after { content: ''; position: absolute; top: 12px; width: 34px; height: 100%; background: var(--ribbon-fold); z-index: -1 }
+.ribbon::before { left: -22px; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 34% 50%) }
+.ribbon::after { right: -22px; clip-path: polygon(0 0, 100% 0, 66% 50%, 100% 100%, 0 100%) }
+.ribbon small { display: block; font-size: 13px; font-weight: 700; letter-spacing: .02em; margin-top: 2px }
+.tally { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px }
+.tally span { background: var(--cream); border-radius: 999px; padding: 5px 13px; font-size: 13px; font-weight: 700; box-shadow: 0 3px 0 #0000001a }
+.tally b { font-size: 16px; font-weight: 900; font-variant-numeric: tabular-nums }
+.tally .ok b { color: var(--ok) }
+.main { display: grid; grid-template-columns: minmax(0, 1fr) 310px; gap: 18px; align-items: start }
+@media (max-width: 980px) { .main { grid-template-columns: minmax(0, 1fr) } }
+.stagewrap { position: relative; min-width: 0 }
+.stage { position: relative; border-radius: 26px; overflow: hidden; background: #8bd8cc; aspect-ratio: 16 / 10.5; box-shadow: 0 0 0 6px var(--cream), 0 10px 0 6px #00000014 }
+@media (max-width: 640px) { .stage { aspect-ratio: 4 / 5 } }
+.stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; cursor: grab }
+.stage canvas:active { cursor: grabbing }
+.pins { position: absolute; inset: 0; pointer-events: none }
+.zone, .gpin { position: absolute; transform: translate(-50%, -50%); pointer-events: auto; border: 0; cursor: pointer; font: inherit; font-weight: 900; white-space: nowrap; box-shadow: 0 3px 0 #0000002a }
+.zone { font-size: 13px; padding: 5px 13px 6px; border-radius: 999px; background: var(--cream); color: var(--ink); display: inline-flex; align-items: center; gap: 6px }
+.gpin { font-size: 11.5px; padding: 3px 9px 4px; border-radius: 999px; background: #4a3b30e6; color: #fff }
+.gpin[aria-pressed="true"] { background: var(--pick); color: var(--ink); z-index: 2 }
+.zone i, .zitem i { width: 10px; height: 10px; border-radius: 99px; flex: none }
+.zone:focus-visible, .gpin:focus-visible, .zitem:focus-visible, .gitem:focus-visible, .seg button:focus-visible { outline: 3px solid var(--pin); outline-offset: 2px }
+.tools { position: absolute; z-index: 3; top: 14px; right: 14px; display: flex; flex-direction: column; gap: 8px; align-items: flex-end }
+.seg { display: inline-flex; background: var(--cream); border-radius: 999px; padding: 4px; gap: 2px; box-shadow: 0 3px 0 #0000001f }
+.seg button { font: inherit; font-weight: 700; font-size: 13px; color: var(--ink-soft); border: 0; background: transparent; border-radius: 999px; padding: 6px 13px; cursor: pointer }
+.seg button[aria-pressed="true"] { background: var(--pick); color: var(--ink) }
+.hint { position: absolute; left: 16px; top: 16px; background: #ffffffcc; color: var(--ink); font-size: 12px; padding: 6px 12px; border-radius: 999px }
+.bubble { position: relative; margin: 26px auto 0; width: min(760px, 100%); background: var(--cream); border-radius: 28px; padding: 14px 22px 16px; box-shadow: 0 4px 0 #0000001f }
+.bubble .who { position: absolute; top: -14px; left: 26px; background: var(--ribbon); color: var(--ink); font-weight: 900; font-size: 14px; padding: 4px 14px; border-radius: 999px; transform: rotate(-2deg) }
+.bubble p { margin: 4px 0 0; font-size: 14px; line-height: 1.75 }
+.bubble .meta { display: block; margin-top: 4px; font-size: 12.5px; color: var(--ink-soft) }
+.panel { background: var(--cream); border-radius: 26px; padding: 16px 12px 12px; box-shadow: 0 6px 0 #0000001a; display: grid; gap: 8px }
+.panel h2 { margin: 0 8px; font-size: 16px; font-weight: 900 }
+.glist { display: grid; gap: 2px; max-height: 590px; overflow: auto; padding: 2px }
+@media (max-width: 980px) { .glist { max-height: none; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)) } }
+.zitem { font: inherit; font-weight: 900; font-size: 13px; color: var(--ink); border: 0; background: #f3ead0; border-radius: 999px; padding: 6px 12px; cursor: pointer; display: flex; align-items: center; gap: 7px; margin-top: 6px; text-align: left }
+.zitem[aria-pressed="true"], .zitem:hover { background: var(--pick) }
+.gitem { font: inherit; color: inherit; text-align: left; border: 0; background: transparent; border-radius: 12px; padding: 6px 10px 6px 26px; cursor: pointer; display: grid; gap: 1px }
+.gitem:hover { background: #f3ead0 }
+.gitem[aria-pressed="true"] { background: var(--pick) }
+.gitem .t { font-weight: 700; font-size: 13px; line-height: 1.45 }
+.gitem .c { font-size: 11.5px; color: var(--ink-soft) }
+.box { background: var(--cream); border-radius: 26px; padding: 18px 20px 20px; box-shadow: 0 6px 0 #0000001a }
+.box h2 { margin: 0 0 4px; font-size: 18px; font-weight: 900 }
+.box > p { margin: 0 0 12px; font-size: 13.5px; line-height: 1.8 }
+.items { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); gap: 8px }
+.it { display: grid; grid-template-columns: 52px 1fr; gap: 0 10px; align-items: center; background: #fff; border-radius: 16px; padding: 7px 10px 7px 7px; box-shadow: 0 2px 0 var(--cream-line) }
+.it img { width: 52px; height: 52px; object-fit: contain; grid-row: span 3; background: #f6f0de; border-radius: 12px }
+.it .n { font-weight: 900; font-size: 13.5px; line-height: 1.35 }
+.it .n small { font-weight: 700; color: var(--ink-soft); font-size: 11px; margin-left: 4px }
+.it .e { font-size: 11px; color: var(--ink-soft); line-height: 1.4 }
+.it .s { font-size: 11px; line-height: 1.4 }
+.it .cnt { font-weight: 900; color: var(--ok) }
+.houses { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr)); gap: 10px }
+.house { background: #fff; border-radius: 18px; padding: 8px 8px 10px; text-align: center; box-shadow: 0 2px 0 var(--cream-line); border: 0; font: inherit; color: inherit; cursor: pointer }
+.house:hover { box-shadow: 0 2px 0 var(--cream-line), 0 0 0 3px var(--pick) }
+.house img, .house .ph { width: 100%; aspect-ratio: 1; object-fit: contain; display: block; background: #eef4e6; border-radius: 12px }
+.house .ph { display: grid; place-items: center; font-size: 34px }
+.house b { display: block; font-size: 13px; margin-top: 6px }
+.house span { display: block; font-size: 11px; color: var(--ink-soft); line-height: 1.45 }
+.cannot { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)) }
+.cannot li { background: #fff; border-radius: 16px; padding: 10px 14px; font-size: 13px; line-height: 1.65; box-shadow: 0 2px 0 var(--cream-line) }
+.cannot s { color: var(--ng); text-decoration-thickness: 2px }
+.cannot b { color: var(--ok) }
+.src { font-size: 12px; line-height: 1.8; margin: 0; padding-left: 18px; color: var(--ink-soft) }
+.src a { color: var(--ink) }
+@media (max-width: 640px) { .bubble { position: relative; left: auto; bottom: auto; transform: none; width: auto; margin-top: 26px } .hint { display: none } .seg button { padding: 6px 10px; font-size: 12px } .zone { font-size: 11px; padding: 3px 9px 4px } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important } }
+</style>
+
+<div class="page">
+  <div class="ribbon">アイス島　全島<small>案4・第58回　町に木と塔、屋根と通りを本物の柄で</small></div>
+  <div class="tally" id="tally"></div>
+  <div class="main">
+    <div class="stagewrap">
+      <div class="stage" id="stage">
+        <canvas id="cv" aria-label="アイス島全島の3D鳥瞰図。ドラッグで向き、ホイールかピンチで寄る"></canvas>
+        <div class="pins" id="pins"></div>
+        <div class="hint" id="hint">ドラッグで回す・ホイールで寄る</div>
+        <div class="tools">
+          <span class="seg" id="time"><button type="button" data-v="day" aria-pressed="true">昼</button><button type="button" data-v="dusk" aria-pressed="false">夕方</button><button type="button" data-v="night" aria-pressed="false">夜</button></span>
+          <span class="seg" id="view"><button type="button" data-v="bird" aria-pressed="true">島を見わたす</button><button type="button" data-v="game" aria-pressed="false">ゲームの目線</button></span>
+        </div>
+      </div>
+      <div class="bubble" id="bubble"></div>
+    </div>
+    <aside class="panel"><h2>まとまり（地区ごと）</h2><div class="glist" id="glist"></div></aside>
+  </div>
+  <section class="box" aria-labelledby="a-h"><h2 id="a-h">あつ森の基礎の点検</h2><p>基礎（skill acnh-basics）のとおりに作れているかを、tools/acnh_build.py（ICE_PLAN=3）で数えた。</p><ul class="cannot" id="audit"></ul></section>
+  <section class="box" aria-labelledby="it-h"><h2 id="it-h">置く家具</h2><p id="it-p"></p><div class="items" id="items"></div></section>
+  <section class="box" aria-labelledby="b-h"><h2 id="b-h">建物（ゲームの本物の建物だけ）</h2><p>住民の家は10軒まで。どの住民の家も見た目は住民ごとに決まっているので、地区に合う外観の住民を選んだ（絵はゲームの家の絵）。自宅の外観は案内所で選べる。</p><div class="houses" id="houses"></div></section>
+  <section class="box" aria-labelledby="c-h"><h2 id="c-h">作れないので外したもの・置きかえ</h2><p>第46回までの鳥瞰図には、あつ森にない物がたくさんあった。ゲームで作れる物に置きかえるか、外した。</p><ul class="cannot" id="cannot"></ul></section>
+  <section class="box" aria-labelledby="s-h"><h2 id="s-h">あつ森の決まりの出どころ</h2><ul class="src" id="src"></ul></section>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+(function () {
+const D = __DATA__, ICONS = __ICONS__, ISZ = __ISZ__, HOUSES = __HOUSES__;
+const MW = 112, MH = 96, CX = 56, CY = 58;
+const G = (x, y) => (x < 0 || y < 0 || x >= MW || y >= MH) ? 'S' : D.g[y][x];
+const L = (x, y) => (x < 0 || y < 0 || x >= MW || y >= MH) ? 0 : +D.h[y][x];
+const LY = l => 0.62 + (l - 1) * 1.0;   // 段の上の高さ（1段＝1マス）
+const SEA = 0.22, SAND = 0.42;
+function topY(x, y) { const c = G(x, y), l = L(x, y); if (c === 'S') return SEA; if (c === 'r') return 0.3; if (c === 's' || l === 0) return SAND; if (c === 'w') return LY(Math.max(1, l)) - 0.3; if (c === 'b') return LY(1); return LY(l); }
+const WX = x => x + 0.5 - CX, WZ = y => y + 0.5 - CY;
+const ZONE = (x, y) => (x < 0 || y < 0 || x >= MW || y >= MH) ? 'S' : D.zones[y][x];
+const ZNAME = { C: 'ロンドン市内', S: '郊外と村', F: '森', B: '竹林', J: '日本（霊峰）', H: 'ハロウィン', P: '海辺の港町' };
+const ZCOL = { C: '#a8553d', S: '#c49a3a', F: '#3f6b3a', B: '#7aa04a', J: '#d8452f', H: '#6b4a8a', P: '#3f8ac8' };
+const ZORDER = ['C', 'S', 'J', 'B', 'F', 'H', 'P'];
+// 道の地面：地区ごとの道（build_plan2.json の paths）。ロンドンと港はマイデザインの石畳、ほかはゲームの道
+const PATHC = { C: '#a49d92', S: '#c6a47a', F: '#9a7a58', B: '#d6d0c3', J: '#d6d0c3', H: '#86705a', P: '#cdbfa9' };
+const ZGRASS = { C: '#97ae60', S: '#a5b86c', F: '#86a050', B: '#a3ba5e', J: '#a2b46a', H: '#7e8a5f', P: '#b0b97a' };
+const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+const UNTREE = new Set(D.untree.map(([x, y]) => x + ',' + y));
+
+// ---- レンダラーとカメラ ----
+const stage = document.getElementById('stage'), cv = document.getElementById('cv');
+const renderer = new THREE.WebGLRenderer({ canvas: cv, antialias: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(30, 1, 0.5, 600);
+const controls = new THREE.OrbitControls(camera, cv);
+controls.enableDamping = true; controls.dampingFactor = 0.09;
+controls.minPolarAngle = 0.32; controls.maxPolarAngle = 1.15;
+controls.minAzimuthAngle = -0.55; controls.maxAzimuthAngle = 0.55;    // あつ森のように北を向いたまま
+controls.minDistance = 10; controls.maxDistance = 270; controls.screenSpacePanning = false;
+const col = h => new THREE.Color(h).convertSRGBToLinear();
+// 奥が丸く沈む（あつ森の転がる丸太のような地面）
+const bendU = { k: { value: 0.0026 }, c0: { value: 60 } };
+function bend(m) {
+  m.onBeforeCompile = s => {
+    s.uniforms.uK = bendU.k; s.uniforms.uC0 = bendU.c0;
+    s.vertexShader = 'uniform float uK; uniform float uC0;\n' + s.vertexShader.replace('#include <project_vertex>', '#include <project_vertex>\n float bd = max(0.0, -mvPosition.z - uC0);\n mvPosition.y -= bd * bd * uK;\n gl_Position = projectionMatrix * mvPosition;');
+  };
+  return m;
+}
+function bendSprite(m) {   // 板の絵（家具の絵）も地面と同じように奥で沈める
+  m.onBeforeCompile = s => {
+    s.uniforms.uK = bendU.k; s.uniforms.uC0 = bendU.c0;
+    s.vertexShader = 'uniform float uK; uniform float uC0;\n' + s.vertexShader.replace('gl_Position = projectionMatrix * mvPosition;', 'float bd = max(0.0, -mvPosition.z - uC0); mvPosition.y -= bd * bd * uK; gl_Position = projectionMatrix * mvPosition;');
+  };
+  return m;
+}
+const mats = {};
+function mat(hex, opt) { const k = hex + JSON.stringify(opt || {}); if (!mats[k]) mats[k] = bend(new THREE.MeshLambertMaterial(Object.assign({ color: col(hex) }, opt || {}))); return mats[k]; }
+
+// ---- 模様 ----
+function tex(draw, n) { const c = document.createElement('canvas'); c.width = c.height = n || 64; draw(c.getContext('2d'), c.width); const t = new THREE.CanvasTexture(c); t.encoding = THREE.sRGBEncoding; t.anisotropy = 4; return t; }
+function tex2(draw, w, h) { const c = document.createElement('canvas'); c.width = w; c.height = h; draw(c.getContext('2d'), w, h); const t = new THREE.CanvasTexture(c); t.encoding = THREE.sRGBEncoding; t.anisotropy = 4; return t; }
+function rnd(s) { return () => (s = (s * 16807) % 2147483647) / 2147483647; }
+const grassTex = tex((g, n) => { g.fillStyle = '#fff'; g.fillRect(0, 0, n, n); const r = rnd(7); g.fillStyle = '#d2e4c4'; for (let i = 0; i < 12; i++) { const x = r() * n, y = r() * n; g.beginPath(); g.moveTo(x, y); g.lineTo(x + 4, y - 7); g.lineTo(x + 8, y); g.closePath(); g.fill(); } });
+const sandTex = tex((g, n) => { g.fillStyle = '#fff'; g.fillRect(0, 0, n, n); const r = rnd(3); g.fillStyle = '#eadfc4'; for (let i = 0; i < 26; i++) { g.beginPath(); g.arc(r() * n, r() * n, 1.4, 0, 7); g.fill(); } });
+const stoneTex = tex((g, n) => { g.fillStyle = '#fff'; g.fillRect(0, 0, n, n); g.strokeStyle = '#d6cdbd'; g.lineWidth = 2.5; const r = rnd(11); for (let y = 0; y < 4; y++) for (let x = 0; x < 4; x++) { g.beginPath(); g.ellipse(x * 16 + 8 + (y % 2) * 4, y * 16 + 8, 6 + r() * 1.5, 5.5, r(), 0, 7); g.stroke(); } });
+const dirtTex = tex((g, n) => { g.fillStyle = '#fff'; g.fillRect(0, 0, n, n); const r = rnd(19); for (let i = 0; i < 30; i++) { g.fillStyle = `rgba(120,90,60,${.12 + r() * .12})`; g.beginPath(); g.arc(r() * n, r() * n, 1 + r() * 2, 0, 7); g.fill(); } });
+const cobbleTex = tex2((g, W) => { g.fillStyle = '#6f6a63'; g.fillRect(0, 0, W, W); const r = rnd(29);   // マイデザインの石畳（シックないしだたみ）
+  for (let j = 0; j < 7; j++) for (let i = -1; i < 7; i++) { const cx = i * W / 6 + (j % 2) * W / 12 + (r() - .5) * 3, cy = j * W / 6.5 + 8 + (r() - .5) * 3, rx = W / 13.5 + r() * 2, ry = W / 15 + r() * 2;
+    g.fillStyle = ['#b9b3a8', '#aca69b', '#c6c0b4', '#a39d92', '#b5ad9f'][Math.floor(r() * 5)]; g.beginPath(); g.ellipse(cx, cy, rx, ry, (r() - .5) * .6, 0, 7); g.fill(); } }, 128, 128);
+const cliffTex = tex((g, n) => { g.fillStyle = '#fff'; g.fillRect(0, 0, n, n); const r = rnd(5);   // あつ森の崖：縦の岩のすじ・横の地層・足もとが暗い（崖の見た目は変えられない）
+  for (let i = 0; i < 6; i++) { const x = i * n / 6 + (r() - .5) * 4; g.fillStyle = `rgba(110,85,62,${.16 + r() * .12})`; g.fillRect(x, 0, 2.5, n); g.fillStyle = 'rgba(255,255,255,.4)'; g.fillRect(x + 3, 0, 3, n); }
+  for (let j = 0; j < 3; j++) { g.fillStyle = 'rgba(105,80,58,.16)'; g.fillRect(0, n * (.28 + j * .22) + r() * 4, n, 3); }
+  const gr = g.createLinearGradient(0, 0, 0, n); gr.addColorStop(0, 'rgba(255,255,255,.12)'); gr.addColorStop(.6, 'rgba(255,255,255,0)'); gr.addColorStop(1, 'rgba(55,38,25,.38)'); g.fillStyle = gr; g.fillRect(0, 0, n, n); }, 64);
+const waterTex = tex((g, n) => { g.fillStyle = '#fff'; g.fillRect(0, 0, n, n); g.strokeStyle = '#eafffc'; g.lineWidth = 2; const r = rnd(9); for (let i = 0; i < 4; i++) { const x = r() * n, y = r() * n; g.beginPath(); g.moveTo(x, y); g.quadraticCurveTo(x + 6, y - 3, x + 12, y); g.stroke(); } }, 64);
+waterTex.wrapS = waterTex.wrapT = THREE.RepeatWrapping;
+const zenTex = tex((g, n) => { g.fillStyle = '#f4f1e8'; g.fillRect(0, 0, n, n); g.strokeStyle = '#d9d3c4'; g.lineWidth = 2; for (let y = 6; y < n; y += 8) { g.beginPath(); g.moveTo(0, y); g.bezierCurveTo(n * .3, y - 3, n * .6, y + 3, n, y); g.stroke(); } }, 64);
+
+// ---- 質感（第53回）：色の絵と高さの絵を同時に描き、高さから法線マップを作る（レンガの目地・石のふくらみ・苔・汚れが光で浮く）----
+function normalFrom(hc, k) { const W = hc.width, H = hc.height, src = hc.getContext('2d').getImageData(0, 0, W, H).data, c = document.createElement('canvas'); c.width = W; c.height = H;
+  const g = c.getContext('2d'), out = g.createImageData(W, H), h = (x, y) => src[(((y + H) % H) * W + ((x + W) % W)) * 4] / 255;
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) { const dx = (h(x + 1, y) - h(x - 1, y)) * k, dy = (h(x, y + 1) - h(x, y - 1)) * k, l = Math.hypot(dx, dy, 1), o = (y * W + x) * 4;
+    out.data[o] = (-dx / l * .5 + .5) * 255; out.data[o + 1] = (dy / l * .5 + .5) * 255; out.data[o + 2] = (1 / l * .5 + .5) * 255; out.data[o + 3] = 255; }
+  g.putImageData(out, 0, 0); const t = new THREE.CanvasTexture(c); t.anisotropy = 4; return t; }
+function pbr(W, H, draw, k) { const a = document.createElement('canvas'), hc = document.createElement('canvas'); a.width = hc.width = W; a.height = hc.height = H;
+  const gA = a.getContext('2d'), gH = hc.getContext('2d'); gH.fillStyle = '#808080'; gH.fillRect(0, 0, W, H); draw(gA, gH, W, H);
+  const map = new THREE.CanvasTexture(a); map.encoding = THREE.sRGBEncoding; map.anisotropy = 4; return { map, normalMap: normalFrom(hc, k || 3) }; }
+function speck(g, r, x, y, w, h, n, cols, s) { for (let i = 0; i < n; i++) { g.fillStyle = cols[Math.floor(r() * cols.length)]; g.fillRect(x + r() * w, y + r() * h, s || 1.5, s || 1.5); } }
+function blob(g, x, y, rx, ry, c) { g.fillStyle = c; g.beginPath(); g.ellipse(x, y, rx, ry, 0, 0, 7); g.fill(); }
+// レンガの壁（パネル・城壁のマイデザイン）：目地はうすい灰色、レンガは1枚ずつ色と欠けがちがう、足もとに苔と雨の汚れ
+function brickWall(gA, gH, W, H, seed, rows, moss) { const r = rnd(seed || 7), bw = W / 4, bh = H / (rows || 12);
+  gA.fillStyle = '#b8ab97'; gA.fillRect(0, 0, W, H); gH.fillStyle = '#3c3c3c'; gH.fillRect(0, 0, W, H);
+  for (let j = 0; j < (rows || 12); j++) for (let i = -1; i < 5; i++) { const x = i * bw + (j % 2) * bw / 2 + 1.5, y = j * bh + 1.5, w = bw - 3, h = bh - 3;
+    const base = ['#a65a42', '#94503b', '#b4664b', '#8a4a37', '#a9603f', '#9d5e4a', '#b87458'][Math.floor(r() * 7)]; gA.fillStyle = base; gA.fillRect(x, y, w, h);
+    const gr = gA.createLinearGradient(0, y, 0, y + h); gr.addColorStop(0, 'rgba(255,230,200,.16)'); gr.addColorStop(1, 'rgba(40,15,5,.18)'); gA.fillStyle = gr; gA.fillRect(x, y, w, h);
+    speck(gA, r, x, y, w, h, 14, ['rgba(60,25,15,.35)', 'rgba(230,190,160,.3)', 'rgba(120,60,40,.4)'], 1.6);
+    const hv = 190 + Math.floor(r() * 40); gH.fillStyle = `rgb(${hv},${hv},${hv})`; gH.fillRect(x, y, w, h); gH.fillStyle = `rgb(${hv + 18},${hv + 18},${hv + 18})`; gH.fillRect(x + 2, y + 2, w - 4, h - 4);
+    if (r() < .18) { const cx = r() < .5 ? x : x + w - 4, cy = r() < .5 ? y : y + h - 4; gA.fillStyle = '#b8ab97'; gA.fillRect(cx, cy, 4, 4); gH.fillStyle = '#505050'; gH.fillRect(cx, cy, 4, 4); } }
+  const st = gA.createLinearGradient(0, H * .45, 0, H); st.addColorStop(0, 'rgba(40,30,20,0)'); st.addColorStop(1, 'rgba(40,30,20,.32)'); gA.fillStyle = st; gA.fillRect(0, 0, W, H);   // 足もとの汚れ
+  for (let i = 0; i < 9; i++) { const x = r() * W; const gr = gA.createLinearGradient(0, H * .2, 0, H * .2 + 30 + r() * 40); gr.addColorStop(0, 'rgba(50,40,30,.18)'); gr.addColorStop(1, 'rgba(50,40,30,0)'); gA.fillStyle = gr; gA.fillRect(x, H * .2, 2 + r() * 3, 70); }   // 雨のすじ
+  if (moss !== false) for (let i = 0; i < 70; i++) { const x = r() * W, y = H - Math.pow(r(), 1.8) * H * .45; const s = 2 + r() * 6;   // 苔
+    blob(gA, x, y, s, s * .7, ['rgba(92,120,58,.75)', 'rgba(118,146,70,.7)', 'rgba(70,96,46,.7)'][Math.floor(r() * 3)]); blob(gH, x, y, s * .8, s * .6, 'rgba(235,235,235,.6)'); } }
+// 石畳：丸い石（ふくらみ）・暗い目地・目地の苔
+function cobbleDraw(gA, gH, W, H, seed, warm) { const r = rnd(seed || 29); gA.fillStyle = warm ? '#6e6252' : '#5f5b55'; gA.fillRect(0, 0, W, H); gH.fillStyle = '#202020'; gH.fillRect(0, 0, W, H);
+  for (let i = 0; i < 260; i++) blob(gA, r() * W, r() * H, 1 + r() * 2.5, 1 + r() * 2, 'rgba(96,128,62,.55)');
+  const n = 9; for (let j = 0; j < n + 1; j++) for (let i = -1; i < n + 1; i++) { const cx = (i + (j % 2) * .5 + (r() - .5) * .25) * W / n, cy = (j + (r() - .5) * .2) * H / n, rx = W / n * (.42 + r() * .08), ry = H / n * (.4 + r() * .07), rot = (r() - .5) * .8;
+    const base = (warm ? ['#c9b89c', '#bba98d', '#d3c3a8', '#b09d80', '#c4ae90'] : ['#b9b3a8', '#aca69b', '#c6c0b4', '#a39d92', '#b5ad9f'])[Math.floor(r() * 5)];
+    for (const [ox, oy] of [[0, 0], [W, 0], [-W, 0], [0, H], [0, -H]]) { gA.save(); gA.translate(cx + ox, cy + oy); gA.rotate(rot); const gr = gA.createRadialGradient(-rx * .25, -ry * .3, 1, 0, 0, rx); gr.addColorStop(0, base); gr.addColorStop(.75, base); gr.addColorStop(1, 'rgba(60,50,40,.9)'); gA.fillStyle = gr; gA.beginPath(); gA.ellipse(0, 0, rx, ry, 0, 0, 7); gA.fill(); gA.restore();
+      gH.save(); gH.translate(cx + ox, cy + oy); gH.rotate(rot); const gh = gH.createRadialGradient(0, 0, 1, 0, 0, rx); gh.addColorStop(0, '#f0f0f0'); gh.addColorStop(.7, '#c8c8c8'); gh.addColorStop(1, '#303030'); gH.fillStyle = gh; gH.beginPath(); gH.ellipse(0, 0, rx, ry, 0, 0, 7); gH.fill(); gH.restore(); }
+    speck(gA, r, cx - rx * .6, cy - ry * .6, rx * 1.2, ry * 1.2, 6, ['rgba(70,60,50,.35)', 'rgba(255,250,240,.35)'], 1.4); } }
+function herringDraw(gA, gH, W, H, seed) { const r = rnd(seed || 13); gA.fillStyle = '#9d8c78'; gA.fillRect(0, 0, W, H); gH.fillStyle = '#383838'; gH.fillRect(0, 0, W, H); const u = W / 8;
+  for (let j = -2; j < 10; j++) for (let i = -2; i < 10; i++) { const x = i * u + (j % 2) * u / 2, y = j * u, a = (i + j) % 2 ? Math.PI / 4 : -Math.PI / 4;
+    const base = ['#b86a4c', '#a95f44', '#c47a58', '#9c563e', '#b8745a', '#a86850'][Math.floor(r() * 6)];
+    for (const [gg, f] of [[gA, base], [gH, `rgb(${200 + Math.floor(r() * 30)},0,0)`]]) { gg.save(); gg.translate(x, y); gg.rotate(a); gg.fillStyle = gg === gH ? '#d2d2d2' : f; gg.fillRect(-u * .62, -u * .2, u * 1.24, u * .38); gg.restore(); } }
+  for (let i = 0; i < 120; i++) blob(gA, r() * W, r() * H, 1 + r() * 2, 1, 'rgba(70,40,25,.25)'); }
+const PB = { brick: pbr(256, 256, (a, h, W, H) => brickWall(a, h, W, H, 7, 10), 4), cobble: pbr(256, 256, (a, h, W, H) => cobbleDraw(a, h, W, H, 29, false), 5), cobbleWarm: pbr(256, 256, (a, h, W, H) => cobbleDraw(a, h, W, H, 31, true), 5), herring: pbr(256, 256, (a, h, W, H) => herringDraw(a, h, W, H, 13), 4),
+  cliff: pbr(128, 128, (a, h, W, H) => { const r = rnd(5); a.fillStyle = '#ffffff'; a.fillRect(0, 0, W, H); h.fillStyle = '#9a9a9a'; h.fillRect(0, 0, W, H);   // あつ森の崖：たての岩のかたまり・すじ・苔
+    for (let j = 0; j < 4; j++) { let x = -r() * 20; while (x < W) { const w = 14 + r() * 22, y = j * H / 4 + (r() - .5) * 6, hh = H / 4 + 4; const t = .82 + r() * .22;
+      a.fillStyle = `rgb(${Math.floor(255 * t)},${Math.floor(248 * t)},${Math.floor(238 * t)})`; a.beginPath(); a.moveTo(x + 2, y + 2); a.lineTo(x + w - 2, y + 1 + r() * 3); a.lineTo(x + w - 1, y + hh - 3); a.lineTo(x + 3, y + hh - 2); a.closePath(); a.fill();
+      const hv = 150 + Math.floor(r() * 80); h.fillStyle = `rgb(${hv},${hv},${hv})`; h.beginPath(); h.moveTo(x + 2, y + 2); h.lineTo(x + w - 2, y + 1); h.lineTo(x + w - 1, y + hh - 3); h.lineTo(x + 3, y + hh - 2); h.closePath(); h.fill();
+      a.fillStyle = 'rgba(70,52,36,.45)'; a.fillRect(x + w - 2, y, 2.5, hh); h.fillStyle = '#303030'; h.fillRect(x + w - 2, y, 2.5, hh); x += w; } }
+    for (let i = 0; i < 26; i++) blob(a, r() * W, H * .7 + r() * H * .3, 2 + r() * 4, 1.5 + r() * 2, 'rgba(96,120,62,.45)');
+    const gr = a.createLinearGradient(0, 0, 0, H); gr.addColorStop(0, 'rgba(255,255,255,.08)'); gr.addColorStop(.55, 'rgba(255,255,255,0)'); gr.addColorStop(1, 'rgba(45,32,22,.42)'); a.fillStyle = gr; a.fillRect(0, 0, W, H); }, 3),
+  water: pbr(128, 128, (a, h, W, H) => { const r = rnd(9); a.fillStyle = '#ffffff'; a.fillRect(0, 0, W, H); for (let i = 0; i < 40; i++) { const x = r() * W, y = r() * H, l = 6 + r() * 14; h.strokeStyle = `rgba(255,255,255,${.4 + r() * .4})`; h.lineWidth = 1.5 + r() * 2; h.beginPath(); h.moveTo(x, y); h.quadraticCurveTo(x + l / 2, y - 3, x + l, y); h.stroke(); if (i % 4 === 0) { a.strokeStyle = 'rgba(234,255,252,.9)'; a.lineWidth = 1.6; a.beginPath(); a.moveTo(x, y); a.quadraticCurveTo(x + l / 2, y - 2, x + l, y); a.stroke(); } } }, 2) };
+PB.roof = pbr(128, 128, (a, h, W, H) => { const r = rnd(41); a.fillStyle = '#5b5d63'; a.fillRect(0, 0, W, H); h.fillStyle = '#404040'; h.fillRect(0, 0, W, H);   // 灰色のレンガ（屋根に敷くマイデザイン）
+  for (let j = 0; j < 8; j++) for (let i = -1; i < 5; i++) { const x = i * W / 4 + (j % 2) * W / 8 + 1, y = j * H / 8 + 1; const v = 120 + Math.floor(r() * 40); a.fillStyle = `rgb(${v},${v + 2},${v + 8})`; a.fillRect(x, y, W / 4 - 2, H / 8 - 2); h.fillStyle = '#d0d0d0'; h.fillRect(x, y, W / 4 - 2, H / 8 - 2); }
+  for (let i = 0; i < 40; i++) blob(a, r() * W, r() * H, 1 + r() * 3, 1 + r() * 2, 'rgba(110,130,80,.35)'); }, 3);
+PB.sett = pbr(256, 256, (a, h, W, H) => { const r = rnd(53); a.fillStyle = '#4c4b4d'; a.fillRect(0, 0, W, H); h.fillStyle = '#3a3a3a'; h.fillRect(0, 0, W, H);   // 町の通り：濃い灰色の小さな石畳（road_chic_stone）
+  for (let j = 0; j < 16; j++) for (let i = -1; i < 17; i++) { const x = i * W / 16 + (j % 2) * W / 32 + 1.5, y = j * H / 16 + 1.5, w = W / 16 - 3, hh = H / 16 - 3; const v = 112 + Math.floor(r() * 34); a.fillStyle = `rgb(${v},${v - 1},${v + 3})`; a.beginPath(); a.roundRect ? a.roundRect(x, y, w, hh, 3) : a.rect(x, y, w, hh); a.fill();
+    const gh = h.createRadialGradient(x + w / 2, y + hh / 2, 1, x + w / 2, y + hh / 2, w * .7); gh.addColorStop(0, '#e8e8e8'); gh.addColorStop(1, '#8a8a8a'); h.fillStyle = gh; h.beginPath(); h.roundRect ? h.roundRect(x, y, w, hh, 3) : h.rect(x, y, w, hh); h.fill(); }
+  for (let i = 0; i < 30; i++) blob(a, r() * W, r() * H, 1 + r() * 2, 1 + r() * 2, 'rgba(90,110,70,.22)'); }, 5);
+PB.roofSlate = pbr(128, 128, (a, h, W, H) => { const r = rnd(43); a.fillStyle = '#2c2c30'; a.fillRect(0, 0, W, H); h.fillStyle = '#404040'; h.fillRect(0, 0, W, H);   // 屋根：濃い灰色の小さな石畳（road_chic_stone）
+  for (let j = 0; j < 10; j++) for (let i = -1; i < 11; i++) { const x = i * W / 10 + (j % 2) * W / 20 + 1, y = j * H / 10 + 1; const v = 74 + Math.floor(r() * 28); a.fillStyle = `rgb(${v},${v},${v + 4})`; a.fillRect(x, y, W / 10 - 2, H / 10 - 2); h.fillStyle = '#cfcfcf'; h.fillRect(x, y, W / 10 - 2, H / 10 - 2); }
+  for (let i = 0; i < 20; i++) blob(a, r() * W, r() * H, 1 + r() * 2, 1 + r() * 2, 'rgba(110,130,80,.25)'); }, 3);
+PB.roofRed = pbr(128, 128, (a, h, W, H) => { const r = rnd(47); a.fillStyle = '#5e4436'; a.fillRect(0, 0, W, H); h.fillStyle = '#404040'; h.fillRect(0, 0, W, H);   // 屋根：くすんだ茶色のレンガ（brick_natural）
+  for (let j = 0; j < 8; j++) for (let i = -1; i < 5; i++) { const x = i * W / 4 + (j % 2) * W / 8 + 1, y = j * H / 8 + 1; const c = ['#9a6a52', '#8c5e48', '#a4745a', '#866050'][Math.floor(r() * 4)]; a.fillStyle = c; a.fillRect(x, y, W / 4 - 2, H / 8 - 2); h.fillStyle = '#d0d0d0'; h.fillRect(x, y, W / 4 - 2, H / 8 - 2); }
+  for (let i = 0; i < 30; i++) blob(a, r() * W, r() * H, 1 + r() * 3, 1 + r() * 2, 'rgba(90,110,60,.28)'); }, 3);
+PB.curb = pbr(128, 128, (a, h, W, H) => { const r = rnd(61); a.fillStyle = '#8f877a'; a.fillRect(0, 0, W, H); h.fillStyle = '#404040'; h.fillRect(0, 0, W, H);   // 第60回：old stone road（stone_old）の縁の板石（白っぽい切り石）
+  for (let j = 0; j < 4; j++) for (let i = -1; i < 3; i++) { const x = i * W / 2 + (j % 2) * W / 4 + 1.5, y = j * H / 4 + 1.5; const v = 196 + Math.floor(r() * 26); a.fillStyle = `rgb(${v},${v - 6},${v - 16})`; a.fillRect(x, y, W / 2 - 3, H / 4 - 3); h.fillStyle = '#d6d6d6'; h.fillRect(x, y, W / 2 - 3, H / 4 - 3); }
+  for (let i = 0; i < 14; i++) blob(a, r() * W, r() * H, 1 + r() * 2, 1 + r() * 2, 'rgba(110,120,80,.22)'); }, 3);
+Object.values(PB).forEach(p => { p.map.wrapS = p.map.wrapT = p.normalMap.wrapS = p.normalMap.wrapT = THREE.RepeatWrapping; });
+function std(o) { return bend(new THREE.MeshStandardMaterial(Object.assign({ roughness: .86, metalness: 0 }, o))); }
+
+// ---- 島の地面 ----
+const dummy = new THREE.Object3D();
+function inst(geo, m, list, shadow) {
+  if (!list.length) return null;
+  const im = new THREE.InstancedMesh(geo, m, list.length);
+  list.forEach((it, i) => { dummy.position.set(it.p[0], it.p[1], it.p[2]); dummy.rotation.set(it.r ? it.r[0] : 0, it.r ? it.r[1] : 0, it.r ? it.r[2] : 0); dummy.scale.set(it.s[0], it.s[1], it.s[2]); dummy.updateMatrix(); im.setMatrixAt(i, dummy.matrix); im.setColorAt(i, it.c || new THREE.Color(1, 1, 1)); });
+  im.instanceMatrix.needsUpdate = true; if (im.instanceColor) im.instanceColor.needsUpdate = true;
+  im.castShadow = !!shadow; im.receiveShadow = true; im.frustumCulled = false; scene.add(im); return im;
+}
+const box = new THREE.BoxGeometry(1, 1, 1);
+const plane = new THREE.PlaneGeometry(1, 1).rotateX(-Math.PI / 2);
+const CDES = (D.paths && D.paths.C && D.paths.C.design) || 'road_chic_stone';   // 第60回：町の通りのマイデザイン（spec の paths で案ごとに）
+const isRoad = (x, y) => G(x, y) === 'p';
+function CROAD(x, y) {   // stone_old：まん中は灰色の丸い石畳、3マス幅以上の通りのふちは白っぽい板石（作者のセットの縁のパーツ）
+  if (CDES !== 'stone_old') return 'cobble';
+  for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) if (!isRoad(x + dx, y + dy) && G(x + dx, y + dy) !== 'b' && (L(x + dx, y + dy) > L(x, y) || G(x + dx, y + dy) === 'w') && isRoad(x - dx, y - dy) && isRoad(x - 2 * dx, y - 2 * dy) && L(x - dx, y - dy) === L(x, y) && L(x - 2 * dx, y - 2 * dy) === L(x, y)) return 'curb';   // 第60回の最終審査：縁の板石は壁（崖）のすそと水ぎわだけに一続き（敷石とのさかいには置かない）
+  return 'cobbleP';
+}
+const cols = [], tops = { grass: [], sand: [], cobble: [], cobbleP: [], curb: [], stone: [], dirt: [], zen: [], plaza: [], water: [] }, lips = [], foam = [], rocks = [];
+const aoEdges = [], aoBlobs = [], falls = [];
+const r1 = rnd(42);
+const isWaterish = (x, y) => { const c = G(x, y); return c === 'w' || c === 'b'; };
+// 崖と水ぎわの角をななめに丸める（あつ森の 45° の角）。角 k：0=北西 1=北東 2=南東 3=南西。三角柱と三角の面
+const CORN = [[-1, -1], [1, -1], [1, 1], [-1, 1]];
+function triPrism(k, keep) {   // keep=true：角 k をけずった残りの三角、false：けずった角の三角
+  const P = [[-.5, -.5], [.5, -.5], [.5, .5], [-.5, .5]]; const tri = keep ? [P[(k + 1) % 4], P[(k + 2) % 4], P[(k + 3) % 4]] : [P[k], P[(k + 1) % 4], P[(k + 3) % 4]];
+  const v = [], push = (a, b, c) => v.push(...a, ...b, ...c);
+  const T = tri.map(([x, z]) => [x, .5, z]), B = tri.map(([x, z]) => [x, -.5, z]);
+  push(T[0], T[2], T[1]); push(B[0], B[1], B[2]);
+  for (let i = 0; i < 3; i++) { const j = (i + 1) % 3; push(T[i], T[j], B[j]); push(T[i], B[j], B[i]); }
+  const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(v, 3)); g.computeVertexNormals();
+  const uv = []; for (let i = 0; i < v.length / 3; i++) uv.push(v[i * 3] + .5, v[i * 3 + 1] + .5); g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2)); return g;
+}
+function triPlane(k, keep) {
+  const P = [[-.5, -.5], [.5, -.5], [.5, .5], [-.5, .5]]; const tri = keep ? [P[(k + 1) % 4], P[(k + 2) % 4], P[(k + 3) % 4]] : [P[k], P[(k + 1) % 4], P[(k + 3) % 4]];
+  const v = [tri[0][0], 0, tri[0][1], tri[2][0], 0, tri[2][1], tri[1][0], 0, tri[1][1]];
+  const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(v, 3)); g.setAttribute('uv', new THREE.Float32BufferAttribute([tri[0][0] + .5, tri[0][1] + .5, tri[2][0] + .5, tri[2][1] + .5, tri[1][0] + .5, tri[1][1] + .5], 2)); g.computeVertexNormals(); return g;
+}
+const PRISM = [0, 1, 2, 3].map(k => triPrism(k, true)), PRISMC = [0, 1, 2, 3].map(k => triPrism(k, false)), TRI = [0, 1, 2, 3].map(k => triPlane(k, true)), TRIC = [0, 1, 2, 3].map(k => triPlane(k, false));
+const cutCols = [[], [], [], []], cutTops = {}, fillWater = [[], [], [], []], fillCols = [[], [], [], []], fillTops = [[], [], [], []];
+function cutToward(x, y, dx, dy) {   // (x,y) の角がけずれていて、その角が (dx,dy) の側にある（そこには白い線・ふちをつけない）
+  if (G(x, y) === 'w' || G(x, y) === 'S') return false; const k = cornerCut(x, y); if (k < 0) return false; const [cx, cy] = CORN[k]; return (dx !== 0 && dx === cx) || (dy !== 0 && dy === cy);
+}
+function cornerCut(x, y) {   // 角をけずるか：その角の縦と横のとなりと、ななめのとなりが、どれも自分より低い（水・低い段）。けずる角が1つだけのとき
+  const t = topY(x, y), lower = (a, b) => G(a, b) !== 'S' && (topY(a, b) < t - .2) && !(G(a, b) === 'b');
+  if (G(x, y) === 'P' || G(x, y) === 'K' || G(x, y) === 's' || G(x, y) === 'b') return -1;
+  const ks = CORN.map(([dx, dy], k) => lower(x + dx, y) && lower(x, y + dy) && lower(x + dx, y + dy) ? k : -1).filter(k => k >= 0);
+  return ks.length === 1 ? ks[0] : -1;
+}
+for (let y = 0; y < MH; y++) for (let x = 0; x < MW; x++) {
+  const c = G(x, y); if (c === 'S') continue;
+  const t = topY(x, y), wx = WX(x), wz = WZ(y), l = L(x, y), z = ZONE(x, y), gk = D.ground[x + ',' + y];
+  if (c === 'r') { rocks.push({ x, y }); continue; }
+  const bottom = -0.6;
+  if (c === 'w' || c === 'b') {
+    const wt = c === 'b' ? LY(1) - 0.3 : t, bed = wt - 0.42;
+    cols.push({ p: [wx, (bed + bottom) / 2, wz], s: [1, bed - bottom, 1], c: col('#8a6a4a') });
+    tops.water.push({ p: [wx, wt, wz], s: [1, 1, 1] });
+    [[1, 0, Math.PI / 2], [-1, 0, -Math.PI / 2], [0, 1, 0], [0, -1, Math.PI]].forEach(([dx, dy, ry]) => { if (!isWaterish(x + dx, y + dy) || G(x + dx, y + dy) === 'b') return; const lo = topY(x + dx, y + dy); if (lo > wt - .3) return;   // 滝：上の段の水から下の段の水へ落ちる
+      falls.push({ p: [wx + dx * .5, (wt + lo) / 2, wz + dy * .5], s: [1, wt - lo, 1], r: [0, ry, 0] }); foam.push({ p: [wx + dx * .85, lo + .02, wz + dy * .85], s: [dx ? .5 : 1.1, 1, dy ? .5 : 1.1] }); });
+    [[1, 0], [-1, 0], [0, 1], [0, -1]].forEach(([dx, dy]) => { const nc = G(x + dx, y + dy); if (!isWaterish(x + dx, y + dy) && nc !== 'S' && !cutToward(x + dx, y + dy, -dx, -dy)) { const hz = dx !== 0; foam.push({ p: [wx + dx * .44, wt + .015, wz + dy * .44], s: [hz ? .1 : 1, 1, hz ? 1 : .1] }); } });
+    continue;
+  }
+  const sideCol = (c === 's' || l === 0) ? col('#e9d79a') : col(['#8f7759', '#866f54', '#977e60'][(x * 7 + y * 3) % 3]);
+  const ck = cornerCut(x, y);
+  if (ck >= 0) {   // ななめの角：残りの三角柱と、けずった所に下のものを見せる
+    cutCols[ck].push({ p: [wx, (t + bottom) / 2, wz], s: [1, t - bottom, 1], c: sideCol });
+    const [dx, dy] = CORN[ck], nx = x + dx, ny = y;
+    const low = Math.max(topY(x + dx, y), topY(x, y + dy)), lw = isWaterish(x + dx, y) || isWaterish(x, y + dy);
+    if (lw) { const wt = Math.max(...[[x + dx, y], [x, y + dy]].filter(([a, b]) => isWaterish(a, b)).map(([a, b]) => topY(a, b))); fillWater[ck].push({ p: [wx, wt, wz], s: [1, 1, 1] }); fillCols[ck].push({ p: [wx, (wt - .42 + bottom) / 2, wz], s: [1, wt - .42 - bottom, 1], c: col('#8a6a4a') }); }
+    else { fillCols[ck].push({ p: [wx, (low + bottom) / 2, wz], s: [1, low - bottom, 1], c: sideCol }); fillTops[ck].push({ p: [wx, low + .002, wz], s: [1, 1, 1], c: col(ZGRASS[ZONE(x + dx, y + dy)] || '#97ae60') }); }
+  } else cols.push({ p: [wx, (t + bottom) / 2, wz], s: [1, t - bottom, 1], c: sideCol });
+  let kind = (c === 's' || l === 0) ? 'sand' : c === 'P' ? 'plaza' : c === 'K' ? 'plaza' : 'grass';
+  if (c === 'p') kind = z === 'C' ? CROAD(x, y) : z === 'P' ? 'cobbleP' : (z === 'B' || z === 'J') ? 'stone' : 'dirt';
+  if (gk === 'm') kind = 'zen';
+  const tc = kind === 'grass' ? col(ZGRASS[z] || '#97ae60').offsetHSL(0, 0, (r1() - .5) * .03 + (l - 1) * .015) : kind === 'cobble' || kind === 'cobbleP' || kind === 'curb' ? col('#ffffff') : kind === 'stone' || kind === 'dirt' ? col(PATHC[z]).offsetHSL(0, 0, (r1() - .5) * .03) : null;
+  if (ck >= 0) (cutTops[kind + ck] = cutTops[kind + ck] || []).push({ p: [wx, t + .002, wz], s: [1, 1, 1], c: tc }); else (tops[kind] = tops[kind] || []).push({ p: [wx, t + .002, wz], s: [1, 1, 1], c: tc });
+  [[1, 0, -Math.PI / 2], [-1, 0, Math.PI / 2], [0, 1, Math.PI], [0, -1, 0]].forEach(([dx, dy, ry]) => { if (topY(x + dx, y + dy) > t + .25 && G(x + dx, y + dy) !== 'S') aoEdges.push({ p: [wx + dx * .2, t + .022, wz + dy * .2], s: [1, 1, .62], r: [0, ry, 0] }); });
+  if (kind !== 'sand') [[1, 0], [-1, 0], [0, 1], [0, -1]].forEach(([dx, dy]) => { const nt = topY(x + dx, y + dy); if (nt < t - 0.25 && !cutToward(x, y, dx, dy)) { const hz = dx !== 0; lips.push({ p: [wx + dx * .47, t - 0.05, wz + dy * .47], s: [hz ? .12 : 1.02, .16, hz ? 1.02 : .12], c: kind === 'grass' ? col('#869e52') : col('#c9b994') }); } });
+  if (kind === 'sand') [[1, 0], [-1, 0], [0, 1], [0, -1]].forEach(([dx, dy]) => { if (G(x + dx, y + dy) === 'S') { const hz = dx !== 0; foam.push({ p: [wx + dx * .56, SEA + .02, wz + dy * .56], s: [hz ? .14 : 1, 1, hz ? 1 : .14] }); } });
+}
+inst(box, std({ map: PB.cliff.map, normalMap: PB.cliff.normalMap, normalScale: new THREE.Vector2(.8, .8), roughness: .95 }), cols, true);
+inst(plane, bend(new THREE.MeshLambertMaterial({ map: grassTex })), tops.grass);
+inst(plane, mat('#f3e3a7', { map: sandTex }), tops.sand);
+cobbleTex.wrapS = cobbleTex.wrapT = THREE.RepeatWrapping;
+inst(plane, std({ map: PB.sett.map, normalMap: PB.sett.normalMap, roughness: .78 }), tops.cobble);   // 町（C）の通り：road_chic_stone
+inst(plane, std({ map: PB.cobble.map, normalMap: PB.cobble.normalMap, roughness: .8 }), tops.cobbleP || []);
+inst(plane, std({ map: PB.curb.map, normalMap: PB.curb.normalMap, roughness: .84 }), tops.curb || []);   // 第60回：stone_old の縁の板石   // 港（P）の通り：stone_old（灰色の丸い石畳）
+inst(plane, mat('#ffffff', { map: stoneTex }), tops.stone);
+inst(plane, mat('#ffffff', { map: dirtTex }), tops.dirt);
+inst(plane, mat('#ffffff', { map: zenTex }), tops.zen);
+inst(plane, mat('#d9c9a8', { map: stoneTex }), tops.plaza);
+const waterMat = std({ color: col('#3e8f98'), map: PB.water.map, normalMap: PB.water.normalMap, normalScale: new THREE.Vector2(.6, .6), roughness: .18, transparent: true, opacity: .93 });
+inst(plane, waterMat, tops.water);
+inst(box, mat('#ffffff'), lips, true);
+{ const cliffM = std({ map: PB.cliff.map, normalMap: PB.cliff.normalMap, normalScale: new THREE.Vector2(.8, .8), roughness: .95 }), grassM = bend(new THREE.MeshLambertMaterial({ map: grassTex })), cobM = std({ map: PB.sett.map, normalMap: PB.sett.normalMap, roughness: .78 }), cobPM = std({ map: PB.cobble.map, normalMap: PB.cobble.normalMap, roughness: .8 });
+  const KM = { grass: grassM, cobble: cobM, cobbleP: cobPM, curb: std({ map: PB.curb.map, normalMap: PB.curb.normalMap, roughness: .84 }), stone: mat('#ffffff', { map: stoneTex }), dirt: mat('#ffffff', { map: dirtTex }), zen: mat('#ffffff', { map: zenTex }), plaza: mat('#d9c9a8', { map: stoneTex }), sand: mat('#f3e3a7', { map: sandTex }) };
+  for (let k = 0; k < 4; k++) { inst(PRISM[k], cliffM, cutCols[k], true); inst(PRISMC[k], cliffM, fillCols[k], true); inst(TRIC[k], waterMat, fillWater[k]); inst(TRIC[k], grassM, fillTops[k]);
+    Object.keys(KM).forEach(kind => { if (cutTops[kind + k]) inst(TRI[k], KM[kind], cutTops[kind + k]); }); } }
+{ const ft = tex2((g, W, H) => { g.fillStyle = '#cfeaf0'; g.fillRect(0, 0, W, H); for (let i = 0; i < 26; i++) { g.fillStyle = i % 3 ? 'rgba(255,255,255,.75)' : 'rgba(120,180,200,.5)'; g.fillRect((i * 37) % W, 0, 2 + (i % 4), H); } g.fillStyle = 'rgba(255,255,255,.9)'; g.fillRect(0, H * .86, W, H * .14); }, 64, 64);
+  inst(new THREE.PlaneGeometry(1, 1), bend(new THREE.MeshBasicMaterial({ map: ft, transparent: true, opacity: .92, side: THREE.DoubleSide })), falls); }
+const foamMat = bend(new THREE.MeshBasicMaterial({ color: col('#ffffff'), transparent: true, opacity: .85 }));
+inst(new THREE.PlaneGeometry(1, 1).rotateX(-Math.PI / 2), foamMat, foam);
+const rockGeo = new THREE.DodecahedronGeometry(.62, 0);
+inst(rockGeo, mat('#9c98a8', { flatShading: true }), rocks.map(({ x, y }) => ({ p: [WX(x), .25, WZ(y)], s: [1, .8 + ((x * 3 + y) % 3) * .15, 1], r: [0, (x * 13 + y * 7) % 6, 0] })), true);
+const seaMesh = new THREE.Mesh(new THREE.PlaneGeometry(900, 900).rotateX(-Math.PI / 2), bend(new THREE.MeshLambertMaterial({ color: col('#57c6c4') })));
+seaMesh.position.y = SEA; seaMesh.receiveShadow = true; scene.add(seaMesh);
+
+// ---- 地面のマイデザイン（町の広場・河岸・市場を敷きつめる。build_plan2.json の ground）----
+const GT = {
+  cobble: g => { g.fillStyle = '#6f6a63'; g.fillRect(0, 0, 128, 128); const r = rnd(29); for (let j = 0; j < 7; j++) for (let i = -1; i < 7; i++) { const cx = i * 128 / 6 + (j % 2) * 10 + (r() - .5) * 3, cy = j * 19.7 + 8; g.fillStyle = ['#b9b3a8', '#aca69b', '#c6c0b4', '#a39d92'][Math.floor(r() * 4)]; g.beginPath(); g.ellipse(cx, cy, 9 + r() * 2, 8, (r() - .5) * .6, 0, 7); g.fill(); } },
+  herring: g => { g.fillStyle = '#7a4a38'; g.fillRect(0, 0, 128, 128); const r = rnd(13); for (let j = -2; j < 10; j++) for (let i = -2; i < 10; i++) { g.save(); g.translate(i * 16 + (j % 2) * 8, j * 16); g.rotate((i + j) % 2 ? Math.PI / 4 : -Math.PI / 4); g.fillStyle = ['#b86a4c', '#a95f44', '#c47a58', '#9c563e', '#b8745a'][Math.floor(r() * 5)]; g.fillRect(-10, -4, 20, 7); g.restore(); } },
+  brick: g => { g.fillStyle = '#86503c'; g.fillRect(0, 0, 128, 128); const r = rnd(7); for (let j = 0; j < 8; j++) for (let i = -1; i < 5; i++) { g.fillStyle = ['#b86a4c', '#a95f44', '#c47a58', '#9c563e'][Math.floor(r() * 4)]; g.fillRect(i * 32 + (j % 2) * 16 + 2, j * 16 + 2, 28, 12); } },
+  flag: g => { g.fillStyle = '#a99c88'; g.fillRect(0, 0, 128, 128); const r = rnd(3); for (let j = 0; j < 4; j++) for (let i = 0; i < 4; i++) { g.fillStyle = ['#d8ccb4', '#cfc2a8', '#e2d7c1', '#c8b99e'][Math.floor(r() * 4)]; g.fillRect(i * 32 + 2 + (j % 2) * 8, j * 32 + 2, 28, 28); } },
+  garden: g => { g.fillStyle = '#c9bfa8'; g.fillRect(0, 0, 128, 128); const r = rnd(5); for (let j = 0; j < 8; j++) for (let i = 0; i < 8; i++) { g.fillStyle = ['#e9e0cc', '#e2d8c2', '#efe7d6'][Math.floor(r() * 3)]; g.fillRect(i * 16 + 1, j * 16 + 1, 14, 14); } },
+  plank: g => { g.fillStyle = '#7d5a3c'; g.fillRect(0, 0, 128, 128); const r = rnd(4); for (let i = 0; i < 8; i++) { g.fillStyle = ['#b98a5c', '#ae7f52', '#c39466'][Math.floor(r() * 3)]; g.fillRect(0, i * 16 + 1, 128, 14); g.fillStyle = '#6a4a30'; g.fillRect((i * 37) % 128, i * 16, 2, 16); } },
+  leaves: g => { g.fillStyle = '#9a7a56'; g.fillRect(0, 0, 128, 128); const r = rnd(9); for (let i = 0; i < 70; i++) { g.fillStyle = ['#c9a04a', '#c7773a', '#a8603a', '#d8a24a', '#8a6a3a'][Math.floor(r() * 5)]; g.save(); g.translate(r() * 128, r() * 128); g.rotate(r() * 6); g.beginPath(); g.ellipse(0, 0, 4, 2.2, 0, 0, 7); g.fill(); g.restore(); } },
+  moss: g => { g.fillStyle = '#7f8a6a'; g.fillRect(0, 0, 128, 128); const r = rnd(21); for (let i = 0; i < 18; i++) { g.fillStyle = ['#c8c2b2', '#bdb6a5', '#d2ccbd'][Math.floor(r() * 3)]; g.beginPath(); g.ellipse(r() * 128, r() * 128, 10 + r() * 6, 8 + r() * 4, r(), 0, 7); g.fill(); } for (let i = 0; i < 40; i++) { g.fillStyle = 'rgba(110,150,70,.55)'; g.beginPath(); g.arc(r() * 128, r() * 128, 2 + r() * 4, 0, 7); g.fill(); } },
+};
+{ const by = {}; (D.groundCells || []).forEach(([x, y, st]) => (by[st] = by[st] || []).push([x, y]));
+  const PBG = { cobble: PB.sett, herring: PB.herring, brick: PB.brick, roof: PB.roof, roof_slate: PB.roofSlate, roof_red: PB.roofRed, stoneold: PB.cobble };   // stoneold：通りの外も町の通りと同じ old stone road（第60回）   // レンガと石畳は質感つき（目地・ふくらみ）
+  Object.entries(by).forEach(([st, cells]) => { const pb = PBG[st]; let m;
+    if (pb) { const mp = pb.map.clone(), nm = pb.normalMap.clone(); [mp, nm].forEach(t => { t.needsUpdate = true; t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(st === 'brick' ? .5 : .5, .5); }); m = std({ map: mp, normalMap: nm, roughness: .82, polygonOffset: true, polygonOffsetFactor: -1, polygonOffsetUnits: -1 }); }
+    else { const t = tex2(GT[st] || GT.flag, 128, 128); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(.5, .5); m = bend(new THREE.MeshLambertMaterial({ map: t, polygonOffset: true, polygonOffsetFactor: -1, polygonOffsetUnits: -1 })); }
+    inst(plane, m, cells.map(([x, y]) => ({ p: [WX(x), topY(x, y) + .008, WZ(y)], s: [1, 1, 1] }))); }); }
+
+// ---- 橋（ゲームの8種類から。build_plan2.json の bridges）----
+const BRIDGE = { 'brick bridge': ['#b8664c', '#9b4f3a'], 'stone bridge': ['#d7d0c2', '#bdb4a3'], 'iron bridge': ['#7a858c', '#4f5a62'], 'wooden bridge': ['#c09466', '#8a6240'], 'log bridge': ['#9a7048', '#6e4c30'], 'suspension bridge': ['#b38a5c', '#6e4c30'], 'zen bridge': ['#c9b48a', '#8a6a4a'], 'red zen bridge': ['#d8452f', '#a8321f'] };
+const bridgeCells = new Map(); { const seen = new Set();
+  Object.entries(D.bridges).forEach(([k, b]) => { const [bx, by] = k.split(',').map(Number); let s = null;
+    for (let r = 0; r < 3 && !s; r++) for (let dy = -r; dy <= r && !s; dy++) for (let dx = -r; dx <= r && !s; dx++) if (G(bx + dx, by + dy) === 'b' && !seen.has((bx + dx) + ',' + (by + dy))) s = [bx + dx, by + dy];
+    if (!s) return; const st = [s], cells = []; seen.add(s.join(','));
+    while (st.length) { const [x, y] = st.pop(); cells.push([x, y]); [[1, 0], [-1, 0], [0, 1], [0, -1]].forEach(([dx, dy]) => { const q = (x + dx) + ',' + (y + dy); if (G(x + dx, y + dy) === 'b' && !seen.has(q)) { seen.add(q); st.push([x + dx, y + dy]); } }); }
+    bridgeCells.set(k, { cells, style: b }); }); }
+bridgeCells.forEach(({ cells, style }) => {
+  const [c1, c2] = BRIDGE[style.en] || ['#cbbfae', '#9a8f80'];
+  const xs = cells.map(c => c[0]), ys = cells.map(c => c[1]), x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
+  const ns = (x1 - x0) <= (y1 - y0) ? (x1 - x0 + 1 === 4) : false, b = LY(1);
+  cells.forEach(([x, y]) => { const m = new THREE.Mesh(box, mat(c1)); m.scale.set(1, .16, 1); m.position.set(WX(x), b - .05, WZ(y)); m.receiveShadow = m.castShadow = true; scene.add(m); });
+  const rail = (ax, az, bx2, bz2) => { const len = Math.hypot(bx2 - ax, bz2 - az) + .2, m = new THREE.Mesh(box, mat(c2)); m.scale.set(Math.abs(bx2 - ax) > .1 ? len : .16, .42, Math.abs(bz2 - az) > .1 ? len : .16); m.position.set((ax + bx2) / 2, b + .2, (az + bz2) / 2); m.castShadow = true; scene.add(m); };
+  if (x1 - x0 + 1 === 4 || (y1 - y0) > (x1 - x0)) { rail(x0 - CX + .1, y0 - CY, x0 - CX + .1, y1 + 1 - CY); rail(x1 + 1 - CX - .1, y0 - CY, x1 + 1 - CX - .1, y1 + 1 - CY); }
+  else { rail(x0 - CX, y0 - CY + .1, x1 + 1 - CX, y0 - CY + .1); rail(x0 - CX, y1 + 1 - CY - .1, x1 + 1 - CX, y1 + 1 - CY - .1); }
+});
+
+// ---- 坂（ゲームの8種類から。build_plan2.json の inclines）----
+const INCC = { 'brick staircase': ['#c7765a', '#a85e45'], 'stone staircase': ['#d9cfbe', '#cfc5b4'], 'log staircase': ['#9a7048', '#86603c'], 'natural ramp': ['#9db265', '#8fa65a'], 'white-plank ramp': ['#efe9dc', '#ddd5c4'], 'blue-plank ramp': ['#7fa6c8', '#6d93b4'], 'blue steel staircase': ['#5d7fa6', '#4a6a8f'], 'red steel staircase': ['#b5523f', '#9a4334'] };
+D.inc.forEach(([x, y, d]) => {
+  const st = D.inclines[x + ',' + y], [ca, cb] = INCC[st && st.en] || ['#d9cfbe', '#cfc5b4'], ramp = st && /ramp/.test(st.en);
+  const tc = d === 'N' ? [x, y + 3] : d === 'W' ? [x + 3, y] : [x, y], hi = L(tc[0], tc[1]); const top = LY(hi), low = LY(hi - 1), steps = ramp ? 14 : 7;
+  const ns = d === 'S' || d === 'N', sgn = d === 'S' || d === 'E' ? 1 : -1, a0 = (ns ? y : x) + (sgn > 0 ? .4 : 3.6), len = 3.1, c = (ns ? x : y) + 1, stp = len / steps;
+  for (let i = 0; i < steps; i++) {
+    const h = top - (top - low) * (i + 1) / steps, a = a0 + sgn * (i + .5) * stp;
+    const m = new THREE.Mesh(box, mat(ramp ? ca : (i % 2 ? ca : cb))); m.scale.set(ns ? 2 : stp, h - low + .02, ns ? stp : 2); m.position.set((ns ? c : a) - CX, (h + low) / 2, (ns ? a : c) - CY); m.castShadow = m.receiveShadow = true; scene.add(m);
+  }
+});
+
+// ---- 木（ゲームの木：広葉樹（秋の色）・針葉樹・竹。木は縦横にとなり合わない）----
+const trunks = [], crowns = [], crowns2 = [], cones = [], stems = [], leafs = [], fruits = [];
+const TONES = { C: ['#c9a04a', '#c7773a', '#7d9152', '#b9893f', '#6b8a4a'], S: ['#c9a04a', '#c7773a', '#7d9152', '#b9893f', '#6b8a4a', '#d8a24a'], F: ['#5d8a48', '#6b8a4a', '#c9a04a', '#557f44', '#b9893f'], J: ['#c8503a', '#d8643a', '#c9a04a', '#6b8a4a'], H: ['#7a5a3a', '#8a5f3a', '#5a4a3a'], P: ['#7d9152', '#c9a04a', '#728f4f'] };
+if (D.townTones && D.townTones.length) { TONES.C = D.townTones; TONES.S = D.townTones; TONES.F = ['#5d8a48', '#6b8a4a', '#557f44', '#62864a']; TONES.J = TONES.F; TONES.H = ['#4f6a45', '#566f48', '#4a6342']; TONES.P = D.townTones; }   // 第60回の最終審査：広葉樹はみな同じ季節（夏の緑）   // 第60回の最終審査：町の木は1種類（spec の street_tree_kind）の同じ季節の色
+const hash = (x, y) => (((x * 73856093) ^ (y * 19349663)) >>> 0) % 1000 / 1000;
+const FRUIT = { apple: '#d8453a', peach: '#f2a0a8', orange: '#f08a2a', pear: '#d8c84a', cherry: '#b8303a' };   // 果物の木（build_plan2.json の orchards）
+const inCedar = (x, y) => (D.cedar || []).some(([a, b, c, d]) => x >= a && x <= c && y >= b && y <= d);   // 第60回：spec の cedar_belts（杉の帯）
+function plant(x, y) {
+  const t = topY(x, y), z = ZONE(x, y), wx = WX(x) + (r1() - .5) * .2, wz = WZ(y) + (r1() - .5) * .2, k = (z === 'C' && D.axisSum) ? hash(Math.min(x, D.axisSum - x) + 3, y + 7) : hash(x + 3, y + 7);   // 第60回：軸をはさむ対の木は同じ色
+  aoBlobs.push({ p: [wx, t + .024, wz], s: [1.6, 1, 1.6] });
+  if (z === 'B') { for (let i = 0; i < 5; i++) { const a = i * 1.256 + r1(), r = .12 + r1() * .22, hh = 2.2 + r1() * .9, sx = wx + Math.cos(a) * r, sz = wz + Math.sin(a) * r;
+      stems.push({ p: [sx, t + hh / 2, sz], s: [.07, hh, .07], c: col(i % 2 ? '#7aa04a' : '#6a9440') }); leafs.push({ p: [sx, t + hh - .15, sz], s: [.42, .3, .42], c: col(i % 2 ? '#a8c860' : '#93b852') }); } return; }
+  const belt = inCedar(x, y), cedar = belt || (z === 'J' ? k < .55 : z === 'H' ? k < .6 : z === 'F' ? k < .3 : L(x, y) >= 3);
+  if (belt) { trunks.push({ p: [wx, t + .35, wz], s: [.16, .7, .16], c: col('#5e3f28') }); const cc = '#3d5a41'; cones.push({ p: [wx, t + 1.25, wz], s: [.95, 1.3, .95], c: col(cc).offsetHSL(0, 0, (r1() - .5) * .04) }); cones.push({ p: [wx, t + 1.95, wz], s: [.7, 1, .7], c: col(cc).offsetHSL(0, 0, .03) }); return; }
+  if (cedar) { trunks.push({ p: [wx, t + .35, wz], s: [.16, .7, .16], c: col('#6e4a2f') }); const cc = z === 'H' ? '#33433a' : '#4f6e4a'; cones.push({ p: [wx, t + 1.25, wz], s: [.95, 1.3, .95], c: col(cc).offsetHSL(0, 0, (r1() - .5) * .05) }); cones.push({ p: [wx, t + 1.95, wz], s: [.7, 1, .7], c: col(cc).offsetHSL(0, 0, .04) }); return; }
+  const orch = D.orchards.some(o => x >= o.rect[0] && x <= o.rect[2] && y >= o.rect[1] && y <= o.rect[3]), tones = orch ? ['#6b8a4a', '#728f4f', '#7d9152'] : (TONES[z] || TONES.S), g = col(tones[Math.floor(k * tones.length)]).offsetHSL(0, 0, (r1() - .5) * .05);
+  trunks.push({ p: [wx, t + .4, wz], s: [.18, .8, .18], c: col('#7a5236') });
+  crowns.push({ p: [wx, t + 1.2, wz], s: [1.05, .85, 1.05], c: g }); crowns2.push({ p: [wx + .05, t + 1.72, wz - .05], s: [.74, .62, .74], c: g.clone().offsetHSL(0, 0, .06) });
+  const o = D.orchards.find(o => x >= o.rect[0] && x <= o.rect[2] && y >= o.rect[1] && y <= o.rect[3]); if (o) for (let i = 0; i < 4; i++) { const a = i * 1.57 + k * 3; fruits.push({ p: [wx + Math.cos(a) * .5, t + 1.0 + (i % 2) * .25, wz + Math.sin(a) * .5], s: [.2, .2, .2], c: col(FRUIT[o.fruit] || '#d8453a') }); }
+}
+for (let y = 0; y < MH; y++) for (let x = 0; x < MW; x++) if (G(x, y) === 't' && !UNTREE.has(x + ',' + y)) plant(x, y);
+const bushes = [], BUSHC = { F: ['#4f7a3f', '#5d8a48'], H: ['#46553f', '#3f4d3a'], J: ['#5d8a48', '#c8503a'], S: ['#5d8a48', '#6b9a4f'], B: ['#7aa04a'], C: ['#5d8a48'], P: ['#6b9a4f'] };
+Object.keys(D.ground).forEach(k => { if (D.ground[k] !== 'u' || UNTREE.has(k)) return; const [x, y] = k.split(',').map(Number); const z = ZONE(x, y), cs = inCedar(x, y) ? ['#41593f', '#4a6545'] : (BUSHC[z] || BUSHC.F), t = topY(x, y), h = hash(x + 5, y + 11);
+  const c = col(cs[Math.floor(h * cs.length)]).offsetHSL(0, 0, (h - .5) * .05); bushes.push({ p: [WX(x), t + .28, WZ(y)], s: [.86, .6, .86], c, belt: inCedar(x, y) }); });
+const blooms = []; bushes.forEach((b, i) => { if (!b.belt && hash(i, 7) < .45) for (let k = 0; k < 5; k++) { const a = k * 1.26 + i; blooms.push({ p: [b.p[0] + Math.cos(a) * .3, b.p[1] + .12 + (k % 2) * .08, b.p[2] + Math.sin(a) * .3], s: [.1, .1, .1], c: col(hash(i, 3) < .5 ? '#f0a03a' : '#f2d04a') }); } });   // 10月はキンモクセイの花（橙・黄）
+inst(new THREE.SphereGeometry(.5, 10, 7), mat('#ffffff'), bushes, true); inst(new THREE.SphereGeometry(.5, 6, 5), mat('#ffffff'), blooms, false);
+inst(new THREE.CylinderGeometry(.5, .6, 1, 8), mat('#ffffff'), trunks, true);
+inst(new THREE.SphereGeometry(.5, 14, 10), mat('#ffffff'), crowns, true);
+inst(new THREE.SphereGeometry(.5, 14, 10), mat('#ffffff'), crowns2, true);
+inst(new THREE.ConeGeometry(.5, 1, 10), mat('#ffffff'), cones, true);
+inst(new THREE.CylinderGeometry(.5, .5, 1, 6), mat('#ffffff'), stems, true);
+inst(new THREE.SphereGeometry(.5, 8, 6), mat('#ffffff'), leafs, true);
+inst(new THREE.SphereGeometry(.5, 8, 6), mat('#ffffff'), fruits, true);
+
+// ---- 建物（ゲームの本物の建物：住民の家はゲームの家の絵、ほかは形を簡単に）----
+const SIZE = { villager: [4, 4], player_house: [5, 4], museum: [7, 4], nook: [7, 4], able: [5, 4], campsite: [4, 4] };
+const glows = [], winMats = [], signMats = [];
+const loader = new THREE.TextureLoader();
+function billboard(uri, x, z, y, w, aspect, name) {   // ゲームの絵を地面に立てる（いつもカメラを向く板）
+  const t = loader.load(uri, () => { dirty = true; }); t.encoding = THREE.sRGBEncoding; t.anisotropy = 4;
+  const m = bendSprite(new THREE.SpriteMaterial({ map: t, alphaTest: .5, transparent: false }));
+  const s = new THREE.Sprite(m); s.center.set(.5, .02); s.scale.set(w, w * aspect, 1); s.position.set(x, y, z); s.renderOrder = 3; scene.add(s); return s;
+}
+function hbox(hex, x, y, w, d, h, z0, base) { const m = new THREE.Mesh(box, mat(hex)); m.scale.set(w, h, d); m.position.set(x - CX + w / 2, base + (z0 || 0) + h / 2, y - CY + d / 2); m.castShadow = m.receiveShadow = true; scene.add(m); return m; }
+function roof(hex, x, y, w, d, z, rise, ridgeNS) {
+  const s = new THREE.Shape(); const a = ridgeNS ? w : d; s.moveTo(-a / 2, 0); s.lineTo(a / 2, 0); s.lineTo(0, rise); s.lineTo(-a / 2, 0);
+  const g = new THREE.ExtrudeGeometry(s, { depth: ridgeNS ? d : w, bevelEnabled: false }); if (!ridgeNS) { g.rotateY(-Math.PI / 2); g.translate(w / 2, 0, 0); }
+  const m = new THREE.Mesh(g, mat(hex)); m.position.set(x - CX + (ridgeNS ? w / 2 : w / 2), z, y - CY + (ridgeNS ? 0 : d / 2)); if (!ridgeNS) m.position.x = x - CX + w / 2; m.castShadow = true; scene.add(m); return m;
+}
+function label(text, x, y, z, w, h, bg, fg) {
+  const t = tex2((g, W, H) => { g.fillStyle = bg; g.fillRect(0, 0, W, H); g.fillStyle = fg; let fs = H * .6; g.font = `900 ${fs}px 'Zen Maru Gothic', sans-serif`; while (g.measureText(text).width > W * .88 && fs > 8) { fs -= 2; g.font = `900 ${fs}px 'Zen Maru Gothic', sans-serif`; } g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(text, W / 2, H / 2 + 2); }, 256, Math.round(256 * h / w));
+  const m = bend(new THREE.MeshLambertMaterial({ map: t, emissiveMap: t, emissive: col('#000000') })); signMats.push(m);
+  const p = new THREE.Mesh(new THREE.PlaneGeometry(w, h), m); p.position.set(x - CX, z, y - CY + .02); scene.add(p);
+}
+function door(x, y, z, w, hex) { hbox(hex || '#6a4a30', x - w / 2, y - .06, w, .1, .95, 0, z); }
+function win(x, y, z) { const m = bend(new THREE.MeshLambertMaterial({ color: col('#5d7488'), emissive: col('#000000') })); winMats.push(m); const p = new THREE.Mesh(new THREE.PlaneGeometry(.55, .5), m); p.position.set(x - CX, z, y - CY + .015); scene.add(p); }
+D.buildings.forEach(b => {
+  if (b.kind === 'villager') {
+    const [x, y] = b.at, uri = HOUSES[b.villager]; const base = topY(x + 1, y + 1);
+    aoBlobs.push({ p: [x + 2 - CX, base + .024, y + 2.4 - CY], s: [5.2, 1, 4.6] });
+    hbox('#8c7a62', x + .3, y + .4, 3.4, 2.6, .05, 0, base);
+    if (uri) { const img = new Image(); img.onload = () => { billboard(uri, x + 2 - CX, y + 3.3 - CY, base, 4.5, img.height / img.width, b.villager); dirty = true; }; img.src = uri; }
+    return;
+  }
+  if (b.fixed && b.kind === 'resident_services') { const [x, y, w, d] = b.rect, base = LY(1);   // 案内所（2回目の工事のあとの建物）
+    hbox('#e9dcc0', x, y + .4, w, d - 1.2, 2.0, 0, base); roof('#6aa05a', x - .2, y + .2, w + .4, d - .8, base + 2.0, 1.3, false); hbox('#c9a27a', x + w / 2 - .9, y + d - .9, 1.8, .2, .3, 1.9, base);
+    door(x + w / 2, y + d - .8, base, 1.2, '#8a5a3a'); win(x + 1, y + d - .8, base + 1.2); win(x + w - 1, y + d - .8, base + 1.2); label('案内所', x + w / 2, y + d - .78, base + 1.75, 2.2, .5, '#5a8a4a', '#fffbe6'); return; }
+  if (b.fixed && b.kind === 'airport') { const [x, y, w, d] = b.rect, base = SAND;   // 飛行場（南の浜・動かせない）
+    hbox('#f0ece2', x + 1, y + .5, w - 2, d - 2, 2.2, 0, base); roof('#3f86c8', x + .7, y + .2, w - 1.4, d - 1.4, base + 2.2, 1.0, false); label('ドードー エアラインズ', x + w / 2, y + .48, base + 1.5, 4.2, .6, '#3f86c8', '#ffffff');
+    const m = new THREE.Mesh(box, mat('#f0ece2')); m.scale.set(.6, .01, .6); return; }
+  const [w, d] = SIZE[b.kind], [x, y] = b.at, base = topY(x + 1, y + 1);
+  aoBlobs.push({ p: [x + w / 2 - CX, base + .024, y + d / 2 - CY], s: [w + 1.2, 1, d + 1] });
+  if (b.kind === 'museum') { hbox('#d9cfbe', x, y + .3, w, d - .4, 2.4, 0, base); roof('#5a6a72', x - .2, y + .1, w + .4, d, base + 2.4, 1.2, false); for (let i = 0; i < 4; i++) hbox('#f2ede2', x + .8 + i * 1.65, y + d - .35, .3, .3, 2.3, 0, base);
+    door(x + w / 2, y + d - .1, base, 1.3, '#5a3e2e'); label('はくぶつかん', x + w / 2, y + d - .08, base + 2.0, 3.2, .45, '#5a6a72', '#fffbe6'); return; }
+  if (b.kind === 'nook') { hbox('#c9a27a', x, y + .4, w, d - .6, 2.1, 0, base); roof('#4f8a4a', x - .2, y + .2, w + .4, d - .2, base + 2.1, 1.2, false); hbox('#7fbf5a', x + w / 2 - .5, y + d - .3, 1, .1, .7, 2.2, base);
+    door(x + w / 2, y + d - .2, base, 1.3, '#6a4a30'); win(x + 1.2, y + d - .2, base + 1.0); win(x + w - 1.2, y + d - .2, base + 1.0); label('タヌキしょうてん', x + w / 2, y + d - .18, base + 1.72, 3.4, .45, '#3f6b3a', '#fffbe6'); return; }
+  if (b.kind === 'able') { hbox('#f3e6e0', x, y + .4, w, d - .6, 2.0, 0, base); roof('#c8504a', x - .2, y + .2, w + .4, d - .2, base + 2.0, 1.2, false);
+    door(x + w / 2, y + d - .2, base, 1.1, '#8a3a3a'); win(x + 1, y + d - .2, base + 1.0); win(x + w - 1, y + d - .2, base + 1.0); label('エイブルシスターズ', x + w / 2, y + d - .18, base + 1.65, 3.2, .45, '#c8504a', '#fffbe6'); return; }
+  if (b.kind === 'campsite') { const s = new THREE.Shape(); s.moveTo(-1.6, 0); s.lineTo(1.6, 0); s.lineTo(0, 2.0); s.lineTo(-1.6, 0); const g = new THREE.ExtrudeGeometry(s, { depth: 3, bevelEnabled: false }); const m = new THREE.Mesh(g, mat('#e8d9a8')); m.position.set(x + 2 - CX, base, y + .4 - CY); m.castShadow = true; scene.add(m);
+    label('キャンプ場', x + 2, y + 3.45, base + .45, 1.8, .4, '#c97a3a', '#fffbe6'); return; }
+  if (b.kind === 'player_house') { hbox('#9a7a5e', x + .2, y + .5, w - .4, d - 1, 2.0, 0, base); roof('#3d3a3a', x, y + .3, w, d - .6, base + 2.0, 1.4, false);   // 自宅：茶色の石の壁・黒い石の屋根（案内所で選んだ外観）
+    door(x + w / 2, y + d - .5, base, 1.0, '#3a2a22'); win(x + 1.1, y + d - .5, base + 1.1); win(x + w - 1.1, y + d - .5, base + 1.1); label('じたく', x + w / 2, y + d - .48, base + 1.7, 1.4, .4, '#3d3a3a', '#fffbe6'); return; }
+});
+
+// ---- 家具（ゲームの絵をそのまま立てる。柵とパネルとかきねは形で）----
+const FENCE = { 'iron fence': ['#2f3236', 'bars', .75], 'lattice fence': ['#f4efe4', 'lattice', .8], 'hedge': ['#5d8a48', 'hedge', .85], 'corral fence': ['#9a7048', 'rails', .7], 'spooky fence': ['#4a3a52', 'bars', .8], 'zen fence': ['#3a3330', 'rails', .7], 'bamboo lattice fence': ['#b9a46a', 'lattice', .8], 'simple wooden fence': ['#b98a5c', 'rails', .65], 'country fence': ['#9a7048', 'rails', .65], 'brick fence': ['#b8664c', 'wall', .7], 'stone fence': ['#a8a093', 'wall', .7], 'iron-and-stone fence': ['#2f3236', 'stonebars', .85] };
+const fenceCells = new Map(); D.P.forEach(p => { const en = D.used[p.k].en; if (FENCE[en]) fenceCells.set(p.x + ',' + p.y, en); });
+const posts = [], rails = [], hedges = [];
+fenceCells.forEach((en, key) => { const [x, y] = key.split(',').map(Number), [hex, kind, hh] = FENCE[en], t = topY(x, y), c = col(hex);
+  if (kind === 'hedge') { hedges.push({ p: [WX(x), t + hh / 2, WZ(y)], s: [1.02, hh, .8], c }); return; }
+  if (kind === 'wall') { posts.push({ p: [WX(x), t + hh / 2, WZ(y)], s: [1, hh, .4], c }); return; }
+  if (kind === 'stonebars') { posts.push({ p: [WX(x), t + .11, WZ(y)], s: [.5, .22, .5], c: col('#9a9284') }); posts.push({ p: [WX(x), t + hh / 2, WZ(y)], s: [.18, hh, .18], c: col('#8f877a') });
+    [[1, 0], [0, 1]].forEach(([dx, dy]) => { if (fenceCells.get((x + dx) + ',' + (y + dy)) !== en) return; const mx = WX(x) + dx / 2, mz = WZ(y) + dy / 2;
+      posts.push({ p: [mx, t + .11, mz], s: [dx ? 1 : .5, .22, dy ? 1 : .5], c: col('#9a9284') }); rails.push({ p: [mx, t + hh - .08, mz], s: [dx ? 1 : .05, .05, dy ? 1 : .05], c });
+      for (let i = 1; i < 5; i++) rails.push({ p: [WX(x) + dx * i / 5, t + .28 + (hh - .36) / 2, WZ(y) + dy * i / 5], s: [.035, hh - .36, .035], c }); }); return; }
+  posts.push({ p: [WX(x), t + hh / 2, WZ(y)], s: [.12, hh, .12], c });
+  [[1, 0], [0, 1]].forEach(([dx, dy]) => { if (fenceCells.get((x + dx) + ',' + (y + dy)) !== en) return;
+    const mx = WX(x) + dx / 2, mz = WZ(y) + dy / 2; if (kind === 'lattice') rails.push({ p: [mx, t + hh / 2, mz], s: [dx ? 1 : .05, hh * .9, dy ? 1 : .05], c });
+    else if (kind === 'bars') { [.12, hh - .1].forEach(z => rails.push({ p: [mx, t + z, mz], s: [dx ? 1 : .05, .05, dy ? 1 : .05], c })); for (let i = 1; i < 4; i++) rails.push({ p: [WX(x) + dx * i / 4, t + hh / 2, WZ(y) + dy * i / 4], s: [.04, hh, .04], c }); }
+    else [.25, .55].forEach(z => rails.push({ p: [mx, t + z * hh / .65, mz], s: [dx ? 1 : .08, .1, dy ? 1 : .08], c })); }); });
+inst(box, mat('#ffffff'), posts, true); inst(box, mat('#ffffff'), rails, true); inst(new THREE.BoxGeometry(1, 1, 1, 2, 2, 2), mat('#ffffff'), hedges, true);
+// シンプルなパネル：マイデザイン（レンガの壁と窓など）を貼った板。1×0.5 マス
+const PANEL = {};
+function panelTex(id, piece) { piece = piece || ({ signboard: 'sign', hanging_sign: 'hang', door_curtain: 'door', window_hp: 'window' })[id] || piece;   // 第60回の最終審査：見せ場のパネル（看板・吊り看板・ドア）を描く
+  const key = id + '|' + (piece || ''); if (PANEL[key]) return PANEL[key];
+  const arch = (g, x0, x1, top, bot, fill) => { const cx = (x0 + x1) / 2, rr = (x1 - x0) / 2; g.fillStyle = fill; g.beginPath(); g.moveTo(x0, bot); g.lineTo(x0, top); g.arc(cx, top, rr, Math.PI, 0); g.lineTo(x1, bot); g.fill(); };
+  const P = pbr(128, 192, (A, Hh, W, H) => { brickWall(A, Hh, W, H, (id || '').length * 7 + (piece || '').length * 3, 12, piece !== 'window');
+    if (piece === 'arch') { arch(A, W * .06, W * .94, H * .42, H, '#c9b49a'); arch(Hh, W * .06, W * .94, H * .42, H, '#e0e0e0');   // 石のアーチの縁
+      for (let i = 0; i < 9; i++) { const a0 = Math.PI + i * Math.PI / 9; A.strokeStyle = 'rgba(90,75,60,.6)'; A.lineWidth = 1.5; A.beginPath(); A.moveTo(W * .5 + Math.cos(a0) * W * .3, H * .42 + Math.sin(a0) * W * .3); A.lineTo(W * .5 + Math.cos(a0) * W * .44, H * .42 + Math.sin(a0) * W * .44); A.stroke(); }
+      arch(A, W * .16, W * .84, H * .45, H, '#15110f'); arch(Hh, W * .16, W * .84, H * .45, H, '#000000');   // 奥の暗がり
+      const gl = A.createLinearGradient(0, H * .55, 0, H); gl.addColorStop(0, 'rgba(255,200,120,0)'); gl.addColorStop(1, 'rgba(255,200,120,.35)'); A.fillStyle = gl; A.fillRect(W * .3, H * .55, W * .4, H * .45); }
+    else if (piece === 'sign') { A.fillStyle = '#c9a24a'; A.fillRect(W * .1, H * .22, W * .8, H * .36); A.fillStyle = '#1f3a2c'; A.fillRect(W * .14, H * .25, W * .72, H * .3); Hh.fillStyle = '#d0d0d0'; Hh.fillRect(W * .1, H * .22, W * .8, H * .36);   // 看板（PUB）：金の縁の深緑の板
+      A.fillStyle = '#e8c766'; A.font = `bold ${Math.round(H * .17)}px serif`; A.textAlign = 'center'; A.textBaseline = 'middle'; A.fillText('PUB', W * .5, H * .405);
+      arch(A, W * .3, W * .7, H * .7, H, '#3a2a20'); arch(Hh, W * .3, W * .7, H * .7, H, '#606060'); }
+    else if (piece === 'hang') { A.fillStyle = '#2a2a2a'; A.fillRect(W * .5, H * .2, W * .42, H * .03); A.fillRect(W * .62, H * .23, 2, H * .07); A.fillRect(W * .82, H * .23, 2, H * .07);   // 吊り看板：鉄の腕と花の札
+      blob(A, W * .72, H * .4, W * .17, H * .1, '#f3ead6'); blob(A, W * .72, H * .4, W * .07, H * .045, '#d8607a'); Hh.fillStyle = '#e0e0e0'; Hh.fillRect(W * .55, H * .3, W * .34, H * .2);
+      arch(A, W * .12, W * .48, H * .5, H * .82, '#ece2cc'); arch(A, W * .16, W * .44, H * .52, H * .8, '#3f5568'); }
+    else if (piece === 'door') { A.fillStyle = '#e9e0cc'; A.fillRect(W * .18, H * .28, W * .64, H * .72); Hh.fillStyle = '#e8e8e8'; Hh.fillRect(W * .18, H * .28, W * .64, H * .72);
+      arch(A, W * .27, W * .73, H * .46, H, '#2f4a5a'); arch(Hh, W * .27, W * .73, H * .46, H, '#707070'); for (let i = 0; i < 4; i++) { A.fillStyle = 'rgba(20,35,45,.5)'; A.fillRect(W * (.32 + i * .1), H * .55, 2, H * .4); }
+      blob(A, W * .65, H * .75, 3, 3, '#d9b25a'); }
+    else if (piece === 'lamp' || piece === 'window' || /window/.test(id || '')) { arch(A, W * .2, W * .8, H * .34, H * .7, '#ece2cc'); arch(Hh, W * .2, W * .8, H * .34, H * .7, '#f0f0f0');   // 窓：白い枠・暗いガラス・桟・窓台
+      arch(A, W * .27, W * .73, H * .36, H * .66, '#3f5568'); arch(Hh, W * .27, W * .73, H * .36, H * .66, '#404040');
+      const gg = A.createLinearGradient(0, H * .2, 0, H * .66); gg.addColorStop(0, 'rgba(190,220,240,.55)'); gg.addColorStop(1, 'rgba(190,220,240,0)'); A.fillStyle = gg; A.fillRect(W * .27, H * .2, W * .46, H * .46);
+      A.fillStyle = '#ece2cc'; A.fillRect(W * .485, H * .18, W * .03, H * .48); A.fillRect(W * .27, H * .5, W * .46, H * .022); A.fillRect(W * .15, H * .69, W * .7, H * .04); Hh.fillStyle = '#ffffff'; Hh.fillRect(W * .15, H * .69, W * .7, H * .04);
+      if (piece === 'lamp') { A.fillStyle = '#2a2a2a'; A.fillRect(W * .47, H * .76, W * .06, H * .05); blob(A, W * .5, H * .84, W * .07, W * .07, '#f2c86a'); }
+      else { for (let i = 0; i < 7; i++) blob(A, W * (.18 + i * .1), H * .7, 4, 3, ['#d8453a', '#f6f2ea', '#f2a0b8', '#6a9a4a'][i % 4]); } } });   // 窓の花箱
+  return PANEL[key] = std({ map: P.map, normalMap: P.normalMap, normalScale: new THREE.Vector2(1.2, 1.2), roughness: .9 }); }
+// rot は崖（背）の向き：0北 1東 2南 3西。表（マイデザイン）は反対がわに向ける。崖にぴったりつけて立てる
+D.P.forEach(p => { const en = D.used[p.k].en; if (!/simple panel/.test(en)) return; const t = topY(p.x, p.y), h = en === 'simple panel' ? 1.3 : .8, r = p.rot || 0;
+  const back = [[0, -1], [1, 0], [0, 1], [-1, 0]][r], face = [4, 1, 5, 0][r], br = mat('#7a5440'), mats = [br, br, br, br, br, br]; mats[face] = panelTex(p.design, p.piece);
+  const m = new THREE.Mesh(box, mats); m.scale.set(r % 2 ? .14 : 1, h, r % 2 ? 1 : .14); m.position.set(WX(p.x) + back[0] * .42, t + h / 2, WZ(p.y) + back[1] * .42); m.castShadow = true; scene.add(m);
+  if (p.piece === 'arch') aoBlobs.push({ p: [WX(p.x) + back[0] * .3, t + .024, WZ(p.y) + back[1] * .3], s: [1.1, 1, 1.1] }); });
+// 第60回：店先（storefront 2×1・レンガとあかりのマイデザイン）：崖のすそに背を当てた2マスの店の正面（ショーウィンドウ・日よけ・戸）
+function shopTex(seed) { const key = 'shop|' + seed; if (PANEL[key]) return PANEL[key];
+  const P = pbr(256, 192, (A, Hh, W, H) => { brickWall(A, Hh, W, H, 31 + seed * 7, 12, true);
+    A.fillStyle = '#2f3f35'; A.fillRect(W * .05, H * .13, W * .9, H * .12); Hh.fillStyle = '#d8d8d8'; Hh.fillRect(W * .05, H * .13, W * .9, H * .12);   // 看板
+    A.fillStyle = '#d9b25a'; A.fillRect(W * .2, H * .18, W * .3, H * .025);
+    const aw = [['#2f6b4a', '#efe6d2'], ['#9a3a32', '#efe6d2'], ['#2d4a6a', '#efe6d2']][seed % 3];
+    for (let i = 0; i < 12; i++) { A.fillStyle = aw[i % 2]; A.fillRect(W * (.05 + i * .075), H * .27, W * .075, H * .1); }   // 日よけ
+    Hh.fillStyle = '#f4f4f4'; Hh.fillRect(W * .05, H * .27, W * .9, H * .1);
+    A.fillStyle = '#e9e0cc'; A.fillRect(W * .07, H * .4, W * .55, H * .5); A.fillStyle = '#3a5262'; A.fillRect(W * .1, H * .43, W * .49, H * .38);   // ショーウィンドウ
+    const gg = A.createLinearGradient(0, H * .43, 0, H * .81); gg.addColorStop(0, 'rgba(200,225,240,.5)'); gg.addColorStop(1, 'rgba(255,210,140,.25)'); A.fillStyle = gg; A.fillRect(W * .1, H * .43, W * .49, H * .38);
+    A.fillStyle = '#e9e0cc'; A.fillRect(W * .34, H * .43, W * .015, H * .38);
+    for (let i = 0; i < 6; i++) blob(A, W * (.14 + i * .08), H * .79, 5, 4, ['#d8453a', '#f2cf3a', '#f6f2ea', '#6a9a4a'][i % 4]);   // 窓の中の品物
+    A.fillStyle = '#5a3a28'; A.fillRect(W * .68, H * .42, W * .2, H * .58); Hh.fillStyle = '#9a9a9a'; Hh.fillRect(W * .68, H * .42, W * .2, H * .58); blob(A, W * .84, H * .72, 3, 3, '#d9b25a'); });
+  return PANEL[key] = std({ map: P.map, normalMap: P.normalMap, normalScale: new THREE.Vector2(1.1, 1.1), roughness: .88 }); }
+D.P.forEach(p => { if (D.used[p.k].en !== 'storefront') return; const t = topY(p.x, p.y), h = 1.5, br = mat('#7a5440'), mats = [br, br, br, br, br, br]; mats[4] = shopTex((p.x * 3 + p.y) % 3);
+  const m = new THREE.Mesh(box, mats); m.scale.set(p.w, h, .18); m.position.set(WX(p.x) + (p.w - 1) / 2, t + h / 2, WZ(p.y) - .4); m.castShadow = true; scene.add(m); });
+// そのほかの家具：ゲームの絵（アイコン）を足もとに合わせて立てる。大きさは家具のマス数から
+const iconTex = {};
+// 城壁（castle wall・2×1）：レンガのマイデザインの壁と、上の凸凹（銃眼）
+{ const cw = [], merl = [], capr = [];
+  D.P.forEach(p => { if (D.used[p.k].en !== 'castle wall') return; const t = topY(p.x, p.y), h = 1.15, cx = WX(p.x) + (p.w - 1) / 2, cz = WZ(p.y) + (p.d - 1) / 2, along = p.w >= p.d;
+    const grey = D.used[p.k].var === 'Dark gray';   // 第60回の最終審査：石の幕壁（Dark gray）は灰色に
+    cw.push({ p: [cx, t + h / 2, cz], s: [along ? p.w : .7, h, along ? .7 : p.d], c: grey ? col('#8c8f96') : undefined }); capr.push({ p: [cx, t + h + .04, cz], s: [along ? p.w + .04 : .8, .08, along ? .8 : p.d + .04], c: col(grey ? '#5f6168' : '#7a6a5c') });
+    for (let i = 0; i < 5; i++) { const f = -.5 + (i + .5) / 5 * 2; merl.push({ p: [cx + (along ? f * p.w / 2 : 0), t + h + .19, cz + (along ? 0 : f * p.d / 2)], s: [along ? .22 : .62, .22, along ? .62 : .22], c: col(grey ? '#6e7178' : '#6a5a4e') }); } });
+  const cwm = panelTex('brick_castle', null).clone(); cwm.map = cwm.map.clone(); cwm.map.needsUpdate = true; cwm.map.repeat.set(2, 1); cwm.map.wrapS = THREE.RepeatWrapping; cwm.normalMap = cwm.normalMap.clone(); cwm.normalMap.needsUpdate = true; cwm.normalMap.repeat.set(2, 1); cwm.normalMap.wrapS = THREE.RepeatWrapping; bend(cwm);
+  inst(box, cwm, cw, true); inst(box, std({ map: PB.brick.map, normalMap: PB.brick.normalMap }), merl, true); inst(box, mat('#ffffff'), capr, true); }
+D.P.forEach(p => { const u = D.used[p.k]; if (FENCE[u.en] || /simple panel/.test(u.en) || u.en === 'castle wall' || u.en === 'storefront') return; const uri = ICONS[p.k]; if (!uri) return;
+  if (!iconTex[p.k]) { const t = loader.load(uri, () => { dirty = true; }); t.encoding = THREE.sRGBEncoding; t.anisotropy = 4; iconTex[p.k] = bendSprite(new THREE.SpriteMaterial({ map: t, alphaTest: .45 })); }
+  const [iw, ih] = ISZ[p.k] || [100, 100], fw = Math.max(p.w, p.d), cap = fw <= 1 ? 2.3 : 4.6;
+  let W = fw * 1.06, H = W * ih / iw; if (H > cap) { H = cap; W = H * iw / ih; }
+  const t = topY(p.x, p.y), cx = p.x + p.w / 2, cz = p.y + p.d / 2;
+  const s = new THREE.Sprite(iconTex[p.k]); s.center.set(.5, .04); s.scale.set(W, H, 1); s.position.set(cx - CX, t, cz - CY + p.d * .18); scene.add(s);
+  aoBlobs.push({ p: [cx - CX, t + .024, cz - CY], s: [p.w * .95 + .3, 1, p.d * .95 + .3] });
+  if (/lamp|light|lantern/.test(u.en) || u.tag === 'Lamp') glows.push([cx - CX, t + H * .8, cz - CY + p.d * .18, 1.4]);
+});
+
+// ---- 花と作物（ゲームの花・作物を植えたマス）----
+const FCOL = { red: '#d8453a', white: '#f6f2ea', yellow: '#f2cf3a', orange: '#f08a2a', pink: '#f2a0b8', purple: '#8a5ab8', blue: '#5a7ad8', black: '#3a2a3a', gold: '#e8c25a', green: '#6a9a4a' };
+const petals = [], leaves = [], pumpk = [], wheat = [];
+D.plants.forEach(q => { const t = topY(q.x, q.y), wx = WX(q.x), wz = WZ(q.y), h = hash(q.x * 3, q.y * 7), c = col(FCOL[q.color] || '#d8453a');
+  if (q.type === 'pumpkins') { leaves.push({ p: [wx, t + .08, wz], s: [.8, .14, .8], c: col('#5d8a48') }); pumpk.push({ p: [wx + (h - .5) * .2, t + .2, wz], s: [.5, .34, .5], c }); return; }
+  if (q.type === 'wheat') { for (let i = 0; i < 6; i++) { const a = i * 1.05 + h * 6; wheat.push({ p: [wx + Math.cos(a) * .25, t + .3, wz + Math.sin(a) * .25], s: [.06, .6, .06], c: col('#e3c15a') }); } return; }
+  if (['carrots', 'potatoes', 'tomatoes', 'sugarcane'].includes(q.type)) { leaves.push({ p: [wx, t + .2, wz], s: [.6, .4, .6], c: col('#5d8a48') }); if (q.type === 'tomatoes') for (let i = 0; i < 4; i++) petals.push({ p: [wx + Math.cos(i * 1.6) * .22, t + .3, wz + Math.sin(i * 1.6) * .22], s: [.13, .13, .13], c: col('#d8453a') }); return; }
+  leaves.push({ p: [wx, t + .1, wz], s: [.62, .18, .62], c: col('#6a9a4a') });
+  for (let i = 0; i < 4; i++) { const a = i * 1.57 + h * 3; petals.push({ p: [wx + Math.cos(a) * .2, t + .26 + (i % 2) * .05, wz + Math.sin(a) * .2], s: [.2, .14, .2], c }); } });
+inst(new THREE.SphereGeometry(.5, 8, 6), mat('#ffffff'), leaves, false); inst(new THREE.SphereGeometry(.5, 8, 6), mat('#ffffff'), petals, false);
+inst(new THREE.SphereGeometry(.5, 12, 8), mat('#ffffff'), pumpk, true); inst(new THREE.CylinderGeometry(.5, .5, 1, 4), mat('#ffffff'), wheat, false);
+
+// ---- 影と明かり ----
+const blobTex = tex((g, n) => { const r = g.createRadialGradient(n / 2, n / 2, n * .12, n / 2, n / 2, n / 2); r.addColorStop(0, 'rgba(255,255,255,1)'); r.addColorStop(.55, 'rgba(255,255,255,.55)'); r.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = r; g.fillRect(0, 0, n, n); }, 64);
+const edgeTex = tex((g, n) => { const r = g.createLinearGradient(0, 0, 0, n); r.addColorStop(0, 'rgba(255,255,255,1)'); r.addColorStop(.45, 'rgba(255,255,255,.35)'); r.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = r; g.fillRect(0, 0, n, n); }, 64);
+const shade = (map, op) => bend(new THREE.MeshBasicMaterial({ color: col('#2b2117'), alphaMap: map, transparent: true, opacity: op, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2 }));
+{ const m1 = inst(plane, shade(edgeTex, .42), aoEdges); if (m1) { m1.castShadow = false; m1.receiveShadow = false; m1.renderOrder = 1; }
+  const m2 = inst(plane, shade(blobTex, .34), aoBlobs); if (m2) { m2.castShadow = false; m2.receiveShadow = false; m2.renderOrder = 1; } }
+const glowTex = tex((g, n) => { const r = g.createRadialGradient(n / 2, n / 2, 0, n / 2, n / 2, n / 2); r.addColorStop(0, 'rgba(255,214,140,1)'); r.addColorStop(1, 'rgba(255,214,140,0)'); g.fillStyle = r; g.fillRect(0, 0, n, n); }, 64);
+const glowSprites = glows.map(([x, y, z, s]) => { const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, opacity: 0 })); sp.position.set(x, y, z); sp.scale.set(s, s, 1); scene.add(sp); return sp; });
+
+// ---- 光と時間 ----
+const hemi = new THREE.HemisphereLight(0xffffff, 0x7fb26a, .8); scene.add(hemi);
+const sun = new THREE.DirectionalLight(0xffffff, .85); sun.castShadow = true; sun.shadow.mapSize.set(4096, 4096);
+Object.assign(sun.shadow.camera, { left: -74, right: 74, top: 66, bottom: -66, near: 1, far: 240 }); sun.shadow.bias = -0.0006; sun.shadow.normalBias = .02;
+scene.add(sun); scene.add(sun.target);
+const TIMES = {
+  day:   { bg: '#8fd9cd', sea: '#64a9ad', sky: '#eef3f6', gr: '#8fae70', hi: .6, sun: '#ffe6c2', si: 1.3, dir: [18, 46, 34], win: '#000000', glow: 0 },
+  dusk:  { bg: '#f2b996', sea: '#5ab0b3', sky: '#ffd9b8', gr: '#7a6f72', hi: .64, sun: '#ffab6a', si: .95, dir: [40, 16, 22], win: '#ffb35c', glow: .55 },
+  night: { bg: '#132c3b', sea: '#1f5868', sky: '#5d74b3', gr: '#1d2c2c', hi: .45, sun: '#a9bcff', si: .38, dir: [-14, 40, 26], win: '#ffc35a', glow: 1 },
+};
+let time = 'day';
+function applyTime() {
+  const t = TIMES[time];
+  scene.background = col(t.bg); scene.fog = new THREE.Fog(col(t.bg), 80, 220);
+  seaMesh.material.color.copy(col(t.sea));
+  hemi.color.copy(col(t.sky)); hemi.groundColor.copy(col(t.gr)); hemi.intensity = t.hi;
+  sun.color.copy(col(t.sun)); sun.intensity = t.si;
+  winMats.forEach(m => m.emissive.copy(col(t.win))); signMats.forEach(m => m.emissive.copy(col(time === 'night' ? '#6e6250' : '#000000')));
+  glowSprites.forEach(s => s.material.opacity = t.glow * .7);
+  waterMat.color.copy(col(time === 'night' ? '#2d6468' : time === 'dusk' ? '#6a9c9a' : '#6fa8a8'));
+  foamMat.opacity = time === 'night' ? .45 : .85;
+  stage.style.background = t.bg; post.grade(time); placeSun(); dirty = true;
+}
+function placeSun() { const d = TIMES[time].dir, tg = controls.target; sun.position.set(tg.x + d[0], d[1], tg.z + d[2]); sun.target.position.set(tg.x, 0, tg.z); sun.target.updateMatrixWorld();
+  const half = Math.max(16, Math.min(74, camera.position.distanceTo(tg) * .95)), sc = sun.shadow.camera;   // 寄るほど影の範囲をせまくして、影をくっきり
+  if (Math.abs(sc.right - half) > .5) { Object.assign(sc, { left: -half, right: half, top: half * .9, bottom: -half * .9 }); sc.updateProjectionMatrix(); } }
+
+// ---- 仕上げ：奥と手前のぼかし（ティルトシフト）・あたたかい色 ----
+const post = (() => {
+  const W2 = renderer.capabilities.isWebGL2;
+  const mk = ms => { const o = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBAFormat, type: W2 ? THREE.HalfFloatType : THREE.UnsignedByteType }; const r = ms && W2 ? new THREE.WebGLMultisampleRenderTarget(1, 1, o) : new THREE.WebGLRenderTarget(1, 1, o); if (ms && W2) r.samples = 4; return r; };
+  const rtS = mk(true), rtA = mk(false), rtB = mk(false);
+  const qs = new THREE.Scene(), qc = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1), quad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2)); quad.frustumCulled = false; qs.add(quad);
+  const vs = 'varying vec2 vUv; void main() { vUv = uv; gl_Position = vec4(position.xy, 0., 1.); }';
+  const blur = new THREE.ShaderMaterial({ uniforms: { t: { value: null }, dir: { value: new THREE.Vector2() }, top: { value: .64 } }, vertexShader: vs, depthTest: false, depthWrite: false,
+    fragmentShader: `uniform sampler2D t; uniform vec2 dir; uniform float top; varying vec2 vUv;
+      void main() { float k = smoothstep(top, 1.02, vUv.y) + smoothstep(.2, -.02, vUv.y) * .6; vec2 o = dir * k;
+        vec4 c = texture2D(t, vUv) * .227; c += (texture2D(t, vUv + o * 1.385) + texture2D(t, vUv - o * 1.385)) * .3162; c += (texture2D(t, vUv + o * 3.231) + texture2D(t, vUv - o * 3.231)) * .0703; gl_FragColor = c; }` });
+  const fin = new THREE.ShaderMaterial({ uniforms: { t: { value: null }, warm: { value: new THREE.Vector3(1.03, 1, .95) }, vig: { value: .26 }, sat: { value: 1.06 } }, vertexShader: vs, depthTest: false, depthWrite: false,
+    fragmentShader: `uniform sampler2D t; uniform vec3 warm; uniform float vig; uniform float sat; varying vec2 vUv;
+      vec3 srgb(vec3 c) { c = clamp(c, 0., 1.); return mix(c * 12.92, 1.055 * pow(c, vec3(1. / 2.4)) - .055, step(.0031308, c)); }
+      vec3 aces(vec3 x) { x *= .92; return clamp((x * (2.51 * x + .03)) / (x * (2.43 * x + .59) + .14), 0., 1.); }   // 映画のような明暗（ACES）
+      void main() { vec3 c = srgb(aces(texture2D(t, vUv).rgb)) * warm; float l = dot(c, vec3(.299, .587, .114)); c = mix(vec3(l), c, sat); c = c * .96 + .03;
+        c *= 1. - vig * smoothstep(.42, .95, distance(vUv, vec2(.5, .56))); gl_FragColor = vec4(c, 1.); }` });
+  const GRADE = { day: [[1.04, 1, .94], .24, 1.1], dusk: [[1.08, .98, .88], .32, .96], night: [[.95, .98, 1.08], .38, .92] };
+  return {
+    size(w, h) { const pr = renderer.getPixelRatio(); [rtS, rtA, rtB].forEach(r => r.setSize(Math.max(1, Math.round(w * pr)), Math.max(1, Math.round(h * pr)))); },
+    grade(k) { const g = GRADE[k]; fin.uniforms.warm.value.set(...g[0]); fin.uniforms.vig.value = g[1]; fin.uniforms.sat.value = g[2]; },
+    render() {
+      renderer.setRenderTarget(rtS); renderer.render(scene, camera);
+      const s = 2.4 * renderer.getPixelRatio(); blur.uniforms.top.value = camera.position.distanceTo(controls.target) > 60 ? .62 : .76;
+      quad.material = blur; blur.uniforms.t.value = rtS.texture; blur.uniforms.dir.value.set(s / rtA.width, 0); renderer.setRenderTarget(rtA); renderer.render(qs, qc);
+      blur.uniforms.t.value = rtA.texture; blur.uniforms.dir.value.set(0, s / rtA.height); renderer.setRenderTarget(rtB); renderer.render(qs, qc);
+      quad.material = fin; fin.uniforms.t.value = rtB.texture; renderer.setRenderTarget(null); renderer.render(qs, qc);
+    }
+  };
+})();
+
+// ---- 視点 ----
+let tween = null;
+const VIEWS = { bird: { polar: .58, dist: 150, az: 0, t: [56 - CX, 1, 67 - CY] } };
+const birdView = () => Object.assign({}, VIEWS.bird, stage.clientWidth / Math.max(1, stage.clientHeight) < 1.2 ? { dist: 205, polar: .5, t: [56 - CX, 1, 50 - CY] } : {});
+function goTo(v, target) {
+  const t = new THREE.Vector3(...(target || v.t)), from = { t: controls.target.clone(), p: camera.position.clone() };
+  const to = { t, p: t.clone().add(new THREE.Vector3().setFromSpherical(new THREE.Spherical(v.dist, v.polar, v.az))) };
+  if (reduce) { controls.target.copy(to.t); camera.position.copy(to.p); controls.update(); dirty = true; return; }
+  tween = { from, to, s: performance.now(), dur: 900 };
+}
+
+// ---- まとまり（家具の組）の一覧・札・えらんだ所の枠 ----
+const bbox = {}; D.P.forEach(p => { const b = bbox[p.group] || (bbox[p.group] = [1e9, 1e9, -1e9, -1e9]); b[0] = Math.min(b[0], p.x); b[1] = Math.min(b[1], p.y); b[2] = Math.max(b[2], p.x + p.w - 1); b[3] = Math.max(b[3], p.y + p.d - 1); });
+const pinsEl = document.getElementById('pins'), glistEl = document.getElementById('glist'), bubble = document.getElementById('bubble');
+const itemsEl = document.getElementById('items'), itP = document.getElementById('it-p');
+const NT = D.P.length, NK = Object.keys(D.used).length;
+const nv = D.buildings.filter(b => b.kind === 'villager').length;
+document.getElementById('tally').innerHTML = [['本物の建物', D.buildings.length, ''], ['住民の家', nv + '/10', 'ok'], ['坂', D.inc.length + '/8', 'ok'], ['橋', Object.keys(D.bridges).length + '/8', 'ok'], ['家具', NT + '個・' + NK + '種類', ''], ['目録にない物', 0, 'ok']].map(([a, b, c]) => `<span class="${c}">${a} <b>${b}</b></span>`).join('');
+const INTRO = () => { const w = document.createElement('span'); w.className = 'who'; w.textContent = 'アイス島　全島（案4・第58回）'; const p = document.createElement('p'); p.textContent = '土台（段・水・道・建物）は第56回のまま。第57回の地区ごとの見せ場47か所に、作例との見くらべ（3人の評価で5.5点）で足りなかった所を直した：森から町へ木を30本植えかえ（並木・広場のまわり・博物館の裏・サザークの通りと屋上・港の丘）、ハイタウンの家のあいだの3段目にビッグ・ベンの塔、ドックランズの尾根に荷上げの塔。屋根は通りと同じ石畳をやめて灰色のレンガと生け垣の屋上庭園に、城壁はカメラに向く南のふちだけ。カメラから見えない北向きのパネルはなくし、港のヨットは池の向こうの岸に。坂と橋を1つずつ灰色の石に。通りは本当のマイデザイン（濃い灰色の石畳）の色で描く。坂10・橋4。すべてあつ森で作れる物だけ。'; const m = document.createElement('span'); m.className = 'meta'; m.textContent = `季節：${D.season}。右の一覧でまとまりを選ぶと寄ります。`; return [w, p, m]; };
+let sel = null; const gpins = [], gbtns = [];
+const hl = new THREE.Group(); scene.add(hl);
+function frameBox(r) { hl.clear(); if (!r) return; const [x0, y0, x1, y1] = r, w = x1 - x0 + 1, d = y1 - y0 + 1; let yTop = 0; for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) yTop = Math.max(yTop, topY(x, y));
+  const f = new THREE.Mesh(new THREE.PlaneGeometry(w, d).rotateX(-Math.PI / 2), bend(new THREE.MeshBasicMaterial({ color: col('#ffe24d'), transparent: true, opacity: .26, depthWrite: false }))); f.position.set(x0 - CX + w / 2, yTop + .05, y0 - CY + d / 2); hl.add(f);
+  const e = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(w, .02, d)), new THREE.LineBasicMaterial({ color: col('#ffd21f') })); e.position.copy(f.position); hl.add(e); }
+function itemCard(k, n) {
+  const u = D.used[k], d = document.createElement('div'); d.className = 'it';
+  const img = document.createElement('img'); img.src = ICONS[k] || ''; img.alt = u.ja; img.loading = 'lazy';
+  const nm = document.createElement('div'); nm.className = 'n'; nm.textContent = u.ja + (u.varja ? '（' + u.varja + '）' : ''); const sm = document.createElement('small'); sm.textContent = n > 1 ? '×' + n : ''; nm.append(sm);
+  const en = document.createElement('div'); en.className = 'e'; en.textContent = u.en + (u.var ? ' · ' + u.var : '') + '　' + u.size + 'マス';
+  const s = document.createElement('div'); s.className = 's'; s.textContent = (u.diy ? 'DIY（レシピ）' : '') + (u.diy && u.src ? '・' : '') + u.src.replace('Crafting', 'DIY').replace('Nook Miles Redemption', 'たぬきマイレージ').replace("Nook's Cranny", 'タヌキ商店').replace('Nook Shopping Daily Selection', 'たぬきショッピング').replace('HHP Office', 'ハッピーホームパラダイス') + (u.ver === '2.0.0' ? '（ver 2.0）' : '');
+  d.append(img, nm, en, s); return d;
+}
+function showItems(gid) {
+  const list = gid ? D.P.filter(p => p.group === gid) : D.P, cnt = new Map(); list.forEach(p => cnt.set(p.k, (cnt.get(p.k) || 0) + 1));
+  const g = gid && D.groups.find(x => x.id === gid);
+  itP.textContent = gid ? `${g.name}：${list.length}個（${cnt.size}種類）。` + (list.some(p => p.design) ? 'パネルのマイデザイン：' + [...new Set(list.filter(p => p.design).map(p => p.design))].map(id => D.designs[id] ? `${D.designs[id].name}（${D.designs[id].ma}）` : id).join('・') : '')
+    : `島ぜんぶで ${NT} 個（${NK} 種類）。どれもゲームの目録にある家具（名前・大きさ・手に入れ方はゲームのデータ表のとおり）。右の一覧でまとまりを選ぶと、そこに置く家具だけになります。`;
+  const pl = new Map(); (gid ? D.plants.filter(q => q.id === gid) : D.plants).forEach(q => { const k = q.type; pl.set(k, (pl.get(k) || 0) + 1); });
+  itemsEl.replaceChildren(...[...cnt.entries()].sort((a, b) => b[1] - a[1]).map(([k, n]) => itemCard(k, n)), ...[...pl.entries()].map(([k, n]) => { const d = document.createElement('div'); d.className = 'it'; const i = document.createElement('span'); i.className = 'ph'; i.style.cssText = 'width:52px;height:52px;grid-row:span 3;border-radius:12px;background:#eef4e6;display:grid;place-items:center;font-size:26px'; i.textContent = /pumpkin|wheat|carrot|potato|tomato|sugar/.test(k) ? '🌱' : '🌼'; i.setAttribute('aria-hidden', 'true');
+    const nm = document.createElement('div'); nm.className = 'n'; nm.textContent = (D.plantTypes[k] || {}).ja || k; const sm = document.createElement('small'); sm.textContent = '×' + n + '株'; nm.append(sm); const e = document.createElement('div'); e.className = 'e'; e.textContent = k + '（花・作物は草地に植える）'; const s2 = document.createElement('div'); s2.className = 's'; s2.textContent = '色：' + [...new Set((gid ? D.plants.filter(q => q.id === gid) : D.plants).filter(q => q.type === k).map(q => q.color))].join('・'); d.append(i, nm, e, s2); return d; }));
+}
+function select(gid) {
+  sel = sel === gid ? null : gid;
+  gbtns.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.g === sel))); gpins.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.g === sel)));
+  showItems(sel); bubble.replaceChildren();
+  if (!sel) { bubble.append(...INTRO()); frameBox(null); goTo(birdView()); return; }
+  const g = D.groups.find(x => x.id === sel), r = bbox[sel];
+  const w = document.createElement('span'); w.className = 'who'; w.textContent = ZNAME[g.zone] + '　' + g.name; const p = document.createElement('p'); p.textContent = g.note || `${(D.P.filter(q => q.group === sel)).length}個の家具。`;
+  const m = document.createElement('span'); m.className = 'meta'; m.textContent = (g.ref.length ? 'いいねの作例 ' + g.ref.join('・') + '　' : '') + `x${r[0]}〜${r[2]}・y${r[1]}〜${r[3]}`; bubble.append(w, p, m);
+  frameBox(r); const cx = (r[0] + r[2] + 1) / 2, cy = (r[1] + r[3] + 1) / 2;
+  goTo({ polar: .8, dist: Math.max(18, (r[2] - r[0] + r[3] - r[1]) * 1.6 + 12), az: 0 }, [cx - CX, topY(Math.floor(cx), Math.floor(cy)), cy - CY + 2]); dirty = true;
+}
+ZORDER.forEach(z => { const gs = D.groups.filter(g => g.zone === z); if (!gs.length) return;
+  const zb = document.createElement('button'); zb.type = 'button'; zb.className = 'zitem'; zb.setAttribute('aria-pressed', 'false'); const dot = document.createElement('i'); dot.style.background = ZCOL[z]; zb.append(dot, ZNAME[z]);
+  zb.addEventListener('click', () => { const rs = gs.map(g => bbox[g.id]).filter(Boolean); const r = [Math.min(...rs.map(a => a[0])), Math.min(...rs.map(a => a[1])), Math.max(...rs.map(a => a[2])), Math.max(...rs.map(a => a[3]))]; if (sel) select(sel); frameBox(null); const cx = (r[0] + r[2]) / 2, cy = (r[1] + r[3]) / 2; goTo({ polar: .72, dist: Math.max(40, (r[2] - r[0] + r[3] - r[1]) * 1.15), az: 0 }, [cx - CX, 1.5, cy - CY + 3]); });
+  glistEl.append(zb);
+  gs.forEach(g => { if (!bbox[g.id]) return; const b = document.createElement('button'); b.type = 'button'; b.className = 'gitem'; b.dataset.g = g.id; b.setAttribute('aria-pressed', 'false');
+    const n = D.P.filter(p => p.group === g.id).length; b.innerHTML = '<span class="t"></span><span class="c"></span>'; b.children[0].textContent = g.name; b.children[1].textContent = `家具 ${n}個` + (g.ref.length ? '・いいね ' + g.ref.join(' ') : '');
+    b.addEventListener('click', () => select(g.id)); glistEl.append(b); gbtns.push(b);
+    const pin = document.createElement('button'); pin.type = 'button'; pin.className = 'gpin'; pin.dataset.g = g.id; pin.setAttribute('aria-pressed', 'false'); pin.textContent = g.name.replace(/（.*?）/g, ''); pin.addEventListener('click', () => select(g.id)); pinsEl.append(pin); gpins.push(pin); }); });
+// 地区の札（遠くから見たとき）
+const ZLAB = D.zlab || [['C', 46, 66], ['S', 34, 44], ['S', 76, 44], ['J', 24, 22], ['B', 18, 38], ['F', 58, 24], ['H', 88, 22], ['P', 92, 62]];
+const zoneEls = ZLAB.map(([k, x, y]) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'zone'; const dot = document.createElement('i'); dot.style.background = ZCOL[k]; b.append(dot, ZNAME[k]); b.addEventListener('click', () => { goTo({ polar: .72, dist: 52, az: 0 }, [x - CX, LY(Math.max(1, L(x, y))), y - CY + 4]); }); pinsEl.append(b); return b; });
+const tmp = new THREE.Vector3();
+function toScreen(x, y, z) { tmp.set(x, y, z).applyMatrix4(camera.matrixWorldInverse); const bd = Math.max(0, -tmp.z - bendU.c0.value); tmp.y -= bd * bd * bendU.k.value; const behind = tmp.z > -1; tmp.applyMatrix4(camera.projectionMatrix); return [(tmp.x * .5 + .5) * stage.clientWidth, (-tmp.y * .5 + .5) * stage.clientHeight, behind]; }
+function placePins() {
+  const dist = camera.position.distanceTo(controls.target), wv = stage.clientWidth, hv = stage.clientHeight;
+  gpins.forEach(p => { const r = bbox[p.dataset.g], cx = (r[0] + r[2] + 1) / 2, cy = (r[1] + r[3] + 1) / 2; const [x, y, bh] = toScreen(cx - CX, topY(Math.floor(cx), Math.floor(cy)) + (p.dataset.g === sel ? 3.6 : 2.6), cy - CY);
+    p.hidden = bh || (sel ? p.dataset.g !== sel : dist > 50) || x < -40 || x > wv + 40 || y < -20 || y > hv + 20; p.style.left = x + 'px'; p.style.top = y + 'px'; });
+  zoneEls.forEach((b, i) => { const [k, zx, zy] = ZLAB[i]; const [x, y, bh] = toScreen(zx - CX, LY(Math.max(1, L(zx, zy))) + 3.2, zy - CY); b.hidden = bh || dist <= 50 || !!sel || x < 0 || x > wv || y < 0 || y > hv; b.style.left = x + 'px'; b.style.top = y + 'px'; });
+}
+
+// 建物の一覧
+{ const el = document.getElementById('houses'); const KN = { resident_services: '案内所', airport: '飛行場', museum: '博物館', nook: 'タヌキ商店', able: 'エイブルシスターズ', campsite: 'キャンプ場', player_house: '自宅', villager: '住民の家' }, EM = { resident_services: '🏛', airport: '✈', museum: '🦉', nook: '🍃', able: '🧵', campsite: '⛺', player_house: '🏠' };
+  D.buildings.forEach(b => { const c = document.createElement('button'); c.type = 'button'; c.className = 'house';
+    if (b.kind === 'villager' && HOUSES[b.villager]) { const i = document.createElement('img'); i.src = HOUSES[b.villager]; i.alt = b.ja + 'の家'; c.append(i); } else { const ph = document.createElement('span'); ph.className = 'ph'; ph.setAttribute('aria-hidden', 'true'); ph.textContent = EM[b.kind] || '🏠'; c.append(ph); }
+    const n = document.createElement('b'); n.textContent = b.kind === 'villager' ? `${b.ja}（${b.villager}）` : (b.name || KN[b.kind]); const s = document.createElement('span');
+    const sz = b.fixed ? '動かせない' : (SIZE[b.kind] || []).join('×') + 'マス'; s.textContent = b.kind === 'villager' ? `${ZNAME[b.zone]}・住民の家 ${sz}` : `${KN[b.kind]}・${sz}`; c.append(n, s);
+    const r = b.fixed ? b.rect : b.at, w = b.fixed ? r[2] : SIZE[b.kind][0], d = b.fixed ? r[3] : SIZE[b.kind][1];
+    c.addEventListener('click', () => { if (sel) select(sel); frameBox([r[0], r[1], r[0] + w - 1, r[1] + d - 1]); goTo({ polar: .82, dist: 22, az: 0 }, [r[0] + w / 2 - CX, topY(r[0] + 1, r[1] + 1), r[1] + d / 2 - CY + 2]); stage.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' }); });
+    el.append(c); }); }
+{ const el = document.getElementById('audit'); D.audit.forEach(([a, v, lim, ok]) => { const li = document.createElement('li'); const b = document.createElement('b'); b.textContent = (ok ? '◯ ' : '✕ ') + v + (lim !== '' && typeof v === 'number' ? ' / ' + lim : ''); if (!ok) b.style.color = 'var(--ng)'; const t = document.createElement('div'); t.textContent = a; li.append(b, t); el.append(li); }); }
+// 外したもの
+{ const SUB = [['高層ビル（ウォーキートーキー・ガーキン・シャード・カナリー・ワーフの塔）', '家具にない。3段目（空の段）をやめ、2段目の高台に住民の家4軒とエイブルを並べた'], ['崖に貼ったガラスのマイデザイン', '崖の面にはマイデザインを貼れない。崖はゲームの崖のまま'], ['ロンドン・アイ（大観覧車）', '「ひろばのかんらんしゃ」（3×2・ver 2.0）と「ひろばのメリーゴーランド」に'], ['DLR の高架・汽車・客車', '鉄道の家具はない。キングス・クロスの高架の崖もやめた'], ['クレーン・倉庫', '家具にない。船だまりの「ヨット」「いかりのオブジェ」・たる・木箱に'], ['テラスハウス・コテージ・港の白い家並み（数十軒）', '家は住民の家10軒まで。地区に合う外観の住民（ジャック・アンヌ・トンコ・まりも／レベッカ・ベーグル／ゲンジ／フリル／マモル・キザノホマレ）を選んだ'], ['館・教会・水車小屋', '建物にない。東の丘は生け垣と噴水の庭園に、水車小屋は「ふうしゃ」（牧場の風車）とサイロの農家に'], ['時計台（ビッグ・ベン）・タワーブリッジの塔', '時計台はない。タワーブリッジは「レンガのはし」と「おしろのとう」（ver 2.0）で'], ['社・お化け屋敷・墓石', '社はあずまや、お化け屋敷はフリルの家、墓石は「せきひ」'], ['桜の木（秋の島）', '桜は4月の初めに広葉樹が咲くだけ。日本は針葉樹と秋の広葉樹に'], ['市松に植えた林・木 471 本（第47回）', '苗は8マス四方に木があると育たない。大きくした木を植えかえて林にし、崖・水・浜のとなりはぬいて 184 本に。林のかさは低木（キンモクセイ）で'], ['むき出しの崖・草のままの町（第47回）', '崖のすそにレンガと窓のマイデザインのパネル、町の地面は石畳・レンガ・敷石のマイデザインで敷きつめ'], ['かさ（ベリーギンガムのかさ）', 'かさは手に持つ物で、地面には置けない'], ['二階建てのバス・ポスト', '家具にない（家のポストは家の外観の一部）。バス停は「レトロなていりゅうじょ」'], ['うさぎ・羊', '動物は置けない。牧場は「よこいたのさく」と干し草のベッド・トラクター']];
+  const el = document.getElementById('cannot'); SUB.forEach(([a, b]) => { const li = document.createElement('li'); const s = document.createElement('s'); s.textContent = a; const t = document.createElement('div'); t.textContent = '→ ' + b; li.append(s, t); el.append(li); }); }
+{ const el = document.getElementById('src'); Object.entries(D.sources).forEach(([k, v]) => { const li = document.createElement('li'); li.append(k + '：'); const u = v.split('（')[0]; const a = document.createElement('a'); a.href = u; a.textContent = v; a.target = '_blank'; a.rel = 'noopener'; li.append(a); el.append(li); }); }
+
+// ---- まわす ----
+let dirty = true, last = 0;
+controls.addEventListener('change', () => { dirty = true; });
+['pointerdown', 'wheel'].forEach(ev => cv.addEventListener(ev, () => { document.getElementById('hint').hidden = true; }, { passive: true }));
+function resize() { const w = stage.clientWidth, h = stage.clientHeight; renderer.setSize(w, h, false); post.size(w, h); camera.aspect = w / h; camera.updateProjectionMatrix(); dirty = true; }
+new ResizeObserver(resize).observe(stage);
+function frame(now) {
+  requestAnimationFrame(frame);
+  if (tween) { const k = Math.min(1, (now - tween.s) / tween.dur), e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2; controls.target.lerpVectors(tween.from.t, tween.to.t, e); camera.position.lerpVectors(tween.from.p, tween.to.p, e); if (k >= 1) tween = null; dirty = true; }
+  controls.update();
+  if (!reduce && now - last > 90) { waterTex.offset.x = (now / 9000) % 1; waterTex.offset.y = (now / 14000) % 1; PB.water.map.offset.set((now / 9000) % 1, (now / 14000) % 1); PB.water.normalMap.offset.set((now / 11000) % 1, (now / 7000) % 1); last = now; dirty = true; }
+  if (!dirty) return;
+  const cd = camera.position.distanceTo(controls.target); bendU.c0.value = cd * .95; if (scene.fog) { scene.fog.near = Math.max(80, cd * .95); scene.fog.far = Math.max(220, cd * 2.3); }
+  placeSun(); post.render(); placePins(); dirty = false;
+}
+function seg(id, fn) { document.getElementById(id).addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; document.querySelectorAll('#' + id + ' button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); fn(b.dataset.v); }); }
+seg('time', v => { time = v; applyTime(); });
+seg('view', v => { if (v === 'bird') { if (sel) select(sel); else goTo(birdView()); return; } goTo({ polar: .9, dist: 26, az: 0 }, [44 - CX, LY(2), 66 - CY]); });
+window.__ready = true; window.__cam = (x, y, z, pol, dist) => { goTo({ polar: pol, dist, az: 0 }, [x - CX, y, z - CY]); };
+const v0 = birdView(); controls.target.set(...v0.t); camera.position.copy(controls.target.clone().add(new THREE.Vector3().setFromSpherical(new THREE.Spherical(v0.dist, v0.polar, v0.az))));
+bubble.append(...INTRO()); showItems(null);
+resize(); applyTime(); controls.update(); requestAnimationFrame(frame);
+})();
+</script>

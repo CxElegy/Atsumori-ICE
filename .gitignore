@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+snaps/
+# 小红书のログイン情報（tools/xhs_login.py・xhs_fetch.py）
+cookies.json
+xhs-login-qr*.png
+xhs/notes.json.tmp
