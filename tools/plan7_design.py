@@ -425,6 +425,8 @@ BRIDGES = [[33, 73, 37, 76],   # テムズ川の鉄の橋（ロンドン街道�
            [60, 77, 64, 80],   # 南の運河の橋（ロンドン → 地中海の港）
            [60, 39, 64, 42]]   # 太鼓橋（日本庭園の中島の北 → 神社の側。朱色の和風の橋）
 LANDMARKS = []
+_front = {(x, y) for kind, (x0, y0) in LOTS.values() for x in range(x0 - 1, x0 + SIZE_[kind][0] + 1) for y in range(y0 + SIZE_[kind][1], y0 + SIZE_[kind][1] + 7)}
+TREES[:] = [t for t in TREES if tuple(t) not in _front]   # 第62回の審査（ゲームの規則）：家と施設の正面の南6列に木を植えない（正面がかくれる）
 F(39, 23, 45, 29, '2', only='1'); F(40, 24, 44, 27, '3', only='2')   # 日本：池の西の築山（2段目と3段目。道はそのまま1段目）
 F(51, 30, 59, 33, '2', only='1')                                    # 日本：池の南の庭の段
 CARVE = (carve('CAUPE', 7),
